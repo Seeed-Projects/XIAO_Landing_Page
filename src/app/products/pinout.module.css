@@ -1,0 +1,157 @@
+/* Pinout —— 三段式引脚定义模块（对齐首页设计系统） */
+
+.pinout {
+  color: var(--ink-strong);
+  scroll-margin-top: 96px;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(0, 73, 102, 0.10), transparent 34%),
+    linear-gradient(180deg, #f4f8fb 0%, #ffffff 92%);
+  font-family: var(--font-body), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.pinout * { box-sizing: border-box; }
+.pinout button { font: inherit; cursor: pointer; }
+
+.wrap { max-width: 1280px; margin: 0 auto; padding: 8px 28px 80px; }
+
+/* 小节标题 */
+.introBlock { padding: 8px 0 4px; max-width: 760px; }
+.eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: var(--r-pill); border: 1px solid var(--line-soft); background: rgba(255,255,255,0.78); color: var(--brand-blue-soft); font-family: var(--font-display), sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.32em; }
+.eyebrowDot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand-green); box-shadow: 0 0 0 4px rgba(22,182,106,0.14); }
+.introBlock .eyebrow { margin-bottom: 10px; }
+.introBlock h2 { margin: 0 0 10px; font-family: var(--font-display), sans-serif; font-size: clamp(28px, 3.2vw, 40px); line-height: 1.1; letter-spacing: -0.02em; font-weight: 600; color: var(--ink-strong); }
+.introBlock p { margin: 0; color: var(--ink-body); font-size: 15px; line-height: 1.7; font-weight: 500; }
+
+/* 板型选型条 */
+.boardBar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 16px; margin-bottom: 14px; border: 1px solid var(--line-soft); border-radius: var(--r-card); background: var(--surface); box-shadow: var(--shadow-soft); }
+.boardBarLabel { font-family: var(--font-display), sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.24em; color: var(--ink-muted); }
+.boardSelect select { appearance: none; -webkit-appearance: none; border: 1px solid var(--line-soft); border-radius: var(--r-pill); background: var(--surface-strong); padding: 9px 38px 9px 14px; font-family: var(--font-display), sans-serif; font-size: 14px; font-weight: 600; color: var(--ink-strong); cursor: pointer; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' fill='none' stroke='%236f8791' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>"); background-repeat: no-repeat; background-position: right 14px center; transition: border-color 0.18s ease, box-shadow 0.18s ease; }
+.boardSelect select:hover { border-color: var(--brand-green); }
+.boardSelect select:focus { outline: none; border-color: var(--brand-green); box-shadow: 0 0 0 3px rgba(22,182,106,0.14); }
+.gpioNote { margin-left: auto; font-size: 11px; color: var(--ink-muted); font-style: italic; }
+
+/* 工作区卡片 */
+.workspace { background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-card); box-shadow: var(--shadow-card); overflow: hidden; backdrop-filter: blur(18px); }
+
+.grid { display: grid; grid-template-columns: 248px minmax(0, 1fr) 360px; gap: 18px; padding: 26px; }
+
+.panelLabel { font-family: var(--font-display), sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: var(--ink-muted); text-transform: uppercase; margin-bottom: 14px; }
+
+/* 左：分组列表 */
+.leftPanel { min-width: 0; }
+.pinList { display: flex; flex-direction: column; gap: 14px; max-height: 580px; overflow-y: auto; padding-right: 6px; }
+.pinList::-webkit-scrollbar { width: 6px; }
+.pinList::-webkit-scrollbar-thumb { background: rgba(0,73,102,0.18); border-radius: 99px; }
+.pinGroup { display: flex; flex-direction: column; gap: 2px; }
+.groupLabel { font-family: var(--font-display), sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--ink-muted); text-transform: uppercase; padding: 4px 8px; border-bottom: 1px solid var(--line-soft); margin-bottom: 4px; }
+.pinItem { display: grid; grid-template-columns: 12px 1fr auto; align-items: center; gap: 10px; text-align: left; border: 1px solid transparent; background: transparent; border-radius: var(--r-control); padding: 8px 10px; color: var(--ink-body); transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
+.pinItem:hover { background: var(--surface-tint); }
+.pinItemActive { background: var(--surface-tint); border-color: rgba(22,182,106,0.4); color: var(--ink-strong); box-shadow: 0 0 0 3px rgba(22,182,106,0.12); }
+.pinDot { width: 11px; height: 11px; border-radius: 50%; flex: 0 0 auto; box-shadow: 0 0 0 3px rgba(255,255,255,0.7); }
+.pinItemActive .pinDot { box-shadow: 0 0 0 3px rgba(255,255,255,0.7), 0 0 0 6px rgba(22,182,106,0.18); }
+.pinItemName { font-weight: 600; font-size: 13px; color: inherit; }
+.pinItemFunc { font-size: 11px; color: var(--ink-muted); font-weight: 500; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+
+/* 中：CSS 板子示意图（左右两列引脚） */
+.centerPanel { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 16px; padding: 4px 0 0; }
+.boardFigure {
+  display: flex; align-items: stretch; gap: 0;
+  width: 100%; max-width: 640px; margin: 14px auto 0; padding: 22px 6px;
+  border-radius: var(--r-card);
+  background: radial-gradient(circle at 50% 40%, rgba(22,182,106,0.18), transparent 60%), linear-gradient(180deg, #0d2230 0%, #13324a 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05);
+  overflow: hidden;
+}
+.pinCol { display: flex; flex-direction: column; justify-content: space-around; flex: 1 1 0; min-width: 0; padding: 6px 0; }
+.pinRow {
+  display: flex; align-items: center; gap: 8px;
+  border: none; background: transparent; cursor: pointer;
+  padding: 3px 10px; transition: background-color 180ms ease, box-shadow 180ms ease; border-radius: 8px;
+}
+.pinColRight .pinRow { flex-direction: row-reverse; }
+.pinRow:hover { background: rgba(255,255,255,0.06); }
+.pinName { font-size: 12px; font-weight: 600; color: #cfe0d9; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+.pinFunc { font-size: 9.5px; color: #7e8f86; font-weight: 500; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+.pinLead { flex: 1; height: 1px; min-width: 10px; background: rgba(255,255,255,0.16); transition: background 180ms ease, height 180ms ease; }
+.pinPad { width: 9px; height: 9px; border-radius: 2px; flex: 0 0 auto; box-shadow: 0 0 0 2px rgba(255,255,255,0.08); }
+.pinRowActive { background: rgba(255,255,255,0.06); box-shadow: inset 0 0 0 1px rgba(22,182,106,0.5); }
+.pinRowActive .pinName { color: #fff; }
+.pinRowActive .pinLead { height: 2px; }
+
+.boardBody {
+  flex: 0 0 96px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  margin: 14px 0; border-radius: var(--r-control);
+  background: linear-gradient(180deg, #0a1a26 0%, #06121c 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 6px 18px rgba(0,0,0,0.28);
+}
+.boardChip { font-family: var(--font-display), sans-serif; font-size: 13px; font-weight: 700; color: #e8f0ea; text-align: center; line-height: 1.15; letter-spacing: -0.02em; }
+.boardSub { font-size: 9px; color: #7e8f86; font-weight: 600; text-align: center; line-height: 1.3; padding: 0 4px; }
+
+.boardMeta { text-align: center; max-width: 420px; }
+.boardMeta h3 { margin: 0 0 4px; font-family: var(--font-display), sans-serif; font-size: 18px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink-strong); }
+.boardMeta p { margin: 0; font-size: 13px; color: var(--ink-body); line-height: 1.6; }
+
+/* 右：详情卡 */
+.rightPanel { min-width: 0; }
+.detailCard { border: 1px solid var(--line-soft); border-radius: var(--r-card); padding: 20px; background: rgba(255,255,255,0.9); box-shadow: var(--shadow-card); transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
+.detailCard:hover { transform: translateY(-4px); border-color: rgba(22,182,106,0.4); box-shadow: 0 28px 48px rgba(0,73,102,0.12); }
+.detailHead { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.detailDot { width: 18px; height: 18px; border-radius: 50%; box-shadow: 0 0 0 4px rgba(0,73,102,0.06); flex: 0 0 auto; }
+.detailName { margin: 0; font-family: var(--font-display), sans-serif; font-size: clamp(22px, 2vw, 28px); font-weight: 600; letter-spacing: -0.02em; color: var(--ink-strong); }
+.detailXiao { margin-left: auto; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; font-weight: 600; color: var(--ink-muted); background: var(--surface-tint); padding: 4px 8px; border-radius: var(--r-control); }
+
+.specList { margin: 0 0 18px; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.specRow { display: grid; grid-template-columns: 92px 1fr; gap: 10px; align-items: start; padding: 10px 12px; border-radius: var(--r-control); background: var(--surface-tint); border: 1px solid var(--line-soft); }
+.specRow dt { margin: 0; font-family: var(--font-display), sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; color: var(--ink-muted); text-transform: uppercase; padding-top: 1px; }
+.specRow dd { margin: 0; font-size: 13px; line-height: 1.6; color: var(--ink-strong); }
+.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; }
+
+.noteBox { margin-bottom: 18px; border-radius: var(--r-control); padding: 12px 14px; background: #fff8df; border: 1px solid #f2e3b0; color: #9a6a00; font-size: 12.5px; line-height: 1.65; }
+.noteBox strong { display: block; margin-bottom: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+
+.codeBlock { border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r-control); overflow: hidden; background: linear-gradient(180deg, #0d2230 0%, #0a1a26 100%); box-shadow: 0 18px 40px rgba(0,0,0,0.18); }
+.codeHead { padding: 9px 14px; font-family: var(--font-display), sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: rgba(255,255,255,0.5); background: #0a1a26; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 8px; }
+.codeHead::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--brand-green); box-shadow: 0 0 0 2px rgba(22,182,106,0.2); }
+.codeBlock pre { margin: 0; padding: 14px 16px; overflow-x: auto; }
+.codeBlock code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 12.5px; line-height: 1.75; color: #cfe0d9; white-space: pre; }
+
+/* 推荐区 */
+.recoArea { border-top: 1px solid var(--line-soft); padding: 24px 26px 28px; background: linear-gradient(180deg, rgba(255,255,255,0.6), var(--surface-tint)); }
+.recoHead { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+.recoHead strong { font-size: 17px; font-weight: 600; color: var(--ink-strong); }
+.recoHead span { font-size: 13px; color: var(--ink-body); }
+.recoGrid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; }
+.recoCard { border: 1px solid var(--line-soft); border-radius: var(--r-inner); padding: 18px; background: rgba(255,255,255,0.9); display: flex; flex-direction: column; transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease; }
+.recoCard:hover { transform: translateY(-4px); box-shadow: 0 28px 48px rgba(0,73,102,0.12); border-color: rgba(22,182,106,0.4); background-color: rgba(255,255,255,0.95); }
+.recoTag { display: inline-block; align-self: flex-start; padding: 4px 9px; border-radius: var(--r-pill); background: var(--surface-tint); color: var(--brand-green-deep); font-size: 11px; font-weight: 600; margin-bottom: 12px; }
+.recoCard h4 { margin: 0 0 6px; font-size: 15px; font-weight: 600; color: var(--ink-strong); }
+.recoCard p { margin: 0; font-size: 12px; line-height: 1.6; color: var(--ink-body); }
+
+@media (max-width: 1100px) {
+  .grid { grid-template-columns: 230px minmax(0,1fr); }
+  .rightPanel { grid-column: 1 / -1; }
+  .recoGrid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 760px) {
+  .wrap { padding: 8px 16px 70px; }
+  .grid { grid-template-columns: 1fr; padding: 18px; }
+  .centerPanel { order: 1; }
+  .leftPanel { order: 2; }
+  .rightPanel { order: 3; }
+  .pinList { max-height: 320px; }
+  .boardFigure { padding: 16px 4px; }
+  .boardBody { flex-basis: 72px; margin: 10px 0; }
+  .boardChip { font-size: 11px; }
+  .boardSub { font-size: 8px; }
+  .pinName { font-size: 11px; }
+  .pinFunc { display: none; }
+  .recoArea { padding: 18px; }
+  .recoGrid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pinout * { transition: none !important; }
+  .pinout .detailCard:hover, .pinout .recoCard:hover { transform: none; }
+}

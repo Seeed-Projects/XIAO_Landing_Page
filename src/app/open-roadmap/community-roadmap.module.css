@@ -1,0 +1,121 @@
+/* XIAO Community Roadmap —— 对齐首页设计系统（global token + glow-card） */
+
+.roadmap {
+  color: var(--ink-strong);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(8, 102, 126, 0.08), transparent 42%),
+    linear-gradient(180deg, #ffffff 0%, #eef6f3 100%);
+  font-family: var(--font-body), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.roadmap * { box-sizing: border-box; }
+.roadmap button { font: inherit; cursor: pointer; }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 12px 28px 96px; }
+
+/* 头部 */
+.head { max-width: 820px; padding: 4px 0 0; }
+.eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: var(--r-pill); border: 1px solid var(--line-soft); background: rgba(255,255,255,0.78); color: var(--brand-blue-soft); font-family: var(--font-display), sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.32em; }
+.eyebrowDot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand-green); box-shadow: 0 0 0 4px rgba(22,182,106,0.14); }
+.head h1 { margin: 16px 0 14px; font-family: var(--font-display), sans-serif; font-size: clamp(34px, 4.4vw, 56px); line-height: 1.04; letter-spacing: -0.03em; font-weight: 600; color: var(--ink-strong); }
+.headSub { margin: 0 0 26px; max-width: 640px; font-size: 16px; line-height: 1.7; font-weight: 500; color: var(--ink-body); }
+.headActions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+
+.btn { border: 0; border-radius: var(--r-control); padding: 11px 18px; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease; text-decoration: none; }
+.btn:hover { transform: translateY(-1px); }
+.btnDark { background: var(--brand-blue); color: #fff; }
+.btnDark:hover { background: #013a52; }
+.btnLight { background: var(--surface-strong); color: var(--ink-strong); border: 1px solid var(--line-soft); }
+.btnLight:hover { border-color: rgba(22,182,106,0.4); }
+.btnGreen { background: var(--brand-green); color: #fff; box-shadow: 0 12px 28px rgba(0,73,102,0.18); }
+.btnGreen:hover { background: var(--brand-green-deep); }
+
+/* 统计 4 块 */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 34px; }
+.stat { text-align: left; border: 1px solid var(--line-soft); background: rgba(255,255,255,0.9); border-radius: var(--r-inner); padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease; }
+.stat:hover { transform: translateY(-4px); border-color: rgba(22,182,106,0.4); box-shadow: 0 28px 48px rgba(0,73,102,0.12); background-color: rgba(255,255,255,0.95); }
+.stat b { font-family: var(--font-display), sans-serif; font-size: 32px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink-strong); line-height: 1; }
+.stat span { font-size: 12px; font-weight: 600; color: var(--ink-muted); }
+.stat.active { border-color: rgba(22,182,106,0.5); background: var(--surface-tint); box-shadow: 0 0 0 3px rgba(22,182,106,0.12); }
+
+/* 状态筛选 tab */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; border-bottom: 1px solid var(--line-soft); padding-bottom: 14px; }
+.tab { border: 1px solid transparent; background: transparent; color: var(--ink-muted); font-size: 13px; font-weight: 600; padding: 9px 14px; border-radius: var(--r-control); transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease; }
+.tab:hover { background: var(--surface-tint); color: var(--ink-strong); }
+.tab.active { background: var(--brand-green); color: #fff; border-color: var(--brand-green); }
+.tabCount { margin-left: 6px; opacity: 0.7; font-weight: 500; }
+
+/* 列表 */
+.listMeta { font-size: 12px; color: var(--ink-muted); margin-bottom: 14px; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+.list { display: flex; flex-direction: column; gap: 14px; }
+
+.card { border: 1px solid var(--line-soft); background: rgba(255,255,255,0.9); border-radius: var(--r-card); padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease; text-align: left; width: 100%; }
+.card:hover { transform: translateY(-4px); border-color: rgba(22,182,106,0.4); box-shadow: 0 28px 48px rgba(0,73,102,0.12); background-color: rgba(255,255,255,0.95); }
+.cardTop { display: flex; align-items: flex-start; gap: 16px; }
+
+.vote { flex: none; width: 58px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0; border-radius: var(--r-control); background: var(--surface-tint); border: 1px solid var(--line-soft); }
+.vote b { font-family: var(--font-display), sans-serif; font-size: 20px; font-weight: 600; color: var(--ink-strong); line-height: 1; }
+.vote small { font-size: 9px; font-weight: 600; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+.cardMain { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.cardTitle { font-family: var(--font-display), sans-serif; font-size: 18px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink-strong); line-height: 1.25; }
+.cardSummary { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-body); }
+.cardMeta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 2px; font-size: 12px; color: var(--ink-muted); }
+.productTag { padding: 3px 9px; border-radius: var(--r-pill); background: var(--surface-tint); border: 1px solid var(--line-soft); color: var(--ink-body); font-size: 11px; font-weight: 600; }
+.metaDot { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-muted); opacity: 0.5; }
+
+.cardFoot { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-top: 4px; }
+.ghostLink { font-size: 13px; font-weight: 600; color: var(--brand-blue); background: none; border: 0; padding: 0; transition: color 180ms ease; }
+.ghostLink:hover { color: var(--brand-green-deep); }
+.voteLink { font-size: 12px; font-weight: 600; padding: 8px 13px; border-radius: var(--r-control); border: 1px solid var(--brand-green); color: var(--brand-green-deep); background: var(--surface-strong); text-decoration: none; transition: background-color 180ms ease, color 180ms ease; white-space: nowrap; }
+.voteLink:hover { background: var(--brand-green); color: #fff; }
+
+/* 状态徽章 */
+.status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--r-pill); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: 1px solid transparent; }
+.status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.85; }
+.sIdea { color: #6f8791; background: rgba(111,135,145,0.12); border-color: rgba(111,135,145,0.25); }
+.sReview { color: #9a6a00; background: #fff8df; border-color: rgba(154,106,0,0.25); }
+.sVote { color: var(--brand-green-deep); background: var(--surface-tint); border-color: rgba(22,182,106,0.3); }
+.sPlanned { color: var(--brand-blue-soft); background: rgba(29,103,132,0.10); border-color: rgba(29,103,132,0.25); }
+.sDev { color: var(--brand-blue); background: rgba(0,73,102,0.10); border-color: rgba(0,73,102,0.25); }
+.sDone { color: var(--brand-green-deep); background: rgba(10,143,80,0.12); border-color: rgba(10,143,80,0.3); }
+.sNope { color: #c0382f; background: #fdf2f1; border-color: rgba(192,56,47,0.25); }
+
+/* 详情抽屉 */
+.backdrop { position: fixed; inset: 0; z-index: 90; background: rgba(13,34,48,0.5); opacity: 0; pointer-events: none; transition: opacity 240ms ease; }
+.backdrop.open { opacity: 1; pointer-events: auto; }
+.drawer { position: fixed; top: 0; right: 0; z-index: 100; height: 100%; width: min(560px, 92vw); transform: translateX(100%); transition: transform 280ms ease; background: var(--surface-strong); box-shadow: -24px 0 60px rgba(0,73,102,0.18); overflow-y: auto; }
+.drawer.open { transform: translateX(0); }
+.drawerHead { position: sticky; top: 0; padding: 22px 26px 16px; background: var(--surface-strong); border-bottom: 1px solid var(--line-soft); display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.drawerHeadLeft { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.drawerKicker { font-family: var(--font-display), sans-serif; font-size: 11px; font-weight: 600; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.drawerTitle { margin: 0; font-family: var(--font-display), sans-serif; font-size: 24px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink-strong); line-height: 1.2; }
+.closeBtn { flex: none; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line-soft); background: var(--surface-strong); color: var(--ink-strong); font-size: 20px; transition: background-color 180ms ease, border-color 180ms ease; }
+.closeBtn:hover { border-color: rgba(22,182,106,0.4); background: var(--surface-tint); }
+
+.drawerBody { padding: 22px 26px 30px; display: flex; flex-direction: column; gap: 22px; }
+.supportRow { display: flex; gap: 14px; }
+.supportTile { flex: 1; border: 1px solid var(--line-soft); border-radius: var(--r-control); padding: 14px; background: var(--surface-tint); display: flex; flex-direction: column; gap: 4px; }
+.supportTile b { font-family: var(--font-display), sans-serif; font-size: 22px; font-weight: 600; color: var(--ink-strong); line-height: 1; }
+.supportTile span { font-size: 11px; color: var(--ink-muted); }
+
+.section h4 { margin: 0 0 8px; font-family: var(--font-display), sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand-blue-soft); }
+.section p { margin: 0; font-size: 14px; line-height: 1.7; color: var(--ink-body); }
+
+.drawerActions { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 6px; border-top: 1px solid var(--line-soft); margin-top: 4px; }
+
+.empty { padding: 48px 20px; text-align: center; color: var(--ink-muted); font-size: 14px; border: 1px dashed var(--line-soft); border-radius: var(--r-card); }
+
+@media (max-width: 760px) {
+  .wrap { padding: 8px 16px 80px; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .cardTop { gap: 12px; }
+  .vote { width: 50px; }
+  .cardFoot { flex-direction: column; align-items: stretch; }
+  .voteLink { text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .roadmap * { transition: none !important; }
+  .roadmap .stat:hover, .roadmap .card:hover { transform: none; }
+  .drawer { transition: none; }
+}

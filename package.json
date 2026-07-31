@@ -9,9 +9,13 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "fflate": "^0.8.3",
     "next": "16.2.11",
+    "occt-import-js": "^0.0.23",
+    "pdfjs-dist": "^6.2.108",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

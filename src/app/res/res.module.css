@@ -1,0 +1,227 @@
+/* XIAO Hardware Resources —— 移植自 resources(2).html（自带 lime/navy 设计系统） */
+
+.res {
+  --ink: #121a26;
+  --muted: #6f7680;
+  --line: #e7e9e6;
+  --paper: #ffffff;
+  --soft: #f7f8f6;
+  --soft2: #f2f4f0;
+  --green: #B3CE16;
+  --greenDark: #5a6608;
+  --greenPale: #f2f9df;
+  --greenWash: #eef8d9;
+  --navy: #111a2a;
+  --navy2: #192234;
+  --radius: 10px;
+  --content: 1120px;
+  position: relative;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: var(--font-body), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.res * { box-sizing: border-box; }
+.res a { color: inherit; text-decoration: none; }
+.res button, .res input, .res select, .res textarea { font: inherit; }
+.res button { cursor: pointer; }
+
+.container { width: min(var(--content), calc(100% - 40px)); margin: 0 auto; }
+
+/* Hero */
+.hero { padding: 0; }
+.heroGrid { width: 100%; max-width: none; display: grid; grid-template-columns: 1.06fr .94fr; min-height: 560px; }
+.heroCopy, .heroArt { min-height: 560px; border-radius: 0 !important; }
+.heroCopy {
+  position: relative; display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+  padding: 76px max(48px, calc((100vw - var(--content))/2 + 10px)); padding-right: 70px; overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.94) 0%, rgba(255,255,255,.84) 44%, rgba(255,255,255,.32) 100%),
+    radial-gradient(circle at 18% 24%, rgba(224,236,206,.95) 0 18%, transparent 46%),
+    linear-gradient(135deg, #e9ece6 0%, #d9dfd6 38%, #c6cec6 100%) !important;
+}
+.heroCopy::before {
+  content: ""; position: absolute; inset: 0; opacity: .35;
+  background-image:
+    radial-gradient(circle at 78% 23%, rgba(255,255,255,.9) 0 8%, transparent 9%),
+    radial-gradient(circle at 85% 48%, rgba(90,103,91,.22) 0 12%, transparent 13%),
+    radial-gradient(circle at 70% 74%, rgba(90,103,91,.16) 0 15%, transparent 16%);
+  filter: blur(16px);
+}
+.heroCopy > * { position: relative; z-index: 1; }
+.eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--greenDark); font-size: 10px; font-weight: 900; letter-spacing: .15em; text-transform: uppercase; }
+.eyebrow::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
+.hero h1 { margin: 14px 0 15px; max-width: 680px; font-size: clamp(44px, 5.4vw, 72px) !important; line-height: 1.01; letter-spacing: -.055em; font-weight: 820; }
+.heroCopy p { max-width: 600px; margin: 0; color: #515863; font-size: 15px; line-height: 1.75; }
+.heroActions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+
+.heroArt { position: relative; display: grid; place-items: center; overflow: hidden; padding: 48px; color: var(--ink) !important; background: #e4e5e2 !important; }
+.heroArt::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.28), transparent 28%),
+    repeating-linear-gradient(90deg, transparent 0 74px, rgba(16,24,34,.025) 75px 76px),
+    linear-gradient(180deg, #ebebe9 0%, #d8dad7 100%);
+}
+.heroArt::after { content: ""; position: absolute; left: 12%; right: 12%; bottom: 52px; height: 50px; border-radius: 50%; background: rgba(20,25,31,.18); filter: blur(24px); }
+
+.resourceHeroVisual { position: relative; width: min(100%, 500px); aspect-ratio: 1/1; }
+.resourceSheet { position: absolute; background: #fff; border: 1px solid rgba(14,23,32,.08); box-shadow: 0 22px 44px rgba(18,26,34,.14); overflow: hidden; }
+.resourceSheet svg { width: 100%; height: 100%; display: block; }
+.s1 { width: 58%; height: 68%; left: 2%; top: 12%; transform: rotate(-5deg); }
+.s2 { width: 48%; height: 58%; right: 2%; top: 17%; transform: rotate(5deg); }
+.s3 { width: 46%; height: 42%; left: 28%; bottom: 2%; transform: rotate(1deg); }
+
+/* Buttons */
+.btn { border: 0; border-radius: 999px; padding: 12px 19px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; font-weight: 800; transition: .18s ease; text-decoration: none; }
+.btn:hover { transform: translateY(-1px); }
+.btnDark { background: var(--navy); color: #fff; }
+.btnLight { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+.btnGreen { background: var(--green); color: #173000; }
+
+/* Section */
+.section { position: relative; padding: 92px 0; }
+.dots::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .28; background-image: radial-gradient(#cbd0c8 .75px, transparent .75px); background-size: 18px 18px; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent); }
+.sectionHead { text-align: center; max-width: 760px; margin: 0 auto 48px; }
+.sectionHead h2 { margin: 9px 0 14px; font-size: clamp(32px, 4vw, 48px); line-height: 1.08; letter-spacing: -.045em; }
+.sectionHead p { margin: 0 auto; color: var(--muted); font-size: 14px; line-height: 1.75; }
+
+/* Resources section */
+.resourcesSection { position: relative; padding-top: 84px; }
+.resourceControls { position: relative; z-index: 1; display: flex; justify-content: space-between; gap: 14px; margin-bottom: 26px; }
+.searchbox { flex: 1; max-width: 620px; height: 44px; display: flex; align-items: center; gap: 9px; padding: 0 14px; border: 1px solid var(--line); border-radius: 7px; background: #fff; }
+.searchbox span { color: var(--muted); }
+.searchbox input { width: 100%; border: 0; outline: 0; color: var(--ink); font-size: 12px; background: transparent; }
+.productTabs { position: relative; z-index: 1; display: flex; gap: 26px; overflow-x: auto; padding: 0 0 13px; margin-bottom: 34px; border-bottom: 1px solid var(--line); scrollbar-width: none; }
+.productTabs::-webkit-scrollbar { display: none; }
+.productTab { flex: none; border: 0; padding: 0; background: transparent; color: #727983; font-size: 12px; font-weight: 700; }
+.productTab.active { color: var(--ink); }
+.productTab.active::after { content: ""; display: block; height: 2px; margin-top: 12px; background: var(--green); }
+.resourceBanner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 340px; align-items: center; gap: 44px; min-height: 330px; padding: 48px 56px; margin-bottom: 54px; background: linear-gradient(110deg, #f5f9eb 0%, #eef4df 65%, #e7eddd 100%); border: 1px solid #e2e8d8; border-radius: 8px; overflow: hidden; }
+.resourceBanner h2 { margin: 9px 0 12px; max-width: 700px; font-size: 38px; line-height: 1.08; letter-spacing: -.045em; }
+.resourceBanner p { max-width: 620px; color: #626961; font-size: 13px; line-height: 1.7; }
+.productVisual { width: 100%; filter: drop-shadow(0 20px 22px rgba(20,35,25,.18)); }
+
+.badgeRow { display: flex; flex-wrap: wrap; gap: 7px; }
+.badge { padding: 6px 9px; border-radius: 999px; background: #fff; border: 1px solid #dfe5d8; color: #4c5946; font-size: 10px; font-weight: 800; }
+
+.resourceMosaic { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.resourceCard { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 7px; background: #fff; }
+.resourceCard.large { grid-column: span 2; }
+.resourceCard.wide { grid-column: span 2; }
+.preview { aspect-ratio: 4/3; display: grid; place-items: center; overflow: hidden; background: #f4f5f2; }
+.resourceCard.large .preview, .resourceCard.wide .preview { aspect-ratio: 16/9; }
+.preview svg { width: 100%; height: 100%; display: block; }
+.resourceCard[data-tone="mint"] .preview { background: #eff7e7; }
+.resourceCard[data-tone="lavender"] .preview { background: #f2f3ef; }
+.resourceCard[data-tone="graphite"] .preview { background: #e8ebe7; }
+.resourceCard[data-tone="yellow"] .preview { background: #f8f7eb; }
+.resourceCard[data-tone="peach"] .preview { background: #f3efeb; }
+.overlay { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 16px 17px; border-top: 1px solid var(--line); }
+.resourceCard h3 { margin: 0 0 4px; font-size: 15px; letter-spacing: -.02em; }
+.resourceCard p { margin: 0; color: var(--muted); font-size: 10px; }
+.miniBtns { display: flex; gap: 7px; }
+.iconBtn { width: 31px; height: 31px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: #fff; color: var(--ink); font-size: 13px; }
+.iconBtn.previewBtn { background: var(--navy); color: #fff; border-color: var(--navy); }
+.downloadStrip { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 30px; }
+.fileCard { min-width: 0; padding: 14px; display: flex; align-items: center; gap: 11px; border: 1px solid var(--line); border-radius: 7px; background: #fff; color: var(--ink); text-align: left; }
+.fileIcon { width: 36px; height: 36px; flex: none; display: grid; place-items: center; border-radius: 5px; background: var(--soft2); font-size: 9px; font-weight: 900; }
+.fileCard b { display: block; font-size: 12px; }
+.fileCard small { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; }
+
+/* 真实资源列表（按分组） */
+.resGroups { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 30px; }
+.resGroup { position: relative; z-index: 1; }
+.resGroupHead { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.resGroupHead h3 { margin: 0; font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: -.01em; }
+.resGroupHead span { font-size: 11px; color: var(--muted); }
+.resList { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.resItem { display: flex; align-items: center; gap: 12px; padding: 13px 14px; border: 1px solid var(--line); border-radius: 7px; background: #fff; transition: border-color 180ms ease, box-shadow 180ms ease; }
+.resItem:hover { border-color: #bfd583; box-shadow: 0 6px 16px rgba(18,26,34,.06); }
+.resItemIcon { width: 38px; height: 38px; flex: none; display: grid; place-items: center; border-radius: 6px; background: var(--soft2); font-size: 18px; }
+.resItemMain { flex: 1; min-width: 0; }
+.resItemName { font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.35; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.resItemMeta { margin-top: 3px; display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); }
+.resItemFormat { padding: 2px 7px; border-radius: 4px; background: var(--soft); border: 1px solid var(--line); color: #4c5946; font-size: 10px; font-weight: 800; letter-spacing: .04em; }
+.resItemActions { display: flex; gap: 7px; flex: none; }
+/* 带缩略图的卡片版式（3D / PCB / DXF / XLSX / PDF / STEP） */
+.resItemCard { flex-direction: column; align-items: stretch; padding: 0; overflow: hidden; }
+.resItemCard .resItemIcon { display: none; }
+.resItemThumb { position: relative; width: 100%; aspect-ratio: 16 / 11; background: #ecefe6; overflow: hidden; border-bottom: 1px solid var(--line); }
+.resItemThumb img { width: 100%; height: 100%; object-fit: contain; display: block; background: #ecefe6; transition: transform 320ms ease; }
+.resItemCard:hover .resItemThumb img { transform: scale(1.04); }
+.resItemCard .resItemMain { padding: 12px 12px 0; }
+.resItemCard .resItemActions { padding: 10px 12px 12px; justify-content: flex-end; }
+.resEmpty { grid-column: 1 / -1; padding: 28px; text-align: center; color: var(--muted); font-size: 13px; border: 1px dashed var(--line); border-radius: 8px; }
+
+/* 课程与更多（全局） */
+.extras { position: relative; z-index: 1; margin-top: 36px; padding: 26px; border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(110deg, #f5f9eb 0%, #eef4df 100%); }
+.extrasHead { margin-bottom: 18px; }
+.extrasHead .eyebrow { color: var(--greenDark); }
+.extrasHead h3 { margin: 4px 0 4px; font-size: 18px; font-weight: 800; color: var(--ink); letter-spacing: -.01em; }
+.extrasHead p { margin: 0; color: #5c6357; font-size: 12.5px; line-height: 1.6; }
+.extrasNote { margin-top: 18px; padding-top: 14px; border-top: 1px dashed #cfd6bf; color: #70736d; font-size: 11px; font-style: italic; }
+
+/* 课程卡片网格 */
+.courseGroup { margin-top: 22px; }
+.courseGroup:first-of-type { margin-top: 0; }
+.courseGroupHead { margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #d8dec3; }
+.courseGroupHead h4 { margin: 0; font-size: 13px; font-weight: 800; color: #3c4a36; letter-spacing: .03em; text-transform: uppercase; }
+.courseGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.courseCard { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 9px; background: #fff; overflow: hidden; transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease; text-decoration: none; color: inherit; }
+.courseCard:hover { border-color: #bfd583; box-shadow: 0 10px 24px rgba(18,26,34,.10); transform: translateY(-2px); }
+.courseCover { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #ecefe6; overflow: hidden; }
+.courseCover img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 320ms ease; }
+.courseCard:hover .courseCover img { transform: scale(1.05); }
+.courseFallback { position: absolute; inset: 0; display: grid; place-items: center; padding: 14px; text-align: center; }
+.courseFallback span { color: #fff; font-size: 14px; font-weight: 800; line-height: 1.35; letter-spacing: -.01em; opacity: 0.95; text-shadow: 0 1px 4px rgba(0,0,0,.25); }
+.courseBody { display: flex; flex-direction: column; gap: 6px; padding: 13px 14px 14px; flex: 1; }
+.courseTitle { font-size: 13.5px; font-weight: 800; color: var(--ink); line-height: 1.35; }
+.courseIntro { margin: 0; font-size: 12px; line-height: 1.55; color: #5c6357; flex: 1; }
+.courseLink { margin-top: 4px; font-size: 11px; font-weight: 800; color: var(--greenDark); letter-spacing: .04em; }
+
+@media (max-width: 580px) {
+  .resItem { flex-wrap: wrap; }
+  .resItemActions { width: 100%; justify-content: flex-end; }
+}
+.modal { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 28px; background: rgba(10,16,25,.72); }
+.modal.open { display: flex; }
+.modalCard { width: min(980px, 100%); max-height: 90vh; overflow: auto; background: #fff; border-radius: 8px; }
+.modalHead { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 19px 22px; border-bottom: 1px solid var(--line); }
+.modalHead h3 { margin: 5px 0 0; }
+.questionKicker { color: var(--greenDark); font-size: 9px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
+.closeBtn { width: 34px; height: 34px; border: 0; border-radius: 50%; background: var(--soft); font-size: 20px; }
+.modalPreview { padding: 26px; background: #f3f4f1; }
+.modalPreview svg { width: 100%; display: block; }
+
+/* Footer */
+.footer { padding: 58px 0; background: var(--navy); color: #fff; }
+.footerGrid { display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; }
+.footer h3 { margin: 0 0 8px; font-size: 26px; line-height: 1.1; letter-spacing: -.04em; }
+.footer p, .footer small { margin: 0; color: rgba(255,255,255,.5); font-size: 10px; }
+
+@media (max-width: 980px) {
+  .heroGrid { grid-template-columns: 1fr; }
+  .heroCopy, .heroArt { min-height: 480px; }
+  .heroCopy { padding: 72px 40px; }
+  .heroArt { min-height: 440px; }
+  .resourceBanner { grid-template-columns: 1fr 260px; padding: 38px; }
+  .resourceMosaic { grid-template-columns: repeat(2, 1fr); }
+  .downloadStrip { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 700px) {
+  .container { width: min(100% - 24px, var(--content)); }
+  .heroCopy { min-height: 430px; padding: 58px 24px; }
+  .heroArt { min-height: 380px; padding: 30px; }
+  .hero h1 { font-size: 43px !important; }
+  .section { padding: 68px 0; }
+  .resourceControls { flex-direction: column; }
+  .resourceControls .btn { align-self: stretch; }
+  .resourceBanner { grid-template-columns: 1fr; padding: 28px 22px; }
+  .productVisual { width: min(100%, 300px); justify-self: center; }
+  .resourceMosaic { grid-template-columns: 1fr; }
+  .resourceCard.large, .resourceCard.wide { grid-column: span 1; }
+  .resourceCard.large .preview, .resourceCard.wide .preview { aspect-ratio: 4/3; }
+  .downloadStrip { grid-template-columns: 1fr; }
+  .footerGrid { align-items: flex-start; flex-direction: column; }
+}

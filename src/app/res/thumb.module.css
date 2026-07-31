@@ -1,0 +1,45 @@
+/* 缩略图组件内部样式（PDF canvas / STEP canvas / 占位） */
+.wrap {
+  position: absolute;
+  inset: 0;
+  background: #ecefe6;
+  display: block;
+}
+.wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+.wrap canvas.show {
+  opacity: 1;
+}
+.loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  color: #798069;
+  background: #ecefe6;
+  letter-spacing: 0.02em;
+}
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #eef1e8 0%, #e6ebdc 100%);
+}
+.placeholder span {
+  font-size: 34px;
+  opacity: 0.7;
+}
+.placeholder small {
+  font-size: 10px;
+  color: #798069;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
