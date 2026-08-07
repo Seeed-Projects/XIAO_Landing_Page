@@ -92,6 +92,16 @@
 .searchbox { flex: 1; max-width: 620px; height: 44px; display: flex; align-items: center; gap: 9px; padding: 0 14px; border: 1px solid var(--line); border-radius: 7px; background: #fff; }
 .searchbox span { color: var(--muted); }
 .searchbox input { width: 100%; border: 0; outline: 0; color: var(--ink); font-size: 12px; background: transparent; }
+.chipBrowser { position: relative; z-index: 1; padding: 17px 18px 14px; margin-bottom: 22px; border: 1px solid #e1e7d7; border-radius: 9px; background: linear-gradient(110deg, #fbfdf7 0%, #f3f8e8 100%); }
+.chipBrowserHead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.chipBrowserHead span { color: #384731; font-size: 12px; font-weight: 800; }
+.chipBrowserHead small { color: var(--muted); font-size: 11px; }
+.chipTabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.chipTab { display: inline-flex; align-items: center; gap: 7px; border: 1px solid #dce4d3; border-radius: 999px; padding: 8px 11px; background: #fff; color: #52604e; font-size: 11px; font-weight: 750; line-height: 1; transition: .18s ease; }
+.chipTab:hover { border-color: #adc86d; color: var(--ink); }
+.chipTab span { display: grid; min-width: 16px; height: 16px; place-items: center; border-radius: 50%; background: #f0f3ea; color: #75806e; font-size: 9px; }
+.chipTab.active { border-color: var(--green); background: var(--green); color: #173000; }
+.chipTab.active span { background: rgba(255,255,255,.62); color: #425316; }
 .productTabs { position: relative; z-index: 1; display: flex; gap: 26px; overflow-x: auto; padding: 0 0 13px; margin-bottom: 34px; border-bottom: 1px solid var(--line); scrollbar-width: none; }
 .productTabs::-webkit-scrollbar { display: none; }
 .productTab { flex: none; border: 0; padding: 0; background: transparent; color: #727983; font-size: 12px; font-weight: 700; }
@@ -153,6 +163,9 @@
 .resItemCard .resItemMain { padding: 12px 12px 0; }
 .resItemCard .resItemActions { padding: 10px 12px 12px; justify-content: flex-end; }
 .resEmpty { grid-column: 1 / -1; padding: 28px; text-align: center; color: var(--muted); font-size: 13px; border: 1px dashed var(--line); border-radius: 8px; }
+.chipEmpty { margin-bottom: 54px; padding: 42px 28px; text-align: center; border: 1px dashed #cbd8b9; border-radius: 9px; background: #f8fbf3; }
+.chipEmpty strong { display: block; color: var(--ink); font-size: 18px; }
+.chipEmpty p { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
 
 /* 课程与更多（全局） */
 .extras { position: relative; z-index: 1; margin-top: 36px; padding: 26px; border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(110deg, #f5f9eb 0%, #eef4df 100%); }
@@ -217,6 +230,7 @@
   .section { padding: 68px 0; }
   .resourceControls { flex-direction: column; }
   .resourceControls .btn { align-self: stretch; }
+  .chipBrowserHead { align-items: flex-start; flex-direction: column; gap: 4px; }
   .resourceBanner { grid-template-columns: 1fr; padding: 28px 22px; }
   .productVisual { width: min(100%, 300px); justify-self: center; }
   .resourceMosaic { grid-template-columns: 1fr; }

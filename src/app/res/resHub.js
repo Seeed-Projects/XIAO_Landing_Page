@@ -25,10 +25,21 @@ const HW = { en: "Hardware Design", zh: "硬件设计" };
 const ME = { en: "Mechanical Design", zh: "结构设计" };
 const SW = { en: "Software & Tools", zh: "软件与工具" };
 
+const CHIP_FAMILIES = [
+  { id: "all", label: { en: "All chips", zh: "全部芯片" } },
+  { id: "esp32-s3", label: { en: "ESP32-S3", zh: "ESP32-S3" } },
+  { id: "esp32-c3", label: { en: "ESP32-C3", zh: "ESP32-C3" } },
+  { id: "esp32-c6", label: { en: "ESP32-C6", zh: "ESP32-C6" } },
+  { id: "nrf52840", label: { en: "nRF52840", zh: "nRF52840" } },
+  { id: "rp2040", label: { en: "RP2040", zh: "RP2040" } },
+  { id: "samd21", label: { en: "SAMD21", zh: "SAMD21" } },
+  { id: "ra4m1", label: { en: "RA4M1", zh: "RA4M1" } },
+];
+
 /* 4 款 S3 系列产品 + 真实资源 */
 const RESOURCE_PRODUCTS = [
   {
-    id: "s3", name: "XIAO ESP32-S3", color: "#276046", shield: "#d5d8da",
+    id: "s3", chip: "esp32-s3", name: "XIAO ESP32-S3", color: "#276046", shield: "#d5d8da",
     intro: { en: "The Wi-Fi + BLE workhorse of the XIAO lineup.", zh: "XIAO 系列里 Wi-Fi + BLE 的主力通用板。" },
     badges: ["ESP32-S3", "Wi-Fi", "BLE"],
     groups: [
@@ -49,7 +60,7 @@ const RESOURCE_PRODUCTS = [
     ],
   },
   {
-    id: "s3sense", name: "XIAO ESP32-S3 Sense", color: "#315d4c", shield: "#d1d5d7",
+    id: "s3sense", chip: "esp32-s3", name: "XIAO ESP32-S3 Sense", color: "#315d4c", shield: "#d1d5d7",
     intro: { en: "Adds an onboard camera and microphone for vision and voice.", zh: "板载摄像头与麦克风，面向视觉与语音。" },
     badges: ["Camera", "Microphone", "Wi-Fi", "BLE"],
     groups: [
@@ -74,7 +85,7 @@ const RESOURCE_PRODUCTS = [
     ],
   },
   {
-    id: "s3plus", name: "XIAO ESP32-S3 Plus", color: "#2f5b78", shield: "#d3d7dc",
+    id: "s3plus", chip: "esp32-s3", name: "XIAO ESP32-S3 Plus", color: "#2f5b78", shield: "#d3d7dc",
     intro: { en: "Larger GPIO count and PSRAM for heavier connected projects.", zh: "更多 GPIO 与 PSRAM，适合更重的联网项目。" },
     badges: ["ESP32-S3", "Wi-Fi", "BLE", "Plus"],
     groups: [
@@ -95,7 +106,7 @@ const RESOURCE_PRODUCTS = [
     ],
   },
   {
-    id: "s3cam", name: "XIAO ESP32-S3 Sense Camera", color: "#5b3f73", shield: "#d8d5dd",
+    id: "s3cam", chip: "esp32-s3", name: "XIAO ESP32-S3 Sense Camera", color: "#5b3f73", shield: "#d8d5dd",
     intro: { en: "Camera module datasheets for the Sense camera attachments.", zh: "Sense 摄像头模组的摄像头规格书与传感器手册。" },
     badges: ["OV3660", "OV5640", "OV2640", "Camera"],
     groups: [
@@ -206,13 +217,18 @@ const stripSvg = (s) => s.replace(/^<svg[^>]*>|<\/svg>$/g, "");
 
 export function ResHub() {
   const { lang } = useLang();
+  const [activeChip, setActiveChip] = useState("esp32-s3");
   const [activeId, setActiveId] = useState(RESOURCE_PRODUCTS[0].id);
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState({ open: false, title: "", url: "" });
 
+  const chipProducts = useMemo(
+    () => activeChip === "all" ? RESOURCE_PRODUCTS : RESOURCE_PRODUCTS.filter((p) => p.chip === activeChip),
+    [activeChip]
+  );
   const active = useMemo(
-    () => RESOURCE_PRODUCTS.find((p) => p.id === activeId) ?? RESOURCE_PRODUCTS[0],
-    [activeId]
+    () => chipProducts.find((p) => p.id === activeId) ?? chipProducts[0] ?? RESOURCE_PRODUCTS[0],
+    [activeId, chipProducts]
   );
 
   const T = {
@@ -229,6 +245,9 @@ export function ResHub() {
       ? "选择产品后，直接浏览 Pinout、原理图、PCB、尺寸图和 3D 模型。常用资料先预览，工程文件再下载。"
       : "Pick a product, then browse real Pinout, schematic, PCB, dimensions and 3D files — preview PDFs inline, download the rest.",
     searchPlaceholder: lang === "zh" ? "搜索资源，如 Schematic / KiCad / DXF / 3D" : "Search resources, e.g. Schematic / KiCad / DXF / 3D",
+    chipFilter: lang === "zh" ? "按芯片筛选开发板" : "Filter boards by chip",
+    chipHint: lang === "zh" ? "先选芯片，再选具体开发板" : "Choose a chip, then a board.",
+    chipEmpty: lang === "zh" ? "该芯片系列的资源正在整理中。" : "Resources for this chip family are being prepared.",
     selected: lang === "zh" ? "当前产品" : "Selected product",
     countFiles: (n) => lang === "zh" ? `${n} 个文件` : `${n} files`,
     modalKicker: lang === "zh" ? "资源预览" : "Resource preview",
@@ -252,6 +271,11 @@ export function ResHub() {
   }, [query, active]);
 
   const totalItems = filteredGroups.reduce((n, g) => n + g.items.length, 0);
+
+  useEffect(() => {
+    if (chipProducts.some((p) => p.id === activeId)) return;
+    setActiveId(chipProducts[0]?.id ?? "");
+  }, [activeId, chipProducts]);
 
   useEffect(() => {
     if (!modal.open) return;
@@ -304,8 +328,33 @@ export function ResHub() {
             </div>
           </div>
 
+          <div className={styles.chipBrowser}>
+            <div className={styles.chipBrowserHead}>
+              <span>{T.chipFilter}</span>
+              <small>{T.chipHint}</small>
+            </div>
+            <div className={styles.chipTabs} role="tablist" aria-label={T.chipFilter}>
+              {CHIP_FAMILIES.map((chip) => {
+                const count = chip.id === "all"
+                  ? RESOURCE_PRODUCTS.length
+                  : RESOURCE_PRODUCTS.filter((p) => p.chip === chip.id).length;
+                return (
+                  <button
+                    key={chip.id}
+                    role="tab"
+                    aria-selected={chip.id === activeChip}
+                    className={`${styles.chipTab} ${chip.id === activeChip ? styles.active : ""}`}
+                    onClick={() => { setActiveChip(chip.id); setQuery(""); }}
+                  >
+                    {pick(chip.label)} <span>{count}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           <div className={styles.productTabs}>
-            {RESOURCE_PRODUCTS.map((p) => (
+            {chipProducts.map((p) => (
               <button
                 key={p.id}
                 className={`${styles.productTab} ${p.id === activeId ? styles.active : ""}`}
@@ -316,6 +365,13 @@ export function ResHub() {
             ))}
           </div>
 
+          {chipProducts.length === 0 ? (
+            <div className={styles.chipEmpty}>
+              <strong>{pick(CHIP_FAMILIES.find((chip) => chip.id === activeChip)?.label)}</strong>
+              <p>{T.chipEmpty}</p>
+            </div>
+          ) : (
+            <>
           <section className={styles.resourceBanner}>
             <div>
               <span className={styles.eyebrow}>{T.selected}</span>
@@ -373,6 +429,8 @@ export function ResHub() {
                 </div>
               ))}
             </div>
+          )}
+            </>
           )}
 
           {/* 课程与更多：封面 + 介绍卡片，按主题分组 */}
