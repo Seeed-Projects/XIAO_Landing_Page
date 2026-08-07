@@ -284,7 +284,10 @@ export function ProjectHub() {
           </button>
         </div>
         <div>
-          <div className={styles.seeedLogo}>Seeed Studio</div>
+          <div className={styles.seeedLogo} aria-label="Seeed Studio">
+            <span className={styles.seeedWord}>Seeed</span>
+            <span className={styles.studioWord}>Studio</span>
+          </div>
           <Glow as="h1">XIAO Project Hub</Glow>
         </div>
         <p>Discover what you can build with XIAO</p>

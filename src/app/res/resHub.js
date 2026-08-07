@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useLang } from "../i18n";
 import { Glow } from "../Glow";
 import styles from "./res.module.css";
-import ResThumb from "./ResThumb";
 import CourseCard from "./CourseCard";
 
 /* 按 format/url 推断缩略图渲染方式。
@@ -341,15 +340,9 @@ export function ResHub() {
                   </div>
                   <div className={styles.resList}>
                     {g.items.map((it, ii) => {
-                      const kind = renderKind(it);
-                      const isCard = kind === "img" || kind === "step";
                       return (
-                        <div key={ii} className={`${styles.resItem} ${isCard ? styles.resItemCard : ""}`}>
-                          {isCard ? (
-                            <ResThumb item={{ ...it, render: kind }} />
-                          ) : (
-                            <span className={styles.resItemIcon}>{it.icon}</span>
-                          )}
+                        <div key={ii} className={styles.resItem}>
+                          <span className={styles.resItemIcon}>{it.icon}</span>
                           <div className={styles.resItemMain}>
                             <div className={styles.resItemName} title={it.name}>{it.name}</div>
                             <div className={styles.resItemMeta}>
