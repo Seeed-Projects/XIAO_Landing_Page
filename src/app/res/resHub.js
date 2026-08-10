@@ -30,6 +30,7 @@ const CHIP_FAMILIES = [
   { id: "esp32-s3", label: { en: "ESP32-S3", zh: "ESP32-S3" } },
   { id: "esp32-c3", label: { en: "ESP32-C3", zh: "ESP32-C3" } },
   { id: "esp32-c6", label: { en: "ESP32-C6", zh: "ESP32-C6" } },
+  { id: "nrf54x", label: { en: "nRF54x", zh: "nRF54x" } },
   { id: "nrf52840", label: { en: "nRF52840", zh: "nRF52840" } },
   { id: "rp2040", label: { en: "RP2040", zh: "RP2040" } },
   { id: "samd21", label: { en: "SAMD21", zh: "SAMD21" } },
@@ -116,6 +117,46 @@ const RESOURCE_PRODUCTS = [
         { icon: "📄", name: "OV5640 Camera Module Specification", format: "PDF", url: "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/new-res/OV5640_Camera_Module_Specification.pdf" },
         { icon: "📄", name: "OV5640 CMOS Sensor Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/OV5640_datasheet.pdf" },
         { icon: "📄", name: "OV2640 CMOS Sensor Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/OV2640_datasheet.pdf" },
+      ] },
+    ],
+  },
+  {
+    id: "nrf54l15", chip: "nrf54x", name: "XIAO nRF54L15", color: "#1f5f74", shield: "#d2d9db",
+    intro: { en: "Ultra-low-power Nordic wireless board for secure connected devices.", zh: "基于 Nordic nRF54L15 的超低功耗无线开发板。" },
+    badges: ["nRF54L15", "Bluetooth LE 6.0", "Matter", "Thread"],
+    groups: [
+      { label: SW, items: [
+        { icon: "📚", name: "XIAO nRF54L15 Getting Started", format: "Guide", url: "https://wiki.seeedstudio.com/xiao_nrf54l15_sense_getting_started/" },
+      ] },
+    ],
+  },
+  {
+    id: "nrf54l15sense", chip: "nrf54x", name: "XIAO nRF54L15 Sense", color: "#2e6f59", shield: "#d4d9d1",
+    intro: { en: "nRF54L15 with onboard IMU and microphone for sensing projects.", zh: "集成 IMU 与麦克风的 nRF54L15 感知开发板。" },
+    badges: ["nRF54L15", "IMU", "Microphone", "Bluetooth LE 6.0"],
+    groups: [
+      { label: SW, items: [
+        { icon: "📚", name: "XIAO nRF54L15 Sense Getting Started", format: "Guide", url: "https://wiki.seeedstudio.com/xiao_nrf54l15_sense_getting_started/" },
+      ] },
+    ],
+  },
+  {
+    id: "nrf54lm20a", chip: "nrf54x", name: "XIAO nRF54LM20A", color: "#4a5d85", shield: "#d6d9e2",
+    intro: { en: "A higher-memory Nordic nRF54 wireless board with power management.", zh: "具备更大内存与电源管理能力的 Nordic nRF54 无线开发板。" },
+    badges: ["nRF54LM20A", "Bluetooth LE 6.0", "NFC", "Matter"],
+    groups: [
+      { label: SW, items: [
+        { icon: "📚", name: "XIAO nRF54LM20A Getting Started", format: "Guide", url: "https://wiki.seeedstudio.com/xiao_nrf54lm20a_getting_started/" },
+      ] },
+    ],
+  },
+  {
+    id: "nrf54lm20asense", chip: "nrf54x", name: "XIAO nRF54LM20A Sense", color: "#5e4d75", shield: "#ddd7e2",
+    intro: { en: "nRF54LM20A with an IMU and microphone for advanced edge sensing.", zh: "集成 IMU 与麦克风的 nRF54LM20A 边缘感知开发板。" },
+    badges: ["nRF54LM20A", "IMU", "Microphone", "8 MB Flash"],
+    groups: [
+      { label: SW, items: [
+        { icon: "📚", name: "XIAO nRF54LM20A Sense Getting Started", format: "Guide", url: "https://wiki.seeedstudio.com/xiao_nrf54lm20a_getting_started/" },
       ] },
     ],
   },
