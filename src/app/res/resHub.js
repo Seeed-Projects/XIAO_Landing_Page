@@ -37,6 +37,15 @@ const CHIP_FAMILIES = [
   { id: "ra4m1", label: { en: "RA4M1", zh: "RA4M1" } },
 ];
 
+function guideProduct({ id, chip, name, color, shield, intro, badges, url }) {
+  return {
+    id, chip, name, color, shield, intro, badges,
+    groups: [{ label: SW, items: [
+      { icon: "📚", name: `${name} Getting Started`, format: "Guide", url },
+    ] }],
+  };
+}
+
 /* 4 款 S3 系列产品 + 真实资源 */
 const RESOURCE_PRODUCTS = [
   {
@@ -160,6 +169,51 @@ const RESOURCE_PRODUCTS = [
       ] },
     ],
   },
+  guideProduct({
+    id: "esp32c3", chip: "esp32-c3", name: "XIAO ESP32-C3", color: "#3c6f5d", shield: "#d3d9d4",
+    intro: { en: "Compact Wi-Fi and Bluetooth LE board based on ESP32-C3.", zh: "基于 ESP32-C3 的紧凑型 Wi-Fi 与蓝牙开发板。" },
+    badges: ["ESP32-C3", "Wi-Fi", "Bluetooth LE"], url: "https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/",
+  }),
+  guideProduct({
+    id: "esp32c6", chip: "esp32-c6", name: "XIAO ESP32-C6", color: "#46678c", shield: "#d7dce3",
+    intro: { en: "ESP32-C6 wireless board with Wi-Fi 6, Bluetooth LE and Zigbee support.", zh: "支持 Wi-Fi 6、蓝牙与 Zigbee 的 ESP32-C6 无线开发板。" },
+    badges: ["ESP32-C6", "Wi-Fi 6", "Zigbee", "Thread"], url: "https://wiki.seeedstudio.com/xiao_esp32c6_getting_started/",
+  }),
+  guideProduct({
+    id: "nrf52840", chip: "nrf52840", name: "XIAO nRF52840", color: "#356b72", shield: "#d1dcdd",
+    intro: { en: "Nordic nRF52840 board for Bluetooth and low-power wireless projects.", zh: "面向蓝牙与低功耗无线项目的 Nordic nRF52840 开发板。" },
+    badges: ["nRF52840", "Bluetooth 5.0", "NFC"], url: "https://wiki.seeedstudio.com/XIAO_BLE/",
+  }),
+  guideProduct({
+    id: "nrf52840sense", chip: "nrf52840", name: "XIAO nRF52840 Sense", color: "#4f765f", shield: "#d9dfd4",
+    intro: { en: "nRF52840 with an onboard IMU and microphone for TinyML sensing.", zh: "集成 IMU 与麦克风的 nRF52840 TinyML 感知开发板。" },
+    badges: ["nRF52840", "IMU", "Microphone"], url: "https://wiki.seeedstudio.com/XIAO_BLE/",
+  }),
+  guideProduct({
+    id: "nrf52840plus", chip: "nrf52840", name: "XIAO nRF52840 Plus", color: "#516c88", shield: "#d6dce5",
+    intro: { en: "Expanded nRF52840 board for wireless development.", zh: "面向无线开发的扩展型 nRF52840 开发板。" },
+    badges: ["nRF52840", "Bluetooth 5.0", "Plus"], url: "https://wiki.seeedstudio.com/XIAO_BLE/",
+  }),
+  guideProduct({
+    id: "nrf52840senseplus", chip: "nrf52840", name: "XIAO nRF52840 Sense Plus", color: "#65547c", shield: "#ded8e4",
+    intro: { en: "Expanded nRF52840 Sense board for wireless sensing projects.", zh: "面向无线感知项目的扩展型 nRF52840 Sense 开发板。" },
+    badges: ["nRF52840", "IMU", "Microphone", "Plus"], url: "https://wiki.seeedstudio.com/XIAO_BLE/",
+  }),
+  guideProduct({
+    id: "rp2040", chip: "rp2040", name: "XIAO RP2040", color: "#6b5f96", shield: "#ddd9e5",
+    intro: { en: "Dual-core RP2040 board for compact embedded projects.", zh: "基于双核 RP2040 的紧凑型嵌入式开发板。" },
+    badges: ["RP2040", "Dual-core", "MicroPython"], url: "https://wiki.seeedstudio.com/XIAO-RP2040/",
+  }),
+  guideProduct({
+    id: "samd21", chip: "samd21", name: "Seeeduino XIAO", color: "#a0663e", shield: "#e3d6ca",
+    intro: { en: "The original XIAO board, based on the SAMD21 microcontroller.", zh: "基于 SAMD21 微控制器的初代 XIAO 开发板。" },
+    badges: ["SAMD21", "Arduino", "Classic XIAO"], url: "https://wiki.seeedstudio.com/Seeeduino-XIAO/",
+  }),
+  guideProduct({
+    id: "ra4m1", chip: "ra4m1", name: "XIAO RA4M1", color: "#6f5847", shield: "#e0d7cf",
+    intro: { en: "Renesas RA4M1 board with CAN, DAC and expanded I/O.", zh: "具备 CAN、DAC 与扩展 I/O 的 Renesas RA4M1 开发板。" },
+    badges: ["RA4M1", "CAN", "DAC", "Arduino"], url: "https://wiki.seeedstudio.com/getting_started_xiao_ra4m1/",
+  }),
 ];
 
 /* 全局课程资源：按主题分组，封面 + 一段话介绍 */
