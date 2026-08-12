@@ -49,9 +49,9 @@
   filter: blur(16px);
 }
 .heroCopy > * { position: relative; z-index: 1; }
-.eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--greenDark); font-size: 12px; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
+.eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--greenDark); font-size: 13px; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
 .eyebrow::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
-.hero h1 { margin: 15px 0 17px; max-width: 720px; font-size: clamp(52px, 5.2vw, 70px) !important; line-height: 1.02; letter-spacing: -.052em; font-weight: 760; }
+.hero h1 { margin: 15px 0 17px; max-width: 700px; font-size: clamp(48px, 4.8vw, 64px) !important; line-height: 1.04; letter-spacing: -.048em; font-weight: 760; }
 .heroCopy p { max-width: 650px; margin: 0; color: #515863; font-size: 17px; line-height: 1.72; }
 .heroActions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
 

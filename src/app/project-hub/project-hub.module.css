@@ -131,9 +131,9 @@
 .contribute p { max-width: 560px; color: #697b80; margin: 0; line-height: 1.75; }
 .contribute > a { flex: none; border-radius: 999px; padding: 17px 26px; background: var(--acid); color: #173000; text-decoration: none; font-weight: 800; box-shadow: 0 10px 24px rgba(143, 195, 31, 0.24); transition: transform .2s ease, box-shadow .2s ease; }
 .contribute > a:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(143, 195, 31, 0.34); }
-.sourceNote { width: min(100%, 1120px); margin: 18px auto 0; padding: 28px clamp(28px, 4vw, 46px); display: grid; grid-template-columns: 150px minmax(0, 1fr); align-items: center; gap: 28px; border-radius: 22px; background: #132c3b; color: rgba(255,255,255,.68); box-shadow: 0 16px 36px rgba(0, 73, 102, .12); }
-.sourceNote span { color: #c9ec6a; font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
-.sourceNote p { margin: 0; font-size: 12px; line-height: 1.75; letter-spacing: .02em; }
+.sourceNote { width: calc(100% + 8vw); margin: 34px -4vw -70px; padding: 34px max(4vw, calc((100vw - 1120px) / 2)) 42px; display: grid; grid-template-columns: 150px minmax(0, 1fr); align-items: center; gap: 28px; background: #132c3b; color: rgba(255,255,255,.82); }
+.sourceNote span { color: #fff; font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.sourceNote p { margin: 0; font-size: 12px; line-height: 1.75; letter-spacing: .02em; color: rgba(255,255,255,.82); }
 
 /* Toast */
 .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 120px); background: var(--acid); color: #111; padding: 12px 20px; border-radius: 999px; z-index: 20; transition: .3s; font-weight: 700; }
@@ -153,7 +153,7 @@
   .ecosystemStrip > div:nth-child(3) { padding-left: 0; }
   .contribute { align-items: flex-start; flex-direction: column; gap: 28px; }
   .contribute > a { width: 100%; text-align: center; }
-  .sourceNote { grid-template-columns: 1fr; gap: 10px; }
+  .sourceNote { width: calc(100% + 36px); margin: 34px -18px -95px; padding: 30px 18px 36px; grid-template-columns: 1fr; gap: 10px; }
 }
 @media (max-width: 580px) {
   .languageSwitch { top: 18px; right: 18px; }

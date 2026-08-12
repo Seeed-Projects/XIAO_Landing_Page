@@ -332,7 +332,7 @@ export function ProjectHub() {
           <aside className={styles.side} ref={sideRef}>
             <div className={styles.sideHead}>
               <div>
-                <Glow as="h2">{t.recentTitle}</Glow>
+                <h2>{t.recentTitle}</h2>
                 <span className={styles.count}>{t.latestCount}</span>
               </div>
               <div className={styles.subscribeCluster}>
