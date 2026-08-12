@@ -30,8 +30,8 @@
 
 /* Hero */
 .hero { padding: 0; }
-.heroGrid { width: 100%; max-width: none; display: grid; grid-template-columns: 1.06fr .94fr; min-height: 560px; }
-.heroCopy, .heroArt { min-height: 560px; border-radius: 0 !important; }
+.heroGrid { width: 100%; max-width: none; display: grid; grid-template-columns: 1.06fr .94fr; min-height: 520px; }
+.heroCopy, .heroArt { min-height: 520px; border-radius: 0 !important; }
 .heroCopy {
   position: relative; display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
   padding: 76px max(48px, calc((100vw - var(--content))/2 + 10px)); padding-right: 70px; overflow: hidden;
@@ -49,11 +49,11 @@
   filter: blur(16px);
 }
 .heroCopy > * { position: relative; z-index: 1; }
-.eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--greenDark); font-size: 10px; font-weight: 900; letter-spacing: .15em; text-transform: uppercase; }
+.eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--greenDark); font-size: 12px; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
 .eyebrow::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
-.hero h1 { margin: 14px 0 15px; max-width: 680px; font-size: clamp(46px, 4.6vw, 60px) !important; line-height: 1.06; letter-spacing: -.045em; font-weight: 760; }
-.heroCopy p { max-width: 600px; margin: 0; color: #515863; font-size: 15px; line-height: 1.75; }
-.heroActions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+.hero h1 { margin: 15px 0 17px; max-width: 720px; font-size: clamp(52px, 5.2vw, 70px) !important; line-height: 1.02; letter-spacing: -.052em; font-weight: 760; }
+.heroCopy p { max-width: 650px; margin: 0; color: #515863; font-size: 17px; line-height: 1.72; }
+.heroActions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
 
 .heroArt { position: relative; display: grid; place-items: center; overflow: hidden; padding: 48px; color: var(--ink) !important; background: #e4e5e2 !important; }
 .heroArt::before {

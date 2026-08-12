@@ -330,8 +330,8 @@ export function ResHub() {
     heroEyebrow: lang === "zh" ? "XIAO 硬件资源" : "XIAO Hardware Resources",
     heroH1: lang === "zh" ? "看得到资料，再决定打开哪一个。" : "See the resources before opening a single link.",
     heroP: lang === "zh"
-      ? "把 Wiki 里的原理图、Pinout、PCB、尺寸图和 3D 模型搬到统一页面，用图片预览代替长篇文字链接。"
-      : "Bring schematics, pinouts, PCB, dimensions and 3D models from the Wiki onto one page — preview by image instead of long text links.",
+      ? "从规格到实现，汇聚原理图、Pinout、PCB、尺寸与 3D 资料，让每一次查找都更清晰、更从容。"
+      : "From specification to implementation, bring schematics, Pinout, PCB, dimensions and 3D resources together—so every search feels clearer and more effortless.",
     btnBrowse: lang === "zh" ? "浏览资源" : "Browse resources",
     btnSelector: lang === "zh" ? "进入智能选型" : "Open Smart Selector",
     secEyebrow: lang === "zh" ? "可视化资源库" : "Visual resource library",
@@ -408,7 +408,7 @@ export function ResHub() {
         <div className={styles.container}>
           <div className={styles.sectionHead}>
             <span className={styles.eyebrow}>{T.secEyebrow}</span>
-            <Glow as="h2">{T.secH2}</Glow>
+            <Glow as="h2" start={0.48} end={0.12}>{T.secH2}</Glow>
             <p>{T.secP}</p>
           </div>
         </div>

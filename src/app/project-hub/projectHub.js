@@ -63,6 +63,7 @@ const T = {
       "Share your work with makers around the world and help grow the project collection.",
     contributeButton: "Contribute your project →",
     contributeKicker: "OPEN SOURCE · COMMUNITY DRIVEN",
+    sourceLabel: "PROJECT SOURCES",
     sourceNote:
       "Curated from GitHub, YouTube, Hackster, Instructables, Hackaday and independent web projects. Updated regularly by the Seeed Studio community.",
     appDirLabel: "APPLICATION DIRECTION",
@@ -90,6 +91,7 @@ const T = {
       "把作品分享给世界各地的创客，一起扩展这个开放项目集合。",
     contributeButton: "提交你的项目 →",
     contributeKicker: "开源共创 · 由社区驱动",
+    sourceLabel: "内容来源",
     sourceNote:
       "内容整理自 GitHub、YouTube、Hackster、Instructables、Hackaday 和独立网页项目，由 Seeed Studio 社区持续更新。",
     appDirLabel: "应用方向",
@@ -460,7 +462,6 @@ export function ProjectHub() {
                 allow="fullscreen"
                 referrerPolicy="strict-origin-when-cross-origin"
               />
-              <div className={styles.browserShield} />
             </div>
           </div>
 
@@ -476,7 +477,10 @@ export function ProjectHub() {
               {t.contributeButton}
             </a>
           </div>
-          <footer className={styles.sourceNote}>{t.sourceNote}</footer>
+          <footer className={styles.sourceNote}>
+            <span>{t.sourceLabel}</span>
+            <p>{t.sourceNote}</p>
+          </footer>
         </Reveal>
       </main>
 
