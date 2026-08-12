@@ -337,8 +337,8 @@ export function ResHub() {
     secEyebrow: lang === "zh" ? "可视化资源库" : "Visual resource library",
     secH2: lang === "zh" ? "不用读链接，先看资料是什么。" : "Don't read links — see what the resource is first.",
     secP: lang === "zh"
-      ? "选择产品后，直接浏览 Pinout、原理图、PCB、尺寸图和 3D 模型。常用资料先预览，工程文件再下载。"
-      : "Pick a product, then browse real Pinout, schematic, PCB, dimensions and 3D files — preview PDFs inline, download the rest.",
+      ? "从规格到实现，一站汇集 Pinout、原理图、PCB、尺寸与 3D 资料，让每一份设计资料都触手可及。"
+      : "From specification to implementation, explore Pinout, schematics, PCB, dimensions and 3D resources in one place—so every design resource is always within reach.",
     searchPlaceholder: lang === "zh" ? "搜索资源，如 Schematic / KiCad / DXF / 3D" : "Search resources, e.g. Schematic / KiCad / DXF / 3D",
     chipFilter: lang === "zh" ? "按芯片筛选开发板" : "Filter boards by chip",
     chipHint: lang === "zh" ? "先选芯片，再选具体开发板" : "Choose a chip, then a board.",
