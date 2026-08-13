@@ -469,11 +469,11 @@ RESOURCE_PRODUCTS.push(
 
 /* 全局课程资源：按主题分组，封面 + 一段话介绍 */
 const EXTRAS = {
-  title: { en: "Course & More", zh: "课程与更多" },
-  eyebrow: { en: "Learn with XIAO", zh: "跟 XIAO 一起学" },
+  title: { en: "Learn, Build & Explore", zh: "学习、实践与灵感" },
+  eyebrow: { en: "Explore with XIAO", zh: "用 XIAO 探索更多可能" },
   intro: {
-    en: "Open books, courses and hands-on projects built around the XIAO family.",
-    zh: "围绕 XIAO 的开源电子书、系统课程与实战项目，封面预览先看一眼再打开。",
+    en: "Courses, reproducible builds and ideas from across the XIAO community — organized by what each link helps you do.",
+    zh: "围绕 XIAO 的课程、可复现项目与创意灵感，按链接内容与适用开发板清晰归类。",
   },
   note: { en: "The remaining open-source material is being compiled — stay tuned.", zh: "其余开源资料正在整理中，敬请期待。" },
 };
@@ -488,6 +488,7 @@ const COURSE_GROUPS = [
         cover: "https://mjrovai.github.io/XIAO_Big_Power_Small_Board-ebook/cover.jpg",
         url: "https://mjrovai.github.io/XIAO_Big_Power_Small_Board-ebook/",
         kind: "img", accent: "#276046",
+        type: "course",
         boards: ["all"],
       },
       {
@@ -496,6 +497,7 @@ const COURSE_GROUPS = [
         cover: null,
         url: "https://tinkergen.github.io/No-code-Programming-to-Get-Started-with-TinyML/",
         kind: "fallback", accent: "#2f5b78",
+        type: "course",
         boards: ["all"],
       },
     ],
@@ -509,6 +511,7 @@ const COURSE_GROUPS = [
         cover: "https://mlsysbook.ai/vol1/assets/images/covers/cover-hardcover-book-vol1.png",
         url: "https://www.mlsysbook.ai/",
         kind: "img", accent: "#5b3f73",
+        type: "course",
         boards: ["s3", "s3sense", "s3plus", "s3cam"],
       },
       {
@@ -517,6 +520,7 @@ const COURSE_GROUPS = [
         cover: null,
         url: "https://microsoft.github.io/IoT-For-Beginners/",
         kind: "fallback", accent: "#315d4c",
+        type: "course",
         boards: ["esp32c3", "esp32c6", "s3", "s3sense", "s3plus", "s3cam"],
       },
     ],
@@ -530,6 +534,7 @@ const COURSE_GROUPS = [
         cover: null,
         url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/Seeeduino-XIAO-in-Action-Minitype&Wearable-Projects-Step-by-Step.pdf",
         kind: "pdf", accent: "#7a4a2f",
+        type: "project",
         boards: ["samd21"],
       },
       {
@@ -538,6 +543,7 @@ const COURSE_GROUPS = [
         cover: "https://fabacademy.org/2020/labs/leon/students/adrian-torres/images/fabxiao/fabxiao_board.jpg",
         url: "https://fabacademy.org/2020/labs/leon/students/adrian-torres/fabxiao.html",
         kind: "img", accent: "#3a4a2f",
+        type: "project",
         boards: ["all"],
       },
       {
@@ -546,6 +552,7 @@ const COURSE_GROUPS = [
         cover: "https://opengraph.githubassets.com/f3ca4a588f9aa4f35f0687941b94fb6763592891ba561e9b5f046a411cd66bfb/hpssjellis/maker100-eco",
         url: "https://github.com/hpssjellis/maker100-eco",
         kind: "img", accent: "#2f5b78",
+        type: "project",
         boards: ["esp32c3", "esp32c6", "s3", "s3sense", "s3plus", "s3cam"],
       },
       {
@@ -554,6 +561,7 @@ const COURSE_GROUPS = [
         cover: null,
         url: "https://www.youtube.com/watch?v=Zs0-jXdnRY",
         kind: "fallback", accent: "#7a2f2f",
+        type: "inspiration",
         boards: ["all"],
       },
     ],
@@ -613,16 +621,29 @@ export function ResHub() {
     noResults: lang === "zh" ? "没有匹配的资源，换个关键词试试。" : "No matching resources — try another keyword.",
     generalCourses: lang === "zh" ? "通用课程" : "General courses",
     boardCourses: lang === "zh" ? `适用于 ${active.name} 的课程` : `Courses for ${active.name}`,
+    projects: lang === "zh" ? "项目实战" : "Hands-on projects",
+    inspiration: lang === "zh" ? "创意灵感" : "Ideas & inspiration",
     universalTag: lang === "zh" ? "全系列 XIAO" : "All XIAO boards",
     boardTag: lang === "zh" ? `适用 ${active.name}` : active.name,
   };
 
   const pick = (field) => (field && field[lang]) || (field && field.en) || "";
   const allCourses = COURSE_GROUPS.flatMap((group) => group.items);
-  const generalCourses = allCourses.filter((item) => item.boards.includes("all"));
-  const boardCourses = allCourses.filter(
-    (item) => !item.boards.includes("all") && item.boards.includes(active.id)
+  const generalCourses = allCourses.filter(
+    (item) => item.type === "course" && item.boards.includes("all")
   );
+  const boardCourses = allCourses.filter(
+    (item) => item.type === "course" && !item.boards.includes("all") && item.boards.includes(active.id)
+  );
+  const contentGroups = [
+    { type: "project", title: T.projects },
+    { type: "inspiration", title: T.inspiration },
+  ].map(({ type, title }) => ({
+    title,
+    items: allCourses.filter(
+      (item) => item.type === type && (item.boards.includes("all") || item.boards.includes(active.id))
+    ),
+  })).filter(({ items }) => items.length > 0);
 
   // 过滤当前产品的资源条目
   const filteredGroups = useMemo(() => {
@@ -821,6 +842,23 @@ export function ResHub() {
                 </div>
               </div>
             )}
+            {contentGroups.map((group) => (
+              <div className={styles.courseGroup} key={group.title}>
+                <div className={styles.courseGroupHead}><h4>{group.title}</h4></div>
+                <div className={styles.courseGrid}>
+                  {group.items.map((it) => (
+                    <CourseCard
+                      key={it.title}
+                      item={{
+                        ...it,
+                        intro: pick(it.intro),
+                        tags: [it.boards.includes("all") ? T.universalTag : T.boardTag],
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
             <p className={styles.extrasNote}>{pick(EXTRAS.note)}</p>
           </div>
         </div>
