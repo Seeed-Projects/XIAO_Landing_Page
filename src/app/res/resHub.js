@@ -509,7 +509,7 @@ const COURSE_GROUPS = [
         cover: "https://mlsysbook.ai/vol1/assets/images/covers/cover-hardcover-book-vol1.png",
         url: "https://www.mlsysbook.ai/",
         kind: "img", accent: "#5b3f73",
-        boards: ["esp32-s3", "esp32-s3-sense", "esp32-s3-plus", "esp32-s3-sense-camera"],
+        boards: ["s3", "s3sense", "s3plus", "s3cam"],
       },
       {
         title: "IoT for Beginners",
@@ -517,7 +517,7 @@ const COURSE_GROUPS = [
         cover: null,
         url: "https://microsoft.github.io/IoT-For-Beginners/",
         kind: "fallback", accent: "#315d4c",
-        boards: ["esp32-c3", "esp32-c6", "esp32-s3", "esp32-s3-sense", "esp32-s3-plus", "esp32-s3-sense-camera"],
+        boards: ["esp32c3", "esp32c6", "s3", "s3sense", "s3plus", "s3cam"],
       },
     ],
   },
@@ -546,7 +546,7 @@ const COURSE_GROUPS = [
         cover: "https://opengraph.githubassets.com/f3ca4a588f9aa4f35f0687941b94fb6763592891ba561e9b5f046a411cd66bfb/hpssjellis/maker100-eco",
         url: "https://github.com/hpssjellis/maker100-eco",
         kind: "img", accent: "#2f5b78",
-        boards: ["esp32-c3", "esp32-c6", "esp32-s3", "esp32-s3-sense", "esp32-s3-plus", "esp32-s3-sense-camera"],
+        boards: ["esp32c3", "esp32c6", "s3", "s3sense", "s3plus", "s3cam"],
       },
       {
         title: "XIAO on YouTube",
