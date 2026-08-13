@@ -33,6 +33,7 @@ const CHIP_FAMILIES = [
   { id: "esp32-c6", label: { en: "ESP32-C6", zh: "ESP32-C6" } },
   { id: "esp32-c5", label: { en: "ESP32-C5", zh: "ESP32-C5" } },
   { id: "nrf54x", label: { en: "nRF54x", zh: "nRF54x" } },
+  { id: "mg24", label: { en: "MG24", zh: "MG24" } },
   { id: "nrf52840", label: { en: "nRF52840", zh: "nRF52840" } },
   { id: "rp2040", label: { en: "RP2040", zh: "RP2040" } },
   { id: "rp2350", label: { en: "RP2350", zh: "RP2350" } },
@@ -445,7 +446,7 @@ replaceGroups("ra4m1", resourceGroups({
 
 RESOURCE_PRODUCTS.push(
   {
-    id: "mg24", chip: "nrf54x", name: "XIAO MG24", color: "#35616a", shield: "#d6dfda",
+    id: "mg24", chip: "mg24", name: "XIAO MG24", color: "#35616a", shield: "#d6dfda",
     intro: { en: "Silicon Labs MG24 wireless board for low-power connected devices.", zh: "面向低功耗无线设备的 Silicon Labs MG24 开发板。" }, badges: ["MG24", "Matter", "Thread"],
     groups: resourceGroups({ hardware: [
       { icon: "📄", name: "Silicon Labs EFR32MG24 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO_MG24/Getting_Start/mg24-group-datasheet.PDF" },
@@ -455,7 +456,7 @@ RESOURCE_PRODUCTS.push(
     ] }),
   },
   {
-    id: "mg24sense", chip: "nrf54x", name: "XIAO MG24 Sense", color: "#476b59", shield: "#d8dfd6",
+    id: "mg24sense", chip: "mg24", name: "XIAO MG24 Sense", color: "#476b59", shield: "#d8dfd6",
     intro: { en: "MG24 Sense board with expanded sensing capability.", zh: "具备扩展感知能力的 MG24 Sense 开发板。" }, badges: ["MG24", "Sense", "Matter"],
     groups: resourceGroups({ hardware: [
       { icon: "📄", name: "Silicon Labs EFR32MG24 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO_MG24/Getting_Start/mg24-group-datasheet.PDF" },
