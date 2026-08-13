@@ -24,12 +24,14 @@ const KICAD_SYMBOLS = { icon: "🗃️", name: "XIAO Series KiCad SCH Symbols", 
 const HW = { en: "Hardware Design", zh: "硬件设计" };
 const ME = { en: "Mechanical Design", zh: "结构设计" };
 const SW = { en: "Software & Tools", zh: "软件与工具" };
+const OT = { en: "Others", zh: "其他资料" };
 
 const CHIP_FAMILIES = [
   { id: "all", label: { en: "All chips", zh: "全部芯片" } },
   { id: "esp32-s3", label: { en: "ESP32-S3", zh: "ESP32-S3" } },
   { id: "esp32-c3", label: { en: "ESP32-C3", zh: "ESP32-C3" } },
   { id: "esp32-c6", label: { en: "ESP32-C6", zh: "ESP32-C6" } },
+  { id: "esp32-c5", label: { en: "ESP32-C5", zh: "ESP32-C5" } },
   { id: "nrf54x", label: { en: "nRF54x", zh: "nRF54x" } },
   { id: "nrf52840", label: { en: "nRF52840", zh: "nRF52840" } },
   { id: "rp2040", label: { en: "RP2040", zh: "RP2040" } },
@@ -37,10 +39,19 @@ const CHIP_FAMILIES = [
   { id: "ra4m1", label: { en: "RA4M1", zh: "RA4M1" } },
 ];
 
-function guideProduct({ id, chip, name, color, shield, intro, badges, url }) {
+function resourceGroups({ hardware = [], mechanical = [], software = [], others = [] }) {
+  return [
+    hardware.length && { label: HW, items: hardware },
+    mechanical.length && { label: ME, items: mechanical },
+    software.length && { label: SW, items: software },
+    others.length && { label: OT, items: others },
+  ].filter(Boolean);
+}
+
+function guideProduct({ id, chip, name, color, shield, intro, badges, url, groups }) {
   return {
     id, chip, name, color, shield, intro, badges,
-    groups: [{ label: SW, items: [
+    groups: groups || [{ label: SW, items: [
       { icon: "📚", name: `${name} Getting Started`, format: "Guide", url },
     ] }],
   };
@@ -173,41 +184,219 @@ const RESOURCE_PRODUCTS = [
     id: "esp32c3", chip: "esp32-c3", name: "XIAO ESP32-C3", color: "#3c6f5d", shield: "#d3d9d4",
     intro: { en: "Compact Wi-Fi and Bluetooth LE board based on ESP32-C3.", zh: "基于 ESP32-C3 的紧凑型 Wi-Fi 与蓝牙开发板。" },
     badges: ["ESP32-C3", "Wi-Fi", "Bluetooth LE"], url: "https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/",
+    groups: resourceGroups({
+      hardware: [
+        { icon: "📄", name: "Espressif ESP32-C3 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO_WiFi/Resources/esp32-c3_datasheet.pdf" },
+        { icon: "📄", name: "XIAO ESP32-C3 Schematic", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO_WiFi/Resources/XIAO_ESP32C3_v1.3_SCH_260116.pdf" },
+        { icon: "🗃️", name: "XIAO ESP32-C3 KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO_WiFi/Resources/XIAO_ESP32C3_v1.3_KiCad_260116.zip" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+        { icon: "📊", name: "XIAO ESP32-C3 Pinout Sheet", format: "XLSX", url: "https://files.seeedstudio.com/wiki/XIAO_WiFi/Resources/XIAO-ESP32C3-pinout_sheet.xlsx" },
+      ],
+      mechanical: [
+        { icon: "📐", name: "XIAO ESP32-C3 Dimension", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO_WiFi/Resources/XIAO-ESP32C3-DXF.zip" },
+        { icon: "📐", name: "XIAO ESP32-C3 Bottom Pad Data", format: "ZIP", url: "https://files.seeedstudio.com/wiki/Seeed-Studio-XIAO-ESP32/XIAO_ESP32C3_v1.2_Dimensioning.zip" },
+        { icon: "🔗", name: "XIAO ESP32-C3 3D Model", format: "Link", url: "https://grabcad.com/library/seeed-studio-xiao-esp32-c3-1" },
+      ],
+      software: [
+        { icon: "🗃️", name: "XIAO ESP32-C3 Factory Firmware", format: "BIN", url: "https://files.seeedstudio.com/wiki/XIAO_WiFi/Resources/ESP32-C3_RFTest_108_2b9b157_20211014.bin" },
+        { icon: "🔗", name: "XIAO ESP32-C3 MicroPython Library", format: "Link", url: "https://github.com/IcingTomato/micropython_xiao_esp32c3" },
+        { icon: "🔗", name: "PlatformIO for XIAO ESP32-C3", format: "Link", url: "https://docs.platformio.org/en/latest/boards/espressif32/seeed_xiao_esp32c3.html" },
+      ],
+      others: [
+        { icon: "🔗", name: "First Look at XIAO ESP32-C3", format: "Wiki", url: "https://sigmdel.ca/michel/ha/xiao/xiao_esp32c3_intro_en.html" },
+        { icon: "📄", name: "XIAO ESP32-C3 Low Power Consumption Report", format: "PDF", url: "https://files.seeedstudio.com/wiki/Seeed-Studio-XIAO-ESP32/Low_Power_Consumption.pdf" },
+      ],
+    }),
   }),
   guideProduct({
     id: "esp32c6", chip: "esp32-c6", name: "XIAO ESP32-C6", color: "#46678c", shield: "#d7dce3",
     intro: { en: "ESP32-C6 wireless board with Wi-Fi 6, Bluetooth LE and Zigbee support.", zh: "支持 Wi-Fi 6、蓝牙与 Zigbee 的 ESP32-C6 无线开发板。" },
     badges: ["ESP32-C6", "Wi-Fi 6", "Zigbee", "Thread"], url: "https://wiki.seeedstudio.com/xiao_esp32c6_getting_started/",
+    groups: resourceGroups({
+      hardware: [
+        { icon: "📄", name: "Espressif ESP32-C6 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32C6/res/esp32-c6_datasheet_en.pdf" },
+        { icon: "📄", name: "XIAO ESP32-C6 Schematic", format: "PDF", url: "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32C6/XIAO_ESP32_C6_v1.0_SCH_260114.pdf" },
+        { icon: "🗃️", name: "XIAO ESP32-C6 KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32C6/XIAO_ESP32_C6_v1.0_SCH&PCB_260114.zip" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+        { icon: "📊", name: "XIAO ESP32-C6 Pinout Sheet", format: "XLSX", url: "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32C6/res/XIAO_ESP32C6_Pinout.xlsx" },
+      ],
+      mechanical: [{ icon: "🔗", name: "XIAO ESP32-C6 3D Model", format: "Link", url: "https://grabcad.com/library/seeed-studio-xiao-esp32-c6-1" }],
+    }),
+  }),
+  guideProduct({
+    id: "esp32c5", chip: "esp32-c5", name: "XIAO ESP32-C5", color: "#4e6288", shield: "#d9dee4",
+    intro: { en: "ESP32-C5 wireless board for next-generation connected projects.", zh: "面向新一代联网项目的 ESP32-C5 无线开发板。" },
+    badges: ["ESP32-C5", "Wi-Fi", "Bluetooth LE"], url: "https://wiki.seeedstudio.com/",
+    groups: resourceGroups({
+      hardware: [
+        { icon: "📄", name: "Espressif ESP32-C5 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO_ESP32C5/res/esp32-c5_datasheet_en.pdf" },
+        { icon: "📄", name: "XIAO ESP32-C5 Schematic", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO_ESP32C5/res/Seeed_Studio_XIAO_ESP32C5.pdf" },
+        { icon: "🗃️", name: "XIAO ESP32-C5 KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO_ESP32C5/res/Seeed_Studio_XIAO_ESP32C5.zip" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+        { icon: "📊", name: "XIAO ESP32-C5 Pinout Sheet", format: "XLSX", url: "https://files.seeedstudio.com/wiki/XIAO_ESP32C5/res/XIAO_ESP32C5_Pinout.xlsx" },
+      ],
+      mechanical: [{ icon: "🔗", name: "XIAO ESP32-C5 3D Model", format: "Link", url: "https://grabcad.com/library/seeed-studio-xiao-esp32-c5-1" }],
+    }),
   }),
   guideProduct({
     id: "nrf52840", chip: "nrf52840", name: "XIAO nRF52840", color: "#356b72", shield: "#d1dcdd",
     intro: { en: "Nordic nRF52840 board for Bluetooth and low-power wireless projects.", zh: "面向蓝牙与低功耗无线项目的 Nordic nRF52840 开发板。" },
     badges: ["nRF52840", "Bluetooth 5.0", "NFC"], url: "https://wiki.seeedstudio.com/XIAO_BLE/",
+    groups: resourceGroups({
+      hardware: [
+        { icon: "📄", name: "Nordic nRF52840 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/nRF52840_PS_v1.5.pdf" },
+        { icon: "📄", name: "Flash P25Q16H-UXH-IR Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/github_weiruanexample/Flash_P25Q16H-UXH-IR_Datasheet.pdf" },
+        { icon: "📄", name: "XIAO nRF52840 Schematic", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/Seeed_Studio_XIAO_nRF52840_PDF.pdf" },
+        { icon: "🗃️", name: "XIAO nRF52840 KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/Seeed-Studio-XIAO-nRF52840V1.1-KiCad-Project-260105.zip" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+        { icon: "📊", name: "XIAO nRF52840 Pinout Sheet", format: "XLSX", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/XIAO-nRF52840-pinout_sheet.xlsx" },
+      ],
+      mechanical: [
+        { icon: "📐", name: "XIAO nRF52840 Dimension", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/XIAO-nRF52840-DXF.zip" },
+        { icon: "📐", name: "XIAO nRF52840 Bottom Pad Data", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/Bottom-pad-positioning.zip" },
+      ],
+    }),
   }),
   guideProduct({
     id: "nrf52840sense", chip: "nrf52840", name: "XIAO nRF52840 Sense", color: "#4f765f", shield: "#d9dfd4",
     intro: { en: "nRF52840 with an onboard IMU and microphone for TinyML sensing.", zh: "集成 IMU 与麦克风的 nRF52840 TinyML 感知开发板。" },
     badges: ["nRF52840", "IMU", "Microphone"], url: "https://wiki.seeedstudio.com/XIAO_BLE/",
+    groups: resourceGroups({
+      hardware: [
+        { icon: "📄", name: "Nordic nRF52840 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/nRF52840_PS_v1.5.pdf" },
+        { icon: "📄", name: "Flash P25Q16H-UXH-IR Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/github_weiruanexample/Flash_P25Q16H-UXH-IR_Datasheet.pdf" },
+        { icon: "📄", name: "Charger BQ25101 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/BQ25101.pdf" },
+        { icon: "📄", name: "IMU LSM6DS3TR Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/ST_LSM6DS3TR_Datasheet.pdf" },
+        { icon: "📄", name: "Microphone MSM261D3526H1CPM Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/mic-MSM261D3526H1CPM-ENG.pdf" },
+        { icon: "📄", name: "XIAO nRF52840 Sense Schematic", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/Seeed_Studio_XIAO_nRF52840_PDF.pdf" },
+        { icon: "🗃️", name: "XIAO nRF52840 Sense KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/Seeed-Studio-XIAO-nRF52840V1.1-KiCad-Project-260105.zip" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+        { icon: "📊", name: "XIAO nRF52840 Sense Pinout Sheet", format: "XLSX", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/XIAO-nRF52840-Senese-pinout_sheet.xlsx" },
+      ],
+      mechanical: [
+        { icon: "📐", name: "XIAO nRF52840 Sense Dimension", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/XIAO-nRF52840-Sense-DXF.zip" },
+        { icon: "📐", name: "XIAO nRF52840 Bottom Pad Data", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/Bottom-pad-positioning.zip" },
+        { icon: "🗃️", name: "XIAO nRF52840 Sense 3D Model", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/seeed-studio-xiao-nrf52840-3d-model.zip" },
+      ],
+      others: [{ icon: "📄", name: "XIAO nRF52840 Sense BLE Distance Test Report", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/Seeed_XIAO_BLE_nRF52840_BLE_Communication_Distance_Test_Report.pdf" }],
+    }),
   }),
   guideProduct({
     id: "nrf52840plus", chip: "nrf52840", name: "XIAO nRF52840 Plus", color: "#516c88", shield: "#d6dce5",
     intro: { en: "Expanded nRF52840 board for wireless development.", zh: "面向无线开发的扩展型 nRF52840 开发板。" },
     badges: ["nRF52840", "Bluetooth 5.0", "Plus"], url: "https://wiki.seeedstudio.com/XIAO_BLE/",
+    groups: resourceGroups({
+      hardware: [
+        { icon: "📄", name: "Nordic nRF52840 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/nRF52840_PS_v1.5.pdf" },
+        { icon: "📄", name: "XIAO nRF52840 Plus Schematic", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/Seeed_Studio_XIAO_nRF52840_Plus_SCH_PCB_v1.1.zip" },
+        { icon: "🗃️", name: "XIAO nRF52840 Plus KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/Seeed_Studio_XIAO_nRF52840_Plus.zip" },
+        { icon: "🗃️", name: "XIAO Plus Base (with bottom pad) KiCad", format: "ZIP", url: "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/XIAO_Plus_Base_with_botton_pad_lead_out_V1.0.zip" },
+        { icon: "🗃️", name: "XIAO Plus Base (without bottom pad) KiCad", format: "ZIP", url: "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/XIAO_Plus_Base_without_botton_pad_lead_out_V1.0.zip" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+      ],
+      mechanical: [{ icon: "📐", name: "XIAO nRF52840 Sense Dimension", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/XIAO-nRF52840-Sense-DXF.zip" }],
+    }),
   }),
   guideProduct({
     id: "nrf52840senseplus", chip: "nrf52840", name: "XIAO nRF52840 Sense Plus", color: "#65547c", shield: "#ded8e4",
     intro: { en: "Expanded nRF52840 Sense board for wireless sensing projects.", zh: "面向无线感知项目的扩展型 nRF52840 Sense 开发板。" },
     badges: ["nRF52840", "IMU", "Microphone", "Plus"], url: "https://wiki.seeedstudio.com/XIAO_BLE/",
+    groups: resourceGroups({
+      hardware: [
+        { icon: "📄", name: "Nordic nRF52840 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/nRF52840_PS_v1.5.pdf" },
+        { icon: "📄", name: "XIAO nRF52840 Sense Plus Schematic", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/Seeed_Studio_XIAO_nRF52840_Plus_SCH_PCB_v1.1.zip" },
+        { icon: "🗃️", name: "XIAO nRF52840 Sense Plus KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/Seeed_Studio_XIAO_nRF52840_Plus.zip" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+      ],
+      mechanical: [{ icon: "📐", name: "XIAO nRF52840 Sense Dimension", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-BLE/XIAO-nRF52840-Sense-DXF.zip" }],
+    }),
   }),
   guideProduct({
     id: "rp2040", chip: "rp2040", name: "XIAO RP2040", color: "#6b5f96", shield: "#ddd9e5",
     intro: { en: "Dual-core RP2040 board for compact embedded projects.", zh: "基于双核 RP2040 的紧凑型嵌入式开发板。" },
     badges: ["RP2040", "Dual-core", "MicroPython"], url: "https://wiki.seeedstudio.com/XIAO-RP2040/",
+    groups: resourceGroups({
+      hardware: [
+        { icon: "📄", name: "Raspberry Pi RP2040 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO-RP2040/res/rp2040_datasheet.pdf" },
+        { icon: "📄", name: "XIAO RP2040 Schematic", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO-RP2040/res/Seeed-Studio-XIAO-RP2040-v1.3.pdf" },
+        { icon: "🗃️", name: "XIAO RP2040 KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-RP2040/res/XIAO_RP2040_v1.3_SCH&PCB_20260304.zip" },
+        { icon: "🗃️", name: "XIAO RP2040 Eagle Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-RP2040/res/XIAO_RP2040_v1.22_SCH&PCB.zip" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+        { icon: "📊", name: "XIAO RP2040 Pinout Sheet", format: "XLSX", url: "https://files.seeedstudio.com/wiki/XIAO-RP2040/res/XIAO-RP2040-pinout_sheet.xlsx" },
+      ],
+      mechanical: [
+        { icon: "📐", name: "XIAO RP2040 Dimension", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-RP2040/res/XIAO-RP2040-DXF.zip" },
+        { icon: "🗃️", name: "XIAO RP2040 3D Model", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-RP2040/res/seeed-studio-xiao-rp2040-3d-model.zip" },
+      ],
+    }),
+  }),
+  guideProduct({
+    id: "rp2040plus", chip: "rp2040", name: "XIAO RP2040 Plus", color: "#785e96", shield: "#e1dbe8",
+    intro: { en: "RP2040 Plus board with expanded capabilities.", zh: "具备扩展能力的 RP2040 Plus 开发板。" },
+    badges: ["RP2040", "Plus", "MicroPython"], url: "https://wiki.seeedstudio.com/XIAO-RP2040/",
+    groups: resourceGroups({
+      hardware: [
+        { icon: "📄", name: "Raspberry Pi RP2040 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO-RP2040/res/rp2040_datasheet.pdf" },
+        { icon: "📄", name: "XIAO RP2040 Plus Schematic", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO-RP2040/res/XIAO_RP2040-Plus_SCH.pdf" },
+        { icon: "🗃️", name: "XIAO RP2040 Plus KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-RP2040/res/XIAO_RP2040-Plus_V1.0_SCH&PCB.zip" },
+        { icon: "🗃️", name: "XIAO RP2040 Plus Eagle Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-RP2040/res/XIAO_RP2040-Plus_V1.0_SCH&PCB.zip" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+        { icon: "📊", name: "XIAO RP2040 Plus Pinout Sheet", format: "XLSX", url: "https://files.seeedstudio.com/wiki/XIAO-RP2040/res/XIAO-RP2040-Plus-pinout.xlsx" },
+      ],
+    }),
+  }),
+  guideProduct({
+    id: "rp2350", chip: "rp2040", name: "XIAO RP2350", color: "#6f668c", shield: "#ddd9e8",
+    intro: { en: "RP2350 board for modern Raspberry Pi Pico-series projects.", zh: "面向新一代 Raspberry Pi Pico 系列项目的 RP2350 开发板。" },
+    badges: ["RP2350", "Pico", "MicroPython"], url: "https://wiki.seeedstudio.com/xiao_rp2350/",
+    groups: resourceGroups({
+      hardware: [
+        { icon: "📄", name: "Raspberry Pi RP2350 Datasheet", format: "PDF", url: "https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf" },
+        { icon: "📄", name: "XIAO RP2350 Schematic", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO-RP2350/res/Seeed-Studio-XIAO-RP2350-v1.0.pdf" },
+        { icon: "🗃️", name: "XIAO RP2350 KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-RP2350/res/XIAO_RP2350_v1.0_SCH&PCB_240626.zip" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+        { icon: "📊", name: "XIAO RP2350 Pinout Sheet", format: "XLSX", url: "https://files.seeedstudio.com/wiki/XIAO-RP2350/res/XIAO-RP2350-pinout-sheet.xlsx" },
+      ],
+      mechanical: [
+        { icon: "📐", name: "XIAO RP2350 Dimension", format: "DXF", url: "https://files.seeedstudio.com/wiki/XIAO-RP2350/res/XIAO-RP2350-dimension-v1.0.dxf" },
+        { icon: "🔗", name: "XIAO RP2350 3D Model", format: "Link", url: "https://grabcad.com/library/seeed-studio-xiao-rp2350-2" },
+      ],
+      software: [{ icon: "📄", name: "XIAO RP2350 Low Power Test Firmware", format: "UF2", url: "https://files.seeedstudio.com/wiki/XIAO-RP2350/res/powman_timer-56.uf2" }],
+      others: [
+        { icon: "📄", name: "Getting Started with Raspberry Pi Pico-series", format: "PDF", url: "https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf" },
+        { icon: "📄", name: "Raspberry Pi Pico-series Python SDK", format: "PDF", url: "https://datasheets.raspberrypi.com/pico/raspberry-pi-pico-python-sdk.pdf" },
+        { icon: "📄", name: "Raspberry Pi Pico-series C/C++ SDK", format: "PDF", url: "https://datasheets.raspberrypi.com/pico/raspberry-pi-pico-c-sdk.pdf" },
+        { icon: "🔗", name: "arduino-pico GitHub", format: "Link", url: "https://github.com/earlephilhower/arduino-pico" },
+        { icon: "🔗", name: "Arduino-Pico Core Documentation", format: "Link", url: "https://arduino-pico.readthedocs.io/en/latest/install.html" },
+      ],
+    }),
   }),
   guideProduct({
     id: "samd21", chip: "samd21", name: "Seeeduino XIAO", color: "#a0663e", shield: "#e3d6ca",
     intro: { en: "The original XIAO board, based on the SAMD21 microcontroller.", zh: "基于 SAMD21 微控制器的初代 XIAO 开发板。" },
     badges: ["SAMD21", "Arduino", "Classic XIAO"], url: "https://wiki.seeedstudio.com/Seeeduino-XIAO/",
+    groups: resourceGroups({
+      hardware: [
+        { icon: "📄", name: "Atmel SAMD21G18 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/ATSAMD21G18A-MU-Datasheet.pdf" },
+        { icon: "📄", name: "XIAO SAMD21 Schematic", format: "PDF", url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/Seeeduino-XIAO-v1.0-SCH-191112.pdf" },
+        { icon: "🗃️", name: "XIAO SAMD21 KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/XIAO_SAMD21_v2.1_SCH&PCB_20260304.zip" },
+        { icon: "🗃️", name: "XIAO SAMD21 Eagle Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/Seeeduino-XIAO-v1.0.zip" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+        { icon: "📊", name: "XIAO SAMD21 Pinout Sheet", format: "XLSX", url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/XIAO-SAMD21-pinout_sheet.xlsx" },
+      ],
+      mechanical: [
+        { icon: "📐", name: "XIAO Dimension", format: "RAR", url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/102010328_Seeeduino_XIAO_Dimension.rar" },
+        { icon: "🗃️", name: "XIAO SAMD21 3D Model", format: "ZIP", url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/seeeduino-xiao-samd21-3d-model.zip" },
+      ],
+      software: [{ icon: "🗃️", name: "XIAO SAMD21 Factory Firmware", format: "ZIP", url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/102010328_Seeeduino_XIAO_final_firmware.zip" }],
+    }),
+  }),
+  guideProduct({
+    id: "samd21plus", chip: "samd21", name: "XIAO SAMD21 Plus", color: "#a87143", shield: "#e5d9cb",
+    intro: { en: "SAMD21 Plus board with expanded design resources.", zh: "提供扩展设计资源的 SAMD21 Plus 开发板。" },
+    badges: ["SAMD21", "Arduino", "Plus"], url: "https://wiki.seeedstudio.com/Seeeduino-XIAO/",
+    groups: resourceGroups({
+      hardware: [
+        { icon: "📄", name: "Atmel SAMD21G18 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/ATSAMD21G18A-MU-Datasheet.pdf" },
+        { icon: "📄", name: "XIAO SAMD21 Plus Schematic", format: "PDF", url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/202004620_XIAO-SAMD21Plus_260422.pdf" },
+        { icon: "🗃️", name: "XIAO SAMD21 Plus KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/202004620_XIAO-SAMD21-Plus_V1.0_SCH&PCB_20260422.zip" },
+        { icon: "🗃️", name: "XIAO SAMD21 Plus Eagle Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/Seeeduino-XIAO-v1.0.zip" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+        { icon: "📊", name: "XIAO SAMD21 Plus Pinout Sheet", format: "XLSX", url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/XIAO-SAMD21-PLUS-pinout_sheet.xlsx" },
+      ],
+      mechanical: [
+        { icon: "📐", name: "XIAO Dimension", format: "RAR", url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/102010328_Seeeduino_XIAO_Dimension.rar" },
+        { icon: "🗃️", name: "XIAO SAMD21 Plus 3D Model", format: "ZIP", url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/seeeduino-xiao-samd21-3d-model.zip" },
+      ],
+    }),
   }),
   guideProduct({
     id: "ra4m1", chip: "ra4m1", name: "XIAO RA4M1", color: "#6f5847", shield: "#e0d7cf",
@@ -215,6 +404,66 @@ const RESOURCE_PRODUCTS = [
     badges: ["RA4M1", "CAN", "DAC", "Arduino"], url: "https://wiki.seeedstudio.com/getting_started_xiao_ra4m1/",
   }),
 ];
+
+// Additional and recently released boards share the same resource presentation.
+const replaceGroups = (id, groups) => {
+  const product = RESOURCE_PRODUCTS.find((item) => item.id === id);
+  if (product) product.groups = groups;
+};
+
+replaceGroups("nrf54l15sense", resourceGroups({
+  hardware: [
+    { icon: "📄", name: "Nordic nRF54L15 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO_nRF54L15/Getting_Start/Nordic_nRF54L15_Datasheet_v1.0.pdf" },
+    { icon: "📄", name: "XIAO nRF54L15 Sense Schematic", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO_nRF54L15/Getting_Start/nRF54L15_Sense_Schematic.pdf" },
+    { icon: "🗃️", name: "XIAO nRF54L15 Sense KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO_nRF54L15/Getting_Start/nRF54L15_Sense_KICAD.zip" },
+    { icon: "🔗", name: "XIAO nRF54L15 Sense Flux.ai Project", format: "Link", url: "https://www.flux.ai/seeedstudio/seeed-studio-xiao-nrf54l15-sense" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+    { icon: "📊", name: "XIAO nRF54L15 Sense Pinout Sheet", format: "XLSX", url: "https://files.seeedstudio.com/wiki/XIAO_nRF54L15/Getting_Start/XIAO_nRF54L15datasheet.xlsx" },
+  ],
+  mechanical: [
+    { icon: "📐", name: "XIAO nRF54L15 Sense Dimension", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO_nRF54L15/Getting_Start/nRF54L15(Sense)_DXF.zip" },
+    { icon: "🔗", name: "XIAO nRF54L15 Sense 3D Model", format: "Link", url: "https://grabcad.com/library/seeed-studio-xiao-nrf54l15-sense-1" },
+  ],
+}));
+
+replaceGroups("nrf54lm20asense", resourceGroups({
+  hardware: [
+    { icon: "📄", name: "Nordic nRF54LM20A Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO_nRF54LM20A/getting_start/RES/nRF54LM20A_nRF54LM20B_Datasheet_v1.0.pdf" },
+    { icon: "📄", name: "XIAO nRF54LM20A Sense Schematic", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO_nRF54LM20A/getting_start/RES/XIAO_nRF54LM20A_Schematic.pdf" },
+    { icon: "🗃️", name: "XIAO nRF54LM20A KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO_nRF54LM20A/getting_start/RES/XIAO_nRF54LM20A_V1.0_SCH&PCB_260508.zip" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+    { icon: "📊", name: "XIAO nRF54LM20A Sense Pinout Sheet", format: "XLSX", url: "https://files.seeedstudio.com/wiki/XIAO_nRF54LM20A/getting_start/RES/XIAO_nRF54LM20A_Pin_definition.xlsx" },
+  ],
+}));
+
+replaceGroups("ra4m1", resourceGroups({
+  hardware: [
+    { icon: "📄", name: "Renesas RA4M1 Datasheet", format: "PDF", url: "https://www.renesas.com/us/en/document/dst/ra4m1-group-datasheet" },
+    { icon: "📄", name: "XIAO RA4M1 Schematic", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO-R4AM1/res/XIAO%20RA4M1%20V1.01_SCH_PDF_260114%20.pdf.pdf" },
+    { icon: "🗃️", name: "XIAO RA4M1 KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO-R4AM1/res/202003977_XIAO%20RA4M1%20v1.01_SCH&PCB_260114.zip" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+  ],
+}));
+
+RESOURCE_PRODUCTS.push(
+  {
+    id: "mg24", chip: "nrf54x", name: "XIAO MG24", color: "#35616a", shield: "#d6dfda",
+    intro: { en: "Silicon Labs MG24 wireless board for low-power connected devices.", zh: "面向低功耗无线设备的 Silicon Labs MG24 开发板。" }, badges: ["MG24", "Matter", "Thread"],
+    groups: resourceGroups({ hardware: [
+      { icon: "📄", name: "Silicon Labs EFR32MG24 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO_MG24/Getting_Start/mg24-group-datasheet.PDF" },
+      { icon: "📄", name: "EFR32MG24 Reference Manual", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO_MG24/Getting_Start/efr32xg24_rm.pdf" },
+      { icon: "📄", name: "XIAO MG24 Schematic", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO_MG24/Getting_Start/XIAO_MGM240S_KICAD_Prj.pdf" },
+      { icon: "🗃️", name: "XIAO MG24 KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO_MG24/Getting_Start/XIAO_MG24_v1.0_KiCad_260114.zip" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+    ] }),
+  },
+  {
+    id: "mg24sense", chip: "nrf54x", name: "XIAO MG24 Sense", color: "#476b59", shield: "#d8dfd6",
+    intro: { en: "MG24 Sense board with expanded sensing capability.", zh: "具备扩展感知能力的 MG24 Sense 开发板。" }, badges: ["MG24", "Sense", "Matter"],
+    groups: resourceGroups({ hardware: [
+      { icon: "📄", name: "Silicon Labs EFR32MG24 Datasheet", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO_MG24/Getting_Start/mg24-group-datasheet.PDF" },
+      { icon: "📄", name: "EFR32MG24 Reference Manual", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO_MG24/Getting_Start/efr32xg24_rm.pdf" },
+      { icon: "📄", name: "XIAO MG24 Sense Schematic", format: "PDF", url: "https://files.seeedstudio.com/wiki/XIAO_MG24/Getting_Start/XIAO_MGM240S_KICAD_Prj.pdf" },
+      { icon: "🗃️", name: "XIAO MG24 Sense KiCad Project", format: "ZIP", url: "https://files.seeedstudio.com/wiki/XIAO_MG24/Getting_Start/XIAO_MG24_v1.0_KiCad_260114.zip" }, KICAD_FOOTPRINTS, KICAD_SYMBOLS,
+    ] }),
+  }
+);
 
 /* 全局课程资源：按主题分组，封面 + 一段话介绍 */
 const EXTRAS = {
