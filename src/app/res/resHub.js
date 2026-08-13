@@ -472,8 +472,8 @@ const EXTRAS = {
   title: { en: "Learn, Build & Explore", zh: "学习、实践与灵感" },
   eyebrow: { en: "Explore with XIAO", zh: "用 XIAO 探索更多可能" },
   intro: {
-    en: "Courses, reproducible builds and ideas from across the XIAO community — organized by what each link helps you do.",
-    zh: "围绕 XIAO 的课程、可复现项目与创意灵感，按链接内容与适用开发板清晰归类。",
+    en: "From learning to making, discover courses, projects and useful references organized by topic and compatible XIAO board.",
+    zh: "从学习到动手，把课程、项目与实用参考按主题和适用开发板整理，让每一次探索都有清晰方向。",
   },
   note: { en: "The remaining open-source material is being compiled — stay tuned.", zh: "其余开源资料正在整理中，敬请期待。" },
 };
@@ -561,7 +561,7 @@ const COURSE_GROUPS = [
         cover: null,
         url: "https://www.youtube.com/watch?v=Zs0-jXdnRY",
         kind: "fallback", accent: "#7a2f2f",
-        type: "inspiration",
+        type: "course",
         boards: ["all"],
       },
     ],
