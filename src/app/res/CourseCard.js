@@ -43,6 +43,11 @@ export default function CourseCard({ item }) {
         )}
       </div>
       <div className={styles.courseBody}>
+        <div className={styles.courseTags}>
+          {item.tags.map((tag) => (
+            <span key={tag}>{tag}</span>
+          ))}
+        </div>
         <div className={styles.courseTitle} title={item.title}>
           {item.title}
         </div>

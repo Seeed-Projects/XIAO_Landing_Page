@@ -189,6 +189,8 @@
 .courseFallback { position: absolute; inset: 0; display: grid; place-items: center; padding: 14px; text-align: center; }
 .courseFallback span { color: #fff; font-size: 14px; font-weight: 800; line-height: 1.35; letter-spacing: -.01em; opacity: 0.95; text-shadow: 0 1px 4px rgba(0,0,0,.25); }
 .courseBody { display: flex; flex-direction: column; gap: 6px; padding: 13px 14px 14px; flex: 1; }
+.courseTags { display: flex; flex-wrap: wrap; gap: 6px; }
+.courseTags span { padding: 4px 7px; border-radius: 999px; background: #f0f6e5; color: #52710f; font-size: 9px; font-weight: 800; letter-spacing: .03em; }
 .courseTitle { font-size: 14px; font-weight: 720; color: var(--ink); line-height: 1.42; }
 .courseIntro { margin: 0; font-size: 12px; line-height: 1.55; color: #5c6357; flex: 1; }
 .courseLink { margin-top: 4px; font-size: 11px; font-weight: 800; color: var(--greenDark); letter-spacing: .04em; }

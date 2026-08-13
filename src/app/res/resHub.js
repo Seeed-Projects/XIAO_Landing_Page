@@ -237,6 +237,7 @@ const COURSE_GROUPS = [
         cover: "https://mjrovai.github.io/XIAO_Big_Power_Small_Board-ebook/cover.jpg",
         url: "https://mjrovai.github.io/XIAO_Big_Power_Small_Board-ebook/",
         kind: "img", accent: "#276046",
+        boards: ["all"],
       },
       {
         title: "No-Code Programming to Get Started with TinyML",
@@ -244,6 +245,7 @@ const COURSE_GROUPS = [
         cover: null,
         url: "https://tinkergen.github.io/No-code-Programming-to-Get-Started-with-TinyML/",
         kind: "fallback", accent: "#2f5b78",
+        boards: ["all"],
       },
     ],
   },
@@ -256,6 +258,7 @@ const COURSE_GROUPS = [
         cover: "https://mlsysbook.ai/vol1/assets/images/covers/cover-hardcover-book-vol1.png",
         url: "https://www.mlsysbook.ai/",
         kind: "img", accent: "#5b3f73",
+        boards: ["esp32-s3", "esp32-s3-sense", "esp32-s3-plus", "esp32-s3-sense-camera"],
       },
       {
         title: "IoT for Beginners",
@@ -263,6 +266,7 @@ const COURSE_GROUPS = [
         cover: null,
         url: "https://microsoft.github.io/IoT-For-Beginners/",
         kind: "fallback", accent: "#315d4c",
+        boards: ["esp32-c3", "esp32-c6", "esp32-s3", "esp32-s3-sense", "esp32-s3-plus", "esp32-s3-sense-camera"],
       },
     ],
   },
@@ -275,6 +279,7 @@ const COURSE_GROUPS = [
         cover: null,
         url: "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/Seeeduino-XIAO-in-Action-Minitype&Wearable-Projects-Step-by-Step.pdf",
         kind: "pdf", accent: "#7a4a2f",
+        boards: ["samd21"],
       },
       {
         title: "Fab-Xiao",
@@ -282,6 +287,7 @@ const COURSE_GROUPS = [
         cover: "https://fabacademy.org/2020/labs/leon/students/adrian-torres/images/fabxiao/fabxiao_board.jpg",
         url: "https://fabacademy.org/2020/labs/leon/students/adrian-torres/fabxiao.html",
         kind: "img", accent: "#3a4a2f",
+        boards: ["all"],
       },
       {
         title: "maker100-eco",
@@ -289,6 +295,7 @@ const COURSE_GROUPS = [
         cover: "https://opengraph.githubassets.com/f3ca4a588f9aa4f35f0687941b94fb6763592891ba561e9b5f046a411cd66bfb/hpssjellis/maker100-eco",
         url: "https://github.com/hpssjellis/maker100-eco",
         kind: "img", accent: "#2f5b78",
+        boards: ["esp32-c3", "esp32-c6", "esp32-s3", "esp32-s3-sense", "esp32-s3-plus", "esp32-s3-sense-camera"],
       },
       {
         title: "XIAO on YouTube",
@@ -296,6 +303,7 @@ const COURSE_GROUPS = [
         cover: null,
         url: "https://www.youtube.com/watch?v=Zs0-jXdnRY",
         kind: "fallback", accent: "#7a2f2f",
+        boards: ["all"],
       },
     ],
   },
@@ -352,9 +360,18 @@ export function ResHub() {
     footerP: lang === "zh" ? "可视化硬件资源概念" : "Visual hardware resource concept",
     footerSmall: lang === "zh" ? "内部概念" : "Internal concept",
     noResults: lang === "zh" ? "没有匹配的资源，换个关键词试试。" : "No matching resources — try another keyword.",
+    generalCourses: lang === "zh" ? "通用课程" : "General courses",
+    boardCourses: lang === "zh" ? `适用于 ${active.name} 的课程` : `Courses for ${active.name}`,
+    universalTag: lang === "zh" ? "全系列 XIAO" : "All XIAO boards",
+    boardTag: lang === "zh" ? `适用 ${active.name}` : active.name,
   };
 
   const pick = (field) => (field && field[lang]) || (field && field.en) || "";
+  const allCourses = COURSE_GROUPS.flatMap((group) => group.items);
+  const generalCourses = allCourses.filter((item) => item.boards.includes("all"));
+  const boardCourses = allCourses.filter(
+    (item) => !item.boards.includes("all") && item.boards.includes(active.id)
+  );
 
   // 过滤当前产品的资源条目
   const filteredGroups = useMemo(() => {
@@ -535,16 +552,24 @@ export function ResHub() {
               <h3>{pick(EXTRAS.title)}</h3>
               <p>{pick(EXTRAS.intro)}</p>
             </div>
-            {COURSE_GROUPS.map((g, gi) => (
-              <div key={gi} className={styles.courseGroup}>
-                <div className={styles.courseGroupHead}><h4>{pick(g.label)}</h4></div>
+            <div className={styles.courseGroup}>
+              <div className={styles.courseGroupHead}><h4>{T.generalCourses}</h4></div>
+              <div className={styles.courseGrid}>
+                {generalCourses.map((it) => (
+                  <CourseCard key={it.title} item={{ ...it, intro: pick(it.intro), tags: [T.universalTag] }} />
+                ))}
+              </div>
+            </div>
+            {boardCourses.length > 0 && (
+              <div className={styles.courseGroup}>
+                <div className={styles.courseGroupHead}><h4>{T.boardCourses}</h4></div>
                 <div className={styles.courseGrid}>
-                  {g.items.map((it, i) => (
-                    <CourseCard key={i} item={{ ...it, intro: pick(it.intro) }} />
+                  {boardCourses.map((it) => (
+                    <CourseCard key={it.title} item={{ ...it, intro: pick(it.intro), tags: [T.boardTag] }} />
                   ))}
                 </div>
               </div>
-            ))}
+            )}
             <p className={styles.extrasNote}>{pick(EXTRAS.note)}</p>
           </div>
         </div>

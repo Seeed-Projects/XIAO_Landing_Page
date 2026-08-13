@@ -1,10 +1,10 @@
-import { Inter } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "./i18n";
 import { SideDirectory } from "./side-directory";
 import CustomCursor from "./CustomCursor";
 
-const inter = Inter({
+const montserrat = Montserrat({
   variable: "--font-body",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} h-full scroll-smooth antialiased`}
+      className={`${montserrat.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--page-bg)] text-[var(--ink-strong)]">
         <LanguageProvider>
