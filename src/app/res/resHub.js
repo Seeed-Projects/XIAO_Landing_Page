@@ -35,6 +35,7 @@ const CHIP_FAMILIES = [
   { id: "nrf54x", label: { en: "nRF54x", zh: "nRF54x" } },
   { id: "nrf52840", label: { en: "nRF52840", zh: "nRF52840" } },
   { id: "rp2040", label: { en: "RP2040", zh: "RP2040" } },
+  { id: "rp2350", label: { en: "RP2350", zh: "RP2350" } },
   { id: "samd21", label: { en: "SAMD21", zh: "SAMD21" } },
   { id: "ra4m1", label: { en: "RA4M1", zh: "RA4M1" } },
 ];
@@ -337,7 +338,7 @@ const RESOURCE_PRODUCTS = [
     }),
   }),
   guideProduct({
-    id: "rp2350", chip: "rp2040", name: "XIAO RP2350", color: "#6f668c", shield: "#ddd9e8",
+    id: "rp2350", chip: "rp2350", name: "XIAO RP2350", color: "#6f668c", shield: "#ddd9e8",
     intro: { en: "RP2350 board for modern Raspberry Pi Pico-series projects.", zh: "面向新一代 Raspberry Pi Pico 系列项目的 RP2350 开发板。" },
     badges: ["RP2350", "Pico", "MicroPython"], url: "https://wiki.seeedstudio.com/xiao_rp2350/",
     groups: resourceGroups({
