@@ -1,34 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useLang } from "./i18n";
 import { ScrollBand } from "./scroll-band";
+import { PROJECTS } from "./projects-data";
 
-/**
- * 资讯滚动带 —— 数据自动更新：
- * 进入页面时请求 /api/news（服务端代理 Seeed WordPress 博客 XIAO 标签文章），
- * 拉到就用最新文章，失败回退到 i18n 里的静态数据，保证不空。
- */
-export function NewsCarousel() {
-  const { t } = useLang();
-  const [items, setItems] = useState(t.news.items);
-
-  useEffect(() => {
-    let alive = true;
-    fetch("/api/news")
-      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then((data) => {
-        if (alive && Array.isArray(data) && data.length) setItems(data);
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, []);
-
+/** 热门项目滚动带 —— 复用 ScrollBand，数据来自 projects-data.js（真实社区项目） */
+export function ProjectsCarousel() {
   return (
     <ScrollBand
-      items={items}
+      items={PROJECTS}
       hrefFor={(item) => item.url || "#"}
       renderCard={(item) => (
         <>
@@ -37,7 +16,7 @@ export function NewsCarousel() {
             className="aspect-[16/9] w-full overflow-hidden rounded-xl"
             style={{
               background:
-                "linear-gradient(135deg, rgba(0,73,102,0.12), rgba(143,195,31,0.12))",
+                "linear-gradient(135deg, rgba(143,195,31,0.14), rgba(0,73,102,0.14))",
             }}
           >
             {item.media_url && (
@@ -56,19 +35,16 @@ export function NewsCarousel() {
           {/* 文字 */}
           <div className="mt-4 flex flex-1 flex-col">
             <div className="flex items-center gap-2">
-              <span className="rounded-full bg-[var(--brand-green)]/12 px-2.5 py-0.5 text-xs font-semibold text-[var(--brand-green-deep)]">
+              <span className="rounded-full bg-[var(--brand-blue)]/12 px-2.5 py-0.5 text-xs font-semibold text-[var(--brand-blue-soft)]">
                 {item.tag}
               </span>
-              <span className="text-xs text-[var(--ink-muted)]">{item.date}</span>
+              <span className="text-xs text-[var(--ink-muted)]">{item.author}</span>
             </div>
             <h3 className="mt-2 text-lg font-bold leading-snug text-[var(--ink-strong)]">
               {item.title}
             </h3>
             <p className="mt-1.5 text-sm leading-relaxed text-[var(--ink-body)]">
               {item.excerpt}
-            </p>
-            <p className="mt-2 text-xs font-medium text-[var(--brand-blue-soft)]">
-              来源：{item.source}
             </p>
           </div>
         </>

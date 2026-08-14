@@ -15,7 +15,7 @@
 .wrap { max-width: 1280px; margin: 0 auto; padding: 8px 28px 80px; }
 
 /* 小节标题 */
-.introBlock { padding: 8px 0 4px; max-width: 760px; }
+.introBlock { padding: 8px 0 4px; max-width: 760px; margin-left: auto; margin-right: auto; text-align: center; }
 .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: var(--r-pill); border: 1px solid var(--line-soft); background: rgba(255,255,255,0.78); color: var(--brand-blue-soft); font-family: var(--font-display), sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.32em; }
 .eyebrowDot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand-green); box-shadow: 0 0 0 4px rgba(22,182,106,0.14); }
 .introBlock .eyebrow { margin-bottom: 10px; }
@@ -114,6 +114,11 @@
 .codeBlock { border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r-control); overflow: hidden; background: linear-gradient(180deg, #0d2230 0%, #0a1a26 100%); box-shadow: 0 18px 40px rgba(0,0,0,0.18); }
 .codeHead { padding: 9px 14px; font-family: var(--font-display), sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: rgba(255,255,255,0.5); background: #0a1a26; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 8px; }
 .codeHead::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--brand-green); box-shadow: 0 0 0 2px rgba(22,182,106,0.2); }
+.codeHeadLabel { flex: 1; min-width: 0; }
+.copyBtn { flex: none; border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); font-family: var(--font-display), sans-serif; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; cursor: pointer; transition: border-color 0.16s ease, background 0.16s ease, color 0.16s ease; }
+.copyBtn:hover { border-color: rgba(22,182,106,0.5); color: #fff; background: rgba(22,182,106,0.12); }
+.copyBtn:active { transform: translateY(1px); }
+.copyBtnDone { border-color: rgba(22,182,106,0.7); color: #bfe6c0; background: rgba(22,182,106,0.18); }
 .codeBlock pre { margin: 0; padding: 14px 16px; overflow-x: auto; }
 .codeBlock code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 12.5px; line-height: 1.75; color: #cfe0d9; white-space: pre; }
 

@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "./i18n";
 import { SideDirectory } from "./side-directory";
-import CustomCursor from "./CustomCursor";
+import { SiteFooter } from "./site-footer";
 
 const inter = Inter({
   variable: "--font-body",
@@ -26,8 +26,8 @@ export default function RootLayout({ children }) {
       <body className="min-h-full flex flex-col bg-[var(--page-bg)] text-[var(--ink-strong)]">
         <LanguageProvider>
           {children}
+          <SiteFooter />
           <SideDirectory />
-          <CustomCursor />
         </LanguageProvider>
       </body>
     </html>

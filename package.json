@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "esptool-js": "^0.6.1",
     "fflate": "^0.8.3",
     "next": "16.2.11",
     "occt-import-js": "^0.0.23",

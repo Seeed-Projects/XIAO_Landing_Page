@@ -16,6 +16,8 @@ function routeKey(pathname) {
       return "projectHub";
     case "/open-roadmap":
       return "openRoadmap";
+    case "/software-center":
+      return "softwareCenter";
     default:
       return "home";
   }

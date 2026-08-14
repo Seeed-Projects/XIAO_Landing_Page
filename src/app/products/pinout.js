@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useLang } from "../i18n";
 import { Glow } from "../Glow";
 import styles from "./pinout.module.css";
@@ -91,40 +91,379 @@ const nrf54Right = [
   "MIC_CLK", "MIC_DAT", "IMU_SDA", "IMU_SCL", "IMU_CS", "IMU_INT1", "NFC", "GRTC",
 ];
 
-/* 标准 XIAO 14 脚封装（ESP32-S3 / C3 / C6 / C5 等共用）。
-   xiao 名 + 功能映射来自 Seeed 标准 XIAO 引脚定义；具体 GPIO 编号因板而异，
-   请以 Seeed Wiki 对应板型页面为准，故 chip 暂记 "—"。 */
-const stdGroups = [
-  { cat: "power", label: { en: "Power", zh: "电源" }, pins: [
-    { id: "5V", xiao: "5V", fn: "power", chip: "—", desc: { en: "5V Power Input/Output (USB VBus)", zh: "5V 电源输入/输出（USB VBus）" }, note: { en: "From USB; keep peripheral load under 500mA.", zh: "来自 USB，外设勿超 500mA。" }, code: "" },
-    { id: "GND", xiao: "GND", fn: "gnd", chip: "—", desc: { en: "Ground", zh: "地" }, note: { en: "Common ground for all peripherals.", zh: "所有外设共地。" }, code: "" },
-    { id: "3V3", xiao: "3V3", fn: "power", chip: "—", desc: { en: "3.3V Power Output", zh: "3.3V 电源输出" }, note: { en: "Max output ~200mA; use a separate supply beyond that.", zh: "最大输出约 200mA，超出请独立供电。" }, code: "" },
-  ] },
-  { cat: "system", label: { en: "System", zh: "系统" }, pins: [
-    { id: "RST", xiao: "RST", fn: "rst", chip: "—", desc: { en: "Board Reset", zh: "板载复位" }, note: { en: "Active-low reset; onboard pull-up.", zh: "低电平复位，已板载上拉。" }, code: "" },
-  ] },
-  { cat: "analog", label: { en: "Analog / Digital", zh: "模拟 / 数字" }, pins: [
-    { id: "D0", xiao: "A0", fn: "analog", chip: "—", desc: { en: "Digital 0 / Analog 0", zh: "数字 0 / 模拟 0" }, note: { en: "Input voltage must not exceed 3.3V.", zh: "输入电压不得超过 3.3V。" }, code: "int v = analogRead(A0);  // 0–4095" },
-    { id: "D1", xiao: "A1", fn: "analog", chip: "—", desc: { en: "Digital 1 / Analog 1", zh: "数字 1 / 模拟 1" }, note: "", code: "int v = analogRead(A1);" },
-    { id: "D2", xiao: "A2", fn: "analog", chip: "—", desc: { en: "Digital 2 / Analog 2", zh: "数字 2 / 模拟 2" }, note: "", code: "int v = analogRead(A2);" },
-    { id: "D3", xiao: "A3", fn: "analog", chip: "—", desc: { en: "Digital 3 / Analog 3", zh: "数字 3 / 模拟 3" }, note: "", code: "int v = analogRead(A3);" },
-  ] },
-  { cat: "i2c", label: { en: "I2C", zh: "I2C" }, pins: [
-    { id: "D4", xiao: "SDA", fn: "i2c", chip: "—", desc: { en: "I2C Data Line", zh: "I2C 数据线" }, note: { en: "Onboard pull-ups; extra devices usually need no added pull-up.", zh: "板载上拉，外接多设备一般无需再加。" }, code: "Wire.begin(SDA, SCL);" },
-    { id: "D5", xiao: "SCL", fn: "i2c", chip: "—", desc: { en: "I2C Clock Line", zh: "I2C 时钟线" }, note: { en: "Default 100kHz; can be raised to 400kHz.", zh: "默认 100kHz，可调至 400kHz。" }, code: "Wire.begin(SDA, SCL);" },
-  ] },
-  { cat: "uart", label: { en: "UART", zh: "UART" }, pins: [
-    { id: "D6", xiao: "TX", fn: "uart", chip: "—", desc: { en: "UART Transmit", zh: "UART 发送" }, note: { en: "3.3V logic; level-shift before connecting 5V devices.", zh: "逻辑电平 3.3V，接 5V 设备先电平转换。" }, code: "Serial1.begin(115200);\nSerial1.println(\"hi\");" },
-    { id: "D7", xiao: "RX", fn: "uart", chip: "—", desc: { en: "UART Receive", zh: "UART 接收" }, note: "", code: "Serial1.begin(115200);" },
-  ] },
-  { cat: "spi", label: { en: "SPI", zh: "SPI" }, pins: [
-    { id: "D8", xiao: "SCK", fn: "spi", chip: "—", desc: { en: "SPI Serial Clock", zh: "SPI 串行时钟" }, note: { en: "Start with a low clock rate when debugging.", zh: "时钟频率先低后高调试。" }, code: "SPI.begin(SCK, MISO, MOSI, CS);" },
-    { id: "D9", xiao: "MISO", fn: "spi", chip: "—", desc: { en: "SPI Master In Slave Out", zh: "SPI 主入从出" }, note: "", code: "SPI.begin(SCK, MISO, MOSI, CS);" },
-    { id: "D10", xiao: "MOSI", fn: "spi", chip: "—", desc: { en: "SPI Master Out Slave In", zh: "SPI 主出从入" }, note: "", code: "SPI.begin(SCK, MISO, MOSI, CS);" },
-  ] },
-];
+/* ──────────────────────────────────────────────────────────────────────────
+   标准封装板（SAMD21 / nRF52840 / nRF54L15 / RP2040 / RP2350 / RA4M1 / MG24
+   / ESP32-S3·C3·C5·C6）的引脚数据 —— 逐板按各自 Seeed Wiki 的 Pin Map 重建。
+   每块板的 ADC 能力、引脚功能、芯片 GPIO 编号都不同，不复用同一份模板。
+   数据来源：各板 Seeed Wiki「Pin Map」表。 */
+
+/* 引脚构造小工具：P() 造引脚（adc=true 时描述后缀「 · ADC」）；grp() 包成分组 */
+const P = (id, xiao, fn, chip, en, zh, o = {}) => {
+  const a = o.adc ? " · ADC" : "";
+  return {
+    id, xiao, fn, chip,
+    desc: { en: en + a, zh: zh + a },
+    note: o.n ? { en: o.n, zh: o.nz || o.n } : "",
+    code: o.c || "",
+  };
+};
+const grp = (cat, en, zh, ...pins) => ({ cat, label: { en, zh }, pins });
+
+/* 电源组与复位组（标准封装板共用；复位芯片号因板而异） */
+const powerGroup = () => grp("power", "Power", "电源",
+  P("5V", "5V", "power", "VBUS", "5V Power Input/Output (USB VBus)", "5V 电源输入/输出（USB VBus）", { n: "From USB; keep peripheral load under 500mA.", nz: "来自 USB，外设勿超 500mA。" }),
+  P("GND", "GND", "gnd", "—", "Ground", "地", { n: "Common ground for all peripherals.", nz: "所有外设共地。" }),
+  P("3V3", "3V3", "power", "3V3_OUT", "3.3V Power Output", "3.3V 电源输出", { n: "Max output ~200mA; use a separate supply beyond that.", nz: "最大输出约 200mA，超出请独立供电。" }),
+);
+const systemGroup = (chip) => grp("system", "System", "系统",
+  P("RST", "RST", "rst", chip, "Board Reset", "板载复位", { n: "Active-low reset; onboard pull-up.", nz: "低电平复位，已板载上拉。" }),
+);
+
+/* 模拟脚（ADC）：带 3.3V 输入警告与 analogRead 示例 */
+const ap = (id, xiao, chip, en, zh) =>
+  P(id, xiao, "analog", chip, en, zh, { n: "Input voltage must not exceed 3.3V.", nz: "输入电压不得超过 3.3V。", c: `int v = analogRead(${xiao});` });
+
+/* 总线脚：adc 标记该脚是否同时支持 ADC（按各板 wiki Description 标注） */
+const sda = (chip, adc) => P("D4", "SDA", "i2c", chip, "I2C Data Line", "I2C 数据线", { adc, n: "Onboard pull-ups; extra devices usually need no added pull-up.", nz: "板载上拉，外接多设备一般无需再加。", c: "Wire.begin(SDA, SCL);" });
+const scl = (chip, adc) => P("D5", "SCL", "i2c", chip, "I2C Clock Line", "I2C 时钟线", { adc, n: "Default 100kHz; can be raised to 400kHz.", nz: "默认 100kHz，可调至 400kHz。", c: "Wire.begin(SDA, SCL);" });
+const tx = (chip, adc) => P("D6", "TX", "uart", chip, "UART Transmit", "UART 发送", { adc, n: "3.3V logic; level-shift before connecting 5V devices.", nz: "逻辑电平 3.3V，接 5V 设备先电平转换。", c: "Serial1.begin(115200);\nSerial1.println(\"hi\");" });
+const rx = (chip, adc) => P("D7", "RX", "uart", chip, "UART Receive", "UART 接收", { adc, c: "Serial1.begin(115200);" });
+const sck = (chip, adc) => P("D8", "SCK", "spi", chip, "SPI Serial Clock", "SPI 串行时钟", { adc, n: "Start with a low clock rate when debugging.", nz: "时钟频率先低后高调试。", c: "SPI.begin(SCK, MISO, MOSI, CS);" });
+const miso = (chip, adc) => P("D9", "MISO", "spi", chip, "SPI Master In Slave Out", "SPI 主入从出", { adc, c: "SPI.begin(SCK, MISO, MOSI, CS);" });
+const mosi = (chip, adc) => P("D10", "MOSI", "spi", chip, "SPI Master Out Slave In", "SPI 主出从入", { adc, c: "SPI.begin(SCK, MISO, MOSI, CS);" });
+
+/* 数字脚（非 ADC）：用于 A 丝印但本板不具备 ADC 的引脚（如 C5 的 A1/A2/A3） */
+const dp = (id, xiao, chip, en, zh) => P(id, xiao, "digital", chip, en, zh, {});
+
+/* 板载外设脚与分组 */
+const ob = (id, chip, en, zh, fn = "digital") => P(id, "—", fn, chip, en, zh, {});
+const onboard = (...pins) => grp("onboard", "Onboard", "板载", ...pins);
+
+/* 按各板 wiki Pin Map 组装分组；extra 追加额外分组（JTAG/SWD 等） */
+const buildBoard = (rst, s, ...extra) => {
+  const g = [powerGroup(), systemGroup(rst)];
+  if (s.analog?.length) g.push(grp("analog", "Analog / Digital", "模拟 / 数字", ...s.analog));
+  if (s.digital?.length) g.push(grp("digital", "Digital", "数字", ...s.digital));
+  if (s.i2c?.length) g.push(grp("i2c", "I2C", "I2C", ...s.i2c));
+  if (s.uart?.length) g.push(grp("uart", "UART", "UART", ...s.uart));
+  if (s.spi?.length) g.push(grp("spi", "SPI", "SPI", ...s.spi));
+  if (s.onboard?.length) g.push(onboard(...s.onboard));
+  for (const eg of extra) if (eg) g.push(eg);
+  return g;
+};
+
 const stdLeft = ["D0", "D1", "D2", "D3", "D4", "D5", "D6"];
 const stdRight = ["5V", "GND", "3V3", "D10", "D9", "D8", "D7"];
+
+/* ESP32-S3：D0-D5、D8-D12 均为 ADC（D4/D5 兼 I2C，D8-D10 兼 SPI）；JTAG: MTDO/MTDI/MTCK/MTMS */
+const s3Groups = buildBoard("CHIP_PU", {
+  analog: [
+    ap("D0", "A0", "GPIO1", "Digital 0 / Analog 0", "数字 0 / 模拟 0"),
+    ap("D1", "A1", "GPIO2", "Digital 1 / Analog 1", "数字 1 / 模拟 1"),
+    ap("D2", "A2", "GPIO3", "Digital 2 / Analog 2", "数字 2 / 模拟 2"),
+    ap("D3", "A3", "GPIO4", "Digital 3 / Analog 3", "数字 3 / 模拟 3"),
+    ap("D11", "A11", "GPIO42", "Digital 11 / Analog 11", "数字 11 / 模拟 11"),
+    ap("D12", "A12", "GPIO41", "Digital 12 / Analog 12", "数字 12 / 模拟 12"),
+  ],
+  i2c: [ sda("GPIO5", true), scl("GPIO6", true) ],
+  uart: [ tx("GPIO43"), rx("GPIO44") ],
+  spi: [ sck("GPIO7", true), miso("GPIO8", true), mosi("GPIO9", true) ],
+  onboard: [
+    ob("USER_LED", "GPIO21", "User Light LED", "用户指示灯"),
+    ob("Boot", "GPIO0", "Boot Button", "Boot 按键", "rst"),
+    ob("UFL_ANT", "LNA_IN", "U.FL Antenna", "U.FL 天线"),
+    ob("CHARGE_LED", "VCC_3V3", "Charging Indicator LED", "充电指示灯"),
+  ],
+}, grp("jtag", "JTAG", "JTAG",
+  ob("MTDO", "GPIO40", "JTAG TDO", "JTAG TDO"),
+  ob("MTDI", "GPIO41", "JTAG TDI (shares D12/GPIO41)", "JTAG TDI（与 D12/GPIO41 共用）"),
+  ob("MTCK", "GPIO39", "JTAG TCK", "JTAG TCK"),
+  ob("MTMS", "GPIO42", "JTAG TMS (shares D11/GPIO42)", "JTAG TMS（与 D11/GPIO42 共用）"),
+));
+
+/* ESP32-C3：D0-D3 为 ADC；D4/D5 仅 I2C，D8-D10 仅 SPI，均不兼 ADC */
+const c3Groups = buildBoard("CHIP_EN", {
+  analog: [
+    ap("D0", "A0", "GPIO2", "Digital 0 / Analog 0", "数字 0 / 模拟 0"),
+    ap("D1", "A1", "GPIO3", "Digital 1 / Analog 1", "数字 1 / 模拟 1"),
+    ap("D2", "A2", "GPIO4", "Digital 2 / Analog 2", "数字 2 / 模拟 2"),
+    ap("D3", "A3", "GPIO5", "Digital 3 / Analog 3", "数字 3 / 模拟 3"),
+  ],
+  i2c: [ sda("GPIO6", false), scl("GPIO7", false) ],
+  uart: [ tx("GPIO21"), rx("GPIO20") ],
+  spi: [ sck("GPIO8", false), miso("GPIO9", false), mosi("GPIO10", false) ],
+  onboard: [
+    ob("Boot", "GPIO9", "Boot Button (shares D9/GPIO9)", "Boot 按键（与 D9/GPIO9 共用）", "rst"),
+    ob("UFL_ANT", "LNA_IN", "U.FL Antenna", "U.FL 天线"),
+    ob("CHARGE_LED", "VCC_3V3", "Charging Indicator LED", "充电指示灯"),
+  ],
+}, grp("jtag", "JTAG", "JTAG",
+  ob("MTDO", "GPIO7", "JTAG TDO (shares D5/GPIO7)", "JTAG TDO（与 D5/GPIO7 共用）"),
+  ob("MTDI", "GPIO5", "JTAG TDI (shares D3/GPIO5)", "JTAG TDI（与 D3/GPIO5 共用）"),
+  ob("MTCK", "GPIO6", "JTAG TCK (shares D4/GPIO6)", "JTAG TCK（与 D4/GPIO6 共用）"),
+  ob("MTMS", "GPIO4", "JTAG TMS (shares D2/GPIO4)", "JTAG TMS（与 D2/GPIO4 共用）"),
+));
+
+/* ESP32-C5：仅 D0 为 ADC；A1/A2/A3 丝印但不具 ADC，归入 Digital */
+const c5Groups = buildBoard("CHIP_EN", {
+  analog: [
+    ap("D0", "A0", "GPIO1", "Digital 0 / Analog 0", "数字 0 / 模拟 0"),
+  ],
+  digital: [
+    dp("D1", "A1", "GPIO0", "Digital 1 (GPIO, no ADC)", "数字 1（GPIO，无 ADC）"),
+    dp("D2", "A2", "GPIO25", "Digital 2 (GPIO, no ADC)", "数字 2（GPIO，无 ADC）"),
+    dp("D3", "A3", "GPIO7", "Digital 3 (GPIO, no ADC)", "数字 3（GPIO，无 ADC）"),
+  ],
+  i2c: [ sda("GPIO23", false), scl("GPIO24", false) ],
+  uart: [ tx("GPIO11"), rx("GPIO12") ],
+  spi: [ sck("GPIO8", false), miso("GPIO9", false), mosi("GPIO10", false) ],
+  onboard: [
+    ob("USER_LED", "GPIO27", "User Light LED (Yellow)", "用户指示灯（黄色）"),
+    ob("ADC_BAT", "GPIO6", "Battery Voltage ADC", "电池电压 ADC", "analog"),
+    ob("ADC_CRL", "GPIO26", "Controls measurement circuit (enable/disable) to save power", "控制测量电路启用/禁用以省电", "analog"),
+    ob("Boot", "GPIO28", "Boot Button", "Boot 按键", "rst"),
+    ob("UFL_ANT", "LNA_IN", "U.FL Antenna", "U.FL 天线"),
+    ob("CHARGE_LED", "VCC_3V3", "Charging Indicator LED (Red)", "充电指示灯（红色）"),
+  ],
+}, grp("jtag", "JTAG", "JTAG",
+  ob("MTDO", "GPIO5", "JTAG TDO", "JTAG TDO"),
+  ob("MTDI", "GPIO3", "JTAG TDI", "JTAG TDI"),
+  ob("MTCK", "GPIO4", "JTAG TCK", "JTAG TCK"),
+  ob("MTMS", "GPIO2", "JTAG TMS", "JTAG TMS"),
+));
+
+/* ESP32-C6：D0-D2 为 ADC；D3 为 Digital（非 ADC）；RF 开关两脚 */
+const c6Groups = buildBoard("CHIP_PU", {
+  analog: [
+    ap("D0", "A0", "GPIO0", "Digital 0 / Analog 0", "数字 0 / 模拟 0"),
+    ap("D1", "A1", "GPIO1", "Digital 1 / Analog 1", "数字 1 / 模拟 1"),
+    ap("D2", "A2", "GPIO2", "Digital 2 / Analog 2", "数字 2 / 模拟 2"),
+  ],
+  digital: [
+    dp("D3", "A3", "GPIO21", "Digital 3 (GPIO, no ADC)", "数字 3（GPIO，无 ADC）"),
+  ],
+  i2c: [ sda("GPIO22", false), scl("GPIO23", false) ],
+  uart: [ tx("GPIO16"), rx("GPIO17") ],
+  spi: [ sck("GPIO19", false), miso("GPIO20", false), mosi("GPIO18", false) ],
+  onboard: [
+    ob("USER_LED", "GPIO15", "User Light LED", "用户指示灯"),
+    ob("Boot", "GPIO9", "Boot Button", "Boot 按键", "rst"),
+    ob("RF_SW_PORT", "GPIO14", "RF Switch Port Select (onboard/UFL)", "射频开关端口选择（板载/UFL）"),
+    ob("RF_SW_PWR", "GPIO3", "RF Switch Power", "射频开关电源"),
+  ],
+}, grp("jtag", "JTAG", "JTAG",
+  ob("MTDO", "GPIO7", "JTAG TDO", "JTAG TDO"),
+  ob("MTDI", "GPIO5", "JTAG TDI", "JTAG TDI"),
+  ob("MTCK", "GPIO6", "JTAG TCK", "JTAG TCK"),
+  ob("MTMS", "GPIO4", "JTAG TMS", "JTAG TMS"),
+));
+
+/* nRF52840：D0-D3 为 ADC；D4/D5 兼 ADC */
+const nrf52Groups = buildBoard("P0.18", {
+  analog: [
+    ap("D0", "A0", "P0.02", "Analog Input 0 (AIN0)", "模拟输入 0（AIN0）"),
+    ap("D1", "A1", "P0.03", "Analog Input 1 (AIN1)", "模拟输入 1（AIN1）"),
+    ap("D2", "A2", "P0.28", "Analog Input 2 (AIN4)", "模拟输入 2（AIN4）"),
+    ap("D3", "A3", "P0.29", "Analog Input 3 (AIN5)", "模拟输入 3（AIN5）"),
+  ],
+  i2c: [ sda("P0.04", true), scl("P0.05", true) ],
+  uart: [ tx("P1.11"), rx("P1.12") ],
+  spi: [ sck("P1.13", false), miso("P1.14", false), mosi("P1.15", false) ],
+  onboard: [
+    ob("USER_LED_R", "P0.26", "RGB LED Red", "RGB LED 红"),
+    ob("USER_LED_G", "P0.30", "RGB LED Green", "RGB LED 绿"),
+    ob("USER_LED_B", "P0.06", "RGB LED Blue", "RGB LED 蓝"),
+    ob("NFC1", "P0.09", "NFC Antenna 1", "NFC 天线 1"),
+    ob("NFC2", "P0.10", "NFC Antenna 2", "NFC 天线 2"),
+    ob("ADC_BAT", "P0.14", "Battery Voltage ADC Enable", "电池电压 ADC 使能", "analog"),
+    ob("RF_SW_PORT", "P2.05", "RF Switch Port Select (onboard antenna)", "射频开关端口选择（板载天线）"),
+    ob("RF_SW_PWR", "P2.03", "RF Switch Power", "射频开关电源"),
+    ob("CHARGE_LED", "P0.17", "Charging Indicator LED (Red)", "充电指示灯（红色）"),
+  ],
+});
+
+/* nRF54L15：D0-D3 为 ADC；背面 D11/D12 为 I2C1，D13-D15 为 GPIO */
+const nrf54l15Groups = buildBoard("nRF54_RESET", {
+  analog: [
+    ap("D0", "A0", "P1.04", "Analog Input 0", "模拟输入 0"),
+    ap("D1", "A1", "P1.05", "Analog Input 1", "模拟输入 1"),
+    ap("D2", "A2", "P1.06", "Analog Input 2", "模拟输入 2"),
+    ap("D3", "A3", "P1.07", "Analog Input 3", "模拟输入 3"),
+  ],
+  i2c: [ sda("P1.10", false), scl("P1.11", false) ],
+  uart: [ tx("P2.08"), rx("P2.07") ],
+  spi: [ sck("P2.01", false), miso("P2.04", false), mosi("P2.02", false) ],
+  digital: [
+    dp("D11", "SCL1", "P0.03", "I2C1 Clock (back pad)", "I2C1 时钟（背面焊盘）"),
+    dp("D12", "SDA1", "P0.04", "I2C1 Data (back pad)", "I2C1 数据（背面焊盘）"),
+    dp("D13", "D13", "P2.10", "Digital 13", "数字 13"),
+    dp("D14", "D14", "P2.09", "Digital 14", "数字 14"),
+    dp("D15", "D15", "P2.06", "Digital 15", "数字 15"),
+  ],
+  onboard: [
+    ob("USER_LED", "P2.00", "User Light LED", "用户指示灯"),
+    ob("USER_KEY", "P0.00", "User Button", "用户按键"),
+    ob("NFC1", "P1.02", "NFC Antenna 1", "NFC 天线 1"),
+    ob("NFC2", "P1.03", "NFC Antenna 2", "NFC 天线 2"),
+    ob("AIN7_VBAT", "P1.14", "Battery Voltage ADC", "电池电压 ADC", "analog"),
+    ob("RF_SW_PORT", "P2.05", "RF Switch Port Select", "射频开关端口选择"),
+    ob("RF_SW_PWR", "P2.03", "RF Switch Power", "射频开关电源"),
+    ob("CHARGE_LED", "charge_LED", "Charging Indicator LED (Red)", "充电指示灯（红色）"),
+    ob("SWCLK", "SWDCLK", "nRF54L15 SWD Clock", "nRF54L15 SWD 时钟"),
+    ob("SWDIO", "SWDIO", "nRF54L15 SWD Data", "nRF54L15 SWD 数据"),
+    ob("nRST", "RST", "nRF54L15 Reset (debug)", "nRF54L15 复位（调试）", "rst"),
+    ob("SAMD11_SWCLK", "PA30", "SAMD11 SWD Clock", "SAMD11 SWD 时钟"),
+    ob("SAMD11_SWDIO", "PA31", "SAMD11 SWD Data", "SAMD11 SWD 数据"),
+    ob("SAMD11_RST", "RST2", "SAMD11 Reset (debug)", "SAMD11 复位（调试）", "rst"),
+  ],
+});
+
+/* RP2040：D0-D3 为 ADC（ADC0-3）；其余总线脚不兼 ADC */
+const rp2040Groups = buildBoard("RUN", {
+  analog: [
+    ap("D0", "A0", "GPIO26", "Analog Input 0 (ADC0)", "模拟输入 0（ADC0）"),
+    ap("D1", "A1", "GPIO27", "Analog Input 1 (ADC1)", "模拟输入 1（ADC1）"),
+    ap("D2", "A2", "GPIO28", "Analog Input 2 (ADC2)", "模拟输入 2（ADC2）"),
+    ap("D3", "A3", "GPIO29", "Analog Input 3 (ADC3)", "模拟输入 3（ADC3）"),
+  ],
+  i2c: [ sda("GPIO6", false), scl("GPIO7", false) ],
+  uart: [ tx("GPIO0"), rx("GPIO1") ],
+  spi: [ sck("GPIO2", false), miso("GPIO4", false), mosi("GPIO3", false) ],
+  onboard: [
+    ob("USER_LED_R", "GPIO17", "RGB LED Red", "RGB LED 红"),
+    ob("USER_LED_G", "GPIO16", "RGB LED Green", "RGB LED 绿"),
+    ob("USER_LED_B", "GPIO25", "RGB LED Blue", "RGB LED 蓝"),
+    ob("Boot", "RP2040_BOOT", "Boot Button", "Boot 按键", "rst"),
+    ob("SWDIO", "SWDIO", "SWD Debug Data", "SWD 调试数据"),
+    ob("SWCLK", "SWCLK", "SWD Debug Clock", "SWD 调试时钟"),
+  ],
+});
+
+/* RP2350：仅 D0-D2 为 ADC（3 路）；D3 为 SPI0 片选，D4/D5 为 I2C1，与标准封装有别 */
+/* RP2350：D0-D2 为 ADC；D3 作 SPI0 片选；背面 D11-D18 为 UART1/I2C0/SPI1 复用 */
+const rp2350Groups = buildBoard("RUN", {
+  analog: [
+    ap("D0", "A0", "GPIO26", "Analog Input 0 (ADC)", "模拟输入 0（ADC）"),
+    ap("D1", "A1", "GPIO27", "Analog Input 1 (ADC)", "模拟输入 1（ADC）"),
+    ap("D2", "A2", "GPIO28", "Analog Input 2 (ADC)", "模拟输入 2（ADC）"),
+  ],
+  i2c: [ sda("GPIO6", false), scl("GPIO7", false) ],
+  uart: [ tx("GPIO0", false), rx("GPIO1", false) ],
+  spi: [
+    P("D3", "CS", "spi", "GPIO5", "SPI0 Chip Select", "SPI0 片选", { n: "RP2350 routes D3 to SPI0 CS instead of analog.", nz: "RP2350 将 D3 用作 SPI0 片选，非模拟。", c: "SPI.begin(SCK, MISO, MOSI, CS);" }),
+    sck("GPIO2", false),
+    miso("GPIO4", false),
+    mosi("GPIO3", false),
+  ],
+  digital: [
+    dp("D11", "D11", "GPIO21", "Digital 11 (UART1 RX)", "数字 11（UART1 接收）"),
+    dp("D12", "D12", "GPIO20", "Digital 12 (UART1 TX)", "数字 12（UART1 发送）"),
+    dp("D13", "D13", "GPIO17", "Digital 13 (I2C0 SCL)", "数字 13（I2C0 时钟）"),
+    dp("D14", "D14", "GPIO16", "Digital 14 (I2C0 SDA)", "数字 14（I2C0 数据）"),
+    dp("D15", "D15", "GPIO11", "Digital 15 (SPI1 MOSI)", "数字 15（SPI1 主出从入）"),
+    dp("D16", "D16", "GPIO12", "Digital 16 (SPI1 MISO)", "数字 16（SPI1 主入从出）"),
+    dp("D17", "D17", "GPIO10", "Digital 17 (SPI1 SCK)", "数字 17（SPI1 时钟）"),
+    dp("D18", "D18", "GPIO9", "Digital 18 (SPI1 CS)", "数字 18（SPI1 片选）"),
+  ],
+  onboard: [
+    ob("RGB_LED", "GPIO22", "Onboard RGB LED (WS2812)", "板载 RGB LED（WS2812）"),
+    ob("USER_LED", "GPIO25", "User LED (Yellow)", "用户 LED（黄）"),
+    ob("ADC_BAT", "GPIO29", "Battery Voltage ADC", "电池电压 ADC", "analog"),
+    ob("ADC_BAT_EN", "GPIO19", "Battery Voltage Measure Enable", "电池电压检测使能", "analog"),
+    ob("Boot", "RP2350_BOOT", "Boot Button", "Boot 按键", "rst"),
+    ob("CHARGE_LED", "NCHG", "Charging Indicator LED (Red)", "充电指示灯（红色）"),
+  ],
+});
+
+/* RA4M1：D0-D3 为 ADC；D5(SCL1) 兼 ADC；D6/D7 兼 I2C2 */
+const ra4Groups = buildBoard("RES", {
+  analog: [
+    ap("D0", "A0", "P014", "Analog Input 0 (AN009)", "模拟输入 0（AN009）"),
+    ap("D1", "A1", "P000", "Analog Input 1 (AN000)", "模拟输入 1（AN000）"),
+    ap("D2", "A2", "P001", "Analog Input 2 (AN001)", "模拟输入 2（AN001）"),
+    ap("D3", "A3", "P002", "Analog Input 3 (AN002)", "模拟输入 3（AN002）"),
+  ],
+  i2c: [ sda("P206", false), scl("P100", true) ],
+  uart: [
+    P("D6", "TX", "uart", "P302", "UART Transmit", "UART 发送", { n: "3.3V logic; also I2C2 SDA2.", nz: "逻辑电平 3.3V；兼 I2C2 SDA2。", c: "Serial1.begin(115200);\nSerial1.println(\"hi\");" }),
+    P("D7", "RX", "uart", "P301", "UART Receive", "UART 接收", { n: "Also I2C2 SCL2.", nz: "兼 I2C2 SCL2。", c: "Serial1.begin(115200);" }),
+  ],
+  spi: [ sck("P111", false), miso("P110", false), mosi("P109", false) ],
+  digital: [
+    dp("D11", "D11", "P408", "Digital 11 (UART9 RX)", "数字 11（UART9 RX）"),
+    dp("D12", "D12", "P409", "Digital 12 (UART9 TX)", "数字 12（UART9 TX）"),
+    dp("D13", "D13", "P013", "Digital 13", "数字 13"),
+    dp("D14", "D14", "P012", "Digital 14", "数字 14"),
+    dp("D15", "D15", "P101", "Digital 15 (UART0 TX / I2C0 SDA)", "数字 15（UART0 TX / I2C0 SDA）"),
+    dp("D16", "D16", "P104", "Digital 16 (UART0 RX / I2C0 SCL)", "数字 16（UART0 RX / I2C0 SCL）"),
+    dp("D17", "D17", "P102", "Digital 17 (UART / SPI0 SCK)", "数字 17（UART / SPI0 SCK）"),
+    dp("D18", "D18", "P103", "Digital 18 (SPI / ADC)", "数字 18（SPI / ADC）"),
+  ],
+  onboard: [
+    ob("USER_LED", "P011", "User LED (Yellow)", "用户 LED（黄）"),
+    ob("RGB_LED", "P112", "Onboard RGB LED", "板载 RGB LED"),
+    ob("RGB_LED_EN", "P500", "RGB LED Enable", "RGB LED 使能"),
+    ob("ADC_BAT", "P015", "Battery Voltage ADC", "电池电压 ADC", "analog"),
+    ob("Boot", "P201", "Boot Button", "Boot 按键", "rst"),
+    ob("CHARGE_LED", "VBUS", "Charging Indicator LED (Red)", "充电指示灯（红色）"),
+  ],
+});
+
+/* SAMD21：D0-D3 为 ADC（D0 兼 DAC）；D4-D10 几乎全兼 ADC */
+const samdGroups = buildBoard("RESETN", {
+  analog: [
+    ap("D0", "A0", "PA02", "Digital 0 / Analog 0 (DAC0)", "数字 0 / 模拟 0（DAC0）"),
+    ap("D1", "A1", "PA04", "Digital 1 / Analog 1 (AIN4)", "数字 1 / 模拟 1（AIN4）"),
+    ap("D2", "A2", "PA10", "Digital 2 / Analog 2 (AIN18)", "数字 2 / 模拟 2（AIN18）"),
+    ap("D3", "A3", "PA11", "Digital 3 / Analog 3 (AIN19)", "数字 3 / 模拟 3（AIN19）"),
+  ],
+  i2c: [ sda("PA08", true), scl("PA09", true) ],
+  uart: [ tx("PB08", true), rx("PB09", true) ],
+  spi: [ sck("PA07", true), miso("PA05", true), mosi("PA06", true) ],
+  digital: [
+    dp("D11", "TX_LED", "PA19", "Digital 11 (TX LED)", "数字 11（TX 指示灯）"),
+    dp("D12", "RX_LED", "PA18", "Digital 12 (RX LED)", "数字 12（RX 指示灯）"),
+    dp("D13", "USER_LED", "PA17", "Digital 13 (USER LED / SCL1)", "数字 13（用户 LED / SCL1）"),
+  ],
+  onboard: [
+    ob("USER_LED", "PA17", "User LED (Yellow)", "用户 LED（黄）"),
+    ob("TX_LED", "PA19", "TX Indicator LED", "TX 指示灯"),
+    ob("RX_LED", "PA18", "RX Indicator LED", "RX 指示灯"),
+    ob("SWDIO", "PA31", "SWD Debug Data", "SWD 调试数据"),
+    ob("SWCLK", "PA30", "SWD Debug Clock", "SWD 调试时钟"),
+    ob("POWER_LED", "3V3", "Power Indicator LED (hardware)", "电源指示灯（硬件）"),
+  ],
+});
+
+/* MG24：D0-D3 为 ADC；D4-D10 几乎全兼 ADC（与 SAMD11 共生） */
+const mg24Groups = buildBoard("RESET", {
+  analog: [
+    ap("D0", "A0", "PC00", "Analog Input 0", "模拟输入 0"),
+    ap("D1", "A1", "PC01", "Analog Input 1", "模拟输入 1"),
+    ap("D2", "A2", "PC02", "Analog Input 2", "模拟输入 2"),
+    ap("D3", "A3", "PC03", "Analog Input 3 (also SPI)", "模拟输入 3（兼 SPI）"),
+  ],
+  i2c: [ sda("PC04", true), scl("PC05", true) ],
+  uart: [ tx("PC06", true), rx("PC07", true) ],
+  spi: [ sck("PA03", true), miso("PA04", true), mosi("PA05", true) ],
+  digital: [
+    dp("D11", "D11", "PA09", "Digital 11 (SAMD11 UART RX)", "数字 11（SAMD11 UART RX）"),
+    dp("D12", "D12", "PA08", "Digital 12 (SAMD11 UART TX)", "数字 12（SAMD11 UART TX）"),
+    dp("D13", "D13", "PB02", "Digital 13 (I2C1 SCL)", "数字 13（I2C1 SCL）"),
+    dp("D14", "D14", "PB03", "Digital 14 (I2C1 SDA)", "数字 14（I2C1 SDA）"),
+    dp("D15", "D15", "PB00", "Digital 15 (SPI1 MOSI)", "数字 15（SPI1 MOSI）"),
+    dp("D16", "D16", "PB01", "Digital 16 (SPI1 MISO)", "数字 16（SPI1 MISO）"),
+    dp("D17", "D17", "PA00", "Digital 17 (SPI1 SCK)", "数字 17（SPI1 SCK）"),
+    dp("D18", "D18", "PD02", "Digital 18 (SPI CS)", "数字 18（SPI 片选）"),
+  ],
+  onboard: [
+    ob("USER_LED", "PA07", "User LED (Yellow)", "用户指示灯（黄色）"),
+    ob("ADC_BAT", "PD04", "Battery Voltage ADC", "电池电压 ADC", "analog"),
+    ob("RF_SW", "PB04", "RF Antenna Switch (onboard/UFL)", "射频天线开关（板载/UFL）"),
+    ob("RF_SW_PWR", "PB05", "RF Switch Power", "射频开关电源"),
+    ob("CHARGE_LED", "VBUS", "Charging Indicator LED (Red)", "充电指示灯（红色）"),
+  ],
+});
 
 /* 选型下拉：XIAO 板型 → 板信息 + 引脚数据 + 板图两列 */
 const BOARDS = {
@@ -143,31 +482,91 @@ const BOARDS = {
     figureLabel: ["XIAO", "ESP32-S3"],
     figureSub: "ESP32-S3 · Wi-Fi + BLE",
     tagline: { en: "ESP32-S3 — Wi-Fi + BLE workhorse with plenty of GPIO and PSRAM.", zh: "ESP32-S3 — Wi-Fi + BLE 主力，GPIO 多、带 PSRAM。" },
-    groups: stdGroups, leftColIds: stdLeft, rightColIds: stdRight, gpioNote: true,
+    groups: s3Groups,
+    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
   },
   c3: {
     name: "XIAO ESP32-C3",
     figureLabel: ["XIAO", "ESP32-C3"],
     figureSub: "ESP32-C3 · Wi-Fi 4 + BLE 5",
     tagline: { en: "ESP32-C3 — compact RISC-V for Wi-Fi + BLE basics.", zh: "ESP32-C3 — RISC-V 小巧，Wi-Fi + BLE 入门。" },
-    groups: stdGroups, leftColIds: stdLeft, rightColIds: stdRight, gpioNote: true,
+    groups: c3Groups,
+    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
   },
   c6: {
     name: "XIAO ESP32-C6",
     figureLabel: ["XIAO", "ESP32-C6"],
     figureSub: "ESP32-C6 · Wi-Fi 6 + BLE + Thread/Zigbee",
     tagline: { en: "ESP32-C6 — Wi-Fi 6, BLE, and Thread/Zigbee for Matter smart-home.", zh: "ESP32-C6 — Wi-Fi 6 + BLE + Thread/Zigbee，适合 Matter 智能家居。" },
-    groups: stdGroups, leftColIds: stdLeft, rightColIds: stdRight, gpioNote: true,
+    groups: c6Groups,
+    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
   },
   c5: {
     name: "XIAO ESP32-C5",
     figureLabel: ["XIAO", "ESP32-C5"],
     figureSub: "ESP32-C5 · Wi-Fi 6 + BLE 5",
     tagline: { en: "ESP32-C5 — Wi-Fi 6 + BLE 5 on the XIAO footprint.", zh: "ESP32-C5 — XIAO 封装上的 Wi-Fi 6 + BLE 5。" },
-    groups: stdGroups, leftColIds: stdLeft, rightColIds: stdRight, gpioNote: true,
+    groups: c5Groups,
+    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+  },
+  nrf54l15: {
+    name: "XIAO nRF54L15",
+    figureLabel: ["XIAO", "nRF54L15"],
+    figureSub: "nRF54L15 · BLE 5.4 · NFC",
+    tagline: { en: "nRF54L15 — 128MHz Cortex-M33, low-power BLE 5.4 + NFC.", zh: "nRF54L15 — 128MHz Cortex-M33，低功耗 BLE 5.4 + NFC。" },
+    groups: nrf54l15Groups,
+    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+  },
+  nrf52: {
+    name: "XIAO nRF52840",
+    figureLabel: ["XIAO", "nRF52840"],
+    figureSub: "nRF52840 · BLE 5.4 · NFC",
+    tagline: { en: "nRF52840 — BLE 5.4, NFC, battery charging; the first wireless XIAO.", zh: "nRF52840 — BLE 5.4、NFC、电池充电，首款无线 XIAO。" },
+    groups: nrf52Groups,
+    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+  },
+  rp2040: {
+    name: "XIAO RP2040",
+    figureLabel: ["XIAO", "RP2040"],
+    figureSub: "RP2040 · dual M0+ · 133MHz",
+    tagline: { en: "RP2040 — dual Cortex-M0+ 133MHz; the smallest Raspberry Pi Pico.", zh: "RP2040 — 双核 Cortex-M0+ 133MHz，最小的树莓派 Pico。" },
+    groups: rp2040Groups,
+    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+  },
+  rp2350: {
+    name: "XIAO RP2350",
+    figureLabel: ["XIAO", "RP2350"],
+    figureSub: "RP2350 · M33 + RISC-V · 150MHz",
+    tagline: { en: "RP2350 — dual Cortex-M33 150MHz + Hazard3 RISC-V, RGB LED, 19 GPIO.", zh: "RP2350 — 双核 Cortex-M33 150MHz + Hazard3 RISC-V，RGB LED，19 GPIO。" },
+    groups: rp2350Groups,
+    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+  },
+  ra4: {
+    name: "XIAO RA4M1",
+    figureLabel: ["XIAO", "RA4M1"],
+    figureSub: "RA4M1 · Cortex-M4 · 48MHz",
+    tagline: { en: "RA4M1 — Cortex-M4 48MHz; same chip as Arduino Uno R4.", zh: "RA4M1 — Cortex-M4 48MHz，与 Arduino Uno R4 同芯。" },
+    groups: ra4Groups,
+    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+  },
+  samd21: {
+    name: "XIAO SAMD21",
+    figureLabel: ["XIAO", "SAMD21"],
+    figureSub: "SAMD21G18 · Cortex-M0+",
+    tagline: { en: "SAMD21G18 — Cortex-M0+; the original Seeeduino XIAO flagship.", zh: "SAMD21G18 — Cortex-M0+，初代 Seeeduino XIAO 旗舰。" },
+    groups: samdGroups,
+    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+  },
+  mg24: {
+    name: "XIAO MG24",
+    figureLabel: ["XIAO", "MG24"],
+    figureSub: "EFR32MG24 · Cortex-M33 · 802.15.4",
+    tagline: { en: "EFR32MG24 — Cortex-M33 with Zigbee/Thread for Matter.", zh: "EFR32MG24 — Cortex-M33，Zigbee/Thread，适合 Matter。" },
+    groups: mg24Groups,
+    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
   },
 };
-const BOARD_ORDER = ["nrf54", "s3", "c3", "c6", "c5"];
+const BOARD_ORDER = ["nrf54", "s3", "c3", "c6", "c5", "nrf54l15", "nrf52", "rp2040", "rp2350", "ra4", "samd21", "mg24"];
 
 /* 下方推荐区 —— Seeed 相关 */
 const recommendations = [
@@ -181,6 +580,8 @@ export function Pinout() {
   const { lang } = useLang();
   const [boardId, setBoardId] = useState("nrf54");
   const [selId, setSelId] = useState("A0");
+  const [copied, setCopied] = useState(false);
+  const copyTimer = useRef(null);
   const board = BOARDS[boardId];
   const groups = board.groups;
   const allPins = groups.flatMap((g) => g.pins);
@@ -203,6 +604,8 @@ export function Pinout() {
     note: lang === "zh" ? "注意事项" : "Note",
     codeHead: lang === "zh" ? "初始化代码" : "Initialization",
     codeEmpty: lang === "zh" ? "// 电源 / 内部引脚，无需用户初始化" : "// Power / internal pin — no user init needed",
+    copy: lang === "zh" ? "复制" : "Copy",
+    copied: lang === "zh" ? "已复制" : "Copied",
     recoTitle: lang === "zh" ? "相关推荐" : "Related",
     recoSub: lang === "zh" ? "来自 Seeed 的配套资源" : "Companion resources from Seeed",
     boardLabel: lang === "zh" ? "板型" : "Board",
@@ -211,8 +614,37 @@ export function Pinout() {
 
   const noteText = pin.note ? pick(pin.note) : "";
 
+  const handleCopy = useCallback(() => {
+    const text = pin.code || T.codeEmpty;
+    const done = () => {
+      setCopied(true);
+      if (copyTimer.current) clearTimeout(copyTimer.current);
+      copyTimer.current = setTimeout(() => setCopied(false), 1600);
+    };
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+    } else {
+      fallbackCopy(text, done);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pin.code, T.codeEmpty]);
+
+  const fallbackCopy = (text, done) => {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      done();
+    } catch {}
+  };
+
   return (
-    <div className={styles.pinout} id="pinout">
+    <div className={`${styles.pinout} scroll-mt-28`} id="pinout">
       <div className={styles.wrap}>
         <div className={styles.introBlock}>
           <span className={styles.eyebrow}><span className={styles.eyebrowDot} /> {T.eyebrow}</span>
@@ -332,7 +764,18 @@ export function Pinout() {
                 )}
 
                 <div className={styles.codeBlock}>
-                  <div className={styles.codeHead}>{T.codeHead}</div>
+                  <div className={styles.codeHead}>
+                    <span className={styles.codeHeadLabel}>{T.codeHead}</span>
+                    <button
+                      type="button"
+                      className={`${styles.copyBtn} ${copied ? styles.copyBtnDone : ""}`}
+                      onClick={handleCopy}
+                      aria-label={T.copy}
+                      title={T.copy}
+                    >
+                      {copied ? T.copied : T.copy}
+                    </button>
+                  </div>
                   <pre><code>{pin.code || T.codeEmpty}</code></pre>
                 </div>
               </div>

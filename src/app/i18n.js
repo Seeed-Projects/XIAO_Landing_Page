@@ -18,6 +18,7 @@ const zh = {
     res: "资源",
     projectHub: "项目中心",
     openRoadmap: "开放路线图",
+    software: "软件中心",
   },
   header: { subtitle: "系列落地页" },
   productsHero: { eyebrow: "产品", h1: "产品页", body: "XIAO 系列产品总览：从产品目录到选型，覆盖开发板、扩展模块与配件。" },
@@ -32,7 +33,7 @@ const zh = {
     items: [
       { value: "17", label: "款开发板" },
       { value: "300+", label: "款扩展配件" },
-      { value: "21×17.8mm", label: "≈ 2 颗小熊糖" },
+      { value: "21×17.8 mm", label: "≈ 2 颗小熊糖" },
       { value: "500,000+", label: "开发者之选" },
       { value: "500+ Million", label: "YouTube / TikTok 播放" },
       { value: "2,000,000+", label: "全球出货量" },
@@ -172,6 +173,17 @@ const zh = {
       { title: "XIAO MG24：Matter 时代的微型主力", source: "CNX-Software", date: "2025-04-08", excerpt: "Silicon Labs MG24 让 XIAO 在 Thread/Zigbee 领域表现亮眼。", tag: "媒体报道" },
     ],
   },
+  projects: {
+    title: "热门项目",
+    items: [
+      { title: "XIAO ESP32-S3 智能天气站", author: "MakerLeo", date: "2025-06-20", excerpt: "基于 XIAO ESP32-S3 的桌面天气站，集成 PM2.5、温湿度与光照，数据上云可视。", tag: "开源" },
+      { title: "XIAO 腕上开源智能手表", author: "AdaWei", date: "2025-05-30", excerpt: "用 XIAO nRF54L15 打造的超低功耗可穿戴，续航三周，支持消息提醒与运动监测。", tag: "可穿戴" },
+      { title: "ESP32-C6 Matter 家庭网关", author: "TomHax", date: "2025-05-12", excerpt: "以 XIAO ESP32-C6 为核心的多协议网关，统一接入 Thread / Zigbee / Wi-Fi 设备。", tag: "智能家居" },
+      { title: "XIAO RP2350 复古游戏机", author: "PixelBin", date: "2025-04-25", excerpt: "RP2350 双核驱动掌机，PIO 模拟经典手柄，开源固件支持社区 ROM。", tag: "教育" },
+      { title: "nRF54L15 低功耗资产追踪器", author: "NodeFox", date: "2025-04-10", excerpt: "BLE 5.4 远程追踪标签，纽扣电池待机半年，配合网关实现室内定位。", tag: "物联网" },
+      { title: "XIAO MG24 Thread 灯控节点", author: "GlowLab", date: "2025-03-28", excerpt: "基于 MG24 的 Matter over Thread 调光节点，接入苹果家庭与谷歌 Home。", tag: "智能家居" },
+    ],
+  },
   reviews: {
     title: "用户评价",
     items: [
@@ -182,6 +194,10 @@ const zh = {
       { name: "David Park", role: "硬件架构师", company: "Tech Corp", quote: "nRF54L15 的低功耗表现超出预期，电池续航从 7 天延长到 21 天。", avatar: "DP" },
       { name: "李娜", role: "AI 研究员", company: "University Lab", quote: "TinyML 部署在 XIAO 上运行流畅，是边缘 AI 实验的理想平台。", avatar: "李" },
     ],
+  },
+  mediaReviews: {
+    kicker: "媒体与社区之声",
+    title: "开源社区信赖之选",
   },
   cocreate: {
     title: "生态共创",
@@ -238,6 +254,19 @@ const zh = {
     res: [{ id: "top", label: "资源" }],
     projectHub: [{ id: "top", label: "项目中心" }],
     openRoadmap: [{ id: "top", label: "开放路线图" }],
+    softwareCenter: [
+      { id: "top", label: "概览" },
+      { id: "guides", label: "产品指南" },
+      { id: "languages", label: "语言与平台" },
+      { id: "rtos", label: "RTOS" },
+      { id: "comms", label: "通信协议" },
+      { id: "tinyml", label: "TinyML" },
+      { id: "smarthome", label: "智能家居" },
+      { id: "keyboard", label: "键盘固件" },
+      { id: "applications", label: "热门应用" },
+      { id: "tools", label: "原型工具" },
+      { id: "iotcloud", label: "IoT 云平台" },
+    ],
   },
 };
 
@@ -249,6 +278,7 @@ const en = {
     res: "RES",
     projectHub: "Project Hub",
     openRoadmap: "Open Roadmap",
+    software: "Software Center",
   },
   header: { subtitle: "Series Landing Page" },
   productsHero: { eyebrow: "Products", h1: "Products", body: "An overview of the XIAO lineup — from catalog and selection to dev boards, add-ons and accessories." },
@@ -263,7 +293,7 @@ const en = {
     items: [
       { value: "17", label: "Dev Boards" },
       { value: "300+", label: "Add-on Accessories" },
-      { value: "21×17.8mm", label: "= 2 Gummy Bears" },
+      { value: "21×17.8 mm", label: "= 2 Gummy Bears" },
       { value: "500,000+", label: "Developers' Choices" },
       { value: "500+ Million", label: "Views on YT, TikTok" },
       { value: "2,000,000+", label: "Pieces Shipped Globally" },
@@ -403,6 +433,17 @@ const en = {
       { title: "XIAO MG24: a compact mainstay for the Matter era", source: "CNX-Software", date: "2025-04-08", excerpt: "Silicon Labs' MG24 makes XIAO shine in the Thread / Zigbee space.", tag: "Media Coverage" },
     ],
   },
+  projects: {
+    title: "Hot Projects",
+    items: [
+      { title: "XIAO ESP32-S3 Smart Weather Station", author: "MakerLeo", date: "2025-06-20", excerpt: "A desk weather station built on XIAO ESP32-S3 — PM2.5, temp/humidity and light, cloud-dashboarded.", tag: "Open Source" },
+      { title: "XIAO Open-Source Smart Watch", author: "AdaWei", date: "2025-05-30", excerpt: "An ultra-low-power wearable on XIAO nRF54L15 — three-week battery life with alerts and activity tracking.", tag: "Wearable" },
+      { title: "ESP32-C6 Matter Home Gateway", author: "TomHax", date: "2025-05-12", excerpt: "A multi-protocol gateway centered on XIAO ESP32-C6, unifying Thread / Zigbee / Wi-Fi devices.", tag: "Smart Home" },
+      { title: "XIAO RP2350 Retro Handheld", author: "PixelBin", date: "2025-04-25", excerpt: "Dual-core RP2350 handheld — PIO emulates classic pads, open firmware supports community ROMs.", tag: "Education" },
+      { title: "nRF54L15 Low-Power Asset Tracker", author: "NodeFox", date: "2025-04-10", excerpt: "BLE 5.4 tracking tag with half a year of coin-cell standby, indoor positioning via gateway.", tag: "IoT" },
+      { title: "XIAO MG24 Thread Light Node", author: "GlowLab", date: "2025-03-28", excerpt: "A Matter-over-Thread dimming node on MG24, integrating with Apple Home and Google Home.", tag: "Smart Home" },
+    ],
+  },
   reviews: {
     title: "User Reviews",
     items: [
@@ -413,6 +454,10 @@ const en = {
       { name: "David Park", role: "Hardware Architect", company: "Tech Corp", quote: "The nRF54L15's low-power performance exceeded expectations — battery life went from 7 days to 21.", avatar: "DP" },
       { name: "Li Na", role: "AI Researcher", company: "University Lab", quote: "TinyML runs smoothly on XIAO — an ideal platform for edge AI experiments.", avatar: "LN" },
     ],
+  },
+  mediaReviews: {
+    kicker: "Media & Community Voices",
+    title: "Trusted by the Open-Source Community",
   },
   cocreate: {
     title: "Ecosystem Co-Creation",
@@ -469,6 +514,19 @@ const en = {
     res: [{ id: "top", label: "RES" }],
     projectHub: [{ id: "top", label: "Project Hub" }],
     openRoadmap: [{ id: "top", label: "Open Roadmap" }],
+    softwareCenter: [
+      { id: "top", label: "Overview" },
+      { id: "guides", label: "Product Guides" },
+      { id: "languages", label: "Languages & Platforms" },
+      { id: "rtos", label: "RTOS" },
+      { id: "comms", label: "Communications" },
+      { id: "tinyml", label: "TinyML" },
+      { id: "smarthome", label: "Smart Home" },
+      { id: "keyboard", label: "Keyboard Firmware" },
+      { id: "applications", label: "Applications" },
+      { id: "tools", label: "Prototyping Tools" },
+      { id: "iotcloud", label: "IoT Clouds" },
+    ],
   },
 };
 

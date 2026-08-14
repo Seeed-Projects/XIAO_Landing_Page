@@ -21,11 +21,11 @@
 
 /* Hero */
 .hero { display: grid; grid-template-columns: 1.2fr .8fr; gap: 32px; align-items: stretch; margin-bottom: 26px; }
-.heroCopy { padding: 28px 8px 18px 0; }
+.heroCopy { padding: 28px 8px 18px 0; text-align: center; }
 .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: var(--r-pill); border: 1px solid var(--line-soft); background: rgba(255,255,255,0.78); color: var(--brand-blue-soft); font-family: var(--font-display), sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.32em; }
 .eyebrowDot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand-green); box-shadow: 0 0 0 4px rgba(22,182,106,0.14); }
 .heroH1 { margin: 18px 0 16px; font-family: var(--font-display), sans-serif; font-size: clamp(28px, 3vw, 40px); line-height: 1.1; letter-spacing: -0.02em; font-weight: 600; color: var(--ink-strong); }
-.heroCopy p { max-width: 720px; margin: 0; font-size: 17px; line-height: 1.8; font-weight: 500; color: var(--ink-body); }
+.heroCopy p { max-width: 720px; margin: 0 auto; font-size: 17px; line-height: 1.8; font-weight: 500; color: var(--ink-body); }
 
 .heroPanel { position: relative; overflow: hidden; border-radius: var(--r-card); padding: 26px; background: linear-gradient(135deg, rgba(0,73,102,0.96), rgba(8,102,126,0.92), rgba(143,195,31,0.88)); color: #fff; min-height: 250px; box-shadow: var(--shadow-card); }
 .heroPanel::before, .heroPanel::after { content: ""; position: absolute; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); }
@@ -62,7 +62,7 @@
 .contentArea { padding: 34px 38px 30px; background: var(--surface-strong); }
 .questionHead { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; }
 .questionKicker { font-family: var(--font-display), sans-serif; font-size: 13px; color: var(--brand-green-deep); font-weight: 600; }
-.questionTitle { margin: 7px 0 8px; font-family: var(--font-display), sans-serif; font-size: clamp(24px, 2.4vw, 30px); letter-spacing: -0.02em; font-weight: 600; color: var(--ink-strong); }
+.questionTitle { margin: 7px 0 8px; font-family: var(--font-display), sans-serif; font-size: clamp(24px, 2.4vw, 30px); letter-spacing: -0.02em; font-weight: 600; color: var(--ink-strong); text-align: center; }
 .questionDesc { margin: 0; color: var(--ink-body); line-height: 1.7; }
 .progressPill { flex: 0 0 auto; padding: 8px 11px; border-radius: var(--r-pill); background: var(--surface-tint); color: var(--brand-green-deep); font-size: 13px; font-weight: 600; }
 
@@ -104,7 +104,7 @@
 /* Result */
 .resultView { padding: 34px 38px 40px; background: var(--surface-strong); }
 .resultTop { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; margin-bottom: 24px; }
-.resultTitle { margin: 5px 0 8px; font-family: var(--font-display), sans-serif; font-size: clamp(26px, 2.8vw, 34px); letter-spacing: -0.02em; font-weight: 600; color: var(--ink-strong); }
+.resultTitle { margin: 5px 0 8px; font-family: var(--font-display), sans-serif; font-size: clamp(26px, 2.8vw, 34px); letter-spacing: -0.02em; font-weight: 600; color: var(--ink-strong); text-align: center; }
 .resultSub { margin: 0; color: var(--ink-body); line-height: 1.7; }
 .resultActions { display: flex; gap: 10px; }
 
@@ -116,7 +116,8 @@
 .productCard:hover { transform: translateY(-4px); border-color: rgba(22,182,106,0.4); box-shadow: 0 28px 48px rgba(0,73,102,0.12); background-color: rgba(255,255,255,0.95); }
 .productCard.primary { border-color: rgba(22,182,106,0.4); background: linear-gradient(180deg, rgba(255,255,255,0.9), var(--surface-strong)); box-shadow: var(--shadow-soft); }
 .rankBadge { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; padding: 6px 9px; border-radius: var(--r-pill); background: var(--surface-tint); color: var(--brand-green-deep); font-size: 12px; font-weight: 700; }
-.productVisual { height: 118px; margin: 18px 0 14px; border-radius: var(--r-inner); display: grid; place-items: center; background: linear-gradient(135deg, rgba(22,182,106,0.10), rgba(0,73,102,0.06)), var(--surface-tint); position: relative; overflow: hidden; }
+.productVisual { aspect-ratio: 4 / 3; margin: 18px 0 14px; border-radius: var(--r-inner); display: grid; place-items: center; background: var(--surface-tint); position: relative; overflow: hidden; }
+.productImg { width: 100%; height: 100%; background-size: cover; background-position: center; background-repeat: no-repeat; }
 .board { width: 112px; height: 70px; border-radius: 11px; background: linear-gradient(150deg, #0d2230, #13324a); box-shadow: 0 13px 25px rgba(0,0,0,0.24); transform: rotate(-8deg); position: relative; }
 .board::before { content: "XIAO"; position: absolute; inset: 17px auto auto 18px; color: rgba(255,255,255,0.82); font-family: var(--font-display), sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; }
 .board::after { content: ""; position: absolute; width: 40px; height: 27px; border-radius: 4px; background: #d8ddda; right: 15px; top: 20px; box-shadow: inset 0 0 0 2px rgba(0,0,0,0.12); }
@@ -160,7 +161,7 @@
 .catalogGrid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; margin-top: 14px; }
 .catalogCard { border: 1px solid var(--line-soft); border-radius: var(--r-inner); padding: 16px; background: rgba(255,255,255,0.9); display: flex; flex-direction: column; transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease; }
 .catalogCard:hover { transform: translateY(-4px); border-color: rgba(22,182,106,0.4); box-shadow: 0 28px 48px rgba(0,73,102,0.12); background-color: rgba(255,255,255,0.95); }
-.catalogVisual { height: 94px; border-radius: var(--r-inner); background: var(--surface-tint); display: grid; place-items: center; margin-bottom: 13px; }
+.catalogVisual { aspect-ratio: 4 / 3; border-radius: var(--r-inner); background: var(--surface-tint); display: grid; place-items: center; margin-bottom: 13px; overflow: hidden; }
 .catalogCard h3 { margin: 0; font-size: 16px; line-height: 1.35; font-weight: 700; color: var(--ink-strong); }
 .catalogCard p { margin: 7px 0 10px; color: var(--ink-body); font-size: 12px; line-height: 1.55; min-height: 38px; }
 

@@ -36,7 +36,7 @@ export function DirectoryCard({ items }) {
   );
 }
 
-export function SectionHeader({ kicker, title, description, align = "left" }) {
+export function SectionHeader({ kicker, title, description, align = "center" }) {
   return (
     <div
       className={`space-y-3 ${

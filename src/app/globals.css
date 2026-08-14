@@ -88,6 +88,46 @@
   }
 }
 
+/* Ecosystem: 烧录日志向上滚动（无缝循环，内容重复两份） */
+@keyframes ecoscroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+/* Ecosystem: 烧录进度条循环填充 */
+@keyframes ecoprog {
+  0% {
+    transform: scaleX(0);
+  }
+  72% {
+    transform: scaleX(1);
+  }
+  84% {
+    transform: scaleX(1);
+  }
+  92% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+/* Ecosystem: 状态点 / 光标闪烁 */
+@keyframes ecoblink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
 @theme inline {
   --color-background: var(--page-bg);
   --color-foreground: var(--ink-strong);
@@ -346,69 +386,3 @@ a {
   }
 }
 
-/* ===== 自定义光标：Seeed 色发光小球，即时跟随 ===== */
-html.custom-cursor-active,
-html.custom-cursor-active body,
-html.custom-cursor-active * { cursor: none; }
-/* 3D 查看器 canvas / 输入框保留原生光标 */
-html.custom-cursor-active canvas,
-html.custom-cursor-active input,
-html.custom-cursor-active textarea,
-html.custom-cursor-active select,
-html.custom-cursor-active [data-native-cursor] { cursor: auto; }
-html.custom-cursor-active input,
-html.custom-cursor-active textarea { cursor: text; }
-html.custom-cursor-active canvas { cursor: grab; }
-html.custom-cursor-active canvas:active { cursor: grabbing; }
-
-.cc-cursor,
-.cc-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  pointer-events: none;
-  will-change: transform;
-}
-.cc-ring {
-  width: 38px;
-  height: 38px;
-  margin: -19px 0 0 -19px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(179, 206, 22, 0.6);
-  box-shadow: 0 0 8px rgba(179, 206, 22, 0.25);
-  transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-    height 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-    margin 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.16s ease;
-}
-.cc-ring.cc-active {
-  width: 56px;
-  height: 56px;
-  margin: -28px 0 0 -28px;
-}
-.cc-cursor { width: 0; height: 0; }
-.cc-dot {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 12px;
-  height: 12px;
-  margin: -6px 0 0 -6px;
-  border-radius: 50%;
-  background: #B3CE16;
-  box-shadow:
-    0 0 10px rgba(179, 206, 22, 0.5),
-    0 0 22px rgba(179, 206, 22, 0.22);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.3s ease, background 0.3s ease;
-}
-.cc-dot.cc-active {
-  transform: scale(1.5);
-  box-shadow:
-    0 0 16px rgba(179, 206, 22, 0.75),
-    0 0 32px rgba(179, 206, 22, 0.35);
-}
-.cc-hidden { opacity: 0 !important; }
-@media (hover: none), (pointer: coarse) {
-  .cc-cursor, .cc-ring { display: none; }
-}

@@ -9,6 +9,8 @@ import styles from "./smart-selector.module.css";
 const products = [
   {
     id: "esp32s3plus", name: "XIAO ESP32-S3 Plus", family: "ESP32",
+    img: "https://media-cdn.seeedstudio.com/media/catalog/product/cache/7f7f32ef807b8c2c2215b49801c56084/1/-/1-102010671-seeedstudio-xiao-esp32s3-plus_1.jpg",
+    link: "https://www.seeedstudio.com/Seeed-Studio-XIAO-ESP32S3-Plus-p-6361.html",
     wireless: ["Wi-Fi", "BLE"], features: [{ en: "High perf", zh: "高性能" }, { en: "PSRAM", zh: "PSRAM" }, { en: "Rich GPIO", zh: "丰富 GPIO" }, { en: "USB", zh: "USB" }],
     scenarios: ["vision", "voice", "display", "robot", "iot", "usb"], power: "standard",
     experience: ["beginner", "arduino", "platformio", "espidf"], production: true, scoreBias: 7,
@@ -19,6 +21,8 @@ const products = [
   },
   {
     id: "esp32c6", name: "XIAO ESP32-C6", family: "ESP32",
+    img: "https://media-cdn.seeedstudio.com/media/catalog/product/cache/7f7f32ef807b8c2c2215b49801c56084/w/e/wechatimg291.jpg",
+    link: "https://www.seeedstudio.com/Seeed-Studio-XIAO-ESP32C6-p-5884.html",
     wireless: ["Wi-Fi", "BLE", "Matter", "Thread", "Zigbee"], features: [{ en: "Wi-Fi 6", zh: "Wi-Fi 6" }, { en: "Smart home", zh: "智能家居" }, { en: "Low cost", zh: "低成本" }],
     scenarios: ["iot", "matter", "sensor", "home"], power: "standard",
     experience: ["beginner", "arduino", "platformio", "espidf"], production: true, scoreBias: 5,
@@ -29,6 +33,8 @@ const products = [
   },
   {
     id: "esp32c3", name: "XIAO ESP32-C3", family: "ESP32",
+    img: "https://media-cdn.seeedstudio.com/media/catalog/product/cache/7f7f32ef807b8c2c2215b49801c56084/1/-/1-113991054-seeed-studio-xiao-esp32c3-45font_1.jpg",
+    link: "https://www.seeedstudio.com/Seeed-XIAO-ESP32C3-p-5431.html",
     wireless: ["Wi-Fi", "BLE"], features: [{ en: "Cost-effective", zh: "高性价比" }, { en: "Mature ecosystem", zh: "成熟生态" }],
     scenarios: ["iot", "sensor", "home"], power: "standard",
     experience: ["beginner", "arduino", "platformio", "espidf"], production: true, scoreBias: 4,
@@ -39,6 +45,8 @@ const products = [
   },
   {
     id: "nrf52840plus", name: "XIAO nRF52840 Plus", family: "Nordic",
+    img: "https://media-cdn.seeedstudio.com/media/catalog/product/cache/7f7f32ef807b8c2c2215b49801c56084/2/-/2-102010448-seeed-studio-xiao-nrf52840-45font-logo.jpg",
+    link: "https://www.seeedstudio.com/Seeed-XIAO-BLE-nRF52840-p-5201.html",
     wireless: ["BLE", "NFC"], features: [{ en: "Low power", zh: "低功耗" }, { en: "USB", zh: "USB" }, { en: "NFC", zh: "NFC" }],
     scenarios: ["wearable", "sensor", "usb", "battery"], power: "low",
     experience: ["beginner", "arduino", "zephyr"], production: true, scoreBias: 5,
@@ -49,6 +57,8 @@ const products = [
   },
   {
     id: "nrf54l15", name: "XIAO nRF54L15", family: "Nordic",
+    img: "https://media-cdn.seeedstudio.com/media/catalog/product/cache/7f7f32ef807b8c2c2215b49801c56084/1/-/1-101991421-xiao-nrf54l14.jpg",
+    link: "https://www.seeedstudio.com/XIAO-nRF54L15-p-6493.html",
     wireless: ["BLE", "Matter", "Thread", "Zigbee"], features: [{ en: "New-gen low power", zh: "新一代低功耗" }, { en: "Multi-protocol", zh: "多协议" }, { en: "Secure", zh: "安全" }],
     scenarios: ["wearable", "sensor", "matter", "battery", "home"], power: "ultra-low",
     experience: ["zephyr", "ncs", "advanced"], production: true, scoreBias: 6,
@@ -59,6 +69,8 @@ const products = [
   },
   {
     id: "mg24", name: "XIAO MG24", family: "Silicon Labs",
+    img: "https://media-cdn.seeedstudio.com/media/catalog/product/cache/7f7f32ef807b8c2c2215b49801c56084/n/e/new-1-102010590-seeed-studio-xiao-mg24_1.jpg",
+    link: "https://www.seeedstudio.com/Seeed-Studio-XIAO-MG24-p-6247.html",
     wireless: ["BLE", "Matter", "Thread", "Zigbee"], features: [{ en: "Low power", zh: "低功耗" }, { en: "Matter", zh: "Matter" }, { en: "AI/ML", zh: "AI/ML" }],
     scenarios: ["matter", "sensor", "battery", "home"], power: "ultra-low",
     experience: ["arduino", "advanced"], production: true, scoreBias: 5,
@@ -69,6 +81,8 @@ const products = [
   },
   {
     id: "rp2350", name: "XIAO RP2350", family: "Raspberry Pi",
+    img: "https://media-cdn.seeedstudio.com/media/catalog/product/cache/7f7f32ef807b8c2c2215b49801c56084/g/r/group_1.jpg",
+    link: "https://www.seeedstudio.com/Seeed-XIAO-RP2350-p-5944.html",
     wireless: [], features: [{ en: "PIO", zh: "PIO" }, { en: "High-perf control", zh: "高性能控制" }, { en: "No wireless", zh: "无无线" }],
     scenarios: ["usb", "robot", "control", "education"], power: "standard",
     experience: ["beginner", "arduino", "micropython"], production: true, scoreBias: 3,
@@ -79,6 +93,8 @@ const products = [
   },
   {
     id: "ra4m1", name: "XIAO RA4M1", family: "Renesas",
+    img: "https://media-cdn.seeedstudio.com/media/catalog/product/cache/7f7f32ef807b8c2c2215b49801c56084/1/-/1-102010551-seeed-studio-xiao-ra4m1.jpg",
+    link: "https://www.seeedstudio.com/Seeed-XIAO-RA4M1-p-5943.html",
     wireless: [], features: [{ en: "Stable control", zh: "稳定控制" }, { en: "Arduino", zh: "Arduino" }, { en: "No wireless", zh: "无无线" }],
     scenarios: ["control", "education", "sensor"], power: "low",
     experience: ["beginner", "arduino"], production: true, scoreBias: 3,
@@ -264,22 +280,12 @@ function parseNaturalLanguage(text, prevAnswers) {
   return a;
 }
 
-function Board() {
-  const pins = (key) => Array.from({ length: 7 }, (_, i) => <i key={i} />);
-  return (
-    <div className={styles.board}>
-      <span className={`${styles.pinRow} ${styles.top}`}>{pins()}</span>
-      <span className={`${styles.pinRow} ${styles.bottom}`}>{pins()}</span>
-    </div>
-  );
-}
-
 const emptyAnswers = () => Object.fromEntries(steps.map((s) => [s.id, []]));
 const powerLabel = { standard: { en: "Standard", zh: "标准" }, low: { en: "Low power", zh: "低功耗" }, "ultra-low": { en: "Ultra-low", zh: "超低功耗" } };
 
 export function SmartSelector() {
   const { lang } = useLang();
-  const [mode, setMode] = useState("wizard");
+  const [mode, setMode] = useState("filter");
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState(emptyAnswers);
   const [showResult, setShowResult] = useState(false);
@@ -423,14 +429,14 @@ export function SmartSelector() {
     return (
       <article key={p.id} className={`${styles.productCard} ${rank === 0 ? styles.primary : ""}`}>
         <span className={styles.rankBadge}>{rank === 0 ? (lang === "zh" ? "★ 主推荐" : "★ Top pick") : (lang === "zh" ? `备选 ${rank}` : `Alt ${rank}`)}</span>
-        <div className={styles.productVisual}><Board /></div>
+        <div className={styles.productVisual}><div className={styles.productImg} style={{ backgroundImage: `url("${p.img}")` }} role="img" aria-label={p.name} /></div>
         <h3 className={styles.productName}>{p.name}</h3>
         <p className={styles.productTagline}>{pick(p.tagline)}</p>
         <div className={styles.tagRow}>{badges.map((t, i) => <span key={i} className={styles.tag}>{t}</span>)}</div>
         <div className={styles.whyBox}><strong>{lang === "zh" ? "适合你的原因" : "Why it fits"}</strong>{p.reasons.slice(0, 2).join("；") || pick(p.bestFor)}</div>
         <div className={styles.cautionBox}><strong>{lang === "zh" ? "需要注意" : "Keep in mind"}</strong>{pick(p.caution)}</div>
         <div className={styles.productFooter}>
-          <button className={`${styles.miniBtn} ${styles.emphasis}`} type="button">{lang === "zh" ? "查看产品" : "View product"}</button>
+          <a className={`${styles.miniBtn} ${styles.emphasis}`} href={p.link} target="_blank" rel="noopener noreferrer">{lang === "zh" ? "查看产品" : "View product"}</a>
           <button className={styles.miniBtn} type="button" onClick={() => toggleCompare(p.id)}>{lang === "zh" ? "加入对比" : "Compare"}</button>
         </div>
       </article>
@@ -483,8 +489,8 @@ export function SmartSelector() {
 
         <section className={styles.workspace} id="selector-workspace">
           <div className={styles.modeTabs}>
-            <button type="button" className={`${styles.modeTab} ${mode === "wizard" ? styles.active : ""}`} onClick={() => setMode("wizard")}>{lang === "zh" ? "帮我选 XIAO" : "Help me choose"}</button>
             <button type="button" className={`${styles.modeTab} ${mode === "filter" ? styles.active : ""}`} onClick={() => setMode("filter")}>{lang === "zh" ? "按参数筛选" : "Filter by specs"}</button>
+            <button type="button" className={`${styles.modeTab} ${mode === "wizard" ? styles.active : ""}`} onClick={() => setMode("wizard")}>{lang === "zh" ? "帮我选 XIAO" : "Help me choose"}</button>
           </div>
 
           <div className={styles.workspaceBody}>
@@ -642,12 +648,12 @@ export function SmartSelector() {
                 <div className={styles.catalogGrid}>
                   {filteredProducts.map((p) => (
                     <article key={p.id} className={styles.catalogCard}>
-                      <div className={styles.catalogVisual}><Board /></div>
+                      <div className={styles.catalogVisual}><div className={styles.productImg} style={{ backgroundImage: `url("${p.img}")` }} role="img" aria-label={p.name} /></div>
                       <h3>{p.name}</h3>
                       <p>{pick(p.tagline)}</p>
                       <div className={styles.tagRow}>{[...p.wireless, ...p.features.map(pick)].slice(0, 4).map((t, i) => <span key={i} className={styles.tag}>{t}</span>)}</div>
                       <div className={styles.productFooter}>
-                        <button className={`${styles.miniBtn} ${styles.emphasis}`} type="button">{lang === "zh" ? "查看产品" : "View product"}</button>
+                        <a className={`${styles.miniBtn} ${styles.emphasis}`} href={p.link} target="_blank" rel="noopener noreferrer">{lang === "zh" ? "查看产品" : "View product"}</a>
                         <button className={styles.miniBtn} type="button" onClick={() => toggleCompare(p.id)}>{lang === "zh" ? "对比" : "Compare"}</button>
                       </div>
                     </article>

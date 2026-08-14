@@ -2,12 +2,13 @@
 
 import { useLang } from "./i18n";
 import { SectionHeader, SiteHeader } from "./components";
-import { HomeProductPanel } from "./home-product-panel";
 import { PartnerMarquee } from "./partner-marquee";
 import { NewsCarousel } from "./news-carousel";
-import { ReviewsSection } from "./reviews-section";
+import { ProjectsCarousel } from "./projects-carousel";
+import { MediaReviewsSection } from "./media-reviews-section";
 import { CoCreateSection } from "./co-create-section";
 import { EdmSubscribe } from "./edm-subscribe";
+import { EcosystemSection } from "./ecosystem-section";
 import { Reveal } from "./reveal";
 import { Glow } from "./Glow";
 
@@ -71,9 +72,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 产品面板 - 固定尺寸卡片 */}
-        <HomeProductPanel />
-
         {/* 开发者区 - 全屏满宽 */}
         <section
           id="developer"
@@ -88,6 +86,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* 生态横幅 + 三入口：资料 / 投票 / 项目中心 */}
+        <EcosystemSection />
 
         {/* 新闻 - 全屏满宽 */}
         <section
@@ -104,17 +105,32 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 用户评价 - 全屏满宽 */}
+        {/* 热门项目 - 全屏满宽 */}
+        <section
+          id="projects"
+          className="bg-mod-green relative flex min-h-[100dvh] w-full scroll-mt-24 items-center px-6 py-20 sm:px-10 lg:px-16"
+        >
+          <div className="mx-auto w-full max-w-[1440px]">
+            <Reveal>
+              <SectionHeader kicker={t.projects.title} title={t.projects.title} description="" />
+            </Reveal>
+            <div className="mt-8">
+              <ProjectsCarousel />
+            </div>
+          </div>
+        </section>
+
+        {/* 外部媒体 / 社区 review 精选（替换原用户评价） */}
         <section
           id="reviews"
           className="bg-mod-blue relative flex min-h-[100dvh] w-full scroll-mt-24 items-center px-6 py-20 sm:px-10 lg:px-16"
         >
           <div className="mx-auto w-full max-w-[1440px]">
             <Reveal>
-              <SectionHeader kicker={t.reviews.title} title={t.reviews.title} description="" />
+              <SectionHeader kicker={t.mediaReviews.kicker} title={t.mediaReviews.title} description="" />
             </Reveal>
             <div className="mt-10">
-              <ReviewsSection />
+              <MediaReviewsSection />
             </div>
           </div>
         </section>
