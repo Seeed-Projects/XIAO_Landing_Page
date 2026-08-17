@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import styles from "./thumb.module.css";
+import { withBase } from "../../lib/basePath";
 
-// 用 pdf.js 在浏览器渲染 PDF 第 1 页为缩略图。经 /api/proxy 绕过 CORS。
+// 用 pdf.js 在浏览器渲染 PDF 第 1 页为缩略图。直连远程 URL（依赖远程开 CORS；未开则降级）。
 export default function PdfThumb({ url, alt }) {
   const wrapRef = useRef(null);
   const canvasRef = useRef(null);
@@ -31,10 +32,9 @@ export default function PdfThumb({ url, alt }) {
       setState("loading");
       try {
         const pdfjs = await import("pdfjs-dist");
-        pdfjs.GlobalWorkerOptions.workerSrc = "/external/pdf.worker.min.mjs";
-        const proxy = "/api/proxy?url=" + encodeURIComponent(url);
+        pdfjs.GlobalWorkerOptions.workerSrc = withBase("/external/pdf.worker.min.mjs");
         const loadingTask = pdfjs.getDocument({
-          url: proxy,
+          url,
           // 关闭字体外部拉取，缩略图无需文字精确
           useSystemFonts: true,
           disableFontFace: true,

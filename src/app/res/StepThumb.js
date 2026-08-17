@@ -1,9 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import styles from "./thumb.module.css";
+import { withBase } from "../../lib/basePath";
 
 // 用 occt-import-js(WASM) 解析 STEP → three.js 渲染可旋转 3D 缩略图。
-// 字节经 /api/proxy 取（绕 CORS）。
+// 字节直连远程 URL（依赖远程开 CORS；未开则降级显示“3D 预览失败”）。
 export default function StepThumb({ url }) {
   const wrapRef = useRef(null);
   const canvasRef = useRef(null);
@@ -38,11 +39,10 @@ export default function StepThumb({ url }) {
         const occtimportjs = (await import("occt-import-js")).default;
 
         const occt = await occtimportjs({
-          locateFile: (p) => "/external/" + p,
+          locateFile: (p) => withBase("/external/" + p),
         });
 
-        const proxy = "/api/proxy?url=" + encodeURIComponent(url);
-        const res = await fetch(proxy);
+        const res = await fetch(url);
         if (!res.ok) throw new Error("fetch step " + res.status);
         const buf = new Uint8Array(await res.arrayBuffer());
         const result = occt.ReadStepFile(buf, null);

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useLang } from "../i18n";
 import { Reveal } from "../reveal";
 import { Glow } from "../Glow";
+import { withBase } from "../../lib/basePath";
 import styles from "./community-roadmap.module.css";
 
 const STATUS_CLASS = {
@@ -85,7 +86,7 @@ export function CommunityRoadmap() {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch("/open-roadmap/discussions.json", { cache: "no-store" });
+        const res = await fetch(withBase("/open-roadmap/discussions.json"), { cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if (!cancelled) {

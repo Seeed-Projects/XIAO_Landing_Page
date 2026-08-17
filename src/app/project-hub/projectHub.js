@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLang } from "../i18n";
 import { Reveal } from "../reveal";
 import { Glow } from "../Glow";
+import { withBase } from "../../lib/basePath";
 import styles from "./project-hub.module.css";
 
 const PROJECTS_YAML_URL =
@@ -412,7 +413,7 @@ export function ProjectHub() {
                   <div
                     className={`${styles.cardArt} ${styles.applicationImage}`}
                     style={{
-                      backgroundImage: `linear-gradient(0deg,#05070599,transparent 58%),url('/application-scenes.png')`,
+                      backgroundImage: `linear-gradient(0deg,#05070599,transparent 58%),url('${withBase("/application-scenes.png")}')`,
                       backgroundSize: "100% 100%, 400% 400%",
                       backgroundPosition: `center, ${x}% ${y}%`,
                     }}

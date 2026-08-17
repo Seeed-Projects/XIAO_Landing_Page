@@ -6,21 +6,69 @@ import { ScrollBand } from "./scroll-band";
 
 /**
  * 资讯滚动带 —— 数据自动更新：
- * 进入页面时请求 /api/news（服务端代理 Seeed WordPress 博客 XIAO 标签文章），
+ * 直连 Seeed WordPress wp-json 拉取 XIAO 标签文章（wp-json 已开 CORS *），
  * 拉到就用最新文章，失败回退到 i18n 里的静态数据，保证不空。
  */
+
+const WP_ENDPOINT =
+  "https://www.seeedstudio.com/blog/wp-json/wp/v2/posts?tags=3129&per_page=6&_embed=1";
+
+// 内存缓存：1 小时内复用，避免重复请求。
+const TTL = 60 * 60 * 1000;
+let cache = { at: 0, items: null };
+
+function strip(html) {
+  return (html || "")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&#8211;/g, "–")
+    .replace(/&#8217;/g, "’")
+    .replace(/&#039;/g, "'")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 140);
+}
+
+function mapPost(p) {
+  const emb = p?._embedded || {};
+  const media = emb["wp:featuredmedia"]?.[0];
+  const author = emb.author?.[0];
+  return {
+    title: strip(p?.title?.rendered),
+    excerpt: strip(p?.excerpt?.rendered),
+    date: (p?.date || "").slice(0, 10),
+    url: p?.link || "#",
+    media_url: media?.source_url || "",
+    source: author?.name || "Seeed Blog",
+    tag: "Seeed Blog",
+  };
+}
+
 export function NewsCarousel() {
   const { t } = useLang();
   const [items, setItems] = useState(t.news.items);
 
   useEffect(() => {
     let alive = true;
-    fetch("/api/news")
+    const now = Date.now();
+    if (cache.items && now - cache.at < TTL) {
+      setItems(cache.items);
+      return;
+    }
+    fetch(WP_ENDPOINT, { headers: { Accept: "application/json" } })
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then((data) => {
-        if (alive && Array.isArray(data) && data.length) setItems(data);
+      .then((posts) => {
+        if (!alive || !Array.isArray(posts)) return;
+        const mapped = posts.map(mapPost).filter((p) => p.title);
+        if (mapped.length) {
+          cache = { at: Date.now(), items: mapped };
+          setItems(mapped);
+        }
       })
-      .catch(() => {});
+      .catch(() => {
+        if (alive && cache.items) setItems(cache.items);
+      });
     return () => {
       alive = false;
     };

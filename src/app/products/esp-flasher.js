@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLang } from "../i18n";
 import { Glow } from "../Glow";
+import { withBase } from "../../lib/basePath";
 import styles from "./esp-flasher.module.css";
 
 /* 真实固件列表 —— 目前 PoC 提供 XIAO ESP32-S3 的 Blink 示例
@@ -202,7 +203,7 @@ export function ESPFlasher() {
     setStats({ time: "…", speed: "…", size: "…" });
     try {
       appendLog(`↓ 下载固件 ${target.url}\n`);
-      const res = await fetch(target.url);
+      const res = await fetch(withBase(target.url));
       if (!res.ok) throw new Error(`固件下载失败 (HTTP ${res.status})`);
       const data = new Uint8Array(await res.arrayBuffer());
       appendLog(`固件 ${data.length} 字节 → 0x${target.address.toString(16)}\n`);

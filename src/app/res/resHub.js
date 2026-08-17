@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLang } from "../i18n";
 import { Glow } from "../Glow";
+import { withBase } from "../../lib/basePath";
 import styles from "./res.module.css";
 import CourseCard from "./CourseCard";
 
@@ -680,7 +681,7 @@ export function ResHub() {
             <p>{T.heroP}</p>
             <div className={styles.heroActions}>
               <a className={`${styles.btn} ${styles.btnGreen}`} href="#resources">{T.btnBrowse}</a>
-              <a className={`${styles.btn} ${styles.btnLight}`} href="/products">{T.btnSelector}</a>
+              <a className={`${styles.btn} ${styles.btnLight}`} href={withBase("/products")}>{T.btnSelector}</a>
             </div>
           </div>
           <div className={styles.heroArt}>

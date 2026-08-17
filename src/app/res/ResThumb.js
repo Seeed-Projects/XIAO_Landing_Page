@@ -2,6 +2,7 @@
 import dynamic from "next/dynamic";
 import styles from "./res.module.css";
 import t from "./thumb.module.css";
+import { withBase } from "../../lib/basePath";
 
 // pdf/step 客户端渲染组件懒加载，避免拖慢首屏
 const PdfThumb = dynamic(() => import("./PdfThumb"), { ssr: false });
@@ -14,7 +15,7 @@ export default function ResThumb({ item }) {
   if (kind === "img" && item.thumb) {
     return (
       <div className={styles.resItemThumb}>
-        <img src={item.thumb} alt={item.name} loading="lazy" />
+        <img src={withBase(item.thumb)} alt={item.name} loading="lazy" />
       </div>
     );
   }
@@ -29,18 +30,6 @@ export default function ResThumb({ item }) {
     return (
       <div className={styles.resItemThumb}>
         <StepThumb url={item.url} />
-      </div>
-    );
-  }
-  // pcb / dxf / xlsx：服务端渲染成 SVG，直接当图片
-  if (kind === "pcb" || kind === "dxf" || kind === "xlsx") {
-    return (
-      <div className={styles.resItemThumb}>
-        <img
-          src={`/api/${kind}?url=${encodeURIComponent(item.url)}`}
-          alt={item.name}
-          loading="lazy"
-        />
       </div>
     );
   }
