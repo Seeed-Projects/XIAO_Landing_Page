@@ -44,7 +44,7 @@ export default function SoftwareDetailClient() {
   return (
     <>
       <SiteHeader />
-      <main className="flex w-full flex-1 flex-col">
+      <main className="flex w-full flex-1 flex-col pt-24 lg:pt-28">
         {/* 面包屑 + 标题 */}
         <section className="w-full px-6 py-8 sm:px-10 lg:px-16">
           <div className="mx-auto w-full max-w-[1100px]">

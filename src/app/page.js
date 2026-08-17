@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <>
       <SiteHeader />
-      <main className="flex w-full flex-1 flex-col">
+      <main className="flex w-full flex-1 flex-col pt-24 lg:pt-28">
         {/* Hero - 全屏满宽 */}
         <section
           id="hero"

@@ -13,7 +13,7 @@ export default function ProductsPage() {
   return (
     <>
       <SiteHeader />
-      <main className="flex w-full flex-1 flex-col">
+      <main className="flex w-full flex-1 flex-col pt-24 lg:pt-28">
         {/* 一级标题：产品页 */}
         <section className="w-full px-6 py-10 sm:px-10 lg:px-16">
           <div className="mx-auto w-full max-w-[1440px]">
