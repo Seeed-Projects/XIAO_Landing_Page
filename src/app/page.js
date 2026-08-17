@@ -2,6 +2,7 @@
 
 import { useLang } from "./i18n";
 import { SectionHeader, SiteHeader } from "./components";
+import { HeroSection } from "./hero-section";
 import { PartnerMarquee } from "./partner-marquee";
 import { NewsCarousel } from "./news-carousel";
 import { ProjectsCarousel } from "./projects-carousel";
@@ -19,30 +20,8 @@ export default function Home() {
     <>
       <SiteHeader />
       <main className="flex w-full flex-1 flex-col pt-24 lg:pt-28">
-        {/* Hero - 全屏满宽 */}
-        <section
-          id="hero"
-          className="bg-mod-hero soft-grid relative flex min-h-[100dvh] w-full scroll-mt-24 items-center overflow-hidden px-6 py-16 sm:px-10 lg:px-16 lg:py-24"
-        >
-          <div className="relative z-10 mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-            <Reveal className="space-y-5">
-              <p className="font-display text-sm font-semibold uppercase tracking-[0.32em] text-[var(--brand-blue-soft)]">
-                {t.hero.kicker}
-              </p>
-              <Glow as="h1" className="font-display text-balance max-w-4xl text-5xl font-semibold leading-[0.94] tracking-tight text-[var(--ink-strong)] sm:text-6xl lg:text-7xl">
-                {t.hero.title}
-              </Glow>
-            </Reveal>
-            <Reveal delay={150} className="rounded-[28px] border border-[var(--line-soft)] bg-[linear-gradient(135deg,rgba(0,73,102,0.96),rgba(8,102,126,0.92),rgba(143,195,31,0.88))] p-6 text-white sm:p-8">
-              <p className="font-display text-xs uppercase tracking-[0.32em] text-white/72">
-                {t.hero.ecosystemKicker}
-              </p>
-              <p className="mt-4 text-lg leading-8 text-white/90">
-                {t.hero.ecosystemText}
-              </p>
-            </Reveal>
-          </div>
-        </section>
+        {/* Hero - 复刻参考稿首屏 */}
+        <HeroSection />
 
         {/* 数据区 - 全屏满宽 */}
         <section
