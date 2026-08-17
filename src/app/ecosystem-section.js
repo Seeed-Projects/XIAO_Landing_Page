@@ -221,7 +221,7 @@ export function EcosystemSection() {
             <span className="absolute top-1/2 block h-[3px] w-20 -translate-y-1/2 rounded-full bg-[linear-gradient(90deg,rgba(143,195,31,0),rgba(143,195,31,0.9),rgba(0,73,102,0.9),rgba(0,73,102,0))] animate-[coflow_5s_linear_infinite]" />
           </div>
 
-          <div className="relative grid gap-5 sm:grid-cols-3">
+          <div className="relative grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {cards.map((c, i) => (
               <Reveal key={c.href} delay={i * 90}>
                 <Link
@@ -258,6 +258,45 @@ export function EcosystemSection() {
                 </Link>
               </Reveal>
             ))}
+
+            {/* 第 4 张：广告/推广卡 —— 生态里更多可直接用的在线工具（引脚 / 烧录） */}
+            <Reveal delay={270}>
+              <div className="group flex h-full flex-col rounded-2xl border border-[var(--brand-green)]/35 bg-[linear-gradient(135deg,rgba(143,195,31,0.12),rgba(0,73,102,0.10))] p-7 shadow-[0_8px_24px_rgba(0,73,102,0.10)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--brand-green)]/55 hover:shadow-[0_16px_36px_rgba(0,73,102,0.16)]">
+                <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--brand-green)]/18 text-[var(--brand-green-deep)] ring-1 ring-inset ring-[var(--brand-green)]/25">
+                  <span className="h-6 w-6">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                      <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                      <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                      <path d="M14 14h7v3M21 21h-7" />
+                      <path d="M17.5 17.5 21 21" />
+                    </svg>
+                  </span>
+                </div>
+                <h3 className="mt-5 font-display text-xl font-bold leading-tight tracking-tight text-[var(--ink-strong)]">
+                  {isEn ? "More Tools" : "更多平台工具"}
+                </h3>
+                <p className="mt-2 flex-1 text-sm leading-6 text-[var(--ink-body)]">
+                  {isEn
+                    ? "Browse pin maps and flash firmware — right in the browser."
+                    : "在线查引脚、一键烧录固件，浏览器里直接搞定。"}
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2.5">
+                  <Link
+                    href="/products#pinout"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-[var(--brand-blue)] px-3.5 py-1.5 text-sm font-semibold text-white transition hover:bg-[var(--brand-blue-soft)]"
+                  >
+                    {isEn ? "Pin Map" : "引脚插入"}
+                  </Link>
+                  <Link
+                    href="/products#esp-flasher"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-white/85 px-3.5 py-1.5 text-sm font-semibold text-[var(--brand-blue)] ring-1 ring-inset ring-[var(--brand-blue)]/25 transition hover:bg-white"
+                  >
+                    {isEn ? "One-Click Flash" : "一键接入"}
+                  </Link>
+                </div>
+              </div>
+            </Reveal>
           </div>
         </div>
       </div>

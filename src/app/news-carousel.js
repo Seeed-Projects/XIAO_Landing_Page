@@ -6,8 +6,12 @@ import { ScrollBand } from "./scroll-band";
 
 /**
  * 资讯滚动带 —— 数据自动更新：
- * 直连 Seeed WordPress wp-json 拉取 XIAO 标签文章（wp-json 已开 CORS *），
- * 拉到就用最新文章，失败回退到 i18n 里的静态数据，保证不空。
+ * 直连 Seeed WordPress wp-json 拉取 XIAO 标签文章。
+ * ⚠️ GitHub Pages 阶段拉不到：wp-json 同时返回「反射 Origin」+「*」两个
+ *    Access-Control-Allow-Origin 头，浏览器判 CORS 失败。上到
+ *    www.seeedstudio.com 域名后与博客同源，直连即生效。期间回退 i18n
+ *    静态数据，保证不空。要恢复实时新闻，最干净的做法是让 seeed 修掉
+ *    wp-json 的重复 CORS 头（或上同源域名）。
  */
 
 const WP_ENDPOINT =
@@ -57,7 +61,7 @@ export function NewsCarousel() {
       return;
     }
     fetch(WP_ENDPOINT, { headers: { Accept: "application/json" } })
-      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then((r) => (r && r.ok ? r.json() : Promise.reject(r?.status || "no-resp")))
       .then((posts) => {
         if (!alive || !Array.isArray(posts)) return;
         const mapped = posts.map(mapPost).filter((p) => p.title);
