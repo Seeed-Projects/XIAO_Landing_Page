@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useLang } from "./i18n";
+import { BASE_PATH } from "../lib/basePath";
 
 function LangToggle() {
   const { lang, toggle } = useLang();
@@ -147,16 +148,19 @@ export function SiteHeader() {
 
   const goSection = (href, id) => {
     setOpenKey(null);
+    // 静态导出在子路径(basePath)下，且文件按尾斜杠目录存放；
+    // 下拉菜单跳转用 window.location，必须手动加 basePath + 尾斜杠，否则 404。
+    const dir = `${BASE_PATH}${href.endsWith("/") ? href : href + "/"}`;
     if (!id || id === "top" || id === "hero") {
       if (pathname === href) window.scrollTo({ top: 0, behavior: "smooth" });
-      else window.location.href = href;
+      else window.location.href = dir;
       return;
     }
     if (pathname === href) {
       const el = document.getElementById(id);
       if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
     }
-    window.location.href = `${href}${href.includes("#") ? "" : "#"}${id}`;
+    window.location.href = `${dir}#${id}`;
   };
 
   return (
