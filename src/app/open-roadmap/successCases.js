@@ -48,7 +48,7 @@ export function SuccessCases() {
   const cta = isEn ? "View product →" : "查看商详 →";
 
   return (
-    <section className="w-full bg-[var(--page-bg)] px-6 py-16 sm:px-10 lg:px-16">
+    <section id="success" className="w-full scroll-mt-24 bg-[var(--page-bg)] px-6 py-16 sm:px-10 lg:px-16">
       <div className="mx-auto w-full max-w-[1440px]">
         <Reveal className="text-center">
           <span className={styles.eyebrow}>

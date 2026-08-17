@@ -19,14 +19,17 @@ function routeKey(pathname) {
     case "/software-center":
       return "softwareCenter";
     default:
-      return "home";
+      // 未匹配路由（如软件详情页 /software-center/[slug]、official 子页）
+      //没有对应锚点目录，返回 null → 不渲染侧栏，避免误显示首页目录。
+      return null;
   }
 }
 
 export function SideDirectory() {
   const { t } = useLang();
   const pathname = usePathname();
-  const items = t.side?.[routeKey(pathname)] ?? t.side?.home ?? [];
+  const key = routeKey(pathname);
+  const items = key ? t.side?.[key] ?? [] : [];
   const [active, setActive] = useState(items[0]?.id ?? null);
 
   // 滚动监听，高亮当前可视区段
