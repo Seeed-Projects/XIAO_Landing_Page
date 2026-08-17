@@ -46,6 +46,7 @@ const METRICS = [
 
 const T = {
   en: {
+    introTagline: "Discover what you can build with XIAO",
     heroEyebrow: "FEATURED PROJECT · XIAO ESP32-C6",
     heroDek:
       "A solar-powered offline navigation device for outdoor exploration, waypoint tracking and off-grid adventures, integrating ePaper, GPS, a digital compass and MPPT solar charging.",
@@ -61,6 +62,8 @@ const T = {
     contributeDek:
       "Share your work with makers around the world and help grow the project collection.",
     contributeButton: "Contribute your project →",
+    contributeKicker: "OPEN SOURCE · COMMUNITY DRIVEN",
+    sourceLabel: "PROJECT SOURCES",
     sourceNote:
       "Curated from GitHub, YouTube, Hackster, Instructables, Hackaday and independent web projects. Updated regularly by the Seeed Studio community.",
     appDirLabel: "APPLICATION DIRECTION",
@@ -71,6 +74,7 @@ const T = {
     selectedToast: (label) => `Selected ${label}`,
   },
   zh: {
+    introTagline: "探索 XIAO 能带你实现的每一种可能",
     heroEyebrow: "精选项目 · XIAO ESP32-C6",
     heroDek:
       "一款面向户外探索、航点追踪与离网冒险的太阳能离线导航设备，集成电子纸、GPS、数字罗盘与 MPPT 太阳能充电。",
@@ -86,6 +90,8 @@ const T = {
     contributeDek:
       "把作品分享给世界各地的创客，一起扩展这个开放项目集合。",
     contributeButton: "提交你的项目 →",
+    contributeKicker: "开源共创 · 由社区驱动",
+    sourceLabel: "内容来源",
     sourceNote:
       "内容整理自 GitHub、YouTube、Hackster、Instructables、Hackaday 和独立网页项目，由 Seeed Studio 社区持续更新。",
     appDirLabel: "应用方向",
@@ -284,10 +290,13 @@ export function ProjectHub() {
           </button>
         </div>
         <div>
-          <div className={styles.seeedLogo}>Seeed Studio</div>
+          <div className={styles.seeedLogo} aria-label="Seeed Studio">
+            <span className={styles.seeedWord}>Seeed</span>
+            <span className={styles.studioWord}>Studio</span>
+          </div>
           <Glow as="h1">XIAO Project Hub</Glow>
         </div>
-        <p>Discover what you can build with XIAO</p>
+        <p>{t.introTagline}</p>
       </Reveal>
 
       <main>
@@ -323,7 +332,7 @@ export function ProjectHub() {
           <aside className={styles.side} ref={sideRef}>
             <div className={styles.sideHead}>
               <div>
-                <Glow as="h2">{t.recentTitle}</Glow>
+                <h2>{t.recentTitle}</h2>
                 <span className={styles.count}>{t.latestCount}</span>
               </div>
               <div className={styles.subscribeCluster}>
@@ -453,21 +462,25 @@ export function ProjectHub() {
                 allow="fullscreen"
                 referrerPolicy="strict-origin-when-cross-origin"
               />
-              <div className={styles.browserShield} />
             </div>
           </div>
 
           <div className={styles.contribute}>
-            <div>
-              <span className={styles.sectionKicker}>OPEN SOURCE · COMMUNITY DRIVEN</span>
-              <Glow as="h2">{t.contributeTitle}</Glow>
+            <div className={styles.contributeCopy}>
+              <span className={`${styles.sectionKicker} ${styles.contributeKicker}`}>
+                {t.contributeKicker}
+              </span>
+              <h2>{t.contributeTitle}</h2>
               <p>{t.contributeDek}</p>
             </div>
             <a href={CONTRIBUTE_LINK} target="_blank" rel="noopener">
               {t.contributeButton}
             </a>
           </div>
-          <footer className={styles.sourceNote}>{t.sourceNote}</footer>
+          <footer className={styles.sourceNote}>
+            <span>{t.sourceLabel}</span>
+            <p>{t.sourceNote}</p>
+          </footer>
         </Reveal>
       </main>
 

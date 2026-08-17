@@ -14,6 +14,8 @@ export function Glow({
   as: Tag = "h2",
   className = "",
   full: fullProp,
+  start: startProp = 0.85,
+  end: endProp = 0.28,
   ...rest
 }) {
   const ref = useRef(null);
@@ -45,8 +47,8 @@ export function Glow({
     const apply = () => {
       const vh = window.innerHeight;
       const r = el.getBoundingClientRect();
-      const start = vh * 0.85;
-      const end = vh * 0.28;
+      const start = vh * startProp;
+      const end = vh * endProp;
       let p = (start - r.top) / (start - end);
       p = Math.max(0, Math.min(1, p));
       const front = p * (chars.length - 1 + transition);
@@ -69,7 +71,7 @@ export function Glow({
       cancelAnimationFrame(raf);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text]);
+  }, [text, startProp, endProp]);
 
   if (!text) {
     return (
