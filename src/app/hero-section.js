@@ -18,18 +18,20 @@ export function HeroSection() {
 
   const copy = isEn
     ? {
-        kicker: "Seeed XIAO Series",
+        kicker: "Add AI to Almost Anything",
+        brand: "Seeed Studio",
         title: "XIAO",
         subtitle:
-          "A thumb-sized board that grew a whole ecosystem — hardware, software, docs and a community that builds together.",
+          "The smallest Arduino-compatible dev boards for building your next AI gadgets.",
         primary: "Browse Products",
         secondary: "Explore Ecosystem",
       }
     : {
-        kicker: "Seeed XIAO 系列",
+        kicker: "为万物加上 AI",
+        brand: "Seeed Studio",
         title: "XIAO",
         subtitle:
-          "一块拇指大的板子，长出了一整片生态——硬件、软件、资料与共建社区，从这里开始。",
+          "最小的 Arduino 兼容开发板，助你打造下一个 AI 小装置。",
         primary: "浏览产品",
         secondary: "探索生态",
       };
@@ -44,6 +46,9 @@ export function HeroSection() {
         <Reveal className="space-y-6">
           <p className="font-display text-sm font-semibold uppercase tracking-[0.34em] text-[var(--brand-blue-soft)]">
             {copy.kicker}
+          </p>
+          <p className="font-display text-base font-medium tracking-[0.18em] text-[var(--ink-muted)]">
+            {copy.brand}
           </p>
           <Glow
             as="h1"
