@@ -261,8 +261,8 @@ export function EcosystemSection() {
 
             {/* 第 4 张：广告/推广卡 —— 生态里更多可直接用的在线工具（引脚 / 烧录） */}
             <Reveal delay={270}>
-              <div className="group flex h-full flex-col rounded-2xl border border-[var(--brand-green)]/35 bg-[linear-gradient(135deg,rgba(143,195,31,0.12),rgba(0,73,102,0.10))] p-7 shadow-[0_8px_24px_rgba(0,73,102,0.10)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--brand-green)]/55 hover:shadow-[0_16px_36px_rgba(0,73,102,0.16)]">
-                <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--brand-green)]/18 text-[var(--brand-green-deep)] ring-1 ring-inset ring-[var(--brand-green)]/25">
+              <div className="group flex h-full flex-col rounded-2xl border border-[var(--line-soft)] bg-white/90 p-7 shadow-[0_8px_24px_rgba(0,73,102,0.06)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--brand-blue)]/30 hover:shadow-[0_16px_36px_rgba(0,73,102,0.12)]">
+                <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--brand-blue)]/8 text-[var(--brand-blue)] ring-1 ring-inset ring-[var(--brand-blue)]/15 transition group-hover:bg-[var(--brand-blue)] group-hover:text-white">
                   <span className="h-6 w-6">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="3" y="3" width="7" height="7" rx="1.5" />
@@ -272,6 +272,7 @@ export function EcosystemSection() {
                       <path d="M17.5 17.5 21 21" />
                     </svg>
                   </span>
+                  <span className="absolute inset-0 rounded-xl bg-[var(--brand-blue)]/30 animate-[copulse_3s_ease-out_infinite] group-hover:animate-none" />
                 </div>
                 <h3 className="mt-5 font-display text-xl font-bold leading-tight tracking-tight text-[var(--ink-strong)]">
                   {isEn ? "More Tools" : "更多平台工具"}
@@ -284,13 +285,13 @@ export function EcosystemSection() {
                 <div className="mt-5 flex flex-wrap gap-2.5">
                   <Link
                     href="/products#pinout"
-                    className="inline-flex items-center gap-1.5 rounded-full bg-[var(--brand-blue)] px-3.5 py-1.5 text-sm font-semibold text-white transition hover:bg-[var(--brand-blue-soft)]"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-[var(--ink-strong)] bg-white px-3.5 py-1.5 text-sm font-semibold text-black transition hover:bg-[var(--ink-strong)] hover:text-white"
                   >
                     {isEn ? "Pin Map" : "引脚插入"}
                   </Link>
                   <Link
                     href="/products#esp-flasher"
-                    className="inline-flex items-center gap-1.5 rounded-full bg-white/85 px-3.5 py-1.5 text-sm font-semibold text-[var(--brand-blue)] ring-1 ring-inset ring-[var(--brand-blue)]/25 transition hover:bg-white"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-[var(--ink-strong)] bg-white px-3.5 py-1.5 text-sm font-semibold text-black transition hover:bg-[var(--ink-strong)] hover:text-white"
                   >
                     {isEn ? "One-Click Flash" : "一键接入"}
                   </Link>
