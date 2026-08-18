@@ -18,15 +18,15 @@ export function VideoIntroSection() {
 
   const copy = isEn
     ? {
-        kicker: "What is XIAO",
-        title: "Tiny Boards, Built for AI",
-        body: "Seeed XIAO is a series of thumb-sized, Arduino-compatible development boards packing serious compute — from ESP32-S3 with camera and AI, to nRF54L15 for ultra-low-power BLE, to RP2350 for control and USB. Designed for edge AI, smart home, wearables and education, every board keeps the same compact footprint so your idea can stay small, all the way to product.",
+        kicker: "About Seeed Studio XIAO",
+        title: "Tiny MCUs, Built for TinyML on the Edge",
+        body: "Seeed Studio XIAO Series is a collection of thumb-sized, powerful microcontroller units (MCUs) tailor-made for space-conscious projects requiring high performance and wireless connectivity. Embodying the essence of popular hardware platforms, the Arduino-compatible XIAO series is the perfect toolset for you to embrace tiny machine learning (TinyML) on the Edge.",
         cta: "See the full lineup",
       }
     : {
-        kicker: "XIAO 是什么",
-        title: "小身材，天生为 AI",
-        body: "Seeed XIAO 是一系列拇指大小、兼容 Arduino 的开发板，却塞进了不俗的算力——带摄像头与 AI 的 ESP32-S3、超低功耗蓝牙的 nRF54L15、面向控制与 USB 的 RP2350。覆盖边缘 AI、智能家居、可穿戴与教育，所有板卡保持同样紧凑的尺寸，让你的点子从原型到量产都能「小」到底。",
+        kicker: "关于 Seeed Studio XIAO",
+        title: "拇指大的 MCU，为边缘 TinyML 而生",
+        body: "Seeed Studio XIAO 系列是一组拇指大小、性能强大的微控制器（MCU），专为对空间敏感、又需要高性能与无线连接的项目而打造。汲取主流硬件平台的精髓，兼容 Arduino 的 XIAO 系列，是你拥抱边缘端微型机器学习（TinyML）的理想工具集。",
         cta: "查看完整产品线",
       };
 
