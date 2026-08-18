@@ -33,7 +33,7 @@ export function VideoIntroSection() {
   return (
     <section
       id="intro"
-      className="relative flex w-full scroll-mt-24 items-center bg-[var(--bg-base)] px-6 py-24 sm:px-10 lg:px-16"
+      className="relative flex w-full scroll-mt-24 items-center bg-[var(--bg-base)] px-6 py-16 sm:px-10 lg:px-16"
     >
       <div className="mx-auto grid w-full max-w-[1440px] items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
         {/* 左：视频 */}
