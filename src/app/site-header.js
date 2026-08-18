@@ -17,14 +17,14 @@ function LangToggle() {
     >
       <span
         className={`rounded-full px-2.5 py-1 transition ${
-          lang === "zh" ? "bg-[var(--brand-blue)] text-white" : "text-[var(--ink-muted)]"
+          lang === "zh" ? "bg-[var(--ink-strong)] text-white" : "text-[var(--ink-muted)]"
         }`}
       >
         中文
       </span>
       <span
         className={`rounded-full px-2.5 py-1 transition ${
-          lang === "en" ? "bg-[var(--brand-blue)] text-white" : "text-[var(--ink-muted)]"
+          lang === "en" ? "bg-[var(--ink-strong)] text-white" : "text-[var(--ink-muted)]"
         }`}
       >
         EN

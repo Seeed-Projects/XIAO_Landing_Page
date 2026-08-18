@@ -30,7 +30,7 @@ export default function SoftwareDetailClient() {
           </p>
           <Link
             href="/software-center"
-            className="mt-6 rounded-full bg-[var(--brand-blue)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--brand-blue-soft)]"
+            className="mt-6 rounded-full border border-[var(--brand-blue)]/20 bg-white px-5 py-2.5 text-sm font-semibold text-[var(--brand-blue)] transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/45 hover:bg-[var(--brand-blue)]/5"
           >
             ← 返回软件中心
           </Link>

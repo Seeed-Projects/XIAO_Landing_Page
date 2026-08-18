@@ -142,7 +142,7 @@ export function NewsCarousel() {
           href={BLOG_TAG_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center gap-2 rounded-full bg-[var(--brand-blue)] px-6 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(0,73,102,0.18)] transition hover:-translate-y-0.5 hover:bg-[var(--brand-blue-soft)]"
+          className="group inline-flex items-center gap-2 rounded-full border border-[var(--brand-blue)]/20 bg-white px-6 py-3 text-sm font-semibold text-[var(--brand-blue)] shadow-[0_8px_24px_rgba(0,73,102,0.10)] transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/45 hover:bg-[var(--brand-blue)]/5"
         >
           {isEn ? "Explore More" : "查看更多"}
           <svg

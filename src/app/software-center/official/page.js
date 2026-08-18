@@ -67,7 +67,7 @@ function ProjectBanner({ p, isEn }) {
         <p className="mt-3 max-w-xl text-sm leading-6 text-[var(--ink-muted)]">
           {isEn ? p.descEn : p.desc}
         </p>
-        <span className="mt-5 inline-flex w-fit items-center gap-2 rounded-full border border-[var(--brand-blue)]/25 bg-[var(--brand-blue)]/5 px-5 py-2.5 text-sm font-bold text-[var(--brand-blue)] transition-all duration-300 group-hover:gap-3 group-hover:bg-[var(--brand-blue)] group-hover:text-white group-hover:border-[var(--brand-blue)]">
+        <span className="mt-5 inline-flex w-fit items-center gap-2 rounded-full border border-[var(--brand-blue)]/25 bg-[var(--brand-blue)]/5 px-5 py-2.5 text-sm font-bold text-[var(--brand-blue)] transition-all duration-300 group-hover:gap-3 group-hover:bg-white group-hover:text-[var(--brand-blue)] group-hover:border-[var(--brand-blue)]">
           {isEn ? "Explore" : "探索"}
           <svg
             width="17"

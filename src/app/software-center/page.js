@@ -186,7 +186,7 @@ export default function SoftwareCenterPage() {
                     className={
                       "rounded-full px-4 py-2 text-sm font-semibold leading-none transition-all " +
                       (isActive
-                        ? "bg-[var(--brand-blue)] text-white shadow-sm"
+                        ? "bg-[var(--ink-strong)] text-white shadow-sm"
                         : "border border-[var(--brand-blue)]/30 bg-white/80 text-[var(--brand-blue)] hover:border-[var(--brand-blue)]/60 hover:bg-[var(--brand-blue)]/5")
                     }
                   >
