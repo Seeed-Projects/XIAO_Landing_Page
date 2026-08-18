@@ -171,14 +171,17 @@ export function SiteHeader() {
       onMouseLeave={scheduleClose}
     >
       <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center px-6 sm:px-8 lg:px-12">
-        {/* 左：logo —— 圆形徽标 */}
-        <Link href="/" className="flex shrink-0 items-center">
+        {/* 左：logo —— 圆形徽标 + XIAO 文字（透明底锁标） */}
+        <Link href="/" className="flex shrink-0 items-center gap-2.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={withBase("/xiao-logo-badge.png")}
+            src={withBase("/xiao-mark.png")}
             alt="XIAO"
-            className="h-10 w-10 object-contain"
+            className="h-9 w-9 object-contain"
           />
+          <span className="font-display text-base font-semibold tracking-[0.18em] text-[var(--brand-blue)]">
+            XIAO
+          </span>
         </Link>
 
         {/* 中：导航居中 —— 每项结构完全一致（点击跳转页面，悬停出下拉） */}
