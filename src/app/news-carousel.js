@@ -15,7 +15,9 @@ import { ScrollBand } from "./scroll-band";
  */
 
 const WP_ENDPOINT =
-  "https://www.seeedstudio.com/blog/wp-json/wp/v2/posts?tags=3129&per_page=6&_embed=1";
+  "https://www.seeedstudio.com/blog/wp-json/wp/v2/posts?tags=3129&per_page=6&_embed=1&orderby=date&order=desc";
+
+const BLOG_TAG_URL = "https://www.seeedstudio.com/blog/tag/seeed-studio-xiao/";
 
 // 内存缓存：1 小时内复用，避免重复请求。
 const TTL = 60 * 60 * 1000;
@@ -50,7 +52,7 @@ function mapPost(p) {
 }
 
 export function NewsCarousel() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const [items, setItems] = useState(t.news.items);
 
   useEffect(() => {
@@ -64,7 +66,11 @@ export function NewsCarousel() {
       .then((r) => (r && r.ok ? r.json() : Promise.reject(r?.status || "no-resp")))
       .then((posts) => {
         if (!alive || !Array.isArray(posts)) return;
-        const mapped = posts.map(mapPost).filter((p) => p.title);
+        const mapped = posts
+          .map(mapPost)
+          .filter((p) => p.title)
+          // 按日期倒序，优先显示近期
+          .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
         if (mapped.length) {
           cache = { at: Date.now(), items: mapped };
           setItems(mapped);
@@ -78,53 +84,83 @@ export function NewsCarousel() {
     };
   }, []);
 
+  const isEn = lang === "en";
+
   return (
-    <ScrollBand
-      items={items}
-      hrefFor={(item) => item.url || "#"}
-      renderCard={(item) => (
-        <>
-          {/* 封面图：加载成功显示真图，失败/无图回退渐变占位 */}
-          <div
-            className="aspect-[16/9] w-full overflow-hidden rounded-xl"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(0,73,102,0.12), rgba(143,195,31,0.12))",
-            }}
-          >
-            {item.media_url && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={item.media_url}
-                alt=""
-                loading="lazy"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                }}
-                className="h-full w-full object-cover"
-              />
-            )}
-          </div>
-          {/* 文字 */}
-          <div className="mt-4 flex flex-1 flex-col">
-            <div className="flex items-center gap-2">
-              <span className="rounded-full bg-[var(--brand-green)]/12 px-2.5 py-0.5 text-xs font-semibold text-[var(--brand-green-deep)]">
-                {item.tag}
-              </span>
-              <span className="text-xs text-[var(--ink-muted)]">{item.date}</span>
+    <div>
+      <ScrollBand
+        items={items}
+        hrefFor={(item) => item.url || "#"}
+        renderCard={(item) => (
+          <>
+            {/* 封面图：加载成功显示真图，失败/无图回退渐变占位 */}
+            <div
+              className="aspect-[16/9] w-full overflow-hidden rounded-xl"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(0,73,102,0.12), rgba(143,195,31,0.12))",
+              }}
+            >
+              {item.media_url && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={item.media_url}
+                  alt=""
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                  className="h-full w-full object-cover"
+                />
+              )}
             </div>
-            <h3 className="mt-2 text-lg font-bold leading-snug text-[var(--ink-strong)]">
-              {item.title}
-            </h3>
-            <p className="mt-1.5 text-sm leading-relaxed text-[var(--ink-body)]">
-              {item.excerpt}
-            </p>
-            <p className="mt-2 text-xs font-medium text-[var(--brand-blue-soft)]">
-              来源：{item.source}
-            </p>
-          </div>
-        </>
-      )}
-    />
+            {/* 文字 */}
+            <div className="mt-4 flex flex-1 flex-col">
+              <div className="flex items-center gap-2">
+                <span className="rounded-full bg-[var(--brand-green)]/12 px-2.5 py-0.5 text-xs font-semibold text-[var(--brand-green-deep)]">
+                  {item.tag}
+                </span>
+                <span className="text-xs text-[var(--ink-muted)]">{item.date}</span>
+              </div>
+              <h3 className="mt-2 text-lg font-bold leading-snug text-[var(--ink-strong)]">
+                {item.title}
+              </h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-[var(--ink-body)]">
+                {item.excerpt}
+              </p>
+              <p className="mt-2 text-xs font-medium text-[var(--brand-blue-soft)]">
+                {isEn ? "Source: " : "来源："}
+                {item.source}
+              </p>
+            </div>
+          </>
+        )}
+      />
+      {/* Explore More —— 进入 Seeed Blog XIAO 标签页，看更多文章 */}
+      <div className="mt-8 flex justify-center">
+        <a
+          href={BLOG_TAG_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group inline-flex items-center gap-2 rounded-full bg-[var(--brand-blue)] px-6 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(0,73,102,0.18)] transition hover:-translate-y-0.5 hover:bg-[var(--brand-blue-soft)]"
+        >
+          {isEn ? "Explore More" : "查看更多"}
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="transition-transform group-hover:translate-x-0.5"
+          >
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </div>
   );
 }
