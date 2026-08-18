@@ -7,10 +7,10 @@ import { Glow } from "./Glow";
 /**
  * VideoIntroSection —— 首页第二板块：视频 + 文字解说。
  * 桌面端左右两栏：左 16:9 YouTube 嵌入，右 文字解说；移动端上下堆叠。
- *
- * ⚠️ YOUTUBE_ID 是占位视频，用户给真实链接后替换即可。
+ * 视频起始 5s（用户指定）。
  */
-const YOUTUBE_ID = "aqz-KE-bpKQ"; // TODO: 占位（开源短片 Big Buck Bunny），替换为真实 XIAO 介绍视频
+const YOUTUBE_ID = "A_XUi8tlKWk"; // Seeed XIAO 介绍视频
+const YOUTUBE_START = 5; // 起始秒数
 
 export function VideoIntroSection() {
   const { lang } = useLang();
@@ -42,7 +42,7 @@ export function VideoIntroSection() {
             <div className="aspect-video w-full">
               <iframe
                 className="h-full w-full"
-                src={`https://www.youtube-nocookie.com/embed/${YOUTUBE_ID}`}
+                src={`https://www.youtube-nocookie.com/embed/${YOUTUBE_ID}?start=${YOUTUBE_START}`}
                 title="XIAO intro video"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
