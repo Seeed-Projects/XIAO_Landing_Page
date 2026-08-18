@@ -43,7 +43,7 @@
 .modeTabs { display: flex; gap: 8px; padding: 18px 22px; background: var(--surface-strong); border-bottom: 1px solid var(--line-soft); }
 .modeTab { border: 0; background: transparent; color: var(--ink-muted); font-weight: 600; padding: 10px 14px; border-radius: var(--r-control); transition: background-color 180ms ease, color 180ms ease; }
 .modeTab.active { background: var(--surface-tint); color: var(--brand-green-deep); }
-.workspaceBody { height: clamp(560px, 68vh, 720px); overflow: hidden; }
+.workspaceBody { height: clamp(440px, 56vh, 560px); overflow: hidden; }
 .wizardLayout { display: grid; grid-template-columns: 260px 1fr; height: 100%; }
 
 .sidebar { padding: 28px 22px; background: var(--surface-strong); border-right: 1px solid var(--line-soft); }
