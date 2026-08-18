@@ -4,6 +4,7 @@ import { useLang } from "./i18n";
 import { SectionHeader, SiteHeader } from "./components";
 import { HeroSection } from "./hero-section";
 import { VideoIntroSection } from "./video-intro-section";
+import { DataSection } from "./data-section";
 import { PartnerMarquee } from "./partner-marquee";
 import { NewsCarousel } from "./news-carousel";
 import { ProjectsCarousel } from "./projects-carousel";
@@ -26,33 +27,10 @@ export default function Home() {
         {/* 视频解说 + 文字 */}
         <VideoIntroSection />
 
-        {/* 数据区 - 全屏满宽 */}
-        <section
-          id="data"
-          className="bg-mod-blue relative flex min-h-[100dvh] w-full scroll-mt-24 items-center px-6 py-20 sm:px-10 lg:px-16"
-        >
-          <div className="mx-auto w-full max-w-[1440px]">
-            <Reveal>
-              <SectionHeader kicker={t.data.title} title={t.data.title} description="" />
-            </Reveal>
-            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {t.data.items.map((item, i) => (
-                <Reveal
-                  key={item.label}
-                  delay={i * 90}
-                  className="flex flex-col justify-center rounded-2xl border border-[var(--line-soft)] bg-white/90 px-8 py-10 backdrop-blur-sm transition hover:shadow-md"
-                >
-                  <div className="font-display text-4xl font-semibold tracking-tight text-[var(--brand-blue)] sm:text-5xl lg:text-[52px] lg:leading-[1.05]">
-                    {item.value}
-                  </div>
-                  <p className="mt-2 text-sm font-medium text-[var(--ink-body)] sm:text-base">
-                    {item.label}
-                  </p>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* 数据区 - PCB 电路板风格 */}
+        <DataSection />
+
+        {/* 开发者区 - 全屏满宽 */}
 
         {/* 开发者区 - 全屏满宽 */}
         <section
