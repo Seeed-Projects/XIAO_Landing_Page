@@ -36,13 +36,10 @@ export function ProductPanel() {
 
   return (
     <div className="mx-auto flex h-[640px] w-full max-w-[1440px] flex-col overflow-hidden rounded-3xl border border-[var(--line-soft)] bg-white/80 backdrop-blur-sm">
-      {/* 卡片头部 - 标题 */}
+      {/* 卡片头部 - 标题（只留大标题，去掉重复的小字 eyebrow） */}
       <div className="flex shrink-0 items-center justify-between px-6 py-5 sm:px-8">
         <div>
-          <span className="block text-xs font-semibold uppercase tracking-[0.2em] text-[var(--brand-green-deep)]">
-            {t.products.eyebrow}
-          </span>
-          <Glow as="h2" className="mt-1 font-display text-2xl font-bold tracking-tight text-[var(--ink-strong)] sm:text-3xl">
+          <Glow as="h2" className="font-display text-2xl font-bold tracking-tight text-[var(--ink-strong)] sm:text-3xl">
             {t.products.title}
           </Glow>
         </div>

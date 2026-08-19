@@ -43,15 +43,14 @@ export function SectionHeader({ kicker, title, description, align = "center" }) 
         align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-2xl"
       }`}
     >
-      <p className="font-display text-xs font-semibold uppercase tracking-[0.32em] text-[var(--brand-blue-soft)]">
-        {kicker}
-      </p>
       <Glow as="h2" className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
         {title}
       </Glow>
-      <p className="max-w-xl text-base leading-7 text-[var(--ink-body)]">
-        {description}
-      </p>
+      {description ? (
+        <p className="max-w-xl text-base leading-7 text-[var(--ink-body)]">
+          {description}
+        </p>
+      ) : null}
     </div>
   );
 }
