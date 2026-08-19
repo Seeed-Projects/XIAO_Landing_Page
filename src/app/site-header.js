@@ -185,7 +185,7 @@ export function SiteHeader() {
         </Link>
 
         {/* 中：导航居中 —— 每项结构完全一致（点击跳转页面，悬停出下拉） */}
-        <nav className="hidden flex-1 items-center justify-center gap-1 lg:flex">
+        <nav className="hidden flex-1 items-center justify-center gap-0.5 lg:flex">
           {nav.map((item) => {
             const items = menuFor(item.href);
             const isOpen = openKey === item.href;
@@ -194,7 +194,7 @@ export function SiteHeader() {
                 key={item.label}
                 href={item.href}
                 onMouseEnter={() => (items?.length ? openMenu(item.href) : openMenu(null))}
-                className="flex items-center gap-1.5 rounded-full px-4 py-2 text-sm text-[var(--ink-body)] transition hover:bg-white/70 hover:text-[var(--brand-blue)]"
+                className="flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 text-sm text-[var(--ink-body)] transition hover:bg-white/70 hover:text-[var(--brand-blue)]"
               >
                 <span>{item.label}</span>
                 {/* 有菜单的项显示箭头并随开合旋转；无菜单的项用透明占位，保证每项尺寸完全一致 */}
@@ -206,8 +206,8 @@ export function SiteHeader() {
           })}
         </nav>
 
-        {/* 右：语言切换 */}
-        <div className="flex flex-1 justify-end">
+        {/* 右：语言切换 —— shrink-0 不占半边，把整行空间让给导航 */}
+        <div className="ml-auto flex shrink-0 justify-end">
           <LangToggle />
         </div>
       </div>
