@@ -100,12 +100,9 @@ export default function OfficialFirmwarePage() {
         {/* 标题 */}
         <section className="w-full px-6 py-10 sm:px-10 lg:px-16">
           <div className="mx-auto w-full max-w-[1440px] text-center">
-            <p className="font-display text-xs font-semibold uppercase tracking-[0.32em] text-[var(--brand-blue-soft)]">
-              {isEn ? "Official Software" : "官方软件"}
-            </p>
             <Glow
               as="h1"
-              className="mt-2 font-display text-3xl font-semibold tracking-tight text-[var(--ink-strong)] sm:text-4xl"
+              className="font-display text-3xl font-semibold tracking-tight text-[var(--ink-strong)] sm:text-4xl"
             >
               {isEn ? "XIAO Official Projects" : "XIAO 官方项目"}
             </Glow>

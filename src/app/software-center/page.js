@@ -74,12 +74,9 @@ export default function SoftwareCenterPage() {
         {/* 一级标题 */}
         <section id="top" className="w-full px-6 py-10 sm:px-10 lg:px-16">
           <div className="mx-auto w-full max-w-[1440px] text-center">
-            <p className="font-display text-xs font-semibold uppercase tracking-[0.32em] text-[var(--brand-blue-soft)]">
-              {t.nav.software}
-            </p>
             <Glow
               as="h1"
-              className="mt-3 font-display text-4xl font-semibold tracking-tight text-[var(--ink-strong)] sm:text-5xl"
+              className="font-display text-4xl font-semibold tracking-tight text-[var(--ink-strong)] sm:text-5xl"
             >
               XIAO 软件中心
             </Glow>

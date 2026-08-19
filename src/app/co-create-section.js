@@ -3,6 +3,7 @@
 import { useLang } from "./i18n";
 import { SectionHeader } from "./components";
 import { Reveal } from "./reveal";
+import { withBase } from "../lib/basePath";
 
 export function CoCreateSection() {
   const { t } = useLang();
@@ -117,6 +118,17 @@ export function CoCreateSection() {
             ))}
           </div>
         </div>
+      </Reveal>
+
+      {/* 底部演示动图 */}
+      <Reveal delay={120} className="overflow-hidden rounded-3xl border border-[var(--line-soft)] bg-white/80">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={withBase("/co-create-demo.gif")}
+          alt="XIAO Co-Create 流程演示"
+          className="h-auto w-full object-cover"
+          loading="lazy"
+        />
       </Reveal>
     </div>
   );

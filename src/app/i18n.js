@@ -200,14 +200,14 @@ const zh = {
     title: "开源社区信赖之选",
   },
   cocreate: {
-    title: "生态共创",
+    title: "与 XIAO 共创",
     kicker: "共创",
-    description: "借助 Seeed 的 R&D 资源与全球技术生态，把想法快速做成产品并加速成长。",
+    description: "借助 Seeed Fusion Co-Create 的原型、量产与推广服务，从零开始设计并规模化你定制的 XIAO 项目。提交基于 XIAO 的 PCBA 设计即可获得免费打样赞助；优秀设计还将上架 Seeed 官方商城销售，设计者按每售出一件获得授权收益。",
     banner: {
       kicker: "XIAO × Seeed Fusion",
-      title: "把你的想法，做成产品",
-      text: "从原型到量产再到全球上架，XIAO 与 Seeed Fusion 提供一站式硬件共创：开源硬件、PCB/PCBA 制造、认证与全球渠道，让创意落地更快。",
-      cta: "开始共创",
+      title: "与 XIAO 共创",
+      text: "借助 Seeed Fusion Co-Create 的原型、量产与推广服务，从零开始设计并规模化你定制的 XIAO 项目。提交基于 XIAO 的 PCBA 设计即可获得免费打样赞助；优秀设计还将上架 Seeed 官方商城销售，设计者按每售出一件获得授权收益。",
+      cta: "了解更多",
       nodes: ["XIAO", "Grove", "Fusion", "Wiki", "社区"],
     },
     features: [
@@ -463,14 +463,14 @@ const en = {
     title: "Trusted by the Open-Source Community",
   },
   cocreate: {
-    title: "Ecosystem Co-Creation",
+    title: "Co-Create with XIAO",
     kicker: "CO-CREATE",
-    description: "Turn ideas into products and accelerate growth with Seeed's R&D resources and global tech ecosystem.",
+    description: "Design and scale up your custom XIAO-based projects from scratch with Seeed Fusion Co-Create Services of prototyping, production and promotion. Get FREE prototyping sponsorship for your XIAO-based PCBA design fabrication. We'll also list outstanding designs for sale on the Seeed webstore, and designers will receive a license fee for each piece sold.",
     banner: {
       kicker: "XIAO × Seeed Fusion",
-      title: "Co-create and launch your ideas",
-      text: "From prototype to production to global launch, XIAO and Seeed Fusion offer one-stop hardware co-creation: open-source hardware, PCB/PCBA manufacturing, certification, and worldwide distribution.",
-      cta: "Start Co-Creating",
+      title: "Co-Create with XIAO",
+      text: "Design and scale up your custom XIAO-based projects from scratch with Seeed Fusion Co-Create Services of prototyping, production and promotion. Get FREE prototyping sponsorship for your XIAO-based PCBA design fabrication. We'll also list outstanding designs for sale on the Seeed webstore, and designers will receive a license fee for each piece sold.",
+      cta: "Learn More",
       nodes: ["XIAO", "Grove", "Fusion", "Wiki", "Community"],
     },
     features: [

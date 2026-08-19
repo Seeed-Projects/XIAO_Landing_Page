@@ -135,7 +135,6 @@ export function CommunityRoadmap() {
     <div className={styles.roadmap}>
       <div className={styles.wrap}>
         <Reveal className={styles.head}>
-          <span className={styles.eyebrow}><span className={styles.eyebrowDot} /> {T.eyebrow}</span>
           <Glow as="h1">{T.h1}</Glow>
           <p className={styles.headSub}>{T.sub}</p>
           <div className={styles.headActions}>

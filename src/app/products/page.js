@@ -17,10 +17,7 @@ export default function ProductsPage() {
         {/* 一级标题：产品页 */}
         <section className="w-full px-6 py-10 sm:px-10 lg:px-16">
           <div className="mx-auto w-full max-w-[1440px] text-center">
-            <p className="font-display text-xs font-semibold uppercase tracking-[0.32em] text-[var(--brand-blue-soft)]">
-              {t.productsHero.eyebrow}
-            </p>
-            <Glow as="h1" className="mt-3 font-display text-4xl font-semibold tracking-tight text-[var(--ink-strong)] sm:text-5xl">
+            <Glow as="h1" className="font-display text-4xl font-semibold tracking-tight text-[var(--ink-strong)] sm:text-5xl">
               {t.productsHero.h1}
             </Glow>
             <p className="mx-auto mt-3 max-w-2xl text-base leading-7 text-[var(--ink-body)]">
