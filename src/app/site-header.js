@@ -56,17 +56,17 @@ const HOME_MENU = {
   ],
 };
 
-/* 软件中心下拉目录：页面真实可滚动锚点只有 top/official/community */
+/* 软件中心下拉目录：页面真实可滚动锚点只有 top/official/community（只留标题） */
 const SOFTWARE_MENU = {
   zh: [
-    { id: "top", label: "概览", hint: "XIAO 软件中心" },
-    { id: "official", label: "官方软件", hint: "Seeed 自研平台" },
-    { id: "community", label: "社区软件", hint: "按语言 / OS / 协议分类" },
+    { id: "top", label: "概览" },
+    { id: "official", label: "官方软件" },
+    { id: "community", label: "社区软件" },
   ],
   en: [
-    { id: "top", label: "Overview", hint: "XIAO Software Center" },
-    { id: "official", label: "Official", hint: "Seeed's own platforms" },
-    { id: "community", label: "Community", hint: "By language / OS / protocol" },
+    { id: "top", label: "Overview" },
+    { id: "official", label: "Official" },
+    { id: "community", label: "Community" },
   ],
 };
 
