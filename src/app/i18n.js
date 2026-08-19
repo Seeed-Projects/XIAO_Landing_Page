@@ -278,7 +278,7 @@ const en = {
   nav: {
     home: "Home",
     products: "Products",
-    res: "RES",
+    res: "Resources",
     projectHub: "Project Hub",
     openRoadmap: "Open Roadmap",
     software: "Software Center",
