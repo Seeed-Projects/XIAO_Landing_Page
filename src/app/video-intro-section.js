@@ -55,9 +55,6 @@ export function VideoIntroSection() {
 
         {/* 右：文字 */}
         <Reveal delay={150} className="space-y-5">
-          <p className="font-display text-xs font-semibold uppercase tracking-[0.32em] text-[var(--brand-blue-soft)]">
-            {copy.kicker}
-          </p>
           <Glow
             as="h2"
             className="font-display text-3xl font-semibold leading-tight tracking-tight text-[var(--ink-strong)] sm:text-4xl"

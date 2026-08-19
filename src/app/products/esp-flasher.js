@@ -276,7 +276,6 @@ export function ESPFlasher() {
     <div className={`${styles.flasher} scroll-mt-28`} id="esp-flasher">
       <div className={styles.wrap}>
         <div className={styles.introBlock}>
-          <span className={styles.eyebrow}><span className={styles.eyebrowDot} /> {T.eyebrow}</span>
           <Glow as="h2">{T.h2}</Glow>
           <p>{T.p}</p>
         </div>

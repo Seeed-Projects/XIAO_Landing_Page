@@ -118,10 +118,7 @@ export default function SoftwareCenterPage() {
                       )}
                     </div>
                     <div>
-                      <p className="font-display text-xs font-semibold uppercase tracking-[0.32em] text-white/72">
-                        Official Software
-                      </p>
-                      <h2 className="mt-1 font-display text-2xl font-semibold tracking-tight sm:text-3xl">
+                      <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
                         {OFFICIAL.title}
                       </h2>
                     </div>

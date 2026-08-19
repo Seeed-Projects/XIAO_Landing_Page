@@ -58,12 +58,7 @@ export function SectionHeader({ kicker, title, description, align = "center" }) 
 export function InfoCard({ title, description, eyebrow, footer }) {
   return (
     <div className="section-shell glow-card rounded-[30px] p-6 sm:p-7">
-      {eyebrow ? (
-        <p className="font-display text-xs font-semibold uppercase tracking-[0.32em] text-[var(--brand-blue-soft)]">
-          {eyebrow}
-        </p>
-      ) : null}
-      <h3 className="mt-4 font-display text-2xl font-semibold tracking-tight text-[var(--ink-strong)]">
+      <h3 className="font-display text-2xl font-semibold tracking-tight text-[var(--ink-strong)]">
         {title}
       </h3>
       <p className="mt-4 text-sm leading-7 text-[var(--ink-body)]">{description}</p>
@@ -83,9 +78,6 @@ export function IntroHero({ title, description, kicker, rightTitle, rightText })
       <div className="relative z-10 grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
         <div className="space-y-8">
           <div className="space-y-5">
-            <p className="font-display text-sm font-semibold uppercase tracking-[0.32em] text-[var(--brand-blue-soft)]">
-              {kicker}
-            </p>
             <Glow as="h1" className="font-display text-balance max-w-4xl text-5xl font-semibold leading-[0.94] tracking-tight text-[var(--ink-strong)] sm:text-6xl lg:text-7xl">
               {title}
             </Glow>

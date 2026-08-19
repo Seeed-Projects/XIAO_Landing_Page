@@ -676,7 +676,6 @@ export function ResHub() {
       <section className={styles.hero}>
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy}>
-            <span className={styles.eyebrow}>{T.heroEyebrow}</span>
             <Glow as="h1">{T.heroH1}</Glow>
             <p>{T.heroP}</p>
             <div className={styles.heroActions}>
@@ -697,7 +696,6 @@ export function ResHub() {
       <section className={`${styles.section} ${styles.dots}`}>
         <div className={styles.container}>
           <div className={styles.sectionHead}>
-            <span className={styles.eyebrow}>{T.secEyebrow}</span>
             <Glow as="h2" start={0.48} end={0.12}>{T.secH2}</Glow>
             <p>{T.secP}</p>
           </div>
@@ -759,7 +757,6 @@ export function ResHub() {
             <>
           <section className={styles.resourceBanner}>
             <div>
-              <span className={styles.eyebrow}>{T.selected}</span>
               <h2>{active.name}</h2>
               <p>{pick(active.intro)}</p>
               <div className={styles.badgeRow} style={{ marginTop: 18 }}>
@@ -821,7 +818,6 @@ export function ResHub() {
           {/* 课程与更多：封面 + 介绍卡片，按主题分组 */}
           <div className={styles.extras}>
             <div className={styles.extrasHead}>
-              <span className={styles.eyebrow}>{pick(EXTRAS.eyebrow)}</span>
               <h3>{pick(EXTRAS.title)}</h3>
               <p>{pick(EXTRAS.intro)}</p>
             </div>

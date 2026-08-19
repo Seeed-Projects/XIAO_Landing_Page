@@ -27,10 +27,7 @@ export function EdmSubscribe() {
         {/* 图上叠加品牌渐变与标题，保证与右栏文案呼应 */}
         <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(0,73,102,0.55),rgba(8,102,126,0.35),rgba(143,195,31,0.35))]" />
         <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8">
-          <p className="font-display text-xs font-semibold uppercase tracking-[0.32em] text-white/80">
-            {e.kicker}
-          </p>
-          <h3 className="mt-2 font-display text-2xl font-semibold leading-tight text-white sm:text-3xl">
+          <h3 className="font-display text-2xl font-semibold leading-tight text-white sm:text-3xl">
             {e.title}
           </h3>
         </div>
@@ -40,9 +37,6 @@ export function EdmSubscribe() {
       <div className="flex flex-col justify-center p-7 sm:p-9 lg:p-10">
         <form onSubmit={onSubmit} noValidate className="space-y-5">
           <div className="space-y-3 sm:hidden">
-            <p className="font-display text-xs font-semibold uppercase tracking-[0.32em] text-[var(--brand-blue-soft)]">
-              {e.kicker}
-            </p>
             <h3 className="font-display text-2xl font-semibold tracking-tight text-[var(--ink-strong)]">
               {e.title}
             </h3>

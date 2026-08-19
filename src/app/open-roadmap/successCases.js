@@ -51,9 +51,6 @@ export function SuccessCases() {
     <section id="success" className="w-full scroll-mt-24 bg-[var(--page-bg)] px-6 py-16 sm:px-10 lg:px-16">
       <div className="mx-auto w-full max-w-[1440px]">
         <Reveal className="text-center">
-          <span className={styles.eyebrow}>
-            <span className={styles.eyebrowDot} /> {eyebrow}
-          </span>
           <Glow as="h2" className="font-display text-3xl font-semibold tracking-tight text-[var(--ink-strong)] sm:text-4xl">
             {title}
           </Glow>

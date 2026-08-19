@@ -308,10 +308,6 @@ export function ProjectHub() {
               style={{ backgroundImage: `url('${HERO_IMG}')` }}
             />
             <div className={styles.leadCopy}>
-              <div className={styles.eyebrow}>
-                <span className={styles.liveDot} />
-                <span>{t.heroEyebrow}</span>
-              </div>
               <h1>
                 TrailNAV:
                 <br />

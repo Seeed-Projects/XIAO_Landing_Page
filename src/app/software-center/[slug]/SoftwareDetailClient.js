@@ -79,12 +79,9 @@ export default function SoftwareDetailClient() {
                 )}
               </div>
               <div className="min-w-0 flex-1">
-                <p className="font-display text-xs font-semibold uppercase tracking-[0.32em] text-[var(--brand-blue-soft)]">
-                  {cat.title}
-                </p>
                 <Glow
                   as="h1"
-                  className="mt-1 font-display text-3xl font-semibold tracking-tight text-[var(--ink-strong)] sm:text-4xl"
+                  className="font-display text-3xl font-semibold tracking-tight text-[var(--ink-strong)] sm:text-4xl"
                 >
                   {item.name}
                 </Glow>

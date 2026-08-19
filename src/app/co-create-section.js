@@ -17,9 +17,6 @@ export function CoCreateSection() {
         {/* 主视觉 banner —— 品牌渐变，带生态轨道动画 */}
         <Reveal className="hero-orb relative overflow-hidden rounded-[28px] border border-[var(--line-soft)] bg-[linear-gradient(135deg,rgba(0,73,102,0.96),rgba(8,102,126,0.92),rgba(143,195,31,0.88))] p-7 text-white sm:p-9">
           <div className="relative z-10 max-w-xl space-y-5">
-            <p className="font-display text-xs font-semibold uppercase tracking-[0.32em] text-white/72">
-              {c.banner.kicker}
-            </p>
             <h3 className="font-display text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
               {c.banner.title}
             </h3>

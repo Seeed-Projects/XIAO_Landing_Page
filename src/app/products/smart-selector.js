@@ -465,14 +465,12 @@ export function SmartSelector() {
     <div className={styles.xiaoSelector} id="smart-selector">
       <div className={styles.wrap}>
         <div className={styles.introBlock}>
-          <span className={styles.eyebrow}><span className={styles.eyebrowDot} /> {T.eyebrow}</span>
           <Glow as="h2">{T.h2}</Glow>
           <p>{T.p}</p>
         </div>
 
         <section className={styles.hero}>
           <div className={styles.heroCopy}>
-            <div className={styles.eyebrow}><span className={styles.eyebrowDot} /> {T.heroEyebrow}</div>
             <h3 className={styles.heroH1}>{T.heroH1A}<br />{T.heroH1B}</h3>
             <p>{T.heroP}</p>
           </div>

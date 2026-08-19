@@ -81,9 +81,6 @@ export function EcosystemSection() {
         {/* 横幅：左侧点题 + 右侧生态轨道动画 */}
         <Reveal className="hero-orb relative overflow-hidden rounded-[28px] bg-[linear-gradient(118deg,rgba(0,73,102,0.96),rgba(29,103,132,0.92)_58%,rgba(22,182,106,0.88))] p-8 text-white shadow-[0_18px_44px_rgba(0,73,102,0.18)] sm:p-12 lg:p-14">
           <div className="relative z-10 max-w-xl space-y-5">
-            <p className="font-display text-xs font-semibold uppercase tracking-[0.32em] text-white/72">
-              {isEn ? "Tiny Board, Big Ecosystem" : "小生态，大可能"}
-            </p>
             <Glow
               as="h2"
               className="font-display text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl"
