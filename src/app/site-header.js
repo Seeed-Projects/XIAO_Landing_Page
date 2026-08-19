@@ -33,29 +33,26 @@ function LangToggle() {
   );
 }
 
-/* 首页下拉目录：列出首页各内容板块，对应下方各 section 标题（已校正真实 id） */
+/* 首页下拉目录：只留板块标题（去掉小字描述）。
+   Overview = 回顶（含头图/视频/数据）；Developer Ecosystem = 开发者生态（含生态入口） */
 const HOME_MENU = {
   zh: [
-    { id: "hero", label: "主视觉", hint: "回到顶部" },
-    { id: "data", label: "数据", hint: "关键数字一览" },
-    { id: "developer", label: "开发者生态", hint: "合作伙伴与工具链" },
-    { id: "ecosystem", label: "生态入口", hint: "资料 / 投票 / 项目中心" },
-    { id: "news", label: "XIAO 资讯", hint: "媒体报道与博客" },
-    { id: "projects", label: "热门项目", hint: "社区开源作品" },
-    { id: "reviews", label: "开源社区信赖之选", hint: "外部媒体评测" },
-    { id: "cocreate", label: "生态共创", hint: "从想法到产品" },
-    { id: "edm", label: "订阅动态", hint: "邮件订阅" },
+    { id: "hero", label: "概览" },
+    { id: "developer", label: "开发者生态" },
+    { id: "news", label: "XIAO 资讯" },
+    { id: "projects", label: "热门项目" },
+    { id: "reviews", label: "社区评测" },
+    { id: "cocreate", label: "与 XIAO 共创" },
+    { id: "edm", label: "订阅 XIAO 邮件" },
   ],
   en: [
-    { id: "hero", label: "Hero", hint: "Back to top" },
-    { id: "data", label: "DATA", hint: "Key numbers at a glance" },
-    { id: "developer", label: "Developer Ecosystem", hint: "Partners & toolchains" },
-    { id: "ecosystem", label: "Ecosystem Entry", hint: "Docs / Vote / Project Hub" },
-    { id: "news", label: "XIAO in the News", hint: "Media & blog" },
-    { id: "projects", label: "Popular Projects", hint: "Community open-source" },
-    { id: "reviews", label: "Trusted by Community", hint: "External reviews" },
-    { id: "cocreate", label: "Co-Creation", hint: "Idea to product" },
-    { id: "edm", label: "Subscribe", hint: "Email updates" },
+    { id: "hero", label: "Overview" },
+    { id: "developer", label: "Developer Ecosystem" },
+    { id: "news", label: "XIAO in the News" },
+    { id: "projects", label: "Popular Projects" },
+    { id: "reviews", label: "Community Review" },
+    { id: "cocreate", label: "Co-Create with XIAO" },
+    { id: "edm", label: "Subscribe to XIAO Newsletter" },
   ],
 };
 
