@@ -224,8 +224,8 @@ const zh = {
     ],
   },
   edm: {
-    kicker: "电子报",
-    title: "“关于 XIAO 的一切”",
+    kicker: "Newsletter",
+    title: "“Everything About XIAO”",
     description: "专为所有 XIAO 用户打造的每月电子报，内容包括：",
     topics: ["🤖️ 社区酷项目", "📖 固件、Wiki 与新品预告等产品更新", "📣 活动、竞赛等最新消息"],
     contact: "📮 还有其他问题？请联系 maker[at]seeed.cc",

@@ -19,6 +19,80 @@ const WP_ENDPOINT =
 
 const BLOG_TAG_URL = "https://www.seeedstudio.com/blog/tag/seeed-studio-xiao/";
 
+// GitHub Pages cannot read the WordPress response because the blog currently
+// returns conflicting CORS headers. Keep a recent, fully populated snapshot so
+// the news cards still have matching links and featured images there.
+const NEWS_FALLBACK = [
+  {
+    title: "Axiometa Genesis XIAO Shield: Build Real Devices Without the Wiring",
+    excerpt:
+      "Meet the Axiometa Genesis XIAO Shield, a board that turns compatible Seeed Studio XIAO boards into practical devices.",
+    date: "2026-08-17",
+    url: "https://www.seeedstudio.com/blog/2026/08/17/axiometa-genesis-xiao-shield/",
+    media_url:
+      "https://www.seeedstudio.com/blog/wp-content/uploads/2026/08/axiometa-xiao-shield-poster.png",
+    source: "Kezang Loday",
+    tag: "Seeed Blog",
+  },
+  {
+    title: "Customize Your XIAO for Production: Firmware, Headers, Assembly & More",
+    excerpt:
+      "Seeed Fusion helps take a XIAO prototype toward a production-ready solution with customization and assembly services.",
+    date: "2026-08-06",
+    url:
+      "https://www.seeedstudio.com/blog/2026/08/06/seeed-fusion-customize-your-xiao-for-production-firmware-headers-assembly-and-more/",
+    media_url:
+      "https://www.seeedstudio.com/blog/wp-content/uploads/2026/08/xiaoblog-%E5%A4%B4%E5%9B%BE-scaled.jpg",
+    source: "Ginny Zhang",
+    tag: "Seeed Blog",
+  },
+  {
+    title: "Oli v1: A Fist-Grip Mouse That Gives Your Hand a Break",
+    excerpt:
+      "Meet Oli v1, a fist-grip computer mouse with tilt-layer functionality built with XIAO nRF52840 Sense.",
+    date: "2026-08-04",
+    url: "https://www.seeedstudio.com/blog/2026/08/04/oli-v1-fist-grip-mouse-xiao-nrf52840-sense/",
+    media_url: "https://www.seeedstudio.com/blog/wp-content/uploads/2026/08/DSC01472_2.webp",
+    source: "Kezang Loday",
+    tag: "Seeed Blog",
+  },
+  {
+    title: "Add Voice Interaction to LeKiwi Robot with reSpeaker Flex",
+    excerpt:
+      "A practical project combining robotics and voice interaction with reSpeaker Flex.",
+    date: "2026-05-20",
+    url:
+      "https://www.seeedstudio.com/blog/2026/05/20/add-voice-interaction-to-lekiwi-robot-with-respeaker-flex/",
+    media_url:
+      "https://www.seeedstudio.com/blog/wp-content/uploads/2026/05/banner_javis-1.png",
+    source: "Elena Tang",
+    tag: "Seeed Blog",
+  },
+  {
+    title: "ESP32-S31 vs. ESP32-S3: Should the XIAO Get an Upgrade?",
+    excerpt:
+      "A comparison of ESP32-S31 and ESP32-S3, and a discussion about the direction of the next XIAO.",
+    date: "2026-04-14",
+    url:
+      "https://www.seeedstudio.com/blog/2026/04/14/esp32-s31-vs-esp32-s3-should-the-xiao-get-an-upgrade/",
+    media_url:
+      "https://www.seeedstudio.com/blog/wp-content/uploads/2026/04/ESP32-S31.png",
+    source: "Josie",
+    tag: "Seeed Blog",
+  },
+  {
+    title: "Vision AI & Voice AI at Embedded World 2026",
+    excerpt:
+      "Seeed Studio showcased how edge AI sensing is moving rapidly from concept to real-world deployment.",
+    date: "2026-03-20",
+    url:
+      "https://www.seeedstudio.com/blog/2026/03/20/vision-ai-voice-ai-at-embedded-world-2026-bringing-ai-sensing-from-concept-to-reality/",
+    media_url: "https://www.seeedstudio.com/blog/wp-content/uploads/2026/03/EW1.jpg",
+    source: "Elena Tang",
+    tag: "Seeed Blog",
+  },
+];
+
 // 内存缓存：1 小时内复用，避免重复请求。
 const TTL = 60 * 60 * 1000;
 let cache = { at: 0, items: null };
@@ -52,14 +126,17 @@ function mapPost(p) {
 }
 
 export function NewsCarousel() {
-  const { t, lang } = useLang();
-  const [items, setItems] = useState(t.news.items);
+  const { lang } = useLang();
+  const [items, setItems] = useState(NEWS_FALLBACK);
 
   useEffect(() => {
     let alive = true;
     const now = Date.now();
     if (cache.items && now - cache.at < TTL) {
-      setItems(cache.items);
+      const cachedItems = cache.items;
+      queueMicrotask(() => {
+        if (alive) setItems(cachedItems);
+      });
       return;
     }
     fetch(WP_ENDPOINT, { headers: { Accept: "application/json" } })
