@@ -60,6 +60,28 @@ export function VideoIntroSection() {
           <p className="text-base leading-7 text-[var(--ink-body)] sm:text-lg sm:leading-8">
             {copy.body}
           </p>
+          <a
+            href="https://www.seeedstudio.com/xiao-series-page"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[var(--brand-blue)] shadow-[0_8px_24px_rgba(0,73,102,0.10)] transition hover:-translate-y-0.5 hover:bg-[var(--brand-green)] hover:text-white"
+          >
+            {isEn ? "Shop XIAO Series" : "查看 XIAO 系列"}
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="transition-transform group-hover:translate-x-0.5"
+            >
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
         </Reveal>
       </div>
     </section>

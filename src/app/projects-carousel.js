@@ -8,12 +8,15 @@ export function ProjectsCarousel() {
   return (
     <ScrollBand
       items={PROJECTS}
+      rows={2}
+      speed={0.35}
+      delayStep={45}
       hrefFor={(item) => item.url || "#"}
       renderCard={(item) => (
         <>
           {/* 封面图：加载成功显示真图，失败/无图回退渐变占位 */}
           <div
-            className="aspect-[16/9] w-full overflow-hidden rounded-xl"
+            className="aspect-[16/9] w-full overflow-hidden rounded-lg"
             style={{
               background:
                 "linear-gradient(135deg, rgba(143,195,31,0.14), rgba(0,73,102,0.14))",
@@ -33,14 +36,14 @@ export function ProjectsCarousel() {
             )}
           </div>
           {/* 文字 */}
-          <div className="mt-4 flex flex-1 flex-col">
-            <div className="flex items-center gap-2">
-              <span className="rounded-full bg-[var(--brand-blue)]/12 px-2.5 py-0.5 text-xs font-semibold text-[var(--brand-blue-soft)]">
+          <div className="mt-3 flex flex-1 flex-col">
+            <div className="flex min-w-0 items-center gap-1.5">
+              <span className="max-w-[58%] truncate rounded-full bg-[var(--brand-blue)]/12 px-2 py-0.5 text-[11px] font-semibold text-[var(--brand-blue-soft)]">
                 {item.tag}
               </span>
-              <span className="text-xs text-[var(--ink-muted)]">{item.author}</span>
+              <span className="truncate text-[11px] text-[var(--ink-muted)]">{item.author}</span>
             </div>
-            <h3 className="mt-2 text-lg font-bold leading-snug text-[var(--ink-strong)]">
+            <h3 className="mt-2 line-clamp-2 text-sm font-bold leading-snug text-[var(--ink-strong)] sm:text-[15px]">
               {item.title}
             </h3>
           </div>
