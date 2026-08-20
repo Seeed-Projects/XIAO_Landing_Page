@@ -16,6 +16,8 @@ export function SiteFooter() {
       links: [
         { label: "About Seeed", href: "https://www.seeedstudio.com/about-us/", ext: true },
         { label: "Contact Us", href: "https://www.seeedstudio.com/contacts", ext: true },
+        { label: "Tech Support", href: "https://aftersale.seeedstudio.com/home", ext: true },
+        { label: "Warranty & Return", href: "https://www.seeedstudio.com/get_help/ReturnsRefund", ext: true },
       ],
     },
     {
@@ -27,9 +29,7 @@ export function SiteFooter() {
           title: "Datasheet, Schematic, PCB Design Files, Mechanical Design Files",
           href: "/res",
         },
-        { label: "Tech Support", href: "https://aftersale.seeedstudio.com/home", ext: true },
         { label: "Compatible Software", href: "/software-center" },
-        { label: "Warranty & Return", href: "https://www.seeedstudio.com/get_help/ReturnsRefund", ext: true },
         { label: "Pin Out", href: "/products#pinout" },
         { label: "XIAO Flasher", href: "/products#esp-flasher" },
       ],
