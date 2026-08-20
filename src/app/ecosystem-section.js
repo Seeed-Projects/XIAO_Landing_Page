@@ -86,12 +86,9 @@ export function EcosystemSection() {
           </div>
         </Reveal>
 
-        {/* 三板块入口 —— 图标带脉冲光晕，底部流动连接线 */}
+        {/* 生态入口：保留静态连接线，不使用持续动画 */}
         <div className="relative mt-6">
-          {/* 流动连接线（桌面） */}
-          <div className="absolute inset-x-0 top-7 hidden h-px bg-[var(--line-soft)] sm:block">
-            <span className="absolute top-1/2 block h-[3px] w-20 -translate-y-1/2 rounded-full bg-[linear-gradient(90deg,rgba(143,195,31,0),rgba(143,195,31,0.9),rgba(0,73,102,0.9),rgba(0,73,102,0))] animate-[coflow_5s_linear_infinite]" />
-          </div>
+          <div className="absolute inset-x-0 top-7 hidden h-px bg-[var(--line-soft)] sm:block" />
 
           <div className="relative grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {cards.map((c, i) => (
@@ -102,7 +99,6 @@ export function EcosystemSection() {
                 >
                   <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--brand-blue)]/8 text-[var(--brand-blue)] ring-1 ring-inset ring-[var(--brand-blue)]/15 transition group-hover:bg-[var(--brand-blue)] group-hover:text-white">
                     <span className="h-6 w-6">{c.icon}</span>
-                    <span className="absolute inset-0 rounded-xl bg-[var(--brand-blue)]/30 animate-[copulse_3s_ease-out_infinite] group-hover:animate-none" />
                   </div>
                   <h3 className="mt-5 font-display text-xl font-bold leading-tight tracking-tight text-[var(--ink-strong)]">
                     {c.title}
@@ -144,7 +140,6 @@ export function EcosystemSection() {
                       <path d="M17.5 17.5 21 21" />
                     </svg>
                   </span>
-                  <span className="absolute inset-0 rounded-xl bg-[var(--brand-blue)]/30 animate-[copulse_3s_ease-out_infinite] group-hover:animate-none" />
                 </div>
                 <h3 className="mt-5 font-display text-xl font-bold leading-tight tracking-tight text-[var(--ink-strong)]">
                   {isEn ? "More Tools" : "更多平台工具"}
