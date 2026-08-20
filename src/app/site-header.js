@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useLang } from "./i18n";
-import { BASE_PATH, withBase } from "../lib/basePath";
+import { BASE_PATH } from "../lib/basePath";
 
 function LangToggle() {
   const { lang, toggle } = useLang();
@@ -168,16 +168,10 @@ export function SiteHeader() {
       onMouseLeave={scheduleClose}
     >
       <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center px-6 sm:px-8 lg:px-12">
-        {/* 左：logo —— 圆形徽标 + XIAO 文字（透明底锁标） */}
-        <Link href="/" className="flex shrink-0 items-center gap-2.5">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={withBase("/xiao-mark.png")}
-            alt="XIAO"
-            className="h-9 w-9 object-contain"
-          />
+        {/* 左：logo —— ❯ Seeed Studio XIAO 锁标（透明底锁标） */}
+        <Link href="/" className="flex shrink-0 items-center gap-2">
           <span className="font-display text-base font-semibold tracking-[0.18em] text-[var(--brand-blue)]">
-            XIAO
+            <span aria-hidden className="mr-1">❯</span>Seeed Studio XIAO
           </span>
         </Link>
 
