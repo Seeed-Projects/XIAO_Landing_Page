@@ -1,133 +1,86 @@
-// 热门项目数据 —— 真实社区项目，按 XIAO 板子型号归类。
-// 封面图：优先用项目原页 og:image / YouTube 缩略图；深挖不到的用对应 XIAO 板子官方产品图
-// （files.seeedstudio.com，国内可直连）保证每条都有相关图。
-// 注：5 条 YouTube 标题为占位（本地环境无法访问 YouTube oEmbed），建议替换为真实视频标题。
-
-const BOARD_IMG = {
-  "ESP32-C6": "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32C6/img/xiaoc6.jpg",
-  "ESP32-C5":
-    "https://files.seeedstudio.com/wiki/XIAO_ESP32C5/Getting_started/Seeed-Studio-XIAO-ESP32C5_1.webp",
-  "ESP32-S3": "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/img/xiaoesp32s3.jpg",
-  "ESP32-S3 Sense":
-    "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/img/xiaoesp32s3sense.jpg",
-  "nRF52840": "https://files.seeedstudio.com/wiki/XIAO-BLE/102010469_Front-14.jpg",
-  "RP2040": "https://files.seeedstudio.com/wiki/XIAO-RP2040/img/102010428_Preview-07.jpg",
-  "MG24": "https://files.seeedstudio.com/wiki/XIAO_MG24/Getting_Start/top.jpg",
-};
+// Community project cards. Each cover, title and link belongs to the same source project.
+// YouTube cards use the video's own thumbnail instead of a XIAO product image.
 
 export const PROJECTS = [
   {
-    tag: "ESP32-S3 Sense Plus",
-    title: "EFortune Cookie — a Tiny ESP32 Fortune Teller",
-    excerpt:
-      "An interactive fortune-cookie gadget with an e-paper display, built around the XIAO ESP32-S3 Sense Plus.",
-    author: "Instructables",
-    url: "https://www.instructables.com/EFortune-Cookie-a-Tiny-ESP32-Fortune-Teller/",
-    media_url:
-      "https://content.instructables.com/F6G/WPQT/MOKK3HWT/F6GWPQTMOKK3HWT.jpg?auto=webp&frame=1",
+    tag: "XIAO",
+    title:
+      "EITWatch: Smartwatch-Integrated Planar Electrical Impedance Tomography for Hand Gesture Recognition",
+    author: "Xuanyou Liu",
+    url: "https://xuanyouliu.com/projects/eitwatch/",
+    media_url: "https://xuanyouliu.com/projects/eitwatch/media/hero.jpg",
   },
   {
-    tag: "ESP32-C3",
-    title: "Building a Giant XIAO: A Fully Functional 15× Scale XIAO ESP32-C3",
-    excerpt: "A fully functional 15× scale replica of the Seeed Studio XIAO ESP32-C3.",
-    author: "Madriguera",
-    url:
-      "https://madriguera.me/building-a-giant-xiao-a-fully-functional-15x-scale-seeed-studio-xiao-esp32-c3/",
-    media_url:
-      "https://madriguera.me/content/images/2026/06/02-size-comparison-real-vs-giant.jpg",
+    tag: "XIAO",
+    title: "How I Built a Smart AI Scale for My Kitchen",
+    author: "Marina · YouTube",
+    url: "https://youtu.be/D9Sbp8rlH7I",
+    media_url: "https://i.ytimg.com/vi/D9Sbp8rlH7I/hqdefault.jpg",
   },
   {
-    tag: "ESP32-C6",
-    title: "XIAO ESP32-C6 Wireless Project",
-    excerpt: "A wireless build showcasing the XIAO ESP32-C6 with Wi-Fi 6 and Thread/Zigbee.",
-    author: "YouTube",
-    url: "https://www.youtube.com/watch?v=DqiMmY5ppnE",
-    media_url: BOARD_IMG["ESP32-C6"],
-  },
-  {
-    tag: "ESP32-C5",
-    title: "XIAO ESP32-C5 Connectivity Build",
-    excerpt: "A connectivity project on the XIAO ESP32-C5 with Wi-Fi 6 and BLE.",
-    author: "YouTube",
-    url: "https://www.youtube.com/watch?v=omlpN5Fmq7g",
-    media_url: BOARD_IMG["ESP32-C5"],
-  },
-  {
-    tag: "ESP32-S3 Sense",
-    title: "XIAO ESP32-S3 Sense Vision Project",
-    excerpt: "A vision-enabled project using the XIAO ESP32-S3 Sense camera module.",
-    author: "YouTube",
-    url: "https://www.youtube.com/watch?v=4tEngx4ffeQ",
-    media_url: BOARD_IMG["ESP32-S3 Sense"],
-  },
-  {
-    tag: "ESP32-S3",
-    title: "XIAO ESP32-S3 Maker Build",
-    excerpt: "A maker project built around the dual-core XIAO ESP32-S3.",
-    author: "YouTube",
-    url: "https://www.youtube.com/watch?v=0RDqchg34wQ",
-    media_url: BOARD_IMG["ESP32-S3"],
+    tag: "XIAO",
+    title: "Building a Tiny WALL-E Robot from Scratch",
+    author: "Huy Vector · YouTube",
+    url: "https://www.youtube.com/watch?v=5MZ6O6yT73M",
+    media_url: "https://i.ytimg.com/vi/5MZ6O6yT73M/hqdefault.jpg",
   },
   {
     tag: "nRF52840 Sense",
-    title: "A 4-Button Bluetooth Macro Keyboard for AI Coding",
-    excerpt:
-      "A 4-button Bluetooth macro keyboard built on the XIAO nRF52840 Sense for AI coding workflows.",
+    title: "Genius GM-6000 — BLE Mouse Revival",
+    author: "Hackster.io",
+    url: "https://www.hackster.io/espee77/genius-gm-6000-ble-mouse-revival-82aee9",
+    media_url:
+      "https://hackster.imgix.net/uploads/attachments/1979911/_wiZNPH0vSR.blob?auto=compress&w=1600&h=1200&fit=min&fm=jpg",
+  },
+  {
+    tag: "XIAO",
+    title: "Does My Cat Drink Enough? Making a Smart Water Bowl",
+    author: "Elvin Home",
+    url:
+      "https://elvinhome.io/blog/articles-3/does-my-cat-drink-enough-making-a-smart-water-bowl-17?utm_campaign=Seeed+Studio",
+    media_url:
+      "https://elvinhome.io/web/image/2488-8de4ed0f/Blog%20Post%20%27Does%20my%20cat%20drink%20enough%3F%20Making%20a%20smart%20water%20bowl%27%20cover%20image.webp",
+  },
+  {
+    tag: "XIAO",
+    title: "Eye-D Badge",
     author: "Instructables",
-    url: "https://www.instructables.com/Vibe-Pad/",
+    url: "https://www.instructables.com/Eye-D-Badge",
     media_url:
-      "https://content.instructables.com/FE8/S8UR/MRCQBOD0/FE8S8URMRCQBOD0.jpg?auto=webp&frame=1&width=2100",
+      "https://content.instructables.com/FG2/88SE/MRCQGSKY/FG288SEMRCQGSKY.jpg?auto=webp&frame=1",
   },
   {
-    tag: "nRF52840",
-    title: "XIAO nRF52840 Bluetooth Project",
-    excerpt: "A Bluetooth project built on the XIAO nRF52840.",
-    author: "YouTube",
-    url: "https://www.youtube.com/watch?v=9S_ipDDkSGk",
-    media_url: BOARD_IMG["nRF52840"],
-  },
-  {
-    tag: "nRF54LM20A",
-    title: "tanen — XIAO nRF54LM20A Project",
-    excerpt: "An open-source project built on the XIAO nRF54LM20A.",
-    author: "GitHub",
-    url: "https://github.com/hmd83/tanen",
-    media_url:
-      "https://opengraph.githubassets.com/64f1032f689a276bf3ab47b05a11fe2c875202ae409deca9b0629b930ee78687/hmd83/tanen",
-  },
-  {
-    tag: "RP2350",
-    title: "MINTIA Micropython Console",
-    excerpt: "A compact MicroPython console built with the XIAO RP2350.",
-    author: "Instructables",
-    url: "https://www.instructables.com/MINTIA-Micropython-Console/",
-    media_url:
-      "https://content.instructables.com/F25/L00G/MQK2168S/F25L00GMQK2168S.jpg?auto=webp&frame=1&width=2100",
-  },
-  {
-    tag: "RP2040",
-    title: "Desktop Air Quality Monitor with XIAO RP2040",
-    excerpt: "A desktop air-quality monitor using the XIAO RP2040 and an ENS160 sensor.",
+    tag: "ESP32-S3",
+    title: "Meshtastic Detection Sensor Module: A Complete Guide",
     author: "Hackster.io",
     url:
-      "https://www.hackster.io/pradeeplogu0/desktop-air-quality-monitor-with-xiao-rp2040-ens160-74ceeb",
-    media_url: BOARD_IMG["RP2040"],
-  },
-  {
-    tag: "SAMD21",
-    title: "Vail Adapter: Morse Code Key/Paddle to USB",
-    excerpt: "A XIAO SAMD21-based adapter project.",
-    author: "vailadapter.com",
-    url: "https://vailadapter.com/",
-    media_url: "https://vailadapter.com/basic%20adapter%20pic.jpg",
+      "https://www.hackster.io/etolocka/meshtastic-detection-sensor-module-a-complete-guide-95ecf6",
+    media_url:
+      "https://hackster.imgix.net/uploads/attachments/1977595/_W4mrvjO4Vf.blob?auto=compress&w=1600&h=1200&fit=min&fm=jpg",
   },
   {
     tag: "MG24",
-    title: "Glove-controlled Electric Skateboard",
-    excerpt: "A glove-controlled electric skateboard powered by the XIAO MG24 over Thread.",
+    title: "XIAO-Powered Glove-Controlled Electric Skateboard",
     author: "Silicon Labs Community",
     url:
       "https://community.silabs.com/s/share/a5UVm0000010QoLMAU/updated-xiaopowered-glovecontrolled-electric-skateboard?language=en_US",
-    media_url: BOARD_IMG["MG24"],
+    media_url:
+      "https://image.thum.io/get/width/1200/crop/675/noanimate/https://community.silabs.com/s/share/a5UVm0000010QoLMAU/updated-xiaopowered-glovecontrolled-electric-skateboard?language=en_US",
+  },
+  {
+    tag: "RP2040",
+    title: "Space Drop — Seeed XIAO RP2040 Modification",
+    author: "Printables",
+    url:
+      "https://www.printables.com/model/1745110-space-drop-seeed-xiao-rp2040-modification?goal=0_2753109419-c5ddb7dcc4-478976799&mc_cid=c5ddb7dcc4&mc_eid=9de099be55",
+    media_url:
+      "https://media.printables.com/media/prints/7eacb07b-19cd-45e5-845d-b88fda2f5e08/images/13078641_8861ed64-00a7-4df8-9bb7-50cc6f088435_23e38df7-b45b-47d5-9dec-247e894f3b16/thumbs/cover/1200x630/jpg/img_8380.jpg",
+  },
+  {
+    tag: "nRF54L15 Sense",
+    title: "Getting Started with XIAO nRF54L15 Sense Using Zephyr RTOS",
+    author: "techiesms · YouTube",
+    url: "https://www.youtube.com/watch?v=Mr56AZ2B4ak",
+    media_url: "https://i.ytimg.com/vi/Mr56AZ2B4ak/hqdefault.jpg",
   },
 ];
