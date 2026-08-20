@@ -12,8 +12,8 @@ export function CoCreateSection() {
 
   return (
     <div className="space-y-6">
-      {/* 上部：左侧共创主视觉 banner + 右侧三张能力卡 */}
-      <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+      {/* 上部：共创主视觉 banner，全宽 */}
+      <div className="grid gap-5">
         {/* 主视觉 banner —— 品牌渐变，带生态轨道动画 */}
         <Reveal className="hero-orb relative overflow-hidden rounded-[28px] border border-[var(--line-soft)] bg-[linear-gradient(135deg,rgba(0,73,102,0.96),rgba(8,102,126,0.92),rgba(143,195,31,0.88))] p-7 text-white sm:p-9">
           <div className="relative z-10 max-w-xl space-y-5">
@@ -70,27 +70,6 @@ export function CoCreateSection() {
             </div>
           </div>
         </Reveal>
-
-        {/* 右侧三张能力卡 */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-1">
-          {c.features.map((f, i) => (
-            <Reveal
-              key={f.title}
-              delay={i * 90}
-              className="glow-card flex flex-col rounded-3xl border border-[var(--line-soft)] bg-white/90 p-6 backdrop-blur-sm"
-            >
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[linear-gradient(135deg,rgba(0,73,102,0.12),rgba(143,195,31,0.16))] text-[var(--brand-blue)]">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </span>
-              <h4 className="mt-4 font-display text-lg font-semibold tracking-tight text-[var(--ink-strong)]">
-                {f.title}
-              </h4>
-              <p className="mt-2 text-sm leading-6 text-[var(--ink-body)]">{f.desc}</p>
-            </Reveal>
-          ))}
-        </div>
       </div>
 
       {/* 下部：4 步共创流程，带流动脉冲连接线（动图替代） */}
