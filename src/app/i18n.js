@@ -4,7 +4,7 @@ import { createContext, useContext, useState, useMemo, useCallback } from "react
 import { defaultXiaoImage } from "./site-data";
 
 const LangContext = createContext({
-  lang: "zh",
+  lang: "en",
   setLang: () => {},
   toggle: () => {},
   t: {},
@@ -549,7 +549,7 @@ const en = {
 export const dictionaries = { zh, en };
 
 export function LanguageProvider({ children }) {
-  const [lang, setLang] = useState("zh");
+  const [lang, setLang] = useState("en");
   const toggle = useCallback(() => setLang((p) => (p === "zh" ? "en" : "zh")), []);
   const value = useMemo(() => ({ lang, setLang, toggle, t: dictionaries[lang] }), [lang, toggle]);
   return <LangContext.Provider value={value}>{children}</LangContext.Provider>;
