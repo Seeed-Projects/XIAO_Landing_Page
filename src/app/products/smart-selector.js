@@ -444,21 +444,8 @@ export function SmartSelector() {
   };
 
   const T = {
-    eyebrow: lang === "zh" ? "智能选型" : "Smart Selector",
-    h2: lang === "zh" ? "智能选型" : "Smart Selector",
-    p: lang === "zh"
-      ? "回答几个关于项目的问题，或直接用自然语言描述需求，我们会推荐更合适的 XIAO，并给出主推荐、备选、理由与风险提示。"
-      : "Answer a few project questions, or describe your needs in natural language — we'll recommend the right XIAO with a top pick, alternatives, reasoning and caveats.",
-    heroEyebrow: lang === "zh" ? "不懂芯片型号，也能选对 XIAO" : "Pick the right XIAO without knowing the chip",
-    heroH1A: lang === "zh" ? "告诉我们你想做什么，" : "Tell us what you want to build,",
-    heroH1B: lang === "zh" ? "剩下的交给选型助手。" : "we'll handle the rest.",
-    heroP: lang === "zh"
-      ? "从应用场景、无线连接、供电方式和开发习惯出发，给出主推荐、备选方案和明确的取舍理由。"
-      : "Start from application, wireless, power and workflow — get a top pick, alternatives and clear trade-offs.",
-    panelH3: lang === "zh" ? "这个选型能做什么？" : "What can this selector do?",
-    panelP: lang === "zh"
-      ? "需求问答、自然语言识别、产品推荐、推荐理由、风险提示、参数筛选和多产品对比。"
-      : "Q&A, natural-language parsing, recommendations, reasoning, caveats, spec filters and side-by-side comparison.",
+    h2: "XIAO Selector",
+    p: "Finding the right XIAO is now easier than ever. Filter by specs, or get personalized recommendations with our LLM‑powered XIAO Shop Guide.",
   };
 
   return (
@@ -468,22 +455,6 @@ export function SmartSelector() {
           <Glow as="h2">{T.h2}</Glow>
           <p>{T.p}</p>
         </div>
-
-        <section className={styles.hero}>
-          <div className={styles.heroCopy}>
-            <h3 className={styles.heroH1}>{T.heroH1A}<br />{T.heroH1B}</h3>
-            <p>{T.heroP}</p>
-          </div>
-          <aside className={styles.heroPanel}>
-            <h3>{T.panelH3}</h3>
-            <p>{T.panelP}</p>
-            <div className={styles.heroStatRow}>
-              <div className={styles.heroStat}><b>6</b><span>{lang === "zh" ? "个选型问题" : "questions"}</span></div>
-              <div className={styles.heroStat}><b>8</b><span>{lang === "zh" ? "款示例产品" : "sample boards"}</span></div>
-              <div className={styles.heroStat}><b>3</b><span>{lang === "zh" ? "层推荐结果" : "tiers of results"}</span></div>
-            </div>
-          </aside>
-        </section>
 
         <section className={styles.workspace} id="selector-workspace">
           <div className={styles.modeTabs}>
