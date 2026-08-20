@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useLang } from "./i18n";
 import { Reveal } from "./reveal";
 import { Glow } from "./Glow";
@@ -72,8 +71,10 @@ export function HeroSection() {
             {copy.subtitle}
           </p>
           <div className="flex flex-wrap items-center gap-3 pt-2">
-            <Link
-              href="/products"
+            <a
+              href="https://www.seeedstudio.com/xiao-selector"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[var(--brand-blue)] shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition hover:-translate-y-0.5 hover:bg-[var(--brand-green)] hover:text-white"
             >
               {copy.primary}
@@ -81,13 +82,15 @@ export function HeroSection() {
                 <path d="M5 12h14" />
                 <path d="m12 5 7 7-7 7" />
               </svg>
-            </Link>
-            <Link
-              href="/#ecosystem"
+            </a>
+            <a
+              href="https://wiki.seeedstudio.com/xiao_topic_page/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/20"
             >
               {copy.secondary}
-            </Link>
+            </a>
           </div>
         </Reveal>
       </div>
