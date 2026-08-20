@@ -32,9 +32,7 @@ export const homepageSections = {
         { name: "Raspberry Pi", url: "https://www.raspberrypi.com", logo: "https://cdn.simpleicons.org/raspberrypi" },
         { name: "Microchip", url: "https://www.microchip.com", logo: "https://icon.horse/icon/www.microchip.com" },
         { name: "Silicon Labs", url: "https://www.silabs.com", logo: "https://www.silabs.com/etc.clientlibs/siliconlabs/clientlibs/clientlib-global/resources/images/redesign-logo.png" },
-        { name: "NXP", url: "https://www.nxp.com", logo: "https://cdn.simpleicons.org/nxp" },
         { name: "ST", url: "https://www.st.com", logo: "https://cdn.simpleicons.org/stmicroelectronics" },
-        { name: "TI", url: "https://www.ti.com", logo: "https://icon.horse/icon/www.ti.com" },
       ],
     },
     {
