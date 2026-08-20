@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useLang } from "./i18n";
 
 const SUBSCRIBE_URL = "https://mailchi.mp/seeed/xiao";
 
@@ -11,42 +10,37 @@ const SUBSCRIBE_URL = "https://mailchi.mp/seeed/xiao";
  * + 底部版权。订阅同首页：提交即跳转 Mailchimp 真实订阅页。
  */
 export function SiteFooter() {
-  const { lang } = useLang();
-  const isEn = lang === "en";
-
-  const L = (zh, en) => (isEn ? en : zh);
-
   const columns = [
     {
-      title: L("公司", "Company"),
+      title: "Company",
       links: [
-        { label: L("关于 Seeed", "About Seeed"), href: "https://www.seeedstudio.com/about-us/", ext: true },
-        { label: L("选型指南", "Selection Guide"), href: "/products/smart-selector" },
-        { label: L("项目中心", "Project Hub"), href: "/project-hub" },
-        { label: L("联系我们", "Contact Us"), href: "https://www.seeedstudio.com/contacts", ext: true },
+        { label: "About Seeed", href: "https://www.seeedstudio.com/about-us/", ext: true },
+        { label: "Contact Us", href: "https://www.seeedstudio.com/contacts", ext: true },
+      ],
+    },
+    {
+      title: "Develop with XIAO",
+      links: [
+        { label: "Selection Guide", href: "/products#smart-selector" },
         {
-          label: L("文档资料", "Documentation"),
-          title: L("Datasheet, Schematic, PCB Design Files, Mechanical Design Files", "Datasheet, Schematic, PCB Design Files, Mechanical Design Files"),
+          label: "Documentation",
+          title: "Datasheet, Schematic, PCB Design Files, Mechanical Design Files",
           href: "/res",
         },
-        { label: L("XIAO 路线图", "XIAO Open Roadmap"), href: "/open-roadmap" },
+        { label: "Tech Support", href: "https://aftersale.seeedstudio.com/home", ext: true },
+        { label: "Compatible Software", href: "/software-center" },
+        { label: "Warranty & Return", href: "https://www.seeedstudio.com/get_help/ReturnsRefund", ext: true },
+        { label: "Pin Out", href: "/products#pinout" },
+        { label: "XIAO Flasher", href: "/products#esp-flasher" },
       ],
     },
     {
-      title: L("用 XIAO 开发", "Develop with XIAO"),
+      title: "Community",
       links: [
-        { label: L("技术支持", "Tech Support"), href: "https://aftersale.seeedstudio.com/home", ext: true },
-        { label: L("兼容软件", "Compatible Software"), href: "/software-center" },
-        { label: L("保修与退货", "Warranty & Return"), href: "https://www.seeedstudio.com/get_help/ReturnsRefund", ext: true },
-        { label: L("引脚图", "Pin Out"), href: "/products#pinout" },
-        { label: L("XIAO 烧录器", "XIAO Flasher"), href: "/products#esp-flasher" },
-      ],
-    },
-    {
-      title: L("社区", "Community"),
-      links: [
+        { label: "Project Hub", href: "/project-hub" },
+        { label: "XIAO Open Roadmap", href: "/open-roadmap" },
         { label: "Discord", href: "https://discord.com/invite/QqMgVwHT3X", ext: true },
-        { label: L("论坛", "Forum"), href: "https://forum.seeedstudio.com/", ext: true },
+        { label: "Forum", href: "https://forum.seeedstudio.com/", ext: true },
       ],
     },
   ];
@@ -76,7 +70,7 @@ export function SiteFooter() {
       fill: true,
     },
     {
-      label: L("论坛", "Forum"),
+      label: "Forum",
       href: "https://forum.seeedstudio.com/",
       d: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z",
     },
@@ -97,38 +91,8 @@ export function SiteFooter() {
               Seeed Studio XIAO
             </p>
             <p className="mt-4 max-w-xs text-sm leading-6 text-white/75">
-              {L(
-                "面向 AI 小玩意的最小 Arduino 兼容开发板。",
-                "The smallest Arduino-compatible dev boards for building your next AI gadgets.",
-              )}
+              The smallest Arduino-compatible dev boards for building your next AI gadgets.
             </p>
-            <div className="mt-5 flex flex-wrap items-center gap-2">
-              {socials.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                  title={s.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/8 text-white/70 transition hover:bg-[var(--brand-green)] hover:text-[var(--ink-strong)]"
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    width="18"
-                    height="18"
-                    fill={s.fill ? "currentColor" : "none"}
-                    stroke={s.fill ? "none" : "currentColor"}
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d={s.d} />
-                    {s.poly && <polygon points={s.poly} fill="currentColor" stroke="none" />}
-                  </svg>
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* 链接列 */}
@@ -170,22 +134,65 @@ export function SiteFooter() {
           {/* Stay Connected with XIAO —— 订阅 */}
           <div>
             <h3 className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-white/72">
-              {L("保持关注", "Stay Connected with XIAO")}
+              Stay Connected with XIAO
             </h3>
-            <p className="mt-4 text-sm leading-6 text-white/80">
-              {L("随时获取 XIAO 最新资讯与更新。", "Get the latest XIAO news and updates.")}
-            </p>
-            <form onSubmit={onSubmit} className="mt-4">
+            <form onSubmit={onSubmit} className="mt-4 space-y-3">
+              <label className="sr-only" htmlFor="footer-email">Email address</label>
+              <input
+                id="footer-email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                placeholder="Email address"
+                className="w-full rounded-lg border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white outline-none placeholder:text-white/50 focus:border-[var(--brand-green)]"
+              />
+              <label className="flex items-start gap-2 text-xs leading-5 text-white/75">
+                <input
+                  type="checkbox"
+                  name="xiao-newsletter-consent"
+                  required
+                  className="mt-1 h-3.5 w-3.5 shrink-0 accent-[var(--brand-green)]"
+                />
+                <span>I agree to receive newsletters on XIAO from Seeed Studio.</span>
+              </label>
               <button
                 type="submit"
-                className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-[var(--brand-green)] px-5 py-2.5 text-sm font-semibold text-[var(--ink-strong)] transition hover:brightness-110"
+                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-[var(--brand-green)] px-5 py-2.5 text-sm font-semibold text-[var(--ink-strong)] transition hover:brightness-110"
               >
-                {L("订阅 XIAO 资讯", "Subscribe to XIAO news")}
+                Subscribe
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="9 18 15 12 9 6" />
                 </svg>
               </button>
             </form>
+            <div className="mt-5 flex flex-wrap items-center gap-2">
+              {socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  title={s.label}
+                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/8 text-white/70 transition hover:bg-[var(--brand-green)] hover:text-[var(--ink-strong)]"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="18"
+                    height="18"
+                    fill={s.fill ? "currentColor" : "none"}
+                    stroke={s.fill ? "none" : "currentColor"}
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d={s.d} />
+                    {s.poly && <polygon points={s.poly} fill="currentColor" stroke="none" />}
+                  </svg>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -193,7 +200,7 @@ export function SiteFooter() {
       {/* 底部版权 */}
       <div className="border-t border-white/10">
         <div className="mx-auto w-full max-w-[1440px] px-6 py-5 text-center text-xs text-white/55 sm:px-10 lg:px-16">
-          © 2026 Seeed Studio. {L("保留所有权利。", "All rights reserved.")}
+          © 2026 Seeed Studio. All rights reserved.
         </div>
       </div>
     </footer>
