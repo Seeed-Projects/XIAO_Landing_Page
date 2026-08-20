@@ -14,7 +14,9 @@ import { EcosystemSection } from "./ecosystem-section";
 import { Reveal } from "./reveal";
 
 export default function Home() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const isEn = lang === "en";
+  const OSHW_HUB_URL = "https://seeed-studio.github.io/OSHW-XIAO-Series/";
 
   return (
     <>
@@ -94,6 +96,31 @@ export default function Home() {
             </Reveal>
             <div className="mt-8">
               <ProjectsCarousel />
+            </div>
+            {/* Explore More —— 进入 OSHW XIAO Series 开源硬件合集，看更多共创项目 */}
+            <div className="mt-8 flex justify-center">
+              <a
+                href={OSHW_HUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-[var(--brand-blue)]/20 bg-white px-6 py-3 text-sm font-semibold text-[var(--brand-blue)] shadow-[0_8px_24px_rgba(0,73,102,0.10)] transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/45 hover:bg-[var(--brand-blue)]/5"
+              >
+                {isEn ? "Explore More" : "查看更多"}
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="transition-transform group-hover:translate-x-0.5"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
             </div>
           </div>
         </section>
