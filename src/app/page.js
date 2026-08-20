@@ -77,7 +77,7 @@ export default function Home() {
         >
           <div className="mx-auto w-full max-w-[1440px]">
             <Reveal>
-              <SectionHeader kicker={t.news.title} title={t.news.title} description="" />
+              <SectionHeader kicker={t.news.title} title={t.news.title} description={t.news.description} />
             </Reveal>
             <div className="mt-8">
               <NewsCarousel />
@@ -105,7 +105,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="group inline-flex items-center gap-2 rounded-full border border-[var(--brand-blue)]/20 bg-white px-6 py-3 text-sm font-semibold text-[var(--brand-blue)] shadow-[0_8px_24px_rgba(0,73,102,0.10)] transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/45 hover:bg-[var(--brand-blue)]/5"
               >
-                {isEn ? "Explore More" : "查看更多"}
+                {isEn ? "Explore more" : "探索更多"}
                 <svg
                   width="16"
                   height="16"

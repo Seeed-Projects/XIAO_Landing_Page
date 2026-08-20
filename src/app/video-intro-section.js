@@ -18,16 +18,12 @@ export function VideoIntroSection() {
 
   const copy = isEn
     ? {
-        kicker: "About Seeed Studio XIAO",
-        title: "Tiny MCUs, Built for TinyML on the Edge",
+        title: "About Seeed Studio XIAO",
         body: "Seeed Studio XIAO Series is a collection of thumb-sized, powerful microcontroller units (MCUs) tailor-made for space-conscious projects requiring high performance and wireless connectivity. Embodying the essence of popular hardware platforms, the Arduino-compatible XIAO series is the perfect toolset for you to embrace tiny machine learning (TinyML) on the Edge.",
-        cta: "See the full lineup",
       }
     : {
-        kicker: "关于 Seeed Studio XIAO",
-        title: "拇指大的 MCU，为边缘 TinyML 而生",
+        title: "关于 Seeed Studio XIAO",
         body: "Seeed Studio XIAO 系列是一组拇指大小、性能强大的微控制器（MCU），专为对空间敏感、又需要高性能与无线连接的项目而打造。汲取主流硬件平台的精髓，兼容 Arduino 的 XIAO 系列，是你拥抱边缘端微型机器学习（TinyML）的理想工具集。",
-        cta: "查看完整产品线",
       };
 
   return (
@@ -64,16 +60,6 @@ export function VideoIntroSection() {
           <p className="text-base leading-7 text-[var(--ink-body)] sm:text-lg sm:leading-8">
             {copy.body}
           </p>
-          <a
-            href="#ecosystem"
-            className="inline-flex items-center gap-2 text-sm font-bold text-[var(--brand-blue)] transition hover:text-[var(--brand-blue-soft)]"
-          >
-            {copy.cta}
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
-            </svg>
-          </a>
         </Reveal>
       </div>
     </section>

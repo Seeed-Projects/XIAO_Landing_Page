@@ -27,6 +27,9 @@ export function EdmSubscribe() {
         {/* 图上叠加品牌渐变与标题，保证与右栏文案呼应 */}
         <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(0,73,102,0.55),rgba(8,102,126,0.35),rgba(143,195,31,0.35))]" />
         <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.24em] text-white/75">
+            {e.kicker}
+          </p>
           <h3 className="font-display text-2xl font-semibold leading-tight text-white sm:text-3xl">
             {e.title}
           </h3>
@@ -37,6 +40,9 @@ export function EdmSubscribe() {
       <div className="flex flex-col justify-center p-7 sm:p-9 lg:p-10">
         <form onSubmit={onSubmit} noValidate className="space-y-5">
           <div className="space-y-3 sm:hidden">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[var(--brand-blue)]">
+              {e.kicker}
+            </p>
             <h3 className="font-display text-2xl font-semibold tracking-tight text-[var(--ink-strong)]">
               {e.title}
             </h3>
@@ -44,6 +50,14 @@ export function EdmSubscribe() {
           <p className="hidden text-base leading-7 text-[var(--ink-body)] sm:block">
             {e.description}
           </p>
+
+          <ul className="space-y-2 text-sm leading-6 text-[var(--ink-body)]">
+            {e.topics.map((topic) => (
+              <li key={topic}>{topic}</li>
+            ))}
+          </ul>
+
+          <p className="text-sm leading-6 text-[var(--ink-body)]">{e.contact}</p>
 
           <div className="flex items-center gap-2 rounded-full border border-[var(--line-soft)] bg-white/80 p-1.5 pl-5 transition focus-within:border-[rgba(143,195,31,0.5)] focus-within:shadow-[0_10px_24px_rgba(0,73,102,0.08)]">
             <svg className="h-5 w-5 shrink-0 text-[var(--ink-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

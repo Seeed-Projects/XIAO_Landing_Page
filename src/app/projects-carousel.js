@@ -43,9 +43,6 @@ export function ProjectsCarousel() {
             <h3 className="mt-2 text-lg font-bold leading-snug text-[var(--ink-strong)]">
               {item.title}
             </h3>
-            <p className="mt-1.5 text-sm leading-relaxed text-[var(--ink-body)]">
-              {item.excerpt}
-            </p>
           </div>
         </>
       )}

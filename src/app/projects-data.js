@@ -70,7 +70,7 @@ export const PROJECTS = [
   },
   {
     tag: "nRF52840 Sense",
-    title: "Vibe Pad — a 4-Button Bluetooth Macro Keyboard for AI Coding",
+    title: "A 4-Button Bluetooth Macro Keyboard for AI Coding",
     excerpt:
       "A 4-button Bluetooth macro keyboard built on the XIAO nRF52840 Sense for AI coding workflows.",
     author: "Instructables",
@@ -97,7 +97,7 @@ export const PROJECTS = [
   },
   {
     tag: "RP2350",
-    title: "MINTIA — MicroPython Console",
+    title: "MINTIA Micropython Console",
     excerpt: "A compact MicroPython console built with the XIAO RP2350.",
     author: "Instructables",
     url: "https://www.instructables.com/MINTIA-Micropython-Console/",
@@ -115,7 +115,7 @@ export const PROJECTS = [
   },
   {
     tag: "SAMD21",
-    title: "Vail Adapter",
+    title: "Vail Adapter: Morse Code Key/Paddle to USB",
     excerpt: "A XIAO SAMD21-based adapter project.",
     author: "vailadapter.com",
     url: "https://vailadapter.com/",
@@ -123,7 +123,7 @@ export const PROJECTS = [
   },
   {
     tag: "MG24",
-    title: "XIAO-Powered Glove-Controlled Electric Skateboard",
+    title: "Glove-controlled Electric Skateboard",
     excerpt: "A glove-controlled electric skateboard powered by the XIAO MG24 over Thread.",
     author: "Silicon Labs Community",
     url:

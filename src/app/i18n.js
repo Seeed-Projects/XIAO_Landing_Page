@@ -31,10 +31,10 @@ const zh = {
   data: {
     title: "数据",
     items: [
-      { value: "17", label: "款开发板" },
+      { value: "17", label: "截至目前 · 开发板" },
       { value: "300+", label: "款扩展配件" },
-      { value: "21×17.8 mm", label: "≈ 2 颗小熊糖" },
-      { value: "500,000+", label: "开发者之选" },
+      { value: "21×17.8 mm", label: "拇指大小" },
+      { value: "500,000+", label: "深受开发者信赖" },
       { value: "500+ Million", label: "YouTube / TikTok 播放" },
       { value: "2,000,000+", label: "全球出货量" },
     ],
@@ -163,7 +163,8 @@ const zh = {
     groupLabels: ["芯片/硬件伙伴", "软件/框架伙伴", "内容/社区伙伴"],
   },
   news: {
-    title: "XIAO 资讯",
+    title: "XIAO 新闻",
+    description: "了解 XIAO 的最新新闻，以及来自 Seeed 和全球社区的最新动态。",
     items: [
       { title: "XIAO ESP32-S3 获评年度最佳开发板", source: "Hackster.io", date: "2025-06-15", excerpt: "评测团队对 XIAO ESP32-S3 的紧凑体积与强大性能给予高度评价。", tag: "外部评测" },
       { title: "Seeed Studio 推出 XIAO nRF54L15", source: "CNX-Software", date: "2025-05-28", excerpt: "新一代低功耗 BLE 芯片 nRF54L15 登陆 XIAO 系列，续航提升 40%。", tag: "媒体报道" },
@@ -174,7 +175,7 @@ const zh = {
     ],
   },
   projects: {
-    title: "热门项目",
+    title: "基于 XIAO 构建的项目",
     items: [
       { title: "XIAO ESP32-S3 智能天气站", author: "MakerLeo", date: "2025-06-20", excerpt: "基于 XIAO ESP32-S3 的桌面天气站，集成 PM2.5、温湿度与光照，数据上云可视。", tag: "开源" },
       { title: "XIAO 腕上开源智能手表", author: "AdaWei", date: "2025-05-30", excerpt: "用 XIAO nRF54L15 打造的超低功耗可穿戴，续航三周，支持消息提醒与运动监测。", tag: "可穿戴" },
@@ -223,11 +224,13 @@ const zh = {
     ],
   },
   edm: {
-    kicker: "EDM",
-    title: "订阅 XIAO 最新动态",
-    description: "第一时间获取新品发布、教程与限时优惠，直接送达你的邮箱。",
+    kicker: "电子报",
+    title: "“关于 XIAO 的一切”",
+    description: "专为所有 XIAO 用户打造的每月电子报，内容包括：",
+    topics: ["🤖️ 社区酷项目", "📖 固件、Wiki 与新品预告等产品更新", "📣 活动、竞赛等最新消息"],
+    contact: "📮 还有其他问题？请联系 maker[at]seeed.cc",
     placeholder: "输入你的邮箱地址",
-    button: "订阅",
+    button: "立即订阅",
     footnote: "订阅即表示同意接收 Seeed Studio 的产品与资讯邮件。",
     success: "订阅成功！请到邮箱查收确认邮件。",
   },
@@ -239,11 +242,11 @@ const zh = {
       { id: "data", label: "数据" },
       { id: "developer", label: "开发者生态" },
       { id: "ecosystem", label: "生态入口" },
-      { id: "news", label: "XIAO 资讯" },
-      { id: "projects", label: "热门项目" },
+      { id: "news", label: "XIAO 新闻" },
+      { id: "projects", label: "基于 XIAO 构建的项目" },
       { id: "reviews", label: "媒体评测" },
       { id: "cocreate", label: "生态共创" },
-      { id: "edm", label: "订阅动态" },
+      { id: "edm", label: "XIAO 电子报" },
     ],
     products: [
       { id: "top", label: "概览" },
@@ -294,10 +297,10 @@ const en = {
   data: {
     title: "DATA",
     items: [
-      { value: "17", label: "Dev Boards" },
+      { value: "17", label: "By now · Dev Boards" },
       { value: "300+", label: "Add-on Accessories" },
-      { value: "21×17.8 mm", label: "= 2 Gummy Bears" },
-      { value: "500,000+", label: "Developers' Choices" },
+      { value: "21×17.8 mm", label: "Thumb Sized" },
+      { value: "500,000+", label: "Trusted by Developers" },
       { value: "500+ Million", label: "Views on YT, TikTok" },
       { value: "2,000,000+", label: "Pieces Shipped Globally" },
     ],
@@ -427,6 +430,7 @@ const en = {
   },
   news: {
     title: "XIAO in the News",
+    description: "Discover the latest news on XIAO, updates from Seeed and from our community all over the world",
     items: [
       { title: "XIAO ESP32-S3 named Dev Board of the Year", source: "Hackster.io", date: "2025-06-15", excerpt: "Reviewers praised the XIAO ESP32-S3's balance of compact size and strong performance.", tag: "External Review" },
       { title: "Seeed Studio launches XIAO nRF54L15", source: "CNX-Software", date: "2025-05-28", excerpt: "The new low-power BLE chip nRF54L15 joins the XIAO lineup with 40% longer runtime.", tag: "Media Coverage" },
@@ -437,7 +441,7 @@ const en = {
     ],
   },
   projects: {
-    title: "Hot Projects",
+    title: "Projects Built on XIAO",
     items: [
       { title: "XIAO ESP32-S3 Smart Weather Station", author: "MakerLeo", date: "2025-06-20", excerpt: "A desk weather station built on XIAO ESP32-S3 — PM2.5, temp/humidity and light, cloud-dashboarded.", tag: "Open Source" },
       { title: "XIAO Open-Source Smart Watch", author: "AdaWei", date: "2025-05-30", excerpt: "An ultra-low-power wearable on XIAO nRF54L15 — three-week battery life with alerts and activity tracking.", tag: "Wearable" },
@@ -486,11 +490,17 @@ const en = {
     ],
   },
   edm: {
-    kicker: "EDM",
-    title: "Subscribe to XIAO Updates",
-    description: "Be the first to get new releases, tutorials, and limited-time offers — straight to your inbox.",
+    kicker: "NEWSLETTER",
+    title: "“Everything About XIAO”",
+    description: "A monthly newsletter specifically for all XIAO owners with topics of:",
+    topics: [
+      "🤖️ Cool Projects from the Community",
+      "📖 Product Updates on firmware, wiki and new product spoiler",
+      "📣 News: events, contest, and more",
+    ],
+    contact: "📮 Got any other questions? Contact us at maker[at]seeed.cc",
     placeholder: "Enter your email address",
-    button: "Subscribe",
+    button: "Subscribe NOW",
     footnote: "By subscribing you agree to receive product and news emails from Seeed Studio.",
     success: "Subscribed! Please check your inbox for the confirmation email.",
   },
@@ -503,10 +513,10 @@ const en = {
       { id: "developer", label: "Developer" },
       { id: "ecosystem", label: "Ecosystem" },
       { id: "news", label: "News" },
-      { id: "projects", label: "Projects" },
+      { id: "projects", label: "Projects Built on XIAO" },
       { id: "reviews", label: "Reviews" },
       { id: "cocreate", label: "Co-Create" },
-      { id: "edm", label: "Subscribe" },
+      { id: "edm", label: "NEWSLETTER" },
     ],
     products: [
       { id: "top", label: "Overview" },

@@ -21,18 +21,18 @@ export function HeroSection() {
         brand: "Seeed Studio",
         title: "XIAO",
         subtitle:
-          "The smallest Arduino-compatible dev boards for building your next AI gadgets.",
-        primary: "Browse Products",
-        secondary: "Explore Ecosystem",
+          "The smallest Arduino-compatible dev boards for building your next AI gadgets",
+        primary: "Shop Now",
+        secondary: "Get Started",
       }
     : {
         kicker: "为万物加上 AI",
         brand: "Seeed Studio",
         title: "XIAO",
         subtitle:
-          "最小的 Arduino 兼容开发板，助你打造下一个 AI 小装置。",
-        primary: "浏览产品",
-        secondary: "探索生态",
+          "最小的 Arduino 兼容开发板，助你打造下一个 AI 小装置",
+        primary: "立即购买",
+        secondary: "快速开始",
       };
 
   return (

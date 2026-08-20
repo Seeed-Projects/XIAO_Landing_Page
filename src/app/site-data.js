@@ -10,10 +10,10 @@ export const homepageSections = {
   heroTitle: "Hero Banner区域",
   dataTitle: "DATA",
   dataItems: [
-    { value: "17", label: "Dev Boards" },
+    { value: "17", label: "By now · Dev Boards" },
     { value: "300+", label: "Add-on Accessories" },
-    { value: "21×17.8mm", label: "= 2 Gummy Bears" },
-    { value: "500,000+", label: "Developers' Choices" },
+    { value: "21×17.8mm", label: "Thumb Sized" },
+    { value: "500,000+", label: "Trusted by Developers" },
     { value: "500+ Million", label: "Views on YT, TikTok" },
     { value: "2,000,000+", label: "Pieces Shipped Globally" },
   ],

@@ -39,20 +39,20 @@ const HOME_MENU = {
   zh: [
     { id: "hero", label: "概览" },
     { id: "developer", label: "开发者生态" },
-    { id: "news", label: "XIAO 资讯" },
-    { id: "projects", label: "热门项目" },
+    { id: "news", label: "XIAO 新闻" },
+    { id: "projects", label: "基于 XIAO 构建的项目" },
     { id: "reviews", label: "社区评测" },
     { id: "cocreate", label: "与 XIAO 共创" },
-    { id: "edm", label: "订阅 XIAO 邮件" },
+    { id: "edm", label: "XIAO 电子报" },
   ],
   en: [
     { id: "hero", label: "Overview" },
     { id: "developer", label: "Developer Ecosystem" },
     { id: "news", label: "XIAO in the News" },
-    { id: "projects", label: "Popular Projects" },
+    { id: "projects", label: "Projects Built on XIAO" },
     { id: "reviews", label: "Community Review" },
     { id: "cocreate", label: "Co-Create with XIAO" },
-    { id: "edm", label: "Subscribe to XIAO Newsletter" },
+    { id: "edm", label: "NEWSLETTER" },
   ],
 };
 
