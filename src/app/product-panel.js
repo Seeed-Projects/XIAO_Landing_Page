@@ -36,17 +36,41 @@ export function ProductPanel() {
 
   return (
     <div className="mx-auto flex h-[640px] w-full max-w-[1440px] flex-col overflow-hidden rounded-3xl border border-[var(--line-soft)] bg-white/80 backdrop-blur-sm">
-      {/* 卡片头部 - 标题（只留大标题，去掉重复的小字 eyebrow） */}
-      <div className="flex shrink-0 items-center justify-between px-6 py-5 sm:px-8">
+      {/* 卡片头部 - 标题 + 跳转 XIAO 系列总览 */}
+      <div className="flex shrink-0 items-center justify-between gap-4 px-6 py-5 sm:px-8">
         <div>
           <Glow as="h2" className="font-display text-2xl font-bold tracking-tight text-[var(--ink-strong)] sm:text-3xl">
             {t.products.title}
           </Glow>
         </div>
-        <h3 className="text-sm font-medium text-[var(--ink-muted)]">
-          {catLabel(currentCategory)}
-          {currentSub ? ` / ${subLabel(currentSub)}` : ""}
-        </h3>
+        <div className="flex flex-col items-end gap-2">
+          <h3 className="text-sm font-medium text-[var(--ink-muted)]">
+            {catLabel(currentCategory)}
+            {currentSub ? ` / ${subLabel(currentSub)}` : ""}
+          </h3>
+          <a
+            href="https://www.seeedstudio.com/xiao-series-page"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2 rounded-full border border-[var(--brand-blue)]/20 bg-white px-5 py-2 text-sm font-semibold text-[var(--brand-blue)] shadow-[0_8px_24px_rgba(0,73,102,0.10)] transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/45 hover:bg-[var(--brand-blue)]/5"
+          >
+            {isEn ? "Shop XIAO Series" : "查看 XIAO 系列"}
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="transition-transform group-hover:translate-x-0.5"
+            >
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
+        </div>
       </div>
 
       {/* 卡片主体 - 左导航 + 右内容 */}
