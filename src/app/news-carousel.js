@@ -125,6 +125,36 @@ function mapPost(p) {
   };
 }
 
+// WordPress REST supports JSONP. Loading it as a script avoids the invalid
+// duplicate CORS response headers returned by the blog/CDN on GitHub Pages.
+function loadPostsWithJsonp() {
+  return new Promise((resolve, reject) => {
+    const callbackName = `xiaoNews_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    const script = document.createElement("script");
+    const timer = window.setTimeout(() => {
+      cleanup();
+      reject(new Error("News JSONP request timed out"));
+    }, 12000);
+
+    function cleanup() {
+      window.clearTimeout(timer);
+      delete window[callbackName];
+      script.remove();
+    }
+
+    window[callbackName] = (posts) => {
+      cleanup();
+      resolve(posts);
+    };
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("News JSONP request failed"));
+    };
+    script.src = `${WP_ENDPOINT}&_jsonp=${callbackName}`;
+    document.head.appendChild(script);
+  });
+}
+
 export function NewsCarousel() {
   const { lang } = useLang();
   const [items, setItems] = useState(NEWS_FALLBACK);
@@ -141,6 +171,7 @@ export function NewsCarousel() {
     }
     fetch(WP_ENDPOINT, { headers: { Accept: "application/json" } })
       .then((r) => (r && r.ok ? r.json() : Promise.reject(r?.status || "no-resp")))
+      .catch(() => loadPostsWithJsonp())
       .then((posts) => {
         if (!alive || !Array.isArray(posts)) return;
         const mapped = posts
