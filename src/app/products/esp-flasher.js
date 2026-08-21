@@ -94,7 +94,7 @@ export function ESPFlasher() {
     h2: lang === "zh" ? "ESP 在线烧录器" : "ESP Web Flasher",
     p: lang === "zh"
       ? "浏览器内用 Web Serial 直连 ESP 设备真烧录，无需安装 esptool/Arduino。选端口→同步芯片→写固件，实时显示芯片、进度、耗时与速率，烧完硬复位，设备即跑新固件。"
-      : "Flash ESP devices straight from the browser via Web Serial — no esptool or Arduino IDE. Sync → detect chip → write firmware, with live chip info, progress, timing and speed. A hard reset at the end boots the new firmware.",
+      : "Flash ESP devices straight from the browser via Web Serial. Sync → detect chip → write firmware, with live chip info, progress, timing and speed.",
     connect: lang === "zh" ? "连接设备" : "Connect",
     disconnect: lang === "zh" ? "断开" : "Disconnect",
     flash: lang === "zh" ? "烧录" : "Flash",

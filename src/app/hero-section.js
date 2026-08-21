@@ -53,7 +53,7 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.25)_0%,transparent_30%,transparent_70%,rgba(0,0,0,0.35)_100%)]" />
 
       {/* 叠加内容 */}
-      <div className="relative z-10 mx-auto w-full max-w-[1440px] px-6 py-24 sm:px-10 lg:px-16">
+      <div className="relative z-10 mx-auto w-full max-w-[1440px] px-5 py-24 sm:px-10 lg:px-16">
         <Reveal className="max-w-2xl space-y-6">
           <p className="font-display text-sm font-semibold uppercase tracking-[0.34em] text-white/85">
             {copy.kicker}
@@ -63,19 +63,19 @@ export function HeroSection() {
           </p>
           <Glow
             as="h1"
-            className="font-display text-8xl font-semibold leading-[0.9] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] sm:text-9xl lg:text-[11rem]"
+            className="font-display text-6xl font-semibold leading-[0.9] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] sm:text-9xl lg:text-[11rem]"
           >
             {copy.title}
           </Glow>
           <p className="max-w-xl text-lg leading-8 text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)] sm:text-xl sm:leading-9">
             {copy.subtitle}
           </p>
-          <div className="flex flex-wrap items-center gap-3 pt-2">
+          <div className="grid grid-cols-1 gap-3 pt-2 min-[420px]:flex min-[420px]:flex-wrap min-[420px]:items-center">
             <a
               href="https://www.seeedstudio.com/xiao-selector"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[var(--brand-blue)] shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition hover:-translate-y-0.5 hover:bg-[var(--brand-green)] hover:text-white"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[var(--brand-blue)] shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition hover:-translate-y-0.5 hover:bg-[var(--brand-green)] hover:text-white"
             >
               {copy.primary}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -87,7 +87,7 @@ export function HeroSection() {
               href="https://wiki.seeedstudio.com/xiao_topic_page/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/20"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/20"
             >
               {copy.secondary}
             </a>

@@ -111,11 +111,15 @@ export function SiteHeader() {
   };
 
   const [openKey, setOpenKey] = useState(null);
-  const [canHover, setCanHover] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [canHover, setCanHover] = useState(false);
   const closeTimer = useRef(null);
 
   useEffect(() => {
-    setCanHover(window.matchMedia("(hover: hover)").matches);
+    const hoverQuery = window.matchMedia("(hover: hover)");
+    const syncHover = () => setCanHover(hoverQuery.matches);
+    queueMicrotask(syncHover);
+    hoverQuery.addEventListener("change", syncHover);
     const onKey = (e) => { if (e.key === "Escape") setOpenKey(null); };
     const onDoc = (e) => {
       const el = document.getElementById("site-header");
@@ -126,6 +130,7 @@ export function SiteHeader() {
     return () => {
       document.removeEventListener("keydown", onKey);
       document.removeEventListener("mousedown", onDoc);
+      hoverQuery.removeEventListener("change", syncHover);
       if (closeTimer.current) clearTimeout(closeTimer.current);
     };
   }, []);
@@ -150,14 +155,14 @@ export function SiteHeader() {
     const dir = `${BASE_PATH}${href.endsWith("/") ? href : href + "/"}`;
     if (!id || id === "top" || id === "hero") {
       if (pathname === href) window.scrollTo({ top: 0, behavior: "smooth" });
-      else window.location.href = dir;
+      else window.location.assign(dir);
       return;
     }
     if (pathname === href) {
       const el = document.getElementById(id);
       if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
     }
-    window.location.href = `${dir}#${id}`;
+    window.location.assign(`${dir}#${id}`);
   };
 
   return (
@@ -167,11 +172,11 @@ export function SiteHeader() {
       onMouseEnter={() => { if (canHover && closeTimer.current) { clearTimeout(closeTimer.current); closeTimer.current = null; } }}
       onMouseLeave={scheduleClose}
     >
-      <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center px-6 sm:px-8 lg:px-12">
+      <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center px-4 sm:px-8 lg:px-12">
         {/* 左：logo —— ❯ Seeed Studio XIAO 锁标（透明底锁标） */}
         <Link href="/" className="flex shrink-0 items-center gap-2">
-          <span className="font-display text-base font-semibold tracking-[0.18em] text-[var(--brand-blue)]">
-            <span aria-hidden className="mr-1">❯</span>Seeed Studio XIAO
+          <span className="font-display text-sm font-semibold tracking-[0.1em] text-[var(--brand-blue)] sm:text-base sm:tracking-[0.18em]">
+            <span aria-hidden className="mr-1">❯</span><span className="hidden sm:inline">Seeed Studio </span>XIAO
           </span>
         </Link>
 
@@ -198,10 +203,40 @@ export function SiteHeader() {
         </nav>
 
         {/* 右：语言切换 —— shrink-0 不占半边，把整行空间让给导航 */}
-        <div className="ml-auto flex shrink-0 justify-end">
+        <div className="ml-auto flex shrink-0 items-center justify-end gap-2">
+          <button
+            type="button"
+            aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen((open) => !open)}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--line-soft)] bg-white/75 text-[var(--ink-strong)] lg:hidden"
+          >
+            <span className="sr-only">Menu</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              {mobileOpen ? <><path d="M6 6l12 12" /><path d="M18 6L6 18" /></> : <><path d="M4 7h16" /><path d="M4 12h16" /><path d="M4 17h16" /></>}
+            </svg>
+          </button>
           <LangToggle />
         </div>
       </div>
+
+      {mobileOpen && (
+        <nav className="border-t border-[var(--line-soft)] bg-[var(--bg-base)]/98 px-4 py-3 shadow-[0_18px_36px_rgba(0,73,102,0.12)] lg:hidden">
+          <div className="mx-auto grid max-h-[calc(100dvh-5rem)] w-full max-w-[720px] gap-1 overflow-y-auto">
+            {nav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileOpen(false)}
+                className={`flex min-h-12 items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold ${pathname === item.href ? "bg-[var(--surface-tint)] text-[var(--brand-green-deep)]" : "text-[var(--ink-strong)]"}`}
+              >
+                {item.label}
+                <span aria-hidden>→</span>
+              </Link>
+            ))}
+          </div>
+        </nav>
+      )}
 
       {/* 居中下拉面板：整宽桥接层 + 固定宽度固定 3 列，所有页面尺寸一致；280ms 延迟关闭 */}
       {currentMenu && (

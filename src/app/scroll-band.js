@@ -60,10 +60,16 @@ export function ScrollBand({ items, hrefFor, renderCard, speed = 0.45, delayStep
         onMouseLeave={() => {
           playingRef.current = true;
         }}
+        onTouchStart={() => {
+          playingRef.current = false;
+        }}
+        onTouchEnd={() => {
+          playingRef.current = true;
+        }}
         className={
           rows === 2
-            ? "grid grid-flow-col grid-rows-2 auto-cols-[72%] select-none gap-4 overflow-x-hidden pb-2 [mask-image:linear-gradient(to_right,transparent_0,#000_3%,#000_97%,transparent_100%)] sm:auto-cols-[42%] lg:auto-cols-[27%] xl:auto-cols-[22%]"
-            : "flex select-none gap-5 overflow-x-hidden pb-2 [mask-image:linear-gradient(to_right,transparent_0,#000_3%,#000_97%,transparent_100%)]"
+            ? "grid touch-pan-x snap-x grid-flow-col grid-rows-2 auto-cols-[78%] select-none gap-4 overflow-x-auto pb-2 sm:auto-cols-[42%] sm:overflow-x-hidden sm:[mask-image:linear-gradient(to_right,transparent_0,#000_3%,#000_97%,transparent_100%)] lg:auto-cols-[27%] xl:auto-cols-[22%]"
+            : "flex touch-pan-x snap-x select-none gap-5 overflow-x-auto pb-2 sm:overflow-x-hidden sm:[mask-image:linear-gradient(to_right,transparent_0,#000_3%,#000_97%,transparent_100%)]"
         }
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
@@ -82,8 +88,8 @@ export function ScrollBand({ items, hrefFor, renderCard, speed = 0.45, delayStep
               delay={sourceIdx * delayStep}
               className={
                 rows === 2
-                  ? "flex min-w-0 cursor-pointer flex-col rounded-xl border border-[var(--line-soft)] bg-white/90 p-3 no-underline backdrop-blur-sm transition-shadow duration-300 hover:shadow-md"
-                  : "flex w-[85%] shrink-0 cursor-pointer flex-col rounded-2xl border border-[var(--line-soft)] bg-white/90 p-5 no-underline backdrop-blur-sm transition-shadow duration-300 hover:shadow-md sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.875rem)] xl:w-[calc(25%-0.9375rem)]"
+                  ? "flex min-w-0 snap-start cursor-pointer flex-col rounded-xl border border-[var(--line-soft)] bg-white/90 p-3 no-underline backdrop-blur-sm transition-shadow duration-300 hover:shadow-md"
+                  : "flex w-[88%] shrink-0 snap-start cursor-pointer flex-col rounded-2xl border border-[var(--line-soft)] bg-white/90 p-4 no-underline backdrop-blur-sm transition-shadow duration-300 hover:shadow-md sm:w-[calc(50%-0.625rem)] sm:p-5 lg:w-[calc(33.333%-0.875rem)] xl:w-[calc(25%-0.9375rem)]"
               }
             >
               {renderCard(sourceItem, sourceIdx)}

@@ -596,17 +596,12 @@ export function ResHub() {
 
   const T = {
     heroEyebrow: lang === "zh" ? "XIAO 硬件资源" : "XIAO Hardware Resources",
-    heroH1: lang === "zh" ? "看得到资料，再决定打开哪一个。" : "See the resources before opening a single link.",
+    heroH1: lang === "zh" ? "XIAO 资源中心" : "XIAO Resource Hub",
     heroP: lang === "zh"
       ? "从规格到实现，汇聚原理图、Pinout、PCB、尺寸与 3D 资料，让每一次查找都更清晰、更从容。"
-      : "From specification to implementation, bring schematics, Pinout, PCB, dimensions and 3D resources together—so every search feels clearer and more effortless.",
+      : "Explore datasheets, Pinout, schematics, PCB, dimensions and 3D resources in one place.",
     btnBrowse: lang === "zh" ? "浏览资源" : "Browse resources",
     btnSelector: lang === "zh" ? "进入智能选型" : "Open Smart Selector",
-    secEyebrow: lang === "zh" ? "可视化资源库" : "Visual resource library",
-    secH2: lang === "zh" ? "不用读链接，先看资料是什么。" : "Don't read links — see what the resource is first.",
-    secP: lang === "zh"
-      ? "从规格到实现，一站汇集 Pinout、原理图、PCB、尺寸与 3D 资料，让每一份设计资料都触手可及。"
-      : "From specification to implementation, explore Pinout, schematics, PCB, dimensions and 3D resources in one place—so every design resource is always within reach.",
     searchPlaceholder: lang === "zh" ? "搜索资源，如 Schematic / KiCad / DXF / 3D" : "Search resources, e.g. Schematic / KiCad / DXF / 3D",
     chipFilter: lang === "zh" ? "按芯片筛选开发板" : "Filter boards by chip",
     chipHint: lang === "zh" ? "先选芯片，再选具体开发板" : "Choose a chip, then a board.",
@@ -689,15 +684,6 @@ export function ResHub() {
               <div className={`${styles.resourceSheet} ${styles.s2}`} dangerouslySetInnerHTML={{ __html: HERO_SHEET_S2 }} />
               <div className={`${styles.resourceSheet} ${styles.s3}`} dangerouslySetInnerHTML={{ __html: HERO_SHEET_S3 }} />
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={`${styles.section} ${styles.dots}`}>
-        <div className={styles.container}>
-          <div className={styles.sectionHead}>
-            <Glow as="h2" start={0.48} end={0.12}>{T.secH2}</Glow>
-            <p>{T.secP}</p>
           </div>
         </div>
       </section>

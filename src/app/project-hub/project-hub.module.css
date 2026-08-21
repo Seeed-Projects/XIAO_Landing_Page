@@ -158,15 +158,16 @@
 @media (max-width: 580px) {
   .languageSwitch { top: 18px; right: 18px; }
   .projectIntro { min-height: 320px; padding: 82px 18px 42px; grid-template-columns: 1fr; gap: 34px; }
-  .projectIntro h1 { font-size: 58px; }
+  .projectIntro h1 { font-size: clamp(40px, 14vw, 54px); }
   .seeedLogo { margin-bottom: 20px; }
   .hero { padding: 18px 14px 85px; }
   .lead { min-height: 420px; }
-  .lead h1 { font-size: 52px; }
+  .lead h1 { max-width: 92%; font-size: clamp(36px, 12vw, 48px); }
+  .dek { max-width: 92%; }
   .archive, .browserSection { padding: 95px 18px; }
   .archiveTitle { align-items: flex-start; flex-direction: column; }
-  .archive h2 { font-size: 42px; }
-  .collectionIntro h2 { font-size: 44px; }
+  .archive h2 { font-size: clamp(34px, 11vw, 42px); }
+  .collectionIntro h2 { font-size: clamp(34px, 11vw, 42px); }
   .browser { width: 100%; }
   .browserBody { height: 60vh; min-height: 420px; }
   .sideHead > div { display: block; }

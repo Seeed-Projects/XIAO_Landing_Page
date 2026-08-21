@@ -112,6 +112,14 @@
   .fwHead { display: none; }
   .fwRow { grid-template-columns: 1fr auto; gap: 8px; padding: 12px 14px; }
   .fwVer, .fwSize { display: none; }
+  .toolRow { flex-wrap: wrap; }
+  .connectBtn, .flashBtn { min-height: 44px; }
+  .boardPicker { align-items: stretch; flex-direction: column; }
+  .statsRow { gap: 10px; }
+  .statsRow .stat { min-width: 0; padding: 12px; }
+  .monBarRight { width: 100%; justify-content: space-between; }
+  .monitor { min-height: 240px; }
+  .monScreen { min-height: 180px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

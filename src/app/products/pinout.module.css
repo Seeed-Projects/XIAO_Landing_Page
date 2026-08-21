@@ -154,6 +154,13 @@
   .pinFunc { display: none; }
   .recoArea { padding: 18px; }
   .recoGrid { grid-template-columns: 1fr; }
+  .boardBar { align-items: stretch; flex-direction: column; }
+  .boardSelect, .boardSelect select { width: 100%; }
+  .gpioNote { margin-left: 0; }
+  .detailHead { align-items: flex-start; flex-wrap: wrap; }
+  .detailXiao { margin-left: 0; }
+  .specRow { grid-template-columns: 1fr; }
+  .pinRow { min-height: 36px; padding-inline: 5px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

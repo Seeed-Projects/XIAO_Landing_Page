@@ -113,6 +113,8 @@ html {
 
 body {
   margin: 0;
+  min-width: 320px;
+  overflow-x: clip;
   color: var(--ink-strong);
   font-family: var(--font-body), sans-serif;
   background:
@@ -129,6 +131,34 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+:where(h1, h2, h3, p, li, dd, a) {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  button,
+  [role="button"] {
+    min-height: 44px;
+  }
+
+  .glow-card:hover {
+    transform: none;
+  }
 }
 
 ::selection {

@@ -181,11 +181,12 @@
   .workspace { border-radius: 20px; }
   .modeTabs { overflow-x: auto; padding: 14px; }
   .wizardLayout { display: block; }
+  .workspaceBody { height: auto; overflow: visible; }
   .sidebar { border-right: 0; border-bottom: 1px solid var(--line-soft); padding: 14px; }
   .stepList { display: flex; overflow-x: auto; margin-top: 10px; padding-bottom: 4px; }
   .stepItem { flex: 0 0 auto; padding: 8px; }
   .stepTitle, .sidebarTip, .sidebarLabel { display: none; }
-  .contentArea, .resultView, .filterView { padding: 24px 16px 28px; }
+  .contentArea, .resultView, .filterView { height: auto; overflow: visible; padding: 24px 16px 28px; }
   .questionHead, .resultTop, .filterHead { display: block; }
   .progressPill { display: inline-block; margin-top: 12px; }
   .questionTitle { font-size: 24px; }
@@ -209,6 +210,17 @@
   .wizardFooter { flex-direction: column; align-items: stretch; }
   .footerNote { max-width: none; }
   .resultActions { flex-wrap: wrap; }
+  .modeTab { min-width: max-content; }
+  .aiInputTop { align-items: flex-start; flex-direction: column; }
+  .compareBar { bottom: 8px; width: calc(100vw - 16px); flex-direction: column; align-items: stretch; }
+  .compareItems { max-width: 100%; max-height: 76px; overflow-y: auto; }
+  .compareActions { width: 100%; }
+  .compareActions button { flex: 1; }
+  .modalBackdrop { padding: 8px; }
+  .modal { max-height: calc(100dvh - 16px); border-radius: 16px; }
+  .modalHead { padding: 14px; }
+  .compareTable { min-width: 640px; }
+  .toast { left: 8px; right: 8px; top: 72px; text-align: center; }
 }
 
 /* 选型 小节标题（对齐首页 SectionHeader） */
