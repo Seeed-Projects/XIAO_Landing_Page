@@ -31,8 +31,9 @@ export default function ProductsPage() {
           <ProductPanel />
         </div>
 
-        {/* 二级板块：选型 */}
+        {/* 二级板块：选型（暂注释，8.21 版本先下线）
         <SmartSelector />
+        */}
         {/* 二级板块：Pinout */}
         <Pinout />
         {/* 二级板块：ESP Flasher 在线烧录 */}
