@@ -51,71 +51,79 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 开发者区 - 全屏满宽 */}
+        {/* 开发者区 - 全屏满宽，跑马灯带铺满 */}
         <section
           id="developer"
-          className="bg-mod-green relative flex min-h-[100dvh] w-full scroll-mt-24 items-center px-6 py-20 sm:px-10 lg:px-16"
+          className="bg-mod-green relative flex min-h-[100dvh] w-full scroll-mt-24 items-center py-20 overflow-hidden"
         >
-          <div className="mx-auto w-full max-w-[1440px]">
-            <Reveal>
-              <SectionHeader kicker={t.developer.title} title={t.developer.title} description="" />
-            </Reveal>
-            <div className="mt-10">
+          <div className="w-full">
+            <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
+              <Reveal>
+                <SectionHeader kicker={t.developer.title} title={t.developer.title} description="" />
+              </Reveal>
+            </div>
+            <div className="mt-10 w-full">
               <PartnerMarquee />
             </div>
           </div>
         </section>
 
-        {/* 热门项目 - 全屏满宽 */}
+        {/* 热门项目 - 全屏满宽，跑马灯带铺满 */}
         <section
           id="projects"
-          className="bg-mod-green relative flex min-h-[100dvh] w-full scroll-mt-24 items-center px-6 py-20 sm:px-10 lg:px-16"
+          className="bg-mod-green relative flex min-h-[100dvh] w-full scroll-mt-24 items-center py-20 overflow-hidden"
         >
-          <div className="mx-auto w-full max-w-[1440px]">
-            <Reveal>
-              <SectionHeader kicker={t.projects.title} title={t.projects.title} description="" />
-            </Reveal>
-            <div className="mt-8">
+          <div className="w-full">
+            <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
+              <Reveal>
+                <SectionHeader kicker={t.projects.title} title={t.projects.title} description="" />
+              </Reveal>
+            </div>
+            <div className="mt-8 w-full">
               <ProjectsCarousel />
             </div>
             {/* Explore More —— 进入 OSHW XIAO Series 开源硬件合集，看更多共创项目 */}
-            <div className="mt-8 flex justify-center">
-              <a
-                href={OSHW_HUB_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-[var(--brand-blue)]/20 bg-white px-6 py-3 text-sm font-semibold text-[var(--brand-blue)] shadow-[0_8px_24px_rgba(0,73,102,0.10)] transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/45 hover:bg-[var(--brand-blue)]/5"
-              >
-                {isEn ? "Explore more" : "探索更多"}
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="transition-transform group-hover:translate-x-0.5"
+            <div className="mx-auto mt-8 w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
+              <div className="flex justify-center">
+                <a
+                  href={OSHW_HUB_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-2 rounded-full border border-[var(--brand-blue)]/20 bg-white px-6 py-3 text-sm font-semibold text-[var(--brand-blue)] shadow-[0_8px_24px_rgba(0,73,102,0.10)] transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/45 hover:bg-[var(--brand-blue)]/5"
                 >
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
-              </a>
+                  {isEn ? "Explore more" : "探索更多"}
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="transition-transform group-hover:translate-x-0.5"
+                  >
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* 新闻 - 全屏满宽 */}
+        {/* 新闻 - 全屏满宽，跑马灯带铺满 */}
         <section
           id="news"
-          className="bg-mod-mint relative flex min-h-[100dvh] w-full scroll-mt-24 items-center px-6 py-20 sm:px-10 lg:px-16"
+          className="bg-mod-mint relative flex min-h-[100dvh] w-full scroll-mt-24 items-center py-20 overflow-hidden"
         >
-          <div className="mx-auto w-full max-w-[1440px]">
-            <Reveal>
-              <SectionHeader kicker={t.news.title} title={t.news.title} description={t.news.description} />
-            </Reveal>
-            <div className="mt-8">
+          <div className="w-full">
+            <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
+              <Reveal>
+                <SectionHeader kicker={t.news.title} title={t.news.title} description={t.news.description} />
+              </Reveal>
+            </div>
+            <div className="mt-8 w-full">
               <NewsCarousel />
             </div>
           </div>

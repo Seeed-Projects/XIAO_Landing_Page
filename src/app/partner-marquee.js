@@ -30,10 +30,6 @@ export function PartnerMarquee() {
             {t.developer.groupLabels[gi] ?? group.label}
           </h3>
           <div className="group relative overflow-hidden">
-            {/* 左右渐变遮罩 */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-[var(--bg-base)] to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[var(--bg-base)] to-transparent" />
-
             {/* 滚动轨道 */}
             <div className="flex w-max animate-[marquee_30s_linear_infinite] gap-3 group-hover:[animation-play-state:paused]">
               {/* 复制一份实现无缝滚动 */}
