@@ -109,14 +109,14 @@
 
 .productName { margin: 0; font-size: 20px; line-height: 1.25; letter-spacing: -0.02em; font-weight: 700; color: var(--ink-strong); }
 .productTagline { margin: 7px 0 12px; color: var(--ink-body); font-size: 13px; line-height: 1.55; }
-.tagRow { display: flex; flex-wrap: wrap; gap: 7px; }
-.tag { padding: 7px 10px; border-radius: 8px; background: var(--surface-tint); color: var(--ink-body); font-size: 12px; font-weight: 700; }
+.tagRow { display: flex; flex-wrap: wrap; gap: 5px; }
+.tag { padding: 4px 7px; border-radius: 7px; background: var(--surface-tint); color: var(--ink-body); font-size: 10.5px; font-weight: 700; }
 .whyBox, .cautionBox { margin-top: 14px; border-radius: var(--r-control); padding: 12px 13px; font-size: 12px; line-height: 1.6; }
 .whyBox { background: var(--surface-tint); color: var(--brand-green-deep); }
 .cautionBox { background: var(--warning-bg); color: var(--warning); }
 .whyBox strong, .cautionBox strong { display: block; margin-bottom: 3px; color: inherit; }
-.productFooter { margin-top: auto; padding-top: 16px; display: flex; gap: 8px; }
-.miniBtn { border: 1px solid var(--line-soft); border-radius: var(--r-control); background: var(--surface-strong); padding: 11px 14px; font-size: 13px; font-weight: 700; color: var(--ink-strong); transition: background-color 180ms ease, border-color 180ms ease; }
+.productFooter { margin-top: auto; padding-top: 10px; display: flex; gap: 6px; }
+.miniBtn { border: 1px solid var(--line-soft); border-radius: var(--r-control); background: var(--surface-strong); padding: 7px 10px; font-size: 11px; font-weight: 700; color: var(--ink-strong); transition: background-color 180ms ease, border-color 180ms ease; }
 .miniBtn.emphasis { border-color: transparent; background: var(--brand-green); color: #fff; }
 
 .explainPanel { margin-top: 20px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; }
@@ -127,24 +127,24 @@
 .reasonDot { width: 22px; height: 22px; border-radius: 50%; background: var(--surface-tint); color: var(--brand-green-deep); display: grid; place-items: center; flex: 0 0 auto; font-size: 12px; font-weight: 700; }
 
 /* Filter mode —— 不再套白底卡片，直接铺在区块背景上；两侧细缝由 .wrap 提供 */
-.filterView { padding: 40px 0 56px; background: transparent; height: auto; min-height: 0; overflow: visible; box-sizing: border-box; }
+.filterView { padding: 28px 0 48px; background: transparent; height: auto; min-height: 0; overflow: visible; box-sizing: border-box; }
 .filterHead { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; }
-.filterHead h2 { margin: 0 0 8px; font-family: var(--font-display), sans-serif; font-size: clamp(28px, 3vw, 40px); font-weight: 600; letter-spacing: -0.02em; color: var(--ink-strong); }
-.filterHead p { margin: 0; color: var(--ink-body); font-size: 15px; line-height: 1.7; }
-.filterToolbar { margin-top: 26px; padding: 22px 26px; border-radius: var(--r-inner); background: var(--surface-tint); border: 1px solid var(--line-soft); }
-.filterRow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-.filterRow + .filterRow { margin-top: 14px; }
-.filterLabel { width: 100px; font-family: var(--font-display), sans-serif; font-size: 13px; color: var(--ink-muted); font-weight: 600; }
-.filterChip { border: 1px solid var(--line-soft); background: var(--surface-strong); color: var(--ink-body); border-radius: var(--r-pill); padding: 11px 16px; font-size: 13px; font-weight: 600; transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease; }
+.filterHead h2 { margin: 0 0 6px; font-family: var(--font-display), sans-serif; font-size: clamp(24px, 2.6vw, 32px); font-weight: 600; letter-spacing: -0.02em; color: var(--ink-strong); }
+.filterHead p { margin: 0; color: var(--ink-body); font-size: 14px; line-height: 1.6; }
+.filterToolbar { margin-top: 18px; padding: 16px 18px; border-radius: var(--r-inner); background: var(--surface-tint); border: 1px solid var(--line-soft); }
+.filterRow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.filterRow + .filterRow { margin-top: 10px; }
+.filterLabel { width: 88px; font-family: var(--font-display), sans-serif; font-size: 12px; color: var(--ink-muted); font-weight: 600; }
+.filterChip { border: 1px solid var(--line-soft); background: var(--surface-strong); color: var(--ink-body); border-radius: var(--r-pill); padding: 7px 12px; font-size: 12px; font-weight: 600; transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease; }
 .filterChip.active { background: var(--brand-green); color: #fff; border-color: var(--brand-green); }
-.catalogHead { margin-top: 30px; display: flex; justify-content: space-between; align-items: center; }
-.catalogCount { color: var(--ink-muted); font-size: 14px; }
-.catalogGrid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 20px; margin-top: 16px; }
-.catalogCard { border: 1px solid var(--line-soft); border-radius: var(--r-inner); padding: 20px; background: rgba(255,255,255,0.9); display: flex; flex-direction: column; transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease; }
-.catalogCard:hover { transform: translateY(-4px); border-color: rgba(22,182,106,0.4); box-shadow: 0 28px 48px rgba(0,73,102,0.12); background-color: rgba(255,255,255,0.95); }
-.catalogVisual { aspect-ratio: 4 / 3; border-radius: var(--r-inner); background: var(--surface-tint); display: grid; place-items: center; margin-bottom: 16px; overflow: hidden; }
-.catalogCard h3 { margin: 0; font-size: 18px; line-height: 1.35; font-weight: 700; color: var(--ink-strong); }
-.catalogCard p { margin: 8px 0 12px; color: var(--ink-body); font-size: 13px; line-height: 1.55; min-height: 44px; }
+.catalogHead { margin-top: 22px; display: flex; justify-content: space-between; align-items: center; }
+.catalogCount { color: var(--ink-muted); font-size: 13px; }
+.catalogGrid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; margin-top: 12px; }
+.catalogCard { border: 1px solid var(--line-soft); border-radius: var(--r-control); padding: 12px; background: rgba(255,255,255,0.9); display: flex; flex-direction: column; transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease; }
+.catalogCard:hover { transform: translateY(-3px); border-color: rgba(22,182,106,0.4); box-shadow: 0 18px 36px rgba(0,73,102,0.10); background-color: rgba(255,255,255,0.95); }
+.catalogVisual { aspect-ratio: 5 / 4; border-radius: var(--r-control); background: var(--surface-tint); display: grid; place-items: center; margin-bottom: 10px; overflow: hidden; }
+.catalogCard h3 { margin: 0; font-size: 14px; line-height: 1.35; font-weight: 700; color: var(--ink-strong); }
+.catalogCard p { margin: 5px 0 8px; color: var(--ink-body); font-size: 11.5px; line-height: 1.5; min-height: 33px; }
 
 /* Compare drawer */
 .compareBar { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); width: min(760px, calc(100vw - 32px)); padding: 12px 14px; border-radius: var(--r-inner); background: radial-gradient(circle at 50% 40%, rgba(22,182,106,0.18), transparent 60%), linear-gradient(180deg, #0d2230 0%, #13324a 100%); border: 1px solid rgba(255,255,255,0.08); color: #fff; box-shadow: 0 18px 40px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between; gap: 12px; z-index: 30; }

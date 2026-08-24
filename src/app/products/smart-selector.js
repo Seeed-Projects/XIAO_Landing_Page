@@ -3,107 +3,51 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLang } from "../i18n";
 import { Glow } from "../Glow";
+import { withBase } from "../../lib/basePath";
+import { PRODUCT_CATALOG } from "./catalog";
 import styles from "./smart-selector.module.css";
 
-/* 8 款产品 */
-const products = [
-  {
-    id: "esp32s3plus", name: "XIAO ESP32-S3 Plus", family: "ESP32",
-    img: "https://media-cdn.seeedstudio.com/media/catalog/product/cache/7f7f32ef807b8c2c2215b49801c56084/1/-/1-102010671-seeedstudio-xiao-esp32s3-plus_1.jpg",
-    link: "https://www.seeedstudio.com/Seeed-Studio-XIAO-ESP32S3-Plus-p-6361.html",
-    wireless: ["Wi-Fi", "BLE"], features: [{ en: "High perf", zh: "高性能" }, { en: "PSRAM", zh: "PSRAM" }, { en: "Rich GPIO", zh: "丰富 GPIO" }, { en: "USB", zh: "USB" }],
-    scenarios: ["vision", "voice", "display", "robot", "iot", "usb"], power: "standard",
-    experience: ["beginner", "arduino", "platformio", "espidf"], production: true, scoreBias: 7,
-    tagline: { en: "For GUI, voice, camera and complex connected projects.", zh: "适合图形界面、语音、摄像头和复杂联网项目。" },
-    caution: { en: "If the project runs on a coin cell long-term, it's usually not the first pick.", zh: "如果项目主要依靠纽扣电池长期运行，它通常不是第一选择。" },
-    bestFor: { en: "Projects needing Wi-Fi, BLE, strong compute and larger program space.", zh: "需要 Wi-Fi、BLE、较强算力和较大程序空间的项目。" },
-    specs: { wireless: { en: "Wi-Fi + Bluetooth LE", zh: "Wi-Fi + Bluetooth LE" }, perf: { en: "High-perf connected MCU", zh: "高性能联网 MCU" }, app: { en: "Screen, voice, vision, robot", zh: "屏幕、语音、视觉、机器人" }, battery: { en: "Usable, not ultra-low-power focused", zh: "可用，但不以极低功耗为主" }, prod: { en: "SMT & custom base supported", zh: "支持贴片与自定义底板" } },
-  },
-  {
-    id: "esp32c6", name: "XIAO ESP32-C6", family: "ESP32",
-    img: "https://media-cdn.seeedstudio.com/media/catalog/product/cache/7f7f32ef807b8c2c2215b49801c56084/w/e/wechatimg291.jpg",
-    link: "https://www.seeedstudio.com/Seeed-Studio-XIAO-ESP32C6-p-5884.html",
-    wireless: ["Wi-Fi", "BLE", "Matter", "Thread", "Zigbee"], features: [{ en: "Wi-Fi 6", zh: "Wi-Fi 6" }, { en: "Smart home", zh: "智能家居" }, { en: "Low cost", zh: "低成本" }],
-    scenarios: ["iot", "matter", "sensor", "home"], power: "standard",
-    experience: ["beginner", "arduino", "platformio", "espidf"], production: true, scoreBias: 5,
-    tagline: { en: "For Matter, Thread, Zigbee and smart-home devices.", zh: "适合 Matter、Thread、Zigbee 和智能家居设备。" },
-    caution: { en: "Not ideal when graphics, camera or large memory matter most.", zh: "不适合对图形、摄像头或大内存有明显要求的项目。" },
-    bestFor: { en: "Smart-home products needing Wi-Fi and 802.15.4 multi-protocol.", zh: "需要 Wi-Fi 与 802.15.4 多协议能力的智能家居产品。" },
-    specs: { wireless: { en: "Wi-Fi 6 + BLE + Thread/Zigbee", zh: "Wi-Fi 6 + BLE + Thread/Zigbee" }, perf: { en: "Multi-protocol connected MCU", zh: "多协议联网 MCU" }, app: { en: "Matter, gateway, smart home", zh: "Matter、网关节点、智能家居" }, battery: { en: "Fine for general low-power", zh: "适合一般低功耗设计" }, prod: { en: "SMT & custom base supported", zh: "支持贴片与自定义底板" } },
-  },
-  {
-    id: "esp32c3", name: "XIAO ESP32-C3", family: "ESP32",
-    img: "https://media-cdn.seeedstudio.com/media/catalog/product/cache/7f7f32ef807b8c2c2215b49801c56084/1/-/1-113991054-seeed-studio-xiao-esp32c3-45font_1.jpg",
-    link: "https://www.seeedstudio.com/Seeed-XIAO-ESP32C3-p-5431.html",
-    wireless: ["Wi-Fi", "BLE"], features: [{ en: "Cost-effective", zh: "高性价比" }, { en: "Mature ecosystem", zh: "成熟生态" }],
-    scenarios: ["iot", "sensor", "home"], power: "standard",
-    experience: ["beginner", "arduino", "platformio", "espidf"], production: true, scoreBias: 4,
-    tagline: { en: "A cost-friendly Wi-Fi and BLE entry point.", zh: "成本友好的 Wi-Fi 与 BLE 入门选择。" },
-    caution: { en: "For complex UI, vision or heavy AI, prefer the ESP32-S3 Plus.", zh: "复杂 UI、视觉和较重的 AI 工作负载建议选择 ESP32-S3 Plus。" },
-    bestFor: { en: "Basic connected sensors, controllers and cost-sensitive projects.", zh: "基础联网传感器、控制器和成本敏感型项目。" },
-    specs: { wireless: { en: "Wi-Fi + Bluetooth LE", zh: "Wi-Fi + Bluetooth LE" }, perf: { en: "Entry connected MCU", zh: "入门联网 MCU" }, app: { en: "Sensors, controllers, simple IoT", zh: "传感器、控制器、简单 IoT" }, battery: { en: "Fine for ordinary battery use", zh: "适合普通电池项目" }, prod: { en: "SMT & custom base supported", zh: "支持贴片与自定义底板" } },
-  },
-  {
-    id: "nrf52840plus", name: "XIAO nRF52840 Plus", family: "Nordic",
-    img: "https://media-cdn.seeedstudio.com/media/catalog/product/cache/7f7f32ef807b8c2c2215b49801c56084/2/-/2-102010448-seeed-studio-xiao-nrf52840-45font-logo.jpg",
-    link: "https://www.seeedstudio.com/Seeed-XIAO-BLE-nRF52840-p-5201.html",
-    wireless: ["BLE", "NFC"], features: [{ en: "Low power", zh: "低功耗" }, { en: "USB", zh: "USB" }, { en: "NFC", zh: "NFC" }],
-    scenarios: ["wearable", "sensor", "usb", "battery"], power: "low",
-    experience: ["beginner", "arduino", "zephyr"], production: true, scoreBias: 5,
-    tagline: { en: "A mature BLE, USB HID, NFC and low-power solution.", zh: "成熟的 BLE、USB HID、NFC 与低功耗方案。" },
-    caution: { en: "No Wi-Fi; reaching the cloud usually needs a gateway or phone.", zh: "不提供 Wi-Fi；需要直接联网到云端时通常需要网关或手机。" },
-    bestFor: { en: "BLE wearables, wireless sensors, keyboards/mice and NFC.", zh: "BLE 可穿戴、无线传感器、键鼠和 NFC 项目。" },
-    specs: { wireless: { en: "Bluetooth LE + NFC", zh: "Bluetooth LE + NFC" }, perf: { en: "Mature low-power wireless MCU", zh: "成熟低功耗无线 MCU" }, app: { en: "Wearable, HID, sensor, NFC", zh: "可穿戴、HID、传感器、NFC" }, battery: { en: "Suitable", zh: "适合" }, prod: { en: "SMT & custom base supported", zh: "支持贴片与自定义底板" } },
-  },
-  {
-    id: "nrf54l15", name: "XIAO nRF54L15", family: "Nordic",
-    img: "https://media-cdn.seeedstudio.com/media/catalog/product/cache/7f7f32ef807b8c2c2215b49801c56084/1/-/1-101991421-xiao-nrf54l14.jpg",
-    link: "https://www.seeedstudio.com/XIAO-nRF54L15-p-6493.html",
-    wireless: ["BLE", "Matter", "Thread", "Zigbee"], features: [{ en: "New-gen low power", zh: "新一代低功耗" }, { en: "Multi-protocol", zh: "多协议" }, { en: "Secure", zh: "安全" }],
-    scenarios: ["wearable", "sensor", "matter", "battery", "home"], power: "ultra-low",
-    experience: ["zephyr", "ncs", "advanced"], production: true, scoreBias: 6,
-    tagline: { en: "For new-gen low-power, multi-protocol and battery devices.", zh: "面向新一代低功耗、多协议与电池设备。" },
-    caution: { en: "Toolchain leans nRF Connect SDK / Zephyr — steeper than Arduino-flagship boards.", zh: "开发链路更偏 nRF Connect SDK / Zephyr，初学者上手成本高于 Arduino 主力产品。" },
-    bestFor: { en: "Long-term battery, BLE 6.0 and Matter over Thread products.", zh: "长期电池供电、BLE 6.0 和 Matter over Thread 产品。" },
-    specs: { wireless: { en: "BLE + Thread/Zigbee", zh: "BLE + Thread/Zigbee" }, perf: { en: "New-gen ultra-low-power wireless MCU", zh: "新一代超低功耗无线 MCU" }, app: { en: "Wearable, Matter, long-life battery node", zh: "可穿戴、Matter、长期电池节点" }, battery: { en: "Excellent", zh: "非常适合" }, prod: { en: "SMT & custom base supported", zh: "支持贴片与自定义底板" } },
-  },
-  {
-    id: "mg24", name: "XIAO MG24", family: "Silicon Labs",
-    img: "https://media-cdn.seeedstudio.com/media/catalog/product/cache/7f7f32ef807b8c2c2215b49801c56084/n/e/new-1-102010590-seeed-studio-xiao-mg24_1.jpg",
-    link: "https://www.seeedstudio.com/Seeed-Studio-XIAO-MG24-p-6247.html",
-    wireless: ["BLE", "Matter", "Thread", "Zigbee"], features: [{ en: "Low power", zh: "低功耗" }, { en: "Matter", zh: "Matter" }, { en: "AI/ML", zh: "AI/ML" }],
-    scenarios: ["matter", "sensor", "battery", "home"], power: "ultra-low",
-    experience: ["arduino", "advanced"], production: true, scoreBias: 5,
-    tagline: { en: "A practical pick for low-power Matter, Thread and BLE devices.", zh: "低功耗 Matter、Thread 和 BLE 设备的实用选择。" },
-    caution: { en: "Need Wi-Fi? Pick the ESP32-C6. Complex UI? Pick the ESP32-S3 Plus.", zh: "如果需要 Wi-Fi，应该选择 ESP32-C6；如果要做复杂 UI，建议 ESP32-S3 Plus。" },
-    bestFor: { en: "Low-power smart-home, Thread end devices and wireless sensors.", zh: "低功耗智能家居、Thread 终端和无线传感器。" },
-    specs: { wireless: { en: "BLE + Thread/Zigbee", zh: "BLE + Thread/Zigbee" }, perf: { en: "Low-power multi-protocol MCU", zh: "低功耗多协议 MCU" }, app: { en: "Matter, sensor, smart home", zh: "Matter、传感器、智能家居" }, battery: { en: "Excellent", zh: "非常适合" }, prod: { en: "SMT & custom base supported", zh: "支持贴片与自定义底板" } },
-  },
-  {
-    id: "rp2350", name: "XIAO RP2350", family: "Raspberry Pi",
-    img: "https://media-cdn.seeedstudio.com/media/catalog/product/cache/7f7f32ef807b8c2c2215b49801c56084/g/r/group_1.jpg",
-    link: "https://www.seeedstudio.com/Seeed-XIAO-RP2350-p-5944.html",
-    wireless: [], features: [{ en: "PIO", zh: "PIO" }, { en: "High-perf control", zh: "高性能控制" }, { en: "No wireless", zh: "无无线" }],
-    scenarios: ["usb", "robot", "control", "education"], power: "standard",
-    experience: ["beginner", "arduino", "micropython"], production: true, scoreBias: 3,
-    tagline: { en: "For USB, real-time control, education and PIO projects.", zh: "适合 USB、实时控制、教育和 PIO 外设项目。" },
-    caution: { en: "No onboard wireless; add a comms module for connected projects.", zh: "没有板载无线连接；联网项目需要外接通信模块。" },
-    bestFor: { en: "Wireless-free projects valuing real-time control and rich I/O.", zh: "不需要无线、重视实时控制和丰富外设玩法的项目。" },
-    specs: { wireless: { en: "No onboard wireless", zh: "无板载无线" }, perf: { en: "High-perf general MCU", zh: "高性能通用 MCU" }, app: { en: "USB, PIO, robot, education", zh: "USB、PIO、机器人、教育" }, battery: { en: "Fine for ordinary projects", zh: "适合一般项目" }, prod: { en: "SMT & custom base supported", zh: "支持贴片与自定义底板" } },
-  },
-  {
-    id: "ra4m1", name: "XIAO RA4M1", family: "Renesas",
-    img: "https://media-cdn.seeedstudio.com/media/catalog/product/cache/7f7f32ef807b8c2c2215b49801c56084/1/-/1-102010551-seeed-studio-xiao-ra4m1.jpg",
-    link: "https://www.seeedstudio.com/Seeed-XIAO-RA4M1-p-5943.html",
-    wireless: [], features: [{ en: "Stable control", zh: "稳定控制" }, { en: "Arduino", zh: "Arduino" }, { en: "No wireless", zh: "无无线" }],
-    scenarios: ["control", "education", "sensor"], power: "low",
-    experience: ["beginner", "arduino"], production: true, scoreBias: 3,
-    tagline: { en: "For stable control, sensors and Arduino teaching.", zh: "适合稳定控制、传感器和 Arduino 教学项目。" },
-    caution: { en: "No onboard wireless; pick another XIAO when Wi-Fi or BLE is needed.", zh: "没有板载无线；需要 Wi-Fi 或 BLE 时应选择其他 XIAO。" },
-    bestFor: { en: "Wireless-free projects valuing stable control and Arduino UX.", zh: "不依赖无线、重视稳定控制和 Arduino 体验的项目。" },
-    specs: { wireless: { en: "No onboard wireless", zh: "无板载无线" }, perf: { en: "General control MCU", zh: "通用控制 MCU" }, app: { en: "Sensor, control, education", zh: "传感器、控制、教育" }, battery: { en: "Suitable", zh: "适合" }, prod: { en: "SMT & custom base supported", zh: "支持贴片与自定义底板" } },
-  },
-];
+/* 产品清单 —— 直接取自 dev_boards 产品目录（与产品页一致），按子分类映射无线能力/功耗定位。
+   向导（wizard）已下线，但 scoreProducts 等仍会引用以下字段，故保留默认空值避免运行时报错。 */
+const FAMILY_BY_SUB = {
+  esp32: "ESP32", nrf52: "Nordic", nrf54: "Nordic",
+  rp: "Raspberry Pi", mg: "Silicon Labs", samd: "Microchip", ra: "Renesas",
+};
+const BOARD_META = {
+  "XIAO ESP32-C3": { wireless: ["Wi-Fi", "BLE"], power: "standard" },
+  "XIAO ESP32-S3": { wireless: ["Wi-Fi", "BLE"], power: "standard" },
+  "XIAO ESP32-S3 Sense": { wireless: ["Wi-Fi", "BLE"], power: "standard" },
+  "XIAO ESP32-C6": { wireless: ["Wi-Fi", "BLE", "Matter", "Thread", "Zigbee"], power: "standard" },
+  "XIAO ESP32-C5": { wireless: ["Wi-Fi", "BLE", "Matter", "Thread", "Zigbee"], power: "standard" },
+  "XIAO nRF52840": { wireless: ["BLE", "NFC"], power: "low" },
+  "XIAO nRF52840 Sense": { wireless: ["BLE", "NFC"], power: "low" },
+  "XIAO nRF54L15": { wireless: ["BLE", "Matter", "Thread", "Zigbee"], power: "ultra-low" },
+  "XIAO nRF54L15 Sense": { wireless: ["BLE", "Matter", "Thread", "Zigbee"], power: "ultra-low" },
+  "XIAO nRF54LM20A": { wireless: ["BLE", "Matter", "Thread", "Zigbee"], power: "ultra-low" },
+  "XIAO nRF54LM20A Sense": { wireless: ["BLE", "Matter", "Thread", "Zigbee"], power: "ultra-low" },
+  "XIAO RP2040": { wireless: [], power: "standard" },
+  "XIAO RP2350": { wireless: [], power: "standard" },
+  "XIAO MG24": { wireless: ["BLE", "Matter", "Thread", "Zigbee"], power: "ultra-low" },
+  "XIAO MG24 Sense": { wireless: ["BLE", "Matter", "Thread", "Zigbee"], power: "ultra-low" },
+  "XIAO SAMD21": { wireless: [], power: "low" },
+  "XIAO RA4M1": { wireless: [], power: "low" },
+};
+const slug = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+/* 向导用字段的默认空值（向导已下线，仅占位防崩；features 留空，筛选只展示无线标签） */
+const WIZ_DEFAULTS = { scenarios: [], experience: [], production: false, scoreBias: 0, features: [], bestFor: { en: "", zh: "" }, caution: { en: "", zh: "" }, specs: {}, reasons: [] };
+const devBoardsCatalog = PRODUCT_CATALOG.find((c) => c.id === "dev-boards");
+const products = devBoardsCatalog.subcategories.flatMap((sub) =>
+  sub.items.map((item) => {
+    const m = BOARD_META[item.title] ?? { wireless: [], power: "standard" };
+    const tag = item.descEn || item.desc || "";
+    return {
+      id: slug(item.title), name: item.title, family: FAMILY_BY_SUB[sub.id] ?? "Other",
+      img: withBase(item.img), link: item.link,
+      wireless: m.wireless, power: m.power, tagline: { en: tag, zh: tag },
+      ...WIZ_DEFAULTS,
+    };
+  })
+);
 
 /* 6 步问答 */
 const steps = [
@@ -395,6 +339,7 @@ export function SmartSelector() {
     { v: "Nordic", label: { en: "Nordic", zh: "Nordic" } },
     { v: "Silicon Labs", label: { en: "Silicon Labs", zh: "Silicon Labs" } },
     { v: "Raspberry Pi", label: { en: "Raspberry Pi", zh: "Raspberry Pi" } },
+    { v: "Microchip", label: { en: "Microchip", zh: "Microchip" } },
     { v: "Renesas", label: { en: "Renesas", zh: "Renesas" } },
   ];
   const powerOptions = [
