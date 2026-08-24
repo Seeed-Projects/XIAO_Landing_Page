@@ -10,7 +10,6 @@ import { ProjectsCarousel } from "./projects-carousel";
 import { MediaReviewsSection } from "./media-reviews-section";
 import { CoCreateSection } from "./co-create-section";
 import { EdmSubscribe } from "./edm-subscribe";
-import { EcosystemSection } from "./ecosystem-section";
 import { Reveal } from "./reveal";
 
 export default function Home() {
@@ -66,9 +65,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/* 生态横幅 + 三入口：资料 / 投票 / 项目中心 */}
-        <EcosystemSection />
 
         {/* 热门项目 - 全屏满宽 */}
         <section
