@@ -18,7 +18,8 @@ export function ScrollBand({ items, hrefFor, renderCard, speed = 0.45, delayStep
   const loop = [...batch, ...batch];
 
   // speed(px/帧@60fps) → 动画周期(秒)：speed 越大周期越短、滚动越快。
-  const duration = Math.max(20, Math.round(16 / speed));
+  // 取偏慢的周期，保证滚动舒缓；hover 由 group-hover 暂停。
+  const duration = Math.max(50, Math.round(30 / speed));
 
   return (
     <div className="group relative w-full overflow-hidden">

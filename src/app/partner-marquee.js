@@ -30,10 +30,13 @@ export function PartnerMarquee() {
             {t.developer.groupLabels[gi] ?? group.label}
           </h3>
           <div className="group relative overflow-hidden">
-            {/* 滚动轨道 */}
-            <div className="flex w-max animate-[marquee_30s_linear_infinite] gap-3 group-hover:[animation-play-state:paused]">
-              {/* 复制一份实现无缝滚动 */}
-              {[...group.partners, ...group.partners].map((partner, index) => (
+            {/* 滚动轨道：复制足够多份(6×)保证轨道宽于视口，铺满无空白；hover 暂停 */}
+            <div
+              className="flex w-max gap-3 marquee-track will-change-transform group-hover:[animation-play-state:paused]"
+              style={{ animationDuration: "80s" }}
+            >
+              {/* 复制 6 份实现无缝滚动（两半各 3 份，内容一致，translateX -50% 严丝合缝） */}
+              {Array.from({ length: 6 }, () => group.partners).flat().map((partner, index) => (
                 <a
                   key={`${partner.name}-${index}`}
                   href={partner.url}
