@@ -36,7 +36,7 @@ export function ProductPanel() {
   const itemDesc = (it) => (isEn ? it.descEn : it.desc) ?? it.descEn ?? it.desc ?? "";
 
   return (
-    <div className="mx-auto flex h-[640px] w-full max-w-[1440px] flex-col overflow-hidden rounded-3xl border border-[var(--line-soft)] bg-white/80 backdrop-blur-sm">
+    <div className="mx-auto flex min-h-[680px] w-full max-w-none flex-col overflow-hidden rounded-3xl border border-[var(--line-soft)] bg-white/80 backdrop-blur-sm lg:h-[calc(100dvh-13rem)] lg:min-h-[720px]">
       {/* 卡片头部 - 标题（只留大标题，去掉重复的小字 eyebrow） */}
       <div className="flex shrink-0 items-center justify-between px-6 py-5 sm:px-8">
         <div>
@@ -51,7 +51,7 @@ export function ProductPanel() {
       </div>
 
       {/* 卡片主体 - 左导航 + 右内容 */}
-      <div className="grid flex-1 grid-cols-[200px_minmax(0,1fr)] overflow-hidden">
+      <div className="grid flex-1 grid-cols-[216px_minmax(0,1fr)] overflow-hidden">
         {/* 左侧分类导航 */}
         <aside className="overflow-y-auto bg-[var(--surface-tint)]/40 px-4 py-4">
           <div className="space-y-1">
@@ -111,7 +111,7 @@ export function ProductPanel() {
         </aside>
 
         {/* 右侧产品网格 —— 切换分类/子分类时滑动入场 */}
-        <div className="overflow-y-auto px-6 py-5 sm:px-8">
+        <div className="overflow-y-auto px-4 py-4 sm:px-5 lg:px-6">
           {displayItems.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center text-center text-[var(--ink-muted)]">
               <span className="text-sm">{isEn ? "No product currently listed in this category." : "该芯片类型暂无在售产品，敬请期待。"}</span>
@@ -119,7 +119,7 @@ export function ProductPanel() {
           ) : (
             <div
               key={`${activeCat}-${activeSub}`}
-              className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 animate-[panelSlide_360ms_ease-out]"
+              className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 animate-[panelSlide_360ms_ease-out]"
             >
               {displayItems.map((item, index) => (
                 <a
@@ -127,20 +127,20 @@ export function ProductPanel() {
                   href={item.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group block overflow-hidden rounded-2xl border border-[var(--line-soft)] bg-white shadow-sm transition hover:shadow-md"
+                  className="group block overflow-hidden rounded-xl border border-[var(--line-soft)] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 >
-                  <div className="aspect-[4/3] overflow-hidden bg-neutral-100">
+                  <div className="aspect-[16/10] overflow-hidden bg-neutral-100">
                     <div
-                      className="h-full w-full bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105"
+                      className="h-full w-full bg-contain bg-center bg-no-repeat transition-transform duration-500 group-hover:scale-105"
                       style={item.img ? { backgroundImage: `url("${withBase(item.img)}")` } : undefined}
                     />
                   </div>
-                  <div className="p-5">
-                    <h4 className="line-clamp-2 text-base font-bold leading-snug text-[var(--ink-strong)]">
+                  <div className="p-3.5">
+                    <h4 className="line-clamp-2 text-[15px] font-bold leading-snug text-[var(--ink-strong)]">
                       {item.title}
                     </h4>
                     {itemDesc(item) ? (
-                      <p className="mt-1.5 line-clamp-3 text-sm leading-relaxed text-[var(--ink-body)]">
+                      <p className="mt-1.5 line-clamp-3 text-[13px] leading-relaxed text-[var(--ink-body)]">
                         {itemDesc(item)}
                       </p>
                     ) : null}
