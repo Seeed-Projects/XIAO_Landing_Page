@@ -457,12 +457,15 @@ export function SmartSelector() {
         </div>
 
         <section className={styles.workspace} id="selector-workspace">
+          {/* 模式切换标签暂下线：8.21 版本仅保留"按参数筛选"，"帮我选 XIAO"向导先注释
           <div className={styles.modeTabs}>
             <button type="button" className={`${styles.modeTab} ${mode === "filter" ? styles.active : ""}`} onClick={() => setMode("filter")}>{lang === "zh" ? "按参数筛选" : "Filter by specs"}</button>
             <button type="button" className={`${styles.modeTab} ${mode === "wizard" ? styles.active : ""}`} onClick={() => setMode("wizard")}>{lang === "zh" ? "帮我选 XIAO" : "Help me choose"}</button>
           </div>
+          */}
 
           <div className={styles.workspaceBody}>
+            {/* "帮我选 XIAO" 向导（wizard）暂下线：6 步问答 + AI 关键词识别 + 推荐结果，整段注释保留待恢复
             {mode === "wizard" ? (
               showResult ? (
                 <section className={styles.resultView}>
@@ -584,7 +587,9 @@ export function SmartSelector() {
                 </div>
               )
             ) : (
-              <section className={styles.filterView}>
+            */}
+            {/* —— 以下为"按参数筛选"视图，保留 —— */}
+            <section className={styles.filterView}>
                 <div className={styles.filterHead}>
                   <div><h2>{lang === "zh" ? "按参数筛选" : "Filter by specs"}</h2><p>{lang === "zh" ? "适合已经明确无线协议、芯片平台或功耗方向的用户。" : "For users who already know the wireless protocol, chip family or power tier."}</p></div>
                   <button className={styles.secondaryBtn} type="button" onClick={() => setFilter({ wireless: "all", family: "all", power: "all" })}>{lang === "zh" ? "重置筛选" : "Reset"}</button>
@@ -629,7 +634,6 @@ export function SmartSelector() {
                   ))}
                 </div>
               </section>
-            )}
           </div>
         </section>
       </div>

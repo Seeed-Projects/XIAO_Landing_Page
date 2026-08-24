@@ -31,9 +31,8 @@ export default function ProductsPage() {
           <ProductPanel />
         </div>
 
-        {/* 二级板块：选型（暂注释，8.21 版本先下线）
+        {/* 二级板块：选型（已恢复上線；其中"帮我选 XIAO"向导暂下线，仅保留"按参数筛选"） */}
         <SmartSelector />
-        */}
         {/* 二级板块：Pinout */}
         <Pinout />
         {/* 二级板块：ESP Flasher 在线烧录 */}
