@@ -445,7 +445,7 @@ export function SmartSelector() {
 
   const T = {
     h2: "XIAO Selector",
-    p: "Finding the right XIAO is now easier than ever. Filter by specs, or get personalized recommendations with our LLM‑powered XIAO Shop Guide.",
+    p: "Finding the right XIAO is now easier than ever. Filter by wireless protocol, chip family and power tier to shortlist the boards that fit your project.",
   };
 
   return (
