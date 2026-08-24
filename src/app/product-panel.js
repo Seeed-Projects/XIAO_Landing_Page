@@ -129,9 +129,9 @@ export function ProductPanel() {
                   rel="noopener noreferrer"
                   className="group block overflow-hidden rounded-xl border border-[var(--line-soft)] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 >
-                  <div className="aspect-[1536/1257] overflow-hidden bg-neutral-100">
+                  <div className="aspect-[4/3] overflow-hidden bg-neutral-100">
                     <div
-                      className="h-full w-full bg-cover bg-center bg-no-repeat transition-transform duration-500 group-hover:scale-105"
+                      className="h-full w-full bg-contain bg-center bg-no-repeat transition-transform duration-500 group-hover:scale-105"
                       style={item.img ? { backgroundImage: `url("${withBase(item.img)}")` } : undefined}
                     />
                   </div>
