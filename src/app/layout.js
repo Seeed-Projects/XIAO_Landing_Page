@@ -1,15 +1,9 @@
-import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "./i18n";
 import { SideDirectory } from "./side-directory";
 import { SiteFooter } from "./site-footer";
 
-const montserrat = Montserrat({
-  variable: "--font-body",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  display: "swap",
-});
+const montserrat = { variable: "" };
 
 export const metadata = {
   title: "XIAO Landing Page",

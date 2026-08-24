@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap");
+
 :root {
+  --font-body: "Montserrat", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --page-bg: #f7faf7;
   --bg-base: #f7faf7;
   --surface: rgba(255, 255, 255, 0.86);
