@@ -39,8 +39,8 @@ const HOME_MENU = {
   zh: [
     { id: "hero", label: "概览" },
     { id: "developer", label: "开发者生态" },
-    { id: "news", label: "XIAO 新闻" },
     { id: "projects", label: "基于 XIAO 构建的项目" },
+    { id: "news", label: "XIAO 新闻" },
     { id: "reviews", label: "社区评测" },
     { id: "cocreate", label: "与 XIAO 共创" },
     { id: "edm", label: "XIAO 电子报" },
@@ -48,8 +48,8 @@ const HOME_MENU = {
   en: [
     { id: "hero", label: "Overview" },
     { id: "developer", label: "Developer Ecosystem" },
-    { id: "news", label: "XIAO in the News" },
     { id: "projects", label: "Projects Built on XIAO" },
+    { id: "news", label: "XIAO in the News" },
     { id: "reviews", label: "Community Review" },
     { id: "cocreate", label: "Co-Create with XIAO" },
     { id: "edm", label: "NEWSLETTER" },
@@ -180,8 +180,10 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        {/* 中：导航居中 —— 每项结构完全一致（点击跳转页面，悬停出下拉） */}
-        <nav className="hidden flex-1 items-center justify-center gap-0.5 lg:flex">
+        {/* 中：导航居中 —— 每项结构完全一致（点击跳转页面，悬停出下拉）
+            折叠断点放宽到 860px：平板/窄桌面也保留真实链接，只有 <860 才收成汉堡。
+            断点取 860 是因为 EN 6 项（含 Software Center / Open Roadmap）至少需 ~826px 才不溢出。 */}
+        <nav className="hidden flex-1 items-center justify-center gap-0 min-[860px]:flex">
           {nav.map((item) => {
             const items = menuFor(item.href);
             const isOpen = openKey === item.href;
@@ -190,7 +192,7 @@ export function SiteHeader() {
                 key={item.label}
                 href={item.href}
                 onMouseEnter={() => (items?.length ? openMenu(item.href) : openMenu(null))}
-                className="flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 text-sm text-[var(--ink-body)] transition hover:bg-white/70 hover:text-[var(--brand-blue)]"
+                className="flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-2 text-[13px] text-[var(--ink-body)] transition hover:bg-white/70 hover:text-[var(--brand-blue)] lg:px-3 lg:text-sm"
               >
                 <span>{item.label}</span>
                 {/* 有菜单的项显示箭头并随开合旋转；无菜单的项用透明占位，保证每项尺寸完全一致 */}
@@ -209,7 +211,7 @@ export function SiteHeader() {
             aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((open) => !open)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--line-soft)] bg-white/75 text-[var(--ink-strong)] lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--line-soft)] bg-white/75 text-[var(--ink-strong)] min-[860px]:hidden"
           >
             <span className="sr-only">Menu</span>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -221,7 +223,7 @@ export function SiteHeader() {
       </div>
 
       {mobileOpen && (
-        <nav className="border-t border-[var(--line-soft)] bg-[var(--bg-base)]/98 px-4 py-3 shadow-[0_18px_36px_rgba(0,73,102,0.12)] lg:hidden">
+        <nav className="border-t border-[var(--line-soft)] bg-[var(--bg-base)]/98 px-4 py-3 shadow-[0_18px_36px_rgba(0,73,102,0.12)] min-[860px]:hidden">
           <div className="mx-auto grid max-h-[calc(100dvh-5rem)] w-full max-w-[720px] gap-1 overflow-y-auto">
             {nav.map((item) => (
               <Link

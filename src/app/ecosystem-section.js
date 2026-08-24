@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useLang } from "./i18n";
-import { Glow } from "./Glow";
 import { Reveal } from "./reveal";
 
 /**
@@ -67,25 +66,6 @@ export function EcosystemSection() {
       className="bg-mod-mint relative flex w-full scroll-mt-24 items-center px-6 py-20 sm:px-10 lg:px-16"
     >
       <div className="mx-auto w-full max-w-[1440px]">
-        {/* 横幅：左侧点题 + 右侧生态轨道动画 */}
-        <Reveal className="hero-orb relative overflow-hidden rounded-[28px] bg-[linear-gradient(118deg,rgba(0,73,102,0.96),rgba(29,103,132,0.92)_58%,rgba(22,182,106,0.88))] p-8 text-white shadow-[0_18px_44px_rgba(0,73,102,0.18)] sm:p-12 lg:p-14">
-          <div className="relative z-10 max-w-2xl space-y-5">
-            <Glow
-              as="h2"
-              className="font-display text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl"
-            >
-              {isEn
-                ? "A thumb-sized board that grew a whole ecosystem."
-                : "一块拇指大的板子，长出了一整片生态。"}
-            </Glow>
-            <p className="text-base leading-7 text-white/85 sm:text-lg sm:leading-8">
-              {isEn
-                ? "Hardware, software, docs, and a community that builds together — start anywhere below."
-                : "硬件、软件、资料与共建社区——从下面任意一个入口开始。"}
-            </p>
-          </div>
-        </Reveal>
-
         {/* 生态入口：保留静态连接线，不使用持续动画 */}
         <div className="relative mt-6">
           <div className="absolute inset-x-0 top-7 hidden h-px bg-[var(--line-soft)] sm:block" />

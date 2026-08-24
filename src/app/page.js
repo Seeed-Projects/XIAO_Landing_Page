@@ -70,21 +70,6 @@ export default function Home() {
         {/* 生态横幅 + 三入口：资料 / 投票 / 项目中心 */}
         <EcosystemSection />
 
-        {/* 新闻 - 全屏满宽 */}
-        <section
-          id="news"
-          className="bg-mod-mint relative flex min-h-[100dvh] w-full scroll-mt-24 items-center px-6 py-20 sm:px-10 lg:px-16"
-        >
-          <div className="mx-auto w-full max-w-[1440px]">
-            <Reveal>
-              <SectionHeader kicker={t.news.title} title={t.news.title} description={t.news.description} />
-            </Reveal>
-            <div className="mt-8">
-              <NewsCarousel />
-            </div>
-          </div>
-        </section>
-
         {/* 热门项目 - 全屏满宽 */}
         <section
           id="projects"
@@ -121,6 +106,21 @@ export default function Home() {
                   <path d="m12 5 7 7-7 7" />
                 </svg>
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* 新闻 - 全屏满宽 */}
+        <section
+          id="news"
+          className="bg-mod-mint relative flex min-h-[100dvh] w-full scroll-mt-24 items-center px-6 py-20 sm:px-10 lg:px-16"
+        >
+          <div className="mx-auto w-full max-w-[1440px]">
+            <Reveal>
+              <SectionHeader kicker={t.news.title} title={t.news.title} description={t.news.description} />
+            </Reveal>
+            <div className="mt-8">
+              <NewsCarousel />
             </div>
           </div>
         </section>
