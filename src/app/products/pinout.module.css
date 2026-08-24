@@ -12,15 +12,15 @@
 .pinout * { box-sizing: border-box; }
 .pinout button { font: inherit; cursor: pointer; }
 
-.wrap { max-width: 1280px; margin: 0 auto; padding: 8px 28px 80px; }
+.wrap { width: 100%; max-width: 100%; margin: 0; padding: 8px 32px 80px; }
 
 /* 小节标题 */
-.introBlock { padding: 8px 0 4px; max-width: 760px; margin-left: auto; margin-right: auto; text-align: center; }
+.introBlock { padding: 8px 0 4px; max-width: 960px; margin-left: auto; margin-right: auto; text-align: center; }
 .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: var(--r-pill); border: 1px solid var(--line-soft); background: rgba(255,255,255,0.78); color: var(--brand-blue-soft); font-family: var(--font-display), sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.32em; }
 .eyebrowDot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand-green); box-shadow: 0 0 0 4px rgba(22,182,106,0.14); }
 .introBlock .eyebrow { margin-bottom: 10px; }
-.introBlock h2 { margin: 0 0 10px; font-family: var(--font-display), sans-serif; font-size: clamp(28px, 3.2vw, 40px); line-height: 1.1; letter-spacing: -0.02em; font-weight: 600; color: var(--ink-strong); }
-.introBlock p { margin: 0; color: var(--ink-body); font-size: 15px; line-height: 1.7; font-weight: 500; }
+.introBlock h2 { margin: 0 0 10px; font-family: var(--font-display), sans-serif; font-size: clamp(32px, 4vw, 44px); line-height: 1.1; letter-spacing: -0.02em; font-weight: 600; color: var(--ink-strong); }
+.introBlock p { margin: 0; color: var(--ink-body); font-size: 16px; line-height: 1.7; font-weight: 500; }
 
 /* 板型选型条 */
 .boardBar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 16px; margin-bottom: 14px; border: 1px solid var(--line-soft); border-radius: var(--r-card); background: var(--surface); box-shadow: var(--shadow-soft); }

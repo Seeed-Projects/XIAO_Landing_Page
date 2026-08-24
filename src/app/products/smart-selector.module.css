@@ -17,7 +17,7 @@
 .xiaoSelector button { cursor: pointer; }
 .xiaoSelector a { color: inherit; }
 
-.wrap { width: 100%; max-width: 100%; margin: 0; padding: 8px 0 80px; }
+.wrap { width: 100%; max-width: 100%; margin: 0; padding: 8px 32px 80px; }
 
 /* Workspace —— 去掉外层卡片框，内容直接铺在区块背景上、铺满全宽 */
 .workspace { background: transparent; border: 0; border-radius: 0; box-shadow: none; overflow: visible; backdrop-filter: none; }
@@ -126,8 +126,8 @@
 .reasonItem { display: flex; gap: 10px; align-items: flex-start; color: var(--ink-body); font-size: 13px; line-height: 1.6; }
 .reasonDot { width: 22px; height: 22px; border-radius: 50%; background: var(--surface-tint); color: var(--brand-green-deep); display: grid; place-items: center; flex: 0 0 auto; font-size: 12px; font-weight: 700; }
 
-/* Filter mode —— 不再套白底卡片，直接铺在区块背景上；留两侧边距控制全宽留白 */
-.filterView { padding: 40px 48px 56px; background: transparent; height: auto; min-height: 0; overflow: visible; box-sizing: border-box; }
+/* Filter mode —— 不再套白底卡片，直接铺在区块背景上；两侧细缝由 .wrap 提供 */
+.filterView { padding: 40px 0 56px; background: transparent; height: auto; min-height: 0; overflow: visible; box-sizing: border-box; }
 .filterHead { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; }
 .filterHead h2 { margin: 0 0 8px; font-family: var(--font-display), sans-serif; font-size: clamp(28px, 3vw, 40px); font-weight: 600; letter-spacing: -0.02em; color: var(--ink-strong); }
 .filterHead p { margin: 0; color: var(--ink-body); font-size: 15px; line-height: 1.7; }
@@ -186,7 +186,7 @@
   .stepList { display: flex; overflow-x: auto; margin-top: 10px; padding-bottom: 4px; }
   .stepItem { flex: 0 0 auto; padding: 8px; }
   .stepTitle, .sidebarTip, .sidebarLabel { display: none; }
-  .contentArea, .resultView, .filterView { height: auto; overflow: visible; padding: 24px 16px 28px; }
+  .contentArea, .resultView, .filterView { height: auto; overflow: visible; padding: 24px 0 28px; }
   .questionHead, .resultTop, .filterHead { display: block; }
   .progressPill { display: inline-block; margin-top: 12px; }
   .questionTitle { font-size: 24px; }
