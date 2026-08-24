@@ -43,11 +43,6 @@
 .marquee-track {
   animation: marquee linear infinite;
 }
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
-  }
-}
 
 /* Co-Create: 生态节点轻微浮动 */
 @keyframes cofloat {
