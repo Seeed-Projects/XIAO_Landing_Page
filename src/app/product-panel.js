@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useLang } from "./i18n";
 import { Glow } from "./Glow";
 import { PRODUCT_CATALOG } from "./products/catalog";
+import { withBase } from "@/lib/basePath";
 
 /**
  * ProductPanel —— 首页与产品页共享的产品面板。
@@ -32,7 +33,7 @@ export function ProductPanel() {
 
   const catLabel = (c) => (isEn ? c.labelEn : c.label) ?? c.label;
   const subLabel = (s) => (isEn ? s.labelEn : s.label) ?? s.label;
-  const itemDesc = (it) => (isEn ? it.descEn : it.desc) ?? it.desc;
+  const itemDesc = (it) => (isEn ? it.descEn : it.desc) ?? it.descEn ?? it.desc ?? "";
 
   return (
     <div className="mx-auto flex h-[640px] w-full max-w-[1440px] flex-col overflow-hidden rounded-3xl border border-[var(--line-soft)] bg-white/80 backdrop-blur-sm">
@@ -131,16 +132,18 @@ export function ProductPanel() {
                   <div className="aspect-[4/3] overflow-hidden bg-neutral-100">
                     <div
                       className="h-full w-full bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105"
-                      style={item.img ? { backgroundImage: `url("${item.img}")` } : undefined}
+                      style={item.img ? { backgroundImage: `url("${withBase(item.img)}")` } : undefined}
                     />
                   </div>
                   <div className="p-5">
                     <h4 className="line-clamp-2 text-base font-bold leading-snug text-[var(--ink-strong)]">
                       {item.title}
                     </h4>
-                    <p className="mt-1.5 line-clamp-3 text-sm leading-relaxed text-[var(--ink-body)]">
-                      {itemDesc(item)}
-                    </p>
+                    {itemDesc(item) ? (
+                      <p className="mt-1.5 line-clamp-3 text-sm leading-relaxed text-[var(--ink-body)]">
+                        {itemDesc(item)}
+                      </p>
+                    ) : null}
                   </div>
                 </a>
               ))}
