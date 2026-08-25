@@ -80,12 +80,12 @@ export function MediaReviewsSection() {
       hrefFor={(item) => item.url || "#"}
       renderCard={(r) => (
         <>
-          {/* 文章头图（无图则渐变占位 + 媒体名 wordmark） */}
+          {/* 文章头图（无图则用与 news 一致的淡渐变占位） */}
           <div
-            className="relative aspect-[4/3] w-full overflow-hidden rounded-xl"
+            className="aspect-[16/9] w-full overflow-hidden rounded-xl"
             style={{
               background:
-                "linear-gradient(135deg, rgba(0,73,102,0.95), rgba(8,102,126,0.9), rgba(143,195,31,0.85))",
+                "linear-gradient(135deg, rgba(0,73,102,0.12), rgba(143,195,31,0.12))",
             }}
           >
             {r.image ? (
@@ -97,35 +97,25 @@ export function MediaReviewsSection() {
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                 }}
-                className="h-full w-full object-cover transition duration-500 hover:scale-105"
+                className="h-full w-full object-cover"
               />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center p-4 text-center">
-                <span className="font-display text-base font-semibold leading-snug tracking-tight text-white/90">
-                  {r.article}
-                </span>
-              </div>
-            )}
-            {/* 媒体名角标 */}
-            <span className="absolute left-2.5 top-2.5 rounded-full bg-black/40 px-2.5 py-0.5 text-xs font-semibold text-white backdrop-blur-sm">
-              {r.media}
-            </span>
+            ) : null}
           </div>
 
-          {/* 引文 + 出处 */}
+          {/* 文字：媒体标签 + 出处日期 → 文章标题 → 引文，排版与 news 一致 */}
           <div className="mt-4 flex flex-1 flex-col">
-            <p className="flex-1 text-sm leading-6 text-[var(--ink-body)] line-clamp-3">
-              <span className="font-display text-xl leading-[0] text-[var(--brand-green)] align-top mr-0.5">
-                &ldquo;
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="rounded-full bg-[var(--brand-green)]/12 px-2.5 py-0.5 text-xs font-semibold text-[var(--brand-green-deep)]">
+                {r.media}
               </span>
+              <span className="text-xs text-[var(--ink-muted)]">{r.detail}</span>
+            </div>
+            <h3 className="mt-2 text-lg font-bold leading-snug text-[var(--ink-strong)] line-clamp-2">
+              {r.article}
+            </h3>
+            <p className="mt-1.5 text-sm leading-relaxed text-[var(--ink-body)] line-clamp-3">
               {r.quote}
             </p>
-            <div className="mt-4 border-t border-[var(--line-soft)] pt-3">
-              <p className="text-sm font-semibold leading-snug text-[var(--ink-strong)] line-clamp-2">
-                {r.article}
-              </p>
-              <p className="mt-1 text-xs text-[var(--ink-muted)]">{r.detail}</p>
-            </div>
           </div>
         </>
       )}

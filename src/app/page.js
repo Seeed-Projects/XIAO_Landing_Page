@@ -132,15 +132,16 @@ export default function Home() {
         {/* 外部媒体 / 社区 review 精选（替换原用户评价） */}
         <section
           id="reviews"
-          className="bg-mod-blue relative flex min-h-[100dvh] w-full scroll-mt-24 items-center px-6 py-20 sm:px-10 lg:px-16"
+          className="bg-mod-blue relative flex min-h-[100dvh] w-full scroll-mt-24 flex-col justify-center py-20"
         >
-          <div className="mx-auto w-full max-w-[1440px]">
+          <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
             <Reveal>
               <SectionHeader kicker={t.mediaReviews.kicker} title={t.mediaReviews.title} description="" />
             </Reveal>
-            <div className="mt-10">
-              <MediaReviewsSection />
-            </div>
+          </div>
+          {/* 卡片带全屏满宽，左右不残留分段背景渐变 */}
+          <div className="mt-10 w-full">
+            <MediaReviewsSection />
           </div>
         </section>
 
