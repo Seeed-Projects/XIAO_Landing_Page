@@ -33,50 +33,22 @@ function LangToggle() {
   );
 }
 
-/* 首页下拉目录：只留板块标题（去掉小字描述）。
-   Overview = 回顶（含头图/视频/数据）；Developer Ecosystem = 开发者生态（含生态入口） */
-const HOME_MENU = {
+/* Playground 二级下拉：4 个开发工具入口，各自跳到不同页面/锚点。
+   Pin Out / Flash → products 页对应锚点；Hardware Resources → /res；Software Ecosystem → /software-center。
+   ⚠️ 样式待用户提供，此处先用与站点一致的默认卡片样式。 */
+const PLAYGROUND_ITEMS = {
   zh: [
-    { id: "hero", label: "概览" },
-    { id: "developer", label: "开发者生态" },
-    { id: "projects", label: "基于 XIAO 构建的项目" },
-    { id: "news", label: "XIAO 新闻" },
-    { id: "reviews", label: "社区评测" },
-    { id: "cocreate", label: "与 XIAO 共创" },
-    { id: "edm", label: "XIAO 电子报" },
+    { label: "引脚图", hint: "Pinout 定义与规格", href: "/products", id: "pinout" },
+    { label: "烧录", hint: "一键固件烧录", href: "/products", id: "esp-flasher" },
+    { label: "硬件资源", hint: "数据手册 / 原理图 / CAD", href: "/res", id: "top" },
+    { label: "软件生态", hint: "官方与社区软件", href: "/software-center", id: "top" },
   ],
   en: [
-    { id: "hero", label: "Overview" },
-    { id: "developer", label: "Developer Ecosystem" },
-    { id: "projects", label: "Projects Built on XIAO" },
-    { id: "news", label: "XIAO in the News" },
-    { id: "reviews", label: "Community Review" },
-    { id: "cocreate", label: "Co-Create with XIAO" },
-    { id: "edm", label: "NEWSLETTER" },
+    { label: "Pin Out", hint: "Pinouts & specs", href: "/products", id: "pinout" },
+    { label: "Flash", hint: "One-click firmware flasher", href: "/products", id: "esp-flasher" },
+    { label: "Hardware Resources", hint: "Datasheets · schematics · CAD", href: "/res", id: "top" },
+    { label: "Software Ecosystem", hint: "Official & community software", href: "/software-center", id: "top" },
   ],
-};
-
-/* 软件中心下拉目录：页面真实可滚动锚点只有 top/official/community（只留标题） */
-const SOFTWARE_MENU = {
-  zh: [
-    { id: "top", label: "概览" },
-    { id: "official", label: "官方软件" },
-    { id: "community", label: "社区软件" },
-  ],
-  en: [
-    { id: "top", label: "Overview" },
-    { id: "official", label: "Official" },
-    { id: "community", label: "Community" },
-  ],
-};
-
-const ROUTE_OF_HREF = {
-  "/": "home",
-  "/products": "products",
-  "/res": "res",
-  "/project-hub": "projectHub",
-  "/open-roadmap": "openRoadmap",
-  "/software-center": "softwareCenter",
 };
 
 const Chevron = ({ open }) => (
@@ -93,25 +65,19 @@ const Chevron = ({ open }) => (
 export function SiteHeader() {
   const { t, lang } = useLang();
   const pathname = usePathname();
+
+  // 一级导航：只有 Playground 有下拉，其余为普通链接
   const nav = [
-    { label: t.nav.home, href: "/" },
-    { label: t.nav.products, href: "/products" },
-    { label: t.nav.res, href: "/res" },
-    { label: t.nav.projectHub, href: "/project-hub" },
-    { label: t.nav.openRoadmap, href: "/open-roadmap" },
-    { label: t.nav.software, href: "/software-center" },
+    { label: t.nav.home, href: "/", key: "home" },
+    { label: t.nav.products, href: "/products", key: "products" },
+    { label: t.nav.projectHub, href: "/project-hub", key: "projectHub" },
+    { label: t.nav.openRoadmap, href: "/open-roadmap", key: "openRoadmap" },
+    { label: t.nav.playground, href: null, key: "playground" },
   ];
 
-  const menuFor = (href) => {
-    const key = ROUTE_OF_HREF[href];
-    if (key === "home") return HOME_MENU[lang] || HOME_MENU.en;
-    if (key === "products") return t.side?.products ?? [];
-    if (key === "softwareCenter") return SOFTWARE_MENU[lang] || SOFTWARE_MENU.en;
-    return null;
-  };
-
-  const [openKey, setOpenKey] = useState(null);
+  const [pgOpen, setPgOpen] = useState(false);      // 桌面 Playground 下拉
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobilePg, setMobilePg] = useState(false);  // 移动端 Playground 展开
   const [canHover, setCanHover] = useState(false);
   const closeTimer = useRef(null);
 
@@ -120,10 +86,10 @@ export function SiteHeader() {
     const syncHover = () => setCanHover(hoverQuery.matches);
     queueMicrotask(syncHover);
     hoverQuery.addEventListener("change", syncHover);
-    const onKey = (e) => { if (e.key === "Escape") setOpenKey(null); };
+    const onKey = (e) => { if (e.key === "Escape") { setPgOpen(false); setMobilePg(false); } };
     const onDoc = (e) => {
       const el = document.getElementById("site-header");
-      if (el && !el.contains(e.target)) setOpenKey(null);
+      if (el && !el.contains(e.target)) setPgOpen(false);
     };
     document.addEventListener("keydown", onKey);
     document.addEventListener("mousedown", onDoc);
@@ -135,23 +101,21 @@ export function SiteHeader() {
     };
   }, []);
 
-  const openMenu = (key) => {
+  const openPlayground = () => {
     if (!canHover) return;
     if (closeTimer.current) { clearTimeout(closeTimer.current); closeTimer.current = null; }
-    setOpenKey(key);
+    setPgOpen(true);
   };
   const scheduleClose = () => {
     if (!canHover) return;
     if (closeTimer.current) clearTimeout(closeTimer.current);
-    closeTimer.current = setTimeout(() => setOpenKey(null), 280);
+    closeTimer.current = setTimeout(() => setPgOpen(false), 280);
   };
 
-  const currentMenu = openKey ? menuFor(openKey) : null;
-
+  // 跳转到目标页面 + 锚点（静态导出 + basePath，必须手动拼尾斜杠）
   const goSection = (href, id) => {
-    setOpenKey(null);
-    // 静态导出在子路径(basePath)下，且文件按尾斜杠目录存放；
-    // 下拉菜单跳转用 window.location，必须手动加 basePath + 尾斜杠，否则 404。
+    setPgOpen(false);
+    setMobileOpen(false);
     const dir = `${BASE_PATH}${href.endsWith("/") ? href : href + "/"}`;
     if (!id || id === "top" || id === "hero") {
       if (pathname === href) window.scrollTo({ top: 0, behavior: "smooth" });
@@ -165,15 +129,18 @@ export function SiteHeader() {
     window.location.assign(`${dir}#${id}`);
   };
 
+  const pgItems = PLAYGROUND_ITEMS[lang] || PLAYGROUND_ITEMS.en;
+
+  const linkCls =
+    "flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-2 text-[13px] text-[var(--ink-body)] transition hover:bg-white/70 hover:text-[var(--brand-blue)] lg:px-3 lg:text-sm";
+
   return (
     <header
       id="site-header"
       className="fixed inset-x-0 top-0 z-40 border-b border-[var(--line-soft)] bg-[var(--bg-base)]/85 backdrop-blur-md"
-      onMouseEnter={() => { if (canHover && closeTimer.current) { clearTimeout(closeTimer.current); closeTimer.current = null; } }}
-      onMouseLeave={scheduleClose}
     >
       <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center px-4 sm:px-8 lg:px-12">
-        {/* 左：logo —— 透明底徽标 + Seeed Studio XIAO 锁标 */}
+        {/* 左：logo */}
         <Link href="/" className="flex shrink-0 items-center gap-2">
           <img
             src={withBase("/seeed-logo.png")}
@@ -185,31 +152,72 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        {/* 中：导航居中 —— 每项结构完全一致（点击跳转页面，悬停出下拉）
-            折叠断点放宽到 860px：平板/窄桌面也保留真实链接，只有 <860 才收成汉堡。
-            断点取 860 是因为 EN 6 项（含 Software Center / Open Roadmap）至少需 ~826px 才不溢出。 */}
+        {/* 中：导航 —— 只有 Playground 带下拉，其余为普通链接 */}
         <nav className="hidden flex-1 items-center justify-center gap-0 min-[860px]:flex">
-          {nav.map((item) => {
-            const items = menuFor(item.href);
-            const isOpen = openKey === item.href;
-            return (
-              <Link
-                key={item.label}
-                href={item.href}
-                onMouseEnter={() => (items?.length ? openMenu(item.href) : openMenu(null))}
-                className="flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-2 text-[13px] text-[var(--ink-body)] transition hover:bg-white/70 hover:text-[var(--brand-blue)] lg:px-3 lg:text-sm"
+          {nav.map((item) =>
+            item.key === "playground" ? (
+              <div
+                key={item.key}
+                className="relative"
+                onMouseEnter={openPlayground}
+                onMouseLeave={scheduleClose}
               >
+                <button
+                  type="button"
+                  aria-expanded={pgOpen}
+                  onClick={() => setPgOpen((o) => !o)}
+                  className={`${linkCls} cursor-pointer`}
+                >
+                  <span>{item.label}</span>
+                  <Chevron open={pgOpen} />
+                </button>
+
+                {/* Playground 二级菜单（样式待用户提供，此处为默认） */}
+                {pgOpen && (
+                  <div className="absolute right-0 top-full z-50 pt-3">
+                    <div className="w-[300px] rounded-2xl border border-[var(--line-soft)] bg-white/95 p-2 shadow-[0_24px_48px_rgba(0,73,102,0.16)] backdrop-blur-md">
+                      {pgItems.map((m, mi) => (
+                        <button
+                          key={`${m.href}-${m.id}-${mi}`}
+                          type="button"
+                          onClick={() => goSection(m.href, m.id)}
+                          className="flex w-full items-center gap-3 rounded-xl p-3 text-left transition hover:bg-[var(--brand-blue)]/8"
+                        >
+                          <span className="font-display text-xs font-semibold text-[var(--brand-blue)]/55">
+                            {String(mi + 1).padStart(2, "0")}
+                          </span>
+                          <span className="min-w-0 flex-1">
+                            <span className="block text-sm font-semibold leading-snug text-[var(--ink-strong)]">
+                              {m.label}
+                            </span>
+                            {m.hint && (
+                              <span className="block truncate text-xs text-[var(--ink-muted)]">
+                                {m.hint}
+                              </span>
+                            )}
+                          </span>
+                          <svg
+                            width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"
+                            className="shrink-0 text-[var(--ink-muted)]"
+                          >
+                            <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+                          </svg>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link key={item.key} href={item.href} className={linkCls}>
                 <span>{item.label}</span>
-                {/* 有菜单的项显示箭头并随开合旋转；无菜单的项用透明占位，保证每项尺寸完全一致 */}
-                <span className={items?.length ? "" : "opacity-0"}>
-                  <Chevron open={isOpen} />
-                </span>
               </Link>
-            );
-          })}
+            ),
+          )}
         </nav>
 
-        {/* 右：语言切换 —— shrink-0 不占半边，把整行空间让给导航 */}
+        {/* 右：语言切换 + 汉堡 */}
         <div className="ml-auto flex shrink-0 items-center justify-end gap-2">
           <button
             type="button"
@@ -227,58 +235,52 @@ export function SiteHeader() {
         </div>
       </div>
 
+      {/* 移动端菜单 */}
       {mobileOpen && (
         <nav className="border-t border-[var(--line-soft)] bg-[var(--bg-base)]/98 px-4 py-3 shadow-[0_18px_36px_rgba(0,73,102,0.12)] min-[860px]:hidden">
           <div className="mx-auto grid max-h-[calc(100dvh-5rem)] w-full max-w-[720px] gap-1 overflow-y-auto">
-            {nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileOpen(false)}
-                className={`flex min-h-12 items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold ${pathname === item.href ? "bg-[var(--surface-tint)] text-[var(--brand-green-deep)]" : "text-[var(--ink-strong)]"}`}
-              >
-                {item.label}
-                <span aria-hidden>→</span>
-              </Link>
-            ))}
+            {nav.map((item) =>
+              item.key === "playground" ? (
+                <div key={item.key}>
+                  <button
+                    type="button"
+                    aria-expanded={mobilePg}
+                    onClick={() => setMobilePg((o) => !o)}
+                    className="flex min-h-12 w-full items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold text-[var(--ink-strong)]"
+                  >
+                    {item.label}
+                    <Chevron open={mobilePg} />
+                  </button>
+                  {mobilePg && (
+                    <div className="grid gap-1 pl-3">
+                      {pgItems.map((m) => (
+                        <button
+                          key={`${m.href}-${m.id}`}
+                          type="button"
+                          onClick={() => goSection(m.href, m.id)}
+                          className="flex min-h-11 items-center justify-between rounded-lg px-4 py-2.5 text-sm text-[var(--ink-body)]"
+                        >
+                          {m.label}
+                          <span aria-hidden>→</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={item.key}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`flex min-h-12 items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold ${pathname === item.href ? "bg-[var(--surface-tint)] text-[var(--brand-green-deep)]" : "text-[var(--ink-strong)]"}`}
+                >
+                  {item.label}
+                  <span aria-hidden>→</span>
+                </Link>
+              ),
+            )}
           </div>
         </nav>
-      )}
-
-      {/* 居中下拉面板：整宽桥接层 + 固定宽度固定 3 列，所有页面尺寸一致；280ms 延迟关闭 */}
-      {currentMenu && (
-        <div
-          className="absolute inset-x-0 top-full z-50"
-          onMouseEnter={() => { if (closeTimer.current) { clearTimeout(closeTimer.current); closeTimer.current = null; } }}
-          onMouseLeave={scheduleClose}
-        >
-          <div className="mx-auto w-full max-w-[1440px] px-6 pt-3 sm:px-8 lg:px-12">
-            <div className="mx-auto grid w-[680px] grid-cols-3 gap-1 rounded-2xl border border-[var(--line-soft)] bg-white/95 p-2.5 shadow-[0_24px_48px_rgba(0,73,102,0.16)] backdrop-blur-md">
-              {currentMenu.map((m, mi) => (
-                <button
-                  key={`${m.id}-${mi}`}
-                  type="button"
-                  onClick={() => goSection(openKey, m.id)}
-                  className="flex items-start gap-2.5 rounded-xl p-3 text-left transition hover:bg-[var(--brand-blue)]/8"
-                >
-                  <span className="font-display text-xs font-semibold text-[var(--brand-blue)]/55">
-                    {String(mi).padStart(2, "0")}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-semibold leading-snug text-[var(--ink-strong)]">
-                      {m.label}
-                    </span>
-                    {m.hint ? (
-                      <span className="block truncate text-xs text-[var(--ink-muted)]">
-                        {m.hint}
-                      </span>
-                    ) : null}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
       )}
     </header>
   );
