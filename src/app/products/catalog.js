@@ -18,7 +18,7 @@ export const PRODUCT_CATALOG = [
     label: "XIAO Dev Boards in a Glimpse",
     labelEn: "XIAO Dev Boards in a Glimpse",
     subcategories: [
-      group("esp32", "ESP32 Series", [
+      group("esp32", "Espressif ESP32 Series", [
         product("XIAO ESP32-C3", "https://www.seeedstudio.com/Seeed-XIAO-ESP32C3-p-5431.html", "dev_boards/XIAO落地页素材-19-1536x1257.jpg", "Cost effective with Wi-Fi and BLE on board"),
         product("XIAO ESP32-S3", "https://www.seeedstudio.com/XIAO-ESP32S3-p-5627.html", "dev_boards/XIAO落地页素材-20-1536x1257.jpg", "High-performance dev board with Wi-Fi and BLE"),
         product("XIAO ESP32-S3 Sense", "https://www.seeedstudio.com/XIAO-ESP32S3-Sense-p-5639.html", "dev_boards/XIAO落地页素材-21-1536x1257.jpg", "Mini camera perfect for computer vision"),
