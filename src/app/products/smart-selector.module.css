@@ -143,8 +143,9 @@
 .catalogCount { color: var(--ink-muted); font-size: 13px; }
 .catalogGrid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 12px; }
 @media (min-width: 640px) { .catalogGrid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
-@media (min-width: 1024px) { .catalogGrid { grid-template-columns: repeat(4, minmax(0,1fr)); } }
-@media (min-width: 1536px) { .catalogGrid { grid-template-columns: repeat(5, minmax(0,1fr)); } }
+/* 列数比 Products 目录多一档（Products 在侧栏右侧 lg:4 2xl:5），补偿全宽无侧栏的宽度差，让单卡大小与 Products 一致 */
+@media (min-width: 1024px) { .catalogGrid { grid-template-columns: repeat(5, minmax(0,1fr)); } }
+@media (min-width: 1536px) { .catalogGrid { grid-template-columns: repeat(6, minmax(0,1fr)); } }
 .catalogCard { border: 1px solid var(--line-soft); border-radius: 12px; padding: 14px; background: rgba(255,255,255,0.9); display: flex; flex-direction: column; transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease; }
 .catalogCard:hover { transform: translateY(-2px); border-color: rgba(22,182,106,0.4); box-shadow: 0 10px 24px rgba(0,73,102,0.08); background-color: rgba(255,255,255,0.95); }
 .catalogVisual { aspect-ratio: 4 / 3; border-radius: 10px; background: #f5f5f5; display: grid; place-items: center; margin-bottom: 10px; overflow: hidden; }
