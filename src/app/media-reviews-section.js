@@ -1,6 +1,7 @@
 "use client";
 
 import { ScrollBand } from "./scroll-band";
+import { ScrollCard } from "./scroll-card";
 
 /**
  * MediaReviewsSection —— 外部媒体/社区 review 精选，横向自动循环滚动带（复用 ScrollBand）。
@@ -77,47 +78,17 @@ export function MediaReviewsSection() {
   return (
     <ScrollBand
       items={MEDIA_REVIEWS}
+      rows={2}
       hrefFor={(item) => item.url || "#"}
       renderCard={(r) => (
-        <>
-          {/* 文章头图（无图则用与 news 一致的淡渐变占位） */}
-          <div
-            className="aspect-[16/9] w-full overflow-hidden rounded-xl"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(0,73,102,0.12), rgba(143,195,31,0.12))",
-            }}
-          >
-            {r.image ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={r.image}
-                alt={`${r.media} — ${r.article}`}
-                loading="lazy"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                }}
-                className="h-full w-full object-cover"
-              />
-            ) : null}
-          </div>
-
-          {/* 文字：媒体标签 + 出处日期 → 文章标题 → 引文，排版与 news 一致 */}
-          <div className="mt-4 flex flex-1 flex-col">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full bg-[var(--brand-green)]/12 px-2.5 py-0.5 text-xs font-semibold text-[var(--brand-green-deep)]">
-                {r.media}
-              </span>
-              <span className="text-xs text-[var(--ink-muted)]">{r.detail}</span>
-            </div>
-            <h3 className="mt-2 text-lg font-bold leading-snug text-[var(--ink-strong)] line-clamp-2">
-              {r.article}
-            </h3>
-            <p className="mt-1.5 text-sm leading-relaxed text-[var(--ink-body)] line-clamp-3">
-              {r.quote}
-            </p>
-          </div>
-        </>
+        <ScrollCard
+          image={r.image}
+          tag={r.media}
+          meta={r.detail}
+          title={r.article}
+          excerpt={r.quote}
+          alt={`${r.media} — ${r.article}`}
+        />
       )}
     />
   );

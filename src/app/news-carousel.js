@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLang } from "./i18n";
 import { ScrollBand } from "./scroll-band";
+import { ScrollCard } from "./scroll-card";
 
 /**
  * 资讯滚动带 —— 数据自动更新：
@@ -198,50 +199,17 @@ export function NewsCarousel() {
     <div>
       <ScrollBand
         items={items}
+        rows={2}
         hrefFor={(item) => item.url || "#"}
         renderCard={(item) => (
-          <>
-            {/* 封面图：加载成功显示真图，失败/无图回退渐变占位 */}
-            <div
-              className="aspect-[16/9] w-full overflow-hidden rounded-xl"
-              style={{
-                background:
-                  "linear-gradient(135deg, rgba(0,73,102,0.12), rgba(143,195,31,0.12))",
-              }}
-            >
-              {item.media_url && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={item.media_url}
-                  alt=""
-                  loading="lazy"
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                  }}
-                  className="h-full w-full object-cover"
-                />
-              )}
-            </div>
-            {/* 文字 */}
-            <div className="mt-4 flex flex-1 flex-col">
-              <div className="flex items-center gap-2">
-                <span className="rounded-full bg-[var(--brand-green)]/12 px-2.5 py-0.5 text-xs font-semibold text-[var(--brand-green-deep)]">
-                  {item.tag}
-                </span>
-                <span className="text-xs text-[var(--ink-muted)]">{item.date}</span>
-              </div>
-              <h3 className="mt-2 text-lg font-bold leading-snug text-[var(--ink-strong)]">
-                {item.title}
-              </h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-[var(--ink-body)]">
-                {item.excerpt}
-              </p>
-              <p className="mt-2 text-xs font-medium text-[var(--brand-blue-soft)]">
-                {isEn ? "Source: " : "来源："}
-                {item.source}
-              </p>
-            </div>
-          </>
+          <ScrollCard
+            image={item.media_url}
+            tag={item.tag}
+            meta={item.date}
+            title={item.title}
+            excerpt={item.excerpt}
+            alt={item.title}
+          />
         )}
       />
       {/* Explore More —— 进入 Seeed Blog XIAO 标签页，看更多文章 */}
