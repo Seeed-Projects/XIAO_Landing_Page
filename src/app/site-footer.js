@@ -7,7 +7,7 @@ const SUBSCRIBE_URL = "https://mailchi.mp/seeed/xiao";
 /**
  * SiteFooter —— XIAO 落地页页脚。
  * 5 列：品牌(Seeed Studio XIAO) / Company / Develop with XIAO / Community / Stay Connected with XIAO
- * + 底部版权。订阅用 iframe 内嵌 Mailchimp 托管表单，本页内完成不跳转。
+ * + 底部版权。订阅同首页：提交即跳转 Mailchimp 真实订阅页。
  */
 export function SiteFooter() {
   const columns = [
@@ -76,6 +76,11 @@ export function SiteFooter() {
     },
   ];
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    window.open(SUBSCRIBE_URL, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <footer className="mt-auto w-full bg-[var(--ink-strong)] text-white">
       <div className="mx-auto w-full max-w-[1440px] px-6 py-14 sm:px-10 lg:px-16">
@@ -131,24 +136,36 @@ export function SiteFooter() {
             <h3 className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-white/72">
               Stay Connected with XIAO
             </h3>
-            {/* Mailchimp 托管表单：iframe 内填邮箱 + 提交 + 成功提示，不跳转 */}
-            <div className="mt-4 overflow-hidden rounded-xl border border-white/15 bg-white">
-              <iframe
-                src={SUBSCRIBE_URL}
-                title="XIAO newsletter subscribe"
-                loading="lazy"
-                className="h-[380px] w-full"
-                style={{ border: 0 }}
+            <form onSubmit={onSubmit} className="mt-4 space-y-3">
+              <label className="sr-only" htmlFor="footer-email">Email address</label>
+              <input
+                id="footer-email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                placeholder="Email address"
+                className="w-full rounded-lg border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white outline-none placeholder:text-white/50 focus:border-[var(--brand-green)]"
               />
-            </div>
-            <a
-              href={SUBSCRIBE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-2 inline-flex items-center gap-1 text-xs text-white/60 transition hover:text-[var(--brand-green)]"
-            >
-              {`表单未显示？点此打开 ↗`}
-            </a>
+              <label className="flex items-start gap-2 text-xs leading-5 text-white/75">
+                <input
+                  type="checkbox"
+                  name="xiao-newsletter-consent"
+                  required
+                  className="mt-1 h-3.5 w-3.5 shrink-0 accent-[var(--brand-green)]"
+                />
+                <span>I agree to receive newsletters on XIAO from Seeed Studio.</span>
+              </label>
+              <button
+                type="submit"
+                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-[var(--brand-green)] px-5 py-2.5 text-sm font-semibold text-[var(--ink-strong)] transition hover:brightness-110"
+              >
+                Subscribe
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </button>
+            </form>
             <div className="mt-5 flex flex-wrap items-center gap-2">
               {socials.map((s) => (
                 <a
