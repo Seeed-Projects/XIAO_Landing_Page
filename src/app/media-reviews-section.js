@@ -78,7 +78,6 @@ export function MediaReviewsSection() {
   return (
     <ScrollBand
       items={MEDIA_REVIEWS}
-      rows={2}
       hrefFor={(item) => item.url || "#"}
       renderCard={(r) => (
         <ScrollCard
@@ -88,6 +87,7 @@ export function MediaReviewsSection() {
           title={r.article}
           excerpt={r.quote}
           alt={`${r.media} — ${r.article}`}
+          variant="comfortable"
         />
       )}
     />

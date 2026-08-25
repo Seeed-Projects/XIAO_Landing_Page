@@ -199,7 +199,6 @@ export function NewsCarousel() {
     <div>
       <ScrollBand
         items={items}
-        rows={2}
         hrefFor={(item) => item.url || "#"}
         renderCard={(item) => (
           <ScrollCard
@@ -209,6 +208,7 @@ export function NewsCarousel() {
             title={item.title}
             excerpt={item.excerpt}
             alt={item.title}
+            variant="comfortable"
           />
         )}
       />

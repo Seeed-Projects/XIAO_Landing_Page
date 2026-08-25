@@ -45,7 +45,7 @@ export function ScrollBand({ items, hrefFor, renderCard, speed = 0.45, delayStep
               className={
                 rows === 2
                   ? "flex w-[280px] min-w-0 cursor-pointer flex-col rounded-xl border border-[var(--line-soft)] bg-white/90 p-3 no-underline backdrop-blur-sm transition-shadow duration-300 hover:shadow-md sm:w-[320px] lg:w-[340px]"
-                  : "flex w-[300px] shrink-0 cursor-pointer flex-col rounded-2xl border border-[var(--line-soft)] bg-white/90 p-4 no-underline backdrop-blur-sm transition-shadow duration-300 hover:shadow-md sm:w-[340px] sm:p-5 lg:w-[380px] xl:w-[400px]"
+                  : "flex w-[300px] shrink-0 cursor-pointer flex-col rounded-2xl border border-[var(--line-soft)] bg-white/90 p-5 no-underline backdrop-blur-sm transition-shadow duration-300 hover:shadow-md sm:w-[340px] sm:p-6 lg:w-[380px] xl:w-[400px]"
               }
             >
               {renderCard(sourceItem, sourceIdx)}
