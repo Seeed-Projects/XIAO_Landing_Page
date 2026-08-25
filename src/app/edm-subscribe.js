@@ -4,9 +4,10 @@ import { useState } from "react";
 import { useLang } from "./i18n";
 import { defaultXiaoImage } from "./site-data";
 import { useMailchimpSubscribe } from "./use-mailchimp-subscribe";
-import { SubscribeSuccessModal } from "./subscribe-success-modal";
+import { SubscribeModal } from "./subscribe-success-modal";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const FALLBACK_URL = "https://mailchi.mp/seeed/xiao";
 
 /**
  * EdmSubscribe —— 邮件订阅卡片。
@@ -125,9 +126,11 @@ export function EdmSubscribe() {
         </form>
       </div>
 
-      <SubscribeSuccessModal
-        open={status === "success"}
+      <SubscribeModal
+        open={status === "success" || status === "fallback"}
+        mode={status === "fallback" ? "fallback" : "success"}
         message={e.success}
+        fallbackUrl={FALLBACK_URL}
         onClose={closeSuccess}
         closeLabel="Got it"
       />

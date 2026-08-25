@@ -3,9 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useMailchimpSubscribe } from "./use-mailchimp-subscribe";
-import { SubscribeSuccessModal } from "./subscribe-success-modal";
+import { SubscribeModal } from "./subscribe-success-modal";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const FALLBACK_URL = "https://mailchi.mp/seeed/xiao";
 
 /**
  * SiteFooter —— XIAO 落地页页脚。
@@ -238,9 +239,11 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <SubscribeSuccessModal
-        open={status === "success"}
+      <SubscribeModal
+        open={status === "success" || status === "fallback"}
+        mode={status === "fallback" ? "fallback" : "success"}
         message="Subscribed! Please check your inbox for the confirmation email."
+        fallbackUrl={FALLBACK_URL}
         onClose={() => reset()}
         closeLabel="Got it"
       />
