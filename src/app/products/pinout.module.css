@@ -110,7 +110,7 @@
   box-shadow: 0 18px 40px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05);
 }
 .boardFigureCaption { font-family: var(--font-display), sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
-.boardFigureBack .boardFigureImg { width: 220px; height: auto; aspect-ratio: 1224 / 1428; }
+.boardFigureBack .boardFigureImg { width: 220px; height: auto; }
 
 .boardMeta { text-align: center; max-width: 420px; }
 .boardMeta h3 { margin: 0 0 4px; font-family: var(--font-display), sans-serif; font-size: 18px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink-strong); }
