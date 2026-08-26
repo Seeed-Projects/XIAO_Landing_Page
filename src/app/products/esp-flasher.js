@@ -286,7 +286,8 @@ export function ESPFlasher() {
               {/* 左：设备卡 + 工具 */}
               <div className={styles.leftPanel}>
                 <div className={styles.deviceCard}>
-                  <div className={styles.boardGlyph} />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className={styles.boardImg} src={withBase("/xiao-flash/samd21-front.webp")} alt="XIAO board" />
                   <div className={styles.deviceChip}>{connected ? chip : board.chip}</div>
                   <div className={`${styles.deviceStatus} ${connected ? styles.on : ""}`}>
                     {connected ? T.connected : T.disconnected}

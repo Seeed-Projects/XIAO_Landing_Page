@@ -38,10 +38,8 @@
   box-shadow: 0 18px 40px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05);
   overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
 }
-.boardGlyph { width: 66%; aspect-ratio: 5 / 3; border-radius: 8px; background: linear-gradient(160deg, #0a1a26 0%, #06121c 100%); border: 1px solid rgba(255,255,255,0.08); position: relative; box-shadow: inset 0 0 14px rgba(0,0,0,0.55), 0 4px 10px rgba(0,0,0,0.4); }
-.boardGlyph::before, .boardGlyph::after { content: ""; position: absolute; top: 16%; bottom: 16%; width: 4px; background: repeating-linear-gradient(180deg, #c9a23a 0 3px, transparent 3px 6px); border-radius: 1px; }
-.boardGlyph::before { left: 7%; }
-.boardGlyph::after { right: 7%; }
+/* 透明底板图：真剪影浮在深色设备卡上，drop-shadow 增强层次 */
+.boardImg { width: 66%; max-height: 70%; object-fit: contain; filter: drop-shadow(0 10px 18px rgba(0,0,0,0.45)); }
 .deviceChip { font-family: var(--font-display), sans-serif; font-size: 13px; font-weight: 700; color: #e8f0ea; letter-spacing: 0.02em; text-shadow: 0 1px 0 rgba(0,0,0,0.6); }
 .deviceStatus { font-size: 11px; font-weight: 600; color: #9fb2a8; display: inline-flex; align-items: center; gap: 6px; }
 .deviceStatus::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #9aa6a0; }
