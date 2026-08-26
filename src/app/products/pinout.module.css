@@ -63,8 +63,9 @@
   box-shadow: 0 18px 40px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05);
   overflow: hidden;
 }
-.pinCol { display: flex; flex-direction: column; justify-content: space-around; flex: 1 1 0; min-width: 0; padding: 6px 0; }
+.pinCol { position: relative; flex: 1 1 0; min-width: 0; }
 .pinRow {
+  position: absolute; left: 0; right: 0; transform: translateY(-50%);
   display: flex; align-items: center; gap: 8px;
   border: none; background: transparent; cursor: pointer;
   padding: 3px 10px; transition: background-color 180ms ease, box-shadow 180ms ease; border-radius: 8px;
@@ -91,13 +92,15 @@
 /* 透明底板图：去掉 .boardBody 的黑框/背景/阴影，让剪影直接浮在
    .boardFigure 的深色渐变上，与整块板融为一体（不再有突兀的黑边框） */
 .boardBodyImg {
-  flex: 0 0 200px;
+  flex: 0 0 auto;
   margin: 0;
   background: transparent;
   border: none;
   box-shadow: none;
 }
-.boardFigureImg { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5)); }
+/* 正面板子图：高度驱动布局——pinCol 与图同高，引脚按焊盘 Y% 对齐 */
+.boardFigureImg { object-fit: contain; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5)); }
+.boardBodyImg .boardFigureImg { display: block; height: clamp(300px, 40vh, 420px); width: auto; }
 
 /* 背面板图框：正面 boardFigure 下方独立一块，同款深色板背景，
    透明剪影浮上去与底板融为一体；图居中、自适应高度 */
@@ -158,7 +161,7 @@
   .pinList { max-height: 320px; }
   .boardFigure { padding: 16px 4px; }
   .boardBody { flex-basis: 72px; margin: 10px 0; }
-  .boardBodyImg { flex-basis: 120px; }
+  .boardBodyImg .boardFigureImg { height: 240px; }
   .boardFigureBack .boardFigureImg { width: 150px; }
   .boardChip { font-size: 11px; }
   .boardSub { font-size: 8px; }

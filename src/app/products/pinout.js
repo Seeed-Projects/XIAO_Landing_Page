@@ -156,6 +156,14 @@ const buildBoard = (rst, s, ...extra) => {
 const stdLeft = ["D0", "D1", "D2", "D3", "D4", "D5", "D6"];
 const stdRight = ["5V", "GND", "3V3", "D10", "D9", "D8", "D7"];
 
+/* 标准封装板焊盘在正面图上的中心 Y%（距图顶 0–100），左右长边各 7 个。
+   用来把引脚标签按真实焊盘高度绝对定位，使连线落在板子图的焊盘上。
+   均匀分布作起点，按线上效果逐个微调即可。 */
+const STD_PAD_Y = {
+  left:  [12, 24, 36, 48, 60, 72, 84],
+  right: [12, 24, 36, 48, 60, 72, 84],
+};
+
 /* ESP32-S3：D0-D5、D8-D12 均为 ADC（D4/D5 兼 I2C，D8-D10 兼 SPI）；JTAG: MTDO/MTDI/MTCK/MTMS */
 const s3Groups = buildBoard("CHIP_PU", {
   analog: [
@@ -488,7 +496,7 @@ const BOARDS = {
     figureImgBack: "/xiao-products/dev_boards/s3-back.webp",
     tagline: { en: "ESP32-S3 — Wi-Fi + BLE workhorse with plenty of GPIO and PSRAM.", zh: "ESP32-S3 — Wi-Fi + BLE 主力，GPIO 多、带 PSRAM。" },
     groups: s3Groups,
-    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+    leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
   },
   c3: {
     name: "XIAO ESP32-C3",
@@ -498,7 +506,7 @@ const BOARDS = {
     figureImgBack: "/xiao-products/dev_boards/c3-back.webp",
     tagline: { en: "ESP32-C3 — compact RISC-V for Wi-Fi + BLE basics.", zh: "ESP32-C3 — RISC-V 小巧，Wi-Fi + BLE 入门。" },
     groups: c3Groups,
-    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+    leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
   },
   c6: {
     name: "XIAO ESP32-C6",
@@ -508,7 +516,7 @@ const BOARDS = {
     figureImgBack: "/xiao-products/dev_boards/c6-back.webp",
     tagline: { en: "ESP32-C6 — Wi-Fi 6, BLE, and Thread/Zigbee for Matter smart-home.", zh: "ESP32-C6 — Wi-Fi 6 + BLE + Thread/Zigbee，适合 Matter 智能家居。" },
     groups: c6Groups,
-    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+    leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
   },
   c5: {
     name: "XIAO ESP32-C5",
@@ -518,7 +526,7 @@ const BOARDS = {
     figureImgBack: "/xiao-products/dev_boards/c5-back.webp",
     tagline: { en: "ESP32-C5 — Wi-Fi 6 + BLE 5 on the XIAO footprint.", zh: "ESP32-C5 — XIAO 封装上的 Wi-Fi 6 + BLE 5。" },
     groups: c5Groups,
-    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+    leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
   },
   nrf54l15: {
     name: "XIAO nRF54L15",
@@ -528,7 +536,7 @@ const BOARDS = {
     figureImgBack: "/xiao-products/dev_boards/nrf54l15-back.webp",
     tagline: { en: "nRF54L15 — 128MHz Cortex-M33, low-power BLE 5.4 + NFC.", zh: "nRF54L15 — 128MHz Cortex-M33，低功耗 BLE 5.4 + NFC。" },
     groups: nrf54l15Groups,
-    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+    leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
   },
   nrf52: {
     name: "XIAO nRF52840",
@@ -538,7 +546,7 @@ const BOARDS = {
     figureImgBack: "/xiao-products/dev_boards/nrf52-back.webp",
     tagline: { en: "nRF52840 — BLE 5.4, NFC, battery charging; the first wireless XIAO.", zh: "nRF52840 — BLE 5.4、NFC、电池充电，首款无线 XIAO。" },
     groups: nrf52Groups,
-    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+    leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
   },
   rp2040: {
     name: "XIAO RP2040",
@@ -548,7 +556,7 @@ const BOARDS = {
     figureImgBack: "/xiao-products/dev_boards/rp2040-back.webp",
     tagline: { en: "RP2040 — dual Cortex-M0+ 133MHz; the smallest Raspberry Pi Pico.", zh: "RP2040 — 双核 Cortex-M0+ 133MHz，最小的树莓派 Pico。" },
     groups: rp2040Groups,
-    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+    leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
   },
   rp2350: {
     name: "XIAO RP2350",
@@ -558,7 +566,7 @@ const BOARDS = {
     figureImgBack: "/xiao-products/dev_boards/rp2350-back.webp",
     tagline: { en: "RP2350 — dual Cortex-M33 150MHz + Hazard3 RISC-V, RGB LED, 19 GPIO.", zh: "RP2350 — 双核 Cortex-M33 150MHz + Hazard3 RISC-V，RGB LED，19 GPIO。" },
     groups: rp2350Groups,
-    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+    leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
   },
   ra4: {
     name: "XIAO RA4M1",
@@ -568,7 +576,7 @@ const BOARDS = {
     figureImgBack: "/xiao-products/dev_boards/ra4-back.webp",
     tagline: { en: "RA4M1 — Cortex-M4 48MHz; same chip as Arduino Uno R4.", zh: "RA4M1 — Cortex-M4 48MHz，与 Arduino Uno R4 同芯。" },
     groups: ra4Groups,
-    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+    leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
   },
   samd21: {
     name: "XIAO SAMD21",
@@ -578,7 +586,7 @@ const BOARDS = {
     figureImgBack: "/xiao-products/dev_boards/samd21-back.webp",
     tagline: { en: "SAMD21G18 — Cortex-M0+; the original Seeeduino XIAO flagship.", zh: "SAMD21G18 — Cortex-M0+，初代 Seeeduino XIAO 旗舰。" },
     groups: samdGroups,
-    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+    leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
   },
   mg24: {
     name: "XIAO MG24",
@@ -588,7 +596,7 @@ const BOARDS = {
     figureImgBack: "/xiao-products/dev_boards/mg24-back.webp",
     tagline: { en: "EFR32MG24 — Cortex-M33 with Zigbee/Thread for Matter.", zh: "EFR32MG24 — Cortex-M33，Zigbee/Thread，适合 Matter。" },
     groups: mg24Groups,
-    leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
+    leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
   },
 };
 const BOARD_ORDER = ["nrf54", "s3", "c3", "c6", "c5", "nrf54l15", "nrf52", "rp2040", "rp2350", "ra4", "samd21", "mg24"];
@@ -709,12 +717,14 @@ export function Pinout() {
             <div className={styles.centerPanel}>
               <div className={styles.boardFigure}>
                 <div className={`${styles.pinCol} ${styles.pinColLeft}`}>
-                  {board.leftColIds.map((id) => {
+                  {board.leftColIds.map((id, i) => {
                     const p = pinById(id);
                     const active = id === activeId;
+                    const y = board.padY?.left?.[i] ?? ((i + 1) / (board.leftColIds.length + 1) * 100);
                     return (
                       <button key={id} type="button"
                         className={`${styles.pinRow} ${active ? styles.pinRowActive : ""}`}
+                        style={{ top: `${y}%` }}
                         onClick={() => setSelId(id)}
                       >
                         <span className={styles.pinName}>{p.id}</span>
@@ -739,12 +749,14 @@ export function Pinout() {
                 </div>
 
                 <div className={`${styles.pinCol} ${styles.pinColRight}`}>
-                  {board.rightColIds.map((id) => {
+                  {board.rightColIds.map((id, i) => {
                     const p = pinById(id);
                     const active = id === activeId;
+                    const y = board.padY?.right?.[i] ?? ((i + 1) / (board.rightColIds.length + 1) * 100);
                     return (
                       <button key={id} type="button"
                         className={`${styles.pinRow} ${active ? styles.pinRowActive : ""}`}
+                        style={{ top: `${y}%` }}
                         onClick={() => setSelId(id)}
                       >
                         <span className={styles.pinName}>{p.id}</span>
