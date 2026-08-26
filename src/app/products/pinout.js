@@ -159,6 +159,11 @@ const STD_PAD_Y = {
   left:  [22.5, 33.1, 43.4, 53.7, 64.1, 74.4, 84.7],
   right: [22.5, 33.1, 43.4, 53.7, 64.1, 74.4, 84.7],
 };
+/* ESP32-S3 Sense 正面图（旋转成竖向后，由像素检测的实际焊盘圆心 Y%） */
+const S3_PAD_Y = {
+  left:  [19.94, 29.76, 39.58, 49.4, 59.23, 69.05, 78.87],
+  right: [20.24, 30.06, 39.88, 49.7, 59.52, 69.35, 79.17],
+};
 
 /* ESP32-S3：D0-D5、D8-D12 均为 ADC（D4/D5 兼 I2C，D8-D10 兼 SPI）；JTAG: MTDO/MTDI/MTCK/MTMS */
 const s3Groups = buildBoard("CHIP_PU", {
@@ -503,7 +508,7 @@ const BOARDS = {
     figureImgBack: "/xiao-products/dev_boards/s3-back.webp",
     tagline: { en: "ESP32-S3 — Wi-Fi + BLE workhorse with plenty of GPIO and PSRAM.", zh: "ESP32-S3 — Wi-Fi + BLE 主力，GPIO 多、带 PSRAM。" },
     groups: s3Groups,
-    leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
+    leftColIds: stdLeft, rightColIds: stdRight, padY: S3_PAD_Y, gpioNote: false,
     backPins: { left: ["MTDO", "GND", "MTCK", "3V3", "BAT-"], right: ["MTDI", "RST", "MTMS", "BAT+"], padY: { left: [20, 30, 40, 50, 76], right: [20, 30, 40, 76] } },
     backGroups: [backBatteryGroup()],
   },
