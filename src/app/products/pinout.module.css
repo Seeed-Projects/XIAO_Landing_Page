@@ -99,6 +99,19 @@
 }
 .boardFigureImg { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5)); }
 
+/* 背面板图框：正面 boardFigure 下方独立一块，同款深色板背景，
+   透明剪影浮上去与底板融为一体；图居中、自适应高度 */
+.boardFigureBack {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  width: 100%; max-width: 640px; margin: 0 auto; padding: 14px 6px 18px;
+  border-radius: var(--r-card);
+  background: radial-gradient(circle at 50% 40%, rgba(22,182,106,0.18), transparent 60%), linear-gradient(180deg, #0d2230 0%, #13324a 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.boardFigureCaption { font-family: var(--font-display), sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+.boardFigureBack .boardFigureImg { width: 220px; height: auto; aspect-ratio: 1224 / 1428; }
+
 .boardMeta { text-align: center; max-width: 420px; }
 .boardMeta h3 { margin: 0 0 4px; font-family: var(--font-display), sans-serif; font-size: 18px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink-strong); }
 .boardMeta p { margin: 0; font-size: 13px; color: var(--ink-body); line-height: 1.6; }
@@ -146,6 +159,7 @@
   .boardFigure { padding: 16px 4px; }
   .boardBody { flex-basis: 72px; margin: 10px 0; }
   .boardBodyImg { flex-basis: 120px; }
+  .boardFigureBack .boardFigureImg { width: 150px; }
   .boardChip { font-size: 11px; }
   .boardSub { font-size: 8px; }
   .pinName { font-size: 11px; }

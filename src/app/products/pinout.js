@@ -555,6 +555,7 @@ const BOARDS = {
     figureLabel: ["XIAO", "SAMD21"],
     figureSub: "SAMD21G18 · Cortex-M0+",
     figureImg: "/xiao-products/dev_boards/samd21-front.webp",
+    figureImgBack: "/xiao-products/dev_boards/samd21-back.webp",
     tagline: { en: "SAMD21G18 — Cortex-M0+; the original Seeeduino XIAO flagship.", zh: "SAMD21G18 — Cortex-M0+，初代 Seeeduino XIAO 旗舰。" },
     groups: samdGroups,
     leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
@@ -733,6 +734,13 @@ export function Pinout() {
                   })}
                 </div>
               </div>
+              {board.figureImgBack && (
+                <div className={styles.boardFigureBack}>
+                  <span className={styles.boardFigureCaption}>{lang === "en" ? "Back" : "背面"}</span>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={withBase(board.figureImgBack)} alt={`${board.name} back`} className={styles.boardFigureImg} />
+                </div>
+              )}
               <div className={styles.boardMeta}>
                 <h3>{board.name}</h3>
                 <p>{pick(board.tagline)}</p>
