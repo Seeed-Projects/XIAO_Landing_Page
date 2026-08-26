@@ -29,6 +29,9 @@
 .boardSelect select:hover { border-color: var(--brand-green); }
 .boardSelect select:focus { outline: none; border-color: var(--brand-green); box-shadow: 0 0 0 3px rgba(22,182,106,0.14); }
 .gpioNote { margin-left: auto; font-size: 11px; color: var(--ink-muted); font-style: italic; }
+.faceSwitch { margin-left: auto; display: inline-flex; padding: 3px; border-radius: var(--r-pill); background: var(--surface-tint); border: 1px solid var(--line-soft); }
+.faceSwitch button { border: 0; border-radius: var(--r-pill); padding: 7px 12px; background: transparent; color: var(--ink-muted); font-size: 12px; font-weight: 700; transition: background-color 180ms ease, color 180ms ease, box-shadow 180ms ease; }
+.faceSwitch button.faceActive { background: var(--surface-strong); color: var(--brand-green-deep); box-shadow: 0 3px 10px rgba(0,73,102,.10); }
 
 /* 工作区卡片 */
 .workspace { background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-card); box-shadow: var(--shadow-card); overflow: hidden; backdrop-filter: blur(18px); }
@@ -61,7 +64,7 @@
   background: radial-gradient(circle at 50% 40%, rgba(22,182,106,0.18), transparent 60%), linear-gradient(180deg, #0d2230 0%, #13324a 100%);
   border: 1px solid rgba(255,255,255,0.08);
   box-shadow: 0 18px 40px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05);
-  overflow: hidden;
+  overflow: hidden; min-height: 470px;
 }
 .pinCol { position: relative; flex: 1 1 0; min-width: 0; }
 .pinRow {
@@ -76,9 +79,10 @@
 .pinFunc { font-size: 9.5px; color: #7e8f86; font-weight: 500; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
 .pinLead { flex: 1; height: 1px; min-width: 10px; background: rgba(255,255,255,0.16); transition: background 180ms ease, height 180ms ease; }
 .pinPad { width: 9px; height: 9px; border-radius: 2px; flex: 0 0 auto; box-shadow: 0 0 0 2px rgba(255,255,255,0.08); }
-.pinRowActive { background: rgba(255,255,255,0.06); box-shadow: inset 0 0 0 1px rgba(22,182,106,0.5); }
+.pinRowActive { background: rgba(255,255,255,0.08); box-shadow: inset 0 0 0 1px rgba(22,182,106,0.72), 0 0 24px rgba(22,182,106,.12); }
 .pinRowActive .pinName { color: #fff; }
 .pinRowActive .pinLead { height: 2px; }
+.pinRowActive .pinPad { transform: scale(1.35); box-shadow: 0 0 0 4px rgba(255,255,255,.13), 0 0 18px currentColor; }
 
 .boardBody {
   flex: 0 0 96px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
@@ -100,7 +104,7 @@
 }
 /* 正面板子图：高度驱动布局——pinCol 与图同高，引脚按焊盘 Y% 对齐 */
 .boardFigureImg { object-fit: contain; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5)); }
-.boardBodyImg .boardFigureImg { display: block; height: clamp(300px, 40vh, 420px); width: auto; }
+.boardBodyImg .boardFigureImg { display: block; height: clamp(330px, 42vh, 440px); width: auto; }
 
 /* 背面板图框：正面 boardFigure 下方独立一块，同款深色板背景，
    透明剪影浮上去与底板融为一体；图居中、自适应高度 */
@@ -168,6 +172,7 @@
   .pinName { font-size: 11px; }
   .pinFunc { display: none; }
   .boardBar { align-items: stretch; flex-direction: column; }
+  .faceSwitch { margin-left: 0; align-self: flex-start; }
   .boardSelect, .boardSelect select { width: 100%; }
   .gpioNote { margin-left: 0; }
   .detailHead { align-items: flex-start; flex-wrap: wrap; }

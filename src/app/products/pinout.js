@@ -587,6 +587,11 @@ const BOARDS = {
     tagline: { en: "SAMD21G18 — Cortex-M0+; the original Seeeduino XIAO flagship.", zh: "SAMD21G18 — Cortex-M0+，初代 Seeeduino XIAO 旗舰。" },
     groups: samdGroups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
+    backPins: {
+      left: ["SWCLK", "GND"],
+      right: ["SWDIO", "RST", "5V"],
+      padY: { left: [18, 82], right: [18, 31, 82] },
+    },
   },
   mg24: {
     name: "XIAO MG24",
@@ -603,7 +608,8 @@ const BOARD_ORDER = ["nrf54", "s3", "c3", "c6", "c5", "nrf54l15", "nrf52", "rp20
 
 export function Pinout() {
   const { lang } = useLang();
-  const [boardId, setBoardId] = useState("nrf54");
+  const [boardId, setBoardId] = useState("samd21");
+  const [face, setFace] = useState("front");
   const [selId, setSelId] = useState("A0");
   const [copied, setCopied] = useState(false);
   const copyTimer = useRef(null);
@@ -632,10 +638,26 @@ export function Pinout() {
     copy: lang === "zh" ? "复制" : "Copy",
     copied: lang === "zh" ? "已复制" : "Copied",
     boardLabel: lang === "zh" ? "板型" : "Board",
+    front: lang === "zh" ? "正面引脚" : "Front pins",
+    back: lang === "zh" ? "背面焊盘" : "Back pads",
     gpioNote: lang === "zh" ? "GPIO 编号以 Seeed Wiki 对应板型为准" : "GPIO numbers per Seeed Wiki for each board",
   };
 
   const noteText = pin.note ? pick(pin.note) : "";
+
+  function fallbackCopy(text, done) {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      done();
+    } catch {}
+  }
 
   const handleCopy = useCallback(() => {
     const text = pin.code || T.codeEmpty;
@@ -649,22 +671,7 @@ export function Pinout() {
     } else {
       fallbackCopy(text, done);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pin.code, T.codeEmpty]);
-
-  const fallbackCopy = (text, done) => {
-    try {
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      ta.style.position = "fixed";
-      ta.style.opacity = "0";
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
-      done();
-    } catch {}
-  };
 
   return (
     <div className={`${styles.pinout} scroll-mt-28`} id="pinout">
@@ -677,12 +684,18 @@ export function Pinout() {
         <div className={styles.boardBar}>
           <label className={styles.boardBarLabel}>{T.boardLabel}</label>
           <div className={styles.boardSelect}>
-            <select value={boardId} onChange={(e) => setBoardId(e.target.value)} aria-label={T.boardLabel}>
+            <select value={boardId} onChange={(e) => { setBoardId(e.target.value); setFace("front"); }} aria-label={T.boardLabel}>
               {BOARD_ORDER.map((k) => (
                 <option key={k} value={k}>{BOARDS[k].name}</option>
               ))}
             </select>
           </div>
+          {board.backPins && (
+            <div className={styles.faceSwitch} aria-label={lang === "zh" ? "选择板子正反面" : "Choose board face"}>
+              <button type="button" className={face === "front" ? styles.faceActive : ""} onClick={() => { setFace("front"); setSelId(board.leftColIds[0]); }}>{T.front}</button>
+              <button type="button" className={face === "back" ? styles.faceActive : ""} onClick={() => { setFace("back"); setSelId(board.backPins.left[0]); }}>{T.back}</button>
+            </div>
+          )}
           {board.gpioNote && <span className={styles.gpioNote}>{T.gpioNote}</span>}
         </div>
 
@@ -717,10 +730,11 @@ export function Pinout() {
             <div className={styles.centerPanel}>
               <div className={styles.boardFigure}>
                 <div className={`${styles.pinCol} ${styles.pinColLeft}`}>
-                  {board.leftColIds.map((id, i) => {
+                  {(face === "back" && board.backPins ? board.backPins.left : board.leftColIds).map((id, i) => {
                     const p = pinById(id);
                     const active = id === activeId;
-                    const y = board.padY?.left?.[i] ?? ((i + 1) / (board.leftColIds.length + 1) * 100);
+                    const ids = face === "back" && board.backPins ? board.backPins.left : board.leftColIds;
+                    const y = (face === "back" && board.backPins ? board.backPins.padY?.left?.[i] : board.padY?.left?.[i]) ?? ((i + 1) / (ids.length + 1) * 100);
                     return (
                       <button key={id} type="button"
                         className={`${styles.pinRow} ${active ? styles.pinRowActive : ""}`}
@@ -739,7 +753,7 @@ export function Pinout() {
                 <div className={`${styles.boardBody} ${board.figureImg ? styles.boardBodyImg : ""}`}>
                   {board.figureImg ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={withBase(board.figureImg)} alt={board.name} className={styles.boardFigureImg} />
+                    <img src={withBase(face === "back" ? board.figureImgBack : board.figureImg)} alt={`${board.name} ${face}`} className={styles.boardFigureImg} />
                   ) : (
                     <>
                       <div className={styles.boardChip}>{board.figureLabel[0]}<br />{board.figureLabel[1]}</div>
@@ -749,10 +763,11 @@ export function Pinout() {
                 </div>
 
                 <div className={`${styles.pinCol} ${styles.pinColRight}`}>
-                  {board.rightColIds.map((id, i) => {
+                  {(face === "back" && board.backPins ? board.backPins.right : board.rightColIds).map((id, i) => {
                     const p = pinById(id);
                     const active = id === activeId;
-                    const y = board.padY?.right?.[i] ?? ((i + 1) / (board.rightColIds.length + 1) * 100);
+                    const ids = face === "back" && board.backPins ? board.backPins.right : board.rightColIds;
+                    const y = (face === "back" && board.backPins ? board.backPins.padY?.right?.[i] : board.padY?.right?.[i]) ?? ((i + 1) / (ids.length + 1) * 100);
                     return (
                       <button key={id} type="button"
                         className={`${styles.pinRow} ${active ? styles.pinRowActive : ""}`}
@@ -768,13 +783,6 @@ export function Pinout() {
                   })}
                 </div>
               </div>
-              {board.figureImgBack && (
-                <div className={styles.boardFigureBack}>
-                  <span className={styles.boardFigureCaption}>{lang === "en" ? "Back" : "背面"}</span>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={withBase(board.figureImgBack)} alt={`${board.name} back`} className={styles.boardFigureImg} />
-                </div>
-              )}
               <div className={styles.boardMeta}>
                 <h3>{board.name}</h3>
                 <p>{pick(board.tagline)}</p>
