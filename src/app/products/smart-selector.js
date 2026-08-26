@@ -36,20 +36,13 @@ const slug = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g
 /* 向导用字段的默认空值（向导已下线，仅占位防崩；features 留空，筛选只展示无线标签） */
 const WIZ_DEFAULTS = { scenarios: [], experience: [], production: false, scoreBias: 0, features: [], bestFor: { en: "", zh: "" }, caution: { en: "", zh: "" }, specs: {}, reasons: [] };
 const devBoardsCatalog = PRODUCT_CATALOG.find((c) => c.id === "dev-boards");
-/* 二级菜单数据：与产品页 dev-boards 子分类一致（芯片版型 → 具体型号） */
-const FAMILIES = devBoardsCatalog.subcategories.map((sub) => ({
-  id: sub.id,
-  label: sub.label,
-  labelEn: sub.labelEn,
-  models: sub.items,
-}));
-const products = FAMILIES.flatMap((f) =>
-  f.models.map((item) => {
+const products = devBoardsCatalog.subcategories.flatMap((sub) =>
+  sub.items.map((item) => {
     const m = BOARD_META[item.title] ?? { wireless: [], power: "standard" };
     const tag = item.descEn || item.desc || "";
     return {
-      id: slug(item.title), name: item.title, family: FAMILY_BY_SUB[f.id] ?? "Other",
-      subId: f.id, img: withBase(item.img), link: item.link,
+      id: slug(item.title), name: item.title, family: FAMILY_BY_SUB[sub.id] ?? "Other",
+      img: withBase(item.img), link: item.link,
       wireless: m.wireless, power: m.power, tagline: { en: tag, zh: tag },
       ...WIZ_DEFAULTS,
     };
@@ -242,11 +235,9 @@ export function SmartSelector() {
   const [showResult, setShowResult] = useState(false);
   const [aiText, setAiText] = useState("");
   const [compare, setCompare] = useState([]);
+  const [filter, setFilter] = useState({ wireless: "all", family: "all", power: "all" });
   const [compareOpen, setCompareOpen] = useState(false);
   const [toast, setToast] = useState(null);
-  /* 二级菜单：activeFamily = 芯片版型（sub id 或 "all"），activeModel = 具体型号（product id 或 "all"） */
-  const [activeFamily, setActiveFamily] = useState("all");
-  const [activeModel, setActiveModel] = useState("all");
   const toastTimer = useRef(null);
 
   const pick = (field) => (field && field[lang]) || (field && field.en) || "";
@@ -331,13 +322,26 @@ export function SmartSelector() {
     catch { showToast(text); }
   };
 
-  // Filter mode —— 二级菜单：芯片版型 → 具体型号
-  const filteredProducts = useMemo(() => {
-    if (activeModel !== "all") return products.filter((p) => p.id === activeModel);
-    if (activeFamily !== "all") return products.filter((p) => p.subId === activeFamily);
-    return products;
-  }, [activeFamily, activeModel]);
-  const activeFamilyObj = FAMILIES.find((f) => f.id === activeFamily);
+  const wirelessOptions = [
+    ["all", "全部", "All"], ["Wi-Fi", "Wi-Fi", "Wi-Fi"], ["BLE", "BLE", "Bluetooth LE"],
+    ["Matter", "Matter", "Matter"], ["Thread", "Thread", "Thread"], ["Zigbee", "Zigbee", "Zigbee"],
+    ["NFC", "NFC", "NFC"], ["none", "无无线", "No wireless"],
+  ];
+  const familyOptions = [
+    ["all", "全部", "All"], ["ESP32", "ESP32", "ESP32"], ["Nordic", "Nordic", "Nordic"],
+    ["Silicon Labs", "Silicon Labs", "Silicon Labs"], ["Raspberry Pi", "Raspberry Pi", "Raspberry Pi"],
+    ["Microchip", "Microchip", "Microchip"], ["Renesas", "Renesas", "Renesas"],
+  ];
+  const powerOptions = [
+    ["all", "全部", "All"], ["standard", "标准", "Standard"],
+    ["low", "低功耗", "Low power"], ["ultra-low", "超低功耗", "Ultra-low"],
+  ];
+  const filteredProducts = useMemo(() => products.filter((p) => {
+    const matchW = filter.wireless === "all" || (filter.wireless === "none" ? p.wireless.length === 0 : p.wireless.includes(filter.wireless));
+    const matchF = filter.family === "all" || p.family === filter.family;
+    const matchP = filter.power === "all" || p.power === filter.power;
+    return matchW && matchF && matchP;
+  }), [filter]);
 
   const compareSelected = compare.map((id) => products.find((p) => p.id === id));
 
@@ -518,31 +522,24 @@ export function SmartSelector() {
             {/* —— 以下为"按参数筛选"视图，保留 —— */}
             <section className={styles.filterView}>
                 <div className={styles.filterHead}>
-                  <div><h2>{lang === "zh" ? "按芯片版型选型" : "Browse by chip family"}</h2><p>{lang === "zh" ? "先选芯片平台，再选具体型号；分类与产品页一致。" : "Pick a chip family, then a specific board — mirrors the product page."}</p></div>
-                  <button className={styles.secondaryBtn} type="button" onClick={() => { setActiveFamily("all"); setActiveModel("all"); }}>{lang === "zh" ? "重置" : "Reset"}</button>
+                  <div><h2>{lang === "zh" ? "按参数筛选" : "Filter by specs"}</h2><p>{lang === "zh" ? "适合已经明确无线协议、芯片平台或功耗方向的用户。" : "For users who already know the wireless protocol, chip family or power tier."}</p></div>
+                  <button className={styles.secondaryBtn} type="button" onClick={() => setFilter({ wireless: "all", family: "all", power: "all" })}>{lang === "zh" ? "重置筛选" : "Reset"}</button>
                 </div>
                 <div className={styles.filterToolbar}>
-                  {/* 一级：芯片版型（对齐产品页 dev-boards 子分类） */}
-                  <div className={styles.filterRow}>
-                    <div className={styles.filterLabel}>{lang === "zh" ? "芯片版型" : "Chip family"}</div>
-                    <button type="button" className={`${styles.filterChip} ${activeFamily === "all" ? styles.active : ""}`} onClick={() => { setActiveFamily("all"); setActiveModel("all"); }}>{lang === "zh" ? "全部" : "All"}</button>
-                    {FAMILIES.map((f) => (
-                      <button key={f.id} type="button" className={`${styles.filterChip} ${activeFamily === f.id ? styles.active : ""}`} onClick={() => { setActiveFamily(f.id); setActiveModel("all"); }}>{f.label}</button>
-                    ))}
-                  </div>
-                  {/* 二级：具体型号（仅在选中版型后出现） */}
-                  {activeFamilyObj && (
-                    <div className={styles.filterRow}>
-                      <div className={styles.filterLabel}>{lang === "zh" ? "型号" : "Model"}</div>
-                      <button type="button" className={`${styles.filterChip} ${activeModel === "all" ? styles.active : ""}`} onClick={() => setActiveModel("all")}>{lang === "zh" ? "全部" : "All"}</button>
-                      {activeFamilyObj.models.map((item) => {
-                        const pid = slug(item.title);
-                        return (
-                          <button key={pid} type="button" className={`${styles.filterChip} ${activeModel === pid ? styles.active : ""}`} onClick={() => setActiveModel(pid)}>{item.title}</button>
-                        );
-                      })}
+                  {[
+                    ["wireless", lang === "zh" ? "无线能力" : "Wireless", wirelessOptions],
+                    ["family", lang === "zh" ? "芯片平台" : "Chip family", familyOptions],
+                    ["power", lang === "zh" ? "功耗定位" : "Power", powerOptions],
+                  ].map(([key, label, options]) => (
+                    <div key={key} className={styles.filterRow}>
+                      <div className={styles.filterLabel}>{label}</div>
+                      {options.map(([value, zh, en]) => (
+                        <button key={value} type="button" className={`${styles.filterChip} ${filter[key] === value ? styles.active : ""}`} onClick={() => setFilter((prev) => ({ ...prev, [key]: value }))}>
+                          {lang === "zh" ? zh : en}
+                        </button>
+                      ))}
                     </div>
-                  )}
+                  ))}
                 </div>
                 <div className={styles.catalogHead}>
                   <strong>{lang === "zh" ? "符合条件的产品" : "Matching boards"}</strong>

@@ -160,8 +160,9 @@ const stdRight = ["5V", "GND", "3V3", "D10", "D9", "D8", "D7"];
    用来把引脚标签按真实焊盘高度绝对定位，使连线落在板子图的焊盘上。
    均匀分布作起点，按线上效果逐个微调即可。 */
 const STD_PAD_Y = {
-  left:  [12, 24, 36, 48, 60, 72, 84],
-  right: [12, 24, 36, 48, 60, 72, 84],
+  /* 以透明板图的实际焊盘圆心测量，不是等分猜测值。 */
+  left:  [22.5, 33.1, 43.4, 53.7, 64.1, 74.4, 84.7],
+  right: [22.5, 33.1, 43.4, 53.7, 64.1, 74.4, 84.7],
 };
 
 /* ESP32-S3：D0-D5、D8-D12 均为 ADC（D4/D5 兼 I2C，D8-D10 兼 SPI）；JTAG: MTDO/MTDI/MTCK/MTMS */
@@ -786,6 +787,15 @@ export function Pinout() {
               <div className={styles.boardMeta}>
                 <h3>{board.name}</h3>
                 <p>{pick(board.tagline)}</p>
+              </div>
+              <div className={styles.pinLegend} aria-label={lang === "zh" ? "引脚功能图例" : "Pin function legend"}>
+                {[
+                  ["power", lang === "zh" ? "电源" : "Power"], ["gnd", "GND"],
+                  ["digital", "Digital GPIO"], ["analog", "ADC"], ["i2c", "I2C"],
+                  ["spi", "SPI"], ["uart", "UART"], ["rst", lang === "zh" ? "系统" : "System"],
+                ].map(([fn, label]) => (
+                  <span key={fn}><i style={{ background: FN_COLOR[fn] }} />{label}</span>
+                ))}
               </div>
             </div>
 
