@@ -605,7 +605,17 @@ const BOARDS = {
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
   },
 };
-const BOARD_ORDER = ["nrf54", "s3", "c3", "c6", "c5", "nrf54l15", "nrf52", "rp2040", "rp2350", "ra4", "samd21", "mg24"];
+/* 与产品页 Development Boards 的分类保持一致。BOARD 选择器只在这里分级，
+   不影响页面上方独立的 XIAO Selector。 */
+const BOARD_CATEGORIES = [
+  { label: "Espressif ESP32 Series", ids: ["s3", "c3", "c6", "c5"] },
+  { label: "Nordic nRF52 Series", ids: ["nrf52"] },
+  { label: "Nordic nRF54 Series", ids: ["nrf54", "nrf54l15"] },
+  { label: "Raspberry Pi RP Series", ids: ["rp2040", "rp2350"] },
+  { label: "Silicon Labs MG Series", ids: ["mg24"] },
+  { label: "Microchip SAMD Series", ids: ["samd21"] },
+  { label: "Renesas RA Series", ids: ["ra4"] },
+];
 
 export function Pinout() {
   const { lang } = useLang();
@@ -685,16 +695,18 @@ export function Pinout() {
         <div className={styles.boardBar}>
           <label className={styles.boardBarLabel}>{T.boardLabel}</label>
           <div className={styles.boardSelect}>
-            <select value={boardId} onChange={(e) => { setBoardId(e.target.value); setFace("front"); }} aria-label={T.boardLabel}>
-              {BOARD_ORDER.map((k) => (
-                <option key={k} value={k}>{BOARDS[k].name}</option>
+            <select value={boardId} onChange={(e) => { const id = e.target.value; setBoardId(id); setFace("front"); setSelId(BOARDS[id].leftColIds[0]); }} aria-label={T.boardLabel}>
+              {BOARD_CATEGORIES.map((category) => (
+                <optgroup key={category.label} label={category.label}>
+                  {category.ids.map((id) => <option key={id} value={id}>{BOARDS[id].name}</option>)}
+                </optgroup>
               ))}
             </select>
           </div>
-          {board.backPins && (
+          {board.figureImgBack && (
             <div className={styles.faceSwitch} aria-label={lang === "zh" ? "选择板子正反面" : "Choose board face"}>
               <button type="button" className={face === "front" ? styles.faceActive : ""} onClick={() => { setFace("front"); setSelId(board.leftColIds[0]); }}>{T.front}</button>
-              <button type="button" className={face === "back" ? styles.faceActive : ""} onClick={() => { setFace("back"); setSelId(board.backPins.left[0]); }}>{T.back}</button>
+              <button type="button" className={face === "back" ? styles.faceActive : ""} onClick={() => { setFace("back"); setSelId((board.backPins?.left || board.leftColIds)[0]); }}>{T.back}</button>
             </div>
           )}
           {board.gpioNote && <span className={styles.gpioNote}>{T.gpioNote}</span>}
