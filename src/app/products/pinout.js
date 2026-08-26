@@ -32,9 +32,9 @@ const nrf54Groups = [
     { id: "VBUS", xiao: "VBUS", fn: "power", chip: "—", desc: { en: "5V Power Input/Output", zh: "5V 电源输入/输出" }, note: { en: "From USB VBus; keep peripheral load under 500mA.", zh: "来自 USB VBus，外设供电勿超过 500mA。" }, code: "" },
     { id: "GND", xiao: "GND", fn: "gnd", chip: "—", desc: { en: "Ground", zh: "地" }, note: { en: "Share a common ground with all peripherals.", zh: "所有外设务必共地。" }, code: "" },
     { id: "3V3", xiao: "3V3", fn: "power", chip: "3V3-OUT", desc: { en: "3.3V Power Output", zh: "3.3V 电源输出" }, note: { en: "Max output ~300mA; use a separate supply beyond that.", zh: "最大输出约 300mA，超出请独立供电。" }, code: "" },
-    { id: "BAT+", xiao: "BAT+", fn: "power", chip: "BAT+", face: "back", desc: { en: "Battery Input (monitored by nPM1300 via I²C)", zh: "电池输入（由 nPM1300 经 I²C 监测）" }, note: { en: "Connect to LiPo positive; charge level monitored by nPM1300.", zh: "接锂电池正极，电量由 nPM1300 监测。" }, code: "" },
-    { id: "BAT-", xiao: "BAT-", fn: "gnd", chip: "BAT-", face: "back", desc: { en: "Battery Negative Terminal", zh: "电池负极" }, note: { en: "Connect to battery negative; common with GND.", zh: "接电池负极，与 GND 共地。" }, code: "" },
-    { id: "SHPHLD", xiao: "SHPHLD", fn: "rst", chip: "SHPHLD", face: "back", desc: { en: "PMIC Ship/Hibernate Mode Control (ultra-low-power shipping state)", zh: "PMIC Ship/Hibernate 模式控制（超低功耗运输状态）" }, note: { en: "Pull low to enter ship mode; saves power in shipping/storage.", zh: "拉低进入 ship 模式，运输/仓储时省电。" }, code: "" },
+    { id: "BAT+", xiao: "BAT+", fn: "power", chip: "BAT+", desc: { en: "Battery Input (monitored by nPM1300 via I²C)", zh: "电池输入（由 nPM1300 经 I²C 监测）" }, note: { en: "Connect to LiPo positive; charge level monitored by nPM1300.", zh: "接锂电池正极，电量由 nPM1300 监测。" }, code: "" },
+    { id: "BAT-", xiao: "BAT-", fn: "gnd", chip: "BAT-", desc: { en: "Battery Negative Terminal", zh: "电池负极" }, note: { en: "Connect to battery negative; common with GND.", zh: "接电池负极，与 GND 共地。" }, code: "" },
+    { id: "SHPHLD", xiao: "SHPHLD", fn: "rst", chip: "SHPHLD", desc: { en: "PMIC Ship/Hibernate Mode Control (ultra-low-power shipping state)", zh: "PMIC Ship/Hibernate 模式控制（超低功耗运输状态）" }, note: { en: "Pull low to enter ship mode; saves power in shipping/storage.", zh: "拉低进入 ship 模式，运输/仓储时省电。" }, code: "" },
   ] },
   { cat: "system", label: { en: "System & Control", zh: "系统与控制" }, pins: [
     { id: "RESET", xiao: "RESET", fn: "rst", chip: "—", desc: { en: "Board Reset", zh: "板载复位" }, note: { en: "Active-low reset; onboard pull-up.", zh: "低电平复位，已板载上拉。" }, code: "" },
@@ -82,6 +82,16 @@ const nrf54Groups = [
   ] },
 ];
 
+/* nRF54 板子示意图：左右两列排出全部引脚 */
+const nrf54Left = [
+  "VBUS", "BAT+", "BAT-", "SHPHLD", "RESET", "SWCLK", "SWDIO", "SAMD11_RESET",
+  "A0", "A1", "A2", "A3", "A7", "SDA", "SCL", "BAT_SDA", "BAT_SCL", "GND", "3V3",
+];
+const nrf54Right = [
+  "USER_BUTTON", "RGB_R", "RGB_G", "RGB_B", "TX", "RX", "MOSI", "MISO", "SCK",
+  "MIC_CLK", "MIC_DAT", "IMU_SDA", "IMU_SCL", "IMU_CS", "IMU_INT1", "NFC", "GRTC",
+];
+
 /* ──────────────────────────────────────────────────────────────────────────
    标准封装板（SAMD21 / nRF52840 / nRF54L15 / RP2040 / RP2350 / RA4M1 / MG24
    / ESP32-S3·C3·C5·C6）的引脚数据 —— 逐板按各自 Seeed Wiki 的 Pin Map 重建。
@@ -95,7 +105,6 @@ const P = (id, xiao, fn, chip, en, zh, o = {}) => {
     id, xiao, fn, chip,
     desc: { en: en + a, zh: zh + a },
     note: o.n ? { en: o.n, zh: o.nz || o.n } : "",
-    face: o.face,
     code: o.c || "",
   };
 };
@@ -106,8 +115,6 @@ const powerGroup = () => grp("power", "Power", "电源",
   P("5V", "5V", "power", "VBUS", "5V Power Input/Output (USB VBus)", "5V 电源输入/输出（USB VBus）", { n: "From USB; keep peripheral load under 500mA.", nz: "来自 USB，外设勿超 500mA。" }),
   P("GND", "GND", "gnd", "—", "Ground", "地", { n: "Common ground for all peripherals.", nz: "所有外设共地。" }),
   P("3V3", "3V3", "power", "3V3_OUT", "3.3V Power Output", "3.3V 电源输出", { n: "Max output ~200mA; use a separate supply beyond that.", nz: "最大输出约 200mA，超出请独立供电。" }),
-  P("BAT-", "BAT-", "gnd", "BAT-", "Battery negative back pad", "背面电池负极焊盘", { face: "back" }),
-  P("BAT+", "BAT+", "power", "BAT+", "Battery positive back pad", "背面电池正极焊盘", { face: "back" }),
 );
 const systemGroup = (chip) => grp("system", "System", "系统",
   P("RST", "RST", "rst", chip, "Board Reset", "板载复位", { n: "Active-low reset; onboard pull-up.", nz: "低电平复位，已板载上拉。" }),
@@ -478,16 +485,8 @@ const BOARDS = {
     figureImgBack: "/xiao-products/dev_boards/nrf54-back.webp",
     tagline: { en: "nRF54LM20A + nPM1300 + SAMD11 — ultra-low-power wireless controller", zh: "nRF54LM20A + nPM1300 + SAMD11，超低功耗无线主控" },
     groups: nrf54Groups,
-    /* M20A 正面只标外圈 14 个 XIAO 排针；电池、SWD 和协处理器焊盘属于背面。 */
-    leftColIds: ["A0", "A1", "A2", "A3", "SDA", "SCL", "TX"],
-    rightColIds: ["VBUS", "GND", "3V3", "MOSI", "MISO", "SCK", "RX"],
-    padY: STD_PAD_Y,
-    backPads: [
-      { id: "SWCLK", x: 40, y: 14 }, { id: "SWDIO", x: 60, y: 14 },
-      { id: "RESET", x: 60, y: 25 }, { id: "3V3", x: 40, y: 36 },
-      { id: "BAT-", x: 44, y: 70 }, { id: "BAT+", x: 56, y: 70 },
-      { id: "SHPHLD", x: 32, y: 94 },
-    ],
+    leftColIds: nrf54Left,
+    rightColIds: nrf54Right,
     gpioNote: false,
   },
   s3: {
@@ -499,7 +498,6 @@ const BOARDS = {
     tagline: { en: "ESP32-S3 — Wi-Fi + BLE workhorse with plenty of GPIO and PSRAM.", zh: "ESP32-S3 — Wi-Fi + BLE 主力，GPIO 多、带 PSRAM。" },
     groups: s3Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
-    backPads: [{ id: "MTDO", x: 42, y: 20 }, { id: "MTDI", x: 58, y: 20 }, { id: "MTCK", x: 42, y: 38 }, { id: "MTMS", x: 58, y: 38 }, { id: "BAT-", x: 44, y: 72 }, { id: "BAT+", x: 57, y: 72 }],
   },
   c3: {
     name: "XIAO ESP32-C3",
@@ -510,7 +508,6 @@ const BOARDS = {
     tagline: { en: "ESP32-C3 — compact RISC-V for Wi-Fi + BLE basics.", zh: "ESP32-C3 — RISC-V 小巧，Wi-Fi + BLE 入门。" },
     groups: c3Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
-    backPads: [{ id: "MTDO", x: 40, y: 15 }, { id: "MTDI", x: 58, y: 15 }, { id: "MTCK", x: 40, y: 31 }, { id: "MTMS", x: 58, y: 31 }, { id: "BAT-", x: 57, y: 44 }, { id: "BAT+", x: 70, y: 44 }, { id: "Boot", x: 78, y: 91 }],
   },
   c6: {
     name: "XIAO ESP32-C6",
@@ -521,7 +518,6 @@ const BOARDS = {
     tagline: { en: "ESP32-C6 — Wi-Fi 6, BLE, and Thread/Zigbee for Matter smart-home.", zh: "ESP32-C6 — Wi-Fi 6 + BLE + Thread/Zigbee，适合 Matter 智能家居。" },
     groups: c6Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
-    backPads: [{ id: "MTDO", x: 40, y: 18 }, { id: "MTDI", x: 59, y: 18 }, { id: "MTCK", x: 40, y: 35 }, { id: "MTMS", x: 59, y: 35 }, { id: "Boot", x: 58, y: 47 }, { id: "BAT-", x: 44, y: 75 }, { id: "BAT+", x: 58, y: 75 }],
   },
   c5: {
     name: "XIAO ESP32-C5",
@@ -532,7 +528,6 @@ const BOARDS = {
     tagline: { en: "ESP32-C5 — Wi-Fi 6 + BLE 5 on the XIAO footprint.", zh: "ESP32-C5 — XIAO 封装上的 Wi-Fi 6 + BLE 5。" },
     groups: c5Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
-    backPads: [{ id: "MTDO", x: 40, y: 18 }, { id: "MTDI", x: 59, y: 18 }, { id: "MTCK", x: 40, y: 35 }, { id: "MTMS", x: 59, y: 35 }, { id: "Boot", x: 59, y: 46 }, { id: "BAT-", x: 44, y: 75 }, { id: "BAT+", x: 58, y: 75 }],
   },
   nrf54l15: {
     name: "XIAO nRF54L15",
@@ -543,7 +538,6 @@ const BOARDS = {
     tagline: { en: "nRF54L15 — 128MHz Cortex-M33, low-power BLE 5.4 + NFC.", zh: "nRF54L15 — 128MHz Cortex-M33，低功耗 BLE 5.4 + NFC。" },
     groups: nrf54l15Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
-    backPads: [{ id: "SWCLK", x: 40, y: 13 }, { id: "SWDIO", x: 59, y: 13 }, { id: "nRST", x: 59, y: 24 }, { id: "D11", x: 34, y: 33 }, { id: "D15", x: 66, y: 33 }, { id: "D12", x: 34, y: 43 }, { id: "D14", x: 66, y: 43 }, { id: "D13", x: 66, y: 53 }, { id: "BAT-", x: 44, y: 70 }, { id: "BAT+", x: 57, y: 70 }],
   },
   nrf52: {
     name: "XIAO nRF52840",
@@ -554,7 +548,6 @@ const BOARDS = {
     tagline: { en: "nRF52840 — BLE 5.4, NFC, battery charging; the first wireless XIAO.", zh: "nRF52840 — BLE 5.4、NFC、电池充电，首款无线 XIAO。" },
     groups: nrf52Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
-    backPads: [{ id: "BAT-", x: 58, y: 42 }, { id: "BAT+", x: 72, y: 42 }],
   },
   rp2040: {
     name: "XIAO RP2040",
@@ -565,7 +558,6 @@ const BOARDS = {
     tagline: { en: "RP2040 — dual Cortex-M0+ 133MHz; the smallest Raspberry Pi Pico.", zh: "RP2040 — 双核 Cortex-M0+ 133MHz，最小的树莓派 Pico。" },
     groups: rp2040Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
-    backPads: [{ id: "SWCLK", x: 42, y: 18 }, { id: "SWDIO", x: 58, y: 18 }, { id: "BAT-", x: 44, y: 89 }, { id: "BAT+", x: 58, y: 89 }, { id: "Boot", x: 13, y: 91 }, { id: "RST", x: 87, y: 91 }],
   },
   rp2350: {
     name: "XIAO RP2350",
@@ -576,11 +568,6 @@ const BOARDS = {
     tagline: { en: "RP2350 — dual Cortex-M33 150MHz + Hazard3 RISC-V, RGB LED, 19 GPIO.", zh: "RP2350 — 双核 Cortex-M33 150MHz + Hazard3 RISC-V，RGB LED，19 GPIO。" },
     groups: rp2350Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
-    backPads: [
-      { id: "D11", x: 35, y: 31 }, { id: "D18", x: 65, y: 31 }, { id: "D12", x: 35, y: 39 }, { id: "D17", x: 65, y: 39 },
-      { id: "D13", x: 35, y: 47 }, { id: "D16", x: 65, y: 47 }, { id: "D14", x: 35, y: 55 }, { id: "D15", x: 65, y: 55 }, { id: "Boot", x: 59, y: 24 },
-      { id: "BAT-", x: 44, y: 74 }, { id: "BAT+", x: 58, y: 74 },
-    ],
   },
   ra4: {
     name: "XIAO RA4M1",
@@ -591,11 +578,6 @@ const BOARDS = {
     tagline: { en: "RA4M1 — Cortex-M4 48MHz; same chip as Arduino Uno R4.", zh: "RA4M1 — Cortex-M4 48MHz，与 Arduino Uno R4 同芯。" },
     groups: ra4Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
-    backPads: [
-      { id: "D11", x: 35, y: 31 }, { id: "D18", x: 65, y: 31 }, { id: "D12", x: 35, y: 39 }, { id: "D17", x: 65, y: 39 },
-      { id: "D13", x: 35, y: 47 }, { id: "D16", x: 65, y: 47 }, { id: "D14", x: 35, y: 55 }, { id: "D15", x: 65, y: 55 }, { id: "Boot", x: 59, y: 24 },
-      { id: "BAT-", x: 44, y: 74 }, { id: "BAT+", x: 58, y: 74 },
-    ],
   },
   samd21: {
     name: "XIAO SAMD21",
@@ -606,7 +588,11 @@ const BOARDS = {
     tagline: { en: "SAMD21G18 — Cortex-M0+; the original Seeeduino XIAO flagship.", zh: "SAMD21G18 — Cortex-M0+，初代 Seeeduino XIAO 旗舰。" },
     groups: samdGroups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
-    backPads: [{ id: "SWCLK", x: 42, y: 19 }, { id: "SWDIO", x: 58, y: 19 }, { id: "RST", x: 58, y: 30 }, { id: "BAT-", x: 44, y: 89 }, { id: "BAT+", x: 58, y: 89 }],
+    backPins: {
+      left: ["SWCLK", "GND"],
+      right: ["SWDIO", "RST", "5V"],
+      padY: { left: [18, 82], right: [18, 31, 82] },
+    },
   },
   mg24: {
     name: "XIAO MG24",
@@ -617,11 +603,6 @@ const BOARDS = {
     tagline: { en: "EFR32MG24 — Cortex-M33 with Zigbee/Thread for Matter.", zh: "EFR32MG24 — Cortex-M33，Zigbee/Thread，适合 Matter。" },
     groups: mg24Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
-    backPads: [
-      { id: "D11", x: 35, y: 29 }, { id: "D18", x: 65, y: 29 }, { id: "D12", x: 35, y: 37 }, { id: "D17", x: 65, y: 37 },
-      { id: "D13", x: 35, y: 45 }, { id: "D16", x: 65, y: 45 }, { id: "D14", x: 35, y: 53 }, { id: "D15", x: 65, y: 53 },
-      { id: "BAT-", x: 44, y: 68 }, { id: "BAT+", x: 58, y: 68 },
-    ],
   },
 };
 /* 与产品页 Development Boards 的分类保持一致。BOARD 选择器只在这里分级，
@@ -647,12 +628,6 @@ export function Pinout() {
   const groups = board.groups;
   const allPins = groups.flatMap((g) => g.pins);
   const pinById = (id) => allPins.find((p) => p.id === id);
-  const visibleIds = new Set(face === "front"
-    ? [...board.leftColIds, ...board.rightColIds]
-    : [...board.leftColIds, ...board.rightColIds, ...(board.backPads || []).map((p) => p.id)]);
-  const visibleGroups = groups
-    .map((g) => ({ ...g, pins: g.pins.filter((p) => visibleIds.has(p.id) && (!p.face || p.face === face)) }))
-    .filter((g) => g.pins.length);
   const activeId = pinById(selId) ? selId : allPins[0].id;
   const pin = pinById(activeId);
   const c = FN_COLOR[pin.fn];
@@ -731,7 +706,7 @@ export function Pinout() {
           {board.figureImgBack && (
             <div className={styles.faceSwitch} aria-label={lang === "zh" ? "选择板子正反面" : "Choose board face"}>
               <button type="button" className={face === "front" ? styles.faceActive : ""} onClick={() => { setFace("front"); setSelId(board.leftColIds[0]); }}>{T.front}</button>
-              <button type="button" className={face === "back" ? styles.faceActive : ""} onClick={() => { setFace("back"); setSelId(board.rightColIds[0]); }}>{T.back}</button>
+              <button type="button" className={face === "back" ? styles.faceActive : ""} onClick={() => { setFace("back"); setSelId((board.backPins?.left || board.leftColIds)[0]); }}>{T.back}</button>
             </div>
           )}
           {board.gpioNote && <span className={styles.gpioNote}>{T.gpioNote}</span>}
@@ -743,7 +718,7 @@ export function Pinout() {
             <aside className={styles.leftPanel}>
               <div className={styles.panelLabel}>{T.listLabel}</div>
               <div className={styles.pinList}>
-                {visibleGroups.map((g) => (
+                {groups.map((g) => (
                   <div key={g.cat} className={styles.pinGroup}>
                     <div className={styles.groupLabel}>{pick(g.label)}</div>
                     {g.pins.map((p) => (
@@ -768,11 +743,11 @@ export function Pinout() {
             <div className={styles.centerPanel}>
               <div className={styles.boardFigure}>
                 <div className={`${styles.pinCol} ${styles.pinColLeft}`}>
-                  {(face === "back" ? board.rightColIds : board.leftColIds).map((id, i) => {
+                  {(face === "back" && board.backPins ? board.backPins.left : board.leftColIds).map((id, i) => {
                     const p = pinById(id);
                     const active = id === activeId;
-                    const ids = face === "back" ? board.rightColIds : board.leftColIds;
-                    const y = (face === "back" ? board.padY?.right?.[i] : board.padY?.left?.[i]) ?? ((i + 1) / (ids.length + 1) * 100);
+                    const ids = face === "back" && board.backPins ? board.backPins.left : board.leftColIds;
+                    const y = (face === "back" && board.backPins ? board.backPins.padY?.left?.[i] : board.padY?.left?.[i]) ?? ((i + 1) / (ids.length + 1) * 100);
                     return (
                       <button key={id} type="button"
                         className={`${styles.pinRow} ${active ? styles.pinRowActive : ""}`}
@@ -790,27 +765,8 @@ export function Pinout() {
 
                 <div className={`${styles.boardBody} ${board.figureImg ? styles.boardBodyImg : ""}`}>
                   {board.figureImg ? (
-                    <>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={withBase(face === "back" ? board.figureImgBack : board.figureImg)} alt={`${board.name} ${face}`} className={styles.boardFigureImg} />
-                      {face === "back" && board.backPads?.map((pad) => {
-                        const backPin = pinById(pad.id);
-                        if (!backPin) return null;
-                        return (
-                          <button
-                            key={pad.id}
-                            type="button"
-                            className={`${styles.backPad} ${pad.id === activeId ? styles.backPadActive : ""}`}
-                            style={{ left: `${pad.x}%`, top: `${pad.y}%`, "--pad-color": FN_COLOR[backPin.fn] }}
-                            onClick={() => setSelId(pad.id)}
-                            aria-label={`${pad.id}: ${pick(backPin.desc)}`}
-                          >
-                            <i />
-                            <span>{pad.id}</span>
-                          </button>
-                        );
-                      })}
-                    </>
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={withBase(face === "back" ? board.figureImgBack : board.figureImg)} alt={`${board.name} ${face}`} className={styles.boardFigureImg} />
                   ) : (
                     <>
                       <div className={styles.boardChip}>{board.figureLabel[0]}<br />{board.figureLabel[1]}</div>
@@ -820,11 +776,11 @@ export function Pinout() {
                 </div>
 
                 <div className={`${styles.pinCol} ${styles.pinColRight}`}>
-                  {(face === "back" ? board.leftColIds : board.rightColIds).map((id, i) => {
+                  {(face === "back" && board.backPins ? board.backPins.right : board.rightColIds).map((id, i) => {
                     const p = pinById(id);
                     const active = id === activeId;
-                    const ids = face === "back" ? board.leftColIds : board.rightColIds;
-                    const y = (face === "back" ? board.padY?.left?.[i] : board.padY?.right?.[i]) ?? ((i + 1) / (ids.length + 1) * 100);
+                    const ids = face === "back" && board.backPins ? board.backPins.right : board.rightColIds;
+                    const y = (face === "back" && board.backPins ? board.backPins.padY?.right?.[i] : board.padY?.right?.[i]) ?? ((i + 1) / (ids.length + 1) * 100);
                     return (
                       <button key={id} type="button"
                         className={`${styles.pinRow} ${active ? styles.pinRowActive : ""}`}
