@@ -129,18 +129,27 @@ export function ProductPanel() {
                   rel="noopener noreferrer"
                   className="group block overflow-hidden rounded-xl border border-[var(--line-soft)] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 >
-                  {/* 产品图：固定 4:3 白框 + object-contain 贴底（不放大、不裁切）。
-                      统一框尺寸与对齐，避免不同比例图源导致板子忽大忽小；白底与图源白底融合。 */}
+                  {/* 产品图：透明剪影去框按自然比例浮在卡片上；普通白底摄影图用固定 4:3 白框 + contain 贴底。 */}
                   {item.img ? (
-                    <div className="aspect-[4/3] bg-white">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                    item.transparent ? (
+                      // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={withBase(item.img)}
                         alt={item.title}
                         loading="lazy"
-                        className="block h-full w-full object-contain object-bottom"
+                        className="block h-auto w-full"
                       />
-                    </div>
+                    ) : (
+                      <div className="aspect-[4/3] bg-white">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={withBase(item.img)}
+                          alt={item.title}
+                          loading="lazy"
+                          className="block h-full w-full object-contain object-bottom"
+                        />
+                      </div>
+                    )
                   ) : null}
                   <div className="p-3.5">
                     <h4 className="line-clamp-2 text-[15px] font-bold leading-snug text-[var(--ink-strong)]">

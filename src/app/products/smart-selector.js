@@ -51,6 +51,7 @@ const products = FAMILIES.flatMap((f) =>
       id: slug(item.title), name: item.title, family: FAMILY_BY_SUB[f.id] ?? "Other",
       subId: f.id, img: withBase(item.img), link: item.link,
       wireless: m.wireless, power: m.power, tagline: { en: tag, zh: tag },
+      transparent: !!item.transparent,
       ...WIZ_DEFAULTS,
     };
   })
@@ -551,7 +552,12 @@ export function SmartSelector() {
                 <div className={styles.catalogGrid}>
                   {filteredProducts.map((p) => (
                     <article key={p.id} className={styles.catalogCard}>
-                      <div className={styles.catalogVisual}><div className={styles.productImg} style={{ backgroundImage: `url("${p.img}")` }} role="img" aria-label={p.name} /></div>
+                      {p.transparent ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={p.img} alt={p.name} loading="lazy" className="block h-auto w-full" style={{ marginBottom: 10 }} />
+                      ) : (
+                        <div className={styles.catalogVisual}><div className={styles.productImg} style={{ backgroundImage: `url("${p.img}")` }} role="img" aria-label={p.name} /></div>
+                      )}
                       <h3>{p.name}</h3>
                       <p>{pick(p.tagline)}</p>
                       <div className={styles.tagRow}>{[...p.wireless, ...p.features.map(pick)].slice(0, 4).map((t, i) => <span key={i} className={styles.tag}>{t}</span>)}</div>
