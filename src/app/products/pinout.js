@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback } from "react";
 import { useLang } from "../i18n";
 import { Glow } from "../Glow";
+import { withBase } from "../../lib/basePath";
 import styles from "./pinout.module.css";
 
 /* 功能色 */
@@ -553,6 +554,7 @@ const BOARDS = {
     name: "XIAO SAMD21",
     figureLabel: ["XIAO", "SAMD21"],
     figureSub: "SAMD21G18 · Cortex-M0+",
+    figureImg: "/xiao-products/dev_boards/samd21-front.webp",
     tagline: { en: "SAMD21G18 — Cortex-M0+; the original Seeeduino XIAO flagship.", zh: "SAMD21G18 — Cortex-M0+，初代 Seeeduino XIAO 旗舰。" },
     groups: samdGroups,
     leftColIds: stdLeft, rightColIds: stdRight, gpioNote: false,
@@ -701,9 +703,16 @@ export function Pinout() {
                   })}
                 </div>
 
-                <div className={styles.boardBody}>
-                  <div className={styles.boardChip}>{board.figureLabel[0]}<br />{board.figureLabel[1]}</div>
-                  <div className={styles.boardSub}>{board.figureSub}</div>
+                <div className={`${styles.boardBody} ${board.figureImg ? styles.boardBodyImg : ""}`}>
+                  {board.figureImg ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={withBase(board.figureImg)} alt={board.name} className={styles.boardFigureImg} />
+                  ) : (
+                    <>
+                      <div className={styles.boardChip}>{board.figureLabel[0]}<br />{board.figureLabel[1]}</div>
+                      <div className={styles.boardSub}>{board.figureSub}</div>
+                    </>
+                  )}
                 </div>
 
                 <div className={`${styles.pinCol} ${styles.pinColRight}`}>

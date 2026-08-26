@@ -88,6 +88,9 @@
 }
 .boardChip { font-family: var(--font-display), sans-serif; font-size: 13px; font-weight: 700; color: #e8f0ea; text-align: center; line-height: 1.15; letter-spacing: -0.02em; }
 .boardSub { font-size: 9px; color: #7e8f86; font-weight: 600; text-align: center; line-height: 1.3; padding: 0 4px; }
+/* 透明底板图：中栏加宽，剪影填满 + drop-shadow 浮在深色板上 */
+.boardBodyImg { flex: 0 0 200px; }
+.boardFigureImg { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5)); }
 
 .boardMeta { text-align: center; max-width: 420px; }
 .boardMeta h3 { margin: 0 0 4px; font-family: var(--font-display), sans-serif; font-size: 18px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink-strong); }
@@ -135,6 +138,7 @@
   .pinList { max-height: 320px; }
   .boardFigure { padding: 16px 4px; }
   .boardBody { flex-basis: 72px; margin: 10px 0; }
+  .boardBodyImg { flex-basis: 120px; }
   .boardChip { font-size: 11px; }
   .boardSub { font-size: 8px; }
   .pinName { font-size: 11px; }
