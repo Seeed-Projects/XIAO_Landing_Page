@@ -44,7 +44,7 @@ export const PRODUCT_CATALOG = [
         product("XIAO MG24 Sense", "https://www.seeedstudio.com/Seeed-Studio-XIAO-MG24-Sense-p-6248.html", "dev_boards/MG24-Sense-1536x1256.webp", "Super-low power board with microphone & 6-axis IMU"),
       ]),
       group("samd", "Microchip SAMD Series", [
-        product("XIAO SAMD21", "https://www.seeedstudio.com/Seeeduino-XIAO-Arduino-Microcontroller-SAMD21-Cortex-M0+-p-4426.html", "dev_boards/Seeed-Studio-XIAO-SAMD21-1536x1257.jpg", "Classic for Arduino beginners, with courses"),
+        product("XIAO SAMD21", "https://www.seeedstudio.com/Seeeduino-XIAO-Arduino-Microcontroller-SAMD21-Cortex-M0+-p-4426.html", "dev_boards/samd21-front.webp", "Classic for Arduino beginners, with courses"),
       ]),
       group("ra", "Renesas RA Series", [
         product("XIAO RA4M1", "https://www.seeedstudio.com/Seeed-XIAO-RA4M1-p-5943.html", "dev_boards/XIAO-RA4M1-1536x1258.webp", "Renesas 32-bit ARM Cortex-M4 MCU, Arduino IDE-ready"),
