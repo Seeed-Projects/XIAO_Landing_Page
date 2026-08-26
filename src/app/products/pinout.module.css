@@ -122,22 +122,9 @@
 .codeBlock pre { margin: 0; padding: 14px 16px; overflow-x: auto; }
 .codeBlock code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 12.5px; line-height: 1.75; color: #cfe0d9; white-space: pre; }
 
-/* 推荐区 */
-.recoArea { border-top: 1px solid var(--line-soft); padding: 24px 26px 28px; background: linear-gradient(180deg, rgba(255,255,255,0.6), var(--surface-tint)); }
-.recoHead { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
-.recoHead strong { font-size: 17px; font-weight: 600; color: var(--ink-strong); }
-.recoHead span { font-size: 13px; color: var(--ink-body); }
-.recoGrid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; }
-.recoCard { border: 1px solid var(--line-soft); border-radius: var(--r-inner); padding: 18px; background: rgba(255,255,255,0.9); display: flex; flex-direction: column; transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease; }
-.recoCard:hover { transform: translateY(-4px); box-shadow: 0 28px 48px rgba(0,73,102,0.12); border-color: rgba(22,182,106,0.4); background-color: rgba(255,255,255,0.95); }
-.recoTag { display: inline-block; align-self: flex-start; padding: 4px 9px; border-radius: var(--r-pill); background: var(--surface-tint); color: var(--brand-green-deep); font-size: 11px; font-weight: 600; margin-bottom: 12px; }
-.recoCard h4 { margin: 0 0 6px; font-size: 15px; font-weight: 600; color: var(--ink-strong); }
-.recoCard p { margin: 0; font-size: 12px; line-height: 1.6; color: var(--ink-body); }
-
 @media (max-width: 1100px) {
   .grid { grid-template-columns: 230px minmax(0,1fr); }
   .rightPanel { grid-column: 1 / -1; }
-  .recoGrid { grid-template-columns: repeat(2, minmax(0,1fr)); }
 }
 @media (max-width: 760px) {
   .wrap { padding: 8px 16px 70px; }
@@ -152,8 +139,6 @@
   .boardSub { font-size: 8px; }
   .pinName { font-size: 11px; }
   .pinFunc { display: none; }
-  .recoArea { padding: 18px; }
-  .recoGrid { grid-template-columns: 1fr; }
   .boardBar { align-items: stretch; flex-direction: column; }
   .boardSelect, .boardSelect select { width: 100%; }
   .gpioNote { margin-left: 0; }
@@ -165,5 +150,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .pinout * { transition: none !important; }
-  .pinout .detailCard:hover, .pinout .recoCard:hover { transform: none; }
+  .pinout .detailCard:hover { transform: none; }
 }

@@ -568,14 +568,6 @@ const BOARDS = {
 };
 const BOARD_ORDER = ["nrf54", "s3", "c3", "c6", "c5", "nrf54l15", "nrf52", "rp2040", "rp2350", "ra4", "samd21", "mg24"];
 
-/* 下方推荐区 —— Seeed 相关 */
-const recommendations = [
-  { name: { en: "Grove Sensor Kit", zh: "Grove 传感器套件" }, tagline: { en: "Plug-and-play; pair with XIAO to prototype fast.", zh: "即插即用，配合 XIAO 快速搭建原型。" }, tag: { en: "Accessory", zh: "配件" } },
-  { name: { en: "XIAO Expansion Base", zh: "XIAO 扩展底板" }, tagline: { en: "Breaks out every pin for easy wiring and debugging.", zh: "引出全部引脚，方便接线和调试。" }, tag: { en: "Expansion", zh: "扩展" } },
-  { name: { en: "Seeed Wiki Tutorials", zh: "Seeed Wiki 教程" }, tagline: { en: "From blinking an LED to a Matter smart home.", zh: "从点亮 LED 到 Matter 智能家居全流程。" }, tag: { en: "Docs", zh: "文档" } },
-  { name: { en: "nPM1300 Power Management", zh: "nPM1300 电源管理" }, tagline: { en: "Companion chip for battery monitoring and low-power scheduling.", zh: "电池监测与低功耗调度配套芯片。" }, tag: { en: "Companion", zh: "配套" } },
-];
-
 export function Pinout() {
   const { lang } = useLang();
   const [boardId, setBoardId] = useState("nrf54");
@@ -606,8 +598,6 @@ export function Pinout() {
     codeEmpty: lang === "zh" ? "// 电源 / 内部引脚，无需用户初始化" : "// Power / internal pin — no user init needed",
     copy: lang === "zh" ? "复制" : "Copy",
     copied: lang === "zh" ? "已复制" : "Copied",
-    recoTitle: lang === "zh" ? "相关推荐" : "Related",
-    recoSub: lang === "zh" ? "来自 Seeed 的配套资源" : "Companion resources from Seeed",
     boardLabel: lang === "zh" ? "板型" : "Board",
     gpioNote: lang === "zh" ? "GPIO 编号以 Seeed Wiki 对应板型为准" : "GPIO numbers per Seeed Wiki for each board",
   };
@@ -779,23 +769,6 @@ export function Pinout() {
                 </div>
               </div>
             </aside>
-          </div>
-
-          {/* 推荐区 */}
-          <div className={styles.recoArea}>
-            <div className={styles.recoHead}>
-              <strong>{T.recoTitle}</strong>
-              <span>{T.recoSub}</span>
-            </div>
-            <div className={styles.recoGrid}>
-              {recommendations.map((r) => (
-                <article key={r.name.en} className={styles.recoCard}>
-                  <span className={styles.recoTag}>{pick(r.tag)}</span>
-                  <h4>{pick(r.name)}</h4>
-                  <p>{pick(r.tagline)}</p>
-                </article>
-              ))}
-            </div>
           </div>
         </section>
       </div>
