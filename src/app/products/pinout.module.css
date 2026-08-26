@@ -101,10 +101,16 @@
   background: transparent;
   border: none;
   box-shadow: none;
+  position: relative;
 }
 /* 正面板子图：高度驱动布局——pinCol 与图同高，引脚按焊盘 Y% 对齐 */
 .boardFigureImg { object-fit: contain; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5)); }
 .boardBodyImg .boardFigureImg { display: block; height: clamp(330px, 42vh, 440px); width: auto; }
+.backPad { position: absolute; z-index: 3; transform: translate(-50%, -50%); border: 0; background: transparent; padding: 0; overflow: visible; }
+.backPad i { display: block; width: 11px; height: 11px; border-radius: 50%; background: var(--pad-color); border: 2px solid rgba(255,255,255,.92); box-shadow: 0 0 0 3px rgba(5,20,29,.48); transition: transform 160ms ease, box-shadow 160ms ease; }
+.backPad span { position: absolute; left: 50%; top: 15px; transform: translateX(-50%); padding: 3px 6px; border-radius: 5px; background: rgba(5,20,29,.86); color: #fff; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 8px; font-weight: 700; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 160ms ease; }
+.backPad:hover span, .backPad:focus-visible span, .backPadActive span { opacity: 1; }
+.backPad:hover i, .backPad:focus-visible i, .backPadActive i { transform: scale(1.35); box-shadow: 0 0 0 4px rgba(255,255,255,.18), 0 0 18px var(--pad-color); }
 
 /* 背面板图框：正面 boardFigure 下方独立一块，同款深色板背景，
    透明剪影浮上去与底板融为一体；图居中、自适应高度 */
