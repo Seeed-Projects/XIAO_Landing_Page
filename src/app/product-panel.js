@@ -129,12 +129,17 @@ export function ProductPanel() {
                   rel="noopener noreferrer"
                   className="group block overflow-hidden rounded-xl border border-[var(--line-soft)] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 >
-                  <div className="aspect-[4/3] overflow-hidden bg-white p-3">
-                    <div
-                      className="h-full w-full bg-contain bg-center bg-no-repeat transition-transform duration-500 group-hover:scale-105"
-                      style={item.img ? { backgroundImage: `url("${withBase(item.img)}")` } : undefined}
+                  {/* 产品图：按图片自身比例完整显示（不剪裁、不 letterbox）。
+                      卡片图区比例 = 图片比例；图源均为 1536×1152(4:3)，故各卡图区一致。 */}
+                  {item.img ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={withBase(item.img)}
+                      alt={item.title}
+                      loading="lazy"
+                      className="block h-auto w-full"
                     />
-                  </div>
+                  ) : null}
                   <div className="p-3.5">
                     <h4 className="line-clamp-2 text-[15px] font-bold leading-snug text-[var(--ink-strong)]">
                       {item.title}
