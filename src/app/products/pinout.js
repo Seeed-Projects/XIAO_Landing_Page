@@ -649,7 +649,7 @@ export function Pinout() {
   const pinById = (id) => allPins.find((p) => p.id === id);
   const visibleIds = new Set(face === "front"
     ? [...board.leftColIds, ...board.rightColIds]
-    : [...board.leftColIds, ...board.rightColIds, ...(board.backPads || []).map((p) => p.id)]);
+    : (board.backPads || []).map((p) => p.id));
   const visibleGroups = groups
     .map((g) => ({ ...g, pins: g.pins.filter((p) => visibleIds.has(p.id) && (!p.face || p.face === face)) }))
     .filter((g) => g.pins.length);
@@ -664,7 +664,8 @@ export function Pinout() {
     p: lang === "zh"
       ? "点击左侧引脚列表或板子上的焊盘，查看每个引脚的功能、芯片引脚、注意事项与初始化代码。"
       : "Click a pin in the list or a pad on the board to see its function, chip pin, notes and init code.",
-    listLabel: lang === "zh" ? "引脚列表" : "Pin List",
+    frontListLabel: lang === "zh" ? "正面引脚" : "Front Pins",
+    backListLabel: lang === "zh" ? "背面焊盘" : "Back Pads",
     detailLabel: lang === "zh" ? "引脚详情" : "Pin Details",
     fn: lang === "zh" ? "功能" : "Function",
     chipPin: lang === "zh" ? "芯片引脚" : "Chip Pin",
@@ -731,7 +732,7 @@ export function Pinout() {
           {board.figureImgBack && (
             <div className={styles.faceSwitch} aria-label={lang === "zh" ? "选择板子正反面" : "Choose board face"}>
               <button type="button" className={face === "front" ? styles.faceActive : ""} onClick={() => { setFace("front"); setSelId(board.leftColIds[0]); }}>{T.front}</button>
-              <button type="button" className={face === "back" ? styles.faceActive : ""} onClick={() => { setFace("back"); setSelId(board.rightColIds[0]); }}>{T.back}</button>
+              <button type="button" className={face === "back" ? styles.faceActive : ""} onClick={() => { setFace("back"); setSelId(board.backPads?.[0]?.id || board.rightColIds[0]); }}>{T.back}</button>
             </div>
           )}
           {board.gpioNote && <span className={styles.gpioNote}>{T.gpioNote}</span>}
@@ -741,7 +742,7 @@ export function Pinout() {
           <div className={styles.grid}>
             {/* 左：分组引脚列表 */}
             <aside className={styles.leftPanel}>
-              <div className={styles.panelLabel}>{T.listLabel}</div>
+              <div className={styles.panelLabel}>{face === "back" ? T.backListLabel : T.frontListLabel}</div>
               <div className={styles.pinList}>
                 {visibleGroups.map((g) => (
                   <div key={g.cat} className={styles.pinGroup}>
@@ -768,11 +769,11 @@ export function Pinout() {
             <div className={styles.centerPanel}>
               <div className={styles.boardFigure}>
                 <div className={`${styles.pinCol} ${styles.pinColLeft}`}>
-                  {(face === "back" ? board.rightColIds : board.leftColIds).map((id, i) => {
+                  {(face === "back" ? [] : board.leftColIds).map((id, i) => {
                     const p = pinById(id);
                     const active = id === activeId;
-                    const ids = face === "back" ? board.rightColIds : board.leftColIds;
-                    const y = (face === "back" ? board.padY?.right?.[i] : board.padY?.left?.[i]) ?? ((i + 1) / (ids.length + 1) * 100);
+                    const ids = board.leftColIds;
+                    const y = board.padY?.left?.[i] ?? ((i + 1) / (ids.length + 1) * 100);
                     return (
                       <button key={id} type="button"
                         className={`${styles.pinRow} ${active ? styles.pinRowActive : ""}`}
@@ -790,27 +791,8 @@ export function Pinout() {
 
                 <div className={`${styles.boardBody} ${board.figureImg ? styles.boardBodyImg : ""}`}>
                   {board.figureImg ? (
-                    <>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={withBase(face === "back" ? board.figureImgBack : board.figureImg)} alt={`${board.name} ${face}`} className={styles.boardFigureImg} />
-                      {face === "back" && board.backPads?.map((pad) => {
-                        const backPin = pinById(pad.id);
-                        if (!backPin) return null;
-                        return (
-                          <button
-                            key={pad.id}
-                            type="button"
-                            className={`${styles.backPad} ${pad.id === activeId ? styles.backPadActive : ""}`}
-                            style={{ left: `${pad.x}%`, top: `${pad.y}%`, "--pad-color": FN_COLOR[backPin.fn] }}
-                            onClick={() => setSelId(pad.id)}
-                            aria-label={`${pad.id}: ${pick(backPin.desc)}`}
-                          >
-                            <i />
-                            <span>{pad.id}</span>
-                          </button>
-                        );
-                      })}
-                    </>
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={withBase(face === "back" ? board.figureImgBack : board.figureImg)} alt={`${board.name} ${face}`} className={styles.boardFigureImg} />
                   ) : (
                     <>
                       <div className={styles.boardChip}>{board.figureLabel[0]}<br />{board.figureLabel[1]}</div>
@@ -820,11 +802,11 @@ export function Pinout() {
                 </div>
 
                 <div className={`${styles.pinCol} ${styles.pinColRight}`}>
-                  {(face === "back" ? board.leftColIds : board.rightColIds).map((id, i) => {
+                  {(face === "back" ? [] : board.rightColIds).map((id, i) => {
                     const p = pinById(id);
                     const active = id === activeId;
-                    const ids = face === "back" ? board.leftColIds : board.rightColIds;
-                    const y = (face === "back" ? board.padY?.left?.[i] : board.padY?.right?.[i]) ?? ((i + 1) / (ids.length + 1) * 100);
+                    const ids = board.rightColIds;
+                    const y = board.padY?.right?.[i] ?? ((i + 1) / (ids.length + 1) * 100);
                     return (
                       <button key={id} type="button"
                         className={`${styles.pinRow} ${active ? styles.pinRowActive : ""}`}
