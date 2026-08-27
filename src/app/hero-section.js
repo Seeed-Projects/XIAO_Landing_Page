@@ -7,7 +7,7 @@ import { withBase } from "../lib/basePath";
 
 /**
  * HeroSection —— 首页第一板块：全屏底图 + 叠加的大字。
- * 底图（xiao-hero-photo.jpg）铺满整屏，上覆渐变压暗保证白字可读；
+ * 底图（xiao-hero-photo.webp）铺满整屏，上覆渐变压暗保证白字可读；
  * 左侧叠放眉标 / 品牌行 / 超大标题 / 副文案 / 双 CTA。无卡片。
  */
 export function HeroSection() {
@@ -42,7 +42,7 @@ export function HeroSection() {
       {/* 底图：铺满全屏 */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={withBase("/xiao-hero-photo.jpg")}
+        src={withBase("/xiao-hero-photo.webp")}
         alt=""
         aria-hidden="true"
         className="absolute inset-0 h-full w-full object-cover"

@@ -49,10 +49,10 @@ const METRICS = [
 const T = {
   en: {
     introTagline:
-      "Discover What You Can Build with XIAO. Browse 100+ community projects across 10+ application areas, and find your next build.",
-    introKicker: "OPEN-SOURCE PROJECT GALLERY",
+      "Discover what you can build with XIAO through real projects from makers around the world. Find an idea, learn from the build, and make it your own.",
+    introKicker: "DISCOVER · BUILD · SHARE",
     contributeIntro:
-      "Built something with XIAO? Share it with the community and help the next maker get started.",
+      "Built something with XIAO? Add your project to the community collection.",
     heroEyebrow: "FEATURED PROJECT · XIAO ESP32-C6",
     heroDek:
       "A solar-powered offline navigation device for outdoor exploration, waypoint tracking and off-grid adventures, integrating ePaper, GPS, a digital compass and MPPT solar charging.",
@@ -81,10 +81,10 @@ const T = {
   },
   zh: {
     introTagline:
-      "探索你能用 XIAO 构建什么。浏览覆盖 10 多个应用领域的 100 多个社区项目，找到你的下一个创作灵感。",
-    introKicker: "开源项目作品集",
+      "从世界各地创客的真实作品中，发现 XIAO 可以实现什么。寻找灵感、参考构建过程，再创造属于你的版本。",
+    introKicker: "发现 · 构建 · 分享",
     contributeIntro:
-      "用 XIAO 做出了新项目？欢迎分享给社区，帮助下一位创客更快开始。",
+      "用 XIAO 做出了新项目？把它加入社区项目集合。",
     heroEyebrow: "精选项目 · XIAO ESP32-C6",
     heroDek:
       "一款面向户外探索、航点追踪与离网冒险的太阳能离线导航设备，集成电子纸、GPS、数字罗盘与 MPPT 太阳能充电。",
@@ -276,6 +276,16 @@ export function ProjectHub() {
       <div className={styles.noise} />
 
       <Reveal as="header" className={styles.projectIntro}>
+        <div className={styles.introVisual}>
+          <Image
+            src={withBase("/projecthub-hero.webp")}
+            alt=""
+            fill
+            sizes="100vw"
+            priority
+          />
+        </div>
+        <div className={styles.introShade} />
         <div className={styles.introCopy}>
           <span className={styles.introKicker}>{t.introKicker}</span>
           <Glow as="h1">XIAO Project Hub</Glow>
@@ -294,16 +304,6 @@ export function ProjectHub() {
               </div>
             ))}
           </div>
-        </div>
-        <div className={styles.introVisual}>
-          <Image
-            src={withBase("/projecthub-hero.png")}
-            alt="Seeed Studio XIAO boards"
-            width={900}
-            height={400}
-            sizes="(max-width: 760px) 100vw, 46vw"
-            priority
-          />
         </div>
       </Reveal>
 
@@ -407,7 +407,7 @@ export function ProjectHub() {
                   <div
                     className={`${styles.cardArt} ${styles.applicationImage}`}
                     style={{
-                      backgroundImage: `linear-gradient(0deg,#05070599,transparent 58%),url('${withBase("/application-scenes.png")}')`,
+                      backgroundImage: `linear-gradient(0deg,#05070599,transparent 58%),url('${withBase("/application-scenes.webp")}')`,
                       backgroundSize: "100% 100%, 400% 400%",
                       backgroundPosition: `center, ${x}% ${y}%`,
                     }}
