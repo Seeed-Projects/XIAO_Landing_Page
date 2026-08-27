@@ -7,6 +7,7 @@ import { ProductPanel } from "../product-panel";
 import { SmartSelector } from "./smart-selector";
 import { Pinout } from "./pinout";
 import { ESPFlasher } from "./esp-flasher";
+import { HeroSection } from "../hero-section";
 
 export default function ProductsPage() {
   const { t } = useLang();
@@ -14,6 +15,8 @@ export default function ProductsPage() {
     <>
       <SiteHeader />
       <main className="flex w-full flex-1 flex-col pt-24 lg:pt-28">
+        {/* 原首页广告 Hero：内容、文案、链接和视觉保持不变，仅移至 Products */}
+        <HeroSection />
         {/* 一级标题：产品页 */}
         <section className="w-full px-6 py-10 sm:px-10 lg:px-16">
           <div className="mx-auto w-full max-w-[1440px] text-center">

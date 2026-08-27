@@ -2,7 +2,7 @@
 
 import { useLang } from "./i18n";
 import { SectionHeader, SiteHeader } from "./components";
-import { HeroSection } from "./hero-section";
+import { HomeCarousel } from "./home-carousel";
 import { VideoIntroSection } from "./video-intro-section";
 import { PartnerMarquee } from "./partner-marquee";
 import { NewsCarousel } from "./news-carousel";
@@ -21,8 +21,8 @@ export default function Home() {
     <>
       <SiteHeader />
       <main className="flex w-full flex-1 flex-col pt-24 lg:pt-28">
-        {/* Hero - 全屏底图 + 大字 */}
-        <HeroSection />
+        {/* 首页商城式横幅轮播 */}
+        <HomeCarousel />
         {/* 视频解说 + 文字 */}
         <VideoIntroSection />
 
