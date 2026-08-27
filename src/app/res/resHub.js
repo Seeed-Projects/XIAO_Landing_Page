@@ -741,17 +741,6 @@ export function ResHub() {
             </div>
           ) : (
             <>
-          <section className={styles.resourceBanner}>
-            <div>
-              <h2>{active.name}</h2>
-              <p>{pick(active.intro)}</p>
-              <div className={styles.badgeRow} style={{ marginTop: 18 }}>
-                {active.badges.map((x) => <span key={x} className={styles.badge}>{x}</span>)}
-              </div>
-            </div>
-            <svg className={styles.productVisual} viewBox="0 0 320 230" aria-hidden="true" dangerouslySetInnerHTML={{ __html: stripSvg(boardSvg(active)) }} />
-          </section>
-
           {totalItems === 0 ? (
             <div className={styles.resEmpty}>{T.noResults}</div>
           ) : (
