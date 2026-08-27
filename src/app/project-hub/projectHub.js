@@ -358,11 +358,6 @@ export function ProjectHub() {
               />
             </div>
           </div>
-
-          <footer className={styles.sourceNote}>
-            <span>{t.sourceLabel}</span>
-            <p>{t.sourceNote}</p>
-          </footer>
         </Reveal>
       </main>
 
