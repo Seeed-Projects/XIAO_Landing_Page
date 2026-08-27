@@ -4,6 +4,9 @@ import { SiteHeader } from "../components";
 import { ProductPanel } from "../product-panel";
 import { SmartSelector } from "./smart-selector";
 import { HeroSection } from "../hero-section";
+// 保留 Pinout / ESP Flasher 引用：products 页暂时不渲染，由 Playground 下拉进入
+// import { Pinout } from "./pinout";
+// import { ESPFlasher } from "./esp-flasher";
 
 export default function ProductsPage() {
   return (
@@ -22,6 +25,12 @@ export default function ProductsPage() {
 
         {/* 选型器 */}
         <SmartSelector />
+
+        {/* Pinout 与 ESP Flasher 暂从 products 页下线（注释保留），
+            由顶部 Playground 下拉进入对应入口。
+        <Pinout />
+        <ESPFlasher />
+        */}
       </main>
     </>
   );

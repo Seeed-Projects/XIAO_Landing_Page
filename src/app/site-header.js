@@ -33,19 +33,20 @@ function LangToggle() {
   );
 }
 
-/* Playground 二级下拉：4 个开发工具入口，各自跳到不同页面/锚点。
-   Pin Out / Flash → products 页对应锚点；Hardware Resources → /res；Software Ecosystem → /software-center。
+/* Playground 二级下拉：4 个开发工具入口，各自跳到不同页面。
+   Pin Out → /playground/pinout；Flash → /playground/esp-flasher；
+   Hardware Resources → /res；Software Ecosystem → /software-center。
    ⚠️ 样式待用户提供，此处先用与站点一致的默认卡片样式。 */
 const PLAYGROUND_ITEMS = {
   zh: [
-    { label: "引脚图", hint: "Pinout 定义与规格", href: "/products", id: "pinout" },
-    { label: "烧录", hint: "一键固件烧录", href: "/products", id: "esp-flasher" },
+    { label: "引脚图", hint: "Pinout 定义与规格", href: "/playground/pinout", id: "top" },
+    { label: "烧录", hint: "一键固件烧录", href: "/playground/esp-flasher", id: "top" },
     { label: "硬件资源", hint: "数据手册 / 原理图 / CAD", href: "/res", id: "top" },
     { label: "软件生态", hint: "官方与社区软件", href: "/software-center", id: "top" },
   ],
   en: [
-    { label: "Pin Out", hint: "Pinouts & specs", href: "/products", id: "pinout" },
-    { label: "Flash", hint: "One-click firmware flasher", href: "/products", id: "esp-flasher" },
+    { label: "Pin Out", hint: "Pinouts & specs", href: "/playground/pinout", id: "top" },
+    { label: "Flash", hint: "One-click firmware flasher", href: "/playground/esp-flasher", id: "top" },
     { label: "Hardware Resources", hint: "Datasheets · schematics · CAD", href: "/res", id: "top" },
     { label: "Software Ecosystem", hint: "Official & community software", href: "/software-center", id: "top" },
   ],
