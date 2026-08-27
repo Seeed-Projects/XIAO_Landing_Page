@@ -18,6 +18,7 @@ const HERO_IMG =
 const HERO_LINK =
   "https://www.hackster.io/rishabh-jain5/trailnav-solar-powered-off-grid-exploration-device-bb35b2";
 const HUB_IFRAME = "https://seeed-studio.github.io/OSHW-XIAO-Series/";
+const HUB_EMBED = "/project-hub/embed";
 const CONTRIBUTE_LINK =
   "https://docs.google.com/forms/d/e/1FAIpQLSdiju4D3-h0fZavfZeRrXcOtAh-Lb7Ll8zbrkziB94RCvbZrQ/viewform";
 const GITHUB_LINK = "https://github.com/Seeed-Studio/OSHW-XIAO-Series";
@@ -120,6 +121,7 @@ export function ProjectHub() {
   const [recent, setRecent] = useState([]);
   const [status, setStatus] = useState("loading");
   const [toast, setToast] = useState("");
+  const [embedHeight, setEmbedHeight] = useState(1400);
 
   const leadRef = useRef(null);
   const sideRef = useRef(null);
@@ -179,6 +181,18 @@ export function ProjectHub() {
     return () => {
       cancelled = true;
     };
+  }, []);
+
+  useEffect(() => {
+    const onMessage = (event) => {
+      if (event.origin !== window.location.origin) return;
+      if (event.data?.type !== "xiao-project-hub-height") return;
+      const nextHeight = Number(event.data.height);
+      if (!Number.isFinite(nextHeight) || nextHeight < 300) return;
+      setEmbedHeight(Math.ceil(nextHeight));
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
   }, []);
 
   /* 侧栏高度跟随 lead（桌面端） */
@@ -341,10 +355,10 @@ export function ProjectHub() {
             </div>
             <p>{t.collectionDek}</p>
           </div>
-          <div className={styles.browserBody}>
+          <div className={styles.browserBody} style={{ height: embedHeight }}>
             <iframe
               className={styles.liveSite}
-              src={HUB_IFRAME}
+              src={withBase(HUB_EMBED)}
               title="OSHW XIAO Series 互动网页"
               loading="lazy"
               allow="fullscreen"
