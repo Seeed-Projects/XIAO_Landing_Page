@@ -506,6 +506,7 @@ const BOARDS = {
     figureSub: "ESP32-S3 · Wi-Fi + BLE",
     figureImg: "/xiao-products/dev_boards/s3-front.webp",
     figureImgBack: "/xiao-products/dev_boards/s3-back.webp",
+    rotateFront: true,
     tagline: { en: "ESP32-S3 — Wi-Fi + BLE workhorse with plenty of GPIO and PSRAM.", zh: "ESP32-S3 — Wi-Fi + BLE 主力，GPIO 多、带 PSRAM。" },
     groups: s3Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: S3_PAD_Y, gpioNote: false,
@@ -712,6 +713,21 @@ export function Pinout() {
     };
   }, [boardMenuOpen]);
 
+  /* 板图都很小（约 16–88KB），首屏后一次预加载全部正反面，
+     后续切型号/翻面只做 DOM 替换，不再等待网络请求。 */
+  useEffect(() => {
+    const preloaded = [];
+    Object.values(BOARDS).forEach((item) => {
+      [item.figureImg, item.figureImgBack].filter(Boolean).forEach((src) => {
+        const img = new Image();
+        img.decoding = "async";
+        img.src = withBase(src);
+        preloaded.push(img);
+      });
+    });
+    return () => { preloaded.length = 0; };
+  }, []);
+
   const selectBoard = (id) => {
     setBoardId(id);
     setFace("front");
@@ -894,7 +910,14 @@ export function Pinout() {
                 <div className={`${styles.boardBody} ${board.figureImg ? styles.boardBodyImg : ""}`}>
                   {board.figureImg ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={withBase(face === "back" ? board.figureImgBack : board.figureImg)} alt={`${board.name} ${face}`} className={styles.boardFigureImg} />
+                    <img
+                      src={withBase(face === "back" ? board.figureImgBack : board.figureImg)}
+                      alt={`${board.name} ${face}`}
+                      className={`${styles.boardFigureImg} ${face === "front" && board.rotateFront ? styles.boardFigureImgRotated : ""}`}
+                      loading="eager"
+                      decoding="async"
+                      fetchPriority="high"
+                    />
                   ) : (
                     <>
                       <div className={styles.boardChip}>{board.figureLabel[0]}<br />{board.figureLabel[1]}</div>
