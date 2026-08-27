@@ -20,9 +20,9 @@ export default function Home() {
   return (
     <>
       <SiteHeader />
-      <main className="flex w-full flex-1 flex-col pt-24 lg:pt-28">
-        {/* 首页商城式横幅轮播 */}
-        <HomeCarousel />
+      {/* 首页商城式横幅轮播：全屏铺满，紧贴页眉，无顶部白边 */}
+      <HomeCarousel />
+      <main className="flex w-full flex-1 flex-col">
         {/* 视频解说 + 文字 */}
         <VideoIntroSection />
 

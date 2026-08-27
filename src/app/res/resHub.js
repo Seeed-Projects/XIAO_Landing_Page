@@ -573,11 +573,6 @@ const HERO_SHEET_S1 = `<svg viewBox="0 0 300 360"><rect width="300" height="360"
 const HERO_SHEET_S2 = `<svg viewBox="0 0 300 360"><rect width="300" height="360" fill="#fff"/><g stroke="#48515a" fill="none" stroke-width="1.5"><rect x="95" y="100" width="110" height="120"/><path d="M95 126H38V58H20"/><path d="M95 166H45V280H18"/><path d="M205 130h58V66h20"/><path d="M205 182h70V280h10"/></g><rect x="116" y="127" width="68" height="66" fill="#dfe3df"/><text x="150" y="165" text-anchor="middle" font-family="Arial" font-size="10">CORE</text><text x="24" y="316" fill="#121a26" font-family="Arial" font-weight="800" font-size="16">SCHEMATIC</text></svg>`;
 const HERO_SHEET_S3 = `<svg viewBox="0 0 300 250"><rect width="300" height="250" fill="#eef1ec"/><g transform="translate(58 46) skewY(-6)"><path d="M10 20L165 0L202 35L47 56Z" fill="#2f7c55"/><path d="M47 56L202 35V126L47 150Z" fill="#174333"/><path d="M10 20L47 56V150L10 116Z" fill="#245f48"/><path d="M74 35L133 28L154 47L94 55Z" fill="#d5d8da"/><path d="M83 68L156 58V105L83 116Z" fill="#c3c7ca"/></g><text x="20" y="220" fill="#121a26" font-family="Arial" font-weight="800" font-size="15">3D MODEL</text></svg>`;
 
-function boardSvg(p) {
-  return `<svg viewBox="0 0 320 230"><rect x="38" y="32" width="244" height="166" rx="22" fill="${p.color}"/><rect x="111" y="19" width="98" height="45" rx="9" fill="#cfd3d8"/><rect x="128" y="29" width="64" height="25" rx="5" fill="#20242b"/><rect x="96" y="77" width="128" height="74" rx="10" fill="${p.shield}"/><rect x="109" y="89" width="102" height="49" rx="7" fill="#b9bdc2"/><g fill="#e7bd5e">${[55, 82, 109, 136, 163].map((y) => `<circle cx="50" cy="${y}" r="6"/><circle cx="270" cy="${y}" r="6"/>`).join("")}</g><circle cx="75" cy="72" r="9" fill="#dfe2e5"/><circle cx="245" cy="72" r="9" fill="#dfe2e5"/><text x="160" y="119" fill="#282b31" font-size="15" font-family="Arial" font-weight="800" text-anchor="middle">XIAO</text></svg>`;
-}
-const stripSvg = (s) => s.replace(/^<svg[^>]*>|<\/svg>$/g, "");
-
 export function ResHub() {
   const { lang } = useLang();
   const [activeChip, setActiveChip] = useState("esp32-s3");

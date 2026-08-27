@@ -33,7 +33,7 @@ export function HomeCarousel() {
   return (
     <section
       id="hero"
-      className={styles.carousel}
+      className={`${styles.carousel} mt-16`}
       aria-roledescription="carousel"
       aria-label="Featured products"
       onMouseEnter={() => setPaused(true)}

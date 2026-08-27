@@ -107,11 +107,6 @@
 .productTab { flex: none; border: 0; padding: 0; background: transparent; color: #727983; font-size: 12px; font-weight: 700; }
 .productTab.active { color: var(--ink); }
 .productTab.active::after { content: ""; display: block; height: 2px; margin-top: 12px; background: var(--green); }
-.resourceBanner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 340px; align-items: center; gap: 44px; min-height: 330px; padding: 48px 56px; margin-bottom: 54px; background: linear-gradient(110deg, #f5f9eb 0%, #eef4df 65%, #e7eddd 100%); border: 1px solid #e2e8d8; border-radius: 8px; overflow: hidden; }
-.resourceBanner h2 { margin: 9px 0 12px; max-width: 700px; font-size: clamp(28px, 2.6vw, 34px); line-height: 1.16; letter-spacing: -.03em; font-weight: 740; }
-.resourceBanner p { max-width: 620px; color: #626961; font-size: 13px; line-height: 1.7; }
-.productVisual { width: 100%; filter: drop-shadow(0 20px 22px rgba(20,35,25,.18)); }
-
 .badgeRow { display: flex; flex-wrap: wrap; gap: 7px; }
 .badge { padding: 6px 9px; border-radius: 999px; background: #fff; border: 1px solid #dfe5d8; color: #4c5946; font-size: 10px; font-weight: 800; }
 
@@ -220,7 +215,6 @@
   .heroCopy, .heroArt { min-height: 480px; }
   .heroCopy { padding: 72px 40px; }
   .heroArt { min-height: 440px; }
-  .resourceBanner { grid-template-columns: 1fr 260px; padding: 38px; }
   .resourceMosaic { grid-template-columns: repeat(2, 1fr); }
   .downloadStrip { grid-template-columns: repeat(2, 1fr); }
 }
@@ -233,8 +227,6 @@
   .resourceControls { flex-direction: column; }
   .resourceControls .btn { align-self: stretch; }
   .chipBrowserHead { align-items: flex-start; flex-direction: column; gap: 4px; }
-  .resourceBanner { grid-template-columns: 1fr; padding: 28px 22px; }
-  .productVisual { width: min(100%, 300px); justify-self: center; }
   .resourceMosaic { grid-template-columns: 1fr; }
   .resourceCard.large, .resourceCard.wide { grid-column: span 1; }
   .resourceCard.large .preview, .resourceCard.wide .preview { aspect-ratio: 4/3; }
@@ -255,6 +247,5 @@
   .heroArt { min-height: 300px; padding: 18px; }
   .resourceHeroVisual { width: min(100%, 280px); }
   .hero h1 { font-size: clamp(34px, 11vw, 44px) !important; }
-  .resourceBanner { padding: 22px 16px; }
   .extras { padding: 20px 16px; }
 }
