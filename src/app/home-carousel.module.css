@@ -1,11 +1,10 @@
 .carousel {
   position: relative;
   width: 100%;
-  /* 横幅图原生 3840×847（≈4.5:1），让轮播按横幅宽高比铺满宽度，
-     不再用固定高度硬裁——主体文字/品牌不再被切掉 */
-  aspect-ratio: 3840 / 847;
-  max-height: 460px;
-  min-height: 200px;
+  /* 对齐官网标准显示窗口 1709×640（≈2.67:1），居中、不铺满整屏 */
+  max-width: 1709px;
+  margin: 0 auto;
+  aspect-ratio: 1709 / 640;
   overflow: hidden;
   background: #071c2a;
   isolation: isolate;
