@@ -14,9 +14,11 @@ export default function ProductsPage() {
   return (
     <>
       <SiteHeader />
-      <main className="flex w-full flex-1 flex-col pt-24 lg:pt-28">
-        {/* 原首页广告 Hero：内容、文案、链接和视觉保持不变，仅移至 Products */}
-        <HeroSection />
+      <main className="flex w-full flex-1 flex-col">
+        {/* 原首页广告 Hero：内容、文案、链接和视觉保持不变，仅移至 Products；mt-16 顶住页眉，无顶部白边 */}
+        <div className="mt-16">
+          <HeroSection />
+        </div>
         {/* 一级标题：产品页 */}
         <section className="w-full px-6 py-10 sm:px-10 lg:px-16">
           <div className="mx-auto w-full max-w-[1440px] text-center">
