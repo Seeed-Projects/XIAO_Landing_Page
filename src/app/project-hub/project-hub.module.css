@@ -752,6 +752,24 @@
   .introMetrics > div:nth-child(3) { padding-left: 0; }
 }
 
+/* The complete project browser is intentionally edge-to-edge. */
+.browserSection { padding-left: 0; padding-right: 0; }
+.collectionIntro { padding-left: 4vw; padding-right: 4vw; }
+.browser {
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0;
+}
+.sourceNote {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
 /* Final annotated composition: full-screen image, lower-left copy, bottom stats. */
 .projectIntro {
   position: relative;

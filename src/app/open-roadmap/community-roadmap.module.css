@@ -11,7 +11,85 @@
 .roadmap * { box-sizing: border-box; }
 .roadmap button { font: inherit; cursor: pointer; }
 
-.wrap { max-width: 1120px; margin: 0 auto; padding: 12px 28px 96px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 64px 28px 96px; }
+
+/* Full-screen roadmap campaign, aligned with the Product and Project heroes. */
+.roadmapHero {
+  position: relative;
+  isolation: isolate;
+  min-height: calc(100svh - 64px);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: #102d38;
+}
+.roadmapHero > img {
+  z-index: -3;
+  object-fit: cover;
+  object-position: center;
+}
+.heroShade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(90deg, rgba(0,25,37,.86) 0%, rgba(0,31,44,.64) 43%, rgba(0,31,44,.1) 76%, rgba(0,20,30,.05) 100%),
+    linear-gradient(0deg, rgba(0,20,30,.42), transparent 58%);
+}
+.heroCopy {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 90px clamp(28px, 5vw, 76px) clamp(72px, 9vh, 110px);
+}
+.heroEyebrow {
+  display: block;
+  margin-bottom: 18px;
+  color: rgba(255,255,255,.82);
+  font-family: var(--font-display), sans-serif;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: .34em;
+}
+.roadmapHero h1 {
+  max-width: 1180px;
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(64px, 8.6vw, 138px);
+  font-weight: 600;
+  line-height: .9;
+  letter-spacing: -.055em;
+  text-shadow: 0 4px 24px rgba(0,0,0,.4);
+}
+.roadmapHero p {
+  max-width: 620px;
+  margin: 28px 0 0;
+  color: rgba(255,255,255,.92);
+  font-size: clamp(18px, 1.6vw, 24px);
+  line-height: 1.55;
+  text-shadow: 0 2px 12px rgba(0,0,0,.42);
+}
+.roadmapHero .headActions { margin: 30px 0 0; }
+.btnPrimary {
+  min-height: 48px;
+  padding: 13px 24px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--brand-blue);
+  box-shadow: 0 8px 24px rgba(0,0,0,.24);
+}
+.btnPrimary:hover { background: var(--brand-green); color: #fff; }
+.btnSecondary {
+  min-height: 48px;
+  padding: 13px 24px;
+  border: 1px solid rgba(255,255,255,.42);
+  border-radius: 999px;
+  background: rgba(255,255,255,.1);
+  color: #fff;
+  backdrop-filter: blur(10px);
+}
+.btnSecondary:hover { border-color: rgba(255,255,255,.72); background: rgba(255,255,255,.2); }
 
 /* 头部 */
 .head { max-width: 820px; padding: 4px 0 0; }
@@ -107,7 +185,15 @@
 .empty { padding: 48px 20px; text-align: center; color: var(--ink-muted); font-size: 14px; border: 1px dashed var(--line-soft); border-radius: var(--r-card); }
 
 @media (max-width: 760px) {
-  .wrap { padding: 8px 16px 80px; }
+  .wrap { padding: 46px 16px 80px; }
+  .roadmapHero { min-height: 780px; }
+  .roadmapHero > img { object-position: 58% center; }
+  .heroShade { background: linear-gradient(0deg, rgba(0,25,37,.94) 0%, rgba(0,31,44,.68) 60%, rgba(0,31,44,.08) 100%); }
+  .heroCopy { padding: 100px 22px 58px; }
+  .roadmapHero h1 { font-size: clamp(52px, 15vw, 76px); }
+  .roadmapHero p { font-size: 18px; }
+  .roadmapHero .headActions { align-items: stretch; flex-direction: column; }
+  .roadmapHero .btn { justify-content: center; }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .cardTop { gap: 12px; }
   .vote { width: 50px; }

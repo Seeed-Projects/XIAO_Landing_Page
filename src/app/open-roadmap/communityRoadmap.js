@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { useLang } from "../i18n";
 import { Reveal } from "../reveal";
@@ -53,17 +54,13 @@ export function CommunityRoadmap() {
   const [active, setActive] = useState(null);
 
   const T = {
-    eyebrow: lang === "zh" ? "社区路线图" : "Community Roadmap",
-    h1: lang === "zh" ? "XIAO 社区路线图" : "XIAO Community Roadmap",
+    eyebrow: lang === "zh" ? "由社区共同决定" : "BUILT WITH THE COMMUNITY",
+    h1: lang === "zh" ? "XIAO 开放路线图" : "XIAO Open Roadmap",
     sub: lang === "zh"
-      ? "探索 XIAO 社区提出的想法，看看我们正在构建什么，并帮助决定下一步做什么。"
-      : "Explore ideas proposed by the XIAO community, see what we're building, and help decide what comes next.",
+      ? "下一步做什么，由你决定"
+      : "You decide what we build next",
     btnAll: lang === "zh" ? "查看全部想法" : "View all ideas",
     btnSubmit: lang === "zh" ? "在 GitHub 提交想法 ↗" : "Submit an idea on GitHub ↗",
-    statIdeas: lang === "zh" ? "想法" : "Ideas",
-    statVote: lang === "zh" ? "公开投票" : "Open for Vote",
-    statDev: lang === "zh" ? "开发中" : "In Development",
-    statDone: lang === "zh" ? "已完成" : "Completed",
     loading: lang === "zh" ? "加载中…" : "Loading discussions…",
     error: lang === "zh" ? "无法加载讨论。" : "Unable to load discussions.",
     count: (n) => lang === "zh" ? `${n} 条想法` : `${n} ${n === 1 ? "idea" : "ideas"}`,
@@ -109,13 +106,6 @@ export function CommunityRoadmap() {
 
   const pick = (field) => (field && field[lang]) || (field && field.en) || "";
 
-  const counts = useMemo(() => ({
-    total: items.length,
-    vote: items.filter((i) => i.status === "vote").length,
-    dev: items.filter((i) => i.status === "dev").length,
-    done: items.filter((i) => i.status === "done").length,
-  }), [items]);
-
   const tab = TAB_DEFS.find((t) => t.id === tabId) ?? TAB_DEFS[0];
   const visible = useMemo(() => items.filter(tab.filter), [items, tab]);
   const tabCounts = useMemo(() => {
@@ -124,41 +114,31 @@ export function CommunityRoadmap() {
     return m;
   }, [items]);
 
-  const stats = [
-    { id: "all", value: counts.total, label: T.statIdeas },
-    { id: "vote", value: counts.vote, label: T.statVote },
-    { id: "dev", value: counts.dev, label: T.statDev },
-    { id: "done", value: counts.done, label: T.statDone },
-  ];
-
   return (
     <div className={styles.roadmap}>
-      <div className={styles.wrap}>
-        <Reveal className={styles.head}>
+      <Reveal as="section" className={styles.roadmapHero}>
+        <Image
+          src={withBase("/openroadmap-hero.png")}
+          alt=""
+          fill
+          sizes="100vw"
+          priority
+        />
+        <div className={styles.heroShade} />
+        <div className={styles.heroCopy}>
+          <span className={styles.heroEyebrow}>{T.eyebrow}</span>
           <Glow as="h1">{T.h1}</Glow>
-          <p className={styles.headSub}>{T.sub}</p>
+          <p>{T.sub}</p>
           <div className={styles.headActions}>
-            <a className={`${styles.btn} ${styles.btnDark}`} href="#ideas">{T.btnAll}</a>
-            <a className={`${styles.btn} ${styles.btnLight}`} href={GITHUB_DISCUSSIONS} target="_blank" rel="noopener">
+            <a className={`${styles.btn} ${styles.btnPrimary}`} href="#ideas">{T.btnAll}</a>
+            <a className={`${styles.btn} ${styles.btnSecondary}`} href={GITHUB_DISCUSSIONS} target="_blank" rel="noopener">
               {T.btnSubmit}
             </a>
           </div>
-        </Reveal>
+        </div>
+      </Reveal>
 
-        <Reveal className={styles.stats}>
-          {stats.map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              className={`${styles.stat} ${s.id === tabId ? styles.active : ""}`}
-              onClick={() => setTabId(s.id)}
-            >
-              <b>{s.value}</b>
-              <span>{s.label}</span>
-            </button>
-          ))}
-        </Reveal>
-
+      <div className={styles.wrap}>
         <Reveal className={styles.filters} id="ideas">
           {TAB_DEFS.map((t) => (
             <button
