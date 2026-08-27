@@ -47,7 +47,11 @@ const METRICS = [
 
 const T = {
   en: {
-    introTagline: "Discover what you can build with XIAO",
+    introTagline:
+      "Discover What You Can Build with XIAO. Browse 100+ community projects across 10+ application areas, and find your next build.",
+    introKicker: "OPEN-SOURCE PROJECT GALLERY",
+    contributeIntro:
+      "Built something with XIAO? Share it with the community and help the next maker get started.",
     heroEyebrow: "FEATURED PROJECT · XIAO ESP32-C6",
     heroDek:
       "A solar-powered offline navigation device for outdoor exploration, waypoint tracking and off-grid adventures, integrating ePaper, GPS, a digital compass and MPPT solar charging.",
@@ -75,7 +79,11 @@ const T = {
     selectedToast: (label) => `Selected ${label}`,
   },
   zh: {
-    introTagline: "探索 XIAO 能带你实现的每一种可能",
+    introTagline:
+      "探索你能用 XIAO 构建什么。浏览覆盖 10 多个应用领域的 100 多个社区项目，找到你的下一个创作灵感。",
+    introKicker: "开源项目作品集",
+    contributeIntro:
+      "用 XIAO 做出了新项目？欢迎分享给社区，帮助下一位创客更快开始。",
     heroEyebrow: "精选项目 · XIAO ESP32-C6",
     heroDek:
       "一款面向户外探索、航点追踪与离网冒险的太阳能离线导航设备，集成电子纸、GPS、数字罗盘与 MPPT 太阳能充电。",
@@ -124,7 +132,7 @@ function loadJsYaml() {
 }
 
 export function ProjectHub() {
-  const { lang, setLang } = useLang();
+  const { lang } = useLang();
   const [recent, setRecent] = useState([]);
   const [status, setStatus] = useState("loading");
   const [toast, setToast] = useState("");
@@ -257,13 +265,6 @@ export function ProjectHub() {
     return () => list.removeEventListener("wheel", onWheel);
   }, []);
 
-  function setLanguage(next) {
-    setLang(next);
-    if (typeof document !== "undefined") {
-      document.documentElement.lang = next === "en" ? "en" : "zh-CN";
-    }
-  }
-
   function slideRail(d) {
     railRef.current?.scrollBy({ left: d * 650, behavior: "smooth" });
   }
@@ -275,29 +276,28 @@ export function ProjectHub() {
       <div className={styles.noise} />
 
       <Reveal as="header" className={styles.projectIntro}>
-        <div className={styles.languageSwitch} aria-label="Language">
-          <button
-            className={lang === "en" ? styles.active : ""}
-            onClick={() => setLanguage("en")}
-          >
-            English
-          </button>
-          <span>|</span>
-          <button
-            className={lang === "zh" ? styles.active : ""}
-            onClick={() => setLanguage("zh")}
-          >
-            中文
-          </button>
-        </div>
-        <div>
-          <div className={styles.seeedLogo} aria-label="Seeed Studio">
-            <span className={styles.seeedWord}>Seeed</span>
-            <span className={styles.studioWord}>Studio</span>
-          </div>
+        <div className={styles.introCopy}>
+          <span className={styles.introKicker}>{t.introKicker}</span>
           <Glow as="h1">XIAO Project Hub</Glow>
+          <p>{t.introTagline}</p>
+          <div className={styles.introAction}>
+            <a href={CONTRIBUTE_LINK} target="_blank" rel="noopener">
+              {t.contributeButton}
+            </a>
+            <span>{t.contributeIntro}</span>
+          </div>
+          <div className={styles.introMetrics} aria-label="Project Hub statistics">
+            {METRICS.map((m) => (
+              <div key={m[1]}>
+                <strong>{m[0]}</strong>
+                <span>{lang === "en" ? m[2] : m[3]}</span>
+              </div>
+            ))}
+          </div>
         </div>
-        <p>{t.introTagline}</p>
+        <div className={styles.introVisual}>
+          <img src={withBase("/projecthub-hero.png")} alt="Seeed Studio XIAO boards" />
+        </div>
       </Reveal>
 
       <main>
@@ -378,15 +378,6 @@ export function ProjectHub() {
           </aside>
         </Reveal>
 
-        <Reveal as="section" className={styles.ecosystemStrip}>
-          {METRICS.map((m) => (
-            <div key={m[1]}>
-              <strong>{m[0]}</strong>
-              <span>{lang === "en" ? m[2] : m[3]}</span>
-            </div>
-          ))}
-        </Reveal>
-
         <Reveal as="section" id="archive" className={styles.archive}>
           <span className={styles.sectionKicker}>EXPLORE BY APPLICATION</span>
           <div className={styles.archiveTitle}>
@@ -462,18 +453,6 @@ export function ProjectHub() {
             </div>
           </div>
 
-          <div className={styles.contribute}>
-            <div className={styles.contributeCopy}>
-              <span className={`${styles.sectionKicker} ${styles.contributeKicker}`}>
-                {t.contributeKicker}
-              </span>
-              <h2>{t.contributeTitle}</h2>
-              <p>{t.contributeDek}</p>
-            </div>
-            <a href={CONTRIBUTE_LINK} target="_blank" rel="noopener">
-              {t.contributeButton}
-            </a>
-          </div>
           <footer className={styles.sourceNote}>
             <span>{t.sourceLabel}</span>
             <p>{t.sourceNote}</p>
