@@ -341,28 +341,16 @@ export function ProjectHub() {
             </div>
             <p>{t.collectionDek}</p>
           </div>
-          <div className={styles.browser}>
-            <div className={styles.chrome}>
-              <div className={styles.lights}>
-                <i />
-                <i />
-                <i />
-              </div>
-              <a className={styles.url} href={HUB_IFRAME} target="_blank" rel="noopener">
-                🔒 seeed-studio.github.io/OSHW-XIAO-Series/
-              </a>
-              <div />
-            </div>
-            <div className={styles.browserBody}>
-              <iframe
-                className={styles.liveSite}
-                src={HUB_IFRAME}
-                title="OSHW XIAO Series 互动网页"
-                loading="lazy"
-                allow="fullscreen"
-                referrerPolicy="strict-origin-when-cross-origin"
-              />
-            </div>
+          <div className={styles.browserBody}>
+            <iframe
+              className={styles.liveSite}
+              src={HUB_IFRAME}
+              title="OSHW XIAO Series 互动网页"
+              loading="lazy"
+              allow="fullscreen"
+              scrolling="no"
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
           </div>
         </Reveal>
       </main>
