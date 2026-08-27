@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useLang } from "../i18n";
 import { Reveal } from "../reveal";
@@ -191,7 +192,6 @@ export function ProjectHub() {
         }
       } catch (e) {
         if (!cancelled) setStatus("error");
-        // eslint-disable-next-line no-console
         console.error("Unable to load projects.yaml", e);
       }
     })();
@@ -296,7 +296,14 @@ export function ProjectHub() {
           </div>
         </div>
         <div className={styles.introVisual}>
-          <img src={withBase("/projecthub-hero.png")} alt="Seeed Studio XIAO boards" />
+          <Image
+            src={withBase("/projecthub-hero.png")}
+            alt="Seeed Studio XIAO boards"
+            width={900}
+            height={400}
+            sizes="(max-width: 760px) 100vw, 46vw"
+            priority
+          />
         </div>
       </Reveal>
 

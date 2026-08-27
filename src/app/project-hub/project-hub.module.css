@@ -306,3 +306,176 @@
   .projectIntro h1 { font-size: clamp(40px, 12vw, 54px); }
   .seeedLogo { font-size: 20px; }
 }
+
+/* Compact Project Hub campaign — overview, contribution and scale in one view. */
+.projectIntro {
+  width: calc(100% - 8vw);
+  min-height: 0;
+  margin: 28px 4vw 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(380px, .92fr);
+  align-items: stretch;
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid #dce8e4;
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: 0 18px 54px rgba(0, 73, 102, .09);
+}
+.introCopy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: clamp(36px, 4.4vw, 68px);
+  background:
+    radial-gradient(circle at 7% 0%, rgba(143, 195, 31, .17), transparent 34%),
+    linear-gradient(135deg, #fff 0%, #f8fbed 100%);
+}
+.introKicker {
+  margin-bottom: 16px;
+  color: #52710f;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .2em;
+}
+.projectIntro h1 {
+  max-width: 760px;
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(48px, 5vw, 76px);
+  line-height: .96;
+  letter-spacing: -.055em;
+}
+.projectIntro p {
+  max-width: 720px;
+  margin: 22px 0 0;
+  color: #5e7078;
+  font-size: clamp(14px, 1.15vw, 17px);
+  line-height: 1.65;
+}
+.introAction {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 26px;
+}
+.introAction a {
+  flex: none;
+  padding: 13px 20px;
+  border-radius: 999px;
+  background: var(--acid);
+  color: #173000;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 9px 22px rgba(143, 195, 31, .22);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.introAction a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(143, 195, 31, .32);
+}
+.introAction a:focus-visible {
+  outline: 3px solid rgba(0, 73, 102, .3);
+  outline-offset: 3px;
+}
+.introAction span {
+  max-width: 340px;
+  color: #718087;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.introMetrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 34px;
+  padding-top: 22px;
+  border-top: 1px solid #dce8e4;
+}
+.introMetrics > div {
+  min-width: 0;
+  padding: 0 15px;
+  border-right: 1px solid #dce8e4;
+}
+.introMetrics > div:first-child { padding-left: 0; }
+.introMetrics > div:last-child { padding-right: 0; border-right: 0; }
+.introMetrics strong {
+  display: block;
+  color: #004966;
+  font-size: clamp(24px, 2.3vw, 36px);
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+.introMetrics span {
+  display: block;
+  margin-top: 7px;
+  color: #66747d;
+  font-size: 9px;
+  font-weight: 750;
+  line-height: 1.35;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.introVisual {
+  position: relative;
+  min-height: 430px;
+  overflow: hidden;
+  background: #fff;
+}
+.introVisual::after {
+  content: "XIAO / COMMUNITY BUILDS";
+  position: absolute;
+  right: 22px;
+  bottom: 20px;
+  padding: 8px 11px;
+  border-radius: 999px;
+  background: rgba(0, 73, 102, .88);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+.introVisual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .7s cubic-bezier(.2,.7,.2,1);
+}
+.projectIntro:hover .introVisual img { transform: scale(1.025); }
+.hero { padding-top: 26px; }
+.sourceNote { margin-top: 56px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .introVisual img, .introAction a { transition: none; }
+  .projectIntro:hover .introVisual img { transform: none; }
+}
+
+@media (max-width: 1050px) {
+  .projectIntro { grid-template-columns: minmax(0, 1.15fr) minmax(310px, .85fr); }
+  .introMetrics { grid-template-columns: repeat(2, 1fr); row-gap: 18px; }
+  .introMetrics > div:nth-child(2) { border-right: 0; }
+  .introMetrics > div:nth-child(3) { padding-left: 0; }
+  .introVisual { min-height: 480px; }
+}
+
+@media (max-width: 760px) {
+  .projectIntro {
+    width: calc(100% - 28px);
+    margin: 14px 14px 0;
+    grid-template-columns: 1fr;
+    border-radius: 22px;
+  }
+  .introCopy { padding: 38px 24px 32px; }
+  .projectIntro h1 { font-size: clamp(42px, 12vw, 60px); }
+  .introAction { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .introAction a { width: 100%; text-align: center; }
+  .introVisual { min-height: 260px; order: -1; }
+  .introVisual::after { right: 14px; bottom: 14px; }
+  .hero { padding-top: 18px; }
+}
