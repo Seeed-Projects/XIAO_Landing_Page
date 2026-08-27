@@ -8,8 +8,9 @@ import styles from "./esp-flasher.module.css";
 
 /* 真实固件列表 —— 目前 PoC 提供 XIAO ESP32-S3 的 Blink 示例
    （由 PlatformIO 编译，闪烁 GPIO21 用户 LED 并经串口 115200 输出日志）。
-   固件源在项目根 firmware/<board>/ 维护，按板型分目录；
-   服务副本在 public/firmware/<board>/，前端 fetch 后用 esptool-js 经 Web Serial 烧到 0x10000。 */
+   固件源在项目根 firmware/<板型全名>/ 维护（如 firmware/xiao-esp32-s3/，
+   ESP 系列还有 xiao-esp32-c3/c5/c6，按板补 .bin）；
+   服务副本在 public/firmware/<板型全名>/，前端 fetch 后用 esptool-js 经 Web Serial 烧到 0x10000。 */
 const FIRMWARES = [
   {
     id: "s3-blink",
@@ -17,7 +18,7 @@ const FIRMWARES = [
     name: { en: "Blink Demo", zh: "Blink 闪烁示例" },
     desc: { en: "Blinks the user LED (GPIO21) + prints over serial", zh: "用户 LED（GPIO21）闪烁 + 串口输出" },
     ver: "v1.0",
-    url: "/firmware/s3/xiao-esp32s3-blink.bin",
+    url: "/firmware/xiao-esp32-s3/xiao-esp32-s3-blink.bin",
     address: 0x10000,
   },
 ];
