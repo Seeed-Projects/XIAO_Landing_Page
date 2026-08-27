@@ -335,13 +335,6 @@ export function ProjectHub() {
         </Reveal>
 
         <Reveal as="section" className={styles.browserSection}>
-          <div className={styles.collectionIntro}>
-            <div>
-              <span className={styles.sectionKicker}>FULL PROJECT COLLECTION</span>
-              <Glow as="h2">{t.collectionTitle}</Glow>
-            </div>
-            <p>{t.collectionDek}</p>
-          </div>
           <div className={styles.browser}>
             <div className={styles.chrome}>
               <div className={styles.lights}>
