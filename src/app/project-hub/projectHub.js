@@ -22,23 +22,6 @@ const CONTRIBUTE_LINK =
   "https://docs.google.com/forms/d/e/1FAIpQLSdiju4D3-h0fZavfZeRrXcOtAh-Lb7Ll8zbrkziB94RCvbZrQ/viewform";
 const GITHUB_LINK = "https://github.com/Seeed-Studio/OSHW-XIAO-Series";
 
-/* 应用方向（13 个）—— 与参考一致 */
-const APPLICATION_DIRECTIONS = [
-  ["AI Gadget", "AI 智能设备"],
-  ["Gaming", "游戏与互动"],
-  ["Hardware Design", "硬件设计"],
-  ["Healthcare", "医疗健康"],
-  ["IoT", "物联网"],
-  ["LED Lighting", "LED 灯光"],
-  ["Mechanical Keyboard", "机械键盘"],
-  ["Robotics", "机器人"],
-  ["Scientific Tools", "科学工具"],
-  ["Smart Home", "智能家居"],
-  ["Telecommunication", "通信连接"],
-  ["Tools & Accessories", "工具与配件"],
-  ["Wearables", "可穿戴设备"],
-];
-
 const METRICS = [
   ["100+", "metricProjects", "community projects", "社区项目"],
   ["13", "metricAreas", "application areas", "应用方向"],
@@ -138,11 +121,9 @@ export function ProjectHub() {
   const [status, setStatus] = useState("loading");
   const [toast, setToast] = useState("");
 
-  const railRef = useRef(null);
   const leadRef = useRef(null);
   const sideRef = useRef(null);
   const recentListRef = useRef(null);
-  const railPausedRef = useRef(false);
   const toastTimer = useRef(null);
 
   const t = T[lang];
@@ -200,32 +181,6 @@ export function ProjectHub() {
     };
   }, []);
 
-  /* rail 无限滚动 */
-  useEffect(() => {
-    const rail = railRef.current;
-    if (!rail) return;
-    let raf;
-    const loop = () => {
-      if (!railPausedRef.current) {
-        rail.scrollLeft += 0.45;
-        if (rail.scrollLeft >= rail.scrollWidth / 2) {
-          rail.scrollLeft -= rail.scrollWidth / 2;
-        }
-      }
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
-    const enter = () => (railPausedRef.current = true);
-    const leave = () => (railPausedRef.current = false);
-    rail.addEventListener("mouseenter", enter);
-    rail.addEventListener("mouseleave", leave);
-    return () => {
-      cancelAnimationFrame(raf);
-      rail.removeEventListener("mouseenter", enter);
-      rail.removeEventListener("mouseleave", leave);
-    };
-  }, []);
-
   /* 侧栏高度跟随 lead（桌面端） */
   useEffect(() => {
     const lead = leadRef.current;
@@ -264,12 +219,6 @@ export function ProjectHub() {
     list.addEventListener("wheel", onWheel, { passive: false });
     return () => list.removeEventListener("wheel", onWheel);
   }, []);
-
-  function slideRail(d) {
-    railRef.current?.scrollBy({ left: d * 650, behavior: "smooth" });
-  }
-
-  const railCards = [...APPLICATION_DIRECTIONS, ...APPLICATION_DIRECTIONS];
 
   return (
     <div className={styles.hub}>
@@ -383,49 +332,6 @@ export function ProjectHub() {
                 ))}
             </div>
           </aside>
-        </Reveal>
-
-        <Reveal as="section" id="archive" className={styles.archive}>
-          <span className={styles.sectionKicker}>EXPLORE BY APPLICATION</span>
-          <div className={styles.archiveTitle}>
-            <Glow as="h2">{t.applicationTitle}</Glow>
-          </div>
-          <div className={styles.rail} ref={railRef}>
-            {railCards.map((p, i) => {
-              const n = (i % APPLICATION_DIRECTIONS.length) + 1;
-              const x = ((n - 1) % 4) * (100 / 3);
-              const y = Math.floor((n - 1) / 4) * (100 / 3);
-              const primary = lang === "en" ? p[0] : p[1];
-              const secondary = lang === "en" ? p[1] : p[0];
-              return (
-                <article
-                  key={i}
-                  className={styles.card}
-                  aria-hidden={i >= APPLICATION_DIRECTIONS.length ? "true" : undefined}
-                  onClick={() => notify(t.selectedToast(p[0]))}
-                >
-                  <div
-                    className={`${styles.cardArt} ${styles.applicationImage}`}
-                    style={{
-                      backgroundImage: `linear-gradient(0deg,#05070599,transparent 58%),url('${withBase("/application-scenes.webp")}')`,
-                      backgroundSize: "100% 100%, 400% 400%",
-                      backgroundPosition: `center, ${x}% ${y}%`,
-                    }}
-                  >
-                    <span className={styles.cardNo}>
-                      {String(n).padStart(2, "0")}
-                    </span>
-                  </div>
-                  <time>{t.appDirLabel}</time>
-                  <h3>
-                    {primary}
-                    <br />
-                    <small>{secondary}</small>
-                  </h3>
-                </article>
-              );
-            })}
-          </div>
         </Reveal>
 
         <Reveal as="section" className={styles.browserSection}>
