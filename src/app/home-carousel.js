@@ -5,9 +5,8 @@ import { withBase } from "../lib/basePath";
 import styles from "./home-carousel.module.css";
 
 const SLIDES = [
-  { src: "/home-carousel/xiao-nrf54lm20a.jpg", alt: "XIAO nRF54LM20A Sense" },
-  { src: "/home-carousel/xiao-family.jpg", alt: "Seeed Studio XIAO family" },
-  { src: "/home-carousel/displays.jpg", alt: "Seeed Studio displays for every application" },
+  { src: "/home-carousel/banner-1.webp", alt: "Seeed Studio featured banner" },
+  { src: "/home-carousel/banner-2.avif", alt: "Seeed Studio Wio banner" },
 ];
 
 export function HomeCarousel() {

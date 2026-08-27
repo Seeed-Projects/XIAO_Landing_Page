@@ -1,8 +1,8 @@
 .carousel {
   position: relative;
   width: 100%;
-  /* 全屏铺满，保留官网 1709×640（≈2.67:1）比例，两侧无边框/留白 */
-  aspect-ratio: 1709 / 640;
+  /* 全屏铺满，按新横幅原生 4:1 比例，不裁切 */
+  aspect-ratio: 4 / 1;
   overflow: hidden;
   background: #071c2a;
   isolation: isolate;
