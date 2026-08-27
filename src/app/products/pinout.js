@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useLang } from "../i18n";
 import { Glow } from "../Glow";
 import { withBase } from "../../lib/basePath";
@@ -665,7 +665,15 @@ const BOARDS = {
     )],
   },
 };
-const BOARD_ORDER = ["nrf54", "s3", "c3", "c6", "c5", "nrf54l15", "nrf52", "rp2040", "rp2350", "ra4", "samd21", "mg24"];
+const BOARD_CATEGORIES = [
+  { id: "esp32", label: "Espressif ESP32 Series", boardIds: ["s3", "c3", "c6", "c5"] },
+  { id: "nrf52", label: "Nordic nRF52 Series", boardIds: ["nrf52"] },
+  { id: "nrf54", label: "Nordic nRF54 Series", boardIds: ["nrf54", "nrf54l15"] },
+  { id: "rp", label: "Raspberry Pi RP Series", boardIds: ["rp2040", "rp2350"] },
+  { id: "mg", label: "Silicon Labs MG Series", boardIds: ["mg24"] },
+  { id: "samd", label: "Microchip SAMD Series", boardIds: ["samd21"] },
+  { id: "ra", label: "Renesas RA Series", boardIds: ["ra4"] },
+];
 
 export function Pinout() {
   const { lang } = useLang();
@@ -673,7 +681,11 @@ export function Pinout() {
   const [face, setFace] = useState("front");
   const [selId, setSelId] = useState("A0");
   const [copied, setCopied] = useState(false);
+  const [boardMenuOpen, setBoardMenuOpen] = useState(false);
+  const initialCategory = BOARD_CATEGORIES.find((category) => category.boardIds.includes(boardId))?.id || BOARD_CATEGORIES[0].id;
+  const [activeCategoryId, setActiveCategoryId] = useState(initialCategory);
   const copyTimer = useRef(null);
+  const boardMenuRef = useRef(null);
   const board = BOARDS[boardId];
   const groups = [...board.groups, ...(board.backGroups || [])];
   const allPins = groups.flatMap((g) => g.pins);
@@ -682,6 +694,30 @@ export function Pinout() {
   const pin = pinById(activeId);
   const c = FN_COLOR[pin.fn];
   const pick = (field) => (field && field[lang]) || (field && field.en) || "";
+  const activeCategory = BOARD_CATEGORIES.find((category) => category.id === activeCategoryId) || BOARD_CATEGORIES[0];
+
+  useEffect(() => {
+    if (!boardMenuOpen) return undefined;
+    const onPointerDown = (event) => {
+      if (!boardMenuRef.current?.contains(event.target)) setBoardMenuOpen(false);
+    };
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setBoardMenuOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [boardMenuOpen]);
+
+  const selectBoard = (id) => {
+    setBoardId(id);
+    setFace("front");
+    setSelId(BOARDS[id].leftColIds[0]);
+    setBoardMenuOpen(false);
+  };
 
   const T = {
     eyebrow: lang === "zh" ? "引脚定义" : "Pinout",
@@ -744,12 +780,55 @@ export function Pinout() {
 
         <div className={styles.boardBar}>
           <label className={styles.boardBarLabel}>{T.boardLabel}</label>
-          <div className={styles.boardSelect}>
-            <select value={boardId} onChange={(e) => { const id = e.target.value; setBoardId(id); setFace("front"); setSelId(BOARDS[id].leftColIds[0]); }} aria-label={T.boardLabel}>
-              {BOARD_ORDER.map((k) => (
-                <option key={k} value={k}>{BOARDS[k].name}</option>
-              ))}
-            </select>
+          <div className={styles.boardSelect} ref={boardMenuRef}>
+            <button
+              type="button"
+              className={`${styles.boardSelectTrigger} ${boardMenuOpen ? styles.boardSelectTriggerOpen : ""}`}
+              aria-label={T.boardLabel}
+              aria-haspopup="menu"
+              aria-expanded={boardMenuOpen}
+              onClick={() => {
+                const category = BOARD_CATEGORIES.find((item) => item.boardIds.includes(boardId));
+                if (category) setActiveCategoryId(category.id);
+                setBoardMenuOpen((open) => !open);
+              }}
+            >
+              <span>{board.name}</span><i aria-hidden="true" />
+            </button>
+            {boardMenuOpen && (
+              <div className={styles.boardMenu} role="menu">
+                <div className={styles.boardMenuCategories}>
+                  {BOARD_CATEGORIES.map((category) => (
+                    <button
+                      key={category.id}
+                      type="button"
+                      className={category.id === activeCategory.id ? styles.boardCategoryActive : ""}
+                      onMouseEnter={() => setActiveCategoryId(category.id)}
+                      onFocus={() => setActiveCategoryId(category.id)}
+                      onClick={() => setActiveCategoryId(category.id)}
+                    >
+                      <span>{category.label}</span><small>{category.boardIds.length}</small>
+                    </button>
+                  ))}
+                </div>
+                <div className={styles.boardMenuModels}>
+                  <div className={styles.boardMenuTitle}>{activeCategory.label}</div>
+                  {activeCategory.boardIds.map((id) => (
+                    <button
+                      key={id}
+                      type="button"
+                      role="menuitemradio"
+                      aria-checked={id === boardId}
+                      className={id === boardId ? styles.boardModelActive : ""}
+                      onClick={() => selectBoard(id)}
+                    >
+                      <span>{BOARDS[id].name}</span>
+                      {id === boardId && <b aria-hidden="true">✓</b>}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           {board.backPins && (
             <div className={styles.faceSwitch} aria-label={lang === "zh" ? "选择板子正反面" : "Choose board face"}>
