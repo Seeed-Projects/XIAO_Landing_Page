@@ -296,14 +296,14 @@ export function ProjectHub() {
             </a>
             <span>{t.contributeIntro}</span>
           </div>
-          <div className={styles.introMetrics} aria-label="Project Hub statistics">
-            {METRICS.map((m) => (
-              <div key={m[1]}>
-                <strong>{m[0]}</strong>
-                <span>{lang === "en" ? m[2] : m[3]}</span>
-              </div>
-            ))}
-          </div>
+        </div>
+        <div className={styles.introMetrics} aria-label="Project Hub statistics">
+          {METRICS.map((m) => (
+            <div key={m[1]}>
+              <strong>{m[0]}</strong>
+              <span>{lang === "en" ? m[2] : m[3]}</span>
+            </div>
+          ))}
         </div>
       </Reveal>
 

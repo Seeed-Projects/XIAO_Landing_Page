@@ -751,3 +751,174 @@
   .introMetrics > div:nth-child(2) { border-right: 0; }
   .introMetrics > div:nth-child(3) { padding-left: 0; }
 }
+
+/* Final annotated composition: full-screen image, lower-left copy, bottom stats. */
+.projectIntro {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: calc(100svh - 64px);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: #102d38;
+  box-shadow: none;
+}
+.introVisual {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+.introVisual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: none;
+}
+.projectIntro:hover .introVisual img { transform: none; }
+.introShade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  display: block;
+  background:
+    linear-gradient(90deg, rgba(0, 25, 37, .84) 0%, rgba(0, 31, 44, .62) 43%, rgba(0, 31, 44, .12) 76%, rgba(0, 20, 30, .08) 100%),
+    linear-gradient(0deg, rgba(0, 20, 30, .5) 0%, transparent 54%);
+}
+.introCopy {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 80px clamp(28px, 5vw, 76px) clamp(170px, 18vh, 210px);
+  display: block;
+  background: none;
+}
+.introKicker {
+  display: block;
+  margin: 0 0 18px;
+  color: rgba(255,255,255,.82);
+  font-family: var(--font-display), var(--font-body), sans-serif;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: .34em;
+}
+.projectIntro h1 {
+  max-width: 1180px;
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-display), var(--font-body), sans-serif;
+  font-size: clamp(64px, 8.6vw, 138px);
+  font-weight: 600;
+  line-height: .9;
+  letter-spacing: -.055em;
+  text-shadow: 0 4px 24px rgba(0,0,0,.4);
+}
+.projectIntro p {
+  max-width: 660px;
+  margin: 28px 0 0;
+  color: rgba(255,255,255,.9);
+  font-size: clamp(16px, 1.35vw, 20px);
+  line-height: 1.65;
+  text-shadow: 0 2px 12px rgba(0,0,0,.42);
+}
+.introAction {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 28px;
+}
+.introAction a {
+  min-height: 48px;
+  padding: 13px 24px;
+  background: #fff;
+  color: #004966;
+  box-shadow: 0 8px 24px rgba(0,0,0,.24);
+}
+.introAction a:hover { background: var(--acid); color: #173000; }
+.introAction span {
+  max-width: 350px;
+  color: rgba(255,255,255,.76);
+  font-size: 12px;
+  line-height: 1.55;
+  text-shadow: 0 2px 10px rgba(0,0,0,.4);
+}
+.introMetrics {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  margin: 0;
+  padding: 28px max(5vw, calc((100vw - 1440px) / 2));
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid rgba(255,255,255,.52);
+  background: rgba(255,255,255,.9);
+  backdrop-filter: blur(14px);
+}
+.introMetrics > div {
+  min-width: 0;
+  padding: 0 clamp(18px, 2.4vw, 42px);
+  border-right: 1px solid #d7e3dd;
+}
+.introMetrics > div:first-child { padding-left: 0; }
+.introMetrics > div:last-child { padding-right: 0; border-right: 0; }
+.introMetrics strong {
+  display: block;
+  color: #004966;
+  font-family: var(--font-display), var(--font-body), sans-serif;
+  font-size: clamp(32px, 3vw, 48px);
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+.introMetrics span {
+  display: block;
+  margin-top: 8px;
+  color: #667981;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.hero { padding-top: 30px; }
+
+@media (max-width: 760px) {
+  .projectIntro { min-height: 920px; align-items: flex-end; }
+  .introVisual { position: absolute; min-height: 0; order: initial; }
+  .introVisual img { object-position: 58% center; }
+  .introShade {
+    display: block;
+    background: linear-gradient(0deg, rgba(0,25,37,.94) 0%, rgba(0,31,44,.68) 60%, rgba(0,31,44,.1) 100%);
+  }
+  .introCopy {
+    order: initial;
+    padding: 100px 22px 245px;
+    background: none;
+  }
+  .projectIntro h1 { color: #fff; font-size: clamp(52px, 15vw, 76px); text-shadow: 0 4px 24px rgba(0,0,0,.4); }
+  .projectIntro p { color: rgba(255,255,255,.9); text-shadow: 0 2px 12px rgba(0,0,0,.42); }
+  .introKicker { color: rgba(255,255,255,.82); }
+  .introAction { align-items: flex-start; flex-direction: column; }
+  .introAction span { color: rgba(255,255,255,.76); text-shadow: 0 2px 10px rgba(0,0,0,.4); }
+  .introMetrics {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 20px;
+    padding: 24px 22px;
+  }
+  .introMetrics > div { padding: 0 14px; }
+  .introMetrics > div:nth-child(2) { border-right: 0; }
+  .introMetrics > div:nth-child(3) { padding-left: 0; }
+}
