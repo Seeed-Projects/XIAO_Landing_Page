@@ -43,7 +43,7 @@ export function HomeCarousel() {
     >
       <div className={styles.track} style={{ transform: `translate3d(-${active * 100}%, 0, 0)` }}>
         {SLIDES.map((slide, index) => (
-          <div key={slide.src} className={styles.slide} aria-hidden={index !== active}>
+          <div key={slide.src} className={`${styles.slide} ${index === active ? styles.slideActive : ""}`} aria-hidden={index !== active}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={withBase(slide.src)}
