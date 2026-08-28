@@ -601,9 +601,6 @@ export function ResHub() {
     modalKicker: lang === "zh" ? "资源预览" : "Resource preview",
     download: lang === "zh" ? "下载" : "Download",
     preview: lang === "zh" ? "预览" : "Preview",
-    footerH3: lang === "zh" ? "先看，再下载。" : "Look first. Download second.",
-    footerP: lang === "zh" ? "可视化硬件资源概念" : "Visual hardware resource concept",
-    footerSmall: lang === "zh" ? "内部概念" : "Internal concept",
     noResults: lang === "zh" ? "没有匹配的资源，换个关键词试试。" : "No matching resources — try another keyword.",
     generalCourses: lang === "zh" ? "通用课程" : "General courses",
     boardCourses: lang === "zh" ? `适用于 ${active.name} 的课程` : `Courses for ${active.name}`,
@@ -653,8 +650,6 @@ export function ResHub() {
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [modal.open]);
-
-  const year = new Date().getFullYear();
 
   return (
     <div className={styles.res}>
@@ -829,16 +824,6 @@ export function ResHub() {
           </div>
         </div>
       </div>
-
-      <footer className={styles.footer}>
-        <div className={`${styles.container} ${styles.footerGrid}`}>
-          <div>
-            <h3>{T.footerH3}</h3>
-            <p>{T.footerP}</p>
-          </div>
-          <small>© {year} Seeed Studio — {T.footerSmall}</small>
-        </div>
-      </footer>
     </div>
   );
 }

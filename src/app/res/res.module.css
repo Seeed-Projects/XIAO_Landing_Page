@@ -204,12 +204,6 @@
 .modalPreview { padding: 26px; background: #f3f4f1; }
 .modalPreview svg { width: 100%; display: block; }
 
-/* Footer */
-.footer { padding: 58px 0; background: var(--navy); color: #fff; }
-.footerGrid { display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; }
-.footer h3 { margin: 0 0 8px; font-size: 26px; line-height: 1.1; letter-spacing: -.04em; }
-.footer p, .footer small { margin: 0; color: rgba(255,255,255,.5); font-size: 10px; }
-
 @media (max-width: 980px) {
   .heroGrid { grid-template-columns: 1fr; }
   .heroCopy, .heroArt { min-height: 480px; }
@@ -240,7 +234,6 @@
   .miniBtns { align-self: flex-end; }
   .modal { padding: 10px; }
   .modalCard { max-height: calc(100dvh - 20px); }
-  .footerGrid { align-items: flex-start; flex-direction: column; }
 }
 @media (max-width: 420px) {
   .heroCopy { min-height: 390px; padding: 48px 18px; }
