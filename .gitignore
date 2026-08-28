@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 构建期烘焙的 project-hub iframe 同源静态页（预构建脚本生成，勿入库）
+public/project-hub-embed.html

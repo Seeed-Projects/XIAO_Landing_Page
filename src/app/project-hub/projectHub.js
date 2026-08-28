@@ -18,7 +18,7 @@ const HERO_IMG =
 const HERO_LINK =
   "https://www.hackster.io/rishabh-jain5/trailnav-solar-powered-off-grid-exploration-device-bb35b2";
 const HUB_IFRAME = "https://seeed-studio.github.io/OSHW-XIAO-Series/";
-const HUB_EMBED = "/project-hub/embed";
+const HUB_EMBED = "/project-hub-embed.html";
 const CONTRIBUTE_LINK =
   "https://docs.google.com/forms/d/e/1FAIpQLSdiju4D3-h0fZavfZeRrXcOtAh-Lb7Ll8zbrkziB94RCvbZrQ/viewform";
 const GITHUB_LINK = "https://github.com/Seeed-Studio/OSHW-XIAO-Series";
