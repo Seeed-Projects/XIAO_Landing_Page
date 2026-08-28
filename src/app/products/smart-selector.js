@@ -548,10 +548,13 @@ export function SmartSelector() {
                 <div className={styles.catalogGrid}>
                   {filteredProducts.map((p) => (
                     <article key={p.id} className={styles.catalogCard}>
-                      <div className={styles.catalogVisual}><div className={styles.productImg} style={{ backgroundImage: `url("${p.img}")` }} role="img" aria-label={p.name} /></div>
-                      <h3>{p.name}</h3>
-                      <p>{pick(p.tagline)}</p>
-                      <div className={styles.tagRow}>{[...p.wireless, ...p.features.map(pick)].slice(0, 4).map((t, i) => <span key={i} className={styles.tag}>{t}</span>)}</div>
+                      {/* 卡片主体（图/标题/描述/标签）整体跳购买链接，与 Product 产品卡片行为一致 */}
+                      <a href={p.link} target="_blank" rel="noopener noreferrer" style={{ display: "block", color: "inherit", textDecoration: "none" }}>
+                        <div className={styles.catalogVisual}><div className={styles.productImg} style={{ backgroundImage: `url("${p.img}")` }} role="img" aria-label={p.name} /></div>
+                        <h3>{p.name}</h3>
+                        <p>{pick(p.tagline)}</p>
+                        <div className={styles.tagRow}>{[...p.wireless, ...p.features.map(pick)].slice(0, 4).map((t, i) => <span key={i} className={styles.tag}>{t}</span>)}</div>
+                      </a>
                       <div className={styles.productFooter}>
                         <a className={`${styles.miniBtn} ${styles.emphasis}`} href={p.link} target="_blank" rel="noopener noreferrer">{lang === "zh" ? "查看产品" : "View product"}</a>
                         <button className={styles.miniBtn} type="button" onClick={() => toggleCompare(p.id)}>{lang === "zh" ? "对比" : "Compare"}</button>
