@@ -1,10 +1,15 @@
+/*
+ * LEGACY REFERENCE — ESP flasher UI before the simplified Step 1–3 redesign.
+ * Kept intentionally for visual/functional rollback reference; this file is not imported.
+ * Original active path: ../esp-flasher.js
+ */
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLang } from "../i18n";
 import { Glow } from "../Glow";
 import { withBase } from "../../lib/basePath";
-import styles from "./esp-flasher.module.css";
+import styles from "./esp-flasher.legacy.module.css";
 
 /* 真实固件列表 —— 目前 PoC 提供 XIAO ESP32-S3 的 Blink 示例
    （由 PlatformIO 编译，闪烁 GPIO21 用户 LED 并经串口 115200 输出日志）。
@@ -31,8 +36,6 @@ const ESP_BOARDS = [
   { id: "c5", name: "XIAO ESP32-C5", chip: "ESP32-C5", hint: "RISC-V · Wi-Fi 6 + BLE 5", hasFw: false },
 ];
 
-const HA_FLASHER_URL = "https://seeed-projects.github.io/Seeed-Homeassistant-Discovery/flasher/";
-
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export function ESPFlasher() {
@@ -45,7 +48,6 @@ export function ESPFlasher() {
   const [chip, setChip] = useState("—");
   const [stats, setStats] = useState({ time: "—", speed: "—", size: "—" });
   const [boardId, setBoardId] = useState("s3");
-  const [firmwareId, setFirmwareId] = useState("s3-blink");
   const [logLines, setLogLines] = useState([]);
   const [monOn, setMonOn] = useState(false);
   const [baud, setBaud] = useState("115200");
@@ -60,7 +62,7 @@ export function ESPFlasher() {
 
   const board = ESP_BOARDS.find((b) => b.id === boardId) ?? ESP_BOARDS[0];
   const fwList = FIRMWARES.filter((f) => f.boards.includes(boardId));
-  const sel = fwList.find((f) => f.id === firmwareId) ?? fwList[0];
+  const sel = fwList[0];
 
   /* 日志收集：esptool terminal 与裸串口输出都写到同一缓冲，节流后 flush 到 state */
   const appendLog = useCallback((text) => {
@@ -78,11 +80,8 @@ export function ESPFlasher() {
 
   // 卸载时关掉端口/reader
   useEffect(() => {
-    const supportTimer = setTimeout(() => {
-      setSupported(typeof navigator !== "undefined" && "serial" in navigator);
-    }, 0);
+    setSupported(typeof navigator !== "undefined" && "serial" in navigator);
     return () => {
-      clearTimeout(supportTimer);
       if (flushRef.current) clearTimeout(flushRef.current);
       try { readerRef.current?.cancel(); } catch {}
     };
@@ -101,24 +100,8 @@ export function ESPFlasher() {
     eyebrow: lang === "zh" ? "ESP 在线烧录" : "ESP Flasher",
     h2: lang === "zh" ? "ESP 在线烧录器" : "ESP Web Flasher",
     p: lang === "zh"
-      ? "选择烧录方式，然后按三个步骤完成固件写入。"
-      : "Choose a flashing path, then install firmware in three clear steps.",
-    espEntry: lang === "zh" ? "ESP 在线烧录" : "ESP Web Flasher",
-    espEntryHint: lang === "zh" ? "在浏览器中连接并烧录 XIAO ESP 系列" : "Connect and flash XIAO ESP boards in the browser",
-    haEntry: lang === "zh" ? "HA 固件烧录" : "HA Firmware Flasher",
-    haEntryHint: lang === "zh" ? "跳转到 Home Assistant 烧录工具" : "Open the Home Assistant flashing tool",
-    openExternal: lang === "zh" ? "打开外部烧录页 ↗" : "Open external flasher ↗",
-    quickTitle: lang === "zh" ? "三步完成烧录" : "Flash in three steps",
-    stepOne: lang === "zh" ? "选择开发板和固件" : "Choose board and firmware",
-    stepOneHint: lang === "zh" ? "先确认你的 XIAO 型号，再选择与它匹配的固件。" : "Match the XIAO model first, then choose compatible firmware.",
-    stepTwo: lang === "zh" ? "用 USB 连接设备" : "Connect the board over USB",
-    stepTwoHint: lang === "zh" ? "使用支持数据传输的 USB 线，并允许浏览器访问串口。" : "Use a data-capable USB cable and allow browser serial access.",
-    stepThree: lang === "zh" ? "开始烧录" : "Flash the firmware",
-    stepThreeHint: lang === "zh" ? "确认选择后开始写入，完成前不要拔出设备。" : "Start writing and keep the board connected until it finishes.",
-    actionTitle: lang === "zh" ? "准备设备" : "Prepare your board",
-    firmwareLabel: lang === "zh" ? "固件" : "Firmware",
-    advancedTitle: lang === "zh" ? "烧录详情与串口工具" : "Flash details and serial tools",
-    advancedHint: lang === "zh" ? "需要排查问题或查看输出时，再使用这里的信息。" : "Use these details only when you need diagnostics or device output.",
+      ? "浏览器内用 Web Serial 直连 ESP 设备真烧录，无需安装 esptool/Arduino。选端口→同步芯片→写固件，实时显示芯片、进度、耗时与速率，烧完硬复位，设备即跑新固件。"
+      : "Flash ESP devices straight from the browser via Web Serial. Sync → detect chip → write firmware, with live chip info, progress, timing and speed.",
     connect: lang === "zh" ? "连接设备" : "Connect",
     disconnect: lang === "zh" ? "断开" : "Disconnect",
     flash: lang === "zh" ? "烧录" : "Flash",
@@ -231,8 +214,6 @@ export function ESPFlasher() {
       if (!res.ok) throw new Error(`固件下载失败 (HTTP ${res.status})`);
       const data = new Uint8Array(await res.arrayBuffer());
       appendLog(`固件 ${data.length} 字节 → 0x${target.address.toString(16)}\n`);
-      // Browser operation timing is intentionally sampled inside this user action.
-      // eslint-disable-next-line react-hooks/purity
       const t0 = performance.now();
       await espRef.current.writeFlash({
         fileArray: [{ data, address: target.address }],
@@ -243,7 +224,6 @@ export function ESPFlasher() {
         },
       });
       await espRef.current.after("hard_reset");
-      // eslint-disable-next-line react-hooks/purity
       const dt = (performance.now() - t0) / 1000;
       const kbps = Math.round(data.length / dt / 1024);
       setStats({ time: dt.toFixed(1), speed: kbps, size: (data.length / 1024).toFixed(0) + " KB" });
@@ -307,119 +287,171 @@ export function ESPFlasher() {
           <p>{T.p}</p>
         </div>
 
-        <nav className={styles.flashEntries} aria-label={lang === "zh" ? "选择烧录方式" : "Choose flashing method"}>
-          <a className={`${styles.flashEntry} ${styles.active}`} href="#esp-workflow">
-            <span>ESP</span>
-            <strong>{T.espEntry}</strong>
-            <small>{T.espEntryHint}</small>
-          </a>
-          <a className={styles.flashEntry} href={HA_FLASHER_URL} target="_blank" rel="noopener noreferrer">
-            <span>HA</span>
-            <strong>{T.haEntry}</strong>
-            <small>{T.haEntryHint} · {T.openExternal}</small>
-          </a>
-        </nav>
+        <section className={styles.workspace}>
+          <div className={styles.workspaceInner}>
+            <div className={styles.topGrid}>
+              {/* 左：设备卡 + 工具 */}
+              <div className={styles.leftPanel}>
+                <div className={styles.deviceCard}>
+                  <div className={styles.boardGlyph} />
+                  <div className={styles.deviceChip}>{connected ? chip : board.chip}</div>
+                  <div className={`${styles.deviceStatus} ${connected ? styles.on : ""}`}>
+                    {connected ? T.connected : T.disconnected}
+                  </div>
+                  <label className={styles.boardPicker}>
+                    <span>{T.boardLabel}</span>
+                    <select value={boardId} onChange={(e) => setBoardId(e.target.value)} aria-label={T.boardLabel} disabled={connected}>
+                      {ESP_BOARDS.map((b) => (
+                        <option key={b.id} value={b.id}>{b.name}</option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
 
-        <section className={styles.quickWorkspace} id="esp-workflow">
-          <div className={styles.guidePanel}>
-            <span className={styles.sectionLabel}>ESP / QUICK FLASH</span>
-            <Glow as="h3">{T.quickTitle}</Glow>
-            {[
-              [T.stepOne, T.stepOneHint],
-              [T.stepTwo, T.stepTwoHint],
-              [T.stepThree, T.stepThreeHint],
-            ].map(([title, hint], index) => (
-              <div className={styles.guideStep} key={title}>
-                <b>{String(index + 1).padStart(2, "0")}</b>
-                <div><strong>{title}</strong><p>{hint}</p></div>
+                <div className={styles.toolRow}>
+                  <button
+                    type="button"
+                    className={`${styles.connectBtn} ${connected ? styles.connected : ""}`}
+                    onClick={handleConnect}
+                    disabled={busy || !supported}
+                  >
+                    {connected ? T.disconnect : T.connect}
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.flashBtn}
+                    onClick={() => handleFlash()}
+                    disabled={!canFlash}
+                  >
+                    {busy ? T.flashing : T.flash}
+                  </button>
+                </div>
+
+                {!supported && <div className={styles.monEmpty}>{T.unsupported}</div>}
+                {error && <div className={styles.monEmpty} style={{ color: "var(--brand-red, #e1554f)" }}>✗ {error}</div>}
+                {flashed && !busy && (
+                  <div className={styles.monEmpty} style={{ color: "var(--brand-green, #16b66a)" }}>✓ {T.success}</div>
+                )}
+
+                {showProgress && (
+                  <div className={styles.progress}>
+                    <div className={styles.progressTrack}>
+                      <div className={styles.progressFill} style={{ width: `${progress}%` }} />
+                    </div>
+                    <div className={styles.progressMeta}>
+                      <span>{busy ? T.writing : T.finished}</span>
+                      <span>{progress}%</span>
+                    </div>
+                  </div>
+                )}
               </div>
-            ))}
-          </div>
 
-          <div className={styles.actionPanel}>
-            <div className={styles.actionHead}>
-              <div><span className={styles.sectionLabel}>ESP WEB SERIAL</span><h3>{T.actionTitle}</h3></div>
-              <span className={`${styles.connectionState} ${connected ? styles.on : ""}`}>
-                {connected ? T.connected : T.disconnected}
-              </span>
-            </div>
-
-            <label className={styles.simpleField}>
-              <span>{T.boardLabel}</span>
-              <select
-                value={boardId}
-                onChange={(e) => {
-                  const next = e.target.value;
-                  setBoardId(next);
-                  setFirmwareId(FIRMWARES.find((f) => f.boards.includes(next))?.id ?? "");
-                }}
-                disabled={connected}
-              >
-                {ESP_BOARDS.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
-              </select>
-              <small>{board.hint}</small>
-            </label>
-
-            <label className={styles.simpleField}>
-              <span>{T.firmwareLabel}</span>
-              <select value={sel?.id ?? ""} onChange={(e) => setFirmwareId(e.target.value)} disabled={!fwList.length || connected}>
-                {fwList.length
-                  ? fwList.map((f) => <option key={f.id} value={f.id}>{pick(f.name)} · {f.ver}</option>)
-                  : <option value="">{T.noFw}</option>}
-              </select>
-              <small>{sel ? pick(sel.desc) : T.noFw}</small>
-            </label>
-
-            <div className={styles.primaryActions}>
-              <button
-                type="button"
-                className={`${styles.connectBtn} ${connected ? styles.connected : ""}`}
-                onClick={handleConnect}
-                disabled={busy || !supported}
-              >
-                {connected ? T.disconnect : T.connect}
-              </button>
-              <button type="button" className={styles.flashBtn} onClick={() => handleFlash()} disabled={!canFlash}>
-                {busy ? T.flashing : T.flash}
-              </button>
-            </div>
-
-            {!supported && <div className={styles.inlineMessage}>{T.unsupported}</div>}
-            {error && <div className={`${styles.inlineMessage} ${styles.error}`}>✗ {error}</div>}
-            {flashed && !busy && <div className={`${styles.inlineMessage} ${styles.success}`}>✓ {T.success}</div>}
-            {showProgress && (
-              <div className={styles.progress}>
-                <div className={styles.progressTrack}><div className={styles.progressFill} style={{ width: `${progress}%` }} /></div>
-                <div className={styles.progressMeta}><span>{busy ? T.writing : T.finished}</span><span>{progress}%</span></div>
-              </div>
-            )}
-          </div>
-        </section>
-
-        <section className={styles.advancedSection}>
-          <div className={styles.advancedHead}>
-            <div><span className={styles.sectionLabel}>DETAILS / SERIAL</span><h3>{T.advancedTitle}</h3></div>
-            <p>{T.advancedHint}</p>
-          </div>
-
-          <div className={styles.statsRow}>
-            <div className={styles.stat}><span className={styles.statLabel}>{T.statTime}</span><span className={styles.statValue}>{stats.time}{stats.time !== "—" && stats.time !== "…" ? <small>s</small> : null}</span></div>
-            <div className={styles.stat}><span className={styles.statLabel}>{T.statSpeed}</span><span className={styles.statValue}>{stats.speed}{stats.speed !== "—" && stats.speed !== "…" ? <small>KB/s</small> : null}</span></div>
-            <div className={styles.stat}><span className={styles.statLabel}>{T.statChip}</span><span className={styles.statValue}>{connected ? chip : "—"}</span></div>
-            <div className={styles.stat}><span className={styles.statLabel}>{T.statSize}</span><span className={styles.statValue}>{stats.size}</span></div>
-          </div>
-
-          <div className={styles.monitor}>
-            <div className={styles.monBar}>
-              <div className={styles.monBarLeft}><span className={styles.monDot} data-on={monOn ? "1" : "0"} /><strong>{T.monTitle}</strong></div>
-              <div className={styles.monBarRight}>
-                <label className={styles.baudPicker}><span>{T.baud}</span><select value={baud} onChange={(e) => setBaud(e.target.value)} disabled={!supported}>{["9600", "115200", "230400", "460800"].map((b) => <option key={b} value={b}>{b}</option>)}</select></label>
-                <button type="button" className={styles.monBtn} onClick={toggleMonitor} disabled={!supported || (!connected && !monOn)}>{monOn ? T.monPause : T.readOutput}</button>
-                <button type="button" className={`${styles.monBtn} ${styles.monBtnGhost}`} onClick={clearLog} disabled={!logLines.length}>{T.monClear}</button>
+              {/* 右：日志 / 串口 */}
+              <div className={styles.monitor}>
+                <div className={styles.monBar}>
+                  <div className={styles.monBarLeft}>
+                    <span className={styles.monDot} data-on={monOn ? "1" : "0"} />
+                    <strong>{T.monTitle}</strong>
+                  </div>
+                  <div className={styles.monBarRight}>
+                    <label className={styles.baudPicker}>
+                      <span>{T.baud}</span>
+                      <select value={baud} onChange={(e) => setBaud(e.target.value)} disabled={!supported}>
+                        {["9600", "115200", "230400", "460800"].map((b) => (
+                          <option key={b} value={b}>{b}</option>
+                        ))}
+                      </select>
+                    </label>
+                    <button
+                      type="button"
+                      className={styles.monBtn}
+                      onClick={toggleMonitor}
+                      disabled={!supported || (!portRef.current && !monOn)}
+                    >
+                      {monOn ? T.monPause : T.readOutput}
+                    </button>
+                    <button
+                      type="button"
+                      className={`${styles.monBtn} ${styles.monBtnGhost}`}
+                      onClick={clearLog}
+                      disabled={!logLines.length}
+                    >
+                      {T.monClear}
+                    </button>
+                  </div>
+                </div>
+                <div className={styles.monScreen}>
+                  {logLines.length ? (
+                    logLines.map((ln, i) => (
+                      <pre key={i} className={styles.monLine}>{ln}</pre>
+                    ))
+                  ) : (
+                    <div className={styles.monEmpty}>{supported ? T.monHint : T.unsupported}</div>
+                  )}
+                </div>
               </div>
             </div>
-            <div className={styles.monScreen}>
-              {logLines.length ? logLines.map((ln, i) => <pre key={i} className={styles.monLine}>{ln}</pre>) : <div className={styles.monEmpty}>{supported ? T.monHint : T.unsupported}</div>}
+
+            {/* 统计卡 */}
+            <div className={styles.statsRow}>
+              <div className={`${styles.stat} ${stats.time !== "—" && stats.time !== "…" ? styles.accent : ""}`}>
+                <span className={styles.statLabel}>{T.statTime}</span>
+                <span className={styles.statValue}>{stats.time}{stats.time !== "—" && stats.time !== "…" ? <small>s</small> : null}</span>
+                <span className={styles.statHint}>{stats.time === "—" ? T.notFlashed : T.thisRun}</span>
+              </div>
+              <div className={`${styles.stat} ${stats.speed !== "—" && stats.speed !== "…" ? styles.accent : ""}`}>
+                <span className={styles.statLabel}>{T.statSpeed}</span>
+                <span className={styles.statValue}>{stats.speed}{stats.speed !== "—" && stats.speed !== "…" ? <small>KB/s</small> : null}</span>
+                <span className={styles.statHint}>{stats.speed === "—" ? T.notFlashed : T.thisRun}</span>
+              </div>
+              <div className={styles.stat}>
+                <span className={styles.statLabel}>{T.statChip}</span>
+                <span className={styles.statValue} style={{ fontSize: 22 }}>{connected ? chip : "—"}</span>
+                <span className={styles.statHint}>{board.hint}</span>
+              </div>
+              <div className={styles.stat}>
+                <span className={styles.statLabel}>{T.statSize}</span>
+                <span className={styles.statValue} style={{ fontSize: 22 }}>{stats.size}</span>
+                <span className={styles.statHint}>{sel ? pick(sel.name) : T.noFw}</span>
+              </div>
+            </div>
+
+            {/* 固件列表 */}
+            <div className={styles.fwList}>
+              <div className={styles.fwHead}>
+                <span>{T.fwHead}</span>
+                <span>{T.fwVer}</span>
+                <span>{T.fwSize}</span>
+                <span style={{ justifySelf: "end" }}>{T.fwAction}</span>
+              </div>
+              {fwList.length ? fwList.map((f) => (
+                <div key={f.id} className={styles.fwRow}>
+                  <div className={styles.fwName}>
+                    <strong>{pick(f.name)}</strong>
+                    <span>{pick(f.desc)}</span>
+                  </div>
+                  <span className={styles.fwVer}>{f.ver}</span>
+                  <span className={styles.fwSize}>~{(254016 / 1024).toFixed(0)} KB</span>
+                  <button
+                    type="button"
+                    className={styles.fwFlash}
+                    onClick={() => handleFlash(f)}
+                    disabled={!connected || busy}
+                  >
+                    {busy ? T.flashingRow : T.flash}
+                  </button>
+                </div>
+              )) : (
+                <div className={styles.fwRow}>
+                  <div className={styles.fwName}>
+                    <strong>{T.noFw}</strong>
+                    <span>{board.name}</span>
+                  </div>
+                  <span className={styles.fwVer}>—</span>
+                  <span className={styles.fwSize}>—</span>
+                  <button type="button" className={styles.fwFlash} disabled>—</button>
+                </div>
+              )}
             </div>
           </div>
         </section>
