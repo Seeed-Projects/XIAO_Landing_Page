@@ -165,7 +165,7 @@ const zh = {
   },
   news: {
     title: "XIAO 新闻",
-    description: "了解 XIAO 的最新新闻，以及来自 Seeed 和全球社区的最新动态。",
+    description: "",
     items: [
       { title: "XIAO ESP32-S3 获评年度最佳开发板", source: "Hackster.io", date: "2025-06-15", excerpt: "评测团队对 XIAO ESP32-S3 的紧凑体积与强大性能给予高度评价。", tag: "外部评测" },
       { title: "Seeed Studio 推出 XIAO nRF54L15", source: "CNX-Software", date: "2025-05-28", excerpt: "新一代低功耗 BLE 芯片 nRF54L15 登陆 XIAO 系列，续航提升 40%。", tag: "媒体报道" },
@@ -431,7 +431,7 @@ const en = {
   },
   news: {
     title: "XIAO in the News",
-    description: "Discover the latest news on XIAO, updates from Seeed and from our community all over the world",
+    description: "",
     items: [
       { title: "XIAO ESP32-S3 named Dev Board of the Year", source: "Hackster.io", date: "2025-06-15", excerpt: "Reviewers praised the XIAO ESP32-S3's balance of compact size and strong performance.", tag: "External Review" },
       { title: "Seeed Studio launches XIAO nRF54L15", source: "CNX-Software", date: "2025-05-28", excerpt: "The new low-power BLE chip nRF54L15 joins the XIAO lineup with 40% longer runtime.", tag: "Media Coverage" },
