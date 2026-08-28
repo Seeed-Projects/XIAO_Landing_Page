@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useMemo, useCallback } from "react";
+import { createContext, useContext, useState, useMemo, useCallback, useEffect } from "react";
 import { defaultXiaoImage } from "./site-data";
 
 const LangContext = createContext({
@@ -548,10 +548,63 @@ const en = {
 
 export const dictionaries = { zh, en };
 
+const LANG_KEY = "xiao-lang";
+const VALID = ["en", "zh"];
+
+/* 读取已持久化的语言偏好；SSR/构建期无 window，返回 "en" 与预渲染 HTML 一致，
+   避免 hydration mismatch；客户端挂载后再同步到 localStorage 的真实值。 */
+function readStoredLang() {
+  if (typeof window === "undefined") return "en";
+  try {
+    const v = window.localStorage.getItem(LANG_KEY);
+    return VALID.includes(v) ? v : "en";
+  } catch {
+    return "en";
+  }
+}
+
+function writeStoredLang(lang) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(LANG_KEY, lang);
+  } catch {}
+}
+
+/* 同步 <html lang>，供浏览器/无障碍/字体特性使用 */
+function syncHtmlLang(lang) {
+  if (typeof document !== "undefined") {
+    document.documentElement.lang = lang;
+  }
+}
+
 export function LanguageProvider({ children }) {
-  const [lang, setLang] = useState("en");
-  const toggle = useCallback(() => setLang((p) => (p === "zh" ? "en" : "zh")), []);
-  const value = useMemo(() => ({ lang, setLang, toggle, t: dictionaries[lang] }), [lang, toggle]);
+  // 初始 "en" 与静态导出预渲染一致；挂载后用 useEffect 恢复用户偏好，避免 hydration 报错
+  const [lang, setLangState] = useState("en");
+
+  // 挂载时从 localStorage 恢复，并同步 <html lang>
+  useEffect(() => {
+    const stored = readStoredLang();
+    if (stored !== "en") setLangState(stored);
+    syncHtmlLang(stored);
+  }, []);
+
+  const setLang = useCallback((next) => {
+    const v = VALID.includes(next) ? next : "en";
+    setLangState(v);
+    writeStoredLang(v);
+    syncHtmlLang(v);
+  }, []);
+
+  const toggle = useCallback(() => {
+    setLangState((p) => {
+      const v = p === "zh" ? "en" : "zh";
+      writeStoredLang(v);
+      syncHtmlLang(v);
+      return v;
+    });
+  }, []);
+
+  const value = useMemo(() => ({ lang, setLang, toggle, t: dictionaries[lang] }), [lang, setLang, toggle]);
   return <LangContext.Provider value={value}>{children}</LangContext.Provider>;
 }
 
