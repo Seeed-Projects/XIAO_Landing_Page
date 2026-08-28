@@ -5,10 +5,10 @@ import { useParams } from "next/navigation";
 import { useLang } from "../../i18n";
 import { SiteHeader } from "../../components";
 import { Glow } from "../../Glow";
-import { findSoftwareBySlug, SOFTWARE_CATEGORIES, slugify, logoSrc } from "../software-data";
+import { findSoftwareBySlug, SOFTWARE_CATEGORIES, slugify, logoSrc, pick } from "../software-data";
 
 export default function SoftwareDetailClient() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const params = useParams();
   const slug = decodeURIComponent(String(params?.slug ?? ""));
 
@@ -23,16 +23,16 @@ export default function SoftwareDetailClient() {
             as="h1"
             className="font-display text-3xl font-semibold tracking-tight text-[var(--ink-strong)]"
           >
-            未找到该软件
+            {lang === "zh" ? "未找到该软件" : "Software not found"}
           </Glow>
           <p className="mt-3 text-sm text-[var(--ink-body)]">
-            没有找到 “{slug}” 对应的条目。
+            {lang === "zh" ? `没有找到 “${slug}” 对应的条目。` : `No entry found for “${slug}”.`}
           </p>
           <Link
             href="/software-center"
             className="mt-6 rounded-full border border-[var(--brand-blue)]/20 bg-white px-5 py-2.5 text-sm font-semibold text-[var(--brand-blue)] transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/45 hover:bg-[var(--brand-blue)]/5"
           >
-            ← 返回软件中心
+            ← {lang === "zh" ? "返回软件中心" : "Back to Software Center"}
           </Link>
         </main>
       </>
@@ -50,17 +50,17 @@ export default function SoftwareDetailClient() {
           <div className="mx-auto w-full max-w-[1100px]">
             <nav className="flex flex-wrap items-center gap-2 text-xs font-medium text-[var(--ink-muted)]">
               <Link href="/software-center" className="hover:text-[var(--brand-blue)]">
-                软件中心
+                {lang === "zh" ? "软件中心" : "Software Center"}
               </Link>
               <span>/</span>
               <Link
                 href={`/software-center#${cat.id}`}
                 className="hover:text-[var(--brand-blue)]"
               >
-                {cat.title}
+                {pick(cat.title, lang)}
               </Link>
               <span>/</span>
-              <span className="text-[var(--ink-strong)]">{item.name}</span>
+              <span className="text-[var(--ink-strong)]">{pick(item.name, lang)}</span>
             </nav>
 
             <div className="mt-6 flex items-start gap-5">
@@ -69,12 +69,12 @@ export default function SoftwareDetailClient() {
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={logoSrc(item.logo)}
-                    alt={item.name}
+                    alt={pick(item.name, lang)}
                     className="h-full w-full object-contain p-3"
                   />
                 ) : (
                   <span className="text-2xl font-bold text-[var(--brand-blue-soft)]">
-                    {item.name[0]}
+                    {pick(item.name, lang)[0]}
                   </span>
                 )}
               </div>
@@ -83,11 +83,11 @@ export default function SoftwareDetailClient() {
                   as="h1"
                   className="font-display text-3xl font-semibold tracking-tight text-[var(--ink-strong)] sm:text-4xl"
                 >
-                  {item.name}
+                  {pick(item.name, lang)}
                 </Glow>
                 {item.desc && (
                   <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--ink-body)]">
-                    {item.desc}
+                    {pick(item.desc, lang)}
                   </p>
                 )}
               </div>
@@ -100,7 +100,7 @@ export default function SoftwareDetailClient() {
                 rel="noopener noreferrer"
                 className="mt-6 inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,rgba(0,73,102,0.10),rgba(29,103,132,0.08))] px-5 py-2.5 text-sm font-semibold text-[var(--brand-blue)] ring-1 ring-inset ring-[var(--brand-blue)]/20 transition hover:bg-[linear-gradient(135deg,rgba(0,73,102,0.16),rgba(29,103,132,0.14))] hover:ring-[var(--brand-blue)]/40"
               >
-                访问官方主页
+                {lang === "zh" ? "访问官方主页" : "Visit official page"}
                 <svg
                   width="16"
                   height="16"
@@ -124,10 +124,12 @@ export default function SoftwareDetailClient() {
           <section className="w-full px-6 pb-24 sm:px-10 lg:px-16">
             <div className="mx-auto w-full max-w-[1100px]">
               <h2 className="font-display text-xl font-semibold tracking-tight text-[var(--ink-strong)]">
-                支持的 XIAO 板卡
+                {lang === "zh" ? "支持的 XIAO 板卡" : "Supported XIAO Boards"}
               </h2>
               <p className="mt-1 text-sm text-[var(--ink-muted)]">
-                共 {item.boards.length} 项，点击进入对应 wiki / 文档。
+                {lang === "zh"
+                  ? `共 ${item.boards.length} 项，点击进入对应 wiki / 文档。`
+                  : `${item.boards.length} in total — click to open the wiki / docs.`}
               </p>
               <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {item.boards.map((b, i) => {
@@ -147,7 +149,7 @@ export default function SoftwareDetailClient() {
                       }
                     >
                       <span className="text-sm font-semibold leading-snug text-[var(--ink-strong)]">
-                        {b.name}
+                        {pick(b.name, lang)}
                       </span>
                       {href && (
                         <svg
@@ -177,11 +179,11 @@ export default function SoftwareDetailClient() {
         <section className="w-full px-6 pb-24 sm:px-10 lg:px-16">
           <div className="mx-auto w-full max-w-[1100px]">
             <h2 className="font-display text-xl font-semibold tracking-tight text-[var(--ink-strong)]">
-              {cat.title} 中的其它软件
+              {lang === "zh" ? `${pick(cat.title, lang)} 中的其它软件` : `More in ${pick(cat.title, lang)}`}
             </h2>
             <div className="mt-5 flex flex-wrap gap-2.5">
               {SOFTWARE_CATEGORIES.find((c) => c.id === cat.id)?.items
-                .filter((it) => it.name !== item.name)
+                .filter((it) => slugify(it.name) !== slugify(item.name))
                 .map((it) => {
                   const s = slugify(it.name);
                   return (
@@ -190,7 +192,7 @@ export default function SoftwareDetailClient() {
                       href={`/software-center/${s}`}
                       className="rounded-full border border-[var(--line-soft)] bg-white/80 px-3.5 py-1.5 text-sm font-medium text-[var(--ink-strong)] transition hover:border-[var(--brand-blue)]/40 hover:text-[var(--brand-blue-soft)]"
                     >
-                      {it.name}
+                      {pick(it.name, lang)}
                     </Link>
                   );
                 })}

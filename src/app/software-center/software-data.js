@@ -1,8 +1,17 @@
 // 自动从 wiki xiao_topic_page 解析生成，内容为 wiki 真实数据（软件 + 支持板卡 + 链接），非自编。
+// 字符串字段（title/desc/name）可为纯字符串（多见于品牌名，中英相同）或 { en, zh } 双语对象；
+// 用 pick(field, lang) 取值，统一兼容两种形态。
 
-// 把名称转为 url slug
+// 取本地化字段：对象按 lang 取，字符串原样返回（品牌名等中英相同者）
+export function pick(field, lang) {
+  if (field && typeof field === "object") return field[lang] ?? field.en ?? "";
+  return field ?? "";
+}
+
+// 把名称转为 url slug（始终用英文基准，保证 slug 稳定且为 ASCII）
 export function slugify(name) {
-  return String(name)
+  const base = name && typeof name === "object" ? (name.en ?? "") : name;
+  return String(base)
     .toLowerCase()
     .normalize("NFKD")
     .replace(/[̀-ͯ]/g, "")
@@ -54,71 +63,71 @@ export function findSoftwareBySlug(slug) {
 export const SOFTWARE_CATEGORIES = [
   {
     "id": "official",
-    "title": "官方软件",
-    "desc": "Seeed 官方维护的 XIAO 软件、组件与方案（来自 Seeed-Projects）。",
+    "title": { "en": "Official Software", "zh": "官方软件" },
+    "desc": { "en": "Official XIAO software, components and solutions maintained by Seeed (from Seeed-Projects).", "zh": "Seeed 官方维护的 XIAO 软件、组件与方案（来自 Seeed-Projects）。" },
     "items": [
       {
         "name": "Seeed Home Assistant Discovery",
         "url": "https://github.com/Seeed-Projects/Seeed-Homeassistant-Discovery",
-        "desc": "让 ESP32 设备一键接入 Home Assistant 的官方方案，由 Seeed Studio 提供。",
+        "desc": { "en": "Official solution to connect ESP32 devices to Home Assistant in one click, provided by Seeed Studio.", "zh": "让 ESP32 设备一键接入 Home Assistant 的官方方案，由 Seeed Studio 提供。" },
         "logo": "https://media-cdn.seeedstudio.com/media/logo/stores/4/logo_2018_horizontal.png",
-        "boards": [{ "name": "XIAO ESP32 系列", "url": "" }]
+        "boards": [{ "name": { "en": "XIAO ESP32 Series", "zh": "XIAO ESP32 系列" }, "url": "" }]
       },
       {
         "name": "ESPHome for XIAO ESP32S3",
         "url": "https://github.com/Seeed-Projects/ESPHome_XIAO-ESP32S3",
-        "desc": "XIAO ESP32S3 的 ESPHome 官方自定义组件。",
+        "desc": { "en": "Official ESPHome custom component for XIAO ESP32S3.", "zh": "XIAO ESP32S3 的 ESPHome 官方自定义组件。" },
         "logo": "https://media-cdn.seeedstudio.com/media/logo/stores/4/logo_2018_horizontal.png",
         "boards": [{ "name": "XIAO ESP32S3", "url": "" }]
       },
       {
         "name": "L76K GNSS for XIAO",
         "url": "https://github.com/Seeed-Projects/Seeed_L76K-GNSS_for_XIAO",
-        "desc": "XIAO 配套 L76K GNSS 模块的官方驱动与示例。",
+        "desc": { "en": "Official driver and examples for the XIAO L76K GNSS module.", "zh": "XIAO 配套 L76K GNSS 模块的官方驱动与示例。" },
         "logo": "https://media-cdn.seeedstudio.com/media/logo/stores/4/logo_2018_horizontal.png",
-        "boards": [{ "name": "XIAO ESP32 系列", "url": "" }]
+        "boards": [{ "name": { "en": "XIAO ESP32 Series", "zh": "XIAO ESP32 系列" }, "url": "" }]
       },
       {
-        "name": "ESP-FLY 四旋翼套件",
+        "name": { "en": "ESP-FLY Quadcopter Kit", "zh": "ESP-FLY 四旋翼套件" },
         "url": "https://github.com/Seeed-Projects/Co-Create_ESP-FLY",
-        "desc": "ESP-FLY DIY 四旋翼飞行器的官方软件与套件。",
+        "desc": { "en": "Official software and kit for the ESP-FLY DIY quadcopter.", "zh": "ESP-FLY DIY 四旋翼飞行器的官方软件与套件。" },
         "logo": "https://media-cdn.seeedstudio.com/media/logo/stores/4/logo_2018_horizontal.png",
         "boards": [{ "name": "XIAO ESP32S3", "url": "" }]
       },
       {
-        "name": "6 通道继电器 (XIAO ESP32C6)",
+        "name": { "en": "6-Channel Relay (XIAO ESP32C6)", "zh": "6 通道继电器 (XIAO ESP32C6)" },
         "url": "https://github.com/Seeed-Projects/6-Channel_Relay_based_on_XIAO_ESP32C6",
-        "desc": "基于 XIAO ESP32C6 的 6 通道继电器官方软件。",
+        "desc": { "en": "Official 6-channel relay software based on XIAO ESP32C6.", "zh": "基于 XIAO ESP32C6 的 6 通道继电器官方软件。" },
         "logo": "https://media-cdn.seeedstudio.com/media/logo/stores/4/logo_2018_horizontal.png",
         "boards": [{ "name": "XIAO ESP32C6", "url": "" }]
       },
       {
-        "name": "2 通道电能计 (XIAO ESP32C6)",
+        "name": { "en": "2-Channel Energy Meter (XIAO ESP32C6)", "zh": "2 通道电能计 (XIAO ESP32C6)" },
         "url": "https://github.com/Seeed-Projects/2-Channel_Energy_Meter_based_on_XIAO_ESP32C6",
-        "desc": "基于 XIAO ESP32C6 的双通道电能计量官方软件。",
+        "desc": { "en": "Official dual-channel energy-metering software based on XIAO ESP32C6.", "zh": "基于 XIAO ESP32C6 的双通道电能计量官方软件。" },
         "logo": "https://media-cdn.seeedstudio.com/media/logo/stores/4/logo_2018_horizontal.png",
         "boards": [{ "name": "XIAO ESP32C6", "url": "" }]
       },
       {
-        "name": "XIAO W5500 以太网示例",
+        "name": { "en": "XIAO W5500 Ethernet Example", "zh": "XIAO W5500 以太网示例" },
         "url": "https://github.com/Seeed-Projects/XIAO_W5500_Ehernet_Adapter_Example",
-        "desc": "XIAO 接 W5500 以太网模块的官方示例软件。",
+        "desc": { "en": "Official example software for connecting XIAO to a W5500 Ethernet module.", "zh": "XIAO 接 W5500 以太网模块的官方示例软件。" },
         "logo": "https://media-cdn.seeedstudio.com/media/logo/stores/4/logo_2018_horizontal.png",
-        "boards": [{ "name": "XIAO 系列", "url": "" }]
+        "boards": [{ "name": { "en": "XIAO Series", "zh": "XIAO 系列" }, "url": "" }]
       },
       {
-        "name": "Seeed TFT_eSPI 库",
+        "name": { "en": "Seeed TFT_eSPI Library", "zh": "Seeed TFT_eSPI 库" },
         "url": "https://github.com/Seeed-Projects/SeeedStudio_TFT_eSPI",
-        "desc": "Seeed 优化的 TFT 显示驱动库，兼容 Arduino / PlatformIO。",
+        "desc": { "en": "Seeed-optimized TFT display driver library, compatible with Arduino / PlatformIO.", "zh": "Seeed 优化的 TFT 显示驱动库，兼容 Arduino / PlatformIO。" },
         "logo": "https://media-cdn.seeedstudio.com/media/logo/stores/4/logo_2018_horizontal.png",
-        "boards": [{ "name": "XIAO 系列", "url": "" }]
+        "boards": [{ "name": { "en": "XIAO Series", "zh": "XIAO 系列" }, "url": "" }]
       }
     ]
   },
   {
     "id": "guides",
-    "title": "产品指南",
-    "desc": "XIAO 各板卡的入门、引脚与外设 Wiki 指南。",
+    "title": { "en": "Product Guides", "zh": "产品指南" },
+    "desc": { "en": "Getting-started, pinout and peripheral Wiki guides for each XIAO board.", "zh": "XIAO 各板卡的入门、引脚与外设 Wiki 指南。" },
     "items": [
       {
         "name": "XIAO SAMD21",
@@ -392,8 +401,8 @@ export const SOFTWARE_CATEGORIES = [
   },
   {
     "id": "languages",
-    "title": "开发语言与平台",
-    "desc": "XIAO 支持的主流语言与开发框架及可用板卡。",
+    "title": { "en": "Languages & Platforms", "zh": "开发语言与平台" },
+    "desc": { "en": "Mainstream languages and dev frameworks supported by XIAO, with available boards.", "zh": "XIAO 支持的主流语言与开发框架及可用板卡。" },
     "items": [
       {
         "name": "PlatformIO",
@@ -647,8 +656,8 @@ export const SOFTWARE_CATEGORIES = [
   },
   {
     "id": "rtos",
-    "title": "RTOS 支持",
-    "desc": "实时操作系统与调度框架及支持板卡。",
+    "title": { "en": "RTOS Support", "zh": "RTOS 支持" },
+    "desc": { "en": "Real-time operating systems and scheduling frameworks, with supported boards.", "zh": "实时操作系统与调度框架及支持板卡。" },
     "items": [
       {
         "name": "Zephyr",
@@ -762,8 +771,8 @@ export const SOFTWARE_CATEGORIES = [
   },
   {
     "id": "comms",
-    "title": "通信协议",
-    "desc": "Wi-Fi、蓝牙、Thread/Matter 等连接栈及支持板卡。",
+    "title": { "en": "Communication Protocols", "zh": "通信协议" },
+    "desc": { "en": "Wi-Fi, Bluetooth, Thread/Matter and other connectivity stacks, with supported boards.", "zh": "Wi-Fi、蓝牙、Thread/Matter 等连接栈及支持板卡。" },
     "items": [
       {
         "name": "Apache Kafka",
@@ -869,8 +878,8 @@ export const SOFTWARE_CATEGORIES = [
   },
   {
     "id": "tinyml",
-    "title": "TinyML / 边缘 AI",
-    "desc": "在 XIAO 上运行机器学习推理的平台及支持板卡。",
+    "title": { "en": "TinyML / Edge AI", "zh": "TinyML / 边缘 AI" },
+    "desc": { "en": "Platforms for running ML inference on XIAO, with supported boards.", "zh": "在 XIAO 上运行机器学习推理的平台及支持板卡。" },
     "items": [
       {
         "name": "SenseCraft AI",
@@ -928,8 +937,8 @@ export const SOFTWARE_CATEGORIES = [
   },
   {
     "id": "smarthome",
-    "title": "智能家居与自动化",
-    "desc": "接入主流家居平台的软件方案及支持板卡。",
+    "title": { "en": "Smart Home & Automation", "zh": "智能家居与自动化" },
+    "desc": { "en": "Software solutions for integrating with mainstream home platforms, with supported boards.", "zh": "接入主流家居平台的软件方案及支持板卡。" },
     "items": [
       {
         "name": "Home Assistant & ESPHome",
@@ -995,8 +1004,8 @@ export const SOFTWARE_CATEGORIES = [
   },
   {
     "id": "keyboard",
-    "title": "开源键盘软件",
-    "desc": "XIAO 作为键控主控的软件方案及支持板卡。",
+    "title": { "en": "Open-Source Keyboard Software", "zh": "开源键盘软件" },
+    "desc": { "en": "Software solutions using XIAO as a keyboard controller, with supported boards.", "zh": "XIAO 作为键控主控的软件方案及支持板卡。" },
     "items": [
       {
         "name": "QMK",
@@ -1038,8 +1047,8 @@ export const SOFTWARE_CATEGORIES = [
   },
   {
     "id": "applications",
-    "title": "热门应用",
-    "desc": "社区高频使用的专项软件与集成及支持板卡。",
+    "title": { "en": "Popular Applications", "zh": "热门应用" },
+    "desc": { "en": "Specialized software and integrations frequently used by the community, with supported boards.", "zh": "社区高频使用的专项软件与集成及支持板卡。" },
     "items": [
       {
         "name": "WLED",
@@ -1101,8 +1110,8 @@ export const SOFTWARE_CATEGORIES = [
   },
   {
     "id": "tools",
-    "title": "原型与设计工具",
-    "desc": "硬件设计与仿真工具及支持板卡。",
+    "title": { "en": "Prototyping & Design Tools", "zh": "原型与设计工具" },
+    "desc": { "en": "Hardware design and simulation tools, with supported boards.", "zh": "硬件设计与仿真工具及支持板卡。" },
     "items": [
       {
         "name": "Fritzing",
@@ -1212,8 +1221,8 @@ export const SOFTWARE_CATEGORIES = [
   },
   {
     "id": "iotcloud",
-    "title": "IoT 云平台",
-    "desc": "设备上云与可视化的云服务及支持板卡。",
+    "title": { "en": "IoT Cloud Platforms", "zh": "IoT 云平台" },
+    "desc": { "en": "Cloud services for device-to-cloud and visualization, with supported boards.", "zh": "设备上云与可视化的云服务及支持板卡。" },
     "items": [
       {
         "name": "AWS IoT",

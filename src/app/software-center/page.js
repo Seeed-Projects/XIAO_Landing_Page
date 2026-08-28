@@ -11,6 +11,7 @@ import {
   logoWallItems,
   logoSrc,
   slugify,
+  pick,
 } from "./software-data";
 import SoftwareLogo from "./SoftwareLogo";
 
@@ -45,20 +46,20 @@ export default function SoftwareCenterPage() {
           <Link
             key={`${item.slug}-${index}`}
             href={`/software-center/${item.slug}`}
-            title={item.name}
+            title={pick(item.name, lang)}
             className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-[var(--line-soft)] bg-white/80 p-2 transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/30 hover:shadow-sm"
           >
             {item.logo ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={logoSrc(item.logo)}
-                alt={item.name}
+                alt={pick(item.name, lang)}
                 loading="lazy"
                 className="h-full w-full object-contain opacity-80 grayscale transition group-hover:opacity-100 group-hover:grayscale-0"
               />
             ) : (
               <span className="text-sm font-bold text-[var(--brand-blue-soft)]">
-                {item.name[0]}
+                {pick(item.name, lang)[0]}
               </span>
             )}
           </Link>
@@ -111,22 +112,22 @@ export default function SoftwareCenterPage() {
                     </div>
                     <div>
                       <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
-                        {OFFICIAL.title}
+                        {pick(OFFICIAL.title, lang)}
                       </h2>
                     </div>
                   </div>
                   <div className="sm:max-w-sm sm:text-right">
                     <p className="text-sm leading-6 text-white/85">
-                      {OFFICIAL.desc}
+                      {pick(OFFICIAL.desc, lang)}
                     </p>
                   </div>
                 </div>
                 <div className="relative z-10 mt-6 flex items-center justify-between border-t border-white/15 pt-5">
                   <span className="text-sm font-medium text-white/80">
-                    {OFFICIAL.items.length} 个官方组件
+                    {OFFICIAL.items.length} {lang === "zh" ? "个官方组件" : "official components"}
                   </span>
                   <span className="inline-flex items-center gap-2 rounded-full bg-white/35 px-5 py-2.5 text-sm font-bold text-white ring-1 ring-white/40 backdrop-blur-sm transition-all duration-300 group-hover:gap-3 group-hover:bg-white/45">
-                    进入官方软件
+                    {lang === "zh" ? "进入官方软件" : "Enter Official Software"}
                     <svg
                       width="18"
                       height="18"
@@ -154,10 +155,12 @@ export default function SoftwareCenterPage() {
             <Reveal>
               <div className="mb-6 text-center">
                 <h2 className="font-display text-2xl font-semibold tracking-tight text-[var(--ink-strong)] sm:text-3xl">
-                  其他软件
+                  {lang === "zh" ? "其他软件" : "More Software"}
                 </h2>
                 <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-[var(--ink-muted)]">
-                  第三方社区平台与软件方案，按语言、操作系统、协议等通用分类切换。
+                  {lang === "zh"
+                    ? "第三方社区平台与软件方案，按语言、操作系统、协议等通用分类切换。"
+                    : "Third-party community platforms and software, grouped by language, OS, protocol and other common categories."}
                 </p>
               </div>
             </Reveal>
@@ -176,7 +179,7 @@ export default function SoftwareCenterPage() {
                         : "border border-[var(--brand-blue)]/30 bg-white/80 text-[var(--brand-blue)] hover:border-[var(--brand-blue)]/60 hover:bg-[var(--brand-blue)]/5")
                     }
                   >
-                    {g.title}
+                    {pick(g.title, lang)}
                   </button>
                 );
               })}
@@ -204,11 +207,11 @@ export default function SoftwareCenterPage() {
                       style={{ animationDelay: `${i * 50}ms` }}
                     >
                       <div className="flex items-start gap-4">
-                        <SoftwareLogo item={item} />
+                        <SoftwareLogo item={item} lang={lang} />
                         <div className="flex min-w-0 flex-1 flex-col">
                           <div className="flex items-center justify-between gap-2">
                             <h3 className="truncate text-base font-bold leading-snug text-[var(--ink-strong)]">
-                              {item.name}
+                              {pick(item.name, lang)}
                             </h3>
                             <svg
                               width="16"
@@ -227,7 +230,7 @@ export default function SoftwareCenterPage() {
                           </div>
                           {item.desc && (
                             <p className="mt-1 line-clamp-3 text-sm leading-relaxed text-[var(--ink-body)]">
-                              {item.desc}
+                              {pick(item.desc, lang)}
                             </p>
                           )}
                         </div>
@@ -235,10 +238,10 @@ export default function SoftwareCenterPage() {
                       {boardCount > 0 && (
                         <div className="mt-4 flex flex-wrap items-center gap-1.5 border-t border-[var(--line-soft)] bg-[var(--surface-tint)]/50 -mx-5 -mb-5 px-5 py-3 rounded-b-2xl">
                           <span className="rounded-md bg-[var(--brand-blue)]/10 px-2 py-1 text-xs font-medium leading-none text-[var(--brand-blue)]">
-                            {boardCount} 块支持板卡
+                            {boardCount} {lang === "zh" ? "块支持板卡" : "supported boards"}
                           </span>
                           <span className="text-xs font-medium text-[var(--ink-muted)]">
-                            点击查看详情 →
+                            {lang === "zh" ? "点击查看详情 →" : "View details →"}
                           </span>
                         </div>
                       )}
