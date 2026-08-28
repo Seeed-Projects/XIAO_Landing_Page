@@ -568,6 +568,30 @@ const COURSE_GROUPS = [
   },
 ];
 
+/* 模糊搜索打分：query 拆词，每词需在 haystack 中命中（子串优先，否则子序列容错）。
+   全部词命中才返回 >0；分数越高越相关。支持 "schem"→Schematic、"kiad"→KiCad 这类容错。 */
+function fuzzyScore(query, haystack) {
+  const h = haystack.toLowerCase();
+  const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  if (!terms.length) return 1;
+  let total = 0;
+  for (const term of terms) {
+    const subIdx = h.indexOf(term);
+    if (subIdx >= 0) {
+      total += 100 + (subIdx === 0 ? 40 : 0);
+    } else {
+      let ti = 0, hi = 0, compact = 0, gap = 0;
+      while (ti < term.length && hi < h.length) {
+        if (term[ti] === h[hi]) { ti++; compact++; } else { gap++; }
+        hi++;
+      }
+      if (ti === term.length) total += 28 * (compact / (compact + gap || 1));
+      else return 0;
+    }
+  }
+  return total;
+}
+
 export function ResHub() {
   const { lang } = useLang();
   const [activeChip, setActiveChip] = useState("esp32-s3");
@@ -628,14 +652,31 @@ export function ResHub() {
     ),
   })).filter(({ items }) => items.length > 0);
 
-  // 过滤当前产品的资源条目
+  // 资源过滤：无关键词时显示当前板子分组；有关键词时跨所有板子(当前芯片范围)模糊搜索，
+  // 结果按板子分组、按相关度排序，复用同样的 resGroup/resList/resItem 呈现。
   const filteredGroups = useMemo(() => {
-    const f = query.trim().toLowerCase();
-    if (!f) return active.groups;
-    return active.groups
-      .map((g) => ({ ...g, items: g.items.filter((it) => (it.name + " " + it.format + " " + it.url).toLowerCase().includes(f)) }))
-      .filter((g) => g.items.length > 0);
-  }, [query, active]);
+    const q = query.trim();
+    if (!q) return active.groups;
+    const out = [];
+    for (const board of chipProducts) {
+      const matches = [];
+      for (const g of board.groups || []) {
+        for (const it of g.items) {
+          const hay = `${it.name} ${it.format} ${board.name} ${pick(g.label)}`;
+          const score = fuzzyScore(q, hay);
+          if (score > 0) matches.push({ ...it, _score: score });
+        }
+      }
+      if (matches.length) {
+        matches.sort((a, b) => b._score - a._score);
+        out.push({ label: board.name, items: matches });
+      }
+    }
+    out.sort(
+      (a, b) => Math.max(...b.items.map((i) => i._score)) - Math.max(...a.items.map((i) => i._score))
+    );
+    return out;
+  }, [query, active, chipProducts, lang]);
 
   const totalItems = filteredGroups.reduce((n, g) => n + g.items.length, 0);
 
@@ -708,6 +749,14 @@ export function ResHub() {
             </div>
           ) : (
             <>
+          {query.trim() && (
+            <div className={styles.resResultHead}>
+              <strong>{lang === "zh" ? `找到 ${totalItems} 个结果` : `${totalItems} results`}</strong>
+              <button type="button" className={styles.resClearBtn} onClick={() => setQuery("")}>
+                {lang === "zh" ? "清除搜索" : "Clear search"}
+              </button>
+            </div>
+          )}
           {totalItems === 0 ? (
             <div className={styles.resEmpty}>{T.noResults}</div>
           ) : (
@@ -757,7 +806,8 @@ export function ResHub() {
             </>
           )}
 
-          {/* 课程与更多：封面 + 介绍卡片，按主题分组 */}
+          {/* 课程与更多：封面 + 介绍卡片，按主题分组。搜索时隐藏，聚焦资源结果 */}
+          {!query.trim() && (
           <div className={styles.extras}>
             <div className={styles.extrasHead}>
               <h3>{pick(EXTRAS.title)}</h3>
@@ -800,6 +850,7 @@ export function ResHub() {
             ))}
             <p className={styles.extrasNote}>{pick(EXTRAS.note)}</p>
           </div>
+          )}
         </div>
       </section>
 
