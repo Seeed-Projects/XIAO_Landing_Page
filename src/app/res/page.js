@@ -5,7 +5,7 @@ export default function ResPage() {
   return (
     <>
       <SiteHeader />
-      <main className="flex w-full flex-1 flex-col">
+      <main className="flex w-full flex-1 flex-col pt-16">
         <ResHub />
       </main>
     </>

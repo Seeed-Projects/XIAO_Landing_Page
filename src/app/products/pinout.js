@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useLang } from "../i18n";
-import { Glow } from "../Glow";
+import { ToolPageIntro } from "../tool-page-intro";
 import { withBase } from "../../lib/basePath";
 import styles from "./pinout.module.css";
 
@@ -737,7 +737,7 @@ export function Pinout() {
 
   const T = {
     eyebrow: lang === "zh" ? "引脚定义" : "Pinout",
-    h2: lang === "zh" ? "引脚定义" : "Pinout",
+    h2: lang === "zh" ? "引脚定义" : "Pin Out",
     p: lang === "zh"
       ? "点击左侧引脚列表或板子上的焊盘，查看每个引脚的功能、芯片引脚、注意事项与初始化代码。"
       : "Click a pin in the list or a pad on the board to see its function, chip pin, notes and init code.",
@@ -788,12 +788,8 @@ export function Pinout() {
 
   return (
     <div className={`${styles.pinout} scroll-mt-28`} id="pinout">
+      <ToolPageIntro title={T.h2} description={T.p} />
       <div className={styles.wrap}>
-        <div className={styles.introBlock}>
-          <Glow as="h2">{T.h2}</Glow>
-          <p>{T.p}</p>
-        </div>
-
         <div className={styles.boardBar}>
           <label className={styles.boardBarLabel}>{T.boardLabel}</label>
           <div className={styles.boardSelect} ref={boardMenuRef}>

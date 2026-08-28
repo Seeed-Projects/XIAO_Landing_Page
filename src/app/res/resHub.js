@@ -2,8 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useLang } from "../i18n";
-import { Glow } from "../Glow";
-import { withBase } from "../../lib/basePath";
+import { ToolPageIntro } from "../tool-page-intro";
 import styles from "./res.module.css";
 import CourseCard from "./CourseCard";
 
@@ -569,10 +568,6 @@ const COURSE_GROUPS = [
   },
 ];
 
-const HERO_SHEET_S1 = `<svg viewBox="0 0 300 360"><rect width="300" height="360" fill="#fff"/><rect x="95" y="52" width="110" height="160" rx="16" fill="#2f7c55"/><rect x="118" y="38" width="64" height="38" rx="7" fill="#d4d7da"/><g stroke="#71a600" stroke-width="2"><path d="M95 88H38"/><path d="M95 122H30"/><path d="M95 156H42"/><path d="M205 88h57"/><path d="M205 122h65"/><path d="M205 156h53"/></g><g fill="#26313d" font-family="Arial" font-size="9"><text x="18" y="91">D0 / A0</text><text x="14" y="125">D1 / A1</text><text x="22" y="159">D2 / A2</text><text x="246" y="91">5V</text><text x="244" y="125">GND</text><text x="240" y="159">3V3</text></g><text x="24" y="316" fill="#121a26" font-family="Arial" font-weight="800" font-size="16">PINOUT</text></svg>`;
-const HERO_SHEET_S2 = `<svg viewBox="0 0 300 360"><rect width="300" height="360" fill="#fff"/><g stroke="#48515a" fill="none" stroke-width="1.5"><rect x="95" y="100" width="110" height="120"/><path d="M95 126H38V58H20"/><path d="M95 166H45V280H18"/><path d="M205 130h58V66h20"/><path d="M205 182h70V280h10"/></g><rect x="116" y="127" width="68" height="66" fill="#dfe3df"/><text x="150" y="165" text-anchor="middle" font-family="Arial" font-size="10">CORE</text><text x="24" y="316" fill="#121a26" font-family="Arial" font-weight="800" font-size="16">SCHEMATIC</text></svg>`;
-const HERO_SHEET_S3 = `<svg viewBox="0 0 300 250"><rect width="300" height="250" fill="#eef1ec"/><g transform="translate(58 46) skewY(-6)"><path d="M10 20L165 0L202 35L47 56Z" fill="#2f7c55"/><path d="M47 56L202 35V126L47 150Z" fill="#174333"/><path d="M10 20L47 56V150L10 116Z" fill="#245f48"/><path d="M74 35L133 28L154 47L94 55Z" fill="#d5d8da"/><path d="M83 68L156 58V105L83 116Z" fill="#c3c7ca"/></g><text x="20" y="220" fill="#121a26" font-family="Arial" font-weight="800" font-size="15">3D MODEL</text></svg>`;
-
 export function ResHub() {
   const { lang } = useLang();
   const [activeChip, setActiveChip] = useState("esp32-s3");
@@ -591,7 +586,7 @@ export function ResHub() {
 
   const T = {
     heroEyebrow: lang === "zh" ? "XIAO 硬件资源" : "XIAO Hardware Resources",
-    heroH1: lang === "zh" ? "XIAO 资源中心" : "XIAO Resource Hub",
+    heroH1: lang === "zh" ? "硬件资源" : "Hardware Resources",
     heroP: lang === "zh"
       ? "从规格到实现，汇聚原理图、Pinout、PCB、尺寸与 3D 资料，让每一次查找都更清晰、更从容。"
       : "Explore datasheets, Pinout, schematics, PCB, dimensions and 3D resources in one place.",
@@ -663,25 +658,7 @@ export function ResHub() {
 
   return (
     <div className={styles.res}>
-      <section className={styles.hero}>
-        <div className={styles.heroGrid}>
-          <div className={styles.heroCopy}>
-            <Glow as="h1">{T.heroH1}</Glow>
-            <p>{T.heroP}</p>
-            <div className={styles.heroActions}>
-              <a className={`${styles.btn} ${styles.btnGreen}`} href="#resources">{T.btnBrowse}</a>
-              <a className={`${styles.btn} ${styles.btnLight}`} href={withBase("/products")}>{T.btnSelector}</a>
-            </div>
-          </div>
-          <div className={styles.heroArt}>
-            <div className={styles.resourceHeroVisual} aria-hidden="true">
-              <div className={`${styles.resourceSheet} ${styles.s1}`} dangerouslySetInnerHTML={{ __html: HERO_SHEET_S1 }} />
-              <div className={`${styles.resourceSheet} ${styles.s2}`} dangerouslySetInnerHTML={{ __html: HERO_SHEET_S2 }} />
-              <div className={`${styles.resourceSheet} ${styles.s3}`} dangerouslySetInnerHTML={{ __html: HERO_SHEET_S3 }} />
-            </div>
-          </div>
-        </div>
-      </section>
+      <ToolPageIntro title={T.heroH1} description={T.heroP} />
 
       <section className={`${styles.section} ${styles.resourcesSection} ${styles.dots}`} id="resources" style={{ paddingTop: 0 }}>
         <div className={styles.container}>

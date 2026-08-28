@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useLang } from "../i18n";
 import { SiteHeader } from "../components";
-import { Glow } from "../Glow";
+import { ToolPageIntro } from "../tool-page-intro";
 import { Reveal } from "../reveal";
 import {
   SOFTWARE_CATEGORIES,
@@ -21,7 +21,7 @@ const GROUPS = SOFTWARE_CATEGORIES.filter(
 const OFFICIAL = SOFTWARE_CATEGORIES.find((c) => c.id === "official");
 
 export default function SoftwareCenterPage() {
-  const { t } = useLang();
+  const { lang } = useLang();
   const [activeId, setActiveId] = useState(GROUPS[0]?.id);
   const active = GROUPS.find((g) => g.id === activeId) ?? GROUPS[0];
   const logos = logoWallItems();
@@ -70,22 +70,14 @@ export default function SoftwareCenterPage() {
   return (
     <>
       <SiteHeader />
-      <main className="flex w-full flex-1 flex-col pt-24 lg:pt-28">
-        {/* 一级标题 */}
-        <section id="top" className="w-full px-6 py-10 sm:px-10 lg:px-16">
-          <div className="mx-auto w-full max-w-[1440px] text-center">
-            <Glow
-              as="h1"
-              className="font-display text-4xl font-semibold tracking-tight text-[var(--ink-strong)] sm:text-5xl"
-            >
-              XIAO 软件中心
-            </Glow>
-            <p className="mx-auto mt-3 max-w-2xl text-base leading-7 text-[var(--ink-body)]">
-              把分散在 GitHub、wiki 与官网的自研平台、软件和工具做成一个合集，
-              按语言、操作系统、协议等通用分类堆叠，XIAO 开发者一站式找到需要的软件资源与对应板卡指南。
-            </p>
-          </div>
-        </section>
+      <main className="flex w-full flex-1 flex-col pt-16">
+        <ToolPageIntro
+          id="top"
+          title={lang === "zh" ? "软件生态" : "Software Ecosystem"}
+          description={lang === "zh"
+            ? "集中浏览 XIAO 的官方软件、开发平台、协议工具和社区资源。"
+            : "Explore official software, development platforms, protocol tools and community resources for XIAO."}
+        />
 
         {/* Logo 墙：两排滚动（marquee），来源为下方各分类里的软件 logo */}
         <section className="w-full px-6 pb-4 sm:px-10 lg:px-16">

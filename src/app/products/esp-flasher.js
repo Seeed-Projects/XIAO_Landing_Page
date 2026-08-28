@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLang } from "../i18n";
 import { Glow } from "../Glow";
+import { ToolPageIntro } from "../tool-page-intro";
 import { withBase } from "../../lib/basePath";
 import styles from "./esp-flasher.module.css";
 
@@ -99,7 +100,7 @@ export function ESPFlasher() {
 
   const T = {
     eyebrow: lang === "zh" ? "ESP 在线烧录" : "ESP Flasher",
-    h2: lang === "zh" ? "ESP 在线烧录器" : "Web Flasher",
+    h2: lang === "zh" ? "在线烧录" : "Flash",
     p: lang === "zh"
       ? "选择烧录方式，然后按三个步骤完成固件写入。"
       : "Choose a flashing path, then install firmware in three clear steps.",
@@ -301,12 +302,8 @@ export function ESPFlasher() {
 
   return (
     <div className={`${styles.flasher} scroll-mt-28`} id="esp-flasher">
+      <ToolPageIntro title={T.h2} description={T.p} />
       <div className={styles.wrap}>
-        <div className={styles.introBlock}>
-          <Glow as="h2">{T.h2}</Glow>
-          <p>{T.p}</p>
-        </div>
-
         <nav className={styles.flashEntries} aria-label={lang === "zh" ? "选择烧录方式" : "Choose flashing method"}>
           <a className={`${styles.flashEntry} ${styles.active}`} href="#esp-workflow">
             <span>ESP</span>

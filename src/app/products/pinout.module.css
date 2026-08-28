@@ -12,7 +12,7 @@
 .pinout * { box-sizing: border-box; }
 .pinout button { font: inherit; cursor: pointer; }
 
-.wrap { width: 100%; max-width: 100%; margin: 0; padding: 8px 32px 80px; }
+.wrap { width: 100%; max-width: 100%; margin: 0; padding: 0 32px 80px; }
 
 /* 小节标题 */
 .introBlock { padding: 8px 0 4px; max-width: 960px; margin-left: auto; margin-right: auto; text-align: center; }
@@ -175,7 +175,7 @@
   .rightPanel { grid-column: 1 / -1; }
 }
 @media (max-width: 760px) {
-  .wrap { padding: 8px 16px 70px; }
+  .wrap { padding: 0 16px 70px; }
   .grid { grid-template-columns: 1fr; padding: 18px; }
   .centerPanel { order: 1; }
   .leftPanel { order: 2; }
