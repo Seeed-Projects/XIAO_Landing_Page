@@ -99,11 +99,11 @@ export function ESPFlasher() {
 
   const T = {
     eyebrow: lang === "zh" ? "ESP 在线烧录" : "ESP Flasher",
-    h2: lang === "zh" ? "ESP 在线烧录器" : "ESP Web Flasher",
+    h2: lang === "zh" ? "ESP 在线烧录器" : "Web Flasher",
     p: lang === "zh"
       ? "选择烧录方式，然后按三个步骤完成固件写入。"
       : "Choose a flashing path, then install firmware in three clear steps.",
-    espEntry: lang === "zh" ? "ESP 在线烧录" : "ESP Web Flasher",
+    espEntry: lang === "zh" ? "ESP 在线烧录" : "Web Flasher",
     espEntryHint: lang === "zh" ? "在浏览器中连接并烧录 XIAO ESP 系列" : "Connect and flash XIAO ESP boards in the browser",
     haEntry: lang === "zh" ? "HA 固件烧录" : "HA Firmware Flasher",
     haEntryHint: lang === "zh" ? "跳转到 Home Assistant 烧录工具" : "Open the Home Assistant flashing tool",
