@@ -29,9 +29,9 @@ export function VideoIntroSection() {
   return (
     <section
       id="intro"
-      className="relative flex w-full scroll-mt-24 items-center bg-[var(--bg-base)] px-6 py-16 sm:px-10 lg:px-16"
+      className="relative flex w-full scroll-mt-24 items-center bg-white px-6 py-20 sm:px-10 lg:px-16"
     >
-      <div className="mx-auto grid w-full max-w-[1440px] items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+      <div className="mx-auto grid w-full max-w-[1440px] items-center gap-12 lg:grid-cols-[1.08fr_0.92fr]">
         {/* 左：视频 */}
         <Reveal>
           <div className="relative overflow-hidden rounded-[24px] border border-[var(--line-soft)] bg-black shadow-[0_20px_50px_rgba(0,73,102,0.16)]">
@@ -53,20 +53,20 @@ export function VideoIntroSection() {
         <Reveal delay={150} className="space-y-5">
           <Glow
             as="h2"
-            className="font-display text-3xl font-semibold leading-tight tracking-tight text-[var(--ink-strong)] sm:text-4xl"
+            className="font-display text-[24px] font-bold leading-tight tracking-[-0.02em] text-[#18224f] sm:text-[28px]"
           >
             {copy.title}
           </Glow>
-          <p className="text-base leading-7 text-[var(--ink-body)] sm:text-lg sm:leading-8">
+          <p className="max-w-[640px] text-[15px] leading-[1.65] text-[#526b91] sm:text-[16px]">
             {copy.body}
           </p>
           <a
             href="https://www.seeedstudio.com/xiao-series-page"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[var(--brand-blue)] shadow-[0_8px_24px_rgba(0,73,102,0.10)] transition hover:-translate-y-0.5 hover:bg-[var(--brand-green)] hover:text-white"
+            className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#14745d,#d7ec16)] px-6 py-3 text-sm font-bold text-white shadow-[0_12px_26px_rgba(79,139,45,0.22)] transition hover:-translate-y-0.5"
           >
-            {isEn ? "Shop XIAO Series" : "查看 XIAO 系列"}
+            {isEn ? "Join the XIAO Newsletter" : "订阅 XIAO Newsletter"}
             <svg
               width="16"
               height="16"
@@ -82,6 +82,19 @@ export function VideoIntroSection() {
               <path d="m12 5 7 7-7 7" />
             </svg>
           </a>
+          <div className="grid grid-cols-3 gap-4 pt-5">
+            {[
+              [isEn ? "By now" : "截至目前", "17", isEn ? "Dev Boards" : "款开发板"],
+              [isEn ? "Thumb Sized" : "拇指大小", "21×17.8", "mm"],
+              [isEn ? "Trusted by" : "深受信赖", "500,000+", isEn ? "Developers" : "开发者"],
+            ].map(([label, value, unit]) => (
+              <div key={label} className="min-w-0">
+                <p className="text-xs font-semibold text-[#777] sm:text-sm">{label}</p>
+                <p className="mt-4 whitespace-nowrap text-[25px] font-bold tracking-[-0.04em] text-[#222] sm:text-[31px]">{value}</p>
+                <p className="mt-3 text-xs font-semibold text-[#858585] sm:text-sm">{unit}</p>
+              </div>
+            ))}
+          </div>
         </Reveal>
       </div>
     </section>

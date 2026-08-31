@@ -7,10 +7,10 @@ import { VideoIntroSection } from "./video-intro-section";
 import { PartnerMarquee } from "./partner-marquee";
 import { NewsCarousel } from "./news-carousel";
 import { ProjectsCarousel } from "./projects-carousel";
-import { MediaReviewsSection } from "./media-reviews-section";
 import { CoCreateSection } from "./co-create-section";
 import { EdmSubscribe } from "./edm-subscribe";
 import { Reveal } from "./reveal";
+import { FeaturesSection, GlimpseSection, RoadmapCallout, ScaleUpSection } from "./home-ppt-sections";
 
 export default function Home() {
   const { t, lang } = useLang();
@@ -25,31 +25,8 @@ export default function Home() {
       <main className="flex w-full flex-1 flex-col">
         {/* 视频解说 + 文字 */}
         <VideoIntroSection />
-
-        {/* 数据区 - 紧接视频，横向铺开，无标题 */}
-        <section
-          id="data"
-          className="bg-mod-blue relative w-full px-6 py-12 sm:px-10 lg:px-16"
-        >
-          <div className="mx-auto w-full max-w-[1440px]">
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {t.data.items.map((item, i) => (
-                <Reveal
-                  key={item.label}
-                  delay={i * 90}
-                  className="flex flex-col justify-center rounded-2xl border border-[var(--line-soft)] bg-white/90 px-8 py-8 backdrop-blur-sm transition hover:shadow-md"
-                >
-                  <div className="font-display text-4xl font-semibold tracking-tight text-[var(--brand-blue)] sm:text-5xl lg:text-[52px] lg:leading-[1.05]">
-                    {item.value}
-                  </div>
-                  <p className="mt-2 text-sm font-medium text-[var(--ink-body)] sm:text-base">
-                    {item.label}
-                  </p>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
+        <FeaturesSection />
+        <GlimpseSection />
 
         {/* 开发者区 - 全屏满宽，跑马灯带铺满 */}
         <section
@@ -67,6 +44,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <RoadmapCallout />
 
         {/* 热门项目 - 全屏满宽，跑马灯带铺满 */}
         <section
@@ -129,22 +108,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 外部媒体 / 社区 review 精选（替换原用户评价） */}
-        <section
-          id="reviews"
-          className="bg-mod-blue relative flex min-h-[100dvh] w-full scroll-mt-24 flex-col justify-center py-20"
-        >
-          <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
-            <Reveal>
-              <SectionHeader kicker={t.mediaReviews.kicker} title={t.mediaReviews.title} description="" />
-            </Reveal>
-          </div>
-          {/* 卡片带全屏满宽，左右不残留分段背景渐变 */}
-          <div className="mt-10 w-full">
-            <MediaReviewsSection />
-          </div>
-        </section>
-
         {/* 生态共创 - 全屏满宽，置于用户评价下方；原版文案直接放 banner，不再加重复标题 */}
         <section
           id="cocreate"
@@ -154,6 +117,8 @@ export default function Home() {
             <CoCreateSection />
           </div>
         </section>
+
+        <ScaleUpSection />
 
         {/* EDM 订阅 - 全屏满宽 */}
         <section
