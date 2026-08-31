@@ -55,7 +55,11 @@ export default function Home() {
           <div className="w-full">
             <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
               <Reveal>
-                <SectionHeader kicker={t.projects.title} title={t.projects.title} description="" />
+                <SectionHeader
+                  kicker={t.projects.title}
+                  title={t.projects.title}
+                  description="Projects from GitHub, Youtube, Instructables, Hackster, Hackaday, and more, all well-curated on XIAO Project Hub."
+                />
               </Reveal>
             </div>
             <div className="mt-8 w-full">
@@ -91,23 +95,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 新闻 - 全屏满宽，跑马灯带铺满 */}
-        <section
-          id="news"
-          className="bg-mod-mint relative flex min-h-[100dvh] w-full scroll-mt-24 items-center py-20 overflow-hidden"
-        >
-          <div className="w-full">
-            <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
-              <Reveal>
-                <SectionHeader kicker={t.news.title} title={t.news.title} description={t.news.description} />
-              </Reveal>
-            </div>
-            <div className="mt-8 w-full">
-              <NewsCarousel />
-            </div>
-          </div>
-        </section>
-
         {/* 生态共创 - 全屏满宽，置于用户评价下方；原版文案直接放 banner，不再加重复标题 */}
         <section
           id="cocreate"
@@ -119,6 +106,30 @@ export default function Home() {
         </section>
 
         <ScaleUpSection />
+
+        {/* XIAO in the News —— 按 PPT 顺序置于 Scale-up 之后 */}
+        <section
+          id="news"
+          className="relative flex w-full scroll-mt-24 items-center overflow-hidden bg-white py-20"
+        >
+          <div className="w-full">
+            <div className="mx-auto w-full max-w-[1440px] px-6 text-center sm:px-10 lg:px-16">
+              <Reveal>
+                <h2 className="text-4xl font-bold tracking-[-0.03em] text-[#18224f] sm:text-5xl">
+                  {isEn ? "XIAO in the News" : "XIAO 新闻动态"}
+                </h2>
+                <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-[#444]">
+                  {isEn
+                    ? "Discover the latest news on XIAO, updates from Seeed and from our community all over the world"
+                    : "了解 XIAO 最新资讯，以及来自 Seeed 和全球社区的动态。"}
+                </p>
+              </Reveal>
+            </div>
+            <div className="mt-10 w-full">
+              <NewsCarousel />
+            </div>
+          </div>
+        </section>
 
         {/* EDM 订阅 - 全屏满宽 */}
         <section

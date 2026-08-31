@@ -61,7 +61,7 @@ export function VideoIntroSection() {
             {copy.body}
           </p>
           <a
-            href="https://www.seeedstudio.com/xiao-series-page"
+            href="https://mailchi.mp/seeed/xiao"
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#14745d,#d7ec16)] px-6 py-3 text-sm font-bold text-white shadow-[0_12px_26px_rgba(79,139,45,0.22)] transition hover:-translate-y-0.5"
@@ -82,9 +82,8 @@ export function VideoIntroSection() {
               <path d="m12 5 7 7-7 7" />
             </svg>
           </a>
-          <div className="grid grid-cols-3 gap-4 pt-5">
+          <div className="grid grid-cols-2 gap-12 pt-5 sm:gap-20">
             {[
-              [isEn ? "By now" : "截至目前", "17", isEn ? "Dev Boards" : "款开发板"],
               [isEn ? "Thumb Sized" : "拇指大小", "21×17.8", "mm"],
               [isEn ? "Trusted by" : "深受信赖", "500,000+", isEn ? "Developers" : "开发者"],
             ].map(([label, value, unit]) => (

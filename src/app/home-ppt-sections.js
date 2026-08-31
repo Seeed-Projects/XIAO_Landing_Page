@@ -3,12 +3,13 @@
 import { useLang } from "./i18n";
 import { Reveal } from "./reveal";
 import { defaultXiaoImage } from "./site-data";
+import { withBase } from "../lib/basePath";
 
 const FEATURES = [
-  { icon: "⬡", en: ["Popular SoCs Integrated", "RA4M1, RP2350, ESP32, RP2040, nRF52840, SAMD21, and more for embedded machine learning on MCUs."], zh: ["集成主流 SoC", "覆盖 RA4M1、RP2350、ESP32、RP2040、nRF52840、SAMD21 等平台，轻松构建 MCU 端嵌入式机器学习应用。"] },
-  { icon: "☝", en: ["Thumb Size With SMD", "Sized at 21×17.8 mm with a single-sided surface-mount design, ready for space-constrained and tap-on designs."], zh: ["拇指大小，支持 SMD", "21×17.8 mm 单面贴装设计，适合空间受限及直接贴装式产品。"] },
-  { icon: "</>", en: ["TinyML Native", "Compatible with Seeed’s no-code model training and deployment platform SenseCraft AI, making TinyML scalable."], zh: ["原生支持 TinyML", "兼容 Seeed 无代码模型训练与部署平台 SenseCraft AI，让 TinyML 更易规模化。"] },
-  { icon: "☺", en: ["Developer-Friendly", "Natively compatible with Arduino, supporting PlatformIO, MicroPython, and CircuitPython."], zh: ["开发者友好", "原生兼容 Arduino，并支持 PlatformIO、MicroPython 与 CircuitPython。"] },
+  { image: "/home/XIAO落地页素材-1.webp", en: ["Popular SoCs Integrated", "RA4M1, RP2350, ESP32, RP2040, nRF52840, SAMD21, and more for embedded machine learning on MCUs."], zh: ["集成主流 SoC", "覆盖 RA4M1、RP2350、ESP32、RP2040、nRF52840、SAMD21 等平台，轻松构建 MCU 端嵌入式机器学习应用。"] },
+  { image: "/home/XIAO落地页素材-2.webp", en: ["Thumb Size With SMD", "Sized at 21×17.8 mm with a single-sided surface-mount design, ready for space-constrained and tap-on designs."], zh: ["拇指大小，支持 SMD", "21×17.8 mm 单面贴装设计，适合空间受限及直接贴装式产品。"] },
+  { image: "/home/XIAO落地页素材-3.webp", en: ["TinyML Native", "Compatible with Seeed’s no-code model training and deployment platform SenseCraft AI, making TinyML scalable."], zh: ["原生支持 TinyML", "兼容 Seeed 无代码模型训练与部署平台 SenseCraft AI，让 TinyML 更易规模化。"] },
+  { image: "/home/XIAO落地页素材-4.webp", en: ["Developer-Friendly", "Natively compatible with Arduino, supporting PlatformIO, MicroPython, and CircuitPython."], zh: ["开发者友好", "原生兼容 Arduino，并支持 PlatformIO、MicroPython 与 CircuitPython。"] },
 ];
 
 const GLIMPSE = [
@@ -24,7 +25,8 @@ export function FeaturesSection() {
       <Reveal><h2 className="text-center text-4xl font-bold tracking-[-0.03em] text-[#18224f] sm:text-5xl">Features</h2></Reveal>
       <div className="mt-14 grid gap-10 md:grid-cols-2 xl:grid-cols-4">
         {FEATURES.map((item, i) => { const copy = lang === "en" ? item.en : item.zh; return <Reveal key={item.en[0]} delay={i * 70} className="text-center">
-          <div className="mx-auto flex h-16 items-center justify-center text-5xl font-black text-[#8fc31f]">{item.icon}</div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={withBase(item.image)} alt="" className="mx-auto h-24 w-24 object-contain sm:h-28 sm:w-28" />
           <h3 className="mt-5 text-lg font-bold text-[#18224f]">{copy[0]}</h3>
           <p className="mx-auto mt-3 max-w-[300px] text-sm leading-6 text-[#526b91]">{copy[1]}</p>
         </Reveal>; })}
