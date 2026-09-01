@@ -11,7 +11,7 @@
  *
  * 各业务版块（资讯、热门项目…）复用同一套 CSS 与交互。
  */
-export function ScrollBand({ items, hrefFor, renderCard, speed = 0.45, delayStep = 90, rows = 1 }) {
+export function ScrollBand({ items, hrefFor, renderCard, speed = 0.45, delayStep = 90, rows = 1, cardClassName = "" }) {
   // 两排时把单数列补成偶数，确保无缝循环的两份内容刚好各占一半宽度。
   const batch = rows === 2 && items.length % 2 ? [...items, items[0]] : items;
   // 复制一份实现无缝滚动
@@ -43,9 +43,9 @@ export function ScrollBand({ items, hrefFor, renderCard, speed = 0.45, delayStep
               target="_blank"
               rel="noopener noreferrer"
               className={
-                rows === 2
+                (rows === 2
                   ? "flex w-[280px] min-w-0 cursor-pointer flex-col rounded-xl border border-[var(--line-soft)] bg-white/90 p-3 no-underline backdrop-blur-sm transition-shadow duration-300 hover:shadow-md sm:w-[320px] lg:w-[340px]"
-                  : "flex w-[300px] shrink-0 cursor-pointer flex-col rounded-2xl border border-[var(--line-soft)] bg-white/90 p-5 no-underline backdrop-blur-sm transition-shadow duration-300 hover:shadow-md sm:w-[340px] sm:p-6 lg:w-[380px] xl:w-[400px]"
+                  : "flex w-[300px] shrink-0 cursor-pointer flex-col rounded-2xl border border-[var(--line-soft)] bg-white/90 p-5 no-underline backdrop-blur-sm transition-shadow duration-300 hover:shadow-md sm:w-[340px] sm:p-6 lg:w-[380px] xl:w-[400px]") + ` ${cardClassName}`
               }
             >
               {renderCard(sourceItem, sourceIdx)}

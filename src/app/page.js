@@ -39,7 +39,7 @@ export default function Home() {
                 <SectionHeader kicker={t.developer.title} title={t.developer.title} description="" />
               </Reveal>
             </div>
-            <div className="mx-auto mt-10 w-full max-w-[1320px] px-6 sm:px-10 lg:px-16">
+            <div className="mx-auto mt-10 w-full max-w-[1720px] px-8 sm:px-10 lg:px-12">
               <PartnerMarquee />
             </div>
           </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { useLang } from "./i18n";
 import { Reveal } from "./reveal";
 import { withBase } from "../lib/basePath";
@@ -15,9 +16,29 @@ const SCALE_PROJECTS = [
 export function CoCreateSection() {
   const { t } = useLang();
   const c = t.cocreate;
+  const [expanded, setExpanded] = useState(false);
+  const closeTimer = useRef(null);
+
+  const openProjects = () => {
+    window.clearTimeout(closeTimer.current);
+    setExpanded(true);
+  };
+
+  const closeProjects = () => {
+    window.clearTimeout(closeTimer.current);
+    closeTimer.current = window.setTimeout(() => setExpanded(false), 650);
+  };
+
+  useEffect(() => () => window.clearTimeout(closeTimer.current), []);
 
   return (
-    <Reveal className="group hero-orb relative overflow-hidden rounded-[28px] border border-[var(--line-soft)] bg-[linear-gradient(135deg,rgba(0,73,102,0.96),rgba(8,102,126,0.92),rgba(143,195,31,0.88))] text-white">
+    <Reveal
+      className="hero-orb relative overflow-hidden rounded-[28px] border border-[var(--line-soft)] bg-[linear-gradient(135deg,rgba(0,73,102,0.96),rgba(8,102,126,0.92),rgba(143,195,31,0.88))] text-white"
+      onMouseEnter={openProjects}
+      onMouseLeave={closeProjects}
+      onFocusCapture={openProjects}
+      onBlurCapture={closeProjects}
+    >
       {/* 上部：共创主视觉文案，与下部 gif 同处一张卡片 */}
       <div className="relative z-10 p-7 sm:p-9 lg:p-11">
         <div className="max-w-2xl space-y-5">
@@ -42,12 +63,12 @@ export function CoCreateSection() {
       <img
         src={withBase("/co-create-demo.gif")}
         alt="XIAO Co-Create 流程演示"
-        className="block h-auto w-full object-cover"
+        className="block h-[340px] w-full object-cover sm:h-[420px] lg:h-[500px]"
         loading="lazy"
       />
 
-      <div className="pointer-events-none max-h-0 overflow-hidden bg-[#f3f7f8] text-[#18224f] opacity-0 transition-[max-height,opacity] duration-[1100ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:pointer-events-auto group-hover:max-h-[760px] group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:max-h-[760px] group-focus-within:opacity-100 motion-reduce:transition-none">
-        <div className="translate-y-5 px-6 py-14 transition-transform duration-[1100ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-y-0 group-focus-within:translate-y-0 motion-reduce:transform-none motion-reduce:transition-none sm:px-10 lg:px-12">
+      <div className={`${expanded ? "max-h-[900px] opacity-100" : "pointer-events-none max-h-0 opacity-0"} overflow-hidden bg-[#f3f7f8] text-[#18224f] transition-[max-height,opacity] duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transition-none`}>
+        <div className={`${expanded ? "translate-y-0" : "translate-y-4"} px-6 py-14 transition-transform duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transform-none motion-reduce:transition-none sm:px-10 lg:px-12`}>
           <h3 className="text-center text-3xl font-bold tracking-[-0.03em] sm:text-4xl">Scale-up Co-Create Projects</h3>
           <p className="mx-auto mt-3 max-w-3xl text-center text-base text-[#52616a]">Find out how the community is scaling up their XIAO-based projects via our Fusion Co-Create.</p>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">

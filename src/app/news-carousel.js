@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useLang } from "./i18n";
-import { Reveal } from "./reveal";
+import { ScrollBand } from "./scroll-band";
 
 /**
  * 资讯滚动带 —— 数据自动更新：
@@ -195,38 +195,24 @@ export function NewsCarousel() {
   const isEn = lang === "en";
 
   return (
-    <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
-      <div className="grid gap-x-7 gap-y-14 sm:grid-cols-2 lg:grid-cols-5">
-        {items.map((item, i) => (
-          <Reveal key={`${item.url}-${item.title}`} delay={(i % 5) * 70}>
-            <a
-              href={item.url || "#"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block h-full min-w-0"
-            >
-              <div className="aspect-[1.55] w-full overflow-hidden rounded-md bg-[#edf2eb]">
-                {item.media_url && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={item.media_url}
-                    alt={item.title}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.025]"
-                    onError={(event) => { event.currentTarget.style.display = "none"; }}
-                  />
-                )}
-              </div>
-              <h3 className="mt-4 line-clamp-3 text-[15px] font-medium leading-[1.45] text-[#383838]">
-                {item.title}
-              </h3>
-              <span className="mt-2 inline-block text-sm font-medium text-[#8fc93a]">
-                {isEn ? "Read More »" : "阅读更多 »"}
-              </span>
-            </a>
-          </Reveal>
-        ))}
-      </div>
+    <div>
+      <ScrollBand
+        items={items}
+        rows={2}
+        speed={0.32}
+        hrefFor={(item) => item.url || "#"}
+        cardClassName="bg-white shadow-[0_8px_24px_rgba(18,43,56,.06)]"
+        renderCard={(item) => <>
+          <div className="aspect-[1.55] w-full overflow-hidden rounded-lg bg-[#edf2eb]">
+            {item.media_url && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={item.media_url} alt={item.title} loading="lazy" className="h-full w-full object-cover transition duration-300 hover:scale-[1.025]" onError={(event) => { event.currentTarget.style.display = "none"; }} />
+            )}
+          </div>
+          <h3 className="mt-3 line-clamp-2 text-[15px] font-semibold leading-[1.45] text-[#253946]">{item.title}</h3>
+          <span className="mt-2 text-sm font-medium text-[#8fc93a]">{isEn ? "Read More »" : "阅读更多 »"}</span>
+        </>}
+      />
       {/* Explore More —— 进入 Seeed Blog XIAO 标签页，看更多文章 */}
       <div className="mt-14 flex justify-center">
         <a
