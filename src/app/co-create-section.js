@@ -9,11 +9,6 @@ const SCALE_PROJECTS = [
   { title: "Green Dot Board by Collins Emasi", href: "https://www.seeedstudio.com/blog/2025/07/17/how-to-build-an-iot-sensor-node-with-flux-ai-wio-e5-lora-module-and-xiao-rp2040-mcu/", image: "/co-create-projects/green-dot.webp" },
   { title: "6 Channel Temperature Meter by Gokul", href: "https://www.seeedstudio.com/6-Channel-Temperature-Meter-g-1402461", image: "/co-create-projects/temperature.webp" },
   { title: "TOTEM by Marc Rühl", href: "https://github.com/mchldotdev/totem", image: "/co-create-projects/keyboards.webp" },
-  { title: "Beyblock20 by Christian Lo", href: "https://github.com/ChrisChrisLoLo/beyblock20", image: "/co-create-projects/keyboards.webp" },
-  { title: "Purple Owl by Sonal Pinto", href: "https://github.com/SonalPinto/purple-owl", image: "/co-create-projects/keyboards.webp" },
-  { title: "KLEIN by Shashank", href: "https://github.com/snsten/Klein/", image: "/co-create-projects/keyboards.webp" },
-  { title: "GRIN Quern by 伊藤彰悟", href: "https://www.hackster.io/policium/grin-quern-ergonomic-keyboard-on-center-trackpad-8b58c3", image: "/co-create-projects/keyboards.webp" },
-  { title: "Kidoairaku Swallowtail by Yu Sanagi", href: "https://github.com/yswallow/kidoairaku-swallowtail", image: "/co-create-projects/keyboards.webp" },
   { title: "Seeed Studio XIAO Use Case", href: "https://files.seeedstudio.com/wiki/XIAO/XIAO-Reference-Design.pdf", image: "/co-create-projects/use-case.webp" },
 ];
 
@@ -51,11 +46,11 @@ export function CoCreateSection() {
         loading="lazy"
       />
 
-      <div className="max-h-0 overflow-hidden bg-[#f3f7f8] text-[#18224f] opacity-0 transition-[max-height,opacity] duration-500 ease-out group-hover:max-h-[1800px] group-hover:opacity-100 group-focus-within:max-h-[1800px] group-focus-within:opacity-100">
-        <div className="px-6 py-14 sm:px-10 lg:px-12">
+      <div className="pointer-events-none max-h-0 overflow-hidden bg-[#f3f7f8] text-[#18224f] opacity-0 transition-[max-height,opacity] duration-[1100ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:pointer-events-auto group-hover:max-h-[760px] group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:max-h-[760px] group-focus-within:opacity-100 motion-reduce:transition-none">
+        <div className="translate-y-5 px-6 py-14 transition-transform duration-[1100ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-y-0 group-focus-within:translate-y-0 motion-reduce:transform-none motion-reduce:transition-none sm:px-10 lg:px-12">
           <h3 className="text-center text-3xl font-bold tracking-[-0.03em] sm:text-4xl">Scale-up Co-Create Projects</h3>
           <p className="mx-auto mt-3 max-w-3xl text-center text-base text-[#52616a]">Find out how the community is scaling up their XIAO-based projects via our Fusion Co-Create.</p>
-          <div className="mt-10 grid gap-x-5 gap-y-9 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {SCALE_PROJECTS.map((project) => (
               <a key={project.title} href={project.href} target="_blank" rel="noopener noreferrer" className="group/project block text-left">
                 <div className="aspect-[1.2] overflow-hidden bg-white">

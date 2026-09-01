@@ -60,12 +60,12 @@ export function RoadmapCallout() {
 }
 
 export function PlaygroundSection() {
-  return <section id="playground" className="bg-black px-6 py-20 text-white sm:px-10 lg:px-16">
+  return <section id="playground" className="bg-white px-6 py-20 text-[#18224f] sm:px-10 lg:px-16">
     <div className="mx-auto max-w-[1320px]">
-      <Reveal className="text-center"><h2 className="text-4xl font-bold tracking-[-0.03em] sm:text-5xl">XIAO Playground</h2><p className="mx-auto mt-8 max-w-5xl text-left text-xl leading-8 text-white/90 sm:text-2xl">Pin out, specs, schematics, web firmware flasher, tutorials, all open sourced in the Playground.</p></Reveal>
-      <Reveal delay={100} className="mt-10 overflow-hidden rounded-[34px] border border-white/35 bg-[#202020] shadow-[0_22px_60px_rgba(0,0,0,.45)]">
+      <Reveal className="text-center"><h2 className="text-4xl font-bold tracking-[-0.03em] sm:text-5xl">XIAO Playground</h2><p className="mx-auto mt-8 max-w-5xl text-left text-xl leading-8 text-[#526b91] sm:text-2xl">Pin out, specs, schematics, web firmware flasher, tutorials, all open sourced in the Playground.</p></Reveal>
+      <Reveal delay={100} className="mt-10 overflow-hidden rounded-[34px] border border-[var(--line-soft)] bg-[#f6f8fa] shadow-[0_22px_60px_rgba(26,39,77,.10)]">
         <div className="grid lg:grid-cols-[.9fr_1.1fr]">
-          <div className="relative flex min-h-[470px] flex-col items-center justify-center border-b border-white/15 p-10 lg:border-b-0 lg:border-r">
+          <div className="relative flex min-h-[470px] flex-col items-center justify-center border-b border-[var(--line-soft)] p-10 lg:border-b-0 lg:border-r">
             <h3 className="text-4xl font-bold sm:text-5xl">Open Source</h3>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={withBase("/xiao-nrf54lm20-board.png")} alt="Seeed Studio XIAO development board" className="my-8 h-48 w-full object-contain sm:h-56" />
@@ -78,7 +78,7 @@ export function PlaygroundSection() {
               ["▤", "Resources", "Specs, datasheets, schematics, KiCad & more"],
               ["</>", "Software Guide", "Wiki tutorials on how to run open software on XIAO"],
               ["⇩", "Web Flasher", "Flash tested firmwares from your browser"],
-            ].map(([icon, title, text]) => <div key={title} className="grid grid-cols-[64px_1fr] items-start gap-5"><span className="flex h-14 w-14 items-center justify-center rounded-xl border border-white/55 text-2xl font-bold">{icon}</span><div><h3 className="text-3xl font-bold sm:text-4xl">{title}</h3><p className="mt-2 text-lg leading-7 text-white/85 sm:text-xl">{text}</p></div></div>)}
+            ].map(([icon, title, text]) => <div key={title} className="grid grid-cols-[64px_1fr] items-start gap-5"><span className="flex h-14 w-14 items-center justify-center rounded-xl border border-[var(--brand-blue)]/25 text-2xl font-bold text-[var(--brand-blue)]">{icon}</span><div><h3 className="text-3xl font-bold sm:text-4xl">{title}</h3><p className="mt-2 text-lg leading-7 text-[#526b91] sm:text-xl">{text}</p></div></div>)}
           </div>
         </div>
       </Reveal>
