@@ -70,7 +70,7 @@ export function PlaygroundSection() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={withBase("/xiao-nrf54lm20-board.webp")} alt="Seeed Studio XIAO development board" className="my-10 h-44 w-full object-contain sm:h-52" />
             <p className="text-xl font-semibold sm:text-2xl">for Developers</p>
-            <a href="/res" className="mt-8 rounded-full bg-[#91d000] px-10 py-3 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#7fb300]">Let’s Play!</a>
+            <a href="/playground" className="mt-8 rounded-full bg-[#91d000] px-10 py-3 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#7fb300]">Let’s Play!</a>
           </div>
           <div className="grid content-center gap-8 p-8 sm:p-12">
             {[
