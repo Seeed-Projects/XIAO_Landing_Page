@@ -39,7 +39,7 @@ export default function Home() {
                 <SectionHeader kicker={t.developer.title} title={t.developer.title} description="" />
               </Reveal>
             </div>
-            <div className="mt-10 w-full">
+            <div className="mx-auto mt-10 w-full max-w-[1320px] px-6 sm:px-10 lg:px-16">
               <PartnerMarquee />
             </div>
           </div>
@@ -134,9 +134,9 @@ export default function Home() {
         {/* EDM 订阅 - 全屏满宽 */}
         <section
           id="edm"
-          className="bg-mod-mint relative flex min-h-[100dvh] w-full scroll-mt-24 items-center px-6 py-20 sm:px-10 lg:px-16"
+          className="relative flex w-full scroll-mt-24 items-center bg-white px-6 py-20 sm:px-10 lg:px-16"
         >
-          <div className="mx-auto w-full max-w-[1440px]">
+          <div className="mx-auto w-full max-w-[1500px]">
             <Reveal delay={120}>
               <EdmSubscribe />
             </Reveal>

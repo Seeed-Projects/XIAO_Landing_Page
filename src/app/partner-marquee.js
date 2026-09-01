@@ -70,9 +70,9 @@ export function PartnerMarquee() {
                               ?.removeAttribute("hidden");
                           }}
                           className={
-                            "h-7 w-7 shrink-0 object-contain" +
+                            "h-8 w-8 shrink-0 object-contain" +
                             (isFavicon
-                              ? " rounded-md bg-neutral-100 p-1"
+                              ? " rounded-md bg-neutral-100 p-1.5"
                               : "")
                           }
                         />

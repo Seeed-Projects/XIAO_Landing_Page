@@ -31,7 +31,7 @@ export const homepageSections = {
         { name: "Espressif", url: "https://www.espressif.com", logo: "https://cdn.simpleicons.org/espressif" },
         { name: "Raspberry Pi", url: "https://www.raspberrypi.com", logo: "https://cdn.simpleicons.org/raspberrypi" },
         { name: "Microchip", url: "https://www.microchip.com", logo: "https://icon.horse/icon/www.microchip.com" },
-        { name: "Silicon Labs", url: "https://www.silabs.com", logo: "https://www.silabs.com/etc.clientlibs/siliconlabs/clientlibs/clientlib-global/resources/images/redesign-logo.png" },
+        { name: "Silicon Labs", url: "https://www.silabs.com", logo: "https://icon.horse/icon/www.silabs.com" },
         { name: "ST", url: "https://www.st.com", logo: "https://cdn.simpleicons.org/stmicroelectronics" },
       ],
     },
@@ -53,7 +53,7 @@ export const homepageSections = {
       partners: [
         { name: "Hackster", url: "https://www.hackster.io", logo: "https://cdn.simpleicons.org/hackster" },
         { name: "CNX-Software", url: "https://www.cnx-software.com", logo: "https://www.cnx-software.com/wp-content/uploads/2021/04/cropped-CNX-Software-Square-Logo-Light-Grey-1-270x270.png" },
-        { name: "Seeed Wiki", url: "https://wiki.seeedstudio.com", logo: "https://media-cdn.seeedstudio.com/media/logo/stores/4/logo_2018_horizontal.png" },
+        { name: "Seeed Wiki", url: "https://wiki.seeedstudio.com", logo: "https://icon.horse/icon/wiki.seeedstudio.com" },
         { name: "Instructables", url: "https://www.instructables.com", logo: "https://cdn.simpleicons.org/instructables" },
         { name: "Hackaday", url: "https://hackaday.com", logo: "https://cdn.simpleicons.org/hackaday" },
         { name: "Adafruit", url: "https://www.adafruit.com", logo: "https://cdn.simpleicons.org/adafruit" },

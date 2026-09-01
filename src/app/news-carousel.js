@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useLang } from "./i18n";
-import { ScrollBand } from "./scroll-band";
-import { ScrollCard } from "./scroll-card";
 
 /**
  * 资讯滚动带 —— 数据自动更新：
@@ -196,29 +194,44 @@ export function NewsCarousel() {
   const isEn = lang === "en";
 
   return (
-    <div>
-      <ScrollBand
-        items={items}
-        hrefFor={(item) => item.url || "#"}
-        renderCard={(item) => (
-          <ScrollCard
-            image={item.media_url}
-            tag={item.tag}
-            meta={item.date}
-            title={item.title}
-            excerpt={item.excerpt}
-            alt={item.title}
-            variant="comfortable"
-          />
-        )}
-      />
+    <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
+      <div className="grid gap-x-7 gap-y-14 sm:grid-cols-2 lg:grid-cols-5">
+        {items.map((item) => (
+          <a
+            key={`${item.url}-${item.title}`}
+            href={item.url || "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group block min-w-0"
+          >
+            <div className="aspect-[1.55] w-full overflow-hidden rounded-md bg-[#edf2eb]">
+              {item.media_url && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={item.media_url}
+                  alt={item.title}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.025]"
+                  onError={(event) => { event.currentTarget.style.display = "none"; }}
+                />
+              )}
+            </div>
+            <h3 className="mt-4 line-clamp-3 text-[15px] font-medium leading-[1.45] text-[#383838]">
+              {item.title}
+            </h3>
+            <span className="mt-2 inline-block text-sm font-medium text-[#8fc93a]">
+              {isEn ? "Read More »" : "阅读更多 »"}
+            </span>
+          </a>
+        ))}
+      </div>
       {/* Explore More —— 进入 Seeed Blog XIAO 标签页，看更多文章 */}
-      <div className="mt-8 flex justify-center">
+      <div className="mt-14 flex justify-center">
         <a
           href={BLOG_TAG_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center gap-2 rounded-full border border-[var(--brand-blue)]/20 bg-white px-6 py-3 text-sm font-semibold text-[var(--brand-blue)] shadow-[0_8px_24px_rgba(0,73,102,0.10)] transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/45 hover:bg-[var(--brand-blue)]/5"
+          className="group inline-flex items-center gap-2 rounded-full bg-[#8fc31f] px-12 py-3 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#79ad12]"
         >
           {isEn ? "Explore more" : "探索更多"}
           <svg
