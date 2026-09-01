@@ -10,7 +10,7 @@ import { ProjectsCarousel } from "./projects-carousel";
 import { CoCreateSection } from "./co-create-section";
 import { EdmSubscribe } from "./edm-subscribe";
 import { Reveal } from "./reveal";
-import { FeaturesSection, GlimpseSection, RoadmapCallout, ScaleUpSection } from "./home-ppt-sections";
+import { FeaturesSection, GlimpseSection, PlaygroundSection, RoadmapCallout, ScaleUpSection } from "./home-ppt-sections";
 
 export default function Home() {
   const { t, lang } = useLang();
@@ -94,6 +94,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <PlaygroundSection />
 
         {/* 生态共创 - 全屏满宽，置于用户评价下方；原版文案直接放 banner，不再加重复标题 */}
         <section
