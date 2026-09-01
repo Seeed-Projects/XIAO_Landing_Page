@@ -18,17 +18,19 @@ export function ProductPanel() {
   const categories = PRODUCT_CATALOG;
 
   const [activeCat, setActiveCat] = useState(0);
-  const [activeSub, setActiveSub] = useState(0);
+  // activeSub = null 表示「全部」：展示当前分类下所有子分类的产品，不做细分
+  const [activeSub, setActiveSub] = useState(null);
 
   const currentCategory = categories[activeCat] ?? categories[0];
   const subs = currentCategory.subcategories ?? [];
-  // 跳过空子分类，落到第一个有内容的子分类
-  const currentSub = subs[activeSub] ?? subs[0] ?? null;
-  const displayItems = currentSub?.items ?? currentCategory.items ?? [];
+  // 当前分类下所有子分类产品合并（用于「全部」视图）
+  const allItems = subs.flatMap((s) => s.items ?? []).concat(currentCategory.items ?? []);
+  const currentSub = activeSub != null ? subs[activeSub] ?? null : null;
+  const displayItems = currentSub?.items ?? allItems;
 
   const handleCategoryClick = (i) => {
     setActiveCat(i);
-    setActiveSub(0);
+    setActiveSub(null);
   };
 
   const catLabel = (c) => (isEn ? c.labelEn : c.label) ?? c.label;
@@ -46,7 +48,9 @@ export function ProductPanel() {
         </div>
         <h3 className="text-sm font-medium text-[var(--ink-muted)]">
           {catLabel(currentCategory)}
-          {currentSub ? ` / ${subLabel(currentSub)}` : ""}
+          {subs.length > 0
+            ? ` / ${currentSub ? subLabel(currentSub) : isEn ? "All" : "全部"}`
+            : ""}
         </h3>
       </div>
 
@@ -83,6 +87,19 @@ export function ProductPanel() {
                       key={`sub-${i}`}
                       className="ml-3 space-y-0.5 border-l border-[var(--line-soft)] pl-3 animate-[panelSlide_300ms_ease-out]"
                     >
+                      {/* 「全部」：展示该分类下所有子分类产品 */}
+                      <button
+                        type="button"
+                        onClick={() => setActiveSub(null)}
+                        className={`flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-left text-xs font-medium transition ${
+                          activeSub == null
+                            ? "bg-[var(--brand-blue)]/8 text-[var(--brand-blue)]"
+                            : "text-[var(--ink-muted)] hover:text-[var(--ink-strong)]"
+                        }`}
+                      >
+                        <span>{isEn ? "All" : "全部"}</span>
+                        <span className="text-[10px] tabular-nums opacity-70">{catItems}</span>
+                      </button>
                       {category.subcategories.map((sub, j) => {
                         const isSubActive = j === activeSub;
                         const count = sub.items?.length ?? 0;

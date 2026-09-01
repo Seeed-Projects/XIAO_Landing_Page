@@ -73,7 +73,7 @@ export function SiteHeader() {
     { label: t.nav.products, href: "/products", key: "products" },
     { label: t.nav.projectHub, href: "/project-hub", key: "projectHub" },
     { label: t.nav.openRoadmap, href: "/open-roadmap", key: "openRoadmap" },
-    { label: t.nav.playground, href: null, key: "playground" },
+    { label: t.nav.playground, href: "/playground", key: "playground" },
   ];
 
   const [pgOpen, setPgOpen] = useState(false);      // 桌面 Playground 下拉
@@ -163,15 +163,14 @@ export function SiteHeader() {
                 onMouseEnter={openPlayground}
                 onMouseLeave={scheduleClose}
               >
-                <button
-                  type="button"
-                  aria-expanded={pgOpen}
-                  onClick={() => setPgOpen((o) => !o)}
-                  className={`${linkCls} cursor-pointer`}
-                >
-                  <span>{item.label}</span>
-                  <Chevron open={pgOpen} />
-                </button>
+                <div className={`${linkCls} gap-0 py-0 pr-1`}>
+                  <Link href={item.href} onClick={() => setPgOpen(false)} className="py-2 pl-1 pr-1.5">
+                    {item.label}
+                  </Link>
+                  <button type="button" aria-label="Open Playground menu" aria-expanded={pgOpen} onClick={() => setPgOpen((o) => !o)} className="flex h-8 w-6 items-center justify-center rounded-full">
+                    <Chevron open={pgOpen} />
+                  </button>
+                </div>
 
                 {/* Playground 二级菜单（样式待用户提供，此处为默认） */}
                 {pgOpen && (
@@ -243,15 +242,10 @@ export function SiteHeader() {
             {nav.map((item) =>
               item.key === "playground" ? (
                 <div key={item.key}>
-                  <button
-                    type="button"
-                    aria-expanded={mobilePg}
-                    onClick={() => setMobilePg((o) => !o)}
-                    className="flex min-h-12 w-full items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold text-[var(--ink-strong)]"
-                  >
-                    {item.label}
-                    <Chevron open={mobilePg} />
-                  </button>
+                  <div className="flex min-h-12 w-full items-center justify-between rounded-xl px-4 text-sm font-semibold text-[var(--ink-strong)]">
+                    <Link href={item.href} onClick={() => setMobileOpen(false)} className="flex-1 py-3">{item.label}</Link>
+                    <button type="button" aria-label="Open Playground menu" aria-expanded={mobilePg} onClick={() => setMobilePg((o) => !o)} className="flex h-10 w-10 items-center justify-center rounded-full"><Chevron open={mobilePg} /></button>
+                  </div>
                   {mobilePg && (
                     <div className="grid gap-1 pl-3">
                       {pgItems.map((m) => (
