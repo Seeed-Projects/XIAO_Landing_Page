@@ -8,7 +8,7 @@ const SCALE_PROJECTS = [
   { title: "OpenUC2 10x AI Microscope by OpenUC2", href: "https://www.seeedstudio.com/XIAO-Microscope-p-5971.html", image: "/co-create-projects/openuc2.webp" },
   { title: "Green Dot Board by Collins Emasi", href: "https://www.seeedstudio.com/blog/2025/07/17/how-to-build-an-iot-sensor-node-with-flux-ai-wio-e5-lora-module-and-xiao-rp2040-mcu/", image: "/co-create-projects/green-dot.webp" },
   { title: "6 Channel Temperature Meter by Gokul", href: "https://www.seeedstudio.com/6-Channel-Temperature-Meter-g-1402461", image: "/co-create-projects/temperature.webp" },
-  { title: "TOTEM by Marc Rühl", href: "https://github.com/mchldotdev/totem", image: "/co-create-projects/keyboards.webp" },
+  { title: "Fusion DIY XIAO Mechanical Keyboards", href: "https://github.com/mchldotdev/totem", image: "/co-create-projects/keyboards.webp" },
   { title: "Seeed Studio XIAO Use Case", href: "https://files.seeedstudio.com/wiki/XIAO/XIAO-Reference-Design.pdf", image: "/co-create-projects/use-case.webp" },
 ];
 
@@ -60,6 +60,31 @@ export function CoCreateSection() {
                 <h4 className="mt-4 text-[15px] font-bold leading-snug text-[#18224f]">{project.title}</h4>
               </a>
             ))}
+          </div>
+          {/* Explore more —— 进入 Seeed Blog 授权产品案例故事合集 */}
+          <div className="mt-12 flex justify-center">
+            <a
+              href="https://www.seeedstudio.com/blog/category/licensed-products-case-stories/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 rounded-full bg-[#8fc31f] px-12 py-3 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#79ad12]"
+            >
+              Explore more
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="transition-transform group-hover:translate-x-0.5"
+              >
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </a>
           </div>
         </div>
       </div>
