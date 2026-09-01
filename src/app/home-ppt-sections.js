@@ -62,23 +62,23 @@ export function RoadmapCallout() {
 export function PlaygroundSection() {
   return <section id="playground" className="bg-white px-6 py-20 text-[#18224f] sm:px-10 lg:px-16">
     <div className="mx-auto max-w-[1320px]">
-      <Reveal className="text-center"><h2 className="text-4xl font-bold tracking-[-0.03em] sm:text-5xl">XIAO Playground</h2><p className="mx-auto mt-8 max-w-5xl text-center text-xl leading-8 text-[#526b91] sm:text-2xl">Pin out, specs, schematics, web firmware flasher, tutorials, all open sourced in the Playground.</p></Reveal>
-      <Reveal delay={100} className="mt-10 overflow-hidden rounded-[34px] border border-[var(--line-soft)] bg-[#f6f8fa] shadow-[0_22px_60px_rgba(26,39,77,.10)]">
+      <Reveal className="text-center"><h2 className="text-4xl font-bold tracking-[-0.03em] sm:text-5xl">XIAO Playground</h2><p className="mx-auto mt-6 max-w-3xl text-center text-base leading-7 text-[#526b91] sm:text-lg">Pin out, specs, schematics, web firmware flasher, tutorials, all open sourced in the Playground.</p></Reveal>
+      <Reveal delay={100} className="mt-10 overflow-hidden rounded-[28px] border border-[var(--line-soft)] bg-[#f6f8fa] shadow-[0_22px_60px_rgba(26,39,77,.10)]">
         <div className="grid lg:grid-cols-[.9fr_1.1fr]">
-          <div className="relative flex min-h-[470px] flex-col items-center justify-center border-b border-[var(--line-soft)] p-10 lg:border-b-0 lg:border-r">
-            <h3 className="text-4xl font-bold sm:text-5xl">Open Source</h3>
+          <div className="relative flex min-h-[420px] flex-col items-center justify-center border-b border-[var(--line-soft)] p-10 lg:border-b-0 lg:border-r">
+            <h3 className="text-2xl font-bold sm:text-3xl">Open Source</h3>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={withBase("/xiao-nrf54lm20-board.webp")} alt="Seeed Studio XIAO development board" className="my-8 h-48 w-full object-contain sm:h-56" />
-            <p className="text-3xl sm:text-4xl">for Developers</p>
-            <a href="/res" className="mt-8 rounded-full bg-[#91d000] px-14 py-4 text-2xl font-bold text-white">Let’s Play!</a>
+            <img src={withBase("/xiao-nrf54lm20-board.webp")} alt="Seeed Studio XIAO development board" className="my-8 h-40 w-full object-contain sm:h-48" />
+            <p className="text-xl font-semibold sm:text-2xl">for Developers</p>
+            <a href="/res" className="mt-8 rounded-full bg-[#91d000] px-10 py-3 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#7fb300]">Let’s Play!</a>
           </div>
-          <div className="grid content-center gap-9 p-8 sm:p-12">
+          <div className="grid content-center gap-8 p-8 sm:p-12">
             {[
               ["⌘", "Pinout", "Interactive XIAO GPIO pinout reference"],
               ["▤", "Resources", "Specs, datasheets, schematics, KiCad & more"],
               ["</>", "Software Guide", "Wiki tutorials on how to run open software on XIAO"],
               ["⇩", "Web Flasher", "Flash tested firmwares from your browser"],
-            ].map(([icon, title, text]) => <div key={title} className="grid grid-cols-[64px_1fr] items-start gap-5"><span className="flex h-14 w-14 items-center justify-center rounded-xl border border-[var(--brand-blue)]/25 text-2xl font-bold text-[var(--brand-blue)]">{icon}</span><div><h3 className="text-3xl font-bold sm:text-4xl">{title}</h3><p className="mt-2 text-lg leading-7 text-[#526b91] sm:text-xl">{text}</p></div></div>)}
+            ].map(([icon, title, text]) => <div key={title} className="grid grid-cols-[56px_1fr] items-start gap-5"><span className="flex h-12 w-12 items-center justify-center rounded-xl border border-[var(--brand-blue)]/25 text-xl font-bold text-[var(--brand-blue)]">{icon}</span><div><h3 className="text-lg font-bold sm:text-xl">{title}</h3><p className="mt-2 text-sm leading-6 text-[#526b91] sm:text-base">{text}</p></div></div>)}
           </div>
         </div>
       </Reveal>
