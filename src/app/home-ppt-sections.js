@@ -62,7 +62,7 @@ export function RoadmapCallout() {
 export function PlaygroundSection() {
   return <section id="playground" className="bg-white px-6 py-20 text-[#18224f] sm:px-10 lg:px-16">
     <div className="mx-auto max-w-[1320px]">
-      <Reveal className="text-center"><h2 className="text-4xl font-bold tracking-[-0.03em] sm:text-5xl">XIAO Playground</h2><p className="mx-auto mt-8 max-w-5xl text-left text-xl leading-8 text-[#526b91] sm:text-2xl">Pin out, specs, schematics, web firmware flasher, tutorials, all open sourced in the Playground.</p></Reveal>
+      <Reveal className="text-center"><h2 className="text-4xl font-bold tracking-[-0.03em] sm:text-5xl">XIAO Playground</h2><p className="mx-auto mt-8 max-w-5xl text-center text-xl leading-8 text-[#526b91] sm:text-2xl">Pin out, specs, schematics, web firmware flasher, tutorials, all open sourced in the Playground.</p></Reveal>
       <Reveal delay={100} className="mt-10 overflow-hidden rounded-[34px] border border-[var(--line-soft)] bg-[#f6f8fa] shadow-[0_22px_60px_rgba(26,39,77,.10)]">
         <div className="grid lg:grid-cols-[.9fr_1.1fr]">
           <div className="relative flex min-h-[470px] flex-col items-center justify-center border-b border-[var(--line-soft)] p-10 lg:border-b-0 lg:border-r">
