@@ -68,7 +68,7 @@ export function PlaygroundSection() {
           <div className="relative flex min-h-[470px] flex-col items-center justify-center border-b border-[var(--line-soft)] p-10 lg:border-b-0 lg:border-r">
             <h3 className="text-4xl font-bold sm:text-5xl">Open Source</h3>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={withBase("/xiao-nrf54lm20-board.png")} alt="Seeed Studio XIAO development board" className="my-8 h-48 w-full object-contain sm:h-56" />
+            <img src={withBase("/xiao-nrf54lm20-board.webp")} alt="Seeed Studio XIAO development board" className="my-8 h-48 w-full object-contain sm:h-56" />
             <p className="text-3xl sm:text-4xl">for Developers</p>
             <a href="/res" className="mt-8 rounded-full bg-[#91d000] px-14 py-4 text-2xl font-bold text-white">Let’s Play!</a>
           </div>
