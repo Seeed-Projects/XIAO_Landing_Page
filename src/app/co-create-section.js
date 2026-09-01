@@ -63,7 +63,7 @@ export function CoCreateSection() {
       <img
         src={withBase("/co-create-demo.gif")}
         alt="XIAO Co-Create 流程演示"
-        className="block h-[340px] w-full object-cover sm:h-[420px] lg:h-[500px]"
+        className="block h-[260px] w-full object-cover sm:h-[320px] lg:h-[380px]"
         loading="lazy"
       />
 

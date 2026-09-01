@@ -795,7 +795,8 @@
   position: relative;
   isolation: isolate;
   width: 100%;
-  min-height: calc(100svh - 64px);
+  aspect-ratio: 1695 / 632;
+  min-height: 420px;
   margin: 0;
   padding: 0;
   display: flex;
@@ -840,6 +841,7 @@
   padding: 80px clamp(28px, 5vw, 76px) clamp(170px, 18vh, 210px);
   display: block;
   background: none;
+  transform: translateY(-28px);
 }
 .introKicker {
   display: block;
@@ -934,7 +936,7 @@
 .hero { padding-top: 30px; }
 
 @media (max-width: 760px) {
-  .projectIntro { min-height: 920px; align-items: flex-end; }
+  .projectIntro { aspect-ratio: auto; min-height: 920px; align-items: flex-end; }
   .introVisual { position: absolute; min-height: 0; order: initial; }
   .introVisual img { object-position: 58% center; }
   .introShade {
@@ -945,6 +947,7 @@
     order: initial;
     padding: 100px 22px 245px;
     background: none;
+    transform: translateY(-12px);
   }
   .projectIntro h1 { color: #fff; font-size: clamp(52px, 15vw, 76px); text-shadow: 0 4px 24px rgba(0,0,0,.4); }
   .projectIntro p { color: rgba(255,255,255,.9); text-shadow: 0 2px 12px rgba(0,0,0,.42); }

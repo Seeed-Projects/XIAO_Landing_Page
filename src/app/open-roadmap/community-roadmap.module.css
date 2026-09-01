@@ -17,9 +17,10 @@
 .roadmapHero {
   position: relative;
   isolation: isolate;
-  min-height: calc(100svh - 64px);
+  aspect-ratio: 1695 / 632;
+  min-height: 420px;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   overflow: hidden;
   background: #102d38;
 }
@@ -40,7 +41,8 @@
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
-  padding: 90px clamp(28px, 5vw, 76px) clamp(72px, 9vh, 110px);
+  padding: 64px clamp(28px, 5vw, 76px);
+  transform: translateY(-28px);
 }
 .heroEyebrow {
   display: block;
@@ -186,10 +188,10 @@
 
 @media (max-width: 760px) {
   .wrap { padding: 46px 16px 80px; }
-  .roadmapHero { min-height: 780px; }
+  .roadmapHero { aspect-ratio: auto; min-height: 780px; }
   .roadmapHero > img { object-position: 58% center; }
   .heroShade { background: linear-gradient(0deg, rgba(0,25,37,.94) 0%, rgba(0,31,44,.68) 60%, rgba(0,31,44,.08) 100%); }
-  .heroCopy { padding: 100px 22px 58px; }
+  .heroCopy { padding: 100px 22px 58px; transform: translateY(-12px); }
   .roadmapHero h1 { font-size: clamp(52px, 15vw, 76px); }
   .roadmapHero p { font-size: 18px; }
   .roadmapHero .headActions { align-items: stretch; flex-direction: column; }

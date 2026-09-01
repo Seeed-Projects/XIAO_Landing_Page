@@ -65,10 +65,10 @@ export function PlaygroundSection() {
       <Reveal className="text-center"><h2 className="text-4xl font-bold tracking-[-0.03em] sm:text-5xl">XIAO Playground</h2><p className="mx-auto mt-6 max-w-3xl text-center text-base leading-7 text-[#526b91] sm:text-lg">Pin out, specs, schematics, web firmware flasher, tutorials, all open sourced in the Playground.</p></Reveal>
       <Reveal delay={100} className="mt-10 overflow-hidden rounded-[28px] border border-[var(--line-soft)] bg-[#f6f8fa] shadow-[0_22px_60px_rgba(26,39,77,.10)]">
         <div className="grid lg:grid-cols-[.9fr_1.1fr]">
-          <div className="relative flex min-h-[420px] flex-col items-center justify-center border-b border-[var(--line-soft)] p-10 lg:border-b-0 lg:border-r">
+          <div className="relative flex min-h-[520px] flex-col items-center justify-center border-b border-[var(--line-soft)] p-10 lg:border-b-0 lg:border-r">
             <h3 className="text-2xl font-bold sm:text-3xl">Open Source</h3>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={withBase("/xiao-nrf54lm20-board.webp")} alt="Seeed Studio XIAO development board" className="my-8 h-40 w-full object-contain sm:h-48" />
+            <img src={withBase("/xiao-nrf54lm20-board.webp")} alt="Seeed Studio XIAO development board" className="my-10 h-44 w-full object-contain sm:h-52" />
             <p className="text-xl font-semibold sm:text-2xl">for Developers</p>
             <a href="/res" className="mt-8 rounded-full bg-[#91d000] px-10 py-3 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#7fb300]">Let’s Play!</a>
           </div>

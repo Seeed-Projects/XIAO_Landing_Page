@@ -37,7 +37,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100dvh] w-full scroll-mt-24 items-center overflow-hidden"
+      className="relative flex aspect-[1695/632] min-h-[420px] w-full scroll-mt-24 items-center overflow-hidden max-md:min-h-[620px]"
     >
       {/* 底图：铺满全屏 */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -53,7 +53,7 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.25)_0%,transparent_30%,transparent_70%,rgba(0,0,0,0.35)_100%)]" />
 
       {/* 叠加内容 */}
-      <div className="relative z-10 mx-auto w-full max-w-[1440px] px-5 py-24 sm:px-10 lg:px-16">
+      <div className="relative z-10 mx-auto w-full max-w-[1440px] -translate-y-5 px-5 py-16 sm:-translate-y-7 sm:px-10 lg:-translate-y-8 lg:px-16">
         <Reveal className="max-w-2xl space-y-6">
           <p className="font-display text-sm font-semibold uppercase tracking-[0.34em] text-white/85">
             {copy.kicker}
