@@ -22,7 +22,7 @@ export function FeaturesSection() {
   const { lang } = useLang();
   return <section id="features" className="bg-[#f4f4f4] px-6 py-20 sm:px-10 lg:px-16">
     <div className="mx-auto max-w-[1440px]">
-      <Reveal><h2 className="text-center text-4xl font-bold tracking-[-0.03em] text-[#18224f] sm:text-5xl">Features</h2></Reveal>
+      <Reveal><h2 className="text-center text-4xl font-bold leading-[1.12] tracking-[-0.035em] text-[#18224f] sm:text-5xl lg:text-[3.5rem]">Features</h2></Reveal>
       <div className="mt-14 grid gap-10 md:grid-cols-2 xl:grid-cols-4">
         {FEATURES.map((item, i) => { const copy = lang === "en" ? item.en : item.zh; return <Reveal key={item.en[0]} delay={i * 70} className="text-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -39,7 +39,7 @@ export function GlimpseSection() {
   const { lang } = useLang();
   return <section id="glimpse" className="bg-white px-6 pb-12 pt-20 sm:px-10 lg:px-16">
     <div className="mx-auto max-w-[1320px]">
-      <Reveal className="text-center"><h2 className="text-4xl font-semibold tracking-[-0.03em] text-[#18224f] sm:text-5xl">XIAO in a Glimpse</h2><p className="mx-auto mt-3 max-w-5xl text-lg text-[#202020]">{lang === "en" ? "From core development boards to expansion add-ons and ready-to-use smart gadgets — one ecosystem, endless possibilities" : "从核心开发板到扩展配件和开箱即用的智能设备——一个生态，无限可能"}</p></Reveal>
+      <Reveal className="text-center"><h2 className="text-4xl font-semibold leading-[1.12] tracking-[-0.035em] text-[#18224f] sm:text-5xl lg:text-[3.5rem]">XIAO in a Glimpse</h2><p className="mx-auto mt-4 max-w-5xl text-base leading-[1.65] text-[#526b91] sm:text-lg">{lang === "en" ? "From core development boards to expansion add-ons and ready-to-use smart gadgets — one ecosystem, endless possibilities" : "从核心开发板到扩展配件和开箱即用的智能设备——一个生态，无限可能"}</p></Reveal>
       <div className="mt-12 grid gap-6 md:grid-cols-3">
         {GLIMPSE.map((card, i) => <Reveal key={card.no} delay={i * 80} className="overflow-hidden rounded-2xl border border-[#e6e9ef] bg-white shadow-[0_12px_30px_rgba(26,39,77,.08)]">
           <div className="relative h-48 overflow-hidden bg-[#f6faf8]"><div className="absolute inset-0 bg-cover bg-center opacity-90" style={{backgroundImage:`url(${defaultXiaoImage})`}} /><span className="absolute left-4 top-4 rounded bg-white px-2 py-1 font-mono text-xs" style={{color:card.tone}}>{card.no}</span></div>
@@ -54,7 +54,7 @@ export function GlimpseSection() {
 export function RoadmapCallout() {
   const { lang } = useLang();
   return <section id="roadmap" className="bg-white px-6 py-20 sm:px-10 lg:px-16"><div className="mx-auto max-w-[1320px] text-center">
-    <Reveal><h2 className="text-4xl font-bold tracking-[-0.03em] text-[#18224f] sm:text-5xl">{lang === "en" ? "You Decide What We Build Next" : "下一款 XIAO，由你决定"}</h2><p className="mx-auto mt-5 max-w-5xl text-base leading-7 text-[#444] sm:text-lg">{lang === "en" ? "We’re open-sourcing our roadmap for XIAO on GitHub, and you have a say in it. Vote for your favorite entries, suggest features, propose new products, or share feedback." : "我们在 GitHub 上公开 XIAO 路线图。你可以投票、建议功能、提出新产品，或直接分享反馈。"}</p></Reveal>
+    <Reveal><h2 className="text-4xl font-bold leading-[1.12] tracking-[-0.035em] text-[#18224f] sm:text-5xl lg:text-[3.5rem]">{lang === "en" ? "You Decide What We Build Next" : "下一款 XIAO，由你决定"}</h2><p className="mx-auto mt-5 max-w-5xl text-base leading-[1.65] text-[#526b91] sm:text-lg">{lang === "en" ? "We’re open-sourcing our roadmap for XIAO on GitHub, and you have a say in it. Vote for your favorite entries, suggest features, propose new products, or share feedback." : "我们在 GitHub 上公开 XIAO 路线图。你可以投票、建议功能、提出新产品，或直接分享反馈。"}</p></Reveal>
     <Reveal delay={100} className="relative mt-12 rounded-[28px] bg-[#174756] px-6 py-10 sm:px-8 sm:py-12 before:absolute before:left-1/2 before:top-0 before:h-0 before:w-0 before:-translate-x-1/2 before:-translate-y-full before:border-x-[18px] before:border-b-[18px] before:border-x-transparent before:border-b-[#174756]"><div className="mx-auto flex max-w-5xl flex-col items-center gap-3 rounded-xl border border-white/25 px-5 py-3 md:flex-row"><p className="flex-1 text-left text-base text-white/90 sm:text-lg">Developer, join to shape the next XIAO with us!</p><span className="inline-flex items-center gap-2 border-l border-white/25 px-4 text-base font-bold text-white sm:text-lg"><svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden="true"><path d="M12 .7a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.23c-3.22.7-3.9-1.37-3.9-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.57-.29-5.27-1.29-5.27-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.47.11-3.05 0 0 .97-.31 3.16 1.18a10.9 10.9 0 0 1 5.75 0c2.19-1.49 3.16-1.18 3.16-1.18.63 1.58.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.4-2.71 5.38-5.29 5.67.42.36.79 1.06.79 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z"/></svg>GitHub</span><a href="/open-roadmap" className="rounded-xl bg-[#9dcc3c] px-7 py-2.5 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#8ab833]">Join Now</a></div></Reveal>
   </div></section>;
 }
@@ -62,7 +62,7 @@ export function RoadmapCallout() {
 export function PlaygroundSection() {
   return <section id="playground" className="bg-white px-6 py-20 text-[#18224f] sm:px-10 lg:px-16">
     <div className="mx-auto max-w-[1440px]">
-      <Reveal className="text-center"><h2 className="text-4xl font-bold tracking-[-0.03em] sm:text-5xl">XIAO Playground</h2><p className="mx-auto mt-6 max-w-3xl text-center text-base leading-7 text-[#526b91] sm:text-lg">Pin out, specs, schematics, web firmware flasher, tutorials, all open sourced in the Playground.</p></Reveal>
+      <Reveal className="text-center"><h2 className="text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">XIAO Playground</h2><p className="mx-auto mt-5 max-w-3xl text-center text-base leading-[1.65] text-[#526b91] sm:text-lg">Pin out, specs, schematics, web firmware flasher, tutorials, all open sourced in the Playground.</p></Reveal>
       <Reveal delay={100} className="mt-10 overflow-hidden rounded-[28px] border border-[var(--line-soft)] bg-[#f6f8fa] shadow-[0_22px_60px_rgba(26,39,77,.10)]">
         <div className="grid lg:grid-cols-[.9fr_1.1fr]">
           <div className="relative flex min-h-[520px] flex-col items-center justify-center border-b border-[var(--line-soft)] p-10 lg:border-b-0 lg:border-r">

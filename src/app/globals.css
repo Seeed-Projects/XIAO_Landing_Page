@@ -28,6 +28,13 @@
 
   /* 统一字体：全站 Inter（标题与正文同字体，简约小巧） */
   --font-display: var(--font-body);
+
+  /* XIAO 内容页统一字阶：首屏标题独立，以下用于普通板块与卡片。 */
+  --type-section-title: clamp(40px, 4vw, 56px);
+  --type-section-copy: clamp(16px, 1.25vw, 18px);
+  --type-card-title: clamp(20px, 1.7vw, 24px);
+  --type-card-copy: clamp(14px, 1.05vw, 16px);
+  --leading-copy: 1.65;
 }
 
 @keyframes marquee {
@@ -291,7 +298,7 @@ canvas {
 .pd-intro h2 {
   margin: 14px 0 10px;
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(28px, 3.2vw, 40px);
+  font-size: var(--type-section-title);
   line-height: 1.1;
   letter-spacing: -0.02em;
   font-weight: 600;
@@ -301,8 +308,8 @@ canvas {
   margin: 0;
   max-width: 760px;
   font-family: var(--font-body), sans-serif;
-  font-size: 15px;
-  line-height: 1.7;
+  font-size: var(--type-section-copy);
+  line-height: var(--leading-copy);
   font-weight: 500;
   color: var(--ink-body);
 }

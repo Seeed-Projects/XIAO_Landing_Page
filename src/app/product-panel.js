@@ -155,6 +155,7 @@ export function ProductPanel() {
                         src={withBase(item.img)}
                         alt={item.title}
                         loading="lazy"
+                        decoding="async"
                         className="block h-full w-full object-contain object-bottom"
                       />
                     </div>

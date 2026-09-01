@@ -83,7 +83,7 @@
 .section { position: relative; padding: 92px 0; }
 .dots::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .28; background-image: radial-gradient(#cbd0c8 .75px, transparent .75px); background-size: 18px 18px; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent); }
 .sectionHead { text-align: center; max-width: 760px; margin: 0 auto 48px; }
-.sectionHead h2 { margin: 9px 0 14px; font-size: clamp(30px, 3.2vw, 40px); line-height: 1.14; letter-spacing: -.035em; font-weight: 740; }
+.sectionHead h2 { margin: 9px 0 14px; font-size: var(--type-section-title); line-height: 1.12; letter-spacing: -.035em; font-weight: 700; }
 .sectionHead p { margin: 0 auto; color: var(--muted); font-size: 14px; line-height: 1.75; }
 
 /* Resources section */

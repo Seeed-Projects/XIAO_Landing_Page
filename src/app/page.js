@@ -115,10 +115,10 @@ export default function Home() {
           <div className="w-full">
             <div className="mx-auto w-full max-w-[1440px] px-6 text-center sm:px-10 lg:px-16">
               <Reveal>
-                <h2 className="text-4xl font-bold tracking-[-0.03em] text-[#18224f] sm:text-5xl">
+                <h2 className="text-4xl font-bold leading-[1.12] tracking-[-0.035em] text-[#18224f] sm:text-5xl lg:text-[3.5rem]">
                   {isEn ? "XIAO in the News" : "XIAO 新闻动态"}
                 </h2>
-                <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-[#444]">
+                <p className="mx-auto mt-4 max-w-3xl text-base leading-[1.65] text-[#526b91] sm:text-lg">
                   {isEn
                     ? "Discover the latest news on XIAO, updates from Seeed and from our community all over the world"
                     : "了解 XIAO 最新资讯，以及来自 Seeed 和全球社区的动态。"}

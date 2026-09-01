@@ -51,10 +51,10 @@ export function SuccessCases() {
     <section id="success" className="w-full scroll-mt-24 bg-[var(--page-bg)] px-6 py-16 sm:px-10 lg:px-16">
       <div className="mx-auto w-full max-w-[1440px]">
         <Reveal className="text-center">
-          <Glow as="h2" className="font-display text-3xl font-semibold tracking-tight text-[var(--ink-strong)] sm:text-4xl">
+          <Glow as="h2" className="font-display text-4xl font-bold leading-[1.12] tracking-[-0.035em] text-[var(--ink-strong)] sm:text-5xl lg:text-[3.5rem]">
             {title}
           </Glow>
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[var(--ink-body)]">
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-[1.65] text-[var(--ink-body)] sm:text-lg">
             {sub}
           </p>
         </Reveal>

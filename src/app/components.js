@@ -43,11 +43,11 @@ export function SectionHeader({ kicker, title, description, align = "center" }) 
         align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-2xl"
       }`}
     >
-      <Glow as="h2" className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+      <Glow as="h2" className="font-display text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">
         {title}
       </Glow>
       {description ? (
-        <p className={`max-w-xl text-base leading-7 text-[var(--ink-body)] ${align === "center" ? "mx-auto" : ""}`}>
+        <p className={`max-w-2xl text-base leading-[1.65] text-[var(--ink-body)] sm:text-lg ${align === "center" ? "mx-auto" : ""}`}>
           {description}
         </p>
       ) : null}
@@ -61,7 +61,7 @@ export function InfoCard({ title, description, eyebrow, footer }) {
       <h3 className="font-display text-2xl font-semibold tracking-tight text-[var(--ink-strong)]">
         {title}
       </h3>
-      <p className="mt-4 text-sm leading-7 text-[var(--ink-body)]">{description}</p>
+      <p className="mt-4 text-base leading-[1.65] text-[var(--ink-body)]">{description}</p>
       {footer ? (
         <div className="mt-8 flex items-center justify-between border-t border-[var(--line-soft)] pt-4 text-sm font-semibold text-[var(--brand-blue)]">
           <span>{footer}</span>
