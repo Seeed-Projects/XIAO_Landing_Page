@@ -37,7 +37,7 @@ export function FeaturesSection() {
 
 export function GlimpseSection() {
   const { lang } = useLang();
-  return <section id="glimpse" className="bg-white px-6 py-20 sm:px-10 lg:px-16">
+  return <section id="glimpse" className="bg-white px-6 pb-12 pt-20 sm:px-10 lg:px-16">
     <div className="mx-auto max-w-[1320px]">
       <Reveal className="text-center"><h2 className="text-4xl font-semibold tracking-[-0.03em] text-[#18224f] sm:text-5xl">XIAO in a Glimpse</h2><p className="mx-auto mt-3 max-w-5xl text-lg text-[#202020]">{lang === "en" ? "From core development boards to expansion add-ons and ready-to-use smart gadgets — one ecosystem, endless possibilities" : "从核心开发板到扩展配件和开箱即用的智能设备——一个生态，无限可能"}</p></Reveal>
       <div className="mt-12 grid gap-6 md:grid-cols-3">
@@ -84,9 +84,4 @@ export function PlaygroundSection() {
       </Reveal>
     </div>
   </section>;
-}
-
-export function ScaleUpSection() {
-  const cards = ["OpenUC2 10x AI Microscope", "Green Dot Board", "6 Channel Temperature Meter", "Fusion DIY XIAO Mechanical Keyboards", "Seeed Studio XIAO Use Case"];
-  return <section id="scale-up" className="bg-[#f3f7f8] px-6 py-20 sm:px-10 lg:px-16"><div className="mx-auto max-w-[1320px] text-center"><Reveal><h2 className="text-4xl font-bold tracking-[-0.03em] text-[#18224f] sm:text-5xl">Scale-up Co-Create Projects</h2><p className="mt-4 text-lg text-[#444]">Find out how the community is scaling up their XIAO-based projects via our Fusion Co-Create.</p></Reveal><div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">{cards.map((card, i)=><Reveal key={card} delay={i*60} className="text-left"><div className="aspect-[1.15] rounded-sm bg-cover bg-center" style={{backgroundImage:`linear-gradient(135deg,rgba(0,73,102,.05),rgba(143,195,31,.16)),url(${defaultXiaoImage})`}}/><h3 className="mt-5 text-lg font-bold leading-snug text-[#18224f]">{card}</h3></Reveal>)}</div><a href="https://www.seeedstudio.com/co-create.html" className="mt-12 inline-flex rounded-full bg-[#9ed33f] px-12 py-4 text-lg font-bold text-white">Explore more</a></div></section>;
 }

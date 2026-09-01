@@ -10,7 +10,7 @@ import { ProjectsCarousel } from "./projects-carousel";
 import { CoCreateSection } from "./co-create-section";
 import { EdmSubscribe } from "./edm-subscribe";
 import { Reveal } from "./reveal";
-import { FeaturesSection, GlimpseSection, PlaygroundSection, RoadmapCallout, ScaleUpSection } from "./home-ppt-sections";
+import { FeaturesSection, GlimpseSection, PlaygroundSection, RoadmapCallout } from "./home-ppt-sections";
 
 export default function Home() {
   const { t, lang } = useLang();
@@ -31,7 +31,7 @@ export default function Home() {
         {/* 开发者区 - 全屏满宽，跑马灯带铺满 */}
         <section
           id="developer"
-          className="bg-mod-green relative flex min-h-[100dvh] w-full scroll-mt-24 items-center py-20 overflow-hidden"
+          className="bg-mod-green relative flex w-full scroll-mt-24 items-center overflow-hidden py-14"
         >
           <div className="w-full">
             <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
@@ -107,9 +107,7 @@ export default function Home() {
           </div>
         </section>
 
-        <ScaleUpSection />
-
-        {/* XIAO in the News —— 按 PPT 顺序置于 Scale-up 之后 */}
+        {/* XIAO in the News —— 置于 Co-Create 之后 */}
         <section
           id="news"
           className="relative flex w-full scroll-mt-24 items-center overflow-hidden bg-white py-20"

@@ -4,12 +4,25 @@ import { useLang } from "./i18n";
 import { Reveal } from "./reveal";
 import { withBase } from "../lib/basePath";
 
+const SCALE_PROJECTS = [
+  { title: "OpenUC2 10x AI Microscope by OpenUC2", href: "https://www.seeedstudio.com/XIAO-Microscope-p-5971.html", image: "/co-create-projects/openuc2.webp" },
+  { title: "Green Dot Board by Collins Emasi", href: "https://www.seeedstudio.com/blog/2025/07/17/how-to-build-an-iot-sensor-node-with-flux-ai-wio-e5-lora-module-and-xiao-rp2040-mcu/", image: "/co-create-projects/green-dot.webp" },
+  { title: "6 Channel Temperature Meter by Gokul", href: "https://www.seeedstudio.com/6-Channel-Temperature-Meter-g-1402461", image: "/co-create-projects/temperature.webp" },
+  { title: "TOTEM by Marc Rühl", href: "https://github.com/mchldotdev/totem", image: "/co-create-projects/keyboards.webp" },
+  { title: "Beyblock20 by Christian Lo", href: "https://github.com/ChrisChrisLoLo/beyblock20", image: "/co-create-projects/keyboards.webp" },
+  { title: "Purple Owl by Sonal Pinto", href: "https://github.com/SonalPinto/purple-owl", image: "/co-create-projects/keyboards.webp" },
+  { title: "KLEIN by Shashank", href: "https://github.com/snsten/Klein/", image: "/co-create-projects/keyboards.webp" },
+  { title: "GRIN Quern by 伊藤彰悟", href: "https://www.hackster.io/policium/grin-quern-ergonomic-keyboard-on-center-trackpad-8b58c3", image: "/co-create-projects/keyboards.webp" },
+  { title: "Kidoairaku Swallowtail by Yu Sanagi", href: "https://github.com/yswallow/kidoairaku-swallowtail", image: "/co-create-projects/keyboards.webp" },
+  { title: "Seeed Studio XIAO Use Case", href: "https://files.seeedstudio.com/wiki/XIAO/XIAO-Reference-Design.pdf", image: "/co-create-projects/use-case.webp" },
+];
+
 export function CoCreateSection() {
   const { t } = useLang();
   const c = t.cocreate;
 
   return (
-    <Reveal className="hero-orb relative overflow-hidden rounded-[28px] border border-[var(--line-soft)] bg-[linear-gradient(135deg,rgba(0,73,102,0.96),rgba(8,102,126,0.92),rgba(143,195,31,0.88))] text-white">
+    <Reveal className="group hero-orb relative overflow-hidden rounded-[28px] border border-[var(--line-soft)] bg-[linear-gradient(135deg,rgba(0,73,102,0.96),rgba(8,102,126,0.92),rgba(143,195,31,0.88))] text-white">
       {/* 上部：共创主视觉文案，与下部 gif 同处一张卡片 */}
       <div className="relative z-10 p-7 sm:p-9 lg:p-11">
         <div className="max-w-2xl space-y-5">
@@ -37,6 +50,24 @@ export function CoCreateSection() {
         className="block h-auto w-full object-cover"
         loading="lazy"
       />
+
+      <div className="max-h-0 overflow-hidden bg-[#f3f7f8] text-[#18224f] opacity-0 transition-[max-height,opacity] duration-500 ease-out group-hover:max-h-[1800px] group-hover:opacity-100 group-focus-within:max-h-[1800px] group-focus-within:opacity-100">
+        <div className="px-6 py-14 sm:px-10 lg:px-12">
+          <h3 className="text-center text-3xl font-bold tracking-[-0.03em] sm:text-4xl">Scale-up Co-Create Projects</h3>
+          <p className="mx-auto mt-3 max-w-3xl text-center text-base text-[#52616a]">Find out how the community is scaling up their XIAO-based projects via our Fusion Co-Create.</p>
+          <div className="mt-10 grid gap-x-5 gap-y-9 sm:grid-cols-2 lg:grid-cols-5">
+            {SCALE_PROJECTS.map((project) => (
+              <a key={project.title} href={project.href} target="_blank" rel="noopener noreferrer" className="group/project block text-left">
+                <div className="aspect-[1.2] overflow-hidden bg-white">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={withBase(project.image)} alt={project.title} className="h-full w-full object-cover transition duration-300 group-hover/project:scale-[1.025]" />
+                </div>
+                <h4 className="mt-4 text-[15px] font-bold leading-snug text-[#18224f]">{project.title}</h4>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
     </Reveal>
   );
 }

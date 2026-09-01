@@ -14,7 +14,7 @@ import { useLang } from "./i18n";
  */
 
 const WP_ENDPOINT =
-  "https://www.seeedstudio.com/blog/wp-json/wp/v2/posts?tags=3129&per_page=6&_embed=1&orderby=date&order=desc";
+  "https://www.seeedstudio.com/blog/wp-json/wp/v2/posts?tags=3129&per_page=10&_embed=1&orderby=date&order=desc";
 
 const BLOG_TAG_URL = "https://www.seeedstudio.com/blog/tag/seeed-studio-xiao/";
 
