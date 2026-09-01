@@ -95,14 +95,6 @@ export default function PlaygroundPage() {
             })}
           </div>
         </section>
-
-        <section className={styles.closing}>
-          <div><span>01</span><b>{zh ? "识别引脚" : "Map the pins"}</b></div>
-          <i />
-          <div><span>02</span><b>{zh ? "选择软件" : "Choose software"}</b></div>
-          <i />
-          <div><span>03</span><b>{zh ? "烧录并构建" : "Flash and build"}</b></div>
-        </section>
       </main>
     </>
   );
