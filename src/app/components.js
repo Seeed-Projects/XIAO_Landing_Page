@@ -47,7 +47,7 @@ export function SectionHeader({ kicker, title, description, align = "center" }) 
         {title}
       </Glow>
       {description ? (
-        <p className="max-w-xl text-base leading-7 text-[var(--ink-body)]">
+        <p className={`max-w-xl text-base leading-7 text-[var(--ink-body)] ${align === "center" ? "mx-auto" : ""}`}>
           {description}
         </p>
       ) : null}
