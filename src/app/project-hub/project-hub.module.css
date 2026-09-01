@@ -752,6 +752,152 @@
   .introMetrics > div:nth-child(3) { padding-left: 0; }
 }
 
+/* Featured projects: large contour preview + compact recent-project cards. */
+.hero {
+  width: min(100% - 48px, 1695px);
+  margin: 0 auto;
+  padding: 56px 0 96px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(440px, .9fr);
+  gap: 28px;
+  align-items: stretch;
+}
+.lead {
+  position: relative;
+  min-height: 640px;
+  aspect-ratio: auto;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 30px;
+  background: #073f52;
+  box-shadow: 0 28px 70px rgba(0, 48, 67, .2);
+}
+.leadArt {
+  background-size: cover;
+  background-position: center;
+  transition: opacity .45s ease, transform .8s cubic-bezier(.2,.75,.2,1);
+}
+.lead:hover .leadArt { transform: scale(1.025); }
+.leadArt::after {
+  background:
+    linear-gradient(90deg, rgba(0,38,53,.94) 0%, rgba(0,49,66,.58) 47%, rgba(0,35,49,.08) 78%),
+    linear-gradient(0deg, rgba(0,30,43,.82) 0%, transparent 58%);
+}
+.leadCopy {
+  max-width: 720px;
+  padding: clamp(36px, 5vw, 76px);
+}
+.featuredLabel {
+  display: inline-flex;
+  margin-bottom: 18px;
+  color: #b6df45;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+.lead h1 {
+  max-width: 13ch;
+  margin: 0 0 20px;
+  color: #fff;
+  font-size: clamp(42px, 4.3vw, 76px);
+  line-height: .98;
+  letter-spacing: -.05em;
+  text-wrap: balance;
+}
+.dek { max-width: 560px; color: rgba(255,255,255,.82); }
+.projectDots {
+  position: absolute;
+  z-index: 3;
+  top: 28px;
+  left: 30px;
+  display: flex;
+  gap: 8px;
+}
+.projectDots button {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.72);
+  border-radius: 999px;
+  background: transparent;
+  transition: width .28s ease, background-color .28s ease;
+}
+.projectDots button.activeDot { width: 30px; background: #9bd01f; border-color: #9bd01f; }
+.side {
+  height: auto !important;
+  min-height: 640px;
+  padding: 26px;
+  border: 1px solid #dbe8e4;
+  border-radius: 30px;
+  background: rgba(255,255,255,.94);
+  box-shadow: 0 22px 58px rgba(0,73,102,.11);
+}
+.sideHead { padding: 0 0 22px; border-bottom: 1px solid #dbe8e4; }
+.sideHead h2 { color: #12334a; font-size: 30px; letter-spacing: -.035em; }
+.episodeList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  gap: 14px;
+  padding: 18px 2px 2px;
+  overflow-y: auto;
+}
+.ep {
+  display: block;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background: #f7faf8;
+  transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease, background-color .24s ease;
+}
+.ep:hover,
+.ep:focus-visible,
+.selectedEp {
+  transform: translateY(-3px);
+  border-color: rgba(143,195,31,.58);
+  background: #fff;
+  box-shadow: 0 12px 25px rgba(0,73,102,.11);
+  outline: none;
+}
+.thumb {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  margin: 0 0 10px;
+  border-radius: 10px;
+}
+.thumb::after {
+  right: 8px;
+  bottom: 5px;
+  font-size: 22px;
+}
+.ep small { display: block; color: #739916; font-size: 9px; line-height: 1.35; }
+.ep h3 { margin: 5px 1px 2px; color: #18384b; font-size: 12px; line-height: 1.35; }
+
+@media (max-width: 1100px) {
+  .hero { grid-template-columns: 1fr; }
+  .lead { min-height: 560px; }
+  .side { min-height: 0; }
+  .episodeList { grid-template-columns: repeat(3, minmax(180px, 1fr)); overflow-x: auto; }
+}
+@media (max-width: 760px) {
+  .hero { width: min(100% - 28px, 1695px); padding: 28px 0 72px; }
+  .lead { min-height: 520px; border-radius: 22px; }
+  .leadCopy { padding: 30px 24px; }
+  .lead h1 { max-width: 12ch; font-size: clamp(38px, 12vw, 54px); }
+  .projectDots { top: 20px; left: 22px; }
+  .side { padding: 20px; border-radius: 22px; }
+  .sideHead { align-items: flex-start; }
+  .sideHead h2 { font-size: 25px; }
+  .episodeList { grid-template-columns: repeat(2, minmax(170px, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .leadArt, .projectDots button, .ep { transition: none; }
+  .lead:hover .leadArt, .ep:hover, .selectedEp { transform: none; }
+}
+
 /* Embedded hub is page content, not a browser card. */
 .browserSection { padding-bottom: 0; }
 .browserBody {

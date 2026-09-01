@@ -122,6 +122,7 @@ export function ProjectHub() {
   const [status, setStatus] = useState("loading");
   const [toast, setToast] = useState("");
   const [embedHeight, setEmbedHeight] = useState(1400);
+  const [selectedProject, setSelectedProject] = useState(0);
 
   const leadRef = useRef(null);
   const sideRef = useRef(null);
@@ -129,6 +130,19 @@ export function ProjectHub() {
   const toastTimer = useRef(null);
 
   const t = T[lang];
+  const featured = recent[selectedProject];
+  const featuredTitle = featured
+    ? lang === "en"
+      ? featured[0]
+      : featured[5]
+    : "TrailNAV: Solar-Powered Off-Grid";
+  const featuredCategory = featured
+    ? lang === "en"
+      ? featured[4]
+      : featured[1]
+    : "Outdoor · Navigation";
+  const featuredImage = featured?.[3] || HERO_IMG;
+  const featuredLink = featured?.[2] || HERO_LINK;
 
   function notify(msg) {
     setToast(msg);
@@ -171,6 +185,7 @@ export function ProjectHub() {
           });
         if (!cancelled) {
           setRecent(mapped);
+          setSelectedProject(0);
           setStatus(mapped.length ? "ok" : "error");
         }
       } catch (e) {
@@ -275,25 +290,35 @@ export function ProjectHub() {
           <article className={styles.lead} ref={leadRef}>
             <div
               className={styles.leadArt}
-              style={{ backgroundImage: `url('${HERO_IMG}')` }}
+              style={{ backgroundImage: `url('${featuredImage}')` }}
             />
             <div className={styles.leadCopy}>
-              <h1>
-                TrailNAV:
-                <br />
-                Solar-Powered
-                <br />
-                Off-Grid
-              </h1>
-              <p className={styles.dek}>{t.heroDek}</p>
+              <span className={styles.featuredLabel}>{t.heroEyebrow}</span>
+              <h1>{featuredTitle}</h1>
+              <p className={styles.dek}>
+                {featured ? `${featured[6]} · ${featuredCategory}` : t.heroDek}
+              </p>
               <div className={styles.meta}>
-                <a className={styles.play} href={HERO_LINK} target="_blank" rel="noopener">
+                <a className={styles.play} href={featuredLink} target="_blank" rel="noopener">
                   {t.viewProject}
                 </a>
-                <span>Rishabh Jain</span>
-                <span>2026.06 · Hackster</span>
+                <span>{featured ? featured[6] : "2026.06 · Hackster"}</span>
               </div>
             </div>
+            {recent.length > 1 && (
+              <div className={styles.projectDots} aria-label={t.recentTitle}>
+                {recent.slice(0, 6).map((project, index) => (
+                  <button
+                    key={project[2]}
+                    type="button"
+                    className={index === selectedProject ? styles.activeDot : ""}
+                    onClick={() => setSelectedProject(index)}
+                    aria-label={`${index + 1}. ${lang === "en" ? project[0] : project[5]}`}
+                    aria-pressed={index === selectedProject}
+                  />
+                ))}
+              </div>
+            )}
           </article>
 
           <aside className={styles.side} ref={sideRef}>
@@ -324,10 +349,12 @@ export function ProjectHub() {
                 recent.map((p, i) => (
                   <a
                     key={i}
-                    className={styles.ep}
+                    className={`${styles.ep} ${i === selectedProject ? styles.selectedEp : ""}`}
                     href={p[2]}
                     target="_blank"
                     rel="noopener"
+                    onMouseEnter={() => setSelectedProject(i)}
+                    onFocus={() => setSelectedProject(i)}
                   >
                     <div
                       className={styles.thumb}
