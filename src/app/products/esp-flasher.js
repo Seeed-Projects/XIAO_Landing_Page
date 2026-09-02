@@ -320,7 +320,7 @@ export function ESPFlasher() {
         <section className={styles.quickWorkspace} id="esp-workflow">
           <div className={styles.actionPanel}>
             <div className={styles.actionHead}>
-              <div><span className={styles.sectionLabel}>ESP / QUICK FLASH</span><Glow as="h3">{T.quickTitle}</Glow></div>
+              <div><Glow as="h3">{T.quickTitle}</Glow></div>
               <span className={`${styles.connectionState} ${connected ? styles.on : ""}`}>
                 {connected ? T.connected : T.disconnected}
               </span>
@@ -398,7 +398,7 @@ export function ESPFlasher() {
 
         <section className={styles.advancedSection}>
           <div className={styles.advancedHead}>
-            <div><span className={styles.sectionLabel}>DETAILS / SERIAL</span><h3>{T.advancedTitle}</h3></div>
+            <div><h3>{T.advancedTitle}</h3></div>
             <p>{T.advancedHint}</p>
           </div>
 
