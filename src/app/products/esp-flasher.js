@@ -110,10 +110,10 @@ export function ESPFlasher() {
     haEntryHint: lang === "zh" ? "跳转到 Home Assistant 烧录工具" : "Open the Home Assistant flashing tool",
     openExternal: lang === "zh" ? "打开外部烧录页 ↗" : "Open external flasher ↗",
     quickTitle: lang === "zh" ? "三步完成烧录" : "Flash in three steps",
-    stepOne: lang === "zh" ? "选择开发板和固件" : "Choose board and firmware",
-    stepOneHint: lang === "zh" ? "先确认你的 XIAO 型号，再选择与它匹配的固件。" : "Match the XIAO model first, then choose compatible firmware.",
-    stepTwo: lang === "zh" ? "用 USB 连接设备" : "Connect the board over USB",
-    stepTwoHint: lang === "zh" ? "使用支持数据传输的 USB 线，并允许浏览器访问串口。" : "Use a data-capable USB cable and allow browser serial access.",
+    stepOne: lang === "zh" ? "用 USB 连接设备" : "Connect the board over USB",
+    stepOneHint: lang === "zh" ? "使用支持数据传输的 USB 线，并允许浏览器访问串口。" : "Use a data-capable USB cable and allow browser serial access.",
+    stepTwo: lang === "zh" ? "选择开发板和固件" : "Choose board and firmware",
+    stepTwoHint: lang === "zh" ? "确认你的 XIAO 型号，再选择与它匹配的固件。" : "Match the XIAO model, then choose compatible firmware.",
     stepThree: lang === "zh" ? "开始烧录" : "Flash the firmware",
     stepThreeHint: lang === "zh" ? "确认选择后开始写入，完成前不要拔出设备。" : "Start writing and keep the board connected until it finishes.",
     actionTitle: lang === "zh" ? "准备设备" : "Prepare your board",
@@ -318,56 +318,19 @@ export function ESPFlasher() {
         </nav>
 
         <section className={styles.quickWorkspace} id="esp-workflow">
-          <div className={styles.guidePanel}>
-            <span className={styles.sectionLabel}>ESP / QUICK FLASH</span>
-            <Glow as="h3">{T.quickTitle}</Glow>
-            {[
-              [T.stepOne, T.stepOneHint],
-              [T.stepTwo, T.stepTwoHint],
-              [T.stepThree, T.stepThreeHint],
-            ].map(([title, hint], index) => (
-              <div className={styles.guideStep} key={title}>
-                <b>{String(index + 1).padStart(2, "0")}</b>
-                <div><strong>{title}</strong><p>{hint}</p></div>
-              </div>
-            ))}
-          </div>
-
           <div className={styles.actionPanel}>
             <div className={styles.actionHead}>
-              <div><span className={styles.sectionLabel}>ESP WEB SERIAL</span><h3>{T.actionTitle}</h3></div>
+              <div><span className={styles.sectionLabel}>ESP / QUICK FLASH</span><Glow as="h3">{T.quickTitle}</Glow></div>
               <span className={`${styles.connectionState} ${connected ? styles.on : ""}`}>
                 {connected ? T.connected : T.disconnected}
               </span>
             </div>
 
-            <label className={styles.simpleField}>
-              <span>{T.boardLabel}</span>
-              <select
-                value={boardId}
-                onChange={(e) => {
-                  const next = e.target.value;
-                  setBoardId(next);
-                  setFirmwareId(FIRMWARES.find((f) => f.boards.includes(next))?.id ?? "");
-                }}
-                disabled={connected}
-              >
-                {ESP_BOARDS.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
-              </select>
-              <small>{board.hint}</small>
-            </label>
-
-            <label className={styles.simpleField}>
-              <span>{T.firmwareLabel}</span>
-              <select value={sel?.id ?? ""} onChange={(e) => setFirmwareId(e.target.value)} disabled={!fwList.length || connected}>
-                {fwList.length
-                  ? fwList.map((f) => <option key={f.id} value={f.id}>{pick(f.name)} · {f.ver}</option>)
-                  : <option value="">{T.noFw}</option>}
-              </select>
-              <small>{sel ? pick(sel.desc) : T.noFw}</small>
-            </label>
-
-            <div className={styles.primaryActions}>
+            <div className={styles.workflowStep}>
+              <div className={styles.stepIntro}>
+                <b>01</b>
+                <div><strong>{T.stepOne}</strong><p>{T.stepOneHint}</p></div>
+              </div>
               <button
                 type="button"
                 className={`${styles.connectBtn} ${connected ? styles.connected : ""}`}
@@ -376,20 +339,60 @@ export function ESPFlasher() {
               >
                 {connected ? T.disconnect : T.connect}
               </button>
+              {!supported && <div className={styles.inlineMessage}>{T.unsupported}</div>}
+            </div>
+
+            <div className={styles.workflowStep}>
+              <div className={styles.stepIntro}>
+                <b>02</b>
+                <div><strong>{T.stepTwo}</strong><p>{T.stepTwoHint}</p></div>
+              </div>
+              <div className={styles.selectionGrid}>
+                <label className={styles.simpleField}>
+                  <span>{T.boardLabel}</span>
+                  <select
+                    value={boardId}
+                    onChange={(e) => {
+                      const next = e.target.value;
+                      setBoardId(next);
+                      setFirmwareId(FIRMWARES.find((f) => f.boards.includes(next))?.id ?? "");
+                    }}
+                    disabled={connected}
+                  >
+                    {ESP_BOARDS.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
+                  </select>
+                  <small>{board.hint}</small>
+                </label>
+
+                <label className={styles.simpleField}>
+                  <span>{T.firmwareLabel}</span>
+                  <select value={sel?.id ?? ""} onChange={(e) => setFirmwareId(e.target.value)} disabled={!fwList.length || connected}>
+                    {fwList.length
+                      ? fwList.map((f) => <option key={f.id} value={f.id}>{pick(f.name)} · {f.ver}</option>)
+                      : <option value="">{T.noFw}</option>}
+                  </select>
+                  <small>{sel ? pick(sel.desc) : T.noFw}</small>
+                </label>
+              </div>
+            </div>
+
+            <div className={styles.workflowStep}>
+              <div className={styles.stepIntro}>
+                <b>03</b>
+                <div><strong>{T.stepThree}</strong><p>{T.stepThreeHint}</p></div>
+              </div>
               <button type="button" className={styles.flashBtn} onClick={() => handleFlash()} disabled={!canFlash}>
                 {busy ? T.flashing : T.flash}
               </button>
+              {error && <div className={`${styles.inlineMessage} ${styles.error}`}>✗ {error}</div>}
+              {flashed && !busy && <div className={`${styles.inlineMessage} ${styles.success}`}>✓ {T.success}</div>}
+              {showProgress && (
+                <div className={styles.progress}>
+                  <div className={styles.progressTrack}><div className={styles.progressFill} style={{ width: `${progress}%` }} /></div>
+                  <div className={styles.progressMeta}><span>{busy ? T.writing : T.finished}</span><span>{progress}%</span></div>
+                </div>
+              )}
             </div>
-
-            {!supported && <div className={styles.inlineMessage}>{T.unsupported}</div>}
-            {error && <div className={`${styles.inlineMessage} ${styles.error}`}>✗ {error}</div>}
-            {flashed && !busy && <div className={`${styles.inlineMessage} ${styles.success}`}>✓ {T.success}</div>}
-            {showProgress && (
-              <div className={styles.progress}>
-                <div className={styles.progressTrack}><div className={styles.progressFill} style={{ width: `${progress}%` }} /></div>
-                <div className={styles.progressMeta}><span>{busy ? T.writing : T.finished}</span><span>{progress}%</span></div>
-              </div>
-            )}
           </div>
         </section>
 

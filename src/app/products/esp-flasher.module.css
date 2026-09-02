@@ -203,8 +203,7 @@
 .flashEntry:disabled { cursor: not-allowed; opacity: .56; }
 
 .quickWorkspace {
-  display: grid;
-  grid-template-columns: minmax(0,.92fr) minmax(420px,1.08fr);
+  display: block;
   border: 1px solid var(--line-soft);
   border-radius: 24px;
   overflow: hidden;
@@ -244,9 +243,9 @@
 .guideStep strong { color: var(--ink-strong); font-size: 15px; }
 .guideStep p { margin: 6px 0 0; color: var(--ink-muted); font-size: 12.5px; line-height: 1.6; }
 
-.actionPanel { padding: clamp(34px,4vw,58px); display: flex; flex-direction: column; justify-content: center; gap: 20px; }
-.actionHead { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 4px; }
-.actionHead h3 { font-size: clamp(26px,2.7vw,36px); }
+.actionPanel { padding: clamp(32px,4vw,58px); display: flex; flex-direction: column; gap: 0; }
+.actionHead { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+.actionHead h3 { font-size: clamp(30px,3vw,42px); }
 .connectionState { flex: none; display: inline-flex; align-items: center; gap: 7px; color: var(--ink-muted); font-size: 11px; font-weight: 700; }
 .connectionState::before { content:""; width: 8px; height: 8px; border-radius: 50%; background: #a6b0ab; }
 .connectionState.on { color: var(--brand-green-deep); }
@@ -268,9 +267,15 @@
 .simpleField select:focus { outline: 3px solid rgba(22,182,106,.14); border-color: var(--brand-green); }
 .simpleField select:disabled { background-color: #f5f7f5; color: var(--ink-muted); }
 .simpleField small { min-height: 17px; color: var(--ink-muted); font-size: 11px; line-height: 1.5; }
-.primaryActions { display: grid; grid-template-columns: 1fr 1.35fr; gap: 10px; margin-top: 2px; }
-.primaryActions .connectBtn, .primaryActions .flashBtn { width: 100%; height: 48px; }
+.workflowStep { padding: 26px 0; border-top: 1px solid var(--line-soft); }
+.stepIntro { display: grid; grid-template-columns: 44px minmax(0,1fr); gap: 16px; margin-bottom: 20px; }
+.stepIntro > b { color: var(--brand-blue); font: 700 12px/1.5 ui-monospace,"SF Mono",monospace; }
+.stepIntro strong { color: var(--ink-strong); font-size: 18px; line-height: 1.35; }
+.stepIntro p { max-width: 720px; margin: 6px 0 0; color: var(--ink-muted); font-size: 13px; line-height: 1.6; }
+.selectionGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding-left: 60px; }
+.workflowStep > .connectBtn, .workflowStep > .flashBtn { width: calc(100% - 60px); height: 50px; margin-left: 60px; }
 .inlineMessage { padding: 10px 12px; border-radius: 8px; background: #f4f6f4; color: var(--ink-muted); font-size: 11px; line-height: 1.5; }
+.workflowStep > .inlineMessage, .workflowStep > .progress { width: calc(100% - 60px); margin: 12px 0 0 60px; }
 .inlineMessage.error { background: #fdf2f1; color: #b53b32; }
 .inlineMessage.success { background: #eff9f2; color: var(--brand-green-deep); }
 
@@ -285,15 +290,16 @@
 .advancedSection .monitor { min-height: 300px; border-radius: 16px; }
 
 @media (max-width: 900px) {
-  .quickWorkspace { grid-template-columns: 1fr; }
-  .actionPanel { border-top: 1px solid var(--line-soft); }
+  .selectionGrid { grid-template-columns: 1fr; }
 }
 @media (max-width: 700px) {
   .wrap { padding: 0 16px 76px; }
   .flashEntries { grid-template-columns: 1fr; }
   .flashEntry { min-height: 96px; }
   .guidePanel, .actionPanel { padding: 30px 22px; }
-  .primaryActions { grid-template-columns: 1fr; }
+  .selectionGrid { padding-left: 0; }
+  .workflowStep > .connectBtn, .workflowStep > .flashBtn,
+  .workflowStep > .inlineMessage, .workflowStep > .progress { width: 100%; margin-left: 0; }
   .advancedHead { align-items: flex-start; flex-direction: column; gap: 12px; }
   .advancedSection .statsRow { grid-template-columns: repeat(2,1fr); }
 }
