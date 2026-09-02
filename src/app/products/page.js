@@ -11,6 +11,8 @@ export function ProductsHero() {
   const isEn = lang === "en";
   return (
     <HeroSection
+      kicker=""
+      brand=""
       title={isEn ? "Seeed Studio XIAO Ecosystem" : "Seeed Studio XIAO 生态系统"}
       subtitle={
         isEn

@@ -10,7 +10,7 @@ import { withBase } from "../lib/basePath";
  * 底图（xiao-hero-photo.webp）铺满整屏，上覆渐变压暗保证白字可读；
  * 左侧叠放眉标 / 品牌行 / 超大标题 / 副文案 / 双 CTA。无卡片。
  */
-export function HeroSection({ title, subtitle, titleClassName }) {
+export function HeroSection({ title, subtitle, titleClassName, kicker, brand }) {
   const { lang } = useLang();
   const isEn = lang === "en";
 
@@ -35,6 +35,8 @@ export function HeroSection({ title, subtitle, titleClassName }) {
       };
   const copy = {
     ...base,
+    kicker: kicker ?? base.kicker,
+    brand: brand ?? base.brand,
     title: title ?? base.title,
     subtitle: subtitle ?? base.subtitle,
   };
@@ -60,12 +62,16 @@ export function HeroSection({ title, subtitle, titleClassName }) {
       {/* 叠加内容 */}
       <div className="relative z-10 mx-auto w-full max-w-[1440px] -translate-y-5 px-5 py-16 sm:-translate-y-7 sm:px-10 lg:-translate-y-8 lg:px-16">
         <Reveal className="max-w-2xl space-y-6">
-          <p className="font-display text-sm font-semibold uppercase tracking-[0.34em] text-white/85">
-            {copy.kicker}
-          </p>
-          <p className="font-display text-base font-medium tracking-[0.18em] text-white/70">
-            {copy.brand}
-          </p>
+          {copy.kicker && (
+            <p className="font-display text-sm font-semibold uppercase tracking-[0.34em] text-white/85">
+              {copy.kicker}
+            </p>
+          )}
+          {copy.brand && (
+            <p className="font-display text-base font-medium tracking-[0.18em] text-white/70">
+              {copy.brand}
+            </p>
+          )}
           <Glow
             as="h1"
             className={titleClassName ?? "font-display text-6xl font-semibold leading-[0.9] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] sm:text-9xl lg:text-[11rem]"}
