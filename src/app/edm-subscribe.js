@@ -1,88 +1,10 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
 import { withBase } from "../lib/basePath";
-
-// Mailchimp JSONP endpoint —— 页面内提交，无需跳转
-const MC_URL =
-  "https://seeedstudio.us11.list-manage.com/subscribe/post-json?u=0c272aa6642cc5d058579205f&id=2753109419";
-
-function stripHtml(html) {
-  if (typeof window === "undefined") return String(html || "");
-  const div = document.createElement("div");
-  div.innerHTML = String(html || "");
-  return (div.textContent || div.innerText || "").trim();
-}
+import { useMailchimpSubscribe } from "./use-mailchimp-subscribe";
 
 export function EdmSubscribe() {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("idle"); // idle | loading | success | error
-  const [msg, setMsg] = useState("");
-  const cbCounter = useRef(0);
-
-  const onSubmit = useCallback(
-    (ev) => {
-      ev.preventDefault();
-      const value = email.trim();
-      if (!value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-        setStatus("error");
-        setMsg("Please enter a valid email address.");
-        return;
-      }
-      setStatus("loading");
-      setMsg("");
-
-      const cbName = `__mcCb_${Date.now()}_${cbCounter.current++}`;
-      const script = document.createElement("script");
-      let settled = false;
-
-      const cleanup = () => {
-        try {
-          delete window[cbName];
-        } catch {
-          window[cbName] = undefined;
-        }
-        if (script.parentNode) script.parentNode.removeChild(script);
-      };
-
-      window[cbName] = (data) => {
-        if (settled) return;
-        settled = true;
-        cleanup();
-        if (data && data.result === "success") {
-          setStatus("success");
-          setMsg(stripHtml(data.msg));
-        } else {
-          setStatus("error");
-          setMsg(stripHtml((data && data.msg) || "Subscription failed, please try again."));
-        }
-      };
-
-      // 兜底：15s 超时
-      setTimeout(() => {
-        if (settled) return;
-        settled = true;
-        cleanup();
-        setStatus("error");
-        setMsg("Network is a bit slow, please try again.");
-      }, 15000);
-
-      const params = new URLSearchParams();
-      params.set("EMAIL", value);
-      params.set("gdpr[266]", "Y"); // Email 营销同意（GDPR 必填）
-      params.set("b_0c272aa6642cc5d058579205f_2753109419", ""); // honeypot
-      script.src = `${MC_URL}&c=${cbName}&${params.toString()}`;
-      script.async = true;
-      document.body.appendChild(script);
-    },
-    [email]
-  );
-
-  const reset = () => {
-    setStatus("idle");
-    setMsg("");
-    setEmail("");
-  };
+  const { email, setEmail, status, msg, submit, reset } = useMailchimpSubscribe();
 
   return (
     <div
@@ -112,7 +34,7 @@ export function EdmSubscribe() {
               </button>
             </div>
           ) : (
-            <form onSubmit={onSubmit} noValidate className="mt-10">
+            <form onSubmit={submit} noValidate className="mt-10">
               <div className="flex items-center gap-3 rounded-xl border-2 border-black/55 bg-white/70 px-5 py-4 backdrop-blur-[2px] focus-within:bg-white/85 sm:px-7 sm:py-5">
                 <svg className="h-6 w-6 shrink-0 text-[#667883]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -122,10 +44,7 @@ export function EdmSubscribe() {
                   type="email"
                   inputMode="email"
                   value={email}
-                  onChange={(ev) => {
-                    setEmail(ev.target.value);
-                    if (status === "error") setStatus("idle");
-                  }}
+                  onChange={(ev) => setEmail(ev.target.value)}
                   placeholder="Your email here"
                   aria-label="Your email here"
                   disabled={status === "loading"}
