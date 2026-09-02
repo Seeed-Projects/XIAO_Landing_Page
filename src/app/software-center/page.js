@@ -20,6 +20,28 @@ const GROUPS = SOFTWARE_CATEGORIES.filter(
   (c) => c.id !== "guides" && c.id !== "official"
 );
 const OFFICIAL = SOFTWARE_CATEGORIES.find((c) => c.id === "official");
+const OFFICIAL_FEATURED = [
+  {
+    name: "Home Assistant Discovery",
+    url: "https://github.com/Seeed-Projects/Seeed-Homeassistant-Discovery",
+    desc: {
+      en: "A Seeed-maintained solution for connecting XIAO ESP32 and nRF52840 devices to Home Assistant.",
+      zh: "由 Seeed 维护的 Home Assistant 接入方案，让 XIAO ESP32 与 nRF52840 设备轻松接入智能家居。",
+    },
+    logo: "https://raw.githubusercontent.com/Seeed-Projects/Seeed-Homeassistant-Discovery/main/custom_components/seeed_ha_discovery/icon.png",
+    boards: [{ name: "XIAO ESP32 / nRF52840" }],
+  },
+  {
+    name: "Seeed Zephyr Base",
+    url: "https://github.com/limengdu/Seeed-Zephyr-Project",
+    desc: {
+      en: "The XIAO and Grove example library, capability catalog and command-line workflow for Zephyr RTOS.",
+      zh: "面向 XIAO 与 Grove 的 Zephyr RTOS 示例库、能力目录和命令行开发流程。",
+    },
+    logo: "https://raw.githubusercontent.com/limengdu/Seeed-Zephyr-Project/main/docs/assets/logo.png",
+    boards: [{ name: "XIAO Series" }],
+  },
+];
 
 export default function SoftwareCenterPage() {
   const { lang } = useLang();
@@ -108,8 +130,8 @@ export default function SoftwareCenterPage() {
                 </div>
               </Reveal>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {OFFICIAL.items.map((item, i) => {
+              <div className="mx-auto grid max-w-5xl grid-cols-1 gap-5 sm:grid-cols-2">
+                {OFFICIAL_FEATURED.map((item, i) => {
                   const boardCount = item.boards?.length ?? 0;
                   return (
                     <Reveal key={item.url || slugify(item.name)} delay={i * 45}>
