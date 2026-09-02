@@ -24,7 +24,7 @@ const SHOWCASE_PROJECTS = [
   ["AtmosGuard C5: Dual-Band IAQ & Cloud Logger", "智能家居", "https://www.hackster.io/hendra/atmosguard-c5-dual-band-iaq-cloud-logger-72ff46", "/project-hub-projects/atmosguard.jpg", "Smart Home", "AtmosGuard C5: 双频 IAQ 与云端记录仪", "2026.01"],
   ["Final Countdown", "工具配件", "https://www.hackster.io/dquadros2/final-countdown-3fe49b", "/project-hub-projects/final-countdown.jpg", "Tools & Accessories", "Final Countdown", "2025.09"],
   ["Prospector", "机械键盘", "https://github.com/carrefinho/prospector", "/project-hub-projects/prospector.jpg", "Mechanical Keyboard", "Prospector", "2024.11"],
-  ["E61 Gauge", "工具配件", "https://github.com/gidim/e61-gauge", "/project-hub-projects/e61-gauge.jpg", "Tools & Accessories", "E61 模拟温度表", "2026.05"],
+  ["E61 Gauge", "工具配件", "https://github.com/gidim/e61-gauge", "/project-hub-projects/e61-gauge.png", "Tools & Accessories", "E61 模拟温度表", "2026.05"],
 ];
 
 const METRICS = [
@@ -259,6 +259,7 @@ export function ProjectHub() {
                         src={withBase(p[3])}
                         alt={lang === "en" ? p[0] : p[5]}
                         loading="lazy"
+                        style={{ objectFit: "contain", objectPosition: "center" }}
                       />
                     </div>
                     <div>
