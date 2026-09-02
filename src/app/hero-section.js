@@ -10,7 +10,7 @@ import { withBase } from "../lib/basePath";
  * 底图（xiao-hero-photo.webp）铺满整屏，上覆渐变压暗保证白字可读；
  * 左侧叠放眉标 / 品牌行 / 超大标题 / 副文案 / 双 CTA。无卡片。
  */
-export function HeroSection({ title, subtitle }) {
+export function HeroSection({ title, subtitle, titleClassName }) {
   const { lang } = useLang();
   const isEn = lang === "en";
 
@@ -68,7 +68,7 @@ export function HeroSection({ title, subtitle }) {
           </p>
           <Glow
             as="h1"
-            className="font-display text-6xl font-semibold leading-[0.9] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] sm:text-9xl lg:text-[11rem]"
+            className={titleClassName ?? "font-display text-6xl font-semibold leading-[0.9] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] sm:text-9xl lg:text-[11rem]"}
           >
             {copy.title}
           </Glow>
