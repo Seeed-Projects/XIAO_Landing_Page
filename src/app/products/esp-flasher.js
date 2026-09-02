@@ -357,7 +357,7 @@ export function ESPFlasher() {
                       setBoardId(next);
                       setFirmwareId(FIRMWARES.find((f) => f.boards.includes(next))?.id ?? "");
                     }}
-                    disabled={connected}
+                    disabled={busy}
                   >
                     {ESP_BOARDS.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
                   </select>
@@ -366,7 +366,7 @@ export function ESPFlasher() {
 
                 <label className={styles.simpleField}>
                   <span>{T.firmwareLabel}</span>
-                  <select value={sel?.id ?? ""} onChange={(e) => setFirmwareId(e.target.value)} disabled={!fwList.length || connected}>
+                  <select value={sel?.id ?? ""} onChange={(e) => setFirmwareId(e.target.value)} disabled={!fwList.length || busy}>
                     {fwList.length
                       ? fwList.map((f) => <option key={f.id} value={f.id}>{pick(f.name)} · {f.ver}</option>)
                       : <option value="">{T.noFw}</option>}
