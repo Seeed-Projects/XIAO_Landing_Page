@@ -75,7 +75,6 @@ export default function PlaygroundPage() {
 
         <section className={styles.toolSection}>
           <div className={styles.sectionHead}>
-            <span>{zh ? "选择你的下一步" : "Choose your next step"}</span>
             <h2>{zh ? "开发所需，全部就位" : "Everything you need to keep building"}</h2>
           </div>
           <div className={styles.toolGrid}>
