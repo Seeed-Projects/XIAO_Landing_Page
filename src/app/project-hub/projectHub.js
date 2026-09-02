@@ -253,10 +253,14 @@ export function ProjectHub() {
                     <div
                       className={styles.thumb}
                       data-no={String(i + 1).padStart(2, "0")}
-                      style={{
-                        backgroundImage: `url('${withBase(p[3])}')`,
-                      }}
-                    />
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={withBase(p[3])}
+                        alt={lang === "en" ? p[0] : p[5]}
+                        loading="lazy"
+                      />
+                    </div>
                     <div>
                       <small>
                         {p[6]} · {lang === "en" ? p[4] : p[1]}
