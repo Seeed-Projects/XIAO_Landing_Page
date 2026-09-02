@@ -376,7 +376,8 @@ export function SmartSelector() {
 
   const T = {
     h2: "XIAO Selector",
-    p: "Finding the right XIAO is now easier than ever. Filter by wireless protocol, chip family and power tier to shortlist the boards that fit your project.",
+    p1: "Finding the right XIAO is now easier than ever.",
+    p2: "Filter by wireless protocol, chip family and power tier to shortlist the boards that fit your project.",
   };
 
   return (
@@ -384,7 +385,8 @@ export function SmartSelector() {
       <div className={styles.wrap}>
         <div className={styles.introBlock}>
           <Glow as="h2">{T.h2}</Glow>
-          <p>{T.p}</p>
+          <p>{T.p1}</p>
+          <p>{T.p2}</p>
         </div>
 
         <section className={styles.workspace} id="selector-workspace">
