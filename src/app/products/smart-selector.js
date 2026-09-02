@@ -235,7 +235,7 @@ export function SmartSelector() {
   const [showResult, setShowResult] = useState(false);
   const [aiText, setAiText] = useState("");
   const [compare, setCompare] = useState([]);
-  const [filter, setFilter] = useState({ wireless: "all", family: "all", power: "all" });
+  const [filter, setFilter] = useState({ wireless: [], family: "all", power: "all" });
   const [compareOpen, setCompareOpen] = useState(false);
   const [toast, setToast] = useState(null);
   const toastTimer = useRef(null);
@@ -337,7 +337,8 @@ export function SmartSelector() {
     ["low", "低功耗", "Low power"], ["ultra-low", "超低功耗", "Ultra-low"],
   ];
   const filteredProducts = useMemo(() => products.filter((p) => {
-    const matchW = filter.wireless === "all" || (filter.wireless === "none" ? p.wireless.length === 0 : p.wireless.includes(filter.wireless));
+    const sel = filter.wireless;
+    const matchW = !sel.length || (sel.includes("none") ? p.wireless.length === 0 : sel.every((v) => v !== "none" && p.wireless.includes(v)));
     const matchF = filter.family === "all" || p.family === filter.family;
     const matchP = filter.power === "all" || p.power === filter.power;
     return matchW && matchF && matchP;
@@ -523,23 +524,39 @@ export function SmartSelector() {
             <section className={styles.filterView}>
                 <div className={styles.filterHead}>
                   <div><h2>{lang === "zh" ? "按参数筛选" : "Filter by specs"}</h2><p>{lang === "zh" ? "适合已经明确无线协议、芯片平台或功耗方向的用户。" : "For users who already know the wireless protocol, chip family or power tier."}</p></div>
-                  <button className={styles.secondaryBtn} type="button" onClick={() => setFilter({ wireless: "all", family: "all", power: "all" })}>{lang === "zh" ? "重置筛选" : "Reset"}</button>
+                  <button className={styles.secondaryBtn} type="button" onClick={() => setFilter({ wireless: [], family: "all", power: "all" })}>{lang === "zh" ? "重置筛选" : "Reset"}</button>
                 </div>
                 <div className={styles.filterToolbar}>
                   {[
                     ["wireless", lang === "zh" ? "无线能力" : "Wireless", wirelessOptions],
                     ["family", lang === "zh" ? "芯片平台" : "Chip family", familyOptions],
                     ["power", lang === "zh" ? "功耗定位" : "Power", powerOptions],
-                  ].map(([key, label, options]) => (
+                  ].map(([key, label, options]) => {
+                    const multi = key === "wireless";
+                    return (
                     <div key={key} className={styles.filterRow}>
                       <div className={styles.filterLabel}>{label}</div>
-                      {options.map(([value, zh, en]) => (
-                        <button key={value} type="button" className={`${styles.filterChip} ${filter[key] === value ? styles.active : ""}`} onClick={() => setFilter((prev) => ({ ...prev, [key]: value }))}>
-                          {lang === "zh" ? zh : en}
-                        </button>
-                      ))}
+                      {options.map(([value, zh, en]) => {
+                        const active = multi
+                          ? (value === "all" ? filter.wireless.length === 0 : filter.wireless.includes(value))
+                          : filter[key] === value;
+                        const onClick = () => {
+                          if (!multi) { setFilter((prev) => ({ ...prev, [key]: value })); return; }
+                          if (value === "all") { setFilter((prev) => ({ ...prev, wireless: [] })); return; }
+                          setFilter((prev) => {
+                            const has = prev.wireless.includes(value);
+                            return { ...prev, wireless: has ? prev.wireless.filter((v) => v !== value) : [...prev.wireless, value] };
+                          });
+                        };
+                        return (
+                          <button key={value} type="button" className={`${styles.filterChip} ${active ? styles.active : ""}`} onClick={onClick}>
+                            {lang === "zh" ? zh : en}
+                          </button>
+                        );
+                      })}
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
                 <div className={styles.catalogHead}>
                   <strong>{lang === "zh" ? "符合条件的产品" : "Matching boards"}</strong>
