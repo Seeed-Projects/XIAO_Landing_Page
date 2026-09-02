@@ -124,8 +124,6 @@ export function ProjectHub() {
   const [embedHeight, setEmbedHeight] = useState(1400);
   const [selectedProject, setSelectedProject] = useState(0);
 
-  const leadRef = useRef(null);
-  const sideRef = useRef(null);
   const recentListRef = useRef(null);
   const toastTimer = useRef(null);
 
@@ -210,28 +208,6 @@ export function ProjectHub() {
     return () => window.removeEventListener("message", onMessage);
   }, []);
 
-  /* 侧栏高度跟随 lead（桌面端） */
-  useEffect(() => {
-    const lead = leadRef.current;
-    const side = sideRef.current;
-    if (!lead || !side) return;
-    const match = () => {
-      if (window.innerWidth > 900) {
-        side.style.height = lead.getBoundingClientRect().height + "px";
-      } else {
-        side.style.removeProperty("height");
-      }
-    };
-    const ro = new ResizeObserver(match);
-    ro.observe(lead);
-    window.addEventListener("resize", match);
-    match();
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", match);
-    };
-  }, []);
-
   /* 最近项目列表滚动锁定（边缘不冒泡） */
   useEffect(() => {
     const list = recentListRef.current;
@@ -287,7 +263,7 @@ export function ProjectHub() {
 
       <main>
         <Reveal as="section" className={styles.hero}>
-          <article className={styles.lead} ref={leadRef}>
+          <article className={styles.lead}>
             <div
               className={styles.leadArt}
               style={{ backgroundImage: `url('${featuredImage}')` }}
@@ -321,7 +297,7 @@ export function ProjectHub() {
             )}
           </article>
 
-          <aside className={styles.side} ref={sideRef}>
+          <aside className={styles.side}>
             <div className={styles.sideHead}>
               <div>
                 <h2>{t.recentTitle}</h2>
