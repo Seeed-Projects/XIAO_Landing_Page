@@ -8,13 +8,7 @@ import { Glow } from "../Glow";
 import { withBase } from "../../lib/basePath";
 import styles from "./project-hub.module.css";
 
-const PROJECTS_YAML_URL =
-  "https://raw.githubusercontent.com/Carla-Guo/OSHW-XIAO-Series/main/projects.yaml";
-const JSYAML_CDN =
-  "https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js";
-
-const HERO_IMG =
-  "https://hackster.imgix.net/uploads/attachments/1958177/_TKgDFJ5Vnp.blob?auto=compress%2Cformat&fit=min&h=675&w=900";
+const HERO_IMG = "/project-hub-projects/forager.jpg";
 const HERO_LINK =
   "https://www.hackster.io/rishabh-jain5/trailnav-solar-powered-off-grid-exploration-device-bb35b2";
 const HUB_IFRAME = "https://seeed-studio.github.io/OSHW-XIAO-Series/";
@@ -22,6 +16,16 @@ const HUB_EMBED = "/project-hub-embed.html";
 const CONTRIBUTE_LINK =
   "https://docs.google.com/forms/d/e/1FAIpQLSdiju4D3-h0fZavfZeRrXcOtAh-Lb7Ll8zbrkziB94RCvbZrQ/viewform";
 const GITHUB_LINK = "https://github.com/Seeed-Studio/OSHW-XIAO-Series";
+
+// Six editorially selected projects with local, article-sourced images.
+const SHOWCASE_PROJECTS = [
+  ["Forager", "机械键盘", "https://github.com/carrefinho/forager", "/project-hub-projects/forager.jpg", "Mechanical Keyboard", "Forager", "2024.07"],
+  ["Visorbearer", "机械键盘", "https://github.com/carrefinho/visorbearer", "/project-hub-projects/visorbearer.png", "Mechanical Keyboard", "Visorbearer", "2025.08"],
+  ["AtmosGuard C5: Dual-Band IAQ & Cloud Logger", "智能家居", "https://www.hackster.io/hendra/atmosguard-c5-dual-band-iaq-cloud-logger-72ff46", "/project-hub-projects/atmosguard.jpg", "Smart Home", "AtmosGuard C5: 双频 IAQ 与云端记录仪", "2026.01"],
+  ["Final Countdown", "工具配件", "https://www.hackster.io/dquadros2/final-countdown-3fe49b", "/project-hub-projects/final-countdown.jpg", "Tools & Accessories", "Final Countdown", "2025.09"],
+  ["Prospector", "机械键盘", "https://github.com/carrefinho/prospector", "/project-hub-projects/prospector.jpg", "Mechanical Keyboard", "Prospector", "2024.11"],
+  ["E61 Gauge", "工具配件", "https://github.com/gidim/e61-gauge", "/project-hub-projects/e61-gauge.jpg", "Tools & Accessories", "E61 模拟温度表", "2026.05"],
+];
 
 const METRICS = [
   ["100+", "metricProjects", "community projects", "社区项目"],
@@ -97,29 +101,10 @@ const T = {
   },
 };
 
-function loadJsYaml() {
-  return new Promise((resolve, reject) => {
-    if (typeof window !== "undefined" && window.jsyaml) return resolve(window.jsyaml);
-    const existing = document.getElementById("jsyaml-cdn");
-    if (existing) {
-      existing.addEventListener("load", () => resolve(window.jsyaml));
-      existing.addEventListener("error", reject);
-      return;
-    }
-    const s = document.createElement("script");
-    s.id = "jsyaml-cdn";
-    s.src = JSYAML_CDN;
-    s.async = true;
-    s.onload = () => resolve(window.jsyaml);
-    s.onerror = reject;
-    document.head.appendChild(s);
-  });
-}
-
 export function ProjectHub() {
   const { lang } = useLang();
-  const [recent, setRecent] = useState([]);
-  const [status, setStatus] = useState("loading");
+  const recent = SHOWCASE_PROJECTS;
+  const status = "ok";
   const [toast, setToast] = useState("");
   const [embedHeight, setEmbedHeight] = useState(1400);
   const [selectedProject, setSelectedProject] = useState(0);
@@ -138,7 +123,7 @@ export function ProjectHub() {
       ? featured[4]
       : featured[1]
     : "Outdoor · Navigation";
-  const featuredImage = featured?.[3] || HERO_IMG;
+  const featuredImage = withBase(featured?.[3] || HERO_IMG);
   const featuredLink = featured?.[2] || HERO_LINK;
 
   function notify(msg) {
@@ -146,55 +131,6 @@ export function ProjectHub() {
     if (toastTimer.current) clearTimeout(toastTimer.current);
     toastTimer.current = setTimeout(() => setToast(""), 1800);
   }
-
-  /* 加载最近项目 */
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      setStatus("loading");
-      try {
-        await loadJsYaml();
-        const response = await fetch(PROJECTS_YAML_URL, { cache: "no-store" });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const source = await response.text();
-        const jsyaml = window.jsyaml;
-        let parsed;
-        try {
-          parsed = jsyaml.load(source);
-        } catch {
-          parsed = jsyaml.load(source.replace(/^﻿?projects:\s*\r?\n/, ""));
-        }
-        let projects = Array.isArray(parsed) ? parsed : parsed?.projects;
-        if (!Array.isArray(projects)) {
-          projects = jsyaml.load(source.replace(/^﻿?projects:\s*\r?\n/, ""));
-        }
-        const mapped = (projects || [])
-          .filter((p) => p && p.name && p.link)
-          .filter((p) => p.image)
-          .slice(0, 6)
-          .map((p) => {
-            const nameEn = p.name?.en || p.name?.zh || p.name || "Untitled Project";
-            const nameZh = p.name?.zh || nameEn;
-            const categoryEn = p.category?.en || p.category?.zh || "Project";
-            const categoryZh = p.category?.zh || categoryEn;
-            const month = String(p.month || "").padStart(2, "0");
-            const date = p.year ? `${p.year}.${month}` : "LATEST";
-            return [nameEn, categoryZh, p.link, p.image || "", categoryEn, nameZh, date];
-          });
-        if (!cancelled) {
-          setRecent(mapped);
-          setSelectedProject(0);
-          setStatus(mapped.length ? "ok" : "error");
-        }
-      } catch (e) {
-        if (!cancelled) setStatus("error");
-        console.error("Unable to load projects.yaml", e);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   useEffect(() => {
     const onMessage = (event) => {
@@ -318,7 +254,7 @@ export function ProjectHub() {
                       className={styles.thumb}
                       data-no={String(i + 1).padStart(2, "0")}
                       style={{
-                        backgroundImage: `linear-gradient(90deg,#1112,#1112),url('${p[3]}')`,
+                        backgroundImage: `url('${withBase(p[3])}')`,
                       }}
                     />
                     <div>

@@ -56,7 +56,6 @@ export default function PlaygroundPage() {
           <div className={styles.grid} aria-hidden="true" />
           <div className={styles.orbit} aria-hidden="true" />
           <div className={styles.copy}>
-            <span className={styles.kicker}>XIAO PLAYGROUND · OPEN SOURCE</span>
             <h1>{zh ? "从一个引脚，走到完整作品" : "From one pin to a finished build"}</h1>
             <p>{zh ? "Pinout、硬件资料、软件指南与网页固件烧录集中在一个入口。少一点查找，多一点构建。" : "Pinouts, hardware resources, software guides and browser-based firmware flashing—one place to move from board to build."}</p>
             <div className={styles.actions}>

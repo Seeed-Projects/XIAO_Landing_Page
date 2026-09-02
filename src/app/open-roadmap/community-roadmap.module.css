@@ -44,32 +44,23 @@
   padding: 64px clamp(28px, 5vw, 76px);
   transform: translateY(-28px);
 }
-.heroEyebrow {
-  display: block;
-  margin-bottom: 18px;
-  color: rgba(255,255,255,.82);
-  font-family: var(--font-display), sans-serif;
-  font-size: 13px;
-  font-weight: 650;
-  letter-spacing: .34em;
-}
 .roadmapHero h1 {
   max-width: 1180px;
   margin: 0;
   color: #fff;
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(64px, 8.6vw, 138px);
+  font-size: clamp(48px, 5.4vw, 76px);
   font-weight: 600;
-  line-height: .9;
+  line-height: .98;
   letter-spacing: -.055em;
   text-shadow: 0 4px 24px rgba(0,0,0,.4);
 }
 .roadmapHero p {
   max-width: 620px;
-  margin: 28px 0 0;
+  margin: 24px 0 0;
   color: rgba(255,255,255,.92);
-  font-size: clamp(18px, 1.6vw, 24px);
-  line-height: 1.55;
+  font-size: clamp(16px, 1.35vw, 20px);
+  line-height: 1.65;
   text-shadow: 0 2px 12px rgba(0,0,0,.42);
 }
 .roadmapHero .headActions { margin: 30px 0 0; }
@@ -192,8 +183,8 @@
   .roadmapHero > img { object-position: 58% center; }
   .heroShade { background: linear-gradient(0deg, rgba(0,25,37,.94) 0%, rgba(0,31,44,.68) 60%, rgba(0,31,44,.08) 100%); }
   .heroCopy { padding: 100px 22px 58px; transform: translateY(-12px); }
-  .roadmapHero h1 { font-size: clamp(52px, 15vw, 76px); }
-  .roadmapHero p { font-size: 18px; }
+  .roadmapHero h1 { font-size: clamp(42px, 12vw, 60px); }
+  .roadmapHero p { font-size: 16px; }
   .roadmapHero .headActions { align-items: stretch; flex-direction: column; }
   .roadmapHero .btn { justify-content: center; }
   .stats { grid-template-columns: repeat(2, 1fr); }

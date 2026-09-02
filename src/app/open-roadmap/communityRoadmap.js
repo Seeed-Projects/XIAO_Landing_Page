@@ -54,7 +54,6 @@ export function CommunityRoadmap() {
   const [active, setActive] = useState(null);
 
   const T = {
-    eyebrow: lang === "zh" ? "由社区共同决定" : "BUILT WITH THE COMMUNITY",
     h1: lang === "zh" ? "XIAO 开放路线图" : "XIAO Open Roadmap",
     sub: lang === "zh"
       ? "下一步做什么，由你决定"
@@ -126,7 +125,6 @@ export function CommunityRoadmap() {
         />
         <div className={styles.heroShade} />
         <div className={styles.heroCopy}>
-          <span className={styles.heroEyebrow}>{T.eyebrow}</span>
           <Glow as="h1">{T.h1}</Glow>
           <p>{T.sub}</p>
           <div className={styles.headActions}>
