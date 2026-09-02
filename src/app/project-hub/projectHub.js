@@ -57,7 +57,7 @@ const T = {
     sourceNote:
       "Curated from GitHub, YouTube, Hackster, Instructables, Hackaday and independent web projects. Updated regularly by the Seeed Studio community.",
     appDirLabel: "APPLICATION DIRECTION",
-    latestCount: "LATEST 10",
+    latestCount: "LATEST 6",
     loading: "Loading latest projects…",
     error: "Unable to load the latest projects.",
     subscribeToast: "Project updates subscribed",
@@ -89,7 +89,7 @@ const T = {
     sourceNote:
       "内容整理自 GitHub、YouTube、Hackster、Instructables、Hackaday 和独立网页项目，由 Seeed Studio 社区持续更新。",
     appDirLabel: "应用方向",
-    latestCount: "最近 10 个",
+    latestCount: "最近 6 个",
     loading: "正在加载最近项目…",
     error: "无法加载最近项目。",
     subscribeToast: "已订阅项目更新",
@@ -124,7 +124,6 @@ export function ProjectHub() {
   const [embedHeight, setEmbedHeight] = useState(1400);
   const [selectedProject, setSelectedProject] = useState(0);
 
-  const recentListRef = useRef(null);
   const toastTimer = useRef(null);
 
   const t = T[lang];
@@ -171,7 +170,8 @@ export function ProjectHub() {
         }
         const mapped = (projects || [])
           .filter((p) => p && p.name && p.link)
-          .slice(0, 10)
+          .filter((p) => p.image)
+          .slice(0, 6)
           .map((p) => {
             const nameEn = p.name?.en || p.name?.zh || p.name || "Untitled Project";
             const nameZh = p.name?.zh || nameEn;
@@ -208,23 +208,6 @@ export function ProjectHub() {
     return () => window.removeEventListener("message", onMessage);
   }, []);
 
-  /* 最近项目列表滚动锁定（边缘不冒泡） */
-  useEffect(() => {
-    const list = recentListRef.current;
-    if (!list) return;
-    const onWheel = (e) => {
-      const atTop = list.scrollTop <= 0;
-      const atBottom =
-        list.scrollTop + list.clientHeight >= list.scrollHeight - 1;
-      if ((e.deltaY < 0 && atTop) || (e.deltaY > 0 && atBottom)) return;
-      e.preventDefault();
-      e.stopPropagation();
-      list.scrollTop += e.deltaY;
-    };
-    list.addEventListener("wheel", onWheel, { passive: false });
-    return () => list.removeEventListener("wheel", onWheel);
-  }, []);
-
   return (
     <div className={styles.hub}>
       <div className={styles.noise} />
@@ -241,7 +224,6 @@ export function ProjectHub() {
         </div>
         <div className={styles.introShade} />
         <div className={styles.introCopy}>
-          <span className={styles.introKicker}>{t.introKicker}</span>
           <Glow as="h1">XIAO Project Hub</Glow>
           <p>{t.introTagline}</p>
           <div className={styles.introAction}>
@@ -314,7 +296,7 @@ export function ProjectHub() {
                 <small>{t.subscribeNote}</small>
               </div>
             </div>
-            <div className={styles.episodeList} ref={recentListRef}>
+            <div className={styles.episodeList}>
               {status === "loading" && (
                 <p className={styles.projectStatus}>{t.loading}</p>
               )}
@@ -322,7 +304,7 @@ export function ProjectHub() {
                 <p className={`${styles.projectStatus} ${styles.error}`}>{t.error}</p>
               )}
               {status === "ok" &&
-                recent.map((p, i) => (
+                recent.slice(0, 6).map((p, i) => (
                   <a
                     key={i}
                     className={`${styles.ep} ${i === selectedProject ? styles.selectedEp : ""}`}
