@@ -369,7 +369,7 @@ export function SmartSelector() {
         <div className={styles.cautionBox}><strong>{lang === "zh" ? "需要注意" : "Keep in mind"}</strong>{pick(p.caution)}</div>
         <div className={styles.productFooter}>
           <a className={`${styles.miniBtn} ${styles.emphasis}`} href={p.link} target="_blank" rel="noopener noreferrer">{lang === "zh" ? "查看产品" : "View product"}</a>
-          <button className={styles.miniBtn} type="button" onClick={() => toggleCompare(p.id)}>{lang === "zh" ? "加入对比" : "Compare"}</button>
+          <button className={`${styles.miniBtn} ${styles.compareBtn}`} type="button" onClick={() => toggleCompare(p.id)}>{lang === "zh" ? "加入对比" : "Compare"}</button>
         </div>
       </article>
     );
@@ -571,7 +571,7 @@ export function SmartSelector() {
                       <div className={styles.tagRow}>{[...p.wireless, ...p.features.map(pick)].slice(0, 4).map((t, i) => <span key={i} className={styles.tag}>{t}</span>)}</div>
                       <div className={styles.productFooter}>
                         <a className={`${styles.miniBtn} ${styles.emphasis}`} href={p.link} target="_blank" rel="noopener noreferrer">{lang === "zh" ? "查看产品" : "View product"}</a>
-                        <button className={styles.miniBtn} type="button" onClick={() => toggleCompare(p.id)}>{lang === "zh" ? "对比" : "Compare"}</button>
+                        <button className={`${styles.miniBtn} ${styles.compareBtn}`} type="button" onClick={() => toggleCompare(p.id)}>{lang === "zh" ? "对比" : "Compare"}</button>
                       </div>
                     </article>
                   ))}

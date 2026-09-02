@@ -235,3 +235,7 @@
   .xiaoSelector * { transition: none !important; }
   .xiaoSelector .optionCard:hover, .xiaoSelector .catalogCard:hover, .xiaoSelector .productCard:hover { transform: none; }
 }
+
+/* compare 功能暂未完善：先隐藏入口，后续完善后移除这两条规则即可恢复 */
+.compareBtn { display: none !important; }
+.compareBar { display: none !important; }
