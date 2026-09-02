@@ -10,11 +10,11 @@ import { withBase } from "../lib/basePath";
  * 底图（xiao-hero-photo.webp）铺满整屏，上覆渐变压暗保证白字可读；
  * 左侧叠放眉标 / 品牌行 / 超大标题 / 副文案 / 双 CTA。无卡片。
  */
-export function HeroSection() {
+export function HeroSection({ title, subtitle }) {
   const { lang } = useLang();
   const isEn = lang === "en";
 
-  const copy = isEn
+  const base = isEn
     ? {
         kicker: "Add AI to Almost Anything",
         brand: "Seeed Studio",
@@ -33,6 +33,11 @@ export function HeroSection() {
         primary: "立即购买",
         secondary: "快速开始",
       };
+  const copy = {
+    ...base,
+    title: title ?? base.title,
+    subtitle: subtitle ?? base.subtitle,
+  };
 
   return (
     <section
