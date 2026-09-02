@@ -8,7 +8,7 @@ export function EdmSubscribe() {
 
   return (
     <div
-      className="relative min-h-[500px] overflow-hidden bg-[#5d4c3e] bg-cover bg-center shadow-[0_12px_32px_rgba(31,42,48,.16)] sm:min-h-[560px]"
+      className="relative min-h-[500px] overflow-hidden bg-[#5d4c3e] bg-cover bg-center sm:min-h-[560px]"
       style={{ backgroundImage: `url("${withBase("/home/xiao-newsletter-bg.jpeg")}")` }}
     >
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,28,31,.08)_0%,rgba(17,28,31,.14)_42%,rgba(17,28,31,.66)_100%)]" />

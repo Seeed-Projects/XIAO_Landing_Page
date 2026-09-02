@@ -132,15 +132,10 @@ export default function Home() {
         </section>
 
         {/* EDM 订阅 - 全屏满宽 */}
-        <section
-          id="edm"
-          className="relative flex w-full scroll-mt-24 items-center bg-white px-6 py-20 sm:px-10 lg:px-16"
-        >
-          <div className="mx-auto w-full max-w-[1500px]">
-            <Reveal delay={120}>
-              <EdmSubscribe />
-            </Reveal>
-          </div>
+        <section id="edm" className="relative w-full scroll-mt-24">
+          <Reveal delay={120}>
+            <EdmSubscribe />
+          </Reveal>
         </section>
       </main>
     </>
