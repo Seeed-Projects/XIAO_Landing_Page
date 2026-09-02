@@ -67,7 +67,7 @@ export default function PlaygroundPage() {
           <div className={styles.boardStage}>
             <span className={styles.boardHalo} aria-hidden="true" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={withBase("/playground-xiao-transparent.png")} alt="Front and back views of the Seeed Studio XIAO ESP32-S3" />
+            <img src={withBase("/playground-hero.webp")} alt="Seeed Studio XIAO Playground overview" />
             <span className={`${styles.port} ${styles.portOne}`}>GPIO</span>
             <span className={`${styles.port} ${styles.portTwo}`}>FLASH</span>
             <span className={`${styles.port} ${styles.portThree}`}>DOCS</span>
