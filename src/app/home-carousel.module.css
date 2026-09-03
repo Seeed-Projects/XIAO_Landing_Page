@@ -1,8 +1,8 @@
 .carousel {
   position: relative;
   width: 100%;
-  /* 全屏铺满，比例与横幅图一致（1672×941 ≈ 1.78:1），cover 不再裁切 */
-  aspect-ratio: 1672 / 941;
+  /* 与各广告页 HeroSection 统一比例（1695/632 ≈ 2.68:1） */
+  aspect-ratio: 1695 / 632;
   overflow: hidden;
   background: #071c2a;
   isolation: isolate;
