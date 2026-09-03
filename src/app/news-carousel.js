@@ -199,7 +199,7 @@ export function NewsCarousel() {
       <ScrollBand
         items={items}
         rows={2}
-        speed={0.32}
+        speed={0.52}
         hrefFor={(item) => item.url || "#"}
         cardClassName="bg-white shadow-[0_8px_24px_rgba(18,43,56,.06)]"
         renderCard={(item) => <>
