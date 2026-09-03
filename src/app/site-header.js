@@ -145,12 +145,15 @@ export function SiteHeader() {
         <Link href="/" className="flex shrink-0 items-center gap-2">
           <img
             src={withBase("/seeed-logo.png")}
-            alt="Seeed Studio XIAO"
+            alt="Seeed Studio"
             className="h-7 w-auto shrink-0 sm:h-8"
           />
-          <span className="font-display text-sm font-semibold tracking-[0.1em] text-[var(--brand-blue)] sm:text-base sm:tracking-[0.18em]">
-            <span className="hidden sm:inline">Seeed Studio </span>XIAO
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={withBase("/logo-text.webp")}
+            alt="XIAO"
+            className="h-4 w-auto shrink-0 sm:h-5"
+          />
         </Link>
 
         {/* 中：导航 —— 只有 Playground 带下拉，其余为普通链接 */}
