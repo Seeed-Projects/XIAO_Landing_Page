@@ -117,7 +117,7 @@ export function CommunityRoadmap() {
     <div className={styles.roadmap}>
       <Reveal as="section" className={styles.roadmapHero}>
         <Image
-          src={withBase("/openroadmap-hero.png")}
+          src={withBase("/openroadmap-hero.webp")}
           alt=""
           fill
           sizes="100vw"
