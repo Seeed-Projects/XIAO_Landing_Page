@@ -86,10 +86,10 @@
 
 /* 头部 */
 .head { max-width: 820px; padding: 4px 0 0; }
-.eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: var(--r-pill); border: 1px solid var(--line-soft); background: rgba(255,255,255,0.78); color: var(--brand-blue-soft); font-family: var(--font-display), sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.32em; }
+.eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: var(--r-pill); border: 1px solid var(--line-soft); background: rgba(255,255,255,0.78); color: var(--brand-blue-soft); font-family: var(--font-display), sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
 .eyebrowDot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand-green); box-shadow: 0 0 0 4px rgba(22,182,106,0.14); }
-.head h1 { margin: 16px 0 14px; font-family: var(--font-display), sans-serif; font-size: clamp(34px, 4.4vw, 56px); line-height: 1.04; letter-spacing: -0.03em; font-weight: 600; color: var(--ink-strong); }
-.headSub { margin: 0 0 26px; max-width: 640px; font-size: 16px; line-height: 1.7; font-weight: 500; color: var(--ink-body); }
+.head h1 { margin: 16px 0 20px; font-family: var(--font-display), sans-serif; font-size: clamp(34px, 4.4vw, 56px); line-height: 1.12; letter-spacing: -0.035em; font-weight: 700; color: var(--ink-strong); }
+.headSub { margin: 0 0 56px; max-width: 820px; font-size: 18px; line-height: 1.65; font-weight: 400; color: var(--ink-body); }
 .headActions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
 
 .btn { border: 0; border-radius: var(--r-control); padding: 11px 18px; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease; text-decoration: none; }

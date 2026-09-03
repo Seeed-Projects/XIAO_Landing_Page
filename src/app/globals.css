@@ -13,9 +13,11 @@
   --brand-green-deep: #0a8f50;
   --brand-blue: #004966;
   --brand-blue-soft: #1d6784;
-  --ink-strong: #0d2230;
-  --ink-body: #4a6470;
-  --ink-muted: #6f8791;
+  /* 文字色：navy 标题 + 低对比蓝灰正文（对齐 Seeed design system） */
+  --ink-strong: #18224f;
+  --ink-body: #526b91;
+  --ink-muted: #6f7f96;
+  --ink-secondary: #6f7f96;
   --line-soft: rgba(0, 73, 102, 0.1);
   --shadow-soft: 0 20px 60px rgba(0, 73, 102, 0.12);
   --shadow-card: 0 18px 40px rgba(0, 73, 102, 0.08);
@@ -286,7 +288,7 @@ canvas {
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.32em;
+  letter-spacing: 0.08em;
 }
 .pd-eyebrowDot {
   width: 7px;
@@ -296,21 +298,21 @@ canvas {
   box-shadow: 0 0 0 4px rgba(22, 182, 106, 0.14);
 }
 .pd-intro h2 {
-  margin: 14px 0 10px;
+  margin: 14px 0 20px;
   font-family: var(--font-display), sans-serif;
   font-size: var(--type-section-title);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  font-weight: 700;
   color: var(--ink-strong);
 }
 .pd-intro p {
-  margin: 0;
-  max-width: 760px;
+  margin: 0 0 56px;
+  max-width: 820px;
   font-family: var(--font-body), sans-serif;
   font-size: var(--type-section-copy);
   line-height: var(--leading-copy);
-  font-weight: 500;
+  font-weight: 400;
   color: var(--ink-body);
 }
 .pd-workspace {
@@ -348,6 +350,11 @@ canvas {
 
 .text-balance {
   text-wrap: balance;
+}
+
+/* 板块统一纵向间距（对齐 Seeed design system：充足留白） */
+.section {
+  padding-block: clamp(80px, 8vw, 128px);
 }
 
 .toc-panel {

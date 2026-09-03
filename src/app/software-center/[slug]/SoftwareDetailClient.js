@@ -81,12 +81,12 @@ export default function SoftwareDetailClient() {
               <div className="min-w-0 flex-1">
                 <Glow
                   as="h1"
-                  className="font-display text-3xl font-semibold tracking-tight text-[var(--ink-strong)] sm:text-4xl"
+                  className="font-display text-3xl font-bold leading-[1.12] tracking-[-0.035em] text-[var(--ink-strong)] sm:text-4xl"
                 >
                   {pick(item.name, lang)}
                 </Glow>
                 {item.desc && (
-                  <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--ink-body)]">
+                  <p className="mt-5 max-w-[820px] text-[18px] font-normal leading-[1.65] text-[var(--ink-body)]">
                     {pick(item.desc, lang)}
                   </p>
                 )}

@@ -39,15 +39,13 @@ export function DirectoryCard({ items }) {
 export function SectionHeader({ kicker, title, description, align = "center" }) {
   return (
     <div
-      className={`space-y-3 ${
-        align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-2xl"
-      }`}
+      className={`${align === "center" ? "mx-auto max-w-[820px] text-center" : "max-w-2xl"}`}
     >
-      <Glow as="h2" className="font-display text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">
+      <Glow as="h2" className="mb-5 font-display text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">
         {title}
       </Glow>
       {description ? (
-        <p className={`max-w-2xl text-base leading-[1.65] text-[var(--ink-body)] sm:text-lg ${align === "center" ? "mx-auto" : ""}`}>
+        <p className={`mb-14 max-w-[820px] text-[18px] font-normal leading-[1.65] text-[var(--ink-body)] ${align === "center" ? "mx-auto" : ""}`}>
           {description}
         </p>
       ) : null}
@@ -58,10 +56,10 @@ export function SectionHeader({ kicker, title, description, align = "center" }) 
 export function InfoCard({ title, description, eyebrow, footer }) {
   return (
     <div className="section-shell glow-card rounded-[30px] p-6 sm:p-7">
-      <h3 className="font-display text-2xl font-semibold tracking-tight text-[var(--ink-strong)]">
+      <h3 className="font-display text-[23px] font-bold leading-[1.3] tracking-[-0.035em] text-[var(--ink-strong)]">
         {title}
       </h3>
-      <p className="mt-4 text-base leading-[1.65] text-[var(--ink-body)]">{description}</p>
+      <p className="mt-4 max-w-[320px] text-base font-normal leading-[1.65] text-[var(--ink-body)]">{description}</p>
       {footer ? (
         <div className="mt-8 flex items-center justify-between border-t border-[var(--line-soft)] pt-4 text-sm font-semibold text-[var(--brand-blue)]">
           <span>{footer}</span>
@@ -78,7 +76,7 @@ export function IntroHero({ title, description, kicker, rightTitle, rightText })
       <div className="relative z-10 grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
         <div className="space-y-8">
           <div className="space-y-5">
-            <Glow as="h1" className="font-display text-balance max-w-4xl text-5xl font-semibold leading-[0.94] tracking-tight text-[var(--ink-strong)] sm:text-6xl lg:text-7xl">
+            <Glow as="h1" className="font-display text-balance max-w-4xl text-5xl font-bold leading-[1.12] tracking-[-0.035em] text-[var(--ink-strong)] sm:text-6xl lg:text-7xl">
               {title}
             </Glow>
             <p className="max-w-2xl text-lg leading-8 text-[var(--ink-body)] sm:text-xl">

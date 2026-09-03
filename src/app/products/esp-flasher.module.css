@@ -15,11 +15,11 @@
 
 /* 小节标题 */
 .introBlock { padding: 8px 0 4px; max-width: 960px; margin-left: auto; margin-right: auto; text-align: center; }
-.eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: var(--r-pill); border: 1px solid var(--line-soft); background: rgba(255,255,255,0.78); color: var(--brand-blue-soft); font-family: var(--font-display), sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.32em; }
+.eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: var(--r-pill); border: 1px solid var(--line-soft); background: rgba(255,255,255,0.78); color: var(--brand-blue-soft); font-family: var(--font-display), sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
 .eyebrowDot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand-green); box-shadow: 0 0 0 4px rgba(22,182,106,0.14); }
 .introBlock .eyebrow { margin-bottom: 10px; }
 .introBlock h2 { margin: 0 0 10px; font-family: var(--font-display), sans-serif; font-size: var(--type-section-title); line-height: 1.12; letter-spacing: -.035em; font-weight: 700; color: var(--ink-strong); }
-.introBlock p { margin: 0; color: var(--ink-body); font-size: 16px; line-height: 1.7; font-weight: 500; }
+.introBlock p { max-width: 820px; margin: 14px auto 0; color: var(--ink-body); font-size: 18px; line-height: 1.65; font-weight: 400; }
 
 /* 工作区卡片 */
 .workspace { background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-card); box-shadow: var(--shadow-card); overflow: hidden; backdrop-filter: blur(18px); }
@@ -157,7 +157,7 @@
 }
 .introBlock { max-width: 720px; padding: 0; margin-bottom: 34px; }
 .introBlock h2 { font-size: var(--type-section-title); letter-spacing: -.035em; }
-.introBlock p { max-width: 620px; margin: 0 auto; color: var(--ink-muted); }
+.introBlock p { max-width: 820px; margin: 0 auto; color: var(--ink-body); }
 
 .flashEntries {
   display: grid;
@@ -228,7 +228,7 @@
   margin: 10px 0 0;
   color: var(--ink-strong);
   font-family: var(--font-display), sans-serif;
-  font-weight: 650;
+  font-weight: 700;
   letter-spacing: -.035em;
 }
 .guidePanel h3 { margin-bottom: 34px; font-size: clamp(32px,3.3vw,46px); line-height: 1.06; }
@@ -251,7 +251,7 @@
 .connectionState.on { color: var(--brand-green-deep); }
 .connectionState.on::before { background: var(--brand-green); box-shadow: 0 0 0 4px rgba(22,182,106,.14); }
 .simpleField { display: flex; flex-direction: column; gap: 7px; }
-.simpleField > span { color: var(--ink-body); font-size: 12px; font-weight: 750; }
+.simpleField > span { color: var(--ink-body); font-size: 12px; font-weight: 700; }
 .simpleField select {
   width: 100%;
   min-height: 48px;
@@ -262,7 +262,7 @@
   background: #fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' fill='none' stroke='%235b6b62' stroke-width='1.6' stroke-linecap='round'/></svg>") no-repeat right 14px center;
   color: var(--ink-strong);
   font-size: 14px;
-  font-weight: 650;
+  font-weight: 700;
 }
 .simpleField select:focus { outline: 3px solid rgba(22,182,106,.14); border-color: var(--brand-green); }
 .simpleField select:disabled { background-color: #f5f7f5; color: var(--ink-muted); }
