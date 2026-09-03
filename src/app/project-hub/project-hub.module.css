@@ -781,7 +781,7 @@
 }
 .leadArt {
   background-size: contain;
-  background-position: center;
+  background-position: center top;
   background-repeat: no-repeat;
   transition: opacity .45s ease, transform .8s cubic-bezier(.2,.75,.2,1);
 }
