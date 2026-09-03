@@ -82,7 +82,7 @@ export function SiteFooter() {
   const onSubmit = (e) => submit(e, { consent });
 
   return (
-    <footer className="mt-auto w-full bg-[var(--ink-strong)] text-white">
+    <footer className="mt-auto w-full bg-[var(--surface-deep)] text-white">
       <div className="mx-auto w-full max-w-[1440px] px-6 py-14 sm:px-10 lg:px-16">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_0.7fr_1.3fr]">
           {/* 品牌列 */}

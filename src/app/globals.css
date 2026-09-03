@@ -18,6 +18,9 @@
   --ink-body: #526b91;
   --ink-muted: #6f7f96;
   --ink-secondary: #6f7f96;
+
+  /* 深色面（页脚等大面积深底）专用：不随标题色 token 走，保持深沉 */
+  --surface-deep: #0d2230;
   --line-soft: rgba(0, 73, 102, 0.1);
   --shadow-soft: 0 20px 60px rgba(0, 73, 102, 0.12);
   --shadow-card: 0 18px 40px rgba(0, 73, 102, 0.08);
