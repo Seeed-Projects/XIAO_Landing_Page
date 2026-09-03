@@ -152,7 +152,7 @@ export function SiteHeader() {
           <img
             src={withBase("/logo-text.webp")}
             alt="XIAO"
-            className="h-5 w-auto shrink-0 sm:h-6"
+            className="h-8 w-auto shrink-0 sm:h-9"
           />
         </Link>
 
