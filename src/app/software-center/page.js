@@ -118,10 +118,7 @@ export default function SoftwareCenterPage() {
             <div className="mx-auto w-full max-w-[1440px]">
               <Reveal>
                 <div className="mb-7 text-center">
-                  <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-green-deep)]">
-                    SEEED STUDIO · OFFICIAL
-                  </span>
-                  <h2 className="mt-3 font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-[var(--ink-strong)] sm:text-4xl">
+                  <h2 className="font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-[var(--ink-strong)] sm:text-4xl">
                     {pick(OFFICIAL.title, lang)}
                   </h2>
                   <p className="mx-auto mt-3 max-w-2xl text-base leading-[1.65] text-[var(--ink-muted)]">
