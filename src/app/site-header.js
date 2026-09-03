@@ -142,17 +142,12 @@ export function SiteHeader() {
     >
       <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center px-4 sm:px-8 lg:px-12">
         {/* 左：logo */}
-        <Link href="/" className="flex shrink-0 items-center gap-2">
-          <img
-            src={withBase("/seeed-logo.png")}
-            alt="Seeed Studio"
-            className="h-7 w-auto shrink-0 sm:h-8"
-          />
+        <Link href="/" className="flex shrink-0 items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={withBase("/logo-text-header.webp")}
-            alt="XIAO"
-            className="h-7 w-auto shrink-0"
+            src={withBase("/logo.webp")}
+            alt="Seeed Studio XIAO"
+            className="h-10 w-auto shrink-0 sm:h-11"
           />
         </Link>
 
