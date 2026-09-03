@@ -41,11 +41,11 @@ export function CoCreateSection() {
     >
       {/* 上部：共创主视觉文案，与下部 gif 同处一张卡片 */}
       <div className="relative z-10 p-7 sm:p-9 lg:p-11">
-        <div className="mx-auto max-w-2xl space-y-5 text-center">
-          <h3 className="font-display text-2xl font-bold leading-[1.25] tracking-[-0.025em] sm:text-3xl">
+        <div className="mx-auto max-w-3xl space-y-5 text-center">
+          <h3 className="font-display text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">
             {c.banner.title}
           </h3>
-          <p className="text-base leading-[1.65] text-white/88 sm:text-lg">{c.banner.text}</p>
+          <p className="text-[18px] font-normal leading-[1.65] text-white/88">{c.banner.text}</p>
           <a
             href="https://www.seeedstudio.com/co-create.html"
             target="_blank"
