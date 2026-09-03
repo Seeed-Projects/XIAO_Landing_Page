@@ -22,12 +22,21 @@ const FIRMWARES = [
     url: "/firmware/xiao-esp32-s3/xiao-esp32-s3-blink.bin",
     address: 0x10000,
   },
+  {
+    id: "c3-blink",
+    boards: ["c3"],
+    name: { en: "Blink Demo", zh: "Blink 闪烁示例" },
+    desc: { en: "Blinks D0 (GPIO2) — connect an external LED + prints over serial", zh: "D0（GPIO2）闪烁 —— 需外接 LED + 串口输出" },
+    ver: "v1.0",
+    url: "/firmware/xiao-esp32-c3/xiao-esp32-c3-blink.bin",
+    address: 0x10000,
+  },
 ];
 
-/* 可选板型（ESP 系列）；PoC 暂仅 ESP32-S3 提供真实固件 */
+/* 可选板型（ESP 系列）；C5/C6 暂无 arduino 变体，.bin 待 ESP-IDF 编译后补充 */
 const ESP_BOARDS = [
   { id: "s3", name: "XIAO ESP32-S3", chip: "ESP32-S3", hint: "Dual Core · Wi-Fi + BLE", hasFw: true },
-  { id: "c3", name: "XIAO ESP32-C3", chip: "ESP32-C3", hint: "RISC-V · Wi-Fi 4 + BLE 5", hasFw: false },
+  { id: "c3", name: "XIAO ESP32-C3", chip: "ESP32-C3", hint: "RISC-V · Wi-Fi 4 + BLE 5", hasFw: true },
   { id: "c6", name: "XIAO ESP32-C6", chip: "ESP32-C6", hint: "RISC-V · Wi-Fi 6 + Thread", hasFw: false },
   { id: "c5", name: "XIAO ESP32-C5", chip: "ESP32-C5", hint: "RISC-V · Wi-Fi 6 + BLE 5", hasFw: false },
 ];
