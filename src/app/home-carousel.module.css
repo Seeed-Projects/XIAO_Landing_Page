@@ -1,8 +1,8 @@
 .carousel {
   position: relative;
   width: 100%;
-  /* 全屏铺满，保持官网 1709×640（≈2.67:1）标准比例 */
-  aspect-ratio: 1709 / 640;
+  /* 全屏铺满，比例与横幅图一致（1672×941 ≈ 1.78:1），cover 不再裁切 */
+  aspect-ratio: 1672 / 941;
   overflow: hidden;
   background: #071c2a;
   isolation: isolate;
@@ -38,10 +38,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: transform 5.6s ease-out;
 }
-/* 当前幅：Ken Burns 缓慢推近，静态横幅也有了呼吸感 */
-.slideActive img { transform: scale(1.07); }
 
 .arrow {
   position: absolute;
