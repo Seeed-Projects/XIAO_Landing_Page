@@ -41,20 +41,22 @@ export function CoCreateSection() {
     >
       {/* 上部：共创主视觉文案，与下部 gif 同处一张卡片 */}
       <div className="relative z-10 p-7 sm:p-9 lg:p-11">
-        <div className="mx-auto max-w-3xl space-y-5 text-center">
-          <h3 className="font-display text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">
+        <div className="mx-auto max-w-6xl">
+          <h3 className="text-center font-display text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">
             {c.banner.title}
           </h3>
-          <p className="text-[18px] font-normal leading-[1.65] text-white/88">{c.banner.text}</p>
-          <a
-            href="https://www.seeedstudio.com/co-create.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full bg-[var(--brand-green)] px-6 py-3 text-sm font-semibold text-[var(--brand-blue)] transition hover:bg-[var(--brand-green-deep)] hover:text-white"
-          >
-            {c.banner.cta}
-            <span className="ml-2">→</span>
-          </a>
+          <div className="mt-7 grid items-center gap-7 md:grid-cols-[minmax(0,1fr)_auto] md:gap-12">
+            <p className="text-left text-[18px] font-normal leading-[1.65] text-white/88">{c.banner.text}</p>
+            <a
+              href="https://www.seeedstudio.com/co-create.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-w-[180px] items-center justify-center justify-self-start rounded-full bg-[var(--brand-green)] px-7 py-3 text-sm font-semibold text-[var(--brand-blue)] transition hover:bg-[var(--brand-green-deep)] hover:text-white md:justify-self-end"
+            >
+              {c.banner.cta}
+              <span className="ml-2">→</span>
+            </a>
+          </div>
         </div>
       </div>
 
