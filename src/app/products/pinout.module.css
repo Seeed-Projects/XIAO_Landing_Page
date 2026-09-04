@@ -72,15 +72,15 @@
 /* 中：CSS 板子示意图（左右两列引脚） */
 .centerPanel { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 16px; padding: 4px 0 0; }
 .boardFigure {
-  display: flex; align-items: stretch; gap: 0;
-  width: 100%; max-width: 640px; margin: 14px auto 0; padding: 22px 6px;
+  display: flex; align-items: center; justify-content: center; gap: 0;
+  width: 100%; max-width: 520px; margin: 14px auto 0; padding: 26px;
   border-radius: var(--r-card);
   background: radial-gradient(circle at 50% 38%, rgba(83,190,160,0.24), transparent 62%), linear-gradient(180deg, #214957 0%, #2d6070 100%);
   border: 1px solid rgba(255,255,255,0.08);
   box-shadow: 0 18px 40px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05);
   overflow: hidden;
 }
-.pinCol { position: relative; flex: 1 1 0; min-width: 0; }
+.pinCol { display: none; }
 .pinRow {
   position: absolute; left: 0; right: 0; transform: translateY(-50%);
   display: flex; align-items: center; gap: 8px;
@@ -137,7 +137,7 @@
 .boardMeta { text-align: center; max-width: 420px; }
 .boardMeta h3 { margin: 0 0 4px; font-family: var(--font-display), sans-serif; font-size: 18px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink-strong); }
 .boardMeta p { margin: 0; font-size: 13px; color: var(--ink-body); line-height: 1.6; }
-.pinLegend { width: 100%; max-width: 640px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 14px 16px; border-radius: var(--r-inner); background: var(--surface-tint); border: 1px solid var(--line-soft); }
+.pinLegend { display: none; }
 .pinLegend span { display: inline-flex; align-items: center; gap: 6px; padding: 6px 9px; border-radius: var(--r-pill); background: var(--surface-strong); color: var(--ink-body); font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 10px; font-weight: 700; }
 .pinLegend i { width: 8px; height: 8px; border-radius: 2px; }
 

@@ -27,6 +27,13 @@ const TAB_DEFS = [
   { id: "help", label: { en: "Help Needed", zh: "需要帮助" }, filter: (i) => i.helpNeeded || i.status === "review" },
 ];
 
+const TYPE_DEFS = [
+  { id: "all", label: { en: "All content", zh: "全部内容" }, filter: () => true },
+  { id: "Boards", label: { en: "Boards", zh: "开发板" }, filter: (i) => i.product?.en === "Boards" },
+  { id: "Software", label: { en: "Software", zh: "软件" }, filter: (i) => i.product?.en === "Software" },
+  { id: "Add-ons", label: { en: "Add-ons", zh: "扩展配件" }, filter: (i) => i.product?.en === "Add-ons" },
+];
+
 const GITHUB_DISCUSSIONS = "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions";
 
 function relativeDate(iso, lang) {
@@ -51,6 +58,7 @@ export function CommunityRoadmap() {
   const [items, setItems] = useState([]);
   const [status, setStatus] = useState("loading");
   const [tabId, setTabId] = useState("all");
+  const [typeId, setTypeId] = useState("all");
   const [active, setActive] = useState(null);
 
   const T = {
@@ -67,7 +75,6 @@ export function CommunityRoadmap() {
     votes: lang === "zh" ? "票" : "votes",
     comments: (n) => lang === "zh" ? `${n} 条评论` : `${n} comments`,
     updated: (s) => lang === "zh" ? `更新于 ${s}` : `updated ${s}`,
-    detail: lang === "zh" ? "查看详情 →" : "View detail →",
     voteGithub: lang === "zh" ? "去 GitHub 投票 ↗" : "Vote on GitHub ↗",
     drawerKicker: lang === "zh" ? "想法详情" : "Idea detail",
     support: lang === "zh" ? "社区支持" : "Community support",
@@ -106,7 +113,8 @@ export function CommunityRoadmap() {
   const pick = (field) => (field && field[lang]) || (field && field.en) || "";
 
   const tab = TAB_DEFS.find((t) => t.id === tabId) ?? TAB_DEFS[0];
-  const visible = useMemo(() => items.filter(tab.filter), [items, tab]);
+  const type = TYPE_DEFS.find((t) => t.id === typeId) ?? TYPE_DEFS[0];
+  const visible = useMemo(() => items.filter((item) => tab.filter(item) && type.filter(item)), [items, tab, type]);
   const tabCounts = useMemo(() => {
     const m = { all: items.length };
     TAB_DEFS.forEach((t) => { m[t.id] = items.filter(t.filter).length; });
@@ -138,16 +146,32 @@ export function CommunityRoadmap() {
 
       <div className={styles.wrap}>
         <Reveal className={styles.filters} id="ideas">
-          {TAB_DEFS.map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              className={`${styles.tab} ${t.id === tabId ? styles.active : ""}`}
-              onClick={() => setTabId(t.id)}
-            >
-              {pick(t.label)}<span className={styles.tabCount}>{tabCounts[t.id]}</span>
-            </button>
-          ))}
+          <div className={styles.filterRow} aria-label={lang === "zh" ? "按状态筛选" : "Filter by status"}>
+            <span className={styles.filterLabel}>{lang === "zh" ? "状态" : "Status"}</span>
+            {TAB_DEFS.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                className={`${styles.tab} ${t.id === tabId ? styles.active : ""}`}
+                onClick={() => setTabId(t.id)}
+              >
+                {pick(t.label)}<span className={styles.tabCount}>{tabCounts[t.id]}</span>
+              </button>
+            ))}
+          </div>
+          <div className={styles.filterRow} aria-label={lang === "zh" ? "按内容筛选" : "Filter by content"}>
+            <span className={styles.filterLabel}>{lang === "zh" ? "内容" : "Content"}</span>
+            {TYPE_DEFS.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                className={`${styles.tab} ${t.id === typeId ? styles.active : ""}`}
+                onClick={() => setTypeId(t.id)}
+              >
+                {pick(t.label)}
+              </button>
+            ))}
+          </div>
         </Reveal>
 
         <div className={styles.listMeta}>
@@ -180,13 +204,6 @@ export function CommunityRoadmap() {
                 </div>
               </div>
               <div className={styles.cardFoot}>
-                <button
-                  type="button"
-                  className={styles.ghostLink}
-                  onClick={(e) => { e.stopPropagation(); setActive(it); }}
-                >
-                  {T.detail}
-                </button>
                 <a
                   className={styles.voteLink}
                   href={it.githubUrl}

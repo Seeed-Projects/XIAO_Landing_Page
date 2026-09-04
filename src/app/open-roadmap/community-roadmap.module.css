@@ -106,10 +106,12 @@
 .stat.active { border-color: rgba(22,182,106,0.5); background: var(--surface-tint); box-shadow: 0 0 0 3px rgba(22,182,106,0.12); }
 
 /* 状态筛选 tab */
-.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; border-bottom: 1px solid var(--line-soft); padding-bottom: 14px; }
+.filters { display: flex; flex-direction: column; gap: 8px; margin-top: -18px; margin-bottom: 18px; border-bottom: 1px solid var(--line-soft); padding-bottom: 12px; }
+.filterRow { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+.filterLabel { width: 58px; flex: none; color: var(--ink-muted); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .tab { border: 1px solid transparent; background: transparent; color: var(--ink-muted); font-size: 13px; font-weight: 600; padding: 9px 14px; border-radius: var(--r-control); transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease; }
 .tab:hover { background: var(--surface-tint); color: var(--ink-strong); }
-.tab.active { background: var(--brand-green); color: #fff; border-color: var(--brand-green); }
+.tab.active { background: var(--button-bg); color: #fff; border-color: var(--button-bg); }
 .tabCount { margin-left: 6px; opacity: 0.7; font-weight: 500; }
 
 /* 列表 */
@@ -131,14 +133,12 @@
 .productTag { padding: 3px 9px; border-radius: var(--r-pill); background: var(--surface-tint); border: 1px solid var(--line-soft); color: var(--ink-body); font-size: 11px; font-weight: 600; }
 .metaDot { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-muted); opacity: 0.5; }
 
-.cardFoot { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-top: 4px; }
-.ghostLink { font-size: 13px; font-weight: 600; color: var(--brand-blue); background: none; border: 0; padding: 0; transition: color 180ms ease; }
-.ghostLink:hover { color: var(--brand-green-deep); }
-.voteLink { font-size: 12px; font-weight: 600; padding: 8px 13px; border-radius: var(--r-control); border: 1px solid var(--brand-green); color: var(--brand-green-deep); background: var(--surface-strong); text-decoration: none; transition: background-color 180ms ease, color 180ms ease; white-space: nowrap; }
-.voteLink:hover { background: var(--brand-green); color: #fff; }
+.cardFoot { display: flex; justify-content: flex-end; align-items: center; gap: 12px; padding-top: 4px; }
+.voteLink { font-size: 12px; font-weight: 600; padding: 8px 13px; border-radius: var(--r-pill); border: 1px solid var(--button-bg); color: #fff; background: var(--button-bg); text-decoration: none; transition: background-color 180ms ease, border-color 180ms ease; white-space: nowrap; }
+.voteLink:hover { border-color: var(--button-bg-hover); background: var(--button-bg-hover); color: #fff; }
 
 /* 状态徽章 */
-.status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--r-pill); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: 1px solid transparent; }
+.status { display: inline-flex; width: fit-content; max-width: 100%; align-self: flex-start; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--r-pill); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: 1px solid transparent; }
 .status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.85; }
 .sIdea { color: #6f8791; background: rgba(111,135,145,0.12); border-color: rgba(111,135,145,0.25); }
 .sReview { color: #9a6a00; background: #fff8df; border-color: rgba(154,106,0,0.25); }
@@ -187,6 +187,7 @@
   .cardTop { gap: 12px; }
   .vote { width: 50px; }
   .cardFoot { flex-direction: column; align-items: stretch; }
+  .filterLabel { width: 100%; margin-top: 4px; }
   .voteLink { text-align: center; }
 }
 @media (prefers-reduced-motion: reduce) {
