@@ -121,9 +121,6 @@ export default function SoftwareCenterPage() {
                   <h2 className="font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-[var(--ink-strong)] sm:text-4xl">
                     {pick(OFFICIAL.title, lang)}
                   </h2>
-                  <p className="mx-auto mt-3 max-w-2xl text-base leading-[1.65] text-[var(--ink-muted)]">
-                    {pick(OFFICIAL.desc, lang)}
-                  </p>
                 </div>
               </Reveal>
 
@@ -181,11 +178,6 @@ export default function SoftwareCenterPage() {
                 <h2 className="font-display text-2xl font-semibold tracking-tight text-[var(--ink-strong)] sm:text-3xl">
                   {lang === "zh" ? "其他软件" : "More Software"}
                 </h2>
-                <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-[var(--ink-muted)]">
-                  {lang === "zh"
-                    ? "第三方社区平台与软件方案，按语言、操作系统、协议等通用分类切换。"
-                    : "Third-party community platforms and software, grouped by language, OS, protocol and other common categories."}
-                </p>
               </div>
             </Reveal>
             <div className="flex flex-wrap items-center justify-center gap-2.5">
