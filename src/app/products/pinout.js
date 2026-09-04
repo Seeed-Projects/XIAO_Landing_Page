@@ -886,6 +886,7 @@ export function Pinout() {
                     const p = pinById(id);
                     if (!p) return null;
                     const active = id === activeId;
+                    if (!active) return null;
                     const ids = face === "back" && board.backPins ? board.backPins.left : board.leftColIds;
                     const y = (face === "back" && board.backPins ? board.backPins.padY?.left?.[i] : board.padY?.left?.[i]) ?? ((i + 1) / (ids.length + 1) * 100);
                     return (
@@ -927,6 +928,7 @@ export function Pinout() {
                     const p = pinById(id);
                     if (!p) return null;
                     const active = id === activeId;
+                    if (!active) return null;
                     const ids = face === "back" && board.backPins ? board.backPins.right : board.rightColIds;
                     const y = (face === "back" && board.backPins ? board.backPins.padY?.right?.[i] : board.padY?.right?.[i]) ?? ((i + 1) / (ids.length + 1) * 100);
                     return (

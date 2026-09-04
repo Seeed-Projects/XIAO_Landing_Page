@@ -72,15 +72,15 @@
 /* 中：CSS 板子示意图（左右两列引脚） */
 .centerPanel { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 16px; padding: 4px 0 0; }
 .boardFigure {
-  display: flex; align-items: center; justify-content: center; gap: 0;
-  width: 100%; max-width: 520px; margin: 14px auto 0; padding: 26px;
+  display: flex; align-items: stretch; justify-content: center; gap: 0;
+  width: 100%; max-width: 640px; margin: 14px auto 0; padding: 26px 8px;
   border-radius: var(--r-card);
   background: radial-gradient(circle at 50% 38%, rgba(83,190,160,0.24), transparent 62%), linear-gradient(180deg, #214957 0%, #2d6070 100%);
   border: 1px solid rgba(255,255,255,0.08);
   box-shadow: 0 18px 40px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05);
   overflow: hidden;
 }
-.pinCol { display: none; }
+.pinCol { position: relative; flex: 1 1 0; min-width: 92px; }
 .pinRow {
   position: absolute; left: 0; right: 0; transform: translateY(-50%);
   display: flex; align-items: center; gap: 8px;
