@@ -7,10 +7,9 @@ import { ToolPageIntro } from "../tool-page-intro";
 import { withBase } from "../../lib/basePath";
 import styles from "./esp-flasher.module.css";
 
-/* 真实固件列表 —— 目前 PoC 提供 XIAO ESP32-S3 的 Blink 示例
-   （由 PlatformIO 编译，闪烁 GPIO21 用户 LED 并经串口 115200 输出日志）。
-   固件源在项目根 firmware/<板型全名>/ 维护（如 firmware/xiao-esp32-s3/，
-   ESP 系列还有 xiao-esp32-c3/c5/c6，按板补 .bin）；
+/* 真实固件列表 —— 全部 4 款可选 ESP 板型均提供 Blink 示例
+   （由 PlatformIO + arduino-esp32 3.3.7 编译，闪烁板载/外接 LED 并经串口 115200 输出日志）。
+   固件源在项目根 firmware/<板型全名>/ 维护（xiao-esp32-s3/c3/c5/c6，各含 blink.ino 与编译好的 .bin）；
    服务副本在 public/firmware/<板型全名>/，前端 fetch 后用 esptool-js 经 Web Serial 烧到 0x10000。 */
 const FIRMWARES = [
   {
@@ -31,14 +30,32 @@ const FIRMWARES = [
     url: "/firmware/xiao-esp32-c3/xiao-esp32-c3-blink.bin",
     address: 0x10000,
   },
+  {
+    id: "c6-blink",
+    boards: ["c6"],
+    name: { en: "Blink Demo", zh: "Blink 闪烁示例" },
+    desc: { en: "Blinks the onboard user LED (GPIO15) + prints over serial", zh: "板载用户 LED（GPIO15）闪烁 + 串口输出" },
+    ver: "v1.0",
+    url: "/firmware/xiao-esp32-c6/xiao-esp32-c6-blink.bin",
+    address: 0x10000,
+  },
+  {
+    id: "c5-blink",
+    boards: ["c5"],
+    name: { en: "Blink Demo", zh: "Blink 闪烁示例" },
+    desc: { en: "Blinks the onboard user LED (GPIO27, yellow) + prints over serial", zh: "板载用户 LED（GPIO27，黄色）闪烁 + 串口输出" },
+    ver: "v1.0",
+    url: "/firmware/xiao-esp32-c5/xiao-esp32-c5-blink.bin",
+    address: 0x10000,
+  },
 ];
 
-/* 可选板型（ESP 系列）；C5/C6 暂无 arduino 变体，.bin 待 ESP-IDF 编译后补充 */
+/* 可选板型（ESP 系列）；4 款均有 Blink 示例固件 */
 const ESP_BOARDS = [
   { id: "s3", name: "XIAO ESP32-S3", chip: "ESP32-S3", hint: "Dual Core · Wi-Fi + BLE", hasFw: true },
   { id: "c3", name: "XIAO ESP32-C3", chip: "ESP32-C3", hint: "RISC-V · Wi-Fi 4 + BLE 5", hasFw: true },
-  { id: "c6", name: "XIAO ESP32-C6", chip: "ESP32-C6", hint: "RISC-V · Wi-Fi 6 + Thread", hasFw: false },
-  { id: "c5", name: "XIAO ESP32-C5", chip: "ESP32-C5", hint: "RISC-V · Wi-Fi 6 + BLE 5", hasFw: false },
+  { id: "c6", name: "XIAO ESP32-C6", chip: "ESP32-C6", hint: "RISC-V · Wi-Fi 6 + Thread", hasFw: true },
+  { id: "c5", name: "XIAO ESP32-C5", chip: "ESP32-C5", hint: "RISC-V · Wi-Fi 6 + BLE 5", hasFw: true },
 ];
 
 const HA_FLASHER_URL = "https://seeed-projects.github.io/Seeed-Homeassistant-Discovery/flasher/";
