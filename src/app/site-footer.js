@@ -3,47 +3,55 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useMailchimpSubscribe } from "./use-mailchimp-subscribe";
+import { useLang } from "./i18n";
 
 /**
  * SiteFooter —— XIAO 落地页页脚。
  * 5 列：品牌(Seeed Studio XIAO) / Company / Develop with XIAO / Community / Stay Connected with XIAO
  * + 底部版权。订阅在页面内通过 Mailchimp JSONP 提交，无需跳转。
+ * 文案随 useLang 中英切换。
  */
 export function SiteFooter() {
+  const { lang } = useLang();
+  const zh = lang === "zh";
+  const tr = (en, zhStr) => (zh ? zhStr : en);
   const { email, setEmail, status, msg, submit, reset } = useMailchimpSubscribe();
   const [consent, setConsent] = useState(false);
 
   const columns = [
     {
-      title: "Company",
+      title: tr("Company", "公司"),
       links: [
-        { label: "About Seeed", href: "https://www.seeedstudio.com/about-us/", ext: true },
-        { label: "Contact Us", href: "https://www.seeedstudio.com/contacts", ext: true },
-        { label: "Tech Support", href: "https://aftersale.seeedstudio.com/home", ext: true },
-        { label: "Warranty & Return", href: "https://www.seeedstudio.com/get_help/ReturnsRefund", ext: true },
+        { label: tr("About Seeed", "关于 Seeed"), href: "https://www.seeedstudio.com/about-us/", ext: true },
+        { label: tr("Contact Us", "联系我们"), href: "https://www.seeedstudio.com/contacts", ext: true },
+        { label: tr("Tech Support", "技术支持"), href: "https://aftersale.seeedstudio.com/home", ext: true },
+        { label: tr("Warranty & Return", "保修与退货"), href: "https://www.seeedstudio.com/get_help/ReturnsRefund", ext: true },
       ],
     },
     {
-      title: "Develop with XIAO",
+      title: tr("Develop with XIAO", "用 XIAO 开发"),
       links: [
-        { label: "Selection Guide", href: "/products#smart-selector" },
+        { label: tr("Selection Guide", "选型指南"), href: "/products#smart-selector" },
         {
-          label: "Documentation",
-          title: "Datasheet, Schematic, PCB Design Files, Mechanical Design Files",
+          label: tr("Documentation", "技术文档"),
+          title: tr(
+            "Datasheet, Schematic, PCB Design Files, Mechanical Design Files",
+            "数据手册、原理图、PCB 设计文件、机械设计文件"
+          ),
           href: "/res",
         },
-        { label: "Compatible Software", href: "/software-center" },
-        { label: "Pin Out", href: "/products#pinout" },
-        { label: "XIAO Flasher", href: "/products#esp-flasher" },
+        { label: tr("Compatible Software", "兼容软件"), href: "/software-center" },
+        { label: tr("Pin Out", "引脚图"), href: "/products#pinout" },
+        { label: tr("XIAO Flasher", "XIAO 烧录器"), href: "/products#esp-flasher" },
       ],
     },
     {
-      title: "Community",
+      title: tr("Community", "社区"),
       links: [
-        { label: "Project Hub", href: "/project-hub" },
-        { label: "XIAO Open Roadmap", href: "/open-roadmap" },
+        { label: tr("Project Hub", "项目中心"), href: "/project-hub" },
+        { label: tr("XIAO Open Roadmap", "XIAO 开放路线图"), href: "/open-roadmap" },
         { label: "Discord", href: "https://discord.com/invite/QqMgVwHT3X", ext: true },
-        { label: "Forum", href: "https://forum.seeedstudio.com/", ext: true },
+        { label: tr("Forum", "论坛"), href: "https://forum.seeedstudio.com/", ext: true },
       ],
     },
   ];
@@ -91,7 +99,10 @@ export function SiteFooter() {
               Seeed Studio XIAO
             </p>
             <p className="mt-4 max-w-xs text-sm leading-6 text-white/75">
-              The smallest Arduino-compatible dev boards for building your next AI gadgets.
+              {tr(
+                "The smallest Arduino-compatible dev boards for building your next AI gadgets.",
+                "最小的 Arduino 兼容开发板，助你打造下一个 AI 小装置。"
+              )}
             </p>
           </div>
 
@@ -134,20 +145,23 @@ export function SiteFooter() {
           {/* Stay Connected with XIAO —— 订阅 */}
           <div className="sm:col-span-2 lg:col-span-1">
             <h3 className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-white/72">
-              Stay Connected with XIAO
+              {tr("Stay Connected with XIAO", "与 XIAO 保持联系")}
             </h3>
             {status === "success" ? (
               <div className="mt-4 rounded-lg border border-white/15 bg-white/10 px-4 py-4">
-                <p className="text-sm font-semibold text-[var(--brand-green)]">🎉 You&apos;re subscribed!</p>
+                <p className="text-sm font-semibold text-[var(--brand-green)]">🎉 {tr("You're subscribed!", "订阅成功！")}</p>
                 <p className="mt-1.5 text-xs leading-5 text-white/75">
-                  {msg || "Almost done — check your inbox to confirm your subscription."}
+                  {msg || tr(
+                    "Almost done — check your inbox to confirm your subscription.",
+                    "就差一步——请到收件箱确认订阅。"
+                  )}
                 </p>
                 <button
                   type="button"
                   onClick={reset}
                   className="mt-3 inline-flex items-center rounded-lg bg-white/10 px-4 py-2 text-xs font-semibold text-white/85 transition hover:bg-white/20"
                 >
-                  Subscribe another email
+                  {tr("Subscribe another email", "订阅其他邮箱")}
                 </button>
               </div>
             ) : (
@@ -156,7 +170,7 @@ export function SiteFooter() {
                 className="mt-4 space-y-3"
                 noValidate
               >
-                <label className="sr-only" htmlFor="footer-email">Email address</label>
+                <label className="sr-only" htmlFor="footer-email">{tr("Email address", "邮箱地址")}</label>
                 <input
                   id="footer-email"
                   name="email"
@@ -165,7 +179,7 @@ export function SiteFooter() {
                   required
                   value={email}
                   onChange={(ev) => setEmail(ev.target.value)}
-                  placeholder="Email address"
+                  placeholder={tr("Email address", "邮箱地址")}
                   className="w-full rounded-lg border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white outline-none placeholder:text-white/50 focus:border-[var(--brand-green)]"
                 />
                 <label className="flex items-start gap-2 text-xs leading-5 text-white/75">
@@ -176,20 +190,23 @@ export function SiteFooter() {
                     onChange={(ev) => setConsent(ev.target.checked)}
                     className="mt-1 h-3.5 w-3.5 shrink-0 accent-[var(--brand-green)]"
                   />
-                  <span>I agree to receive newsletters on XIAO from Seeed Studio.</span>
+                  <span>{tr(
+                    "I agree to receive newsletters on XIAO from Seeed Studio.",
+                    "我同意接收 Seeed Studio 关于 XIAO 的通讯。"
+                  )}</span>
                 </label>
                 {status === "error" && msg && (
                   <p className="text-xs font-medium text-[#ffb4b4]">{msg}</p>
                 )}
                 {!consent && (
-                  <p className="text-xs text-white/55">Please tick the consent box to subscribe.</p>
+                  <p className="text-xs text-white/55">{tr("Please tick the consent box to subscribe.", "请勾选同意框后再订阅。")}</p>
                 )}
                 <button
                   type="submit"
                   disabled={status === "loading"}
                   className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-[var(--brand-green)] px-5 py-2.5 text-sm font-semibold text-[var(--ink-strong)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {status === "loading" ? "Subscribing…" : "Subscribe"}
+                  {status === "loading" ? tr("Subscribing…", "订阅中…") : tr("Subscribe", "订阅")}
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="9 18 15 12 9 6" />
                   </svg>
@@ -230,7 +247,7 @@ export function SiteFooter() {
       {/* 底部版权 */}
       <div className="border-t border-white/10">
         <div className="mx-auto w-full max-w-[1440px] px-6 py-5 text-center text-xs text-white/55 sm:px-10 lg:px-16">
-          © 2026 Seeed Studio. All rights reserved.
+          © 2026 Seeed Studio. {tr("All rights reserved.", "版权所有。")}
         </div>
       </div>
     </footer>
