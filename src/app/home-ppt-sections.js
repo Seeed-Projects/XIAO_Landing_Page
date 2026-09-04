@@ -14,7 +14,7 @@ const FEATURES = [
 ];
 
 const GLIMPSE = [
-  { no: "01", eyebrow: "Core MCUs", title: "XIAO Dev Boards", text: "Thumb-sized, Arduino-compatible microcontrollers powered by popular chipsets for TinyML and edge computing.", tags: ["Plus Series", "Pre-soldered", "Tape & Reel", "3-Pack"], tone: "#3976ff" },
+  { no: "01", eyebrow: "Core MCUs", title: "XIAO Dev Boards", image: "/home/glimpse-devboards.webp", text: "Thumb-sized, Arduino-compatible microcontrollers powered by popular chipsets for TinyML and edge computing.", tags: ["Plus Series", "Pre-soldered", "Tape & Reel", "3-Pack"], tone: "#3976ff" },
   { no: "02", eyebrow: "Expansion Accessories", title: "XIAO Add-ons", text: "Expansion boards, sensors, connectivity modules, actuators and kits designed for XIAO.", tags: ["Expansion Boards", "Sensors", "Connectivity", "Actuators"], tone: "#16a4bd" },
   { no: "03", eyebrow: "Ready-to-Use Devices", title: "XIAO Gadgets", text: "Out-of-the-box smart devices built on XIAO boards and add-ons for smart home, vision AI and maker projects.", tags: ["Smart Home", "Vision AI", "Maker Devices"], tone: "#9857ff" },
 ];
@@ -43,7 +43,7 @@ export function GlimpseSection() {
       <Reveal className="text-center"><h2 className="text-4xl font-semibold leading-[1.12] tracking-[-0.035em] text-[#18224f] sm:text-5xl lg:text-[3.5rem]">XIAO in a Glimpse</h2><p className="mx-auto mt-4 max-w-5xl text-base leading-[1.65] text-[#526b91] sm:text-lg">{lang === "en" ? "From core development boards to expansion add-ons and ready-to-use smart gadgets — one ecosystem, endless possibilities" : "从核心开发板到扩展配件和开箱即用的智能设备——一个生态，无限可能"}</p></Reveal>
       <div className="mt-12 grid gap-6 md:grid-cols-3">
         {GLIMPSE.map((card, i) => <Reveal key={card.no} delay={i * 80} className="overflow-hidden rounded-2xl border border-[#e6e9ef] bg-white shadow-[0_12px_30px_rgba(26,39,77,.08)]">
-          <div className="relative h-48 overflow-hidden bg-[#f6faf8]"><div className="absolute inset-0 bg-cover bg-center opacity-90" style={{backgroundImage:`url(${defaultXiaoImage})`}} /><span className="absolute left-4 top-4 rounded bg-white px-2 py-1 font-mono text-xs" style={{color:card.tone}}>{card.no}</span></div>
+          <div className="relative h-48 overflow-hidden bg-[#f6faf8]"><div className="absolute inset-0 bg-cover bg-center opacity-90" style={{backgroundImage:`url(${withBase(card.image || defaultXiaoImage)})`}} /><span className="absolute left-4 top-4 rounded bg-white px-2 py-1 font-mono text-xs" style={{color:card.tone}}>{card.no}</span></div>
           <div className="flex min-h-[270px] flex-col border-t-2 p-6" style={{borderColor:card.tone}}><p className="text-xs font-semibold" style={{color:card.tone}}>{card.eyebrow}</p><h3 className="mt-2 text-xl font-bold text-[#18224f]">{card.title}</h3><p className="mt-3 text-sm leading-6 text-[#526b91]">{card.text}</p><div className="mt-auto flex flex-wrap gap-2 pt-6">{card.tags.map((tag) => <span key={tag} className="rounded-md bg-[#f7f9fc] px-2.5 py-1 text-[11px] font-semibold" style={{color:card.tone}}>{tag}</span>)}</div></div>
         </Reveal>)}
       </div>
