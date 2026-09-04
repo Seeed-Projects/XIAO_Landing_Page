@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLang } from "./i18n";
 import { Glow } from "./Glow";
 import { PRODUCT_CATALOG } from "./products/catalog";
@@ -17,19 +17,18 @@ export function ProductPanel() {
   const isEn = lang === "en";
   const categories = PRODUCT_CATALOG;
 
-  const [activeCat, setActiveCat] = useState(() => {
-    // 支持 ?cat=<id> 深链预选分类（来自 Glimpse 等卡片跳转）
-    if (typeof window !== "undefined") {
-      const cat = new URLSearchParams(window.location.search).get("cat");
-      if (cat) {
-        const idx = categories.findIndex((c) => c.id === cat);
-        if (idx >= 0) return idx;
-      }
-    }
-    return 0;
-  });
+  const [activeCat, setActiveCat] = useState(0);
   // activeSub = null 表示「全部」：展示当前分类下所有子分类的产品，不做细分
   const [activeSub, setActiveSub] = useState(null);
+
+  // 挂载后读取 ?cat=<id> 深链预选分类（来自 Glimpse 等卡片跳转）。
+  // 放在 useEffect 而非 useState 初始化器，避免 SSR/CSR 状态不一致导致水合后仍停在默认分类。
+  useEffect(() => {
+    const cat = new URLSearchParams(window.location.search).get("cat");
+    if (!cat) return;
+    const idx = categories.findIndex((c) => c.id === cat);
+    if (idx >= 0 && idx !== activeCat) setActiveCat(idx);
+  }, []);
 
   const currentCategory = categories[activeCat] ?? categories[0];
   const subs = currentCategory.subcategories ?? [];
