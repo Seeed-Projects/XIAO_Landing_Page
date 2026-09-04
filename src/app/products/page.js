@@ -20,6 +20,7 @@ export function ProductsHero() {
           : "Seeed Studio XIAO 是一个完整的生态系统，提供紧凑的 Arduino 兼容开发板，并配有可扩展的传感器、执行器与连接配件。"
       }
       titleClassName="font-display text-5xl font-semibold leading-[1.05] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] sm:text-6xl lg:text-7xl"
+      image="/products-hero.webp"
     />
   );
 }

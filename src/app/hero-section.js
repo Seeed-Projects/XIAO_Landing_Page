@@ -10,7 +10,7 @@ import { withBase } from "../lib/basePath";
  * 底图（xiao-hero-photo.webp）铺满整屏，上覆渐变压暗保证白字可读；
  * 左侧叠放眉标 / 品牌行 / 超大标题 / 副文案 / 双 CTA。无卡片。
  */
-export function HeroSection({ title, subtitle, titleClassName, kicker, brand }) {
+export function HeroSection({ title, subtitle, titleClassName, kicker, brand, image }) {
   const { lang } = useLang();
   const isEn = lang === "en";
 
@@ -49,7 +49,7 @@ export function HeroSection({ title, subtitle, titleClassName, kicker, brand }) 
       {/* 底图：铺满全屏 */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={withBase("/xiao-hero-photo.webp")}
+        src={withBase(image || "/xiao-hero-photo.webp")}
         alt=""
         aria-hidden="true"
         className="absolute inset-0 h-full w-full object-cover"
