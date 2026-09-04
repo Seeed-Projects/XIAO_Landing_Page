@@ -49,7 +49,7 @@ export function GlimpseSection() {
           </Link>
         </Reveal>)}
       </div>
-      <Reveal className="mt-8 flex justify-center"><a href="/products" className="rounded-md bg-[#8fc31f] px-12 py-4 text-xl font-semibold text-white">Seeed Studio XIAO Selector</a></Reveal>
+      <Reveal className="mt-8 flex justify-center"><a href={withBase("/products")} className="rounded-md bg-[#8fc31f] px-12 py-4 text-xl font-semibold text-white">Seeed Studio XIAO Selector</a></Reveal>
     </div>
   </section>;
 }
