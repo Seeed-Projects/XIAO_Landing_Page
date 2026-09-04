@@ -42,7 +42,11 @@ export function PartnerMarquee() {
                   href={partner.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex shrink-0 items-center gap-2.5 rounded-full border border-[var(--line-soft)] bg-white/80 py-2 pl-2 pr-5 backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/30 hover:shadow-md"
+                  className={
+                    partner.wordmark
+                      ? "flex h-14 min-w-32 shrink-0 items-center justify-center px-3 transition hover:-translate-y-0.5 hover:opacity-75"
+                      : "flex shrink-0 items-center gap-2.5 rounded-full border border-[var(--line-soft)] bg-white/80 py-2 pl-2 pr-5 backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/30 hover:shadow-md"
+                  }
                 >
                   {/* logo：专用图优先，否则按官网域名取 favicon 兜底，再失败回退品牌色方块 + 首字母 */}
                   {(() => {
@@ -70,8 +74,10 @@ export function PartnerMarquee() {
                               ?.removeAttribute("hidden");
                           }}
                           className={
-                            "h-8 w-8 shrink-0 object-contain" +
-                            (isFavicon
+                            (partner.wordmark
+                              ? "h-10 w-auto max-w-36 shrink-0 object-contain"
+                              : "h-8 w-8 shrink-0 object-contain") +
+                            (!partner.wordmark && isFavicon
                               ? " rounded-md bg-neutral-100 p-1.5"
                               : "")
                           }
@@ -79,17 +85,19 @@ export function PartnerMarquee() {
                         <span
                           data-fallback
                           hidden
-                          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[linear-gradient(135deg,rgba(0,73,102,0.96),rgba(8,102,126,0.92),rgba(143,195,31,0.88))] text-xs font-bold tracking-wide text-white"
+                          className="flex h-9 shrink-0 items-center justify-center rounded-lg bg-[var(--brand-blue)] px-3 text-xs font-bold tracking-wide text-white"
                         >
-                          {initialsOf(partner.name)}
+                          {partner.wordmark ? partner.name : initialsOf(partner.name)}
                         </span>
                       </>
                     );
                   })()}
                   {/* 文字 */}
-                  <span className="text-sm font-semibold text-[var(--ink-strong)]">
-                    {partner.name}
-                  </span>
+                  {!partner.wordmark && (
+                    <span className="text-sm font-semibold text-[var(--ink-strong)]">
+                      {partner.name}
+                    </span>
+                  )}
                 </a>
               ))}
             </div>

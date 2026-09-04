@@ -124,42 +124,34 @@ export default function SoftwareCenterPage() {
                 </div>
               </Reveal>
 
-              <div className="mx-auto grid max-w-5xl grid-cols-1 gap-5 sm:grid-cols-2">
+              <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6">
                 {OFFICIAL_FEATURED.map((item, i) => {
-                  const boardCount = item.boards?.length ?? 0;
                   return (
                     <Reveal key={item.url || slugify(item.name)} delay={i * 45}>
                       <a
                         href={item.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex h-full min-h-[190px] flex-col rounded-2xl border border-[var(--line-soft)] bg-white p-5 shadow-[0_6px_18px_rgba(0,73,102,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--brand-green)]/50 hover:shadow-[0_14px_30px_rgba(0,73,102,0.12)]"
+                        className="group flex min-h-[220px] rounded-3xl border border-[var(--line-soft)] bg-white p-7 shadow-[0_8px_24px_rgba(0,73,102,0.07)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--brand-green)]/50 hover:shadow-[0_16px_34px_rgba(0,73,102,0.12)] sm:p-9"
                       >
-                        <div className="flex items-start gap-4">
+                        <div className="flex w-full items-start gap-6">
                           <SoftwareLogo item={item} lang={lang} />
                           <div className="min-w-0 flex-1">
                             <div className="flex items-start justify-between gap-3">
                               <div>
                                 <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--brand-green-deep)]">Official</span>
-                                <h3 className="mt-1 text-base font-bold leading-snug text-[var(--ink-strong)]">
+                                <h3 className="mt-2 text-xl font-bold leading-snug text-[var(--ink-strong)] sm:text-2xl">
                                   {pick(item.name, lang)}
                                 </h3>
                               </div>
                               <span className="shrink-0 text-lg text-[var(--brand-blue-soft)] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
                             </div>
                             {item.desc && (
-                              <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-[var(--ink-body)]">
+                              <p className="mt-4 max-w-4xl text-base leading-[1.7] text-[var(--ink-body)] sm:text-lg">
                                 {pick(item.desc, lang)}
                               </p>
                             )}
                           </div>
-                        </div>
-                        <div className="-mx-5 -mb-5 mt-auto flex items-center gap-2 rounded-b-2xl border-t border-[var(--line-soft)] bg-[var(--surface-tint)]/55 px-5 py-3 text-xs text-[var(--ink-muted)]">
-                          <span className="font-semibold text-[var(--brand-blue)]">
-                            {boardCount} {lang === "zh" ? "类支持板卡" : "supported board groups"}
-                          </span>
-                          <span>·</span>
-                          <span>{lang === "zh" ? "打开官方项目" : "Open official project"} →</span>
                         </div>
                       </a>
                     </Reveal>
