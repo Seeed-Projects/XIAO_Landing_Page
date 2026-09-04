@@ -147,7 +147,7 @@ export function SiteHeader() {
           <img
             src={withBase("/logo.webp")}
             alt="Seeed Studio XIAO"
-            className="h-10 w-auto shrink-0 sm:h-11"
+            className="h-12 w-auto shrink-0 sm:h-14"
           />
         </Link>
 
