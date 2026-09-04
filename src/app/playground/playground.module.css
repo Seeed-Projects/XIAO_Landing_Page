@@ -20,9 +20,23 @@
   padding: clamp(46px, 4vw, 68px) max(6vw, calc((100vw - 1440px) / 2));
   overflow: hidden;
   color: #fff;
-  background:
-    radial-gradient(circle at 78% 50%, rgba(155,209,31,.25), transparent 26%),
-    linear-gradient(122deg, #022b3b 0%, #07526a 67%, #08716e 100%);
+  background: #022b3b;
+}
+/* 全幅底图（DSC00195）+ 半透明渐变叠层，保留原 navy/teal 色调以保证白字可读 */
+.heroBg {
+  position: absolute;
+  inset: 0;
+  z-index: -4;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.heroShade {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  background: linear-gradient(122deg, rgba(2,43,59,.82) 0%, rgba(7,82,106,.72) 67%, rgba(8,113,110,.70) 100%);
 }
 .grid {
   position: absolute;

@@ -53,6 +53,9 @@ export default function PlaygroundPage() {
       <SiteHeader />
       <main className={styles.page}>
         <section className={styles.hero}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={withBase("/playground-bg.webp")} alt="" aria-hidden="true" className={styles.heroBg} />
+          <div className={styles.heroShade} aria-hidden="true" />
           <div className={styles.grid} aria-hidden="true" />
           <div className={styles.orbit} aria-hidden="true" />
           <div className={styles.copy}>
