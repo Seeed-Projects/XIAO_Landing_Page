@@ -51,7 +51,7 @@ export function GlimpseSection() {
           </Link>
         </Reveal>)}
       </div>
-      <Reveal className="mt-8 flex justify-center"><a href={withBase("/products")} className="rounded-md bg-[#8fc31f] px-12 py-4 text-xl font-semibold text-white">{zh ? "Seeed Studio XIAO 选型器" : "Seeed Studio XIAO Selector"}</a></Reveal>
+      <Reveal className="mt-8 flex justify-center"><a href={withBase("/products")} className="rounded-full bg-[var(--button-bg)] px-12 py-4 text-xl font-semibold text-white transition hover:bg-[var(--button-bg-hover)]">{zh ? "Seeed Studio XIAO 选型器" : "Seeed Studio XIAO Selector"}</a></Reveal>
     </div>
   </section>;
 }
@@ -80,12 +80,12 @@ export function PlaygroundSection() {
         ["</>", "Software Guide", "Wiki tutorials on how to run open software on XIAO"],
         ["⇩", "Web Flasher", "Flash tested firmwares from your browser"],
       ];
-  return <section id="playground" className="section bg-white px-6 text-[#18224f] sm:px-10 lg:px-16">
+  return <section id="playground" className="section bg-[linear-gradient(180deg,#ffffff_0%,#000000_16%,#000000_84%,#ffffff_100%)] px-6 text-white sm:px-10 lg:px-16">
     <div className="mx-auto max-w-[1440px]">
-      <Reveal className="text-center"><h2 className="text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">XIAO Playground</h2><p className="mx-auto mt-5 max-w-3xl text-center text-base leading-[1.65] text-[#526b91] sm:text-lg">{zh ? "引脚图、规格、原理图、网页固件烧录器、教程，全部在 Playground 开源。" : "Pin out, specs, schematics, web firmware flasher, tutorials, all open sourced in the Playground."}</p></Reveal>
-      <Reveal delay={100} className="mt-10 overflow-hidden rounded-[28px] border border-[var(--line-soft)] bg-[#f6f8fa] shadow-[0_22px_60px_rgba(26,39,77,.10)]">
+      <Reveal className="text-center"><h2 className="text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">XIAO Playground</h2><p className="mx-auto mt-5 max-w-3xl text-center text-base leading-[1.65] text-white/70 sm:text-lg">{zh ? "引脚图、规格、原理图、网页固件烧录器、教程，全部在 Playground 开源。" : "Pin out, specs, schematics, web firmware flasher, tutorials, all open sourced in the Playground."}</p></Reveal>
+      <Reveal delay={100} className="mt-10 overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.04] shadow-[0_22px_60px_rgba(0,0,0,.45)]">
         <div className="grid lg:grid-cols-[.9fr_1.1fr]">
-          <div className="relative flex min-h-[520px] flex-col items-center justify-center border-b border-[var(--line-soft)] p-10 lg:border-b-0 lg:border-r">
+          <div className="relative flex min-h-[520px] flex-col items-center justify-center border-b border-white/10 p-10 lg:border-b-0 lg:border-r">
             <h3 className="text-2xl font-bold sm:text-3xl">{zh ? "开源" : "Open Source"}</h3>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={withBase("/playground-hero.webp")} alt="Seeed Studio XIAO Playground" className="my-10 h-44 w-full object-contain sm:h-52" />
@@ -93,7 +93,7 @@ export function PlaygroundSection() {
             <Link href="/playground" className="mt-8 rounded-full bg-[#91d000] px-10 py-3 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#7fb300]">{zh ? "开始玩！" : "Let’s Play!"}</Link>
           </div>
           <div className="grid content-center gap-8 p-8 sm:p-12">
-            {tools.map(([icon, title, text]) => <div key={title} className="grid grid-cols-[56px_1fr] items-start gap-5"><span className="flex h-12 w-12 items-center justify-center rounded-xl border border-[var(--brand-blue)]/25 text-xl font-bold text-[var(--brand-blue)]">{icon}</span><div><h3 className="text-lg font-bold sm:text-xl">{title}</h3><p className="mt-2 text-sm leading-6 text-[#526b91] sm:text-base">{text}</p></div></div>)}
+            {tools.map(([icon, title, text]) => <div key={title} className="grid grid-cols-[56px_1fr] items-start gap-5"><span className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/20 text-xl font-bold text-[#7cc4ff]">{icon}</span><div><h3 className="text-lg font-bold sm:text-xl">{title}</h3><p className="mt-2 text-sm leading-6 text-white/65 sm:text-base">{text}</p></div></div>)}
           </div>
         </div>
       </Reveal>
