@@ -30,7 +30,7 @@ export default function SoftwareDetailClient() {
           </p>
           <Link
             href="/software-center"
-            className="mt-6 rounded-full border border-[var(--brand-blue)]/20 bg-white px-5 py-2.5 text-sm font-semibold text-[var(--brand-blue)] transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/45 hover:bg-[var(--brand-blue)]/5"
+            className="mt-6 rounded-full border border-[var(--button-bg)] bg-[var(--button-bg)] px-5 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:border-[var(--button-bg-hover)] hover:bg-[var(--button-bg-hover)]"
           >
             ← {lang === "zh" ? "返回软件中心" : "Back to Software Center"}
           </Link>
@@ -98,7 +98,7 @@ export default function SoftwareDetailClient() {
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,rgba(0,73,102,0.10),rgba(29,103,132,0.08))] px-5 py-2.5 text-sm font-semibold text-[var(--brand-blue)] ring-1 ring-inset ring-[var(--brand-blue)]/20 transition hover:bg-[linear-gradient(135deg,rgba(0,73,102,0.16),rgba(29,103,132,0.14))] hover:ring-[var(--brand-blue)]/40"
+                className="mt-6 inline-flex items-center gap-2 rounded-full bg-[var(--button-bg)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--button-bg-hover)]"
               >
                 {lang === "zh" ? "访问官方主页" : "Visit official page"}
                 <svg

@@ -64,7 +64,7 @@ export function VideoIntroSection() {
             href="https://mailchi.mp/seeed/xiao"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#14745d,#d7ec16)] px-6 py-3 text-sm font-bold text-white shadow-[0_12px_26px_rgba(79,139,45,0.22)] transition hover:-translate-y-0.5"
+            className="group inline-flex items-center gap-2 rounded-full bg-[var(--button-bg)] px-6 py-3 text-sm font-bold text-white shadow-[0_12px_26px_rgba(143,195,31,0.22)] transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]"
           >
             {isEn ? "Join the XIAO Newsletter" : "订阅 XIAO Newsletter"}
             <svg

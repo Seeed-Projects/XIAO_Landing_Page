@@ -73,12 +73,8 @@
 
 /* Buttons */
 .ghostBtn, .primaryBtn, .secondaryBtn { border: 0; border-radius: var(--r-control); padding: 11px 16px; font-weight: 600; transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
-.ghostBtn { background: var(--surface-strong); color: var(--ink-strong); border: 1px solid var(--line-soft); }
-.ghostBtn:hover { border-color: rgba(22,182,106,0.4); transform: translateY(-1px); }
-.primaryBtn { background: var(--brand-green); color: #fff; box-shadow: 0 12px 28px rgba(0,73,102,0.18); }
-.primaryBtn:hover { background: var(--brand-green-deep); transform: translateY(-1px); }
-.secondaryBtn { background: var(--surface-tint); color: var(--brand-green-deep); }
-.secondaryBtn:hover { background: rgba(22,182,106,0.16); }
+.ghostBtn, .primaryBtn, .secondaryBtn { background: var(--button-bg); color: #fff; border: 0; box-shadow: 0 12px 28px rgba(143,195,31,.22); }
+.ghostBtn:hover, .primaryBtn:hover, .secondaryBtn:hover { background: var(--button-bg-hover); transform: translateY(-1px); }
 .btnWide { min-width: 150px; }
 .hiddenBtn { display: none; }
 
@@ -158,8 +154,8 @@
 .compareItem { padding: 7px 10px; border-radius: 9px; background: rgba(255,255,255,0.10); font-size: 12px; }
 .compareActions { display: flex; gap: 8px; flex: 0 0 auto; }
 .darkBtn { border: 0; border-radius: var(--r-control); padding: 9px 12px; font-size: 12px; font-weight: 700; color: #fff; }
-.darkBtn.primary { background: var(--brand-green); }
-.darkBtn.muted { background: rgba(255,255,255,0.10); }
+.darkBtn.primary, .darkBtn.muted { background: var(--button-bg); color: #fff; }
+.darkBtn.primary:hover, .darkBtn.muted:hover { background: var(--button-bg-hover); }
 
 /* Modal */
 .modalBackdrop { position: fixed; inset: 0; background: rgba(13,34,48,0.52); display: grid; place-items: center; padding: 24px; z-index: 50; }

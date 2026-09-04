@@ -75,9 +75,8 @@
 /* Buttons */
 .btn { border: 0; border-radius: 999px; padding: 12px 19px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; font-weight: 800; transition: .18s ease; text-decoration: none; }
 .btn:hover { transform: translateY(-1px); }
-.btnDark { background: var(--navy); color: #fff; }
-.btnLight { background: #fff; color: var(--ink); border: 1px solid var(--line); }
-.btnGreen { background: var(--green); color: #173000; }
+.btnDark, .btnLight, .btnGreen { background: var(--button-bg); color: #fff; border: 0; }
+.btnDark:hover, .btnLight:hover, .btnGreen:hover { background: var(--button-bg-hover); }
 
 /* Section */
 .section { position: relative; padding: 92px 0; }

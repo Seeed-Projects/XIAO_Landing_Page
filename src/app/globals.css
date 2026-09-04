@@ -11,6 +11,9 @@
   --surface-tint: #eef6e6;
   --brand-green: #16b66a;
   --brand-green-deep: #0a8f50;
+  --button-bg: #8fc31f;
+  --button-bg-hover: #79ad12;
+  --button-text: #ffffff;
   --brand-blue: #004966;
   --brand-blue-soft: #1d6784;
   /* 文字色：navy 标题 + 低对比蓝灰正文（对齐 Seeed design system） */

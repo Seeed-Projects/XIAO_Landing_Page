@@ -53,9 +53,10 @@
 .copy h1 { max-width: 880px; margin: 0 0 24px; font-family: var(--font-display), sans-serif; font-size: clamp(48px, 5.4vw, 76px); font-weight: 600; line-height: .98; letter-spacing: -.055em; text-wrap: balance; }
 .copy p { max-width: 620px; margin: 0; color: rgba(255,255,255,.8); font-size: clamp(16px, 1.35vw, 20px); line-height: 1.65; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-.actions a { min-height: 52px; display: inline-flex; align-items: center; justify-content: center; gap: 18px; padding: 13px 23px; border-radius: 999px; background: var(--pg-green); color: #123000; font-size: 14px; font-weight: 800; text-decoration: none; transition: transform .22s ease, background-color .22s ease; }
-.actions a:hover { transform: translateY(-2px); background: #b2e13b; }
-.actions a.ghost { border: 1px solid rgba(255,255,255,.34); background: rgba(255,255,255,.08); color: #fff; backdrop-filter: blur(10px); }
+.actions a { min-height: 52px; display: inline-flex; align-items: center; justify-content: center; gap: 18px; padding: 13px 23px; border: 0; border-radius: 999px; background: var(--button-bg); color: var(--button-text); font-size: 14px; font-weight: 800; text-decoration: none; transition: transform .22s ease, background-color .22s ease; }
+.actions a:hover { transform: translateY(-2px); background: var(--button-bg-hover); }
+.actions a.ghost { border: 0; background: var(--button-bg); color: var(--button-text); backdrop-filter: none; }
+.actions a.ghost:hover { background: var(--button-bg-hover); }
 .boardStage { position: relative; min-height: 350px; display: grid; place-items: center; }
 .boardStage img { position: relative; z-index: 2; width: min(100%, 620px); max-height: 350px; object-fit: contain; filter: drop-shadow(0 34px 40px rgba(0,0,0,.42)); transform: rotate(-5deg); transition: transform .7s cubic-bezier(.2,.75,.2,1); }
 .boardStage:hover img { transform: rotate(-4deg) translateY(-8px); }

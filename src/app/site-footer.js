@@ -204,7 +204,7 @@ export function SiteFooter() {
                 <button
                   type="submit"
                   disabled={status === "loading"}
-                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-[var(--brand-green)] px-5 py-2.5 text-sm font-semibold text-[var(--ink-strong)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-[var(--button-bg)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--button-bg-hover)] disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {status === "loading" ? tr("Subscribing…", "订阅中…") : tr("Subscribe", "订阅")}
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">

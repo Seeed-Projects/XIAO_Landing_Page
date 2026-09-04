@@ -51,7 +51,7 @@ export function CoCreateSection() {
               href="https://www.seeedstudio.com/co-create.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-w-[180px] items-center justify-center justify-self-start rounded-full bg-[var(--brand-green)] px-7 py-3 text-sm font-semibold text-[var(--brand-blue)] transition hover:bg-[var(--brand-green-deep)] hover:text-white md:justify-self-end"
+              className="inline-flex min-w-[180px] items-center justify-center justify-self-start rounded-full bg-[var(--button-bg)] px-7 py-3 text-sm font-semibold text-white transition hover:bg-[var(--button-bg-hover)] md:justify-self-end"
             >
               {c.banner.cta}
               <span className="ml-2">→</span>

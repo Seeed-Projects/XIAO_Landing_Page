@@ -57,10 +57,10 @@
 .boardPicker select option { background: #0d2230; color: #e8f0ea; }
 
 .toolRow { display: flex; gap: 10px; }
-.connectBtn { flex: 0 0 auto; height: 42px; padding: 0 16px; border-radius: var(--r-control); border: 1px solid var(--line-soft); background: var(--surface-strong); color: var(--ink-strong); font-size: 13px; font-weight: 600; transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease; }
+.connectBtn { flex: 0 0 auto; height: 42px; padding: 0 16px; border-radius: var(--r-pill); border: 0; background: var(--button-bg); color: #fff; font-size: 13px; font-weight: 600; transition: transform 180ms ease, background-color 180ms ease; }
 .connectBtn:hover { border-color: rgba(22,182,106,0.4); transform: translateY(-1px); }
 .connectBtn.connected { background: #fdf2f1; border-color: #f0c8c5; color: #c0382f; }
-.flashBtn { flex: 1; height: 42px; border-radius: var(--r-control); border: none; background: linear-gradient(180deg, #1ec878 0%, #0f9d57 100%); color: #fff; font-size: 13px; font-weight: 700; box-shadow: 0 12px 28px rgba(0,73,102,0.18); transition: transform 180ms ease, box-shadow 180ms ease; }
+.flashBtn { flex: 1; height: 42px; border-radius: var(--r-pill); border: none; background: var(--button-bg); color: #fff; font-size: 13px; font-weight: 700; box-shadow: 0 12px 28px rgba(143,195,31,0.22); transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease; }
 .flashBtn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 16px 32px rgba(0,73,102,0.22); }
 .flashBtn:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; }
 
