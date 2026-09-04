@@ -139,8 +139,7 @@ export default function SoftwareCenterPage() {
                           <div className="min-w-0 flex-1">
                             <div className="flex items-start justify-between gap-3">
                               <div>
-                                <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--brand-green-deep)]">Official</span>
-                                <h3 className="mt-2 text-xl font-bold leading-snug text-[var(--ink-strong)] sm:text-2xl">
+                                <h3 className="text-xl font-bold leading-snug text-[var(--ink-strong)] sm:text-2xl">
                                   {pick(item.name, lang)}
                                 </h3>
                               </div>
@@ -206,7 +205,6 @@ export default function SoftwareCenterPage() {
               >
                 {active.items.map((item, i) => {
                   const slug = slugify(item.name);
-                  const boardCount = item.boards?.length ?? 0;
                   return (
                     <Link
                       key={slug}
@@ -243,16 +241,6 @@ export default function SoftwareCenterPage() {
                           )}
                         </div>
                       </div>
-                      {boardCount > 0 && (
-                        <div className="mt-4 flex flex-wrap items-center gap-1.5 border-t border-[var(--line-soft)] bg-[var(--surface-tint)]/50 -mx-5 -mb-5 px-5 py-3 rounded-b-2xl">
-                          <span className="rounded-md bg-[var(--brand-blue)]/10 px-2 py-1 text-xs font-medium leading-none text-[var(--brand-blue)]">
-                            {boardCount} {lang === "zh" ? "块支持板卡" : "supported boards"}
-                          </span>
-                          <span className="text-xs font-medium text-[var(--ink-muted)]">
-                            {lang === "zh" ? "点击查看详情 →" : "View details →"}
-                          </span>
-                        </div>
-                      )}
                     </Link>
                   );
                 })}

@@ -480,6 +480,22 @@
   .hero { padding-top: 18px; }
 }
 
+/* Keep every primary Project Hub action aligned with the global CTA treatment. */
+.play,
+.sideSubscribe,
+.contribute > a,
+.introAction a {
+  background: var(--button-bg) !important;
+  color: #fff !important;
+}
+.play:hover,
+.sideSubscribe:hover,
+.contribute > a:hover,
+.introAction a:hover {
+  background: var(--button-bg-hover) !important;
+  color: #fff !important;
+}
+
 /* Product-page hero structure: full-bleed image with concise overlay copy. */
 .projectIntro {
   position: relative;

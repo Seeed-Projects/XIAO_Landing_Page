@@ -8,7 +8,7 @@ import { Reveal } from "../../reveal";
 /**
  * 官方软件页 —— 只保留两个核心项目，左图右文 3:7 横幅卡片。
  * 左 3 成：仓库 logo（浅色背景，object-contain，不突兀）；
- * 右 7 成：OFFICIAL 标签 + 项目名 + 副标题 + 简介 + Explore。整卡跳转 GitHub。
+ * 右 7 成：项目名 + 副标题 + 简介 + Explore。整卡跳转 GitHub。
  */
 const PROJECTS = [
   {
@@ -54,11 +54,7 @@ function ProjectBanner({ p, isEn }) {
       </div>
       {/* 右：文字详情（7 成） */}
       <div className="flex flex-col justify-center p-6 sm:p-9">
-        <span className="inline-flex w-fit items-center gap-1.5 text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-green-deep)]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[var(--brand-green)]" />
-          Official
-        </span>
-        <h2 className="mt-2 font-display text-2xl font-bold leading-tight tracking-tight text-[var(--ink-strong)] sm:text-3xl">
+        <h2 className="font-display text-2xl font-bold leading-tight tracking-tight text-[var(--ink-strong)] sm:text-3xl">
           {p.name}
         </h2>
         <p className="mt-1.5 text-sm font-medium text-[var(--brand-blue-soft)] sm:text-base">

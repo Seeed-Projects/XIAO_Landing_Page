@@ -115,7 +115,8 @@
 .whyBox strong, .cautionBox strong { display: block; margin-bottom: 3px; color: inherit; }
 .productFooter { margin-top: auto; padding-top: 10px; display: flex; gap: 6px; }
 .miniBtn { border: 1px solid var(--line-soft); border-radius: var(--r-control); background: var(--surface-strong); padding: 7px 10px; font-size: 11px; font-weight: 700; color: var(--ink-strong); transition: background-color 180ms ease, border-color 180ms ease; }
-.miniBtn.emphasis { border-color: transparent; background: var(--brand-green); color: #fff; }
+.miniBtn.emphasis { border-color: transparent; border-radius: var(--r-pill); background: var(--button-bg); color: #fff; }
+.miniBtn.emphasis:hover { background: var(--button-bg-hover); }
 
 .explainPanel { margin-top: 20px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; }
 .infoPanel { border: 1px solid var(--line-soft); border-radius: var(--r-inner); padding: 18px; background: var(--surface-strong); }
