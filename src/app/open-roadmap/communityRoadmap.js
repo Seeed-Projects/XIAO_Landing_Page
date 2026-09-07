@@ -27,13 +27,6 @@ const TAB_DEFS = [
   { id: "help", label: { en: "Help Needed", zh: "需要帮助" }, filter: (i) => i.helpNeeded || i.status === "review" },
 ];
 
-const TYPE_DEFS = [
-  { id: "all", label: { en: "All content", zh: "全部内容" }, filter: () => true },
-  { id: "Boards", label: { en: "Boards", zh: "开发板" }, filter: (i) => i.product?.en === "Boards" },
-  { id: "Software", label: { en: "Software", zh: "软件" }, filter: (i) => i.product?.en === "Software" },
-  { id: "Add-ons", label: { en: "Add-ons", zh: "扩展配件" }, filter: (i) => i.product?.en === "Add-ons" },
-];
-
 const GITHUB_DISCUSSIONS = "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions";
 
 function relativeDate(iso, lang) {
@@ -58,7 +51,6 @@ export function CommunityRoadmap() {
   const [items, setItems] = useState([]);
   const [status, setStatus] = useState("loading");
   const [tabId, setTabId] = useState("all");
-  const [typeId, setTypeId] = useState("all");
   const [active, setActive] = useState(null);
 
   const T = {
@@ -113,8 +105,7 @@ export function CommunityRoadmap() {
   const pick = (field) => (field && field[lang]) || (field && field.en) || "";
 
   const tab = TAB_DEFS.find((t) => t.id === tabId) ?? TAB_DEFS[0];
-  const type = TYPE_DEFS.find((t) => t.id === typeId) ?? TYPE_DEFS[0];
-  const visible = useMemo(() => items.filter((item) => tab.filter(item) && type.filter(item)), [items, tab, type]);
+  const visible = useMemo(() => items.filter((item) => tab.filter(item)), [items, tab]);
   const tabCounts = useMemo(() => {
     const m = { all: items.length };
     TAB_DEFS.forEach((t) => { m[t.id] = items.filter(t.filter).length; });
@@ -159,19 +150,6 @@ export function CommunityRoadmap() {
               </button>
             ))}
           </div>
-          <div className={styles.filterRow} aria-label={lang === "zh" ? "按内容筛选" : "Filter by content"}>
-            <span className={styles.filterLabel}>{lang === "zh" ? "内容" : "Content"}</span>
-            {TYPE_DEFS.map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                className={`${styles.tab} ${t.id === typeId ? styles.active : ""}`}
-                onClick={() => setTypeId(t.id)}
-              >
-                {pick(t.label)}
-              </button>
-            ))}
-          </div>
         </Reveal>
 
         <div className={styles.listMeta}>
@@ -195,8 +173,6 @@ export function CommunityRoadmap() {
                   <h3 className={styles.cardTitle}>{pick(it.title)}</h3>
                   <p className={styles.cardSummary}>{pick(it.summary)}</p>
                   <div className={styles.cardMeta}>
-                    <span className={styles.productTag}>{pick(it.product)}</span>
-                    <span className={styles.metaDot} />
                     <span>💬 {T.comments(it.comments)}</span>
                     <span className={styles.metaDot} />
                     <span>{T.updated(relativeDate(it.updated, lang))}</span>
@@ -243,18 +219,24 @@ export function CommunityRoadmap() {
               </div>
             </div>
 
+            {pick(active.proposed) && (
             <div className={styles.section}>
               <h4>{T.proposed}</h4>
               <p>{pick(active.proposed)}</p>
             </div>
+            )}
+            {pick(active.why) && (
             <div className={styles.section}>
               <h4>{T.why}</h4>
               <p>{pick(active.why)}</p>
             </div>
+            )}
+            {pick(active.update) && (
             <div className={styles.section}>
               <h4>{T.update}</h4>
               <p>{pick(active.update)}</p>
             </div>
+            )}
 
             <div className={styles.drawerActions}>
               <a className={`${styles.btn} ${styles.btnLight}`} href={active.githubUrl} target="_blank" rel="noopener">

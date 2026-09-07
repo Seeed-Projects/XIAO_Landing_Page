@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/bake-project-hub-embed.js",
+    "prebuild": "node scripts/bake-project-hub-embed.js && node scripts/bake-discussions.js",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

@@ -33,6 +33,7 @@ jobs:
       - name: Build static export
         env:
           NEXT_PUBLIC_BASE_PATH: /XIAO_Landing_Page
+          GH_TOKEN: ${{ secrets.GH_ROADMAP_TOKEN }}
         run: npm run build
 
       - name: Upload Pages artifact
