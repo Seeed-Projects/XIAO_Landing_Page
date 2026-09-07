@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, useLayoutEffect } from "react";
 import { useLang } from "../i18n";
 import { ToolPageIntro } from "../tool-page-intro";
 import { withBase } from "../../lib/basePath";
@@ -687,6 +687,11 @@ export function Pinout() {
   const [activeCategoryId, setActiveCategoryId] = useState(initialCategory);
   const copyTimer = useRef(null);
   const boardMenuRef = useRef(null);
+  const stageRef = useRef(null);
+  const detailCardRef = useRef(null);
+  const detailHeadRef = useRef(null);
+  const activeStagePinRef = useRef(null);
+  const [connector, setConnector] = useState(null);
   const board = BOARDS[boardId];
   const groups = [...board.groups, ...(board.backGroups || [])];
   const allPins = groups.flatMap((g) => g.pins);
@@ -696,6 +701,7 @@ export function Pinout() {
   const c = FN_COLOR[pin.fn];
   const isSamd21 = boardId === "samd21";
   const activeLeftIds = face === "back" && board.backPins ? board.backPins.left : board.leftColIds;
+  const activeRightIds = face === "back" && board.backPins ? board.backPins.right : board.rightColIds;
   const samdDetailOnLeft = isSamd21 && activeLeftIds.includes(activeId);
   const pick = (field) => (field && field[lang]) || (field && field.en) || "";
   const activeCategory = BOARD_CATEGORIES.find((category) => category.id === activeCategoryId) || BOARD_CATEGORIES[0];
@@ -730,6 +736,53 @@ export function Pinout() {
     });
     return () => { preloaded.length = 0; };
   }, []);
+
+  useLayoutEffect(() => {
+    if (!isSamd21) return undefined;
+
+    const measure = () => {
+      const stage = stageRef.current;
+      const card = detailCardRef.current;
+      const detailHead = detailHeadRef.current;
+      const pinButton = activeStagePinRef.current;
+      const pinDot = pinButton?.querySelector(`.${styles.pinPad}`);
+      if (!stage || !card || !detailHead || !pinDot) return;
+
+      const stageRect = stage.getBoundingClientRect();
+      const cardRect = card.getBoundingClientRect();
+      const detailHeadRect = detailHead.getBoundingClientRect();
+      const pinRect = pinDot.getBoundingClientRect();
+      const startX = (samdDetailOnLeft ? cardRect.right : cardRect.left) - stageRect.left;
+      const startY = detailHeadRect.top - stageRect.top + detailHeadRect.height / 2;
+      const endX = pinRect.left - stageRect.left + pinRect.width / 2;
+      const endY = pinRect.top - stageRect.top + pinRect.height / 2;
+      const direction = samdDetailOnLeft ? 1 : -1;
+      const distance = Math.max(48, Math.abs(endX - startX));
+      const shoulder = Math.min(86, distance * 0.38);
+
+      setConnector({
+        width: stageRect.width,
+        height: stageRect.height,
+        path: `M ${startX} ${startY} C ${startX + shoulder * direction} ${startY}, ${endX - shoulder * direction} ${endY}, ${endX} ${endY}`,
+        startX,
+        startY,
+      });
+    };
+
+    measure();
+    const frame = requestAnimationFrame(measure);
+    const observer = new ResizeObserver(measure);
+    if (stageRef.current) observer.observe(stageRef.current);
+    if (detailCardRef.current) observer.observe(detailCardRef.current);
+    if (activeStagePinRef.current) observer.observe(activeStagePinRef.current);
+    window.addEventListener("resize", measure);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [activeId, face, isSamd21, samdDetailOnLeft]);
 
   const selectBoard = (id) => {
     setBoardId(id);
@@ -881,6 +934,7 @@ export function Pinout() {
               </div>
             </aside>
 
+            <div className={styles.pinStage} ref={isSamd21 ? stageRef : null}>
             {/* 中：CSS 板子示意图（左右两列引脚） */}
             <div className={styles.centerPanel}>
               <div className={styles.boardFigure}>
@@ -897,6 +951,7 @@ export function Pinout() {
                         className={`${styles.pinRow} ${active ? styles.pinRowActive : ""}`}
                         style={{ top: `${y}%`, color: FN_COLOR[p.fn] }}
                         onClick={() => setSelId(id)}
+                        ref={active && isSamd21 ? activeStagePinRef : null}
                       >
                         <span className={styles.pinName}>{p.id}</span>
                         <span className={styles.pinFunc}>{p.xiao !== "—" ? p.xiao : ""}</span>
@@ -939,6 +994,7 @@ export function Pinout() {
                         className={`${styles.pinRow} ${active ? styles.pinRowActive : ""}`}
                         style={{ top: `${y}%`, color: FN_COLOR[p.fn] }}
                         onClick={() => setSelId(id)}
+                        ref={active && isSamd21 ? activeStagePinRef : null}
                       >
                         <span className={styles.pinName}>{p.id}</span>
                         <span className={styles.pinFunc}>{p.xiao !== "—" ? p.xiao : ""}</span>
@@ -966,9 +1022,12 @@ export function Pinout() {
 
             {/* 右：选中引脚详情 */}
             <aside className={styles.rightPanel}>
-              <div className={styles.panelLabel}>{T.detailLabel}</div>
-              <div className={styles.detailCard}>
-                <div className={styles.detailHead}>
+              <div className={styles.detailCard} ref={isSamd21 ? detailCardRef : null}>
+                <div className={styles.detailToolbar}>
+                  <div className={styles.panelLabel}>{T.detailLabel}</div>
+                  <span className={styles.detailClose} aria-hidden="true">×</span>
+                </div>
+                <div className={styles.detailHead} ref={isSamd21 ? detailHeadRef : null}>
                   <span className={styles.detailDot} style={{ background: c }} />
                   <h3 className={styles.detailName}>{pin.id}</h3>
                   <span className={styles.detailXiao}>{pin.xiao}</span>
@@ -1003,6 +1062,13 @@ export function Pinout() {
                 </div>
               </div>
             </aside>
+            {isSamd21 && connector && (
+              <svg className={styles.samdConnector} viewBox={`0 0 ${connector.width} ${connector.height}`} preserveAspectRatio="none" aria-hidden="true">
+                <path d={connector.path} fill="none" stroke={c} strokeWidth="2.5" vectorEffect="non-scaling-stroke" />
+                <circle cx={connector.startX} cy={connector.startY} r="5" fill="#fff" stroke={c} strokeWidth="2.5" vectorEffect="non-scaling-stroke" />
+              </svg>
+            )}
+            </div>
           </div>
         </section>
       </div>
