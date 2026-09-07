@@ -64,11 +64,18 @@
   background: radial-gradient(circle at 38% 38%, rgba(83,190,160,.24), transparent 58%), linear-gradient(180deg,#214957 0%,#2d6070 100%);
   box-shadow: 0 18px 40px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.06);
 }
-.samdLayout.samdDetailLeft { grid-template-columns: 248px 360px minmax(0,1fr); }
-.samdLayout.samdDetailLeft .rightPanel { grid-column: 2; grid-row: 1; padding: 22px 0 24px 18px; }
-.samdLayout.samdDetailLeft .centerPanel { grid-column: 3; grid-row: 1; }
-.samdLayout.samdDetailRight .centerPanel { grid-column: 2; grid-row: 1; }
-.samdLayout.samdDetailRight .rightPanel { grid-column: 3; grid-row: 1; }
+.samdLayout { grid-template-columns: 248px minmax(0,1fr); }
+.samdLayout .centerPanel { grid-column: 2; grid-row: 1; }
+.samdLayout .rightPanel {
+  z-index: 4;
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  width: 360px;
+  padding: 0 18px;
+}
+.samdLayout.samdDetailLeft .rightPanel { justify-self: start; }
+.samdLayout.samdDetailRight .rightPanel { justify-self: end; }
 
 .panelLabel { font-family: var(--font-display), sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: var(--ink-muted); text-transform: uppercase; margin-bottom: 14px; }
 
@@ -117,9 +124,27 @@
 .pinRowActive .pinPad { transform: scale(1.35); box-shadow: 0 0 0 4px rgba(255,255,255,.13), 0 0 18px currentColor; }
 .samdLayout .pinName,
 .samdLayout .pinFunc { display: none; }
-.samdLayout .pinRow { padding-inline: 4px; }
-.samdLayout .pinLead { height: 2px; background: currentColor; box-shadow: 0 0 10px currentColor; }
-.samdLayout .pinPad { width: 13px; height: 13px; border-radius: 50%; box-shadow: 0 0 0 4px rgba(255,255,255,.14), 0 0 18px currentColor; }
+.samdLayout .boardFigure { width: min(760px, calc(100% - 680px)); min-width: 520px; }
+.samdLayout .pinCol { min-width: 150px; }
+.samdLayout .pinRow { padding-inline: 0; pointer-events: none; }
+.samdLayout .pinLead { height: 1px; background: transparent; box-shadow: none; }
+.samdLayout .pinPad { width: 11px; height: 11px; border-radius: 50%; opacity: .78; box-shadow: 0 0 0 3px rgba(255,255,255,.12), 0 0 12px currentColor; }
+.samdLayout .pinRowActive { background: transparent; box-shadow: none; }
+.samdLayout .pinRowActive .pinLead { height: 2px; background: currentColor; box-shadow: 0 0 9px currentColor; }
+.samdLayout .pinRowActive .pinPad { width: 15px; height: 15px; opacity: 1; transform: scale(1.18); box-shadow: 0 0 0 5px rgba(255,255,255,.16), 0 0 22px currentColor; }
+.samdLayout.samdDetailLeft .pinColLeft .pinRowActive,
+.samdLayout.samdDetailRight .pinColRight .pinRowActive { overflow: visible; }
+.samdLayout.samdDetailLeft .pinColLeft .pinRowActive::before,
+.samdLayout.samdDetailRight .pinColRight .pinRowActive::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  height: 2px;
+  background: currentColor;
+  box-shadow: 0 0 9px currentColor;
+}
+.samdLayout.samdDetailLeft .pinColLeft .pinRowActive::before { right: calc(100% - 2px); width: clamp(58px,8vw,150px); }
+.samdLayout.samdDetailRight .pinColRight .pinRowActive::before { left: calc(100% - 2px); width: clamp(58px,8vw,150px); }
 
 .boardBody {
   flex: 0 0 96px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
@@ -199,12 +224,13 @@
   .grid { grid-template-columns: 230px minmax(0,1fr); }
   .grid::before { left: 274px; }
   .rightPanel { grid-column: 2; padding: 0 18px 24px; }
-  .samdLayout.samdDetailLeft,
-  .samdLayout.samdDetailRight { grid-template-columns: 230px minmax(0,1fr); }
+  .samdLayout { grid-template-columns: 230px minmax(0,1fr); }
   .samdLayout.samdDetailLeft .centerPanel,
   .samdLayout.samdDetailRight .centerPanel { grid-column: 2; grid-row: 1; }
   .samdLayout.samdDetailLeft .rightPanel,
   .samdLayout.samdDetailRight .rightPanel { grid-column: 2; grid-row: 2; padding: 0 18px 24px; }
+  .samdLayout .rightPanel { position: static; width: auto; justify-self: stretch; }
+  .samdLayout .boardFigure { width: 100%; min-width: 0; }
 }
 @media (max-width: 760px) {
   .wrap { padding: 0 16px 70px; }
@@ -213,8 +239,7 @@
   .centerPanel { order: 1; }
   .leftPanel { order: 2; }
   .rightPanel { order: 3; grid-column: 1; padding: 0; }
-  .samdLayout.samdDetailLeft,
-  .samdLayout.samdDetailRight { grid-template-columns: 1fr; }
+  .samdLayout { grid-template-columns: 1fr; }
   .samdLayout.samdDetailLeft .centerPanel,
   .samdLayout.samdDetailRight .centerPanel { grid-column: 1; grid-row: auto; }
   .samdLayout.samdDetailLeft .rightPanel,

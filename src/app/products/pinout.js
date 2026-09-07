@@ -889,13 +889,13 @@ export function Pinout() {
                     const p = pinById(id);
                     if (!p) return null;
                     const active = id === activeId;
-                    if (!active) return null;
+                    if (!active && !isSamd21) return null;
                     const ids = face === "back" && board.backPins ? board.backPins.left : board.leftColIds;
                     const y = (face === "back" && board.backPins ? board.backPins.padY?.left?.[i] : board.padY?.left?.[i]) ?? ((i + 1) / (ids.length + 1) * 100);
                     return (
                       <button key={id} type="button"
                         className={`${styles.pinRow} ${active ? styles.pinRowActive : ""}`}
-                        style={{ top: `${y}%` }}
+                        style={{ top: `${y}%`, color: FN_COLOR[p.fn] }}
                         onClick={() => setSelId(id)}
                       >
                         <span className={styles.pinName}>{p.id}</span>
@@ -931,13 +931,13 @@ export function Pinout() {
                     const p = pinById(id);
                     if (!p) return null;
                     const active = id === activeId;
-                    if (!active) return null;
+                    if (!active && !isSamd21) return null;
                     const ids = face === "back" && board.backPins ? board.backPins.right : board.rightColIds;
                     const y = (face === "back" && board.backPins ? board.backPins.padY?.right?.[i] : board.padY?.right?.[i]) ?? ((i + 1) / (ids.length + 1) * 100);
                     return (
                       <button key={id} type="button"
                         className={`${styles.pinRow} ${active ? styles.pinRowActive : ""}`}
-                        style={{ top: `${y}%` }}
+                        style={{ top: `${y}%`, color: FN_COLOR[p.fn] }}
                         onClick={() => setSelId(id)}
                       >
                         <span className={styles.pinName}>{p.id}</span>
