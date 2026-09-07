@@ -14,8 +14,21 @@ const FN_COLOR = {
   digital: "#16b66a",
   analog: "#2f73f1",
   i2c: "#8b5cf6",
-  spi: "#0ea5b0",
-  uart: "#16a3a3",
+  spi: "#f59e0b",
+  uart: "#ec4899",
+};
+
+/* SAMD21 板载指示灯在正面图上的实际大致位置。 */
+const SAMD21_FRONT_MARKERS = [
+  { id: "TX_LED", label: "TX", x: 73.5, y: 17.5 },
+  { id: "POWER_LED", label: "PWR", x: 82.5, y: 17.5 },
+  { id: "RX_LED", label: "RX", x: 73.5, y: 27 },
+  { id: "USER_LED", label: "USER", x: 82.5, y: 27 },
+];
+const SAMD21_FRONT_MARKER_ALIASES = {
+  D11: "TX_LED",
+  D12: "RX_LED",
+  D13: "USER_LED",
 };
 
 const boardInfo = {
@@ -700,6 +713,7 @@ export function Pinout() {
   const pin = pinById(activeId);
   const c = FN_COLOR[pin.fn];
   const isSamd21 = boardId === "samd21";
+  const frontMarkerIds = isSamd21 ? SAMD21_FRONT_MARKERS.map((marker) => marker.id) : [];
   const activeLeftIds = face === "back" && board.backPins ? board.backPins.left : board.leftColIds;
   const activeRightIds = face === "back" && board.backPins ? board.backPins.right : board.rightColIds;
   const samdDetailOnLeft = isSamd21 && activeLeftIds.includes(activeId);
@@ -789,6 +803,19 @@ export function Pinout() {
     setFace("front");
     setSelId(BOARDS[id].leftColIds[0]);
     setBoardMenuOpen(false);
+  };
+
+  const selectPinFromList = (id) => {
+    const frontIds = new Set([
+      ...board.leftColIds,
+      ...board.rightColIds,
+      ...(boardId === "samd21" ? [...frontMarkerIds, ...Object.keys(SAMD21_FRONT_MARKER_ALIASES)] : []),
+    ]);
+    const backIds = new Set(board.backPins ? [...board.backPins.left, ...board.backPins.right] : []);
+
+    if (backIds.has(id) && !frontIds.has(id)) setFace("back");
+    else if (frontIds.has(id)) setFace("front");
+    setSelId(id);
   };
 
   const T = {
@@ -921,7 +948,7 @@ export function Pinout() {
                         key={p.id}
                         type="button"
                         className={`${styles.pinItem} ${p.id === activeId ? styles.pinItemActive : ""}`}
-                        onClick={() => setSelId(p.id)}
+                        onClick={() => selectPinFromList(p.id)}
                         data-pin={p.id}
                       >
                         <span className={styles.pinDot} style={{ background: FN_COLOR[p.fn] }} />
@@ -964,15 +991,36 @@ export function Pinout() {
 
                 <div className={`${styles.boardBody} ${board.figureImg ? styles.boardBodyImg : ""}`}>
                   {board.figureImg ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={withBase(face === "back" ? board.figureImgBack : board.figureImg)}
-                      alt={`${board.name} ${face}`}
-                      className={`${styles.boardFigureImg} ${face === "front" && board.rotateFront ? styles.boardFigureImgRotated : ""}`}
-                      loading="eager"
-                      decoding="async"
-                      fetchPriority="high"
-                    />
+                    <>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={withBase(face === "back" ? board.figureImgBack : board.figureImg)}
+                        alt={`${board.name} ${face}`}
+                        className={`${styles.boardFigureImg} ${face === "front" && board.rotateFront ? styles.boardFigureImgRotated : ""}`}
+                        loading="eager"
+                        decoding="async"
+                        fetchPriority="high"
+                      />
+                      {isSamd21 && face === "front" && SAMD21_FRONT_MARKERS.map((marker) => {
+                        const markerPin = pinById(marker.id);
+                        if (!markerPin) return null;
+                        const active = marker.id === activeId || SAMD21_FRONT_MARKER_ALIASES[activeId] === marker.id;
+                        return (
+                          <button
+                            key={marker.id}
+                            type="button"
+                            className={`${styles.samdBoardMarker} ${active ? styles.samdBoardMarkerActive : ""}`}
+                            style={{ left: `${marker.x}%`, top: `${marker.y}%`, color: FN_COLOR[markerPin.fn] }}
+                            onClick={() => setSelId(marker.id)}
+                            ref={active ? activeStagePinRef : null}
+                            aria-label={marker.id}
+                          >
+                            <span className={styles.pinPad} style={{ background: FN_COLOR[markerPin.fn] }} />
+                            <span>{marker.label}</span>
+                          </button>
+                        );
+                      })}
+                    </>
                   ) : (
                     <>
                       <div className={styles.boardChip}>{board.figureLabel[0]}<br />{board.figureLabel[1]}</div>

@@ -15,6 +15,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${montserrat.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--page-bg)] text-[var(--ink-strong)]">

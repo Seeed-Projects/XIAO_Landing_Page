@@ -127,7 +127,7 @@ export function NewsCarousel() {
             href={item.url || "#"}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex w-[280px] min-w-0 cursor-pointer flex-col rounded-xl border border-[var(--line-soft)] bg-white/90 p-3 no-underline backdrop-blur-sm transition-shadow duration-300 hover:shadow-md sm:w-[320px] lg:w-[340px]"
+            className="flex w-[280px] shrink-0 cursor-pointer flex-col rounded-xl border border-[var(--line-soft)] bg-white/90 p-3 no-underline backdrop-blur-sm transition-shadow duration-300 hover:shadow-md sm:w-[320px] lg:w-[340px]"
           >
             <div className="aspect-[1.55] w-full overflow-hidden rounded-lg bg-[#edf2eb]">
               {item.media_url && (
