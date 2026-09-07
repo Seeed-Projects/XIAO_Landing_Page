@@ -1,114 +1,1408 @@
 [
   {
-    "id": "gpio-breakout",
-    "title": { "en": "GPIO Breakout Board for XIAO", "zh": "XIAO GPIO 引出扩展板" },
-    "summary": { "en": "A small expansion that breaks out more GPIO while keeping the XIAO footprint breadboard-friendly.", "zh": "一块小型扩展板，引出更多 GPIO，同时保持 XIAO 尺寸适配面包板。" },
-    "status": "vote",
-    "statusLabel": { "en": "Open for Vote", "zh": "公开投票" },
-    "product": { "en": "Boards", "zh": "开发板" },
-    "votes": 24,
-    "comments": 18,
-    "updated": "2026-07-24",
+    "id": "d1",
+    "title": {
+      "en": "Roadmap of Seeed XIAO: You Decide What We Build Next!",
+      "zh": "Roadmap of Seeed XIAO: You Decide What We Build Next!"
+    },
+    "summary": {
+      "en": "👋 Welcome to the Roadmap Discussions of Seeed XIAO. We’re using this Discussion as a platform to connect with and get valuable feedback fro",
+      "zh": "👋 Welcome to the Roadmap Discussions of Seeed XIAO. We’re using this Discussion as a platform to connect with and get valuable feedback fro"
+    },
+    "status": "idea",
+    "statusLabel": {
+      "en": "Idea",
+      "zh": "想法"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 26,
+    "comments": 184,
+    "updated": "",
     "helpNeeded": false,
-    "proposed": { "en": "Users want an expansion board that exposes more GPIO while preserving the compact XIAO form factor.", "zh": "用户希望有一块扩展板，能在保持 XIAO 紧凑尺寸的同时引出更多 GPIO。" },
-    "why": { "en": "Existing expansion boards focus on sensor connections; there's no general-purpose GPIO breakout suited for prototyping and breadboard use.", "zh": "现有扩展板主要面向传感器连接，缺少适合原型开发和面包板使用的通用 GPIO 扩展方案。" },
-    "update": { "en": "The idea is currently under hardware feasibility evaluation.", "zh": "该想法目前正在进行硬件可行性评估。" },
+    "proposed": {
+      "en": "👋 Welcome to the Roadmap Discussions of Seeed XIAO. We’re using this Discussion as a platform to connect with and get valuable feedback from the vibrant community of all XIAO owners. Here we'll share our dev roadmap proposals for the beloved XIAO (new features, new functions, new products for both XIAO boards and their accessories). And at the same time, we're inviting you to join to co-create the whole process by: Vote your favorite 💚 roadmap entries by clicking the up arrow ⬆️ or joining the discussion Add your proposals for the roadmap or share your wishes, ideas, suggestions, or feedback by initiating New Discussion. Everyone can suggest features or propose new products, accessories by opening New Discussion on GitHub. We review all suggestions. If a suggestion is a good fit, we'll o",
+      "zh": "👋 Welcome to the Roadmap Discussions of Seeed XIAO. We’re using this Discussion as a platform to connect with and get valuable feedback from the vibrant community of all XIAO owners. Here we'll share our dev roadmap proposals for the beloved XIAO (new features, new functions, new products for both XIAO boards and their accessories). And at the same time, we're inviting you to join to co-create the whole process by: Vote your favorite 💚 roadmap entries by clicking the up arrow ⬆️ or joining the discussion Add your proposals for the roadmap or share your wishes, ideas, suggestions, or feedback by initiating New Discussion. Everyone can suggest features or propose new products, accessories by opening New Discussion on GitHub. We review all suggestions. If a suggestion is a good fit, we'll o"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
     "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/1"
   },
   {
-    "id": "matter-thread-sleepy",
-    "title": { "en": "Matter-over-Thread Sleepy End Device firmware", "zh": "Matter-over-Thread 低功耗终端固件" },
-    "summary": { "en": "A low-power sleepy end-device firmware template for Matter over Thread on XIAO nRF54.", "zh": "面向 XIAO nRF54 的 Matter over Thread 低功耗终端固件模板。" },
+    "id": "d2",
+    "title": {
+      "en": "More I/Os on Seeed's XIAO",
+      "zh": "More I/Os on Seeed's XIAO"
+    },
+    "summary": {
+      "en": "XIAO is Seeed Studio’s most popular thumb-sized, powerful microcontroller units (MCUs), tailor-made for space-conscious projects that requir",
+      "zh": "XIAO is Seeed Studio’s most popular thumb-sized, powerful microcontroller units (MCUs), tailor-made for space-conscious projects that requir"
+    },
     "status": "dev",
-    "statusLabel": { "en": "In Development", "zh": "开发中" },
-    "product": { "en": "Software", "zh": "软件" },
-    "votes": 41,
-    "comments": 9,
-    "updated": "2026-07-21",
+    "statusLabel": {
+      "en": "In Development",
+      "zh": "开发中"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 3,
+    "comments": 11,
+    "updated": "",
     "helpNeeded": false,
-    "proposed": { "en": "Ship an official, well-documented sleepy end-device firmware template for Matter over Thread.", "zh": "提供一份官方、文档完善的 Matter over Thread 低功耗终端固件模板。" },
-    "why": { "en": "Battery-powered Matter devices need a reliable sleepy-end-device reference; current examples are scattered and inconsistent.", "zh": "电池供电的 Matter 设备需要可靠的低功耗终端参考，现有示例分散且不统一。" },
-    "update": { "en": "Core stack integrated, validating current consumption on a CR2032 build now.", "zh": "核心协议栈已集成，正在 CR2032 方案上验证功耗。" },
+    "proposed": {
+      "en": "XIAO is Seeed Studio’s most popular thumb-sized, powerful microcontroller units (MCUs), tailor-made for space-conscious projects that require high performance and wireless connectivity. Over the years, the XIAO family has expanded to include eight core boards, featuring mainstream hardware platforms such as ESP32, RP2040, nRF52840, and SAMD21. As user applications become increasingly diverse, users need more than just XIAO’s mini size; they also require more chip I/O interface expansion capabilities. Currently, the 14 pins seem somewhat insufficient. Therefore, we are now looking for a clever way to expand the number of I/Os to meet the more complex and varied user product design needs. Today, we're proposing an expansion method and hope that the enthusiastic community will provide valuabl",
+      "zh": "XIAO is Seeed Studio’s most popular thumb-sized, powerful microcontroller units (MCUs), tailor-made for space-conscious projects that require high performance and wireless connectivity. Over the years, the XIAO family has expanded to include eight core boards, featuring mainstream hardware platforms such as ESP32, RP2040, nRF52840, and SAMD21. As user applications become increasingly diverse, users need more than just XIAO’s mini size; they also require more chip I/O interface expansion capabilities. Currently, the 14 pins seem somewhat insufficient. Therefore, we are now looking for a clever way to expand the number of I/Os to meet the more complex and varied user product design needs. Today, we're proposing an expansion method and hope that the enthusiastic community will provide valuabl"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
     "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/2"
   },
   {
-    "id": "lipo-charger-expansion",
-    "title": { "en": "XIAO Expansion with Onboard LiPo Charger", "zh": "带板载 LiPo 充电的 XIAO 扩展板" },
-    "summary": { "en": "An expansion base with a proper LiPo charge/protect circuit and fuel-gauge readout.", "zh": "一块带 LiPo 充电保护电路和电量读数的扩展底板。" },
-    "status": "planned",
-    "statusLabel": { "en": "Planned", "zh": "已规划" },
-    "product": { "en": "Add-ons", "zh": "扩展模块" },
-    "votes": 33,
-    "comments": 12,
-    "updated": "2026-07-18",
+    "id": "d3",
+    "title": {
+      "en": "XIAO HMI with display, camera, microphone and speaker",
+      "zh": "XIAO HMI with display, camera, microphone and speaker"
+    },
+    "summary": {
+      "en": "Create an HMI (Human-Machine Interface) device with a screen using XIAO that supports Arduino, can connect to ILM, and requires a simpler me",
+      "zh": "Create an HMI (Human-Machine Interface) device with a screen using XIAO that supports Arduino, can connect to ILM, and requires a simpler me"
+    },
+    "status": "vote",
+    "statusLabel": {
+      "en": "Open for Vote",
+      "zh": "公开投票"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 1,
+    "updated": "",
     "helpNeeded": false,
-    "proposed": { "en": "An expansion base integrating LiPo charging, protection, and fuel-gauge readout via I²C.", "zh": "一块集成 LiPo 充电、保护与电量读数（I²C）的扩展底板。" },
-    "why": { "en": "Current bases rely on external charging modules; an integrated, safe charger unlocks reliable battery projects.", "zh": "现有底板依赖外部充电模块，集成安全充电器才能支撑可靠的电池项目。" },
-    "update": { "en": "Scheduled for the next hardware cycle; BOM under review.", "zh": "已排入下一硬件周期，BOM 审核中。" },
+    "proposed": {
+      "en": "Create an HMI (Human-Machine Interface) device with a screen using XIAO that supports Arduino, can connect to ILM, and requires a simpler method for screen UI design. display resolution, size, or XIAO MCU, you decide, please leave comments.",
+      "zh": "Create an HMI (Human-Machine Interface) device with a screen using XIAO that supports Arduino, can connect to ILM, and requires a simpler method for screen UI design. display resolution, size, or XIAO MCU, you decide, please leave comments."
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
     "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/3"
   },
   {
-    "id": "usb-pd-profile",
-    "title": { "en": "USB-C PD Profile Support", "zh": "USB-C PD 协议支持" },
-    "summary": { "en": "Expose USB-C Power Delivery profiles (5V/9V/12V) on XIAO boards with a PD controller.", "zh": "通过 PD 控制器在 XIAO 板上启用 USB-C PD 协议（5V/9V/12V）。" },
-    "status": "review",
-    "statusLabel": { "en": "Under Review", "zh": "评估中" },
-    "product": { "en": "Software", "zh": "软件" },
-    "votes": 12,
-    "comments": 5,
-    "updated": "2026-07-15",
-    "helpNeeded": true,
-    "proposed": { "en": "Add USB-C PD profile negotiation so XIAO boards can request higher-voltage rails when needed.", "zh": "增加 USB-C PD 协商，让 XIAO 板在需要时请求更高电压。" },
-    "why": { "en": "Some actuators and small motors need more than 5V; PD support removes external step-up converters.", "zh": "部分执行器和小电机需要高于 5V 的电压，PD 支持可省去外部升压模块。" },
-    "update": { "en": "Awaiting community input on target PD controller and use cases.", "zh": "等待社区对目标 PD 控制器和使用场景的输入。" },
+    "id": "d4",
+    "title": {
+      "en": "Connect XIAO to Cloud (SenseCraft Data platform)",
+      "zh": "Connect XIAO to Cloud (SenseCraft Data platform)"
+    },
+    "summary": {
+      "en": "Many XIAO users have turned their devices into IoT or AI devices, but the data produced by these devices or the results of AI inference requ",
+      "zh": "Many XIAO users have turned their devices into IoT or AI devices, but the data produced by these devices or the results of AI inference requ"
+    },
+    "status": "vote",
+    "statusLabel": {
+      "en": "Open for Vote",
+      "zh": "公开投票"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 0,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "Many XIAO users have turned their devices into IoT or AI devices, but the data produced by these devices or the results of AI inference require secondary integration development to be fully analyzed and viewed. In fact, Seeed already has a software platform previously used for Industrial IoT devices, such as LoRaWAN sensors and 4G collectors, which allows for easy device data viewing and management by simply scanning a QR code and binding the device. XIAO users, do you need a simple and easy-to-use cloud platform that can directly support XIAO data? Please leave your comments or suggest some feature requirements.",
+      "zh": "Many XIAO users have turned their devices into IoT or AI devices, but the data produced by these devices or the results of AI inference require secondary integration development to be fully analyzed and viewed. In fact, Seeed already has a software platform previously used for Industrial IoT devices, such as LoRaWAN sensors and 4G collectors, which allows for easy device data viewing and management by simply scanning a QR code and binding the device. XIAO users, do you need a simple and easy-to-use cloud platform that can directly support XIAO data? Please leave your comments or suggest some feature requirements."
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
     "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/4"
   },
   {
-    "id": "nrf54-no-nfc",
-    "title": { "en": "Lower-cost nRF54 variant without NFC", "zh": "不带 NFC 的低成本 nRF54 变体" },
-    "summary": { "en": "A cost-reduced nRF54 board that drops NFC routing for simpler, cheaper builds.", "zh": "一款砍掉 NFC 走线的低成本 nRF54 板，更简单更便宜。" },
-    "status": "idea",
-    "statusLabel": { "en": "Idea", "zh": "想法" },
-    "product": { "en": "Boards", "zh": "开发板" },
-    "votes": 8,
-    "comments": 3,
-    "updated": "2026-07-10",
+    "id": "d5",
+    "title": {
+      "en": "XIAO based on RA4M1(Arduino R4)",
+      "zh": "XIAO based on RA4M1(Arduino R4)"
+    },
+    "summary": {
+      "en": "The Arduino R4 is the latest Arduino development board with enhanced performance and more extensive IO capabilities. Should XIAO develop a m",
+      "zh": "The Arduino R4 is the latest Arduino development board with enhanced performance and more extensive IO capabilities. Should XIAO develop a m"
+    },
+    "status": "done",
+    "statusLabel": {
+      "en": "Completed",
+      "zh": "已完成"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 0,
+    "updated": "",
     "helpNeeded": false,
-    "proposed": { "en": "Release a cost-reduced nRF54 board that removes NFC antenna routing.", "zh": "发布一款去掉 NFC 天线走线的低成本 nRF54 板。" },
-    "why": { "en": "NFC isn't needed by most BLE users; dropping it lowers BOM and design complexity.", "zh": "多数 BLE 用户并不需要 NFC，去掉可降低 BOM 与设计复杂度。" },
-    "update": { "en": "Collecting community demand before committing to a SKU.", "zh": "在确定型号前收集社区需求。" },
+    "proposed": {
+      "en": "The Arduino R4 is the latest Arduino development board with enhanced performance and more extensive IO capabilities. Should XIAO develop a module based on the R4? It would continue with XIAO's dimensions, improved buttons, and RGB LED. Below is a preliminary design image, and your comments are welcome. image",
+      "zh": "The Arduino R4 is the latest Arduino development board with enhanced performance and more extensive IO capabilities. Should XIAO develop a module based on the R4? It would continue with XIAO's dimensions, improved buttons, and RGB LED. Below is a preliminary design image, and your comments are welcome. image"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
     "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/5"
   },
   {
-    "id": "wiki-ai-search",
-    "title": { "en": "XIAO Wiki AI-powered Search", "zh": "XIAO Wiki AI 语义搜索" },
-    "summary": { "en": "A semantic search layer over the Seeed Wiki to surface relevant tutorials and pin references.", "zh": "在 Seeed Wiki 之上加一层语义搜索，快速找到相关教程和引脚参考。" },
-    "status": "done",
-    "statusLabel": { "en": "Completed", "zh": "已完成" },
-    "product": { "en": "Software", "zh": "软件" },
-    "votes": 56,
-    "comments": 14,
-    "updated": "2026-06-30",
+    "id": "d6",
+    "title": {
+      "en": "A plug and play XIAO spring connector & expansion",
+      "zh": "A plug and play XIAO spring connector & expansion"
+    },
+    "summary": {
+      "en": "If there were a connector that allowed you to use XIAO's IO pins without the need for soldering header pins, and made it easy for you to swa",
+      "zh": "If there were a connector that allowed you to use XIAO's IO pins without the need for soldering header pins, and made it easy for you to swa"
+    },
+    "status": "dev",
+    "statusLabel": {
+      "en": "In Development",
+      "zh": "开发中"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 4,
+    "comments": 23,
+    "updated": "",
     "helpNeeded": false,
-    "proposed": { "en": "Add a semantic search over the Seeed Wiki so users find tutorials by natural-language query.", "zh": "在 Seeed Wiki 上增加语义搜索，让用户用自然语言就能找到教程。" },
-    "why": { "en": "Keyword search often misses pin/function references; semantic search improves discoverability.", "zh": "关键词搜索常常找不到引脚/功能参考，语义搜索能提升发现率。" },
-    "update": { "en": "Shipped. Live on the wiki — gathering usage feedback.", "zh": "已上线，Wiki 已可用，正在收集使用反馈。" },
+    "proposed": {
+      "en": "If there were a connector that allowed you to use XIAO's IO pins without the need for soldering header pins, and made it easy for you to swap different XIAO modules in your designs, wouldn't that be cool? The video below presents a design for such a connector. If you're interested, please leave a comment. https://github.com/Seeed-Studio/XIAO_Series/assets/170942971/657f9680-1620-4554-8e7d-7b0576c3edb3",
+      "zh": "If there were a connector that allowed you to use XIAO's IO pins without the need for soldering header pins, and made it easy for you to swap different XIAO modules in your designs, wouldn't that be cool? The video below presents a design for such a connector. If you're interested, please leave a comment. https://github.com/Seeed-Studio/XIAO_Series/assets/170942971/657f9680-1620-4554-8e7d-7b0576c3edb3"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
     "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/6"
   },
   {
-    "id": "lorawan-concentrator-hat",
-    "title": { "en": "LoRaWAN Concentrator Hat for XIAO", "zh": "XIAO LoRaWAN 集中器 HAT" },
-    "summary": { "en": "A gateway-style concentrator hat to turn XIAO into a small LoRaWAN gateway.", "zh": "一款集中器 HAT，把 XIAO 变成小型 LoRaWAN 网关。" },
-    "status": "nope",
-    "statusLabel": { "en": "Not Planned", "zh": "未规划" },
-    "product": { "en": "Add-ons", "zh": "扩展模块" },
-    "votes": 6,
-    "comments": 7,
-    "updated": "2026-06-22",
+    "id": "d7",
+    "title": {
+      "en": "Create Fritzing Parts for Seeed XIAO MCUs",
+      "zh": "Create Fritzing Parts for Seeed XIAO MCUs"
+    },
+    "summary": {
+      "en": "Fritzing is one of the most popular open-source software tools that simplifies the process of designing electronic circuits and creating pri",
+      "zh": "Fritzing is one of the most popular open-source software tools that simplifies the process of designing electronic circuits and creating pri"
+    },
+    "status": "done",
+    "statusLabel": {
+      "en": "Completed",
+      "zh": "已完成"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 2,
+    "updated": "",
     "helpNeeded": false,
-    "proposed": { "en": "A concentrator hat turning XIAO into a compact LoRaWAN gateway.", "zh": "一款集中器 HAT，让 XIAO 成为紧凑的 LoRaWAN 网关。" },
-    "why": { "en": "LoRaWAN gateways are expensive; an XIAO-based hat could lower the entry cost.", "zh": "LoRaWAN 网关价格高，基于 XIAO 的 HAT 可降低门槛。" },
-    "update": { "en": "Not on the roadmap — gateway hardware is out of scope for the XIAO line.", "zh": "不在路线图上——网关硬件超出 XIAO 系列范围。" },
+    "proposed": {
+      "en": "Fritzing is one of the most popular open-source software tools that simplifies the process of designing electronic circuits and creating printed circuit boards (PCBs). It provides a user-friendly interface for drawing circuit diagrams, placing components on a virtual breadboard, and designing custom PCB layouts. With its interactive features and extensive component library, Fritzing is suitable for beginners and experienced electronics enthusiasts alike. Currently, we have some Fritzing parts for XIAO, created by the amazing member Peter Aka Vanepp at the Fritzing forum. Here are the available parts created by Peter: Seeed Studio XIAO SAMD21 Seeed Studio XIAO ESP32C3 Seeed Studio XIAO nRF52840 (Sense) However, we're still missing some parts of the Seeed Studio XIAO Series as follows. And w",
+      "zh": "Fritzing is one of the most popular open-source software tools that simplifies the process of designing electronic circuits and creating printed circuit boards (PCBs). It provides a user-friendly interface for drawing circuit diagrams, placing components on a virtual breadboard, and designing custom PCB layouts. With its interactive features and extensive component library, Fritzing is suitable for beginners and experienced electronics enthusiasts alike. Currently, we have some Fritzing parts for XIAO, created by the amazing member Peter Aka Vanepp at the Fritzing forum. Here are the available parts created by Peter: Seeed Studio XIAO SAMD21 Seeed Studio XIAO ESP32C3 Seeed Studio XIAO nRF52840 (Sense) However, we're still missing some parts of the Seeed Studio XIAO Series as follows. And w"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
     "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/7"
+  },
+  {
+    "id": "d8",
+    "title": {
+      "en": "A 6 channel relay box with XIAO",
+      "zh": "A 6 channel relay box with XIAO"
+    },
+    "summary": {
+      "en": "For smart building upgrade",
+      "zh": "For smart building upgrade"
+    },
+    "status": "dev",
+    "statusLabel": {
+      "en": "In Development",
+      "zh": "开发中"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 4,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "For smart building upgrade",
+      "zh": "For smart building upgrade"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/8"
+  },
+  {
+    "id": "d9",
+    "title": {
+      "en": "Zephyr Support for XIAO ESP32C6",
+      "zh": "Zephyr Support for XIAO ESP32C6"
+    },
+    "summary": {
+      "en": "Currently, all XIAO Boards except the newest member XIAO ESP32C6 are compatible with the Linux Zephyr project thanks to the support and cont",
+      "zh": "Currently, all XIAO Boards except the newest member XIAO ESP32C6 are compatible with the Linux Zephyr project thanks to the support and cont"
+    },
+    "status": "done",
+    "statusLabel": {
+      "en": "Completed",
+      "zh": "已完成"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 1,
+    "comments": 1,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "Currently, all XIAO Boards except the newest member XIAO ESP32C6 are compatible with the Linux Zephyr project thanks to the support and contribution from the community! Now, we're calling for your support to add Zephyr support for this new board, please start with the Zephyr Board Porting Guide. When adding support documentation for each board, remember to use the template available under doc/templates/board.tmpl Once it's supported, we'll update the Zephyr support to our wiki here.",
+      "zh": "Currently, all XIAO Boards except the newest member XIAO ESP32C6 are compatible with the Linux Zephyr project thanks to the support and contribution from the community! Now, we're calling for your support to add Zephyr support for this new board, please start with the Zephyr Board Porting Guide. When adding support documentation for each board, remember to use the template available under doc/templates/board.tmpl Once it's supported, we'll update the Zephyr support to our wiki here."
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/9"
+  },
+  {
+    "id": "d11",
+    "title": {
+      "en": "Xiao based accessory boards",
+      "zh": "Xiao based accessory boards"
+    },
+    "summary": {
+      "en": "Xiao PD Expansion board: WCH CH224K PD board with dip switch for output voltage and jumpers to connect data lines to level shifters and jump",
+      "zh": "Xiao PD Expansion board: WCH CH224K PD board with dip switch for output voltage and jumpers to connect data lines to level shifters and jump"
+    },
+    "status": "idea",
+    "statusLabel": {
+      "en": "Idea",
+      "zh": "想法"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 1,
+    "comments": 2,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "Xiao PD Expansion board: WCH CH224K PD board with dip switch for output voltage and jumpers to connect data lines to level shifters and jumper to use the PD voltage line. Useful for controlling motors, fans, etc. that may need more voltage or current (allows up to 3A@5V). Perhaps having 2 PD controlled outputs with jumpers, 2 3v3 hy 2.0 4p i2c, serial 4p. Xiao Solar Powered Expansion Board: Lipo rider is fine but it's too big and not the best utilization of space when using a Xiao board (can connect it vertically via a 90 degree connector for now). Ideally solder Xiao to the solar powered board (or via headers) and then have a lipo and solar connector, 2 i2c ports, 1 serial port, and another extra gpio. Xiao Level Shifter: Board with a Xiao footprint, a bidirectional level shifters and the",
+      "zh": "Xiao PD Expansion board: WCH CH224K PD board with dip switch for output voltage and jumpers to connect data lines to level shifters and jumper to use the PD voltage line. Useful for controlling motors, fans, etc. that may need more voltage or current (allows up to 3A@5V). Perhaps having 2 PD controlled outputs with jumpers, 2 3v3 hy 2.0 4p i2c, serial 4p. Xiao Solar Powered Expansion Board: Lipo rider is fine but it's too big and not the best utilization of space when using a Xiao board (can connect it vertically via a 90 degree connector for now). Ideally solder Xiao to the solar powered board (or via headers) and then have a lipo and solar connector, 2 i2c ports, 1 serial port, and another extra gpio. Xiao Level Shifter: Board with a Xiao footprint, a bidirectional level shifters and the"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/11"
+  },
+  {
+    "id": "d12",
+    "title": {
+      "en": "M3 screw in adapter for xiao , best for 3d printed non PCB projects",
+      "zh": "M3 screw in adapter for xiao , best for 3d printed non PCB projects"
+    },
+    "summary": {
+      "en": "image I had trouble fitting the Xiao into my 3D printed projects because it doesn't have any screw holes. While glue is an option for some p",
+      "zh": "image I had trouble fitting the Xiao into my 3D printed projects because it doesn't have any screw holes. While glue is an option for some p"
+    },
+    "status": "idea",
+    "statusLabel": {
+      "en": "Idea",
+      "zh": "想法"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 3,
+    "comments": 3,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "image I had trouble fitting the Xiao into my 3D printed projects because it doesn't have any screw holes. While glue is an option for some projects, it's not ideal if we need to regularly connect and disconnect the USB. Some makers don't require a custom PCB for simple projects, so the only option for them to securely fit the Xiao in the project is to glue it. Additionally, if we need to connect the battery in the Xiao ESP32C3, we have to solder wires on the back side of the Xiao, which prevents it from laying flat on a 3D printed surface. just in order to solve this problem I come up with this idea , I small PCB adapter . Screenshot 2024-06-22 084837 Screenshot 2024-06-22 093659 Screenshot 2024-06-22 084907 Screenshot 2024-06-22 093710 A compact PCB which can be used to solder the xiao. T",
+      "zh": "image I had trouble fitting the Xiao into my 3D printed projects because it doesn't have any screw holes. While glue is an option for some projects, it's not ideal if we need to regularly connect and disconnect the USB. Some makers don't require a custom PCB for simple projects, so the only option for them to securely fit the Xiao in the project is to glue it. Additionally, if we need to connect the battery in the Xiao ESP32C3, we have to solder wires on the back side of the Xiao, which prevents it from laying flat on a 3D printed surface. just in order to solve this problem I come up with this idea , I small PCB adapter . Screenshot 2024-06-22 084837 Screenshot 2024-06-22 093659 Screenshot 2024-06-22 084907 Screenshot 2024-06-22 093710 A compact PCB which can be used to solder the xiao. T"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/12"
+  },
+  {
+    "id": "d13",
+    "title": {
+      "en": "Upgrade BLE to 5.2+ for audio support",
+      "zh": "Upgrade BLE to 5.2+ for audio support"
+    },
+    "summary": {
+      "en": "Having bluetooth audio support as offered in BLE 5.2+(A2DP) would be awesome for audio based projects like mp3 players and speech recognitio",
+      "zh": "Having bluetooth audio support as offered in BLE 5.2+(A2DP) would be awesome for audio based projects like mp3 players and speech recognitio"
+    },
+    "status": "idea",
+    "statusLabel": {
+      "en": "Idea",
+      "zh": "想法"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 2,
+    "comments": 1,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "Having bluetooth audio support as offered in BLE 5.2+(A2DP) would be awesome for audio based projects like mp3 players and speech recognition models.",
+      "zh": "Having bluetooth audio support as offered in BLE 5.2+(A2DP) would be awesome for audio based projects like mp3 players and speech recognition models."
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/13"
+  },
+  {
+    "id": "d14",
+    "title": {
+      "en": "ESPhome examples and configuration entry for Xiao based gadgets",
+      "zh": "ESPhome examples and configuration entry for Xiao based gadgets"
+    },
+    "summary": {
+      "en": "https://esphome.io/#cookbook Too many details to handle to get a Xiao based device up and running in ESPhome",
+      "zh": "https://esphome.io/#cookbook Too many details to handle to get a Xiao based device up and running in ESPhome"
+    },
+    "status": "vote",
+    "statusLabel": {
+      "en": "Open for Vote",
+      "zh": "公开投票"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 1,
+    "comments": 1,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "https://esphome.io/#cookbook Too many details to handle to get a Xiao based device up and running in ESPhome",
+      "zh": "https://esphome.io/#cookbook Too many details to handle to get a Xiao based device up and running in ESPhome"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/14"
+  },
+  {
+    "id": "d15",
+    "title": {
+      "en": "New LoRa Model for XIAO",
+      "zh": "New LoRa Model for XIAO"
+    },
+    "summary": {
+      "en": "XIAO has never had a dedicated LoRa extension board. Now, we have developed a LoRa module based on the Semtech SX1262 chip, and used this mo",
+      "zh": "XIAO has never had a dedicated LoRa extension board. Now, we have developed a LoRa module based on the Semtech SX1262 chip, and used this mo"
+    },
+    "status": "done",
+    "statusLabel": {
+      "en": "Completed",
+      "zh": "已完成"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 2,
+    "comments": 3,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "XIAO has never had a dedicated LoRa extension board. Now, we have developed a LoRa module based on the Semtech SX1262 chip, and used this module to create an extension board for XIAO. This board communicates with XIAO via SPI, allowing XIAO nRF52840 or XIAO ESP32 to develop applications based on LoRa or LoRaWAN. Please share your thoughts with us, so we can quickly design a module or extension board that meets everyone's needs. Wio-SX1262 DSC01075",
+      "zh": "XIAO has never had a dedicated LoRa extension board. Now, we have developed a LoRa module based on the Semtech SX1262 chip, and used this module to create an extension board for XIAO. This board communicates with XIAO via SPI, allowing XIAO nRF52840 or XIAO ESP32 to develop applications based on LoRa or LoRaWAN. Please share your thoughts with us, so we can quickly design a module or extension board that meets everyone's needs. Wio-SX1262 DSC01075"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/15"
+  },
+  {
+    "id": "d16",
+    "title": {
+      "en": "New Meshtastic gadgets",
+      "zh": "New Meshtastic gadgets"
+    },
+    "summary": {
+      "en": "",
+      "zh": ""
+    },
+    "status": "vote",
+    "statusLabel": {
+      "en": "Open for Vote",
+      "zh": "公开投票"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 15,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "",
+      "zh": ""
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/16"
+  },
+  {
+    "id": "d17",
+    "title": {
+      "en": "An Infrared addon board to remote control legacy appliances.",
+      "zh": "An Infrared addon board to remote control legacy appliances."
+    },
+    "summary": {
+      "en": "more powerful and encoded 38khz ones, ready to use in the room rather than prototype with https://www.seeedstudio.com/Grove-Infrared-Emitter",
+      "zh": "more powerful and encoded 38khz ones, ready to use in the room rather than prototype with https://www.seeedstudio.com/Grove-Infrared-Emitter"
+    },
+    "status": "vote",
+    "statusLabel": {
+      "en": "Open for Vote",
+      "zh": "公开投票"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 1,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "more powerful and encoded 38khz ones, ready to use in the room rather than prototype with https://www.seeedstudio.com/Grove-Infrared-Emitter.html",
+      "zh": "more powerful and encoded 38khz ones, ready to use in the room rather than prototype with https://www.seeedstudio.com/Grove-Infrared-Emitter.html"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/17"
+  },
+  {
+    "id": "d18",
+    "title": {
+      "en": "Example Board for Revision to XIAO",
+      "zh": "Example Board for Revision to XIAO"
+    },
+    "summary": {
+      "en": "https://www.seeedstudio.com/SODAQ-Mbili-rev-5-p-2387.html image",
+      "zh": "https://www.seeedstudio.com/SODAQ-Mbili-rev-5-p-2387.html image"
+    },
+    "status": "idea",
+    "statusLabel": {
+      "en": "Idea",
+      "zh": "想法"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 0,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "https://www.seeedstudio.com/SODAQ-Mbili-rev-5-p-2387.html image",
+      "zh": "https://www.seeedstudio.com/SODAQ-Mbili-rev-5-p-2387.html image"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/18"
+  },
+  {
+    "id": "d19",
+    "title": {
+      "en": "An cheap voice recognition addon module",
+      "zh": "An cheap voice recognition addon module"
+    },
+    "summary": {
+      "en": "simple command, simple function",
+      "zh": "simple command, simple function"
+    },
+    "status": "vote",
+    "statusLabel": {
+      "en": "Open for Vote",
+      "zh": "公开投票"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 0,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "simple command, simple function",
+      "zh": "simple command, simple function"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/19"
+  },
+  {
+    "id": "d20",
+    "title": {
+      "en": "Affordable programmer-debugger probe by Seeed",
+      "zh": "Affordable programmer-debugger probe by Seeed"
+    },
+    "summary": {
+      "en": "A programmer-debugger probe is a very useful and \"must have\" tool for embedded system development. Today, there is no affordable offer. Segg",
+      "zh": "A programmer-debugger probe is a very useful and \"must have\" tool for embedded system development. Today, there is no affordable offer. Segg"
+    },
+    "status": "dev",
+    "statusLabel": {
+      "en": "In Development",
+      "zh": "开发中"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 18,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "A programmer-debugger probe is a very useful and \"must have\" tool for embedded system development. Today, there is no affordable offer. Segger used to list the J-Link Edu mini probe at an affordable price; it is no longer the case. Price went from USD20 to USD70. The Xiao expansion board provides the pogo pins to make the connections, alas only for some boards, SAMD, nRF52840 and RP2040. The ESP32 requires full JTAG, except the latest C-series which include the debugger. I am not a bing fan of the fragile pogo pins featured by the Xiao Expansion Board. Once the Xiao is mounted in the final design, the SWD pads are no longer accessible unless they are rerouted. The 2x5 0.05\" connector is very compact, and some variants even include power and UART RX/TX signals. I would replace the USB conne",
+      "zh": "A programmer-debugger probe is a very useful and \"must have\" tool for embedded system development. Today, there is no affordable offer. Segger used to list the J-Link Edu mini probe at an affordable price; it is no longer the case. Price went from USD20 to USD70. The Xiao expansion board provides the pogo pins to make the connections, alas only for some boards, SAMD, nRF52840 and RP2040. The ESP32 requires full JTAG, except the latest C-series which include the debugger. I am not a bing fan of the fragile pogo pins featured by the Xiao Expansion Board. Once the Xiao is mounted in the final design, the SWD pads are no longer accessible unless they are rerouted. The 2x5 0.05\" connector is very compact, and some variants even include power and UART RX/TX signals. I would replace the USB conne"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/20"
+  },
+  {
+    "id": "d23",
+    "title": {
+      "en": "NEW XIAO ADD-ON WITH SENSORS",
+      "zh": "NEW XIAO ADD-ON WITH SENSORS"
+    },
+    "summary": {
+      "en": "Please make some add-ons with sensors: bme280 light sensor accelerate sensor compas imu (gyro x-y-) And some more",
+      "zh": "Please make some add-ons with sensors: bme280 light sensor accelerate sensor compas imu (gyro x-y-) And some more"
+    },
+    "status": "idea",
+    "statusLabel": {
+      "en": "Idea",
+      "zh": "想法"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 3,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "Please make some add-ons with sensors: bme280 light sensor accelerate sensor compas imu (gyro x-y-) And some more",
+      "zh": "Please make some add-ons with sensors: bme280 light sensor accelerate sensor compas imu (gyro x-y-) And some more"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/23"
+  },
+  {
+    "id": "d24",
+    "title": {
+      "en": "XIAO RP2040/RP2350 WITH WIFI MODULE",
+      "zh": "XIAO RP2040/RP2350 WITH WIFI MODULE"
+    },
+    "summary": {
+      "en": "XIAO RP2040/RP2350 WITH WIFI MODULE",
+      "zh": "XIAO RP2040/RP2350 WITH WIFI MODULE"
+    },
+    "status": "idea",
+    "statusLabel": {
+      "en": "Idea",
+      "zh": "想法"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 1,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "XIAO RP2040/RP2350 WITH WIFI MODULE",
+      "zh": "XIAO RP2040/RP2350 WITH WIFI MODULE"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/24"
+  },
+  {
+    "id": "d25",
+    "title": {
+      "en": "Built in way to access battery charge state / charging/discharging status.",
+      "zh": "Built in way to access battery charge state / charging/discharging status."
+    },
+    "summary": {
+      "en": "I, and it seems a whole lot of other people would like to see battery level monitoring hardware built in. For any compact, battery powered p",
+      "zh": "I, and it seems a whole lot of other people would like to see battery level monitoring hardware built in. For any compact, battery powered p"
+    },
+    "status": "vote",
+    "statusLabel": {
+      "en": "Open for Vote",
+      "zh": "公开投票"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 1,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "I, and it seems a whole lot of other people would like to see battery level monitoring hardware built in. For any compact, battery powered project, knowing the charge state is important (as well as whether its currently charging or not, for say, disabling sleep while charging, etc), but again if its a compact thing adding extra discrete components to monitor the charge state, and take up more of the very few broken out pins isn't often a good way to go. There are a lot of pins not being used on most of these mcu's on the smaller boards as is, so maybe adding a pad that can be cut if someone doesn't want to risk extra power draw from a voltage divider, if you go with a voltage divider and not another method, might sort concerns for people who care more about pinching every microamp in their",
+      "zh": "I, and it seems a whole lot of other people would like to see battery level monitoring hardware built in. For any compact, battery powered project, knowing the charge state is important (as well as whether its currently charging or not, for say, disabling sleep while charging, etc), but again if its a compact thing adding extra discrete components to monitor the charge state, and take up more of the very few broken out pins isn't often a good way to go. There are a lot of pins not being used on most of these mcu's on the smaller boards as is, so maybe adding a pad that can be cut if someone doesn't want to risk extra power draw from a voltage divider, if you go with a voltage divider and not another method, might sort concerns for people who care more about pinching every microamp in their"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/25"
+  },
+  {
+    "id": "d26",
+    "title": {
+      "en": "Xiao with USB high speed interface",
+      "zh": "Xiao with USB high speed interface"
+    },
+    "summary": {
+      "en": "Hi! Are you planning to design a Xiao which features a high speed USB interface? I find this interesting in terms of developing a CMSIS DAP ",
+      "zh": "Hi! Are you planning to design a Xiao which features a high speed USB interface? I find this interesting in terms of developing a CMSIS DAP "
+    },
+    "status": "vote",
+    "statusLabel": {
+      "en": "Open for Vote",
+      "zh": "公开投票"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 3,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "Hi! Are you planning to design a Xiao which features a high speed USB interface? I find this interesting in terms of developing a CMSIS DAP compatible debug probe based on the Xiao form factor. Thanks und regards, Christian",
+      "zh": "Hi! Are you planning to design a Xiao which features a high speed USB interface? I find this interesting in terms of developing a CMSIS DAP compatible debug probe based on the Xiao form factor. Thanks und regards, Christian"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/26"
+  },
+  {
+    "id": "d29",
+    "title": {
+      "en": "XIAO ACCESORIES V2",
+      "zh": "XIAO ACCESORIES V2"
+    },
+    "summary": {
+      "en": "It would be great if this module will appear: traffic light hat (3 leds, 1 buzzer, 1 button)",
+      "zh": "It would be great if this module will appear: traffic light hat (3 leds, 1 buzzer, 1 button)"
+    },
+    "status": "idea",
+    "statusLabel": {
+      "en": "Idea",
+      "zh": "想法"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 0,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "It would be great if this module will appear: traffic light hat (3 leds, 1 buzzer, 1 button)",
+      "zh": "It would be great if this module will appear: traffic light hat (3 leds, 1 buzzer, 1 button)"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/29"
+  },
+  {
+    "id": "d30",
+    "title": {
+      "en": "Pi Pico 2 uf2 file for RP2350",
+      "zh": "Pi Pico 2 uf2 file for RP2350"
+    },
+    "summary": {
+      "en": "Hi all, I bought a Xiao RP2350 and am running Arduino code in it no problem. Now I want to run micropython in it, and the official guide htt",
+      "zh": "Hi all, I bought a Xiao RP2350 and am running Arduino code in it no problem. Now I want to run micropython in it, and the official guide htt"
+    },
+    "status": "review",
+    "statusLabel": {
+      "en": "Help Needed",
+      "zh": "需要帮助"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 5,
+    "updated": "",
+    "helpNeeded": true,
+    "proposed": {
+      "en": "Hi all, I bought a Xiao RP2350 and am running Arduino code in it no problem. Now I want to run micropython in it, and the official guide https://wiki-seeedstudio-com.translate.goog/getting-started-xiao-rp2350/ states that I need to install the uf2 file that best suits my board. The problem is that in the official micropython website there is no mention at all about the Xiao RP2350 line, and when I install the \"vanilla\"uf2 for the Pi Pico 2 in my RP2350, it does not get recognized by Thonny IDE. It does \"accept\" that I drag & drop the file but does not show up as a COM port afterwards. Also the Thonny IDE itself has a \"board update\" feature which I use and it does its thing. But also the board is not recognized by Thonny. I just downloaded Thonny 4.1.7 and my RP2350 is brand new. My info_uf",
+      "zh": "Hi all, I bought a Xiao RP2350 and am running Arduino code in it no problem. Now I want to run micropython in it, and the official guide https://wiki-seeedstudio-com.translate.goog/getting-started-xiao-rp2350/ states that I need to install the uf2 file that best suits my board. The problem is that in the official micropython website there is no mention at all about the Xiao RP2350 line, and when I install the \"vanilla\"uf2 for the Pi Pico 2 in my RP2350, it does not get recognized by Thonny IDE. It does \"accept\" that I drag & drop the file but does not show up as a COM port afterwards. Also the Thonny IDE itself has a \"board update\" feature which I use and it does its thing. But also the board is not recognized by Thonny. I just downloaded Thonny 4.1.7 and my RP2350 is brand new. My info_uf"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/30"
+  },
+  {
+    "id": "d32",
+    "title": {
+      "en": "Xiao ESP32S3 Sense QR Code Reader",
+      "zh": "Xiao ESP32S3 Sense QR Code Reader"
+    },
+    "summary": {
+      "en": "Is there a sample project for QR Code Reader ?",
+      "zh": "Is there a sample project for QR Code Reader ?"
+    },
+    "status": "review",
+    "statusLabel": {
+      "en": "Help Needed",
+      "zh": "需要帮助"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 0,
+    "updated": "",
+    "helpNeeded": true,
+    "proposed": {
+      "en": "Is there a sample project for QR Code Reader ?",
+      "zh": "Is there a sample project for QR Code Reader ?"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/32"
+  },
+  {
+    "id": "d33",
+    "title": {
+      "en": "Stickers",
+      "zh": "Stickers"
+    },
+    "summary": {
+      "en": "Good day, I don't know if I'm at the right place but I do hope so. I like buying from seed studio and I love the idea of receiving a sticker",
+      "zh": "Good day, I don't know if I'm at the right place but I do hope so. I like buying from seed studio and I love the idea of receiving a sticker"
+    },
+    "status": "idea",
+    "statusLabel": {
+      "en": "Idea",
+      "zh": "想法"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 1,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "Good day, I don't know if I'm at the right place but I do hope so. I like buying from seed studio and I love the idea of receiving a sticker with every purchase that I get. But I did notice that on the sticker it says Rokland.com I would just like to say that I would support stickers with seeds.cc instead. Especially with the terrace from the US at the moment, people are starting to shop outside of the US directly and I think it would be a great moment to take advantage of this. But either way, I love your products and wish you guys all the best in life. Have a wonderful day!",
+      "zh": "Good day, I don't know if I'm at the right place but I do hope so. I like buying from seed studio and I love the idea of receiving a sticker with every purchase that I get. But I did notice that on the sticker it says Rokland.com I would just like to say that I would support stickers with seeds.cc instead. Especially with the terrace from the US at the moment, people are starting to shop outside of the US directly and I think it would be a great moment to take advantage of this. But either way, I love your products and wish you guys all the best in life. Have a wonderful day!"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/33"
+  },
+  {
+    "id": "d35",
+    "title": {
+      "en": "SHT35 sensor",
+      "zh": "SHT35 sensor"
+    },
+    "summary": {
+      "en": "Hi there I wonder if there is a way I can pass a twowire object when invoking the sensor? thx",
+      "zh": "Hi there I wonder if there is a way I can pass a twowire object when invoking the sensor? thx"
+    },
+    "status": "review",
+    "statusLabel": {
+      "en": "Help Needed",
+      "zh": "需要帮助"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 0,
+    "updated": "",
+    "helpNeeded": true,
+    "proposed": {
+      "en": "Hi there I wonder if there is a way I can pass a twowire object when invoking the sensor? thx",
+      "zh": "Hi there I wonder if there is a way I can pass a twowire object when invoking the sensor? thx"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/35"
+  },
+  {
+    "id": "d36",
+    "title": {
+      "en": "Wio Tracker L1 Pro datasheets",
+      "zh": "Wio Tracker L1 Pro datasheets"
+    },
+    "summary": {
+      "en": "Hi I am looking for schematics and pinouts for the Wio Tracker L1 Pro, is there datasheets available somewhere? Thanks",
+      "zh": "Hi I am looking for schematics and pinouts for the Wio Tracker L1 Pro, is there datasheets available somewhere? Thanks"
+    },
+    "status": "review",
+    "statusLabel": {
+      "en": "Help Needed",
+      "zh": "需要帮助"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 1,
+    "updated": "",
+    "helpNeeded": true,
+    "proposed": {
+      "en": "Hi I am looking for schematics and pinouts for the Wio Tracker L1 Pro, is there datasheets available somewhere? Thanks",
+      "zh": "Hi I am looking for schematics and pinouts for the Wio Tracker L1 Pro, is there datasheets available somewhere? Thanks"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/36"
+  },
+  {
+    "id": "d38",
+    "title": {
+      "en": "Need to build prototype with RT Audio processing & efficient ML TOPS",
+      "zh": "Need to build prototype with RT Audio processing & efficient ML TOPS"
+    },
+    "summary": {
+      "en": "I am working on a hardware prototype that requires Real-time audio processing (DSP) & ~3-ish TOPS on an Int8 NPU on board to run some AI mod",
+      "zh": "I am working on a hardware prototype that requires Real-time audio processing (DSP) & ~3-ish TOPS on an Int8 NPU on board to run some AI mod"
+    },
+    "status": "review",
+    "statusLabel": {
+      "en": "Help Needed",
+      "zh": "需要帮助"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 0,
+    "updated": "",
+    "helpNeeded": true,
+    "proposed": {
+      "en": "I am working on a hardware prototype that requires Real-time audio processing (DSP) & ~3-ish TOPS on an Int8 NPU on board to run some AI models and preferably even intent processing with like tiny-tiny LLMs. Has someone worked on sth like this here? I am on a tight budget and timeline to get into a hardware incubator in SF 💯",
+      "zh": "I am working on a hardware prototype that requires Real-time audio processing (DSP) & ~3-ish TOPS on an Int8 NPU on board to run some AI models and preferably even intent processing with like tiny-tiny LLMs. Has someone worked on sth like this here? I am on a tight budget and timeline to get into a hardware incubator in SF 💯"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/38"
+  },
+  {
+    "id": "d40",
+    "title": {
+      "en": "Fritzing",
+      "zh": "Fritzing"
+    },
+    "summary": {
+      "en": "I tried to import a Fritzing file into my Fritzing program. Unfortunately, I get error messages. Part cannot be opened. Fritzing Version is ",
+      "zh": "I tried to import a Fritzing file into my Fritzing program. Unfortunately, I get error messages. Part cannot be opened. Fritzing Version is "
+    },
+    "status": "review",
+    "statusLabel": {
+      "en": "Help Needed",
+      "zh": "需要帮助"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 2,
+    "updated": "",
+    "helpNeeded": true,
+    "proposed": {
+      "en": "I tried to import a Fritzing file into my Fritzing program. Unfortunately, I get error messages. Part cannot be opened. Fritzing Version is 1.0.6",
+      "zh": "I tried to import a Fritzing file into my Fritzing program. Unfortunately, I get error messages. Part cannot be opened. Fritzing Version is 1.0.6"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/40"
+  },
+  {
+    "id": "d41",
+    "title": {
+      "en": "Library support and good documentation for Rust ecosystem",
+      "zh": "Library support and good documentation for Rust ecosystem"
+    },
+    "summary": {
+      "en": "Support Rust embedded and Embassy with HAL directly supported/developed by Seeed for XIAO ESPxx and expansion boards. Accept community contr",
+      "zh": "Support Rust embedded and Embassy with HAL directly supported/developed by Seeed for XIAO ESPxx and expansion boards. Accept community contr"
+    },
+    "status": "vote",
+    "statusLabel": {
+      "en": "Open for Vote",
+      "zh": "公开投票"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 1,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "Support Rust embedded and Embassy with HAL directly supported/developed by Seeed for XIAO ESPxx and expansion boards. Accept community contributions to those crates - develop them in open source mode on a platform like GitHub.",
+      "zh": "Support Rust embedded and Embassy with HAL directly supported/developed by Seeed for XIAO ESPxx and expansion boards. Accept community contributions to those crates - develop them in open source mode on a platform like GitHub."
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/41"
+  },
+  {
+    "id": "d58",
+    "title": {
+      "en": "ESP32-S31 in a XIAO Form Factor?",
+      "zh": "ESP32-S31 in a XIAO Form Factor?"
+    },
+    "summary": {
+      "en": "Hi everyone, I’m Ellie, Product Marketing Manager at Seeed Studio, covering the XIAO product line. Recently, Espressif introduced the new ES",
+      "zh": "Hi everyone, I’m Ellie, Product Marketing Manager at Seeed Studio, covering the XIAO product line. Recently, Espressif introduced the new ES"
+    },
+    "status": "vote",
+    "statusLabel": {
+      "en": "Open for Vote",
+      "zh": "公开投票"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 1,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "Hi everyone, I’m Ellie, Product Marketing Manager at Seeed Studio, covering the XIAO product line. Recently, Espressif introduced the new ESP32-S31 SoC — a high-performance dual-core 32-bit RISC-V MCU running at up to 320 MHz. We’ve been taking a close look at the specs and evaluating how this new chip could fit into the XIAO ecosystem, and we’d love to hear the community’s perspective as well. Are the ESP32-S31’s power-efficiency improvements compelling enough to justify a new XIAO variant, or do you feel the current ESP32-S3 lineup already hits the right balance of performance, features, and power consumption? My colleague Josie also published a detailed comparison between the ESP32-S31 and ESP32-S3 here: https://www.seeedstudio.com/blog/2026/04/14/esp32-s31-vs-esp32-s3-should-the-xiao-g",
+      "zh": "Hi everyone, I’m Ellie, Product Marketing Manager at Seeed Studio, covering the XIAO product line. Recently, Espressif introduced the new ESP32-S31 SoC — a high-performance dual-core 32-bit RISC-V MCU running at up to 320 MHz. We’ve been taking a close look at the specs and evaluating how this new chip could fit into the XIAO ecosystem, and we’d love to hear the community’s perspective as well. Are the ESP32-S31’s power-efficiency improvements compelling enough to justify a new XIAO variant, or do you feel the current ESP32-S3 lineup already hits the right balance of performance, features, and power consumption? My colleague Josie also published a detailed comparison between the ESP32-S31 and ESP32-S3 here: https://www.seeedstudio.com/blog/2026/04/14/esp32-s31-vs-esp32-s3-should-the-xiao-g"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/58"
+  },
+  {
+    "id": "d62",
+    "title": {
+      "en": "1w (+30dBm) LoRa booster for Xiao+SX1262",
+      "zh": "1w (+30dBm) LoRa booster for Xiao+SX1262"
+    },
+    "summary": {
+      "en": "This would allow installations that aren't power starved to push to the legal limit in the US without having to worry about leaving the Xiao",
+      "zh": "This would allow installations that aren't power starved to push to the legal limit in the US without having to worry about leaving the Xiao"
+    },
+    "status": "idea",
+    "statusLabel": {
+      "en": "Idea",
+      "zh": "想法"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 0,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "This would allow installations that aren't power starved to push to the legal limit in the US without having to worry about leaving the Xiao ecosystem and investing in relatively massive alternatives.",
+      "zh": "This would allow installations that aren't power starved to push to the legal limit in the US without having to worry about leaving the Xiao ecosystem and investing in relatively massive alternatives."
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/62"
+  },
+  {
+    "id": "d63",
+    "title": {
+      "en": "GPIO breakout board for XIAO?",
+      "zh": "GPIO breakout board for XIAO?"
+    },
+    "summary": {
+      "en": "Hello everyone, We are currently experimenting a new XIAO add-on and we want to hear your thoughts! Many developers told us they wanted an e",
+      "zh": "Hello everyone, We are currently experimenting a new XIAO add-on and we want to hear your thoughts! Many developers told us they wanted an e"
+    },
+    "status": "idea",
+    "statusLabel": {
+      "en": "Idea",
+      "zh": "想法"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 2,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "Hello everyone, We are currently experimenting a new XIAO add-on and we want to hear your thoughts! Many developers told us they wanted an easier way to access every XIAO pin during prototyping, debugging, sensor testing, etc. This GPIO breakout board for XIAO is our attempt to make the 1.27mm-pitch IOs and BAT pins easier to access and solder, especially for prototyping. Would you use something like this, and what would you like to add? Please feel free to leave comments as it will be useful inputs for future revisions. (P.S. The XIAO shown in the image was soldered on for demonstration purposes and is not included with the board.)",
+      "zh": "Hello everyone, We are currently experimenting a new XIAO add-on and we want to hear your thoughts! Many developers told us they wanted an easier way to access every XIAO pin during prototyping, debugging, sensor testing, etc. This GPIO breakout board for XIAO is our attempt to make the 1.27mm-pitch IOs and BAT pins easier to access and solder, especially for prototyping. Would you use something like this, and what would you like to add? Please feel free to leave comments as it will be useful inputs for future revisions. (P.S. The XIAO shown in the image was soldered on for demonstration purposes and is not included with the board.)"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/63"
+  },
+  {
+    "id": "d64",
+    "title": {
+      "en": "A new XIAO display expansion board is on the way! What projects would you use it for?",
+      "zh": "A new XIAO display expansion board is on the way! What projects would you use it for?"
+    },
+    "summary": {
+      "en": "",
+      "zh": ""
+    },
+    "status": "idea",
+    "statusLabel": {
+      "en": "Idea",
+      "zh": "想法"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 1,
+    "comments": 1,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "",
+      "zh": ""
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/64"
+  },
+  {
+    "id": "d73",
+    "title": {
+      "en": "xiao esp32-s31 is very useful",
+      "zh": "xiao esp32-s31 is very useful"
+    },
+    "summary": {
+      "en": "Hi, Imo an xiao esp32-s31 is very useful because of risc v architecture, speed, gpios, iot protocols, ble plus bt classic, hw support a.s.o.",
+      "zh": "Hi, Imo an xiao esp32-s31 is very useful because of risc v architecture, speed, gpios, iot protocols, ble plus bt classic, hw support a.s.o."
+    },
+    "status": "vote",
+    "statusLabel": {
+      "en": "Open for Vote",
+      "zh": "公开投票"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 0,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "Hi, Imo an xiao esp32-s31 is very useful because of risc v architecture, speed, gpios, iot protocols, ble plus bt classic, hw support a.s.o. I'm waiting 8-))",
+      "zh": "Hi, Imo an xiao esp32-s31 is very useful because of risc v architecture, speed, gpios, iot protocols, ble plus bt classic, hw support a.s.o. I'm waiting 8-))"
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/73"
+  },
+  {
+    "id": "d74",
+    "title": {
+      "en": "Help Us Design the Next XIAO IR Mate!",
+      "zh": "Help Us Design the Next XIAO IR Mate!"
+    },
+    "summary": {
+      "en": "We’re working on a upgraded version of XIAO IR Mate and want to hear from the community before we finalize the hardware. The current XIAO IR",
+      "zh": "We’re working on a upgraded version of XIAO IR Mate and want to hear from the community before we finalize the hardware. The current XIAO IR"
+    },
+    "status": "vote",
+    "statusLabel": {
+      "en": "Open for Vote",
+      "zh": "公开投票"
+    },
+    "product": {
+      "en": "",
+      "zh": ""
+    },
+    "votes": 0,
+    "comments": 7,
+    "updated": "",
+    "helpNeeded": false,
+    "proposed": {
+      "en": "We’re working on a upgraded version of XIAO IR Mate and want to hear from the community before we finalize the hardware. The current XIAO IR Mate is designed as a compact smart IR remote for Home Assistant, combining IR control with physical interaction and feedback. Now we’re exploring several hardware options for the next version, and your votes will help us decide what stays, what changes, and what gets upgraded.👉 1️⃣ Main Controller: Which XIAO would you prefer? XIAO ESP32-C3 XIAO ESP32-C6 2️⃣ Touch Function: Keep the touch function Remove the touch function 3️⃣ High-Intensity IR Emitter: 1 x high-intensity IR emitter 2 x high-intensity IR emitters 4️⃣ Wide-Angle IR Emitters: 3 x wide-angle IR emitters 4 x wide-angle IR emitters 5️⃣ Vibration Feedback Keep the vibration sensor Remove ",
+      "zh": "We’re working on a upgraded version of XIAO IR Mate and want to hear from the community before we finalize the hardware. The current XIAO IR Mate is designed as a compact smart IR remote for Home Assistant, combining IR control with physical interaction and feedback. Now we’re exploring several hardware options for the next version, and your votes will help us decide what stays, what changes, and what gets upgraded.👉 1️⃣ Main Controller: Which XIAO would you prefer? XIAO ESP32-C3 XIAO ESP32-C6 2️⃣ Touch Function: Keep the touch function Remove the touch function 3️⃣ High-Intensity IR Emitter: 1 x high-intensity IR emitter 2 x high-intensity IR emitters 4️⃣ Wide-Angle IR Emitters: 3 x wide-angle IR emitters 4 x wide-angle IR emitters 5️⃣ Vibration Feedback Keep the vibration sensor Remove "
+    },
+    "why": {
+      "en": "",
+      "zh": ""
+    },
+    "update": {
+      "en": "",
+      "zh": ""
+    },
+    "githubUrl": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/74"
   }
 ]
