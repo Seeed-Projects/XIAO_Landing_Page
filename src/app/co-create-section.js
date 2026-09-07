@@ -91,6 +91,7 @@ export function CoCreateSection() {
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center gap-2 rounded-full bg-[#8fc31f] px-12 py-3 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#79ad12]"
+              style={{ color: "#fff" }}
             >
               Explore more
               <svg
