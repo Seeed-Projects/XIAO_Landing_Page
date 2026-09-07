@@ -100,7 +100,7 @@ export default function Home() {
         {/* 生态共创 - 全屏满宽，置于用户评价下方；原版文案直接放 banner，不再加重复标题 */}
         <section
           id="cocreate"
-          className="bg-mod-green relative flex min-h-[100dvh] w-full scroll-mt-24 items-center px-6 py-20 sm:px-10 lg:px-16"
+          className="bg-[#f4f6f7] relative flex min-h-[100dvh] w-full scroll-mt-24 items-center px-6 py-20 sm:px-10 lg:px-16"
         >
           <div className="mx-auto w-full max-w-[1440px]">
             <CoCreateSection />
