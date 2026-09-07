@@ -195,7 +195,7 @@ export function NewsCarousel() {
 
   return (
     <div>
-      <div className="flex w-full flex-wrap justify-center gap-4">
+      <div className="flex w-full flex-nowrap justify-start gap-4 overflow-hidden">
         {items.map((item, i) => (
           <a
             key={item.url || i}
