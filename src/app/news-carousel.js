@@ -221,7 +221,7 @@ export function NewsCarousel() {
           href={BLOG_TAG_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center gap-2 rounded-full bg-[#8fc31f] px-12 py-3 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#79ad12]"
+          className="group inline-flex items-center gap-2 rounded-full bg-[var(--button-bg)] px-12 py-3 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]"
         >
           {isEn ? "Explore more" : "探索更多"}
           <svg
