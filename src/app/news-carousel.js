@@ -207,7 +207,7 @@ export function NewsCarousel() {
           type="button"
           aria-label={isEn ? "Previous" : "上一个"}
           onClick={() => scrollByCard(-1)}
-          className="absolute left-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--line-soft)] bg-white text-lg text-[#18224f] shadow-[0_4px_14px_rgba(18,43,56,.14)] transition hover:bg-[#f6f8fa] min-[860px]:left-[-20px]"
+          className="absolute left-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--button-bg)] text-lg text-white shadow-[0_4px_14px_rgba(143,195,31,.32)] transition hover:bg-[var(--button-bg-hover)] min-[860px]:left-[-20px]"
         >
           ‹
         </button>
@@ -241,7 +241,7 @@ export function NewsCarousel() {
           type="button"
           aria-label={isEn ? "Next" : "下一个"}
           onClick={() => scrollByCard(1)}
-          className="absolute right-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--line-soft)] bg-white text-lg text-[#18224f] shadow-[0_4px_14px_rgba(18,43,56,.14)] transition hover:bg-[#f6f8fa] min-[860px]:right-[-20px]"
+          className="absolute right-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--button-bg)] text-lg text-white shadow-[0_4px_14px_rgba(143,195,31,.32)] transition hover:bg-[var(--button-bg-hover)] min-[860px]:right-[-20px]"
         >
           ›
         </button>
