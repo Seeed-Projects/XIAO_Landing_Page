@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLang } from "./i18n";
 
 /**
@@ -191,11 +191,32 @@ export function NewsCarousel() {
     };
   }, []);
 
-  const isEn = lang === "en";
+  const isEn = lang === "en"];
+  const trackRef = useRef(null);
+  const scrollByCard = (dir) => {
+    const el = trackRef.current;
+    if (!el) return;
+    el.scrollBy({ left: el.clientWidth * 0.85 * dir, behavior: "smooth" });
+  };
 
   return (
     <div>
-      <div className="flex w-full flex-nowrap justify-start gap-4 overflow-hidden">
+      <div className="relative">
+        {/* 向左滑动 */}
+        <button
+          type="button"
+          aria-label={isEn ? "Previous" : "上一个"}
+          onClick={() => scrollByCard(-1)}
+          className="absolute left-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--line-soft)] bg-white text-lg text-[#18224f] shadow-[0_4px_14px_rgba(18,43,56,.14)] transition hover:bg-[#f6f8fa] min-[860px]:left-[-20px]"
+        >
+          ‹
+        </button>
+        {/* 卡片轨道：单行，横向可滚动，隐藏滚动条 */}
+        <div
+          ref={trackRef}
+          className="flex w-full snap-x flex-nowrap justify-start gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
         {items.map((item, i) => (
           <a
             key={item.url || i}
@@ -214,6 +235,16 @@ export function NewsCarousel() {
             <span className="mt-2 text-sm font-medium text-[#8fc93a]">{isEn ? "Read More »" : "阅读更多 »"}</span>
           </a>
         ))}
+        </div>
+        {/* 向右滑动 */}
+        <button
+          type="button"
+          aria-label={isEn ? "Next" : "下一个"}
+          onClick={() => scrollByCard(1)}
+          className="absolute right-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--line-soft)] bg-white text-lg text-[#18224f] shadow-[0_4px_14px_rgba(18,43,56,.14)] transition hover:bg-[#f6f8fa] min-[860px]:right-[-20px]"
+        >
+          ›
+        </button>
       </div>
       {/* Explore More —— 进入 Seeed Blog XIAO 标签页，看更多文章 */}
       <div className="mt-14 flex justify-center">
