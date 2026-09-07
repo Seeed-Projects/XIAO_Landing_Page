@@ -93,7 +93,12 @@ export function NewsCarousel() {
   const scrollByCard = (dir) => {
     const el = trackRef.current;
     if (!el) return;
-    el.scrollBy({ left: el.clientWidth * 0.85 * dir, behavior: "smooth" });
+    const delta = Math.max(el.clientWidth * 0.85, 240) * dir;
+    if (typeof el.scrollBy === "function") {
+      el.scrollBy({ left: delta, behavior: "smooth" });
+    } else {
+      el.scrollLeft += delta;
+    }
   };
 
   return (
@@ -106,7 +111,7 @@ export function NewsCarousel() {
           type="button"
           aria-label={isEn ? "Previous" : "上一个"}
           onClick={() => scrollByCard(-1)}
-          className="absolute left-1 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--button-bg)] text-lg text-white shadow-[0_4px_14px_rgba(143,195,31,.32)] transition hover:bg-[var(--button-bg-hover)] sm:left-2"
+          className="absolute left-1 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-[var(--button-bg)] text-lg text-white shadow-[0_4px_14px_rgba(143,195,31,.32)] transition hover:bg-[var(--button-bg-hover)] sm:left-2"
         >
           ‹
         </button>
@@ -140,7 +145,7 @@ export function NewsCarousel() {
           type="button"
           aria-label={isEn ? "Next" : "下一个"}
           onClick={() => scrollByCard(1)}
-          className="absolute right-1 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--button-bg)] text-lg text-white shadow-[0_4px_14px_rgba(143,195,31,.32)] transition hover:bg-[var(--button-bg-hover)] sm:right-2"
+          className="absolute right-1 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-[var(--button-bg)] text-lg text-white shadow-[0_4px_14px_rgba(143,195,31,.32)] transition hover:bg-[var(--button-bg-hover)] sm:right-2"
         >
           ›
         </button>

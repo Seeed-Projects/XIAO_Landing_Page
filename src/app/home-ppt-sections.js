@@ -51,7 +51,7 @@ export function GlimpseSection() {
           </Link>
         </Reveal>)}
       </div>
-      <Reveal className="mt-8 flex justify-center"><a href={withBase("/products")} className="rounded-full bg-[var(--button-bg)] px-12 py-4 text-xl font-semibold text-white transition hover:bg-[var(--button-bg-hover)]">{zh ? "Seeed Studio XIAO 选型器" : "Seeed Studio XIAO Selector"}</a></Reveal>
+      <Reveal className="mt-8 flex justify-center"><a href={withBase("/products")} style={{ color: "#fff" }} className="rounded-full bg-[var(--button-bg)] px-12 py-4 text-xl font-semibold text-white transition hover:bg-[var(--button-bg-hover)]">{zh ? "Seeed Studio XIAO 选型器" : "Seeed Studio XIAO Selector"}</a></Reveal>
     </div>
   </section>;
 }
