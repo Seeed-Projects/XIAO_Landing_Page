@@ -159,7 +159,7 @@ export function SiteFooter() {
                 <button
                   type="button"
                   onClick={reset}
-                  className="mt-3 inline-flex items-center rounded-lg bg-white/10 px-4 py-2 text-xs font-semibold text-white/85 transition hover:bg-white/20"
+                  className="mt-3 inline-flex items-center rounded-lg bg-white/10 px-4 py-2 text-xs font-semibold text-white transition hover:bg-white/20"
                 >
                   {tr("Subscribe another email", "订阅其他邮箱")}
                 </button>
