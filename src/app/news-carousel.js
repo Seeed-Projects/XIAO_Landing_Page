@@ -191,7 +191,7 @@ export function NewsCarousel() {
     };
   }, []);
 
-  const isEn = lang === "en"];
+  const isEn = lang === "en";
   const trackRef = useRef(null);
   const scrollByCard = (dir) => {
     const el = trackRef.current;
