@@ -1,26 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { useLang } from "./i18n";
 
 /**
- * 资讯滚动带 —— 数据自动更新：
- * 直连 Seeed WordPress wp-json 拉取 XIAO 标签文章。
- * ⚠️ GitHub Pages 阶段拉不到：wp-json 同时返回「反射 Origin」+「*」两个
- *    Access-Control-Allow-Origin 头，浏览器判 CORS 失败。上到
- *    www.seeedstudio.com 域名后与博客同源，直连即生效。期间回退 i18n
- *    静态数据，保证不空。要恢复实时新闻，最干净的做法是让 seeed 修掉
- *    wp-json 的重复 CORS 头（或上同源域名）。
+ * 资讯滚动带 —— GitHub Pages 阶段只用静态快照，不运行时拉取。
+ * 直连 Seeed WordPress wp-json 因重复 CORS 头失败；JSONP 取回后
+ * re-render 会让卡片样式跳动（首屏对、几秒后变小）。为保持首屏
+ * 样子稳定，这里不做 fetch，直接渲染静态数据。上到同源域名后再
+ * 启用实时拉取。
  */
-
-const WP_ENDPOINT =
-  "https://www.seeedstudio.com/blog/wp-json/wp/v2/posts?tags=3129&per_page=10&_embed=1&orderby=date&order=desc";
 
 const BLOG_TAG_URL = "https://www.seeedstudio.com/blog/tag/seeed-studio-xiao/";
 
-// GitHub Pages cannot read the WordPress response because the blog currently
-// returns conflicting CORS headers. Keep a recent, fully populated snapshot so
-// the news cards still have matching links and featured images there.
+// 静态新闻快照：与 Seeed Blog XIAO 标签文章对齐，保证卡片有匹配的链接与配图。
 const NEWS_FALLBACK = [
   {
     title: "Axiometa Genesis XIAO Shield: Build Real Devices Without the Wiring",
@@ -92,106 +85,10 @@ const NEWS_FALLBACK = [
   },
 ];
 
-// 内存缓存：1 小时内复用，避免重复请求。
-const TTL = 60 * 60 * 1000;
-let cache = { at: 0, items: null };
-
-function strip(html) {
-  return (html || "")
-    .replace(/<[^>]+>/g, "")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&#8211;/g, "–")
-    .replace(/&#8217;/g, "’")
-    .replace(/&#039;/g, "'")
-    .replace(/&amp;/g, "&")
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, 140);
-}
-
-function mapPost(p) {
-  const emb = p?._embedded || {};
-  const media = emb["wp:featuredmedia"]?.[0];
-  const author = emb.author?.[0];
-  return {
-    title: strip(p?.title?.rendered),
-    excerpt: strip(p?.excerpt?.rendered),
-    date: (p?.date || "").slice(0, 10),
-    url: p?.link || "#",
-    media_url: media?.source_url || "",
-    source: author?.name || "Seeed Blog",
-    tag: "Seeed Blog",
-  };
-}
-
-// WordPress REST supports JSONP. Loading it as a script avoids the invalid
-// duplicate CORS response headers returned by the blog/CDN on GitHub Pages.
-function loadPostsWithJsonp() {
-  return new Promise((resolve, reject) => {
-    const callbackName = `xiaoNews_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-    const script = document.createElement("script");
-    const timer = window.setTimeout(() => {
-      cleanup();
-      reject(new Error("News JSONP request timed out"));
-    }, 12000);
-
-    function cleanup() {
-      window.clearTimeout(timer);
-      delete window[callbackName];
-      script.remove();
-    }
-
-    window[callbackName] = (posts) => {
-      cleanup();
-      resolve(posts);
-    };
-    script.onerror = () => {
-      cleanup();
-      reject(new Error("News JSONP request failed"));
-    };
-    script.src = `${WP_ENDPOINT}&_jsonp=${callbackName}`;
-    document.head.appendChild(script);
-  });
-}
-
 export function NewsCarousel() {
   const { lang } = useLang();
-  const [items, setItems] = useState(NEWS_FALLBACK);
-
-  useEffect(() => {
-    let alive = true;
-    const now = Date.now();
-    if (cache.items && now - cache.at < TTL) {
-      const cachedItems = cache.items;
-      queueMicrotask(() => {
-        if (alive) setItems(cachedItems);
-      });
-      return;
-    }
-    fetch(WP_ENDPOINT, { headers: { Accept: "application/json" } })
-      .then((r) => (r && r.ok ? r.json() : Promise.reject(r?.status || "no-resp")))
-      .catch(() => loadPostsWithJsonp())
-      .then((posts) => {
-        if (!alive || !Array.isArray(posts)) return;
-        const mapped = posts
-          .map(mapPost)
-          .filter((p) => p.title)
-          // 按日期倒序，优先显示近期
-          .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
-        if (mapped.length) {
-          cache = { at: Date.now(), items: mapped };
-          setItems(mapped);
-        }
-      })
-      .catch(() => {
-        if (alive && cache.items) setItems(cache.items);
-      });
-    return () => {
-      alive = false;
-    };
-  }, []);
-
   const isEn = lang === "en";
+  const items = NEWS_FALLBACK;
   const trackRef = useRef(null);
   const scrollByCard = (dir) => {
     const el = trackRef.current;
@@ -202,12 +99,14 @@ export function NewsCarousel() {
   return (
     <div>
       <div className="relative">
+        {/* 左缘渐变 fade：提示仍有更多可滑，箭头浮其上，允许覆盖卡片边缘 */}
+        <div aria-hidden="true" className="pointer-events-none absolute left-0 top-0 z-[5] h-full w-16 bg-gradient-to-r from-white via-white/85 to-transparent sm:w-20" />
         {/* 向左滑动 */}
         <button
           type="button"
           aria-label={isEn ? "Previous" : "上一个"}
           onClick={() => scrollByCard(-1)}
-          className="absolute left-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--button-bg)] text-lg text-white shadow-[0_4px_14px_rgba(143,195,31,.32)] transition hover:bg-[var(--button-bg-hover)] min-[860px]:left-[-20px]"
+          className="absolute left-1 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--button-bg)] text-lg text-white shadow-[0_4px_14px_rgba(143,195,31,.32)] transition hover:bg-[var(--button-bg-hover)] sm:left-2"
         >
           ‹
         </button>
@@ -241,10 +140,12 @@ export function NewsCarousel() {
           type="button"
           aria-label={isEn ? "Next" : "下一个"}
           onClick={() => scrollByCard(1)}
-          className="absolute right-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--button-bg)] text-lg text-white shadow-[0_4px_14px_rgba(143,195,31,.32)] transition hover:bg-[var(--button-bg-hover)] min-[860px]:right-[-20px]"
+          className="absolute right-1 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--button-bg)] text-lg text-white shadow-[0_4px_14px_rgba(143,195,31,.32)] transition hover:bg-[var(--button-bg-hover)] sm:right-2"
         >
           ›
         </button>
+        {/* 右缘渐变 fade */}
+        <div aria-hidden="true" className="pointer-events-none absolute right-0 top-0 z-[5] h-full w-16 bg-gradient-to-l from-white via-white/85 to-transparent sm:w-20" />
       </div>
       {/* Explore More —— 进入 Seeed Blog XIAO 标签页，看更多文章 */}
       <div className="mt-14 flex justify-center">
@@ -253,6 +154,7 @@ export function NewsCarousel() {
           target="_blank"
           rel="noopener noreferrer"
           className="group inline-flex items-center gap-2 rounded-full bg-[var(--button-bg)] px-12 py-3 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]"
+          style={{ color: "#fff" }}
         >
           {isEn ? "Explore more" : "探索更多"}
           <svg
