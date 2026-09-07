@@ -680,7 +680,7 @@ export function Pinout() {
   const { lang } = useLang();
   const [boardId, setBoardId] = useState("samd21");
   const [face, setFace] = useState("front");
-  const [selId, setSelId] = useState("A0");
+  const [selId, setSelId] = useState("D0");
   const [copied, setCopied] = useState(false);
   const [boardMenuOpen, setBoardMenuOpen] = useState(false);
   const initialCategory = BOARD_CATEGORIES.find((category) => category.boardIds.includes(boardId))?.id || BOARD_CATEGORIES[0].id;
@@ -694,6 +694,9 @@ export function Pinout() {
   const activeId = pinById(selId) ? selId : allPins[0].id;
   const pin = pinById(activeId);
   const c = FN_COLOR[pin.fn];
+  const isSamd21 = boardId === "samd21";
+  const activeLeftIds = face === "back" && board.backPins ? board.backPins.left : board.leftColIds;
+  const samdDetailOnLeft = isSamd21 && activeLeftIds.includes(activeId);
   const pick = (field) => (field && field[lang]) || (field && field.en) || "";
   const activeCategory = BOARD_CATEGORIES.find((category) => category.id === activeCategoryId) || BOARD_CATEGORIES[0];
 
@@ -852,7 +855,7 @@ export function Pinout() {
         </div>
 
         <section className={styles.workspace}>
-          <div className={styles.grid}>
+          <div className={`${styles.grid} ${isSamd21 ? styles.samdLayout : ""} ${samdDetailOnLeft ? styles.samdDetailLeft : styles.samdDetailRight}`}>
             {/* 左：分组引脚列表 */}
             <aside className={styles.leftPanel}>
               <div className={styles.panelLabel}>{T.listLabel}</div>

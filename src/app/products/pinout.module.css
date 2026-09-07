@@ -64,6 +64,11 @@
   background: radial-gradient(circle at 38% 38%, rgba(83,190,160,.24), transparent 58%), linear-gradient(180deg,#214957 0%,#2d6070 100%);
   box-shadow: 0 18px 40px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.06);
 }
+.samdLayout.samdDetailLeft { grid-template-columns: 248px 360px minmax(0,1fr); }
+.samdLayout.samdDetailLeft .rightPanel { grid-column: 2; grid-row: 1; padding: 22px 0 24px 18px; }
+.samdLayout.samdDetailLeft .centerPanel { grid-column: 3; grid-row: 1; }
+.samdLayout.samdDetailRight .centerPanel { grid-column: 2; grid-row: 1; }
+.samdLayout.samdDetailRight .rightPanel { grid-column: 3; grid-row: 1; }
 
 .panelLabel { font-family: var(--font-display), sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: var(--ink-muted); text-transform: uppercase; margin-bottom: 14px; }
 
@@ -110,6 +115,11 @@
 .pinRowActive .pinName { color: #fff; }
 .pinRowActive .pinLead { height: 2px; }
 .pinRowActive .pinPad { transform: scale(1.35); box-shadow: 0 0 0 4px rgba(255,255,255,.13), 0 0 18px currentColor; }
+.samdLayout .pinName,
+.samdLayout .pinFunc { display: none; }
+.samdLayout .pinRow { padding-inline: 4px; }
+.samdLayout .pinLead { height: 2px; background: currentColor; box-shadow: 0 0 10px currentColor; }
+.samdLayout .pinPad { width: 13px; height: 13px; border-radius: 50%; box-shadow: 0 0 0 4px rgba(255,255,255,.14), 0 0 18px currentColor; }
 
 .boardBody {
   flex: 0 0 96px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
@@ -150,6 +160,7 @@
 .boardMeta { text-align: center; max-width: 420px; }
 .boardMeta h3 { margin: 0 0 4px; font-family: var(--font-display), sans-serif; font-size: 18px; font-weight: 600; letter-spacing: -0.01em; color: #fff; }
 .boardMeta p { margin: 0; font-size: 13px; color: rgba(255,255,255,.72); line-height: 1.6; }
+.samdLayout .boardMeta { display: none; }
 .pinLegend { display: none; }
 .pinLegend span { display: inline-flex; align-items: center; gap: 6px; padding: 6px 9px; border-radius: var(--r-pill); background: var(--surface-strong); color: var(--ink-body); font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 10px; font-weight: 700; }
 .pinLegend i { width: 8px; height: 8px; border-radius: 2px; }
@@ -188,6 +199,12 @@
   .grid { grid-template-columns: 230px minmax(0,1fr); }
   .grid::before { left: 274px; }
   .rightPanel { grid-column: 2; padding: 0 18px 24px; }
+  .samdLayout.samdDetailLeft,
+  .samdLayout.samdDetailRight { grid-template-columns: 230px minmax(0,1fr); }
+  .samdLayout.samdDetailLeft .centerPanel,
+  .samdLayout.samdDetailRight .centerPanel { grid-column: 2; grid-row: 1; }
+  .samdLayout.samdDetailLeft .rightPanel,
+  .samdLayout.samdDetailRight .rightPanel { grid-column: 2; grid-row: 2; padding: 0 18px 24px; }
 }
 @media (max-width: 760px) {
   .wrap { padding: 0 16px 70px; }
@@ -196,6 +213,12 @@
   .centerPanel { order: 1; }
   .leftPanel { order: 2; }
   .rightPanel { order: 3; grid-column: 1; padding: 0; }
+  .samdLayout.samdDetailLeft,
+  .samdLayout.samdDetailRight { grid-template-columns: 1fr; }
+  .samdLayout.samdDetailLeft .centerPanel,
+  .samdLayout.samdDetailRight .centerPanel { grid-column: 1; grid-row: auto; }
+  .samdLayout.samdDetailLeft .rightPanel,
+  .samdLayout.samdDetailRight .rightPanel { grid-column: 1; grid-row: auto; padding: 0; }
   .pinList { max-height: 320px; }
   .centerPanel { border-radius: var(--r-card); background: linear-gradient(180deg,#214957 0%,#2d6070 100%); }
   .boardFigure { padding: 16px 4px; }
