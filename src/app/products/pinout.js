@@ -18,12 +18,12 @@ const FN_COLOR = {
   uart: "#ec4899",
 };
 
-/* SAMD21 板载指示灯在正面图上的实际大致位置。 */
+/* SAMD21 板载指示项：独立排在板图上方，不覆盖产品图。 */
 const SAMD21_FRONT_MARKERS = [
-  { id: "TX_LED", label: "TX", x: 73.5, y: 17.5 },
-  { id: "POWER_LED", label: "PWR", x: 82.5, y: 17.5 },
-  { id: "RX_LED", label: "RX", x: 73.5, y: 27 },
-  { id: "USER_LED", label: "USER", x: 82.5, y: 27 },
+  { id: "TX_LED", label: "TX LED" },
+  { id: "RX_LED", label: "RX LED" },
+  { id: "POWER_LED", label: "POWER" },
+  { id: "USER_LED", label: "USER LED" },
 ];
 const SAMD21_FRONT_MARKER_ALIASES = {
   D11: "TX_LED",
@@ -454,7 +454,7 @@ const samdGroups = buildBoard("RESETN", {
     ob("RX_LED", "PA18", "RX Indicator LED", "RX 指示灯"),
     ob("SWDIO", "PA31", "SWD Debug Data", "SWD 调试数据"),
     ob("SWCLK", "PA30", "SWD Debug Clock", "SWD 调试时钟"),
-    ob("POWER_LED", "3V3", "Power Indicator LED (hardware)", "电源指示灯（硬件）"),
+    ob("POWER_LED", "3V3", "Power Indicator LED (hardware)", "电源指示灯（硬件）", "power"),
   ],
 });
 
@@ -1001,25 +1001,29 @@ export function Pinout() {
                         decoding="async"
                         fetchPriority="high"
                       />
-                      {isSamd21 && face === "front" && SAMD21_FRONT_MARKERS.map((marker) => {
-                        const markerPin = pinById(marker.id);
-                        if (!markerPin) return null;
-                        const active = marker.id === activeId || SAMD21_FRONT_MARKER_ALIASES[activeId] === marker.id;
-                        return (
-                          <button
-                            key={marker.id}
-                            type="button"
-                            className={`${styles.samdBoardMarker} ${active ? styles.samdBoardMarkerActive : ""}`}
-                            style={{ left: `${marker.x}%`, top: `${marker.y}%`, color: FN_COLOR[markerPin.fn] }}
-                            onClick={() => setSelId(marker.id)}
-                            ref={active ? activeStagePinRef : null}
-                            aria-label={marker.id}
-                          >
-                            <span className={styles.pinPad} style={{ background: FN_COLOR[markerPin.fn] }} />
-                            <span>{marker.label}</span>
-                          </button>
-                        );
-                      })}
+                      {isSamd21 && face === "front" && (
+                        <div className={styles.samdTopMarkers}>
+                          {SAMD21_FRONT_MARKERS.map((marker) => {
+                            const markerPin = pinById(marker.id);
+                            if (!markerPin) return null;
+                            const active = marker.id === activeId || SAMD21_FRONT_MARKER_ALIASES[activeId] === marker.id;
+                            return (
+                              <button
+                                key={marker.id}
+                                type="button"
+                                className={`${styles.samdBoardMarker} ${active ? styles.samdBoardMarkerActive : ""}`}
+                                style={{ color: FN_COLOR[markerPin.fn] }}
+                                onClick={() => setSelId(marker.id)}
+                                ref={active ? activeStagePinRef : null}
+                                aria-label={marker.id}
+                              >
+                                <span>{marker.label}</span>
+                                <span className={styles.pinPad} style={{ background: FN_COLOR[markerPin.fn] }} />
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
                     </>
                   ) : (
                     <>

@@ -191,28 +191,39 @@
   border: none;
   box-shadow: none;
 }
-.samdBoardMarker {
+.samdTopMarkers {
   position: absolute;
-  z-index: 3;
+  z-index: 4;
+  top: -38px;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  width: max-content;
+  transform: translateX(-50%);
+}
+.samdBoardMarker {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
-  gap: 0;
-  transform: translate(-50%, -50%);
-  padding: 4px;
+  gap: 6px;
+  padding: 4px 2px;
   border: 0;
-  border-radius: 999px;
+  border-radius: 6px;
   background: transparent;
-  color: #fff;
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 8px;
-  font-weight: 800;
-  letter-spacing: .035em;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .01em;
   line-height: 1;
   box-shadow: none;
 }
-.samdBoardMarker > span:last-child { display: none; }
-.samdBoardMarker .pinPad { width: 7px; height: 7px; border-width: 1px; }
-.samdBoardMarkerActive { z-index: 4; background: transparent; box-shadow: none; }
+.samdBoardMarker > span:first-child { color: rgba(240,250,252,.88); text-shadow: 0 1px 8px rgba(0,0,0,.28); }
+.samdBoardMarker .pinPad { width: 10px; height: 10px; border-width: 2px; }
+.samdBoardMarkerActive { z-index: 2; background: rgba(255,255,255,.08); box-shadow: 0 0 0 1px rgba(255,255,255,.10); }
+.samdBoardMarkerActive > span:first-child { color: #fff; }
 .samdBoardMarkerActive .pinPad { width: 12px; height: 12px; opacity: 1; box-shadow: 0 0 0 4px rgba(255,255,255,.22), 0 0 20px currentColor; }
 /* 正面板子图：高度驱动布局——pinCol 与图同高，引脚按焊盘 Y% 对齐 */
 .boardFigureImg { object-fit: contain; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5)); }
