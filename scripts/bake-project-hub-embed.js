@@ -14,6 +14,12 @@ const fs = require("node:fs");
 const HUB_URL = "https://seeed-studio.github.io/OSHW-XIAO-Series/";
 const OUT = "public/project-hub-embed.html";
 
+// 内嵌页顶部的 "XIAO Project Hub" 大标题与 landing 页重复，隐藏整个 <header>
+// （含标题、副标题、Contribute、语言按钮），让内嵌直接从搜索框 + 筛选器开始。
+// 用 display:none 而非删除节点：页面 JS 依赖 #title/#subtitle/#langBtn/#contributeBtn，
+// 删除会令 updateLang() 等抛错。元素保留在 DOM 中，仅视觉隐藏。
+const HIDE_HEADER = `<style>header{display:none !important;}</style>`;
+
 const HEIGHT_BRIDGE = `<script>
 (() => {
   let frame = 0;
@@ -45,7 +51,7 @@ const FALLBACK =
     const res = await fetch(HUB_URL, { cache: "no-store" });
     if (!res.ok) throw new Error(`Project Hub responded with ${res.status}`);
     let html = await res.text();
-    html = html.replace(/<head([^>]*)>/i, `<head$1><base href="${HUB_URL}">`);
+    html = html.replace(/<head([^>]*)>/i, `<head$1><base href="${HUB_URL}">${HIDE_HEADER}`);
     html = html.replace(/<\/body>/i, `${HEIGHT_BRIDGE}</body>`);
     fs.writeFileSync(OUT, html, "utf8");
     console.log(`[bake-project-hub-embed] baked ${OUT} (${html.length} bytes)`);
