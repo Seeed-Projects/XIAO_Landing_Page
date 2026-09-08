@@ -41,6 +41,8 @@
 .boardMenuModels button { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; border: 1px solid transparent; border-radius: var(--r-control); background: transparent; padding: 10px 12px; color: var(--ink-strong); text-align: left; font-size: 13px; font-weight: 600; }
 .boardMenuModels button:hover { background: var(--surface-tint); border-color: var(--line-soft); }
 .boardMenuModels .boardModelActive { background: rgba(22,182,106,.1); border-color: rgba(22,182,106,.35); color: var(--brand-green-deep); }
+.boardMenuModels .boardModelPending { cursor: not-allowed; opacity: .62; }
+.boardMenuModels .boardModelPending small { margin-left: auto; color: var(--ink-muted); font-size: 10px; font-weight: 600; }
 .boardMenuModels b { color: var(--brand-green); font-size: 14px; }
 .gpioNote { margin-left: auto; font-size: 11px; color: var(--ink-muted); font-style: italic; }
 .faceSwitch { margin-left: auto; display: inline-flex; padding: 3px; border-radius: var(--r-pill); background: var(--surface-tint); border: 1px solid var(--line-soft); }
@@ -230,6 +232,18 @@
 .samdBoardMarkerActive { z-index: 2; background: rgba(255,255,255,.08); box-shadow: 0 0 0 1px rgba(255,255,255,.10); }
 .samdBoardMarkerActive > span:first-child { color: #fff; }
 .samdBoardMarkerActive .pinPad { width: 12px; height: 12px; opacity: 1; box-shadow: 0 0 0 4px rgba(255,255,255,.22), 0 0 20px currentColor; }
+.frontCornerMarker {
+  position: absolute; z-index: 5; top: 4%; display: inline-flex; flex-direction: column; align-items: center; gap: 5px;
+  border: 0; background: transparent; color: #d8e9e8; font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px; font-weight: 800; pointer-events: auto;
+}
+.frontCornerMarkerLeft { left: -58px; }
+.frontCornerMarkerRight { right: -64px; }
+.frontCornerMarker .pinPad, .frontBottomMarker .pinPad { width: 10px; height: 10px; border: 2px solid rgba(255,255,255,.82); border-radius: 50%; box-shadow: 0 0 0 3px rgba(255,255,255,.10), 0 0 12px currentColor; }
+.frontBottomMarkers { position: absolute; z-index: 5; left: 50%; bottom: -42px; display: flex; align-items: flex-start; justify-content: center; gap: 10px; width: max-content; transform: translateX(-50%); }
+.frontBottomMarker { display: inline-flex; flex-direction: column; align-items: center; gap: 5px; padding: 2px; border: 0; background: transparent; color: #d8e9e8; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 9px; font-weight: 700; pointer-events: auto; }
+.frontAuxMarkerActive { border-radius: 7px; background: rgba(255,255,255,.09); box-shadow: 0 0 0 1px rgba(255,255,255,.12); }
+.frontAuxMarkerActive .pinPad { transform: scale(1.25); box-shadow: 0 0 0 4px rgba(255,255,255,.18), 0 0 20px currentColor; }
 /* 正面板子图：高度驱动布局——pinCol 与图同高，引脚按焊盘 Y% 对齐 */
 .boardFigureImg { object-fit: contain; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5)); }
 .boardBodyImg .boardFigureImg { display: block; height: clamp(330px, 42vh, 440px); width: auto; }

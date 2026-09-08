@@ -130,8 +130,22 @@ const nrf54Groups = [
     { id: "IMU_SCL", xiao: "—", fn: "i2c", chip: "P0.07", desc: { en: "IMU I2C SCL (Onboard IMU)", zh: "IMU I2C SCL（板载 IMU）" }, note: "", code: "" },
     { id: "IMU_CS", xiao: "—", fn: "digital", chip: "P3.12", desc: { en: "IMU Chip Select", zh: "IMU 片选" }, note: "", code: "" },
     { id: "IMU_INT1", xiao: "—", fn: "digital", chip: "P0.06", desc: { en: "IMU Interrupt 1", zh: "IMU 中断 1" }, note: "", code: "" },
-    { id: "NFC", xiao: "—", fn: "digital", chip: "P1.02 / P1.01", desc: { en: "NFC Antenna Pins", zh: "NFC 天线引脚" }, note: { en: "Connects to the NFC antenna pads.", zh: "接 NFC 天线焊盘。" }, code: "" },
+    { id: "NFC1", xiao: "N1", fn: "digital", chip: "P1.02", desc: { en: "NFC Antenna Pin 1", zh: "NFC 天线引脚 1" }, note: { en: "Connects to one side of the NFC antenna.", zh: "连接 NFC 天线的一端。" }, code: "" },
+    { id: "NFC2", xiao: "N2", fn: "digital", chip: "P1.01", desc: { en: "NFC Antenna Pin 2", zh: "NFC 天线引脚 2" }, note: { en: "Connects to the other side of the NFC antenna.", zh: "连接 NFC 天线的另一端。" }, code: "" },
     { id: "GRTC", xiao: "—", fn: "digital", chip: "P0.04 / P0.05", desc: { en: "General Purpose RTC Pins", zh: "通用 RTC 引脚" }, note: "", code: "" },
+  ] },
+  { cat: "expanded", label: { en: "Expanded / Inner Pads", zh: "夹缝 / 贴片引脚" }, pins: [
+    ...[
+      ["D11", "P3.00"], ["D12", "P3.01"], ["D13", "P3.02"], ["D14", "P3.03"],
+      ["D15", "P3.04"], ["D16", "P3.05"], ["D17", "P3.06"], ["D18", "P3.07"],
+      ["P3.11", "P3.11"], ["P3.10", "P3.10"], ["P3.09", "P3.09"],
+      ["P0.00", "P0.00"], ["P0.01", "P0.01"], ["P0.02", "P0.02"],
+      ["P0.03", "P0.03"], ["P0.04", "P0.04"], ["P0.05", "P0.05"],
+    ].map(([id, chip]) => ({
+      id, xiao: id, fn: "digital", chip,
+      desc: { en: "Expanded GPIO pad", zh: "扩展 GPIO 贴片引脚" },
+      note: { en: "Solder pad on the rear/inner row.", zh: "位于背面或内侧夹缝焊盘。" }, code: "",
+    })),
   ] },
 ];
 
@@ -541,10 +555,14 @@ const BOARDS = {
     leftColIds: ["A0", "A1", "A2", "A3", "SDA", "SCL", "TX"],
     rightColIds: ["VBUS", "GND", "3V3", "MOSI", "MISO", "SCK", "RX"],
     padY: STD_PAD_Y,
+    frontBottomIds: ["MIC_DAT", "MIC_CLK", "IMU_SDA", "IMU_SCL", "IMU_CS", "IMU_INT1"],
     backPins: {
-      left: ["SWCLK", "GND", "SWCLK2", "3V3", "BAT-", "SHPHLD"],
-      right: ["SWDIO", "RESET", "SWDIO2", "RST2", "BAT+"],
-      padY: { left: [13, 23, 36, 47, 72, 92], right: [13, 23, 36, 47, 72] },
+      left: ["SWCLK", "GND", "SWCLK2", "3V3", "D11", "D12", "D13", "D14", "P3.11", "P3.10", "P3.09", "SHPHLD"],
+      right: ["SWDIO", "RESET", "SWDIO2", "RST2", "D18", "D17", "D16", "D15", "P0.00", "P0.01", "P0.02", "P0.03", "P0.04", "P0.05", "NFC1", "NFC2", "BAT-", "BAT+"],
+      padY: {
+        left: [7, 14, 21, 28, 36, 43, 50, 57, 65, 72, 79, 91],
+        right: [5, 10, 15, 20, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 86, 90, 94, 98],
+      },
     },
     backGroups: [backDebugGroup(
       P("SWCLK2", "SWCLK2", "digital", "SAMD11 SWCLK", "SAMD11 debug clock", "SAMD11 调试时钟"),
@@ -563,7 +581,7 @@ const BOARDS = {
     tagline: { en: "ESP32-S3 — Wi-Fi + BLE workhorse with plenty of GPIO and PSRAM.", zh: "ESP32-S3 — Wi-Fi + BLE 主力，GPIO 多、带 PSRAM。" },
     groups: s3Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: S3_PAD_Y, gpioNote: false,
-    backPins: { left: ["MTDO", "GND", "MTCK", "3V3", "BAT-"], right: ["MTDI", "RST", "MTMS", "BAT+"], padY: { left: [20, 30, 40, 50, 76], right: [20, 30, 40, 76] } },
+    backPins: { left: ["MTDO", "GND", "MTCK", "3V3"], right: ["MTDI", "RST", "MTMS", "BAT-", "BAT+"], padY: { left: [20, 30, 40, 50], right: [20, 30, 40, 70, 80] } },
     backGroups: [backBatteryGroup()],
   },
   c3: {
@@ -575,7 +593,7 @@ const BOARDS = {
     tagline: { en: "ESP32-C3 — compact RISC-V for Wi-Fi + BLE basics.", zh: "ESP32-C3 — RISC-V 小巧，Wi-Fi + BLE 入门。" },
     groups: c3Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
-    backPins: { left: ["MTDO", "GND", "MTCK", "3V3", "BAT-"], right: ["MTDI", "RST", "MTMS", "BAT+", "Boot"], padY: { left: [17, 27, 37, 47, 61], right: [17, 27, 37, 61, 91] } },
+    backPins: { left: ["MTDO", "GND", "MTCK", "3V3"], right: ["MTDI", "RST", "MTMS", "BAT-", "BAT+", "Boot"], padY: { left: [17, 27, 37, 47], right: [17, 27, 37, 57, 67, 91] } },
     backGroups: [backBatteryGroup()],
   },
   c6: {
@@ -587,7 +605,7 @@ const BOARDS = {
     tagline: { en: "ESP32-C6 — Wi-Fi 6, BLE, and Thread/Zigbee for Matter smart-home.", zh: "ESP32-C6 — Wi-Fi 6 + BLE + Thread/Zigbee，适合 Matter 智能家居。" },
     groups: c6Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
-    backPins: { left: ["MTDO", "GND", "MTCK", "3V3", "BAT-"], right: ["MTDI", "RST", "MTMS", "Boot", "BAT+"], padY: { left: [19, 29, 39, 49, 76], right: [19, 29, 39, 49, 76] } },
+    backPins: { left: ["MTDO", "GND", "MTCK", "3V3"], right: ["MTDI", "RST", "MTMS", "Boot", "BAT-", "BAT+"], padY: { left: [19, 29, 39, 49], right: [19, 29, 39, 49, 69, 79] } },
     backGroups: [backBatteryGroup()],
   },
   c5: {
@@ -599,7 +617,7 @@ const BOARDS = {
     tagline: { en: "ESP32-C5 — Wi-Fi 6 + BLE 5 on the XIAO footprint.", zh: "ESP32-C5 — XIAO 封装上的 Wi-Fi 6 + BLE 5。" },
     groups: c5Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
-    backPins: { left: ["MTDO", "GND", "MTCK", "3V3", "BAT-"], right: ["MTDI", "RST", "MTMS", "Boot", "BAT+"], padY: { left: [19, 29, 39, 49, 76], right: [19, 29, 39, 49, 76] } },
+    backPins: { left: ["MTDO", "GND", "MTCK", "3V3"], right: ["MTDI", "RST", "MTMS", "Boot", "BAT-", "BAT+"], padY: { left: [19, 29, 39, 49], right: [19, 29, 39, 49, 69, 79] } },
     backGroups: [backBatteryGroup()],
   },
   nrf54l15: {
@@ -612,9 +630,9 @@ const BOARDS = {
     groups: nrf54l15Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
     backPins: {
-      left: ["SWCLK", "GND", "SAMD11_SWCLK", "3V3", "D11", "D12", "BAT-"],
-      right: ["SWDIO", "nRST", "SAMD11_SWDIO", "SAMD11_RST", "D15", "D14", "D13", "BAT+"],
-      padY: { left: [13, 23, 34, 44, 54, 64, 74], right: [13, 23, 34, 44, 54, 64, 70, 74] },
+      left: ["SWCLK", "GND", "SAMD11_SWCLK", "3V3", "D11", "D12"],
+      right: ["SWDIO", "nRST", "SAMD11_SWDIO", "SAMD11_RST", "D15", "D14", "D13", "BAT-", "BAT+"],
+      padY: { left: [13, 23, 34, 44, 54, 64], right: [13, 23, 34, 44, 54, 62, 69, 78, 86] },
     },
     backGroups: [backBatteryGroup()],
   },
@@ -627,7 +645,7 @@ const BOARDS = {
     tagline: { en: "nRF52840 — BLE 5.4, NFC, battery charging; the first wireless XIAO.", zh: "nRF52840 — BLE 5.4、NFC、电池充电，首款无线 XIAO。" },
     groups: nrf52Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
-    backPins: { left: ["NFC1", "BAT-"], right: ["NFC2", "BAT+"], padY: { left: [88, 43], right: [88, 43] } },
+    backPins: { left: [], right: ["NFC1", "NFC2", "BAT-", "BAT+"], padY: { left: [], right: [74, 86, 42, 54] } },
     backGroups: [backBatteryGroup()],
   },
   rp2040: {
@@ -651,9 +669,9 @@ const BOARDS = {
     groups: rp2350Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
     backPins: {
-      left: ["SWCLK", "GND", "D11", "D12", "D13", "D14", "BAT-"],
-      right: ["SWDIO", "RST", "Boot", "D18", "D17", "D16", "D15", "BAT+"],
-      padY: { left: [16, 25, 34, 43, 52, 61, 76], right: [16, 25, 34, 43, 50, 57, 64, 76] },
+      left: ["SWCLK", "GND", "D11", "D12", "D13", "D14"],
+      right: ["SWDIO", "RST", "Boot", "D18", "D17", "D16", "D15", "BAT-", "BAT+"],
+      padY: { left: [16, 25, 34, 43, 52, 61], right: [12, 20, 28, 38, 46, 54, 62, 74, 84] },
     },
     backGroups: [backBatteryGroup(), backDebugGroup(
       P("SWCLK", "SWCLK", "digital", "SWCLK", "SWD debug clock", "SWD 调试时钟"),
@@ -670,9 +688,9 @@ const BOARDS = {
     groups: ra4Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
     backPins: {
-      left: ["SWCLK", "GND", "D11", "D12", "D13", "D14", "BAT-"],
-      right: ["SWDIO", "RST", "Boot", "D18", "D17", "D16", "D15", "BAT+"],
-      padY: { left: [16, 25, 34, 43, 52, 61, 76], right: [16, 25, 34, 43, 50, 57, 64, 76] },
+      left: ["SWCLK", "GND", "D11", "D12", "D13", "D14"],
+      right: ["SWDIO", "RST", "Boot", "D18", "D17", "D16", "D15", "BAT-", "BAT+"],
+      padY: { left: [16, 25, 34, 43, 52, 61], right: [12, 20, 28, 38, 46, 54, 62, 74, 84] },
     },
     backGroups: [backBatteryGroup(), backDebugGroup(
       P("SWCLK", "SWCLK", "digital", "SWCLK", "SWD debug clock", "SWD 调试时钟"),
@@ -704,10 +722,10 @@ const BOARDS = {
     groups: mg24Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
     backPins: {
-      left: ["M_CLK", "GND", "M_RST", "3V3", "S_CLK", "D11", "D12", "D13", "D14", "BAT-"],
-      right: ["M_DIO", "S_RST", "S_DIO", "D18", "D17", "D16", "D15", "BAT+"],
+      left: ["M_CLK", "GND", "M_RST", "3V3", "S_CLK", "D11", "D12", "D13", "D14"],
+      right: ["M_DIO", "S_RST", "S_DIO", "D18", "D17", "D16", "D15", "BAT-", "BAT+"],
       /* 中部焊盘很密，标签在两侧错开，连线仍按背面图的上下顺序。 */
-      padY: { left: [10, 19, 28, 37, 46, 55, 64, 73, 82, 91], right: [13, 24, 35, 46, 57, 68, 79, 90] },
+      padY: { left: [10, 19, 28, 37, 46, 55, 64, 73, 82], right: [10, 20, 30, 40, 50, 60, 70, 81, 91] },
     },
     backGroups: [backBatteryGroup(), backDebugGroup(
       P("M_CLK", "M_CLK", "digital", "MG24 SWCLK", "MG24 debug clock", "MG24 调试时钟"),
@@ -720,7 +738,7 @@ const BOARDS = {
   },
 };
 const BOARD_CATEGORIES = [
-  { id: "esp32", label: "Espressif ESP32 Series", boardIds: ["s3", "c3", "c6", "c5"] },
+  { id: "esp32", label: "Espressif ESP32 Series", boardIds: ["s3", "s3plus", "c3", "c6", "c5"] },
   { id: "nrf52", label: "Nordic nRF52 Series", boardIds: ["nrf52"] },
   { id: "nrf54", label: "Nordic nRF54 Series", boardIds: ["nrf54", "nrf54l15"] },
   { id: "rp", label: "Raspberry Pi RP Series", boardIds: ["rp2040", "rp2350"] },
@@ -728,6 +746,9 @@ const BOARD_CATEGORIES = [
   { id: "samd", label: "Microchip SAMD Series", boardIds: ["samd21"] },
   { id: "ra", label: "Renesas RA Series", boardIds: ["ra4"] },
 ];
+const BOARD_PLACEHOLDERS = {
+  s3plus: { name: "XIAO ESP32-S3 Plus" },
+};
 
 export function Pinout() {
   const { lang } = useLang();
@@ -754,6 +775,14 @@ export function Pinout() {
   const c = FN_COLOR[pin.fn];
   const isSamd21 = boardId === "samd21";
   const frontMarkerIds = isSamd21 ? SAMD21_FRONT_MARKERS.map((marker) => marker.id) : [];
+  const resetPin = ["RST", "RESET", "nRST"].map(pinById).find(Boolean);
+  const bootPin = ["Boot", "BOOT"].map(pinById).find(Boolean);
+  const frontCornerMarkers = [
+    resetPin && { id: resetPin.id, label: "RST", side: "left" },
+    bootPin && { id: bootPin.id, label: "BOOT", side: "right" },
+  ].filter(Boolean);
+  const frontBottomIds = board.frontBottomIds || [];
+  const frontAuxIds = [...frontCornerMarkers.map((marker) => marker.id), ...frontBottomIds];
   const activeLeftIds = face === "back" && board.backPins ? board.backPins.left : board.leftColIds;
   const detailOnLeft = activeLeftIds.includes(activeId) || (
     isSamd21 && face === "front" && SAMD21_LEFT_DETAIL_IDS.has(activeId)
@@ -816,13 +845,17 @@ export function Pinout() {
       const distance = Math.max(48, Math.abs(endX - startX));
       const elbowX = startX + direction * Math.min(62, Math.max(34, distance * 0.34));
       const markerId = SAMD21_FRONT_MARKER_ALIASES[activeId] || activeId;
-      const isTopMarker = face === "front" && SAMD21_FRONT_MARKERS.some((marker) => marker.id === markerId);
-      const pathPoints = isTopMarker
+      const approach = pinButton.dataset.connectorApproach;
+      const verticalApproachY = approach === "top" ? endY + 34 : endY - 34;
+      const isVerticalMarker = face === "front" && (
+        approach === "top" || approach === "bottom" || SAMD21_FRONT_MARKERS.some((marker) => marker.id === markerId)
+      );
+      const pathPoints = isVerticalMarker
         ? [
           { x: startX, y: startY },
           { x: elbowX, y: startY },
-          { x: elbowX, y: endY + 34 },
-          { x: endX, y: endY + 34 },
+          { x: elbowX, y: verticalApproachY },
+          { x: endX, y: verticalApproachY },
           { x: endX, y: endY },
         ]
         : [
@@ -867,6 +900,7 @@ export function Pinout() {
     const frontIds = new Set([
       ...board.leftColIds,
       ...board.rightColIds,
+      ...frontAuxIds,
       ...(boardId === "samd21" ? [...frontMarkerIds, ...Object.keys(SAMD21_FRONT_MARKER_ALIASES)] : []),
     ]);
     const backIds = new Set(board.backPins ? [...board.backPins.left, ...board.backPins.right] : []);
@@ -999,10 +1033,12 @@ export function Pinout() {
                       type="button"
                       role="menuitemradio"
                       aria-checked={id === boardId}
-                      className={id === boardId ? styles.boardModelActive : ""}
-                      onClick={() => selectBoard(id)}
+                      disabled={!BOARDS[id]}
+                      className={`${id === boardId ? styles.boardModelActive : ""} ${!BOARDS[id] ? styles.boardModelPending : ""}`}
+                      onClick={() => BOARDS[id] && selectBoard(id)}
                     >
-                      <span>{BOARDS[id].name}</span>
+                      <span>{BOARDS[id]?.name || BOARD_PLACEHOLDERS[id]?.name || id}</span>
+                      {!BOARDS[id] && <small>{lang === "zh" ? "Pinout 待补充" : "Pinout pending"}</small>}
                       {id === boardId && <b aria-hidden="true">✓</b>}
                     </button>
                   ))}
@@ -1099,10 +1135,52 @@ export function Pinout() {
                                 style={{ color: FN_COLOR[markerPin.fn] }}
                                 onClick={() => setSelId(marker.id)}
                                 ref={active ? activeStagePinRef : null}
+                                data-connector-approach="top"
                                 aria-label={marker.id}
                               >
                                 <span>{marker.label}</span>
                                 <span className={styles.pinPad} style={{ background: FN_COLOR[markerPin.fn] }} />
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                      {face === "front" && frontCornerMarkers.map((marker) => {
+                        const markerPin = pinById(marker.id);
+                        const active = marker.id === activeId;
+                        return (
+                          <button
+                            key={`${marker.side}-${marker.id}`}
+                            type="button"
+                            className={`${styles.frontCornerMarker} ${marker.side === "left" ? styles.frontCornerMarkerLeft : styles.frontCornerMarkerRight} ${active ? styles.frontAuxMarkerActive : ""}`}
+                            style={{ color: FN_COLOR[markerPin.fn] }}
+                            onClick={() => setSelId(marker.id)}
+                            ref={active ? activeStagePinRef : null}
+                            data-connector-approach="top"
+                          >
+                            <span>{marker.label}</span>
+                            <span className={styles.pinPad} style={{ background: FN_COLOR[markerPin.fn] }} />
+                          </button>
+                        );
+                      })}
+                      {face === "front" && frontBottomIds.length > 0 && (
+                        <div className={styles.frontBottomMarkers}>
+                          {frontBottomIds.map((id) => {
+                            const markerPin = pinById(id);
+                            if (!markerPin) return null;
+                            const active = id === activeId;
+                            return (
+                              <button
+                                key={id}
+                                type="button"
+                                className={`${styles.frontBottomMarker} ${active ? styles.frontAuxMarkerActive : ""}`}
+                                style={{ color: FN_COLOR[markerPin.fn] }}
+                                onClick={() => setSelId(id)}
+                                ref={active ? activeStagePinRef : null}
+                                data-connector-approach="bottom"
+                              >
+                                <span className={styles.pinPad} style={{ background: FN_COLOR[markerPin.fn] }} />
+                                <span>{id.replaceAll("_", " ")}</span>
                               </button>
                             );
                           })}
