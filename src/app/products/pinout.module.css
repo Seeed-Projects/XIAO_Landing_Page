@@ -82,7 +82,7 @@
     linear-gradient(135deg, #174f60 0%, #07536b 54%, #194d5e 100%);
   box-shadow: 0 22px 52px rgba(0,73,102,.20),inset 0 1px 0 rgba(255,255,255,.08);
 }
-.samdLayout .centerPanel { z-index: 4; grid-column: 1; grid-row: 1; min-width: 0; pointer-events: none; }
+.samdLayout .centerPanel { z-index: 4; grid-column: 1; grid-row: 1; min-width: 0; pointer-events: none; transform: translateY(18px); }
 .samdLayout .rightPanel {
   z-index: 4;
   grid-column: 1;
@@ -90,6 +90,7 @@
   align-self: center;
   width: 340px;
   padding: 0;
+  transform: translateY(18px);
 }
 .samdLayout.samdDetailLeft .rightPanel { justify-self: start; margin-left: 58px; }
 .samdLayout.samdDetailRight .rightPanel { justify-self: end; margin-right: 58px; }

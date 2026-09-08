@@ -755,9 +755,8 @@ export function Pinout() {
   const isSamd21 = boardId === "samd21";
   const frontMarkerIds = isSamd21 ? SAMD21_FRONT_MARKERS.map((marker) => marker.id) : [];
   const activeLeftIds = face === "back" && board.backPins ? board.backPins.left : board.leftColIds;
-  const activeRightIds = face === "back" && board.backPins ? board.backPins.right : board.rightColIds;
-  const samdDetailOnLeft = isSamd21 && (
-    activeLeftIds.includes(activeId) || (face === "front" && SAMD21_LEFT_DETAIL_IDS.has(activeId))
+  const detailOnLeft = activeLeftIds.includes(activeId) || (
+    isSamd21 && face === "front" && SAMD21_LEFT_DETAIL_IDS.has(activeId)
   );
   const pick = (field) => (field && field[lang]) || (field && field.en) || "";
   const activeCategory = BOARD_CATEGORIES.find((category) => category.id === activeCategoryId) || BOARD_CATEGORIES[0];
@@ -794,25 +793,26 @@ export function Pinout() {
   }, []);
 
   useLayoutEffect(() => {
-    if (!isSamd21) return undefined;
-
     const measure = () => {
       const stage = stageRef.current;
       const card = detailCardRef.current;
       const detailHead = detailHeadRef.current;
       const pinButton = activeStagePinRef.current;
       const pinDot = pinButton?.querySelector(`.${styles.pinPad}`);
-      if (!stage || !card || !detailHead || !pinDot) return;
+      if (!stage || !card || !detailHead || !pinDot) {
+        setConnector(null);
+        return;
+      }
 
       const stageRect = stage.getBoundingClientRect();
       const cardRect = card.getBoundingClientRect();
       const detailHeadRect = detailHead.getBoundingClientRect();
       const pinRect = pinDot.getBoundingClientRect();
-      const startX = (samdDetailOnLeft ? cardRect.right : cardRect.left) - stageRect.left;
+      const startX = (detailOnLeft ? cardRect.right : cardRect.left) - stageRect.left;
       const startY = detailHeadRect.top - stageRect.top + detailHeadRect.height / 2;
       const endX = pinRect.left - stageRect.left + pinRect.width / 2;
       const endY = pinRect.top - stageRect.top + pinRect.height / 2;
-      const direction = samdDetailOnLeft ? 1 : -1;
+      const direction = detailOnLeft ? 1 : -1;
       const distance = Math.max(48, Math.abs(endX - startX));
       const elbowX = startX + direction * Math.min(62, Math.max(34, distance * 0.34));
       const markerId = SAMD21_FRONT_MARKER_ALIASES[activeId] || activeId;
@@ -854,7 +854,7 @@ export function Pinout() {
       observer.disconnect();
       window.removeEventListener("resize", measure);
     };
-  }, [activeId, face, isSamd21, samdDetailOnLeft]);
+  }, [activeId, boardId, detailOnLeft, face]);
 
   const selectBoard = (id) => {
     setBoardId(id);
@@ -863,7 +863,7 @@ export function Pinout() {
     setBoardMenuOpen(false);
   };
 
-  const selectPinFromList = (id) => {
+  const selectPinFromList = (id, sourceFace = null) => {
     const frontIds = new Set([
       ...board.leftColIds,
       ...board.rightColIds,
@@ -871,7 +871,9 @@ export function Pinout() {
     ]);
     const backIds = new Set(board.backPins ? [...board.backPins.left, ...board.backPins.right] : []);
 
-    if (backIds.has(id) && !frontIds.has(id)) setFace("back");
+    if (sourceFace === "back") setFace("back");
+    else if (sourceFace === "front") setFace("front");
+    else if (backIds.has(id) && !frontIds.has(id)) setFace("back");
     else if (frontIds.has(id)) setFace("front");
     setSelId(id);
   };
@@ -916,7 +918,13 @@ export function Pinout() {
   };
   const samdExtraNote = isSamd21 ? (samdExtraNotes[`${activeId}-${face}`] || samdExtraNotes[activeId] || "") : "";
   const detailNoteText = [noteText, samdExtraNote].filter(Boolean).join(" ");
-  const capabilities = isSamd21 ? (SAMD21_CAPABILITIES[activeId] || []) : [];
+  const genericCapabilities = {
+    power: ["POWER"], gnd: ["GROUND"], rst: ["RESET"], digital: ["GPIO"],
+    analog: ["GPIO", "ADC"], i2c: ["I²C"], spi: ["SPI"], uart: ["UART"],
+  };
+  const capabilities = isSamd21
+    ? (SAMD21_CAPABILITIES[activeId] || genericCapabilities[pin.fn] || [])
+    : (genericCapabilities[pin.fn] || []);
 
   function fallbackCopy(text, done) {
     try {
@@ -1012,7 +1020,7 @@ export function Pinout() {
         </div>
 
         <section className={styles.workspace}>
-          <div className={`${styles.grid} ${isSamd21 ? styles.samdLayout : ""} ${samdDetailOnLeft ? styles.samdDetailLeft : styles.samdDetailRight}`}>
+          <div className={`${styles.grid} ${styles.samdLayout} ${detailOnLeft ? styles.samdDetailLeft : styles.samdDetailRight}`}>
             {/* 左：分组引脚列表 */}
             <aside className={styles.leftPanel}>
               <div className={styles.panelLabel}>{T.listLabel}</div>
@@ -1025,7 +1033,7 @@ export function Pinout() {
                         key={p.id}
                         type="button"
                         className={`${styles.pinItem} ${p.id === activeId ? styles.pinItemActive : ""}`}
-                        onClick={() => selectPinFromList(p.id)}
+                        onClick={() => selectPinFromList(p.id, g.cat.startsWith("back-") ? "back" : null)}
                         data-pin={p.id}
                       >
                         <span className={styles.pinDot} style={{ background: FN_COLOR[p.fn] }} />
@@ -1038,7 +1046,7 @@ export function Pinout() {
               </div>
             </aside>
 
-            <div className={styles.pinStage} ref={isSamd21 ? stageRef : null}>
+            <div className={styles.pinStage} ref={stageRef}>
             {/* 中：CSS 板子示意图（左右两列引脚） */}
             <div className={styles.centerPanel}>
               <div className={styles.boardFigure}>
@@ -1047,7 +1055,6 @@ export function Pinout() {
                     const p = pinById(id);
                     if (!p) return null;
                     const active = id === activeId;
-                    if (!active && !isSamd21) return null;
                     const ids = face === "back" && board.backPins ? board.backPins.left : board.leftColIds;
                     const y = (face === "back" && board.backPins ? board.backPins.padY?.left?.[i] : board.padY?.left?.[i]) ?? ((i + 1) / (ids.length + 1) * 100);
                     return (
@@ -1055,7 +1062,7 @@ export function Pinout() {
                         className={`${styles.pinRow} ${active ? styles.pinRowActive : ""}`}
                         style={{ top: `${y}%`, color: FN_COLOR[p.fn] }}
                         onClick={() => setSelId(id)}
-                        ref={active && isSamd21 ? activeStagePinRef : null}
+                        ref={active ? activeStagePinRef : null}
                       >
                         <span className={styles.pinName}>{p.id}</span>
                         <span className={styles.pinFunc}>{p.xiao !== "—" ? p.xiao : ""}</span>
@@ -1115,7 +1122,6 @@ export function Pinout() {
                     const p = pinById(id);
                     if (!p) return null;
                     const active = id === activeId;
-                    if (!active && !isSamd21) return null;
                     const ids = face === "back" && board.backPins ? board.backPins.right : board.rightColIds;
                     const y = (face === "back" && board.backPins ? board.backPins.padY?.right?.[i] : board.padY?.right?.[i]) ?? ((i + 1) / (ids.length + 1) * 100);
                     return (
@@ -1123,7 +1129,7 @@ export function Pinout() {
                         className={`${styles.pinRow} ${active ? styles.pinRowActive : ""}`}
                         style={{ top: `${y}%`, color: FN_COLOR[p.fn] }}
                         onClick={() => setSelId(id)}
-                        ref={active && isSamd21 ? activeStagePinRef : null}
+                        ref={active ? activeStagePinRef : null}
                       >
                         <span className={styles.pinName}>{p.id}</span>
                         <span className={styles.pinFunc}>{p.xiao !== "—" ? p.xiao : ""}</span>
@@ -1151,11 +1157,11 @@ export function Pinout() {
 
             {/* 右：选中引脚详情 */}
             <aside className={styles.rightPanel}>
-              <div className={styles.detailCard} ref={isSamd21 ? detailCardRef : null}>
+              <div className={styles.detailCard} ref={detailCardRef}>
                 <div className={styles.detailToolbar}>
                   <div className={styles.panelLabel}>{T.detailLabel}</div>
                 </div>
-                <div className={styles.detailHead} ref={isSamd21 ? detailHeadRef : null}>
+                <div className={styles.detailHead} ref={detailHeadRef}>
                   <span className={styles.detailDot} style={{ background: c }} />
                   <h3 className={styles.detailName}>{pin.id.replaceAll("_", " ")}</h3>
                   <span className={styles.detailXiao}>{pin.xiao}</span>
@@ -1199,7 +1205,7 @@ export function Pinout() {
                 </div>
               </div>
             </aside>
-            {isSamd21 && connector && (
+            {connector && (
               <svg className={styles.samdConnector} viewBox={`0 0 ${connector.width} ${connector.height}`} preserveAspectRatio="none" aria-hidden="true">
                 <path d={connector.path} fill="none" stroke={c} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
                 <circle cx={connector.startX} cy={connector.startY} r="5" fill="#fff" stroke={c} strokeWidth="2.5" vectorEffect="non-scaling-stroke" />
