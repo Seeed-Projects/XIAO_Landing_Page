@@ -542,6 +542,157 @@ const mg24Groups = buildBoard("RESET", {
   ],
 });
 
+/* Plus 系列：映射来自 picture/flash/产品表格.md 的 PIN OUT 区域。
+   标准 14 脚仍显示在正面，Plus 独有扩展焊盘、调试焊盘和电池焊盘显示在背面。 */
+const s3PlusGroups = buildBoard("CHIP_PU", {
+  analog: [
+    ap("D0", "A0", "GPIO1", "Digital 0 / Analog 0", "数字 0 / 模拟 0"),
+    ap("D1", "A1", "GPIO2", "Digital 1 / Analog 1", "数字 1 / 模拟 1"),
+    ap("D2", "A2", "GPIO3", "Digital 2 / Analog 2", "数字 2 / 模拟 2"),
+    ap("D3", "A3", "GPIO4", "Digital 3 / Analog 3", "数字 3 / 模拟 3"),
+    ap("D11", "D11", "GPIO38", "Plus expansion GPIO / ADC", "Plus 扩展 GPIO / ADC"),
+    ap("D12", "D12", "GPIO39", "Plus expansion GPIO / ADC", "Plus 扩展 GPIO / ADC"),
+  ],
+  i2c: [sda("GPIO5", true), scl("GPIO6", true)],
+  uart: [tx("GPIO43"), rx("GPIO44")],
+  spi: [sck("GPIO7", true), miso("GPIO8", true), mosi("GPIO9", true)],
+  digital: [
+    dp("D13", "D13", "GPIO40", "Plus expansion GPIO", "Plus 扩展 GPIO"),
+    dp("D14", "D14", "GPIO41", "Plus expansion GPIO", "Plus 扩展 GPIO"),
+    dp("D15", "D15", "GPIO42", "Plus expansion GPIO", "Plus 扩展 GPIO"),
+    dp("D16", "D16", "GPIO10", "Plus expansion GPIO", "Plus 扩展 GPIO"),
+    dp("D17", "D17", "GPIO13", "Plus expansion GPIO", "Plus 扩展 GPIO"),
+    dp("D18", "D18", "GPIO12", "Plus expansion GPIO", "Plus 扩展 GPIO"),
+    dp("D19", "D19", "GPIO11", "Plus expansion GPIO", "Plus 扩展 GPIO"),
+  ],
+  onboard: [
+    ob("Boot", "GPIO0", "Boot Button", "Boot 按键", "rst"),
+    ob("ADC_BAT", "GPIO10", "Battery Voltage ADC", "电池电压 ADC", "analog"),
+    ob("UFL_ANT", "LNA_IN", "U.FL Antenna", "U.FL 天线"),
+    ob("CHARGE_LED", "VCC_3V3", "Charging Indicator LED", "充电指示灯"),
+    ob("USER_LED", "GPIO21", "User Light", "用户指示灯"),
+  ],
+}, grp("back-plus", "Back expansion pads", "背面扩展焊盘",
+  P("MTDO", "MTDO", "digital", "GPIO40", "JTAG TDO", "JTAG TDO"),
+  P("MTDI", "MTDI", "digital", "GPIO41", "JTAG TDI / ADC", "JTAG TDI / ADC"),
+  P("MTCK", "MTCK", "digital", "GPIO39", "JTAG TCK / ADC", "JTAG TCK / ADC"),
+  P("MTMS", "MTMS", "digital", "GPIO42", "JTAG TMS / ADC", "JTAG TMS / ADC"),
+  P("USB_D+", "D+", "digital", "USB_DP", "USB data positive", "USB 数据正"),
+  P("USB_D-", "D-", "digital", "USB_DM", "USB data negative", "USB 数据负"),
+  P("BAT-", "BAT-", "gnd", "BAT-", "Battery negative pad", "电池负极焊盘"),
+  P("BAT+", "BAT+", "power", "BAT+", "Battery positive pad", "电池正极焊盘"),
+));
+
+const rp2040PlusGroups = buildBoard("RUN", {
+  analog: [
+    ap("D0", "A0", "GPIO26", "Analog Input 0 (ADC0)", "模拟输入 0（ADC0）"),
+    ap("D1", "A1", "GPIO27", "Analog Input 1 (ADC1)", "模拟输入 1（ADC1）"),
+    ap("D2", "A2", "GPIO28", "Analog Input 2 (ADC2)", "模拟输入 2（ADC2）"),
+    ap("D3", "A3", "GPIO29", "Analog Input 3 (ADC3)", "模拟输入 3（ADC3）"),
+  ],
+  i2c: [sda("GPIO6", false), scl("GPIO7", false)],
+  uart: [tx("GPIO0"), rx("GPIO1")],
+  spi: [sck("GPIO2", false), miso("GPIO4", false), mosi("GPIO3", false)],
+  digital: [
+    dp("D12", "D12", "GPIO18", "Plus-only expansion GPIO", "Plus 专属扩展 GPIO"),
+    P("D13", "SCL1", "i2c", "GPIO21", "Plus-only I2C1 clock", "Plus 专属 I2C1 时钟"),
+    P("D14", "SDA1", "i2c", "GPIO20", "Plus-only I2C1 data", "Plus 专属 I2C1 数据"),
+    ...[["D15", "GPIO19"], ["D16", "GPIO22"], ["D17", "GPIO23"], ["D19", "GPIO5"],
+      ["D20", "GPIO13"], ["D21", "GPIO14"], ["D22", "GPIO15"], ["D23", "GPIO16"],
+      ["D24", "GPIO17"], ["D25", "GPIO10"], ["D26", "GPIO9"], ["D27", "GPIO8"]]
+      .map(([id, chip]) => dp(id, id, chip, "Plus-only expansion GPIO", "Plus 专属扩展 GPIO")),
+  ],
+  onboard: [
+    ob("Boot", "RP2040_BOOT", "Bootloader Button", "Bootloader 按键", "rst"),
+    ob("RGB_LED", "GPIO12 / NEOPIX", "WS2812B RGB LED data", "WS2812B RGB LED 数据"),
+    ob("RGB_EN", "GPIO11", "WS2812B Power Enable", "WS2812B 电源使能"),
+    ob("USER_LED", "GPIO25", "User-controlled LED", "用户指示灯"),
+    ob("BAT_EN", "GPIO24", "Battery Power Control", "电池电源控制"),
+    ob("CHARGE_LED", "—", "Hardware Charging Indicator", "硬件充电指示灯"),
+  ],
+}, grp("back-plus", "Back expansion pads", "背面扩展焊盘",
+  P("SWDIO", "SWDIO", "digital", "RP2040_SWDIO", "SWD Debug Data", "SWD 调试数据"),
+  P("SWCLK", "SWCLK", "digital", "RP2040_SWCLK", "SWD Debug Clock", "SWD 调试时钟"),
+  P("USB_D+", "D+", "digital", "USB_DP", "USB data positive", "USB 数据正"),
+  P("USB_D-", "D-", "digital", "USB_DM", "USB data negative", "USB 数据负"),
+  P("BAT-", "BAT-", "gnd", "BAT-", "Battery negative pad", "电池负极焊盘"),
+  P("BAT+", "BAT+", "power", "BAT+", "Battery positive pad", "电池正极焊盘"),
+));
+
+const samd21PlusGroups = buildBoard("RESETN", {
+  analog: [
+    ap("D0", "A0 / DAC", "PA02", "Digital 0 / Analog 0 / DAC", "数字 0 / 模拟 0 / DAC"),
+    ap("D1", "A1", "PA04", "Digital 1 / Analog 1", "数字 1 / 模拟 1"),
+    ap("D2", "A2", "PA10", "Digital 2 / Analog 2", "数字 2 / 模拟 2"),
+    ap("D3", "A3", "PA11", "Digital 3 / Analog 3", "数字 3 / 模拟 3"),
+  ],
+  i2c: [sda("PA08", true), scl("PA09", true)],
+  uart: [tx("PB08", true), rx("PB09", true)],
+  spi: [sck("PA07", true), miso("PA05", true), mosi("PA06", true)],
+  digital: [
+    dp("D12", "D12", "PA28", "Plus expansion GPIO", "Plus 扩展 GPIO"),
+    P("D13", "SCL1", "i2c", "PA17", "Plus expansion GPIO / I2C1 clock", "Plus 扩展 GPIO / I2C1 时钟"),
+    P("D14", "SDA1", "i2c", "PA16", "Plus expansion GPIO / I2C1 data", "Plus 扩展 GPIO / I2C1 数据"),
+    ...[["D15", "PA15"], ["D16", "PA14"], ["D17", "PA13"], ["D18", "PA12"],
+      ["D19", "PA19"], ["D20", "PA20"], ["D21", "PA21"], ["D22", "PB10"],
+      ["D23", "PB11"], ["D24", "PB23"], ["D25", "PA23"], ["D26", "PB2"], ["D27", "PA18"]]
+      .map(([id, chip]) => dp(id, id, chip, "Plus expansion GPIO", "Plus 扩展 GPIO")),
+  ],
+  onboard: [
+    ob("RGB_LED", "PA27", "WS2812B RGB LED data", "WS2812B RGB LED 数据"),
+    ob("USER_BUTTON", "PB22", "User Button (active low)", "用户按键（低电平有效）", "rst"),
+    ob("VBAT_EN", "PB02", "Battery ADC Enable", "电池 ADC 使能"),
+    ob("AIN11_VBAT", "PB03 / AIN11", "Battery Voltage ADC", "电池电压 ADC", "analog"),
+    ob("CHARGE_LED", "—", "Hardware Charging Indicator", "硬件充电指示灯"),
+  ],
+}, grp("back-plus", "Back expansion pads", "背面扩展焊盘",
+  P("SWDIO", "SWDIO", "digital", "PA31", "SWD Debug Data", "SWD 调试数据"),
+  P("SWCLK", "SWCLK", "digital", "PA30", "SWD Debug Clock", "SWD 调试时钟"),
+  P("BAT-", "BAT-", "gnd", "BAT-", "Battery negative pad", "电池负极焊盘"),
+  P("BAT+", "BAT+", "power", "BAT+", "Battery positive pad", "电池正极焊盘"),
+));
+
+const nrf52840PlusGroups = buildBoard("P0.18", {
+  analog: [
+    ap("D0", "A0", "P0.02", "Analog Input 0", "模拟输入 0"),
+    ap("D1", "A1", "P0.03", "Analog Input 1", "模拟输入 1"),
+    ap("D2", "A2", "P0.28", "Analog Input 2", "模拟输入 2"),
+    ap("D3", "A3", "P0.29", "Analog Input 3", "模拟输入 3"),
+  ],
+  i2c: [sda("P0.04", true), scl("P0.05", true)],
+  uart: [tx("P1.11"), rx("P1.12")],
+  spi: [sck("P1.13", false), miso("P1.14", false), mosi("P1.15", false)],
+  digital: [
+    P("D11", "I2S_SD", "digital", "P0.15", "I2S data / ADC", "I2S 数据 / ADC"),
+    P("D12", "I2S_SCK", "digital", "P0.19", "I2S clock / ADC", "I2S 时钟 / ADC"),
+    P("D13", "I2S_WS", "digital", "P1.01", "I2S word select / ADC", "I2S 字选择 / ADC"),
+    P("D14", "RX1", "uart", "P0.09", "UART1 receive / NFC1 / ADC", "UART1 接收 / NFC1 / ADC"),
+    P("D15", "TX1", "uart", "P0.10", "UART1 transmit / NFC2 / ADC", "UART1 发送 / NFC2 / ADC"),
+    P("D16", "AIN7_BAT", "analog", "P0.31", "Battery Voltage ADC", "电池电压 ADC"),
+    P("D17", "SCK1", "spi", "P1.03", "SPI1 Clock", "SPI1 时钟"),
+    P("D18", "MISO1", "spi", "P1.05", "SPI1 Data Input", "SPI1 数据输入"),
+    P("D19", "MOSI1", "spi", "P1.07", "SPI1 Data Output", "SPI1 数据输出"),
+  ],
+  onboard: [
+    ob("ADC_BAT", "P0.14", "Battery Voltage Read Enable", "电池电压读取使能", "analog"),
+    ob("IMU_PWR", "P1.08", "6-axis IMU Power Switch", "六轴 IMU 电源开关"),
+    ob("IMU_INT1", "P0.11", "6-axis IMU Interrupt 1", "六轴 IMU 中断 1"),
+    ob("MIC_DATA", "P0.16", "PDM Microphone Data", "PDM 麦克风数据"),
+    ob("MIC_CLK", "P1.00", "PDM Microphone Clock", "PDM 麦克风时钟"),
+    ob("RF_SW_PORT", "P2.05", "RF Switch Port Select", "射频开关端口选择"),
+    ob("RF_SW_PWR", "P2.03", "RF Switch Power", "射频开关电源"),
+    ob("CHARGE_LED", "P0.17", "Charging Indicator LED", "充电指示灯"),
+    ob("USER_LED_R", "P0.26", "User RGB LED Red", "用户 RGB LED 红"),
+    ob("USER_LED_B", "P0.06", "User RGB LED Blue", "用户 RGB LED 蓝"),
+    ob("USER_LED_G", "P0.30", "User RGB LED Green", "用户 RGB LED 绿"),
+  ],
+}, grp("back-plus", "Back expansion pads", "背面扩展焊盘",
+  P("SWDIO", "SWDIO", "digital", "SWDIO", "SWD Debug Data", "SWD 调试数据"),
+  P("SWCLK", "SWCLK", "digital", "SWCLK", "SWD Debug Clock", "SWD 调试时钟"),
+  P("BAT-", "BAT-", "gnd", "BAT-", "Battery negative pad", "电池负极焊盘"),
+  P("BAT+", "BAT+", "power", "BAT+", "Battery positive pad", "电池正极焊盘"),
+));
+
 /* 选型下拉：XIAO 板型 → 板信息 + 引脚数据 + 板图两列 */
 const BOARDS = {
   nrf54: {
@@ -583,6 +734,21 @@ const BOARDS = {
     leftColIds: stdLeft, rightColIds: stdRight, padY: S3_PAD_Y, gpioNote: false,
     backPins: { left: ["MTDO", "GND", "MTCK", "3V3"], right: ["MTDI", "RST", "MTMS", "BAT-", "BAT+"], padY: { left: [20, 30, 40, 50], right: [20, 30, 40, 70, 80] } },
     backGroups: [backBatteryGroup()],
+  },
+  s3plus: {
+    name: "XIAO ESP32-S3 Plus",
+    figureLabel: ["XIAO", "ESP32-S3 Plus"],
+    figureSub: "ESP32-S3 · Wi-Fi + BLE · 27 GPIO",
+    figureImg: "/xiao-products/dev_boards/s3plus-front.webp",
+    figureImgBack: "/xiao-products/dev_boards/s3plus-back.webp",
+    tagline: { en: "ESP32-S3 Plus — expanded GPIO, battery pads and native USB on the XIAO footprint.", zh: "ESP32-S3 Plus — 在 XIAO 封装上扩展 GPIO、电池焊盘与原生 USB。" },
+    groups: s3PlusGroups,
+    leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
+    backPins: {
+      left: ["MTDO", "MTCK", "USB_D+", "D11", "D12", "D13", "D14"],
+      right: ["MTDI", "RST", "MTMS", "USB_D-", "D15", "D16", "D17", "D18", "D19", "BAT-", "BAT+"],
+      padY: { left: [12, 23, 34, 46, 56, 66, 76], right: [10, 18, 26, 34, 43, 50, 57, 64, 71, 82, 90] },
+    },
   },
   c3: {
     name: "XIAO ESP32-C3",
@@ -648,6 +814,21 @@ const BOARDS = {
     backPins: { left: [], right: ["NFC1", "NFC2", "BAT-", "BAT+"], padY: { left: [], right: [74, 86, 42, 54] } },
     backGroups: [backBatteryGroup()],
   },
+  nrf52840plus: {
+    name: "XIAO nRF52840 Plus",
+    figureLabel: ["XIAO", "nRF52840 Plus"],
+    figureSub: "nRF52840 · BLE · NFC · IMU/PDM",
+    figureImg: "/xiao-products/dev_boards/nrf52840plus-front.webp",
+    figureImgBack: "/xiao-products/dev_boards/nrf52840plus-back.webp",
+    tagline: { en: "nRF52840 Plus — expanded GPIO with NFC, IMU, PDM microphone and battery support.", zh: "nRF52840 Plus — 扩展 GPIO，并提供 NFC、IMU、PDM 麦克风与电池支持。" },
+    groups: nrf52840PlusGroups,
+    leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
+    backPins: {
+      left: ["SWCLK", "D11", "D12", "D13", "D16", "D17"],
+      right: ["SWDIO", "RST", "D14", "D15", "D18", "D19", "BAT-", "BAT+"],
+      padY: { left: [13, 29, 41, 53, 68, 78], right: [13, 23, 35, 47, 59, 69, 80, 90] },
+    },
+  },
   rp2040: {
     name: "XIAO RP2040",
     figureLabel: ["XIAO", "RP2040"],
@@ -658,6 +839,21 @@ const BOARDS = {
     groups: rp2040Groups,
     leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
     backPins: { left: ["SWCLK", "GND", "Boot"], right: ["SWDIO", "RST", "5V"], padY: { left: [18, 89, 94], right: [18, 94, 89] } },
+  },
+  rp2040plus: {
+    name: "XIAO RP2040 Plus",
+    figureLabel: ["XIAO", "RP2040 Plus"],
+    figureSub: "RP2040 · dual M0+ · expanded GPIO",
+    figureImg: "/xiao-products/dev_boards/rp2040plus-front.webp",
+    figureImgBack: "/xiao-products/dev_boards/rp2040plus-back.webp",
+    tagline: { en: "RP2040 Plus — dual Cortex-M0+ with expanded GPIO, USB and battery control.", zh: "RP2040 Plus — 双核 Cortex-M0+，增加扩展 GPIO、USB 与电池控制。" },
+    groups: rp2040PlusGroups,
+    leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
+    backPins: {
+      left: ["SWCLK", "USB_D+", "D12", "D13", "D14", "D19", "D20", "D21", "D22"],
+      right: ["SWDIO", "RST", "USB_D-", "Boot", "D17", "D16", "D15", "D23", "D24", "D25", "D26", "D27", "BAT-", "BAT+"],
+      padY: { left: [7, 15, 27, 36, 45, 55, 63, 71, 79], right: [6, 13, 20, 27, 34, 41, 48, 55, 62, 69, 76, 83, 90, 96] },
+    },
   },
   rp2350: {
     name: "XIAO RP2350",
@@ -712,6 +908,21 @@ const BOARDS = {
       padY: { left: [18, 82], right: [18, 31, 82] },
     },
   },
+  samd21plus: {
+    name: "XIAO SAMD21 Plus",
+    figureLabel: ["XIAO", "SAMD21 Plus"],
+    figureSub: "SAMD21G18 · Cortex-M0+ · expanded GPIO",
+    figureImg: "/xiao-products/dev_boards/samd21plus-front.webp",
+    figureImgBack: "/xiao-products/dev_boards/samd21plus-back.webp",
+    tagline: { en: "SAMD21 Plus — the original XIAO architecture with expanded GPIO, RGB and battery sensing.", zh: "SAMD21 Plus — 初代 XIAO 架构，增加扩展 GPIO、RGB 与电池检测。" },
+    groups: samd21PlusGroups,
+    leftColIds: stdLeft, rightColIds: stdRight, padY: STD_PAD_Y, gpioNote: false,
+    backPins: {
+      left: ["SWCLK", "D18", "D12", "D13", "D14", "D19", "D20", "D21", "D22"],
+      right: ["SWDIO", "RST", "D17", "D16", "D15", "D23", "D24", "D25", "D26", "D27", "BAT-", "BAT+"],
+      padY: { left: [7, 18, 30, 39, 48, 57, 65, 73, 81], right: [7, 15, 25, 34, 43, 52, 60, 68, 76, 84, 91, 97] },
+    },
+  },
   mg24: {
     name: "XIAO MG24",
     figureLabel: ["XIAO", "MG24"],
@@ -746,12 +957,7 @@ const BOARD_CATEGORIES = [
   { id: "samd", label: "Microchip SAMD Series", boardIds: ["samd21", "samd21plus"] },
   { id: "ra", label: "Renesas RA Series", boardIds: ["ra4"] },
 ];
-const BOARD_PLACEHOLDERS = {
-  s3plus: { name: "XIAO ESP32-S3 Plus" },
-  nrf52840plus: { name: "XIAO nRF52840 Plus" },
-  rp2040plus: { name: "XIAO RP2040 Plus" },
-  samd21plus: { name: "XIAO SAMD21 Plus" },
-};
+const BOARD_PLACEHOLDERS = {};
 
 export function Pinout() {
   const { lang } = useLang();
@@ -1060,7 +1266,7 @@ export function Pinout() {
         </div>
 
         <section className={styles.workspace}>
-          <div className={`${styles.grid} ${styles.samdLayout} ${boardId === "nrf54" ? styles.lm20Layout : ""} ${detailOnLeft ? styles.samdDetailLeft : styles.samdDetailRight}`}>
+          <div className={`${styles.grid} ${styles.samdLayout} ${boardId === "nrf54" ? styles.lm20Layout : ""} ${boardId.endsWith("plus") ? styles.plusLayout : ""} ${detailOnLeft ? styles.samdDetailLeft : styles.samdDetailRight}`}>
             {/* 左：分组引脚列表 */}
             <aside className={styles.leftPanel}>
               <div className={styles.panelLabel}>{T.listLabel}</div>

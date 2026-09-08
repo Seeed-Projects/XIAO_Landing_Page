@@ -115,6 +115,9 @@
 .lm20Layout .pinStage { min-height: 690px; }
 .lm20Layout .leftPanel { height: 690px; }
 .lm20Layout .leftPanel .pinList { max-height: 622px; }
+.plusLayout .pinStage { min-height: 650px; }
+.plusLayout .leftPanel { height: 650px; }
+.plusLayout .leftPanel .pinList { max-height: 582px; }
 .pinList { display: flex; flex-direction: column; gap: 14px; max-height: 580px; overflow-y: auto; padding-right: 6px; }
 .pinList::-webkit-scrollbar { width: 6px; }
 .pinList::-webkit-scrollbar-thumb { background: rgba(0,73,102,0.18); border-radius: 99px; }
