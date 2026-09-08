@@ -18,7 +18,15 @@ const OUT = "public/project-hub-embed.html";
 // （含标题、副标题、Contribute、语言按钮），让内嵌直接从搜索框 + 筛选器开始。
 // 用 display:none 而非删除节点：页面 JS 依赖 #title/#subtitle/#langBtn/#contributeBtn，
 // 删除会令 updateLang() 等抛错。元素保留在 DOM 中，仅视觉隐藏。
-const HIDE_HEADER = `<style>header{display:none !important;}</style>`;
+//
+// 同时把 body 的 min-height:100vh 覆盖为 0：在 iframe 中 100vh = iframe 当前高度，
+// 若保留，body 永远不短于当前 iframe 高度，导致高度桥接量的 scrollHeight 钉死、
+// 筛选后内容变短时 iframe 无法收缩、下方留出大片空白。置 0 后 body 随内容收缩，
+// 桥接脚本（MutationObserver/ResizeObserver）即可量到真实高度并回传父页自动缩小。
+const EMBED_OVERRIDES = `<style>
+header{display:none !important;}
+body{min-height:0 !important;}
+</style>`;
 
 const HEIGHT_BRIDGE = `<script>
 (() => {
@@ -51,7 +59,7 @@ const FALLBACK =
     const res = await fetch(HUB_URL, { cache: "no-store" });
     if (!res.ok) throw new Error(`Project Hub responded with ${res.status}`);
     let html = await res.text();
-    html = html.replace(/<head([^>]*)>/i, `<head$1><base href="${HUB_URL}">${HIDE_HEADER}`);
+    html = html.replace(/<head([^>]*)>/i, `<head$1><base href="${HUB_URL}">${EMBED_OVERRIDES}`);
     html = html.replace(/<\/body>/i, `${HEIGHT_BRIDGE}</body>`);
     fs.writeFileSync(OUT, html, "utf8");
     console.log(`[bake-project-hub-embed] baked ${OUT} (${html.length} bytes)`);
