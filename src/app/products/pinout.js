@@ -790,11 +790,16 @@ export function Pinout() {
       const direction = samdDetailOnLeft ? 1 : -1;
       const distance = Math.max(48, Math.abs(endX - startX));
       const elbowX = startX + direction * Math.min(62, Math.max(34, distance * 0.34));
+      const verticalDirection = Math.sign(endY - startY);
+      const radius = Math.min(14, Math.abs(endY - startY) / 2, Math.abs(endX - elbowX) / 2);
+      const roundedPath = radius > 0
+        ? `M ${startX} ${startY} H ${elbowX - direction * radius} Q ${elbowX} ${startY} ${elbowX} ${startY + verticalDirection * radius} V ${endY - verticalDirection * radius} Q ${elbowX} ${endY} ${elbowX + direction * radius} ${endY} H ${endX}`
+        : `M ${startX} ${startY} H ${endX}`;
 
       setConnector({
         width: stageRect.width,
         height: stageRect.height,
-        path: `M ${startX} ${startY} H ${elbowX} V ${endY} H ${endX}`,
+        path: roundedPath,
         startX,
         startY,
       });

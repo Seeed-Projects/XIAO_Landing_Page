@@ -82,7 +82,7 @@
     linear-gradient(135deg, #174f60 0%, #07536b 54%, #194d5e 100%);
   box-shadow: 0 22px 52px rgba(0,73,102,.20),inset 0 1px 0 rgba(255,255,255,.08);
 }
-.samdLayout .centerPanel { z-index: 2; grid-column: 1; grid-row: 1; min-width: 0; }
+.samdLayout .centerPanel { z-index: 4; grid-column: 1; grid-row: 1; min-width: 0; pointer-events: none; }
 .samdLayout .rightPanel {
   z-index: 4;
   grid-column: 1;
@@ -164,6 +164,8 @@
 .samdLayout .boardFigure { width: 540px; min-width: 540px; max-width: 540px; margin: 0; }
 .samdLayout .pinCol { min-width: 74px; }
 .samdLayout .pinRow { justify-content: flex-end; gap: 6px; padding-inline: 0; pointer-events: auto; }
+.samdLayout .pinColLeft .pinRow { flex-direction: row-reverse; }
+.samdLayout .pinColRight .pinRow { flex-direction: row; }
 .samdLayout .pinLead { display: none; }
 .samdLayout .pinPad { width: 11px; height: 11px; border: 2px solid rgba(255,255,255,.82); border-radius: 50%; opacity: .82; box-shadow: 0 0 0 3px rgba(255,255,255,.10), 0 0 12px currentColor; }
 .samdLayout .pinRowActive { background: transparent; box-shadow: none; }
@@ -197,7 +199,7 @@
   top: -38px;
   left: 50%;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   gap: 18px;
   width: max-content;
@@ -207,8 +209,9 @@
   position: relative;
   z-index: 1;
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   padding: 4px 2px;
   border: 0;
   border-radius: 6px;
@@ -219,6 +222,7 @@
   letter-spacing: .01em;
   line-height: 1;
   box-shadow: none;
+  pointer-events: auto;
 }
 .samdBoardMarker > span:first-child { color: rgba(240,250,252,.88); text-shadow: 0 1px 8px rgba(0,0,0,.28); }
 .samdBoardMarker .pinPad { width: 10px; height: 10px; border-width: 2px; }
