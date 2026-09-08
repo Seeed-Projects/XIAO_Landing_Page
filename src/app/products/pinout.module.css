@@ -91,8 +91,8 @@
   width: 340px;
   padding: 0;
 }
-.samdLayout.samdDetailLeft .rightPanel { justify-self: start; margin-left: 28px; }
-.samdLayout.samdDetailRight .rightPanel { justify-self: end; margin-right: 28px; }
+.samdLayout.samdDetailLeft .rightPanel { justify-self: start; margin-left: 58px; }
+.samdLayout.samdDetailRight .rightPanel { justify-self: end; margin-right: 58px; }
 .samdConnector { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; overflow: visible; pointer-events: none; filter: drop-shadow(0 0 4px rgba(255,255,255,.34)); }
 
 .panelLabel { font-family: var(--font-display), sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: var(--ink-muted); text-transform: uppercase; margin-bottom: 14px; }
@@ -271,6 +271,11 @@
 .specRow dt { margin: 0; font-family: var(--font-display), sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; color: var(--ink-muted); text-transform: uppercase; padding-top: 1px; }
 .specRow dd { margin: 0; font-size: 13px; line-height: 1.6; color: var(--ink-strong); }
 .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; }
+
+.capabilityBlock { margin: -4px 0 16px; }
+.capabilityLabel { margin-bottom: 8px; font-family: var(--font-display), sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .08em; color: var(--ink-muted); text-transform: uppercase; }
+.capabilityList { display: flex; flex-wrap: wrap; gap: 6px; }
+.capabilityList span { padding: 5px 8px; border: 1px solid rgba(22,182,106,.22); border-radius: 999px; background: rgba(22,182,106,.08); color: var(--brand-green-deep); font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 10px; font-weight: 700; line-height: 1; }
 
 .noteBox { margin-bottom: 18px; border-radius: var(--r-control); padding: 12px 14px; background: #fff8df; border: 1px solid #f2e3b0; color: #9a6a00; font-size: 12.5px; line-height: 1.65; }
 .noteBox strong { display: block; margin-bottom: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }

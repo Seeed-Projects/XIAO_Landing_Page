@@ -30,6 +30,21 @@ const SAMD21_FRONT_MARKER_ALIASES = {
   D12: "RX_LED",
   D13: "USER_LED",
 };
+const SAMD21_LEFT_DETAIL_IDS = new Set(["TX_LED", "RX_LED", "D11", "D12"]);
+const SAMD21_CAPABILITIES = {
+  D0: ["GPIO", "ADC", "DAC"],
+  D1: ["GPIO", "ADC", "PWM"], D2: ["GPIO", "ADC", "PWM"], D3: ["GPIO", "ADC", "PWM"],
+  D4: ["GPIO", "ADC", "PWM", "I²C SDA"], D5: ["GPIO", "ADC", "PWM", "I²C SCL"],
+  D6: ["GPIO", "ADC", "PWM", "UART TX"], D7: ["GPIO", "ADC", "PWM", "UART RX"],
+  D8: ["GPIO", "ADC", "PWM", "SPI SCK"], D9: ["GPIO", "ADC", "PWM", "SPI MISO"],
+  D10: ["GPIO", "ADC", "PWM", "SPI MOSI"],
+  D11: ["TX LED", "ACTIVE LOW"], TX_LED: ["TX LED", "ACTIVE LOW"],
+  D12: ["RX LED", "ACTIVE LOW"], RX_LED: ["RX LED", "ACTIVE LOW"],
+  D13: ["USER LED", "ACTIVE LOW"], USER_LED: ["USER LED", "ACTIVE LOW"],
+  POWER_LED: ["POWER LED", "3.3V RAIL"],
+  "5V": ["VBUS", "POWER"], GND: ["GROUND"], "3V3": ["3.3V OUT", "POWER"],
+  RST: ["RESET", "ACTIVE LOW"], SWDIO: ["SWD", "DEBUG"], SWCLK: ["SWD", "DEBUG"],
+};
 
 const boardInfo = {
   name: "XIAO nRF54LM20",
@@ -716,7 +731,9 @@ export function Pinout() {
   const frontMarkerIds = isSamd21 ? SAMD21_FRONT_MARKERS.map((marker) => marker.id) : [];
   const activeLeftIds = face === "back" && board.backPins ? board.backPins.left : board.leftColIds;
   const activeRightIds = face === "back" && board.backPins ? board.backPins.right : board.rightColIds;
-  const samdDetailOnLeft = isSamd21 && activeLeftIds.includes(activeId);
+  const samdDetailOnLeft = isSamd21 && (
+    activeLeftIds.includes(activeId) || (face === "front" && SAMD21_LEFT_DETAIL_IDS.has(activeId))
+  );
   const pick = (field) => (field && field[lang]) || (field && field.en) || "";
   const activeCategory = BOARD_CATEGORIES.find((category) => category.id === activeCategoryId) || BOARD_CATEGORIES[0];
 
@@ -772,12 +789,12 @@ export function Pinout() {
       const endY = pinRect.top - stageRect.top + pinRect.height / 2;
       const direction = samdDetailOnLeft ? 1 : -1;
       const distance = Math.max(48, Math.abs(endX - startX));
-      const shoulder = Math.min(86, distance * 0.38);
+      const elbowX = startX + direction * Math.min(62, Math.max(34, distance * 0.34));
 
       setConnector({
         width: stageRect.width,
         height: stageRect.height,
-        path: `M ${startX} ${startY} C ${startX + shoulder * direction} ${startY}, ${endX - shoulder * direction} ${endY}, ${endX} ${endY}`,
+        path: `M ${startX} ${startY} H ${elbowX} V ${endY} H ${endX}`,
         startX,
         startY,
       });
@@ -828,6 +845,7 @@ export function Pinout() {
     detailLabel: lang === "zh" ? "引脚详情" : "Pin Details",
     fn: lang === "zh" ? "功能" : "Function",
     chipPin: lang === "zh" ? "芯片引脚" : "Chip Pin",
+    capabilities: lang === "zh" ? "引脚特性" : "Capabilities",
     note: lang === "zh" ? "注意事项" : "Note",
     codeHead: lang === "zh" ? "初始化代码" : "Initialization",
     codeEmpty: lang === "zh" ? "// 电源 / 内部引脚，无需用户初始化" : "// Power / internal pin — no user init needed",
@@ -840,6 +858,24 @@ export function Pinout() {
   };
 
   const noteText = pin.note ? pick(pin.note) : "";
+  const samdExtraNotes = lang === "zh" ? {
+    D0: "D0 支持真正的 DAC 输出，但不支持硬件 PWM。",
+    D5: "D5 与 D7 不能同时作为外部中断使用。",
+    D7: "D5 与 D7 不能同时作为外部中断使用。",
+    USER_LED: "板载用户灯为低电平点亮。", D13: "板载用户灯为低电平点亮。",
+    "5V-back": "背面 VIN/GND 焊盘不能直接连接锂电池；需要外部电池管理电路。",
+    "GND-back": "背面 VIN/GND 焊盘不能直接连接锂电池；需要外部电池管理电路。",
+  } : {
+    D0: "D0 provides a true DAC output, but it has no hardware PWM.",
+    D5: "D5 and D7 cannot be used as external interrupts at the same time.",
+    D7: "D5 and D7 cannot be used as external interrupts at the same time.",
+    USER_LED: "The onboard user LED is active-low.", D13: "The onboard user LED is active-low.",
+    "5V-back": "The rear VIN/GND pads are not a direct LiPo input; use external battery management.",
+    "GND-back": "The rear VIN/GND pads are not a direct LiPo input; use external battery management.",
+  };
+  const samdExtraNote = isSamd21 ? (samdExtraNotes[`${activeId}-${face}`] || samdExtraNotes[activeId] || "") : "";
+  const detailNoteText = [noteText, samdExtraNote].filter(Boolean).join(" ");
+  const capabilities = isSamd21 ? (SAMD21_CAPABILITIES[activeId] || []) : [];
 
   function fallbackCopy(text, done) {
     try {
@@ -1081,7 +1117,7 @@ export function Pinout() {
                 </div>
                 <div className={styles.detailHead} ref={isSamd21 ? detailHeadRef : null}>
                   <span className={styles.detailDot} style={{ background: c }} />
-                  <h3 className={styles.detailName}>{pin.id}</h3>
+                  <h3 className={styles.detailName}>{pin.id.replaceAll("_", " ")}</h3>
                   <span className={styles.detailXiao}>{pin.xiao}</span>
                 </div>
 
@@ -1090,10 +1126,19 @@ export function Pinout() {
                   <div className={styles.specRow}><dt>{T.chipPin}</dt><dd className={styles.mono}>{pin.chip}</dd></div>
                 </dl>
 
-                {noteText && (
+                {capabilities.length > 0 && (
+                  <div className={styles.capabilityBlock}>
+                    <div className={styles.capabilityLabel}>{T.capabilities}</div>
+                    <div className={styles.capabilityList}>
+                      {capabilities.map((item) => <span key={item}>{item}</span>)}
+                    </div>
+                  </div>
+                )}
+
+                {detailNoteText && (
                   <div className={styles.noteBox}>
                     <strong>{T.note}</strong>
-                    {noteText}
+                    {detailNoteText}
                   </div>
                 )}
 
@@ -1116,7 +1161,7 @@ export function Pinout() {
             </aside>
             {isSamd21 && connector && (
               <svg className={styles.samdConnector} viewBox={`0 0 ${connector.width} ${connector.height}`} preserveAspectRatio="none" aria-hidden="true">
-                <path d={connector.path} fill="none" stroke={c} strokeWidth="2.5" vectorEffect="non-scaling-stroke" />
+                <path d={connector.path} fill="none" stroke={c} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
                 <circle cx={connector.startX} cy={connector.startY} r="5" fill="#fff" stroke={c} strokeWidth="2.5" vectorEffect="non-scaling-stroke" />
               </svg>
             )}
