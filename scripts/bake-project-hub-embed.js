@@ -34,10 +34,7 @@ const HEIGHT_BRIDGE = `<script>
   const report = () => {
     cancelAnimationFrame(frame);
     frame = requestAnimationFrame(() => {
-      const height = Math.max(
-        document.body?.scrollHeight || 0,
-        document.documentElement?.scrollHeight || 0
-      );
+      const height = document.body?.scrollHeight || document.documentElement?.scrollHeight || 0;
       parent.postMessage({ type: "xiao-project-hub-height", height }, location.origin);
     });
   };
