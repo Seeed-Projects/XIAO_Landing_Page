@@ -739,15 +739,18 @@ const BOARDS = {
 };
 const BOARD_CATEGORIES = [
   { id: "esp32", label: "Espressif ESP32 Series", boardIds: ["s3", "s3plus", "c3", "c6", "c5"] },
-  { id: "nrf52", label: "Nordic nRF52 Series", boardIds: ["nrf52"] },
+  { id: "nrf52", label: "Nordic nRF52 Series", boardIds: ["nrf52", "nrf52840plus"] },
   { id: "nrf54", label: "Nordic nRF54 Series", boardIds: ["nrf54", "nrf54l15"] },
-  { id: "rp", label: "Raspberry Pi RP Series", boardIds: ["rp2040", "rp2350"] },
+  { id: "rp", label: "Raspberry Pi RP Series", boardIds: ["rp2040", "rp2040plus", "rp2350"] },
   { id: "mg", label: "Silicon Labs MG Series", boardIds: ["mg24"] },
-  { id: "samd", label: "Microchip SAMD Series", boardIds: ["samd21"] },
+  { id: "samd", label: "Microchip SAMD Series", boardIds: ["samd21", "samd21plus"] },
   { id: "ra", label: "Renesas RA Series", boardIds: ["ra4"] },
 ];
 const BOARD_PLACEHOLDERS = {
   s3plus: { name: "XIAO ESP32-S3 Plus" },
+  nrf52840plus: { name: "XIAO nRF52840 Plus" },
+  rp2040plus: { name: "XIAO RP2040 Plus" },
+  samd21plus: { name: "XIAO SAMD21 Plus" },
 };
 
 export function Pinout() {
@@ -1050,7 +1053,7 @@ export function Pinout() {
           {board.backPins && (
             <div className={styles.faceSwitch} aria-label={lang === "zh" ? "选择板子正反面" : "Choose board face"}>
               <button type="button" className={face === "front" ? styles.faceActive : ""} onClick={() => { setFace("front"); setSelId(board.leftColIds[0]); }}>{T.front}</button>
-              <button type="button" className={face === "back" ? styles.faceActive : ""} onClick={() => { setFace("back"); setSelId(board.backPins.left[0]); }}>{T.back}</button>
+              <button type="button" className={face === "back" ? styles.faceActive : ""} onClick={() => { setFace("back"); setSelId(board.backPins.left[0] || board.backPins.right[0]); }}>{T.back}</button>
             </div>
           )}
           {board.gpioNote && <span className={styles.gpioNote}>{T.gpioNote}</span>}
