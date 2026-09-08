@@ -44,7 +44,7 @@ export const homepageSections = {
         { name: "CircuitPython", url: "https://circuitpython.org", logo: "https://files.seeedstudio.com/wiki/xiao_topicpage/circuitpython.png", wordmark: true },
         { name: "Zephyr", url: "https://zephyrproject.org", logo: "https://files.seeedstudio.com/wiki/xiao_topicpage/zephyr.png", wordmark: true },
         { name: "Matter", url: "https://csa-iot.org/all-solutions/matter", logo: "https://files.seeedstudio.com/wiki/xiao_topicpage/matter.png", wordmark: true },
-        { name: "TinyML", url: "https://www.tinyml.org", logo: "https://icon.horse/icon/www.tinyml.org" },
+        { name: "TinyML", url: "https://www.tinyml.org", logo: "https://tinyml.org/assets/TinyML-Logo.webp", wordmark: true },
         { name: "Edge Impulse", url: "https://www.edgeimpulse.com", logo: "https://files.seeedstudio.com/wiki/xiao_topicpage/edgeimpulse.png", wordmark: true },
       ],
     },
@@ -53,7 +53,7 @@ export const homepageSections = {
       partners: [
         { name: "Hackster", url: "https://www.hackster.io", logo: "https://cdn.simpleicons.org/hackster" },
         { name: "CNX-Software", url: "https://www.cnx-software.com", logo: "https://www.cnx-software.com/wp-content/uploads/2021/04/cropped-CNX-Software-Square-Logo-Light-Grey-1-270x270.png" },
-        { name: "Seeed Wiki", url: "https://wiki.seeedstudio.com", logo: "https://icon.horse/icon/wiki.seeedstudio.com" },
+        { name: "Seeed Wiki", url: "https://wiki.seeedstudio.com", logo: "https://media-cdn.seeedstudio.com/media/logo/stores/4/logo_2018_horizontal.png", wordmark: true },
         { name: "Instructables", url: "https://www.instructables.com", logo: "https://cdn.simpleicons.org/instructables" },
         { name: "Hackaday", url: "https://hackaday.com", logo: "https://cdn.simpleicons.org/hackaday" },
         { name: "Adafruit", url: "https://www.adafruit.com", logo: "https://cdn.simpleicons.org/adafruit" },

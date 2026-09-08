@@ -42,16 +42,15 @@ export function PartnerMarquee() {
                   href={partner.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={
+                  className={`flex h-14 shrink-0 items-center rounded-full border border-[var(--line-soft)] bg-white/80 backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/30 hover:shadow-md ${
                     partner.wordmark
-                      ? "flex h-14 min-w-32 shrink-0 items-center justify-center px-3 transition hover:-translate-y-0.5 hover:opacity-75"
-                      : "flex shrink-0 items-center gap-2.5 rounded-full border border-[var(--line-soft)] bg-white/80 py-2 pl-2 pr-5 backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/30 hover:shadow-md"
-                  }
+                      ? "min-w-[150px] justify-center px-5"
+                      : "gap-2.5 py-2 pl-3 pr-5"
+                  }`}
                 >
                   {/* logo：专用图优先，否则按官网域名取 favicon 兜底，再失败回退品牌色方块 + 首字母 */}
                   {(() => {
                     const src = partner.logo || faviconOf(partner.url);
-                    const isFavicon = src.startsWith("https://favicon.yandex.net");
                     if (!src) {
                       return (
                         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[linear-gradient(135deg,rgba(0,73,102,0.96),rgba(8,102,126,0.92),rgba(143,195,31,0.88))] text-xs font-bold tracking-wide text-white">
@@ -75,11 +74,8 @@ export function PartnerMarquee() {
                           }}
                           className={
                             (partner.wordmark
-                              ? "h-10 w-auto max-w-36 shrink-0 object-contain"
-                              : "h-8 w-8 shrink-0 object-contain") +
-                            (!partner.wordmark && isFavicon
-                              ? " rounded-md bg-neutral-100 p-1.5"
-                              : "")
+                              ? "h-9 w-auto max-w-40 shrink-0 object-contain"
+                              : "h-8 w-8 shrink-0 object-contain")
                           }
                         />
                         <span
@@ -92,7 +88,7 @@ export function PartnerMarquee() {
                       </>
                     );
                   })()}
-                  {/* 文字 */}
+                  {/* 文字：wordmark 图已含品牌名，不再重复加文字标 */}
                   {!partner.wordmark && (
                     <span className="text-sm font-semibold text-[var(--ink-strong)]">
                       {partner.name}
