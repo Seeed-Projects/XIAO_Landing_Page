@@ -1,16 +1,12 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLang } from "../i18n";
 import { Reveal } from "../reveal";
 import { Glow } from "../Glow";
 import { withBase } from "../../lib/basePath";
 import styles from "./project-hub.module.css";
 
-const HERO_IMG = "/project-hub-projects/forager.jpg";
-const HERO_LINK =
-  "https://www.hackster.io/rishabh-jain5/trailnav-solar-powered-off-grid-exploration-device-bb35b2";
 const HUB_IFRAME = "https://seeed-studio.github.io/OSHW-XIAO-Series/";
 const HUB_EMBED = "/project-hub-embed.html";
 const CONTRIBUTE_LINK =
@@ -103,34 +99,9 @@ const T = {
 
 export function ProjectHub() {
   const { lang } = useLang();
-  const recent = SHOWCASE_PROJECTS;
-  const status = "ok";
-  const [toast, setToast] = useState("");
   const [embedHeight, setEmbedHeight] = useState(1400);
-  const [selectedProject, setSelectedProject] = useState(0);
-
-  const toastTimer = useRef(null);
 
   const t = T[lang];
-  const featured = recent[selectedProject];
-  const featuredTitle = featured
-    ? lang === "en"
-      ? featured[0]
-      : featured[5]
-    : "TrailNAV: Solar-Powered Off-Grid";
-  const featuredCategory = featured
-    ? lang === "en"
-      ? featured[4]
-      : featured[1]
-    : "Outdoor · Navigation";
-  const featuredImage = withBase(featured?.[3] || HERO_IMG);
-  const featuredLink = featured?.[2] || HERO_LINK;
-
-  function notify(msg) {
-    setToast(msg);
-    if (toastTimer.current) clearTimeout(toastTimer.current);
-    toastTimer.current = setTimeout(() => setToast(""), 1800);
-  }
 
   useEffect(() => {
     const onMessage = (event) => {
@@ -148,132 +119,7 @@ export function ProjectHub() {
     <div className={styles.hub}>
       <div className={styles.noise} />
 
-      <Reveal as="header" className={styles.projectIntro}>
-        <div className={styles.introVisual}>
-          <Image
-            src={withBase("/projecthub-hero.webp")}
-            alt=""
-            fill
-            sizes="100vw"
-            priority
-          />
-        </div>
-        <div className={styles.introShade} />
-        <div className={styles.introCopy}>
-          <Glow as="h1">XIAO Project Hub</Glow>
-          <p>{t.introTagline}</p>
-          <div className={styles.introAction}>
-            <a href={CONTRIBUTE_LINK} target="_blank" rel="noopener">
-              {t.contributeButton}
-            </a>
-            <span>{t.contributeIntro}</span>
-          </div>
-        </div>
-        <div className={styles.introMetrics} aria-label="Project Hub statistics">
-          {METRICS.map((m) => (
-            <div key={m[1]}>
-              <strong>{m[0]}</strong>
-              <span>{lang === "en" ? m[2] : m[3]}</span>
-            </div>
-          ))}
-        </div>
-      </Reveal>
-
       <main>
-        <Reveal as="section" className={styles.hero}>
-          <article className={styles.lead}>
-            <div
-              className={styles.leadArt}
-              style={{ backgroundImage: `url('${featuredImage}')` }}
-            />
-            <div className={styles.leadCopy}>
-              <span className={styles.featuredLabel}>{t.heroEyebrow}</span>
-              <h1>{featuredTitle}</h1>
-              <p className={styles.dek}>
-                {featured ? `${featured[6]} · ${featuredCategory}` : t.heroDek}
-              </p>
-              <div className={styles.meta}>
-                <a className={styles.play} href={featuredLink} target="_blank" rel="noopener">
-                  {t.viewProject}
-                </a>
-                <span>{featured ? featured[6] : "2026.06 · Hackster"}</span>
-              </div>
-            </div>
-            {recent.length > 1 && (
-              <div className={styles.projectDots} aria-label={t.recentTitle}>
-                {recent.slice(0, 6).map((project, index) => (
-                  <button
-                    key={project[2]}
-                    type="button"
-                    className={index === selectedProject ? styles.activeDot : ""}
-                    onClick={() => setSelectedProject(index)}
-                    aria-label={`${index + 1}. ${lang === "en" ? project[0] : project[5]}`}
-                    aria-pressed={index === selectedProject}
-                  />
-                ))}
-              </div>
-            )}
-          </article>
-
-          <aside className={styles.side}>
-            <div className={styles.sideHead}>
-              <div>
-                <h2>{t.recentTitle}</h2>
-                <span className={styles.count}>{t.latestCount}</span>
-              </div>
-              <div className={styles.subscribeCluster}>
-                <button
-                  className={styles.sideSubscribe}
-                  onClick={() => notify(t.subscribeToast)}
-                >
-                  <span />
-                  <b>{t.subscribe}</b>
-                </button>
-                <small>{t.subscribeNote}</small>
-              </div>
-            </div>
-            <div className={styles.episodeList}>
-              {status === "loading" && (
-                <p className={styles.projectStatus}>{t.loading}</p>
-              )}
-              {status === "error" && (
-                <p className={`${styles.projectStatus} ${styles.error}`}>{t.error}</p>
-              )}
-              {status === "ok" &&
-                recent.slice(0, 6).map((p, i) => (
-                  <a
-                    key={i}
-                    className={`${styles.ep} ${i === selectedProject ? styles.selectedEp : ""}`}
-                    href={p[2]}
-                    target="_blank"
-                    rel="noopener"
-                    onMouseEnter={() => setSelectedProject(i)}
-                    onFocus={() => setSelectedProject(i)}
-                  >
-                    <div
-                      className={styles.thumb}
-                      data-no={String(i + 1).padStart(2, "0")}
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={withBase(p[3])}
-                        alt={lang === "en" ? p[0] : p[5]}
-                        loading="lazy"
-                        style={{ objectFit: "contain", objectPosition: "center" }}
-                      />
-                    </div>
-                    <div>
-                      <small>
-                        {p[6]} · {lang === "en" ? p[4] : p[1]}
-                      </small>
-                      <h3>{lang === "en" ? p[0] : p[5]}</h3>
-                    </div>
-                  </a>
-                ))}
-            </div>
-          </aside>
-        </Reveal>
-
         <Reveal as="section" className={styles.browserSection}>
           <div className={styles.collectionIntro}>
             <div>
@@ -294,8 +140,6 @@ export function ProjectHub() {
           </div>
         </Reveal>
       </main>
-
-      <div className={`${styles.toast} ${toast ? styles.show : ""}`}>{toast}</div>
     </div>
   );
 }
