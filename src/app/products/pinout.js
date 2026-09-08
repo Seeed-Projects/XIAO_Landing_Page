@@ -46,6 +46,31 @@ const SAMD21_CAPABILITIES = {
   RST: ["RESET", "ACTIVE LOW"], SWDIO: ["SWD", "DEBUG"], SWCLK: ["SWD", "DEBUG"],
 };
 
+/* 由正交点列生成带圆角的折线路径：保持电路走线感，同时避免生硬直角。 */
+const roundedOrthogonalPath = (points, maxRadius = 12) => {
+  if (points.length < 2) return "";
+  let path = `M ${points[0].x} ${points[0].y}`;
+  for (let i = 1; i < points.length - 1; i += 1) {
+    const previous = points[i - 1];
+    const current = points[i];
+    const next = points[i + 1];
+    const incomingLength = Math.hypot(current.x - previous.x, current.y - previous.y);
+    const outgoingLength = Math.hypot(next.x - current.x, next.y - current.y);
+    const radius = Math.min(maxRadius, incomingLength / 2, outgoingLength / 2);
+    const before = {
+      x: current.x - ((current.x - previous.x) / incomingLength) * radius,
+      y: current.y - ((current.y - previous.y) / incomingLength) * radius,
+    };
+    const after = {
+      x: current.x + ((next.x - current.x) / outgoingLength) * radius,
+      y: current.y + ((next.y - current.y) / outgoingLength) * radius,
+    };
+    path += ` L ${before.x} ${before.y} Q ${current.x} ${current.y} ${after.x} ${after.y}`;
+  }
+  const last = points[points.length - 1];
+  return `${path} L ${last.x} ${last.y}`;
+};
+
 const boardInfo = {
   name: "XIAO nRF54LM20",
   tagline: {
@@ -790,16 +815,27 @@ export function Pinout() {
       const direction = samdDetailOnLeft ? 1 : -1;
       const distance = Math.max(48, Math.abs(endX - startX));
       const elbowX = startX + direction * Math.min(62, Math.max(34, distance * 0.34));
-      const verticalDirection = Math.sign(endY - startY);
-      const radius = Math.min(14, Math.abs(endY - startY) / 2, Math.abs(endX - elbowX) / 2);
-      const roundedPath = radius > 0
-        ? `M ${startX} ${startY} H ${elbowX - direction * radius} Q ${elbowX} ${startY} ${elbowX} ${startY + verticalDirection * radius} V ${endY - verticalDirection * radius} Q ${elbowX} ${endY} ${elbowX + direction * radius} ${endY} H ${endX}`
-        : `M ${startX} ${startY} H ${endX}`;
+      const markerId = SAMD21_FRONT_MARKER_ALIASES[activeId] || activeId;
+      const isTopMarker = face === "front" && SAMD21_FRONT_MARKERS.some((marker) => marker.id === markerId);
+      const pathPoints = isTopMarker
+        ? [
+          { x: startX, y: startY },
+          { x: elbowX, y: startY },
+          { x: elbowX, y: endY + 34 },
+          { x: endX, y: endY + 34 },
+          { x: endX, y: endY },
+        ]
+        : [
+          { x: startX, y: startY },
+          { x: elbowX, y: startY },
+          { x: elbowX, y: endY },
+          { x: endX, y: endY },
+        ];
 
       setConnector({
         width: stageRect.width,
         height: stageRect.height,
-        path: roundedPath,
+        path: roundedOrthogonalPath(pathPoints),
         startX,
         startY,
       });
@@ -1118,7 +1154,6 @@ export function Pinout() {
               <div className={styles.detailCard} ref={isSamd21 ? detailCardRef : null}>
                 <div className={styles.detailToolbar}>
                   <div className={styles.panelLabel}>{T.detailLabel}</div>
-                  <span className={styles.detailClose} aria-hidden="true">×</span>
                 </div>
                 <div className={styles.detailHead} ref={isSamd21 ? detailHeadRef : null}>
                   <span className={styles.detailDot} style={{ background: c }} />

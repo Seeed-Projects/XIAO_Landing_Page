@@ -264,7 +264,6 @@
 .samdLayout .detailCard:hover { transform: none; }
 .detailToolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
 .detailToolbar .panelLabel { margin: 0; color: var(--ink-muted); }
-.detailClose { display: inline-grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--line-soft); border-radius: 50%; color: var(--ink-muted); font-size: 20px; font-weight: 400; line-height: 1; background: rgba(255,255,255,.8); }
 .detailHead { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
 .detailDot { width: 18px; height: 18px; border-radius: 50%; box-shadow: 0 0 0 4px rgba(0,73,102,0.06); flex: 0 0 auto; }
 .detailName { margin: 0; font-family: var(--font-display), sans-serif; font-size: clamp(22px, 2vw, 28px); font-weight: 600; letter-spacing: -0.02em; color: var(--ink-strong); }
