@@ -136,13 +136,13 @@ const nrf54Groups = [
   ] },
   { cat: "expanded", label: { en: "Expanded / Inner Pads", zh: "夹缝 / 贴片引脚" }, pins: [
     ...[
-      ["D11", "P3.00"], ["D12", "P3.01"], ["D13", "P3.02"], ["D14", "P3.03"],
-      ["D15", "P3.04"], ["D16", "P3.05"], ["D17", "P3.06"], ["D18", "P3.07"],
+      ["P3.00", "D11"], ["P3.01", "D12"], ["P3.02", "D13"], ["P3.03", "D14"],
+      ["P3.04", "D15"], ["P3.05", "D16"], ["P3.06", "D17"], ["P3.07", "D18"],
       ["P3.11", "P3.11"], ["P3.10", "P3.10"], ["P3.09", "P3.09"],
       ["P0.00", "P0.00"], ["P0.01", "P0.01"], ["P0.02", "P0.02"],
       ["P0.03", "P0.03"], ["P0.04", "P0.04"], ["P0.05", "P0.05"],
-    ].map(([id, chip]) => ({
-      id, xiao: id, fn: "digital", chip,
+    ].map(([id, xiao]) => ({
+      id, xiao, fn: "digital", chip: id,
       desc: { en: "Expanded GPIO pad", zh: "扩展 GPIO 贴片引脚" },
       note: { en: "Solder pad on the rear/inner row.", zh: "位于背面或内侧夹缝焊盘。" }, code: "",
     })),
@@ -557,8 +557,8 @@ const BOARDS = {
     padY: STD_PAD_Y,
     frontBottomIds: ["MIC_DAT", "MIC_CLK", "IMU_SDA", "IMU_SCL", "IMU_CS", "IMU_INT1"],
     backPins: {
-      left: ["SWCLK", "GND", "SWCLK2", "3V3", "D11", "D12", "D13", "D14", "P3.11", "P3.10", "P3.09", "SHPHLD"],
-      right: ["SWDIO", "RESET", "SWDIO2", "RST2", "D18", "D17", "D16", "D15", "P0.00", "P0.01", "P0.02", "P0.03", "P0.04", "P0.05", "NFC1", "NFC2", "BAT-", "BAT+"],
+      left: ["SWCLK", "GND", "SWCLK2", "3V3", "P3.00", "P3.01", "P3.02", "P3.03", "P3.11", "P3.10", "P3.09", "SHPHLD"],
+      right: ["SWDIO", "RESET", "SWDIO2", "RST2", "P3.07", "P3.06", "P3.05", "P3.04", "P0.00", "P0.01", "P0.02", "P0.03", "P0.04", "P0.05", "NFC1", "NFC2", "BAT-", "BAT+"],
       padY: {
         left: [7, 14, 21, 28, 36, 43, 50, 57, 65, 72, 79, 91],
         right: [5, 10, 15, 20, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 86, 90, 94, 98],
@@ -784,7 +784,8 @@ export function Pinout() {
   const frontBottomIds = board.frontBottomIds || [];
   const frontAuxIds = [...frontCornerMarkers.map((marker) => marker.id), ...frontBottomIds];
   const activeLeftIds = face === "back" && board.backPins ? board.backPins.left : board.leftColIds;
-  const detailOnLeft = activeLeftIds.includes(activeId) || (
+  const selectedCornerMarker = frontCornerMarkers.find((marker) => marker.id === activeId);
+  const detailOnLeft = selectedCornerMarker?.side === "left" || activeLeftIds.includes(activeId) || (
     isSamd21 && face === "front" && SAMD21_LEFT_DETAIL_IDS.has(activeId)
   );
   const pick = (field) => (field && field[lang]) || (field && field.en) || "";
@@ -1056,7 +1057,7 @@ export function Pinout() {
         </div>
 
         <section className={styles.workspace}>
-          <div className={`${styles.grid} ${styles.samdLayout} ${detailOnLeft ? styles.samdDetailLeft : styles.samdDetailRight}`}>
+          <div className={`${styles.grid} ${styles.samdLayout} ${boardId === "nrf54" ? styles.lm20Layout : ""} ${detailOnLeft ? styles.samdDetailLeft : styles.samdDetailRight}`}>
             {/* 左：分组引脚列表 */}
             <aside className={styles.leftPanel}>
               <div className={styles.panelLabel}>{T.listLabel}</div>
