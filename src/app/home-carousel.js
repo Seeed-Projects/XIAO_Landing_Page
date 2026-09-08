@@ -7,7 +7,7 @@ import styles from "./home-carousel.module.css";
 /* 首页横幅轮播：保持轮播效果（自动切换/箭头/圆点），后续追加更多图。
    第 1 页：Seeed Studio XIAO featured banner（已裁去顶部黑边、对齐广告页标准比例）。 */
 const SLIDES = [
-  { src: "/home-carousel/banner-1.webp", alt: "Seeed Studio XIAO featured banner" },
+  { src: "/home-carousel/banner-2.webp", alt: "Seeed Studio XIAO featured banner" },
 ];
 
 export function HomeCarousel() {
