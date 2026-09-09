@@ -96,13 +96,16 @@ export default function SoftwareCenterPage() {
     <>
       <SiteHeader />
       <main className="flex w-full flex-1 flex-col pt-16">
-        <ToolPageIntro
-          id="top"
-          title={lang === "zh" ? "软件生态" : "Software Ecosystem"}
-          description={lang === "zh"
-            ? "集中浏览 XIAO 的官方软件、开发平台、协议工具和社区资源。"
-            : "Explore official software, development platforms, protocol tools and community resources for XIAO."}
-        />
+        {/* 顶部柔和绿色光晕，给标题区一点氛围底色，避免通篇纯白 */}
+        <section className="w-full bg-[radial-gradient(120%_120%_at_50%_0%,rgba(22,182,106,0.12)_0%,rgba(22,182,106,0.04)_38%,transparent_66%)]">
+          <ToolPageIntro
+            id="top"
+            title={lang === "zh" ? "软件生态" : "Software Ecosystem"}
+            description={lang === "zh"
+              ? "集中浏览 XIAO 的官方软件、开发平台、协议工具和社区资源。"
+              : "Explore official software, development platforms, protocol tools and community resources for XIAO."}
+          />
+        </section>
 
         {/* Logo 墙：两排滚动（marquee），来源为下方各分类里的软件 logo */}
         <section className="w-full px-6 pb-4 sm:px-10 lg:px-16">
@@ -114,7 +117,7 @@ export default function SoftwareCenterPage() {
 
         {/* 官方软件：直接在首屏渲染，点击卡片打开官方项目，不再经过二级页。 */}
         {OFFICIAL && (
-          <section id="official" className="w-full scroll-mt-28 px-6 pb-10 pt-10 sm:px-10 lg:px-16">
+          <section id="official" className="w-full scroll-mt-28 bg-[var(--surface-tint)] px-6 pb-16 pt-14 sm:px-10 lg:px-16">
             <div className="mx-auto w-full max-w-[1440px]">
               <Reveal>
                 <div className="mb-7 text-center">
@@ -162,7 +165,7 @@ export default function SoftwareCenterPage() {
         )}
 
         {/* 其他软件：第三方社区平台，按语言/OS/协议等分类 */}
-        <section id="community" className="w-full scroll-mt-28 px-6 py-6 sm:px-10 lg:px-16">
+        <section id="community" className="w-full scroll-mt-28 bg-[rgba(0,73,102,0.035)] px-6 pb-6 pt-14 sm:px-10 lg:px-16">
           <div className="mx-auto w-full max-w-[1440px]">
             <Reveal>
               <div className="mb-6 text-center">
@@ -195,7 +198,7 @@ export default function SoftwareCenterPage() {
         </section>
 
         {/* 黄色内容卡片：图标 + 详细信息，可点击进入详情页 */}
-        <section className="w-full px-6 pb-24 sm:px-10 lg:px-16">
+        <section className="w-full bg-[rgba(0,73,102,0.035)] px-6 pb-28 sm:px-10 lg:px-16">
           <div className="mx-auto w-full max-w-[1440px]">
             {active && (
               <div
