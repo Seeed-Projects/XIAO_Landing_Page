@@ -32,6 +32,8 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# 例外：本地开发需要的基础前缀配置，fork 后 npm run dev 图片才正常
+!.env.development
 
 # vercel
 .vercel
