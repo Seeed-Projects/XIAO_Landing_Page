@@ -20,6 +20,7 @@ export default function Home() {
   return (
     <>
       <SiteHeader />
+      <h1 className="sr-only">Seeed Studio XIAO</h1>
       {/* 首页商城式横幅轮播：全屏铺满，紧贴页眉，无顶部白边 */}
       <HomeCarousel />
       <main className="flex w-full flex-1 flex-col">
@@ -31,7 +32,7 @@ export default function Home() {
         {/* 开发者区 - 全屏满宽，跑马灯带铺满 */}
         <section
           id="developer"
-          className="bg-mod-green relative flex w-full scroll-mt-24 items-center overflow-hidden py-14"
+          className="home-section bg-mod-green relative flex w-full scroll-mt-24 items-center overflow-hidden"
         >
           <div className="w-full">
             <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
@@ -39,7 +40,7 @@ export default function Home() {
                 <SectionHeader kicker={t.developer.title} title={t.developer.title} description="" />
               </Reveal>
             </div>
-            <div className="mx-auto mt-10 w-full max-w-[1720px] px-8 sm:px-10 lg:px-12">
+            <div className="mx-auto mt-8 w-full max-w-[1720px] px-6 sm:px-10 lg:px-12">
               <PartnerMarquee />
             </div>
           </div>
@@ -50,7 +51,7 @@ export default function Home() {
         {/* 热门项目 - 全屏满宽，跑马灯带铺满 */}
         <section
           id="projects"
-          className="bg-mod-green relative flex min-h-[100dvh] w-full scroll-mt-24 items-center py-20 overflow-hidden"
+          className="home-section bg-mod-green relative flex w-full scroll-mt-24 items-center overflow-hidden"
         >
           <div className="w-full">
             <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
@@ -62,11 +63,11 @@ export default function Home() {
                 />
               </Reveal>
             </div>
-            <div className="mt-8 w-full">
+            <div className="mt-7 w-full">
               <ProjectsCarousel />
             </div>
             {/* Explore More —— 进入 OSHW XIAO Series 开源硬件合集，看更多共创项目 */}
-            <div className="mx-auto mt-8 w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
+            <div className="mx-auto mt-7 w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
               <div className="flex justify-center">
                 <a
                   href={OSHW_HUB_URL}
@@ -101,7 +102,7 @@ export default function Home() {
         {/* 生态共创 - 全屏满宽，置于用户评价下方；原版文案直接放 banner，不再加重复标题 */}
         <section
           id="cocreate"
-          className="bg-[#f4f6f7] relative flex min-h-[100dvh] w-full scroll-mt-24 items-center px-6 py-20 sm:px-10 lg:px-16"
+          className="home-section bg-[#f4f6f7] relative flex w-full scroll-mt-24 items-center px-6 sm:px-10 lg:px-16"
         >
           <div className="mx-auto w-full max-w-[1440px]">
             <CoCreateSection />
@@ -111,7 +112,7 @@ export default function Home() {
         {/* XIAO in the News —— 置于 Co-Create 之后 */}
         <section
           id="news"
-          className="relative flex w-full scroll-mt-24 items-center overflow-hidden bg-white py-20"
+          className="home-section relative flex w-full scroll-mt-24 items-center overflow-hidden bg-white"
         >
           <div className="w-full">
             <div className="mx-auto w-full max-w-[1440px] px-6 text-center sm:px-10 lg:px-16">
@@ -126,7 +127,7 @@ export default function Home() {
                 </p>
               </Reveal>
             </div>
-            <div className="mt-10 w-full">
+            <div className="mt-8 w-full">
               <NewsCarousel />
             </div>
           </div>

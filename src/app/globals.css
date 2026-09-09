@@ -363,6 +363,25 @@ canvas {
   padding-block: clamp(80px, 8vw, 128px);
 }
 
+.home-section {
+  padding-block: clamp(64px, 6.5vw, 96px);
+}
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid rgba(143, 195, 31, 0.72);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .marquee-track {
+    animation-play-state: paused;
+  }
+}
+
 .toc-panel {
   border: 1px solid rgba(255, 255, 255, 0.08);
   background:

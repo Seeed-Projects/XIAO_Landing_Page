@@ -56,25 +56,29 @@ export function HomeCarousel() {
         ))}
       </div>
 
-      <button type="button" className={`${styles.arrow} ${styles.previous}`} onClick={() => move(-1)} aria-label="Previous slide">
-        <span aria-hidden="true">‹</span>
-      </button>
-      <button type="button" className={`${styles.arrow} ${styles.next}`} onClick={() => move(1)} aria-label="Next slide">
-        <span aria-hidden="true">›</span>
-      </button>
+      {SLIDES.length > 1 && (
+        <>
+          <button type="button" className={`${styles.arrow} ${styles.previous}`} onClick={() => move(-1)} aria-label="Previous slide">
+            <span aria-hidden="true">‹</span>
+          </button>
+          <button type="button" className={`${styles.arrow} ${styles.next}`} onClick={() => move(1)} aria-label="Next slide">
+            <span aria-hidden="true">›</span>
+          </button>
 
-      <div className={styles.dots} aria-label="Choose slide">
-        {SLIDES.map((slide, index) => (
-          <button
-            key={slide.src}
-            type="button"
-            className={index === active ? styles.dotActive : ""}
-            onClick={() => setActive(index)}
-            aria-label={`Slide ${index + 1}`}
-            aria-current={index === active ? "true" : undefined}
-          />
-        ))}
-      </div>
+          <div className={styles.dots} aria-label="Choose slide">
+            {SLIDES.map((slide, index) => (
+              <button
+                key={slide.src}
+                type="button"
+                className={index === active ? styles.dotActive : ""}
+                onClick={() => setActive(index)}
+                aria-label={`Slide ${index + 1}`}
+                aria-current={index === active ? "true" : undefined}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </section>
   );
 }

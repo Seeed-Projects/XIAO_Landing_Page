@@ -29,9 +29,9 @@ export function VideoIntroSection() {
   return (
     <section
       id="intro"
-      className="section relative flex w-full scroll-mt-24 items-center bg-white px-6 sm:px-10 lg:px-16"
+      className="section home-section relative flex w-full scroll-mt-24 items-center bg-white px-6 sm:px-10 lg:px-16"
     >
-      <div className="mx-auto grid w-full max-w-[1440px] items-center gap-12 lg:grid-cols-[1.08fr_0.92fr]">
+      <div className="mx-auto grid w-full max-w-[1440px] items-center gap-9 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12">
         {/* 左：视频 */}
         <Reveal>
           <div className="relative overflow-hidden rounded-[24px] border border-[var(--line-soft)] bg-black shadow-[0_20px_50px_rgba(0,73,102,0.16)]">
@@ -50,7 +50,7 @@ export function VideoIntroSection() {
         </Reveal>
 
         {/* 右：文字 */}
-        <Reveal delay={150} className="space-y-5">
+        <Reveal delay={150} className="space-y-4">
           <Glow
             as="h2"
             className="font-display text-[24px] font-bold leading-tight tracking-[-0.02em] text-[#18224f] sm:text-[28px]"
@@ -83,15 +83,15 @@ export function VideoIntroSection() {
               <path d="m12 5 7 7-7 7" />
             </svg>
           </a>
-          <div className="grid grid-cols-2 gap-12 pt-5 sm:gap-20">
+          <div className="grid grid-cols-2 gap-8 border-t border-[var(--line-soft)] pt-5 sm:gap-16">
             {[
               [isEn ? "Thumb Sized" : "拇指大小", "21×17.8", "mm"],
               [isEn ? "Trusted by" : "深受信赖", "500,000+", isEn ? "Developers" : "开发者"],
             ].map(([label, value, unit]) => (
               <div key={label} className="min-w-0">
                 <p className="text-xs font-semibold text-[#777] sm:text-sm">{label}</p>
-                <p className="mt-4 whitespace-nowrap text-[25px] font-bold tracking-[-0.04em] text-[#222] sm:text-[31px]">{value}</p>
-                <p className="mt-3 text-xs font-semibold text-[#858585] sm:text-sm">{unit}</p>
+                <p className="mt-3 whitespace-nowrap text-[25px] font-bold tracking-[-0.04em] text-[#222] sm:text-[31px]">{value}</p>
+                <p className="mt-2 text-xs font-semibold text-[#858585] sm:text-sm">{unit}</p>
               </div>
             ))}
           </div>

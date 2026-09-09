@@ -32,7 +32,7 @@ export function PartnerMarquee() {
           <div className="group relative overflow-hidden">
             {/* 滚动轨道：复制足够多份(6×)保证轨道宽于视口，铺满无空白；hover 暂停 */}
             <div
-              className="flex w-max gap-3 marquee-track will-change-transform group-hover:[animation-play-state:paused]"
+              className="flex w-max gap-3 marquee-track will-change-transform group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused]"
               style={{ animationDuration: "80s" }}
             >
               {/* 复制 6 份实现无缝滚动（两半各 3 份，内容一致，translateX -50% 严丝合缝） */}

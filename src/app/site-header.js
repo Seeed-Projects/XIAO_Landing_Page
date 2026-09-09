@@ -133,12 +133,13 @@ export function SiteHeader() {
   const pgItems = PLAYGROUND_ITEMS[lang] || PLAYGROUND_ITEMS.en;
 
   const linkCls =
-    "flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-2 text-[13px] text-[var(--ink-body)] transition hover:bg-white/70 hover:text-[var(--brand-blue)] lg:px-3 lg:text-sm";
+    "flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-2 text-[13px] text-[var(--ink-body)] transition hover:bg-white/80 hover:text-[var(--brand-blue)] lg:px-3 lg:text-sm";
+  const isActive = (href) => pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
 
   return (
     <header
       id="site-header"
-      className="fixed inset-x-0 top-0 z-40 border-b border-[var(--line-soft)] bg-[var(--bg-base)]/85 backdrop-blur-md"
+      className="fixed inset-x-0 top-0 z-40 border-b border-[var(--line-soft)] bg-[var(--bg-base)]/92 shadow-[0_8px_24px_rgba(0,73,102,0.05)] backdrop-blur-md"
     >
       <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center px-4 sm:px-8 lg:px-12">
         {/* 左：logo */}
@@ -161,8 +162,8 @@ export function SiteHeader() {
                 onMouseEnter={openPlayground}
                 onMouseLeave={scheduleClose}
               >
-                <div className={`${linkCls} gap-0 py-0 pr-1`}>
-                  <Link href={item.href} onClick={() => setPgOpen(false)} className="py-2 pl-1 pr-1.5">
+                <div className={`${linkCls} gap-0 py-0 pr-1 ${isActive(item.href) ? "bg-white/90 text-[var(--brand-blue)] shadow-sm" : ""}`}>
+                  <Link href={item.href} onClick={() => setPgOpen(false)} className="py-2 pl-1 pr-1.5" aria-current={isActive(item.href) ? "page" : undefined}>
                     {item.label}
                   </Link>
                   <button type="button" aria-label="Open Playground menu" aria-expanded={pgOpen} onClick={() => setPgOpen((o) => !o)} className="flex h-8 w-6 items-center justify-center rounded-full">
@@ -208,7 +209,12 @@ export function SiteHeader() {
                 )}
               </div>
             ) : (
-              <Link key={item.key} href={item.href} className={linkCls}>
+              <Link
+                key={item.key}
+                href={item.href}
+                aria-current={isActive(item.href) ? "page" : undefined}
+                className={`${linkCls} ${isActive(item.href) ? "bg-white/90 font-semibold text-[var(--brand-blue)] shadow-sm" : ""}`}
+              >
                 <span>{item.label}</span>
               </Link>
             ),
@@ -240,7 +246,7 @@ export function SiteHeader() {
             {nav.map((item) =>
               item.key === "playground" ? (
                 <div key={item.key}>
-                  <div className="flex min-h-12 w-full items-center justify-between rounded-xl px-4 text-sm font-semibold text-[var(--ink-strong)]">
+                  <div className={`flex min-h-12 w-full items-center justify-between rounded-xl px-4 text-sm font-semibold ${isActive(item.href) ? "bg-[var(--surface-tint)] text-[var(--brand-green-deep)]" : "text-[var(--ink-strong)]"}`}>
                     <Link href={item.href} onClick={() => setMobileOpen(false)} className="flex-1 py-3">{item.label}</Link>
                     <button type="button" aria-label="Open Playground menu" aria-expanded={mobilePg} onClick={() => setMobilePg((o) => !o)} className="flex h-10 w-10 items-center justify-center rounded-full"><Chevron open={mobilePg} /></button>
                   </div>

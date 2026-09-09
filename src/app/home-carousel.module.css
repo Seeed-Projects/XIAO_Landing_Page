@@ -6,6 +6,7 @@
   overflow: hidden;
   background: #071c2a;
   isolation: isolate;
+  border-bottom: 1px solid rgba(255,255,255,.08);
 }
 /* 底部一层柔和暗角，增加纵深、提升圆点/文字可读性 */
 .carousel::after {
