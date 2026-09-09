@@ -31,7 +31,7 @@ export function VideoIntroSection() {
       id="intro"
       className="section home-section relative flex w-full scroll-mt-24 items-center bg-white px-6 sm:px-10 lg:px-16"
     >
-      <div className="mx-auto grid w-full max-w-[1440px] items-center gap-9 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12">
+      <div className="home-content grid items-center gap-9 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12">
         {/* 左：视频 */}
         <Reveal>
           <div className="relative overflow-hidden rounded-[24px] border border-[var(--line-soft)] bg-black shadow-[0_20px_50px_rgba(0,73,102,0.16)]">

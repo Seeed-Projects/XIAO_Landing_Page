@@ -40,13 +40,13 @@ export function CoCreateSection() {
       onBlurCapture={closeProjects}
     >
       {/* 上部：共创主视觉文案，与下部 gif 同处一张卡片 */}
-      <div className="relative z-10 p-7 sm:p-9 lg:p-11">
+      <div className="relative z-10 p-7 sm:p-8">
         <div className="mx-auto max-w-6xl">
           <h3 className="text-center font-display text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">
             {c.banner.title}
           </h3>
           <div className="mt-7 grid items-center gap-7 md:grid-cols-[minmax(0,1fr)_auto] md:gap-12">
-            <p className="text-left text-[18px] font-normal leading-[1.65] text-white/88">{c.banner.text}</p>
+            <p className="text-left text-base font-normal leading-[1.65] text-white/88">{c.banner.text}</p>
             <a
               href="https://www.seeedstudio.com/co-create.html"
               target="_blank"
@@ -65,7 +65,7 @@ export function CoCreateSection() {
       <img
         src={withBase("/co-create-demo.gif")}
         alt="XIAO Co-Create 流程演示"
-        className="block h-[260px] w-full object-cover sm:h-[320px] lg:h-[380px]"
+        className="block h-auto w-full"
         loading="lazy"
       />
 

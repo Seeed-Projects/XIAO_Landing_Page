@@ -35,12 +35,12 @@ export default function Home() {
           className="home-section bg-mod-green relative flex w-full scroll-mt-24 items-center overflow-hidden"
         >
           <div className="w-full">
-            <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
+            <div className="mx-auto w-full max-w-[1808px] px-6 sm:px-10 lg:px-16">
               <Reveal>
                 <SectionHeader kicker={t.developer.title} title={t.developer.title} description="" />
               </Reveal>
             </div>
-            <div className="mx-auto mt-8 w-full max-w-[1720px] px-6 sm:px-10 lg:px-12">
+            <div className="mx-auto mt-8 w-full max-w-[1808px] px-6 sm:px-10 lg:px-12">
               <PartnerMarquee />
             </div>
           </div>
@@ -54,7 +54,7 @@ export default function Home() {
           className="home-section bg-mod-green relative flex w-full scroll-mt-24 items-center overflow-hidden"
         >
           <div className="w-full">
-            <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
+            <div className="mx-auto w-full max-w-[1808px] px-6 sm:px-10 lg:px-16">
               <Reveal>
                 <SectionHeader
                   kicker={t.projects.title}
@@ -67,7 +67,7 @@ export default function Home() {
               <ProjectsCarousel />
             </div>
             {/* Explore More —— 进入 OSHW XIAO Series 开源硬件合集，看更多共创项目 */}
-            <div className="mx-auto mt-7 w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
+            <div className="mx-auto mt-7 w-full max-w-[1808px] px-6 sm:px-10 lg:px-16">
               <div className="flex justify-center">
                 <a
                   href={OSHW_HUB_URL}
@@ -104,7 +104,7 @@ export default function Home() {
           id="cocreate"
           className="home-section bg-[#f4f6f7] relative flex w-full scroll-mt-24 items-center px-6 sm:px-10 lg:px-16"
         >
-          <div className="mx-auto w-full max-w-[1440px]">
+          <div className="home-content">
             <CoCreateSection />
           </div>
         </section>
@@ -115,7 +115,7 @@ export default function Home() {
           className="home-section relative flex w-full scroll-mt-24 items-center overflow-hidden bg-white"
         >
           <div className="w-full">
-            <div className="mx-auto w-full max-w-[1440px] px-6 text-center sm:px-10 lg:px-16">
+            <div className="mx-auto w-full max-w-[1808px] px-6 text-center sm:px-10 lg:px-16">
               <Reveal>
                 <h2 className="text-4xl font-bold leading-[1.12] tracking-[-0.035em] text-[#18224f] sm:text-5xl lg:text-[3.5rem]">
                   {isEn ? "XIAO in the News" : "XIAO 新闻动态"}
