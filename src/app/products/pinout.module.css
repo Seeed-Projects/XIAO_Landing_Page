@@ -205,7 +205,7 @@
 .samdTopMarkers {
   position: absolute;
   z-index: 4;
-  top: -38px;
+  top: -66px;
   left: 50%;
   display: flex;
   align-items: flex-end;
@@ -241,8 +241,9 @@
 .frontCornerMarker {
   position: absolute; z-index: 5; top: 4%; display: inline-flex; flex-direction: column; align-items: center; gap: 5px;
   border: 0; background: transparent; color: #d8e9e8; font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 11px; font-weight: 800; pointer-events: auto;
+  font-size: 13px; font-weight: 650; letter-spacing: .01em; line-height: 1; pointer-events: auto;
 }
+.frontCornerMarker > span:first-child { color: rgba(240,250,252,.86); text-shadow: 0 1px 8px rgba(0,0,0,.28); }
 .frontCornerMarkerLeft { left: -58px; }
 .frontCornerMarkerRight { right: -64px; }
 .frontCornerMarker .pinPad, .frontBottomMarker .pinPad { width: 10px; height: 10px; border: 2px solid rgba(255,255,255,.82); border-radius: 50%; box-shadow: 0 0 0 3px rgba(255,255,255,.10), 0 0 12px currentColor; }

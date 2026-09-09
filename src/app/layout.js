@@ -2,6 +2,7 @@ import "./globals.css";
 import { LanguageProvider } from "./i18n";
 import { SideDirectory } from "./side-directory";
 import { SiteFooter } from "./site-footer";
+import { InteractionAnalytics } from "./interaction-analytics";
 
 const montserrat = { variable: "" };
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
           {children}
           <SiteFooter />
           <SideDirectory />
+          <InteractionAnalytics />
         </LanguageProvider>
       </body>
     </html>

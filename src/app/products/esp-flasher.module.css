@@ -197,7 +197,7 @@
 }
 .flashEntry strong { align-self: end; font-size: 17px; }
 .flashEntry small { align-self: start; color: var(--ink-muted); font-size: 12px; line-height: 1.45; }
-.flashEntry.active { border-color: rgba(22,182,106,.48); background: #f5fbf1; box-shadow: inset 4px 0 0 var(--brand-green); }
+.flashEntry.active { border-color: rgba(22,182,106,.48); background: #fff; box-shadow: inset 4px 0 0 var(--brand-green); }
 .flashEntry.active > span { background: var(--brand-green); color: #fff; }
 .flashEntry:hover:not(:disabled) { transform: translateY(-2px); border-color: rgba(22,182,106,.55); }
 .flashEntry:disabled { cursor: not-allowed; opacity: .56; }
