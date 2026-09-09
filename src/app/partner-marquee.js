@@ -44,7 +44,7 @@ export function PartnerMarquee() {
                   rel="noopener noreferrer"
                   className={`flex h-14 shrink-0 items-center rounded-full border border-[var(--line-soft)] bg-white/80 backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/30 hover:shadow-md ${
                     partner.wordmark
-                      ? "justify-center px-4"
+                      ? "min-w-[150px] justify-center px-5"
                       : "gap-2.5 py-2 pl-3 pr-5"
                   }`}
                 >
@@ -74,7 +74,7 @@ export function PartnerMarquee() {
                           }}
                           className={
                             (partner.wordmark
-                              ? "h-11 w-auto max-w-44 shrink-0 object-contain"
+                              ? "h-9 w-auto max-w-40 shrink-0 object-contain"
                               : "h-8 w-8 shrink-0 object-contain")
                           }
                         />

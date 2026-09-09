@@ -53,7 +53,7 @@ export const homepageSections = {
       partners: [
         { name: "Hackster", url: "https://www.hackster.io", logo: "https://cdn.simpleicons.org/hackster" },
         { name: "CNX-Software", url: "https://www.cnx-software.com", logo: "https://www.cnx-software.com/wp-content/uploads/2021/04/cropped-CNX-Software-Square-Logo-Light-Grey-1-270x270.png" },
-        { name: "Seeed Wiki", url: "https://wiki.seeedstudio.com", logo: "/partner-logos/seeed-circle.webp", wordmark: true },
+        { name: "Seeed Wiki", url: "https://wiki.seeedstudio.com", logo: "https://media-cdn.seeedstudio.com/media/logo/stores/4/logo_2018_horizontal.png", wordmark: true },
         { name: "Instructables", url: "https://www.instructables.com", logo: "https://cdn.simpleicons.org/instructables" },
         { name: "Hackaday", url: "https://hackaday.com", logo: "https://cdn.simpleicons.org/hackaday" },
         { name: "Adafruit", url: "https://www.adafruit.com", logo: "https://cdn.simpleicons.org/adafruit" },
