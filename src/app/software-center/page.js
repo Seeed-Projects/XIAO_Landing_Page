@@ -117,7 +117,7 @@ export default function SoftwareCenterPage() {
 
         {/* 官方软件：直接在首屏渲染，点击卡片打开官方项目，不再经过二级页。 */}
         {OFFICIAL && (
-          <section id="official" className="w-full scroll-mt-28 bg-[var(--surface-tint)] px-6 pb-16 pt-14 sm:px-10 lg:px-16">
+          <section id="official" className="w-full scroll-mt-28 px-6 pb-16 pt-14 sm:px-10 lg:px-16">
             <div className="mx-auto w-full max-w-[1440px]">
               <Reveal>
                 <div className="mb-7 text-center">
