@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useLang } from "./i18n";
 
@@ -29,7 +29,7 @@ export function SideDirectory() {
   const { t } = useLang();
   const pathname = usePathname();
   const key = routeKey(pathname);
-  const items = key ? t.side?.[key] ?? [] : [];
+  const items = useMemo(() => (key ? t.side?.[key] ?? [] : []), [key, t.side]);
   const [active, setActive] = useState(items[0]?.id ?? null);
 
   // 滚动监听，高亮当前可视区段
@@ -65,37 +65,39 @@ export function SideDirectory() {
 
   return (
     <nav
-      aria-label="目录"
-      className="fixed right-4 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-end gap-2.5 lg:flex"
+      aria-label="Section navigation"
+      className="fixed right-3 top-1/2 z-30 hidden -translate-y-1/2 lg:block"
     >
-      {items.map((item, i) => {
-        const isActive = item.id === active;
-        return (
-          <button
-            key={`${item.label}-${i}`}
-            type="button"
-            onClick={() => handleSelect(item.id)}
-            className="group flex items-center justify-end gap-2"
-          >
-            <span
-              className={`overflow-hidden whitespace-nowrap text-xs font-medium transition-all duration-300 ${
-                isActive
-                  ? "max-w-[220px] opacity-100 text-[var(--brand-blue)]"
-                  : "max-w-0 opacity-0 group-hover:max-w-[220px] group-hover:opacity-100 group-hover:text-[var(--ink-body)]"
-              }`}
+      <div className="flex flex-col items-center rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.055)] px-0.5 py-1 opacity-[0.58] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_4px_16px_rgba(15,23,42,0.035)] backdrop-blur-xl backdrop-saturate-[0.85] transition-[background-color,opacity] duration-200 hover:bg-[rgba(255,255,255,0.10)] hover:opacity-[0.86] focus-within:bg-[rgba(255,255,255,0.10)] focus-within:opacity-[0.86] motion-reduce:transition-none">
+        {items.map((item, i) => {
+          const isActive = item.id === active;
+          return (
+            <button
+              key={`${item.label}-${i}`}
+              type="button"
+              aria-label={item.label}
+              aria-current={isActive ? "location" : undefined}
+              onClick={() => handleSelect(item.id)}
+              className="group relative flex h-7 w-7 items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[var(--button-bg)]"
             >
-              {item.label}
-            </span>
-            <span
-              className={`h-2 w-2 shrink-0 rounded-full transition-all duration-300 ${
-                isActive
-                  ? "scale-150 bg-[var(--brand-blue)]"
-                  : "bg-[var(--ink-muted)]/40 group-hover:bg-[var(--brand-blue)]"
-              }`}
-            />
-          </button>
-        );
-      })}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute right-[calc(100%+0.5rem)] top-1/2 -translate-y-1/2 translate-x-1 whitespace-nowrap rounded-full bg-[#18224f]/95 px-3 py-1.5 text-xs font-semibold text-white opacity-0 shadow-[0_8px_24px_rgba(24,34,79,0.20)] transition-[opacity,transform] duration-200 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 motion-reduce:transition-none"
+              >
+                {item.label}
+              </span>
+              <span
+                aria-hidden="true"
+                className={`shrink-0 rounded-full transition-[height,width,background-color,transform,box-shadow] duration-200 motion-reduce:transition-none ${
+                  isActive
+                    ? "h-3 w-1 bg-[var(--button-bg)] opacity-[0.85] shadow-[0_0_0_2px_rgba(143,195,31,0.10)]"
+                    : "h-1.5 w-1.5 bg-[#9aa5b5] group-hover:scale-110 group-hover:bg-[var(--brand-blue)]"
+                }`}
+              />
+            </button>
+          );
+        })}
+      </div>
     </nav>
   );
 }

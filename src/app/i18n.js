@@ -240,12 +240,15 @@ const zh = {
   side: {
     home: [
       { id: "hero", label: "主视觉" },
-      { id: "data", label: "数据" },
+      { id: "intro", label: "认识 XIAO" },
+      { id: "features", label: "核心特性" },
+      { id: "glimpse", label: "XIAO 一览" },
       { id: "developer", label: "开发者生态" },
+      { id: "roadmap", label: "开放路线图" },
       { id: "projects", label: "基于 XIAO 构建的项目" },
-      { id: "news", label: "XIAO 新闻" },
-      { id: "reviews", label: "媒体评测" },
+      { id: "playground", label: "XIAO Playground" },
       { id: "cocreate", label: "生态共创" },
+      { id: "news", label: "XIAO 新闻" },
       { id: "edm", label: "XIAO 电子报" },
     ],
     products: [
@@ -510,12 +513,15 @@ const en = {
   side: {
     home: [
       { id: "hero", label: "Hero" },
-      { id: "data", label: "DATA" },
-      { id: "developer", label: "Developer" },
+      { id: "intro", label: "Meet XIAO" },
+      { id: "features", label: "Core Features" },
+      { id: "glimpse", label: "XIAO at a Glance" },
+      { id: "developer", label: "Developer Ecosystem" },
+      { id: "roadmap", label: "Open Roadmap" },
       { id: "projects", label: "Projects Built on XIAO" },
-      { id: "news", label: "News" },
-      { id: "reviews", label: "Reviews" },
+      { id: "playground", label: "XIAO Playground" },
       { id: "cocreate", label: "Co-Create" },
+      { id: "news", label: "XIAO News" },
       { id: "edm", label: "NEWSLETTER" },
     ],
     products: [
