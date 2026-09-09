@@ -20,6 +20,26 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Scroll Band Verification
+
+The project carousel displays two rows and repeats its existing content to cover
+the viewport throughout each cycle. Resizing the viewport recalculates the copy
+count and the exact batch travel distance. Hovering or focusing a card pauses the
+animation; the system's reduced-motion preference keeps it stationary.
+
+Run the layout regression tests with Node.js:
+
+```bash
+node --test src/app/scroll-band-layout.test.mjs
+```
+
+All five tests should pass. With `npm run dev` running, open
+`http://localhost:3000/XIAO_Landing_Page/#projects`, keep the pointer outside the
+cards, and watch for two 55-second cycles. The two rows should continuously fill
+the viewport with consistent spacing at the seam. Check both a wide desktop
+window and a narrow mobile window, then verify pause and resume using hover or
+keyboard focus.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

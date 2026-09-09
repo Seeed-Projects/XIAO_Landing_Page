@@ -54,6 +54,15 @@
   }
 }
 
+@keyframes scroll-band-loop {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--scroll-band-distance));
+  }
+}
+
 /* 通用横向跑马灯轨道：duration 由内联 style 控制，hover 由 group-hover 暂停。
    用 longhand 而非 animation 简写，避免简写把 play-state 重置为 running，
    覆盖掉 group-hover 的 paused（同特异性、源序在后者会赢）。 */
