@@ -89,7 +89,7 @@ export function PlaygroundSection() {
           <div className="relative flex flex-col items-center justify-center border-b border-white/10 p-6 lg:border-b-0 lg:border-r">
             <h3 className="text-2xl font-bold sm:text-3xl">{zh ? "开源" : "Open Source"}</h3>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={withBase("/playground-hero.webp")} alt="Seeed Studio XIAO Playground" className="my-5 h-36 w-full object-contain" />
+            <img src={withBase("/home/playground_home.png")} alt="Seeed Studio XIAO Playground" className="my-5 h-36 w-full object-contain" />
             <p className="text-xl font-semibold sm:text-2xl">{zh ? "为开发者" : "for Developers"}</p>
             <Link href="/playground" className="mt-8 rounded-full bg-[#91d000] px-10 py-3 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#7fb300]">{zh ? "开始玩！" : "Let’s Play!"}</Link>
           </div>

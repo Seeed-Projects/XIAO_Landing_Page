@@ -6,6 +6,7 @@ import { useLang } from "../i18n";
 import { Reveal } from "../reveal";
 import { Glow } from "../Glow";
 import { withBase } from "../../lib/basePath";
+import discussionData from "../../../public/open-roadmap/discussions.json";
 import styles from "./community-roadmap.module.css";
 
 const STATUS_CLASS = {
@@ -48,8 +49,7 @@ function relativeDate(iso, lang) {
 
 export function CommunityRoadmap() {
   const { lang } = useLang();
-  const [items, setItems] = useState([]);
-  const [status, setStatus] = useState("loading");
+  const items = discussionData;
   const [tabId, setTabId] = useState("all");
   const [active, setActive] = useState(null);
 
@@ -60,8 +60,6 @@ export function CommunityRoadmap() {
       : "You decide what we build next",
     btnAll: lang === "zh" ? "查看全部想法" : "View all ideas",
     btnSubmit: lang === "zh" ? "在 GitHub 提交想法 ↗" : "Submit an idea on GitHub ↗",
-    loading: lang === "zh" ? "加载中…" : "Loading discussions…",
-    error: lang === "zh" ? "无法加载讨论。" : "Unable to load discussions.",
     count: (n) => lang === "zh" ? `${n} 条想法` : `${n} ${n === 1 ? "idea" : "ideas"}`,
     empty: lang === "zh" ? "该分类下暂无想法。" : "No ideas in this category yet.",
     votes: lang === "zh" ? "票" : "votes",
@@ -76,24 +74,6 @@ export function CommunityRoadmap() {
     update: lang === "zh" ? "Seeed 最新进展" : "Latest update from Seeed",
     fullDiscussion: lang === "zh" ? "在 GitHub 查看完整讨论 ↗" : "View full discussion on GitHub ↗",
   };
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch(withBase("/open-roadmap/discussions.json"), { cache: "no-store" });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        if (!cancelled) {
-          setItems(Array.isArray(data) ? data : []);
-          setStatus("ok");
-        }
-      } catch {
-        if (!cancelled) setStatus("error");
-      }
-    })();
-    return () => { cancelled = true; };
-  }, []);
 
   useEffect(() => {
     if (!active) return;
@@ -136,7 +116,7 @@ export function CommunityRoadmap() {
       </Reveal>
 
       <div className={styles.wrap}>
-        <Reveal className={styles.filters} id="ideas">
+        <div className={styles.filters} id="ideas">
           <div className={styles.filterRow} aria-label={lang === "zh" ? "按状态筛选" : "Filter by status"}>
             <span className={styles.filterLabel}>{lang === "zh" ? "状态" : "Status"}</span>
             {TAB_DEFS.map((t) => (
@@ -150,19 +130,18 @@ export function CommunityRoadmap() {
               </button>
             ))}
           </div>
-        </Reveal>
-
-        <div className={styles.listMeta}>
-          {status === "loading" ? T.loading : status === "error" ? T.error : T.count(visible.length)}
         </div>
 
-        <Reveal className={styles.list}>
-          {status === "ok" && visible.length === 0 && (
+        <div className={styles.listMeta}>
+          {T.count(visible.length)}
+        </div>
+
+        <div className={styles.list}>
+          {visible.length === 0 && (
             <div className={styles.empty}>{T.empty}</div>
           )}
-          {visible.map((it, i) => (
-            <Reveal key={it.id} delay={i * 70}>
-            <article className={styles.card} onClick={() => setActive(it)}>
+          {visible.map((it) => (
+            <article key={it.id} className={styles.card} onClick={() => setActive(it)}>
               <div className={styles.cardTop}>
                 <div className={styles.vote}>
                   <b>▲ {it.votes}</b>
@@ -191,9 +170,8 @@ export function CommunityRoadmap() {
                 </a>
               </div>
             </article>
-            </Reveal>
           ))}
-        </Reveal>
+        </div>
       </div>
 
       <div className={`${styles.backdrop} ${active ? styles.open : ""}`} onClick={() => setActive(null)} />

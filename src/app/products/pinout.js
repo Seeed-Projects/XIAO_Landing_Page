@@ -983,7 +983,13 @@ export function Pinout() {
   const pin = pinById(activeId);
   const c = FN_COLOR[pin.fn];
   const isSamd21 = boardId === "samd21";
-  const frontMarkerIds = isSamd21 ? SAMD21_FRONT_MARKERS.map((marker) => marker.id) : [];
+  const inferredLedIds = [...new Set(allPins
+    .filter((item) => item.id.includes("LED") || item.id.startsWith("RGB_"))
+    .map((item) => item.id))];
+  const frontTopMarkers = isSamd21
+    ? SAMD21_FRONT_MARKERS
+    : inferredLedIds.map((id) => ({ id, label: id.replaceAll("_", " ") }));
+  const frontMarkerIds = frontTopMarkers.map((marker) => marker.id);
   const resetPin = ["RST", "RESET", "nRST"].map(pinById).find(Boolean);
   const bootPin = ["Boot", "BOOT"].map(pinById).find(Boolean);
   const frontCornerMarkers = [
@@ -991,7 +997,7 @@ export function Pinout() {
     bootPin && { id: bootPin.id, label: "BOOT", side: "right" },
   ].filter(Boolean);
   const frontBottomIds = board.frontBottomIds || [];
-  const frontAuxIds = [...frontCornerMarkers.map((marker) => marker.id), ...frontBottomIds];
+  const frontAuxIds = [...frontTopMarkers.map((marker) => marker.id), ...frontCornerMarkers.map((marker) => marker.id), ...frontBottomIds];
   const activeLeftIds = face === "back" && board.backPins ? board.backPins.left : board.leftColIds;
   const selectedCornerMarker = frontCornerMarkers.find((marker) => marker.id === activeId);
   const detailOnLeft = selectedCornerMarker?.side === "left" || activeLeftIds.includes(activeId) || (
@@ -1051,12 +1057,12 @@ export function Pinout() {
       const startY = detailHeadRect.top - stageRect.top + detailHeadRect.height / 2;
       const endX = pinRect.left - stageRect.left + pinRect.width / 2;
       const endY = pinRect.top - stageRect.top + pinRect.height / 2;
-      const direction = detailOnLeft ? 1 : -1;
-      const distance = Math.max(48, Math.abs(endX - startX));
-      const elbowX = startX + direction * Math.min(62, Math.max(34, distance * 0.34));
+      const horizontalGap = endX - startX;
+      const elbowOffset = Math.min(62, Math.max(22, Math.abs(horizontalGap) * 0.34));
+      const elbowX = startX + Math.sign(horizontalGap || 1) * Math.min(Math.abs(horizontalGap) / 2, elbowOffset);
       const markerId = SAMD21_FRONT_MARKER_ALIASES[activeId] || activeId;
       const approach = pinButton.dataset.connectorApproach;
-      const verticalApproachY = approach === "top" ? endY + 34 : endY - 34;
+      const verticalApproachY = approach === "top" ? endY - 30 : endY + 30;
       const isVerticalMarker = face === "front" && (
         approach === "top" || approach === "bottom" || SAMD21_FRONT_MARKERS.some((marker) => marker.id === markerId)
       );
@@ -1331,9 +1337,9 @@ export function Pinout() {
                         decoding="async"
                         fetchPriority="high"
                       />
-                      {isSamd21 && face === "front" && (
+                      {face === "front" && frontTopMarkers.length > 0 && (
                         <div className={styles.samdTopMarkers}>
-                          {SAMD21_FRONT_MARKERS.map((marker) => {
+                          {frontTopMarkers.map((marker) => {
                             const markerPin = pinById(marker.id);
                             if (!markerPin) return null;
                             const active = marker.id === activeId || SAMD21_FRONT_MARKER_ALIASES[activeId] === marker.id;
@@ -1366,7 +1372,6 @@ export function Pinout() {
                             style={{ color: FN_COLOR[markerPin.fn] }}
                             onClick={() => setSelId(marker.id)}
                             ref={active ? activeStagePinRef : null}
-                            data-connector-approach="top"
                           >
                             <span>{marker.label}</span>
                             <span className={styles.pinPad} style={{ background: FN_COLOR[markerPin.fn] }} />
