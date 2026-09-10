@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLang } from "./i18n";
 import { Reveal } from "./reveal";
+import { TypewriterText } from "./typewriter-text";
 import { defaultXiaoImage } from "./site-data";
 import { withBase } from "../lib/basePath";
 
@@ -59,7 +60,15 @@ export function RoadmapCallout() {
   const { lang } = useLang();
   return <section id="roadmap" className="section home-section bg-white px-6 sm:px-10 lg:px-16"><div className="home-content text-center">
     <Reveal><h2 className="text-4xl font-bold leading-[1.12] tracking-[-0.035em] text-[#18224f] sm:text-5xl lg:text-[3.5rem]">{lang === "en" ? "You Decide What We Build Next" : "下一款 XIAO，由你决定"}</h2><p className="mx-auto mt-5 max-w-5xl text-base leading-[1.65] text-[#526b91] sm:text-lg">{lang === "en" ? "We’re open-sourcing our roadmap for XIAO on GitHub, and you have a say in it. Vote for your favorite entries, suggest features, propose new products, or share feedback." : "我们在 GitHub 上公开 XIAO 路线图。你可以投票、建议功能、提出新产品，或直接分享反馈。"}</p></Reveal>
-    <Reveal delay={100} className="mt-10 rounded-[24px] border border-[#dce7d5] bg-[#f4f8ef] px-6 py-8 sm:px-8 sm:py-10"><div className="mx-auto flex max-w-5xl flex-col items-center gap-6 px-5 py-3 md:flex-row"><p className="flex-1 text-left text-base text-[#334b40] sm:text-lg">{lang === "en" ? "Developer, join to shape the next XIAO with us!" : "开发者，加入我们，共同定义下一款 XIAO！"}</p><a href={withBase("/open-roadmap")} style={{ color: "#182b0c" }} className="shrink-0 rounded-xl bg-[#9dcc3c] px-7 py-2.5 text-base font-bold text-[#182b0c] transition hover:-translate-y-0.5 hover:bg-[#8ab833]">{lang === "en" ? "Join Now" : "立即加入"}</a></div></Reveal>
+    <Reveal delay={100} className="mx-auto mt-10 max-w-4xl">
+      <div className="flex items-center gap-4 rounded-2xl bg-[#f3f5f1] p-4 shadow-[0_5px_18px_rgba(35,52,29,0.08)] sm:gap-6 sm:p-6">
+        <p className="min-w-0 flex-1 text-left text-base leading-[1.6] text-[#35473c] sm:text-lg"><TypewriterText key={lang} text={lang === "en" ? "Developers, join us and share your ideas for the next XIAO!" : "开发者，加入我们，分享你对下一款 XIAO 的想法！"} /></p>
+        <a href={withBase("/open-roadmap")} style={{ color: "#182b0c" }} className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-[#9dcc3c] px-3 py-3 text-sm font-bold text-[#182b0c] transition-[transform,background-color] duration-150 hover:bg-[#8ab833] active:scale-95 motion-reduce:transform-none motion-reduce:transition-none sm:px-6 sm:text-base">
+          {lang === "en" ? "Join Now" : "立即加入"}
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
+        </a>
+      </div>
+    </Reveal>
   </div></section>;
 }
 

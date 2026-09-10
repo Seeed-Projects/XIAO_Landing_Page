@@ -40,6 +40,18 @@ the viewport with consistent spacing at the seam. Check both a wide desktop
 window and a narrow mobile window, then verify pause and resume using hover or
 keyboard focus.
 
+## Roadmap Invitation Verification
+
+Run `node --test src/app/typewriter-animation.test.mjs` to verify progressive
+typing, replay, cancellation, reduced-motion completion, and Unicode handling.
+With `npm run dev` running, open `http://localhost:3000/XIAO_Landing_Page/#roadmap`.
+The invitation types over 3.5 seconds inside a single shaded message field.
+Scroll away and return to replay it, then switch languages and repeat at mobile
+width. The field reserves space for the complete sentence while typing.
+The Join Now button scales down while pressed and opens the in-site roadmap.
+With the system's reduced-motion preference enabled, the sentence appears in
+full and the button stays stationary.
+
 ## Language Toggle Verification
 
 Run `node --test src/app/site-header.test.mjs` to check the shared dimensions
