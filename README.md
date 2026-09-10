@@ -40,6 +40,24 @@ the viewport with consistent spacing at the seam. Check both a wide desktop
 window and a narrow mobile window, then verify pause and resume using hover or
 keyboard focus.
 
+## Home Playground Verification
+
+The Home Playground section pairs a wide original pinout illustration with four
+direct tool links. Its icons are shared with the Playground landing page.
+Display lighting starts when the illustration enters the viewport and restarts
+after leaving and returning. Reduced motion keeps the illustration stationary.
+
+With the existing dependencies installed, run `npm run dev -- --port 3000` and
+open `http://localhost:3000/XIAO_Landing_Page/#playground`. Verify the heading
+above the two-column desktop layout, stacked mobile content, both languages,
+and each tool destination. At 1216px, the original artwork displays at roughly
+694px wide. Hover or focus tool links to see their subtle feedback. Scroll away
+and return to replay the lighting. The image caption describes the preview; the
+Pinout entry in the tool list opens the interactive tool, while the bottom button
+opens the Playground overview. Run `node --test src/app/playground-section.test.mjs`
+and `npm run build` for automated checks. Use Ctrl+C in the dev terminal to stop
+the preview manually.
+
 ## Partner Network Verification
 
 Run `node --test src/app/partner-marquee.test.mjs` to check category coverage,
