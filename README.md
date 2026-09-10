@@ -42,21 +42,30 @@ keyboard focus.
 
 ## Home Playground Verification
 
-The Home Playground section pairs a wide original pinout illustration with four
-direct tool links. Its icons are shared with the Playground landing page.
-Display lighting starts when the illustration enters the viewport and restarts
-after leaving and returning. Reduced motion keeps the illustration stationary.
+The Home Playground section displays eight original XIAO board images in a
+staggered arrangement alongside four direct tool links. Desktop boards are at
+most 120px wide before rotation. Each board floats gently while visible; hovering
+or focusing reveals its model. Clicking selects a board, clicking again or
+pressing Escape clears selection. Selection is a visual preview state.
 
-With the existing dependencies installed, run `npm run dev -- --port 3000` and
-open `http://localhost:3000/XIAO_Landing_Page/#playground`. Verify the heading
-above the two-column desktop layout, stacked mobile content, both languages,
-and each tool destination. At 1216px, the original artwork displays at roughly
-694px wide. Hover or focus tool links to see their subtle feedback. Scroll away
-and return to replay the lighting. The image caption describes the preview; the
-Pinout entry in the tool list opens the interactive tool, while the bottom button
-opens the Playground overview. Run `node --test src/app/playground-section.test.mjs`
-and `npm run build` for automated checks. Use Ctrl+C in the dev terminal to stop
-the preview manually.
+With the existing dependencies installed, run `npm run dev -- --port 3000`
+(reuse the running server when available), then open
+`http://localhost:3000/XIAO_Landing_Page/#playground`.
+
+1. Check all eight images at desktop, tablet and 390px mobile widths. Images
+   retain their proportions, and mobile content stacks without horizontal overflow.
+2. Hover a board, click twice, and use Tab, Enter and Escape. The model label,
+   selected state and keyboard focus should follow the active board.
+3. Scroll completely away and return. Floating restarts. With the system's
+   reduced-motion preference enabled, boards remain stationary and selectable.
+4. Switch languages. Click each of the four tool links and the green overview
+   action; each opens its existing destination.
+5. Run `node --test src/app/*.test.mjs` and `npm run build`; expect all tests
+   to pass and all 72 static pages to build. Building fetches public project data
+   and requires network access.
+
+Asset provenance is recorded in [the board asset notes](public/home/playground-boards/README.md).
+Use Ctrl+C in the dev terminal to stop the preview manually.
 
 ## Partner Network Verification
 

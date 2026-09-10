@@ -77,41 +77,45 @@ final result: passed
 
 ## Target and Evidence
 
-- Scope: retain the Home site's navy surface, Montserrat headings, green action button and original artwork; place the heading above a wide image and four tool links.
-- Style reference: `/tmp/xiao-playground-before.png`.
-- Desktop implementation: `/tmp/xiao-playground-final-desktop.png`.
-- Mobile implementation: `/tmp/xiao-playground-final-mobile.png`.
+- Scope: eight small, selectable XIAO boards in a staggered arrangement, with the existing navy surface, Montserrat headings, green action and four tool destinations.
+- Selected composition reference: `exec-38639037-4ccc-42f9-affc-5e2e33abf083.png` from the design exploration.
+- Desktop implementation: `/tmp/xiao-playground-boards-desktop.png`.
+- Mobile implementation: `/tmp/xiao-playground-boards-mobile.png`.
 - Route: `http://localhost:3000/XIAO_Landing_Page/#playground`.
-- Desktop CSS viewport: 1231 x 1312; mobile CSS viewport: 390 x 844. Both desktop reference and implementation were captured at the same default browser size and shown together for comparison. Mobile was checked separately for responsive layout.
-- State: Chinese desktop, English mobile, language switching and keyboard focus.
+- Desktop CSS viewport: 1536 x 1024, matching the reference frame; mobile: 390 x 844. Reference and implementation were shown together in one comparison input. The implementation retains the site's header and adjacent sections.
+- States: both languages, board selection, keyboard focus and repeated viewport entry.
 
 ## Visual Review
 
 - Typography and color remain consistent with the existing site: the shared section heading size, original navy background, blue-gray body copy and green rounded action button.
-- The heading spans the section above the content. The image measures about 704px wide, compared with approximately 378px previously. Section height is about 782px, with the image and tool content determining its size.
-- Original artwork is unchanged and remains proportional. Shared icons come from the existing Playground page. Three display-only pin highlights and low-opacity ambient lighting stay within the visual area.
+- The heading spans the section above the content. The board scene is 560px wide on the large desktop, with each unrotated board at 120px; the section is approximately 799px high. Mobile boards are approximately 90px wide.
+- The composition follows the reference's 3/2/3 arrangement. Deliberate implementation adjustments use the approved smaller board scale, actual product artwork, established typography and existing icons. The original navy surface integrates directly with transparent images.
+- Eight source images retain their aspect ratios and intrinsic dimensions, with clean transparency and no visible compression damage. Selection reveals a small model label and raises the board without changing surrounding layout.
 - Four tool links use consistent icon sizes, spacing, subtle hover/focus feedback and existing destinations.
 - Mobile content stacks without horizontal page overflow; the existing image and links remain available.
 - Arrows render as JSX string expressions, with a regression assertion covering their output.
-- The image caption provides descriptive text; the tool list provides direct navigation, and the bottom action opens the Playground overview.
+- The caption explains the preview interaction; the tool list provides direct navigation, and the action beneath it opens the Playground overview.
 - No actionable P0/P1/P2 visual findings remain against the approved layout and site style.
 
 ## Implementation and Flow
 
-- `src/app/home-ppt-sections.js`: PlaygroundSection reads the selected language, renders the heading, wide preview, four existing tool destinations and main action.
-- `src/app/playground-preview.js`: PlaygroundPreview takes no arguments and returns the original image with decorative overlays. A viewport observer starts and resets the lighting; it disconnects when the component is removed.
-- `src/app/playground-tool-icon.js`: PlaygroundToolIcon receives a tool type and returns its existing icon. `src/app/playground/page.js` imports the shared component so both surfaces use the same artwork.
-- `src/app/globals.css`: scoped desktop/mobile layout, restrained lighting, link feedback and reduced-motion rules.
-- `src/app/playground-section.test.mjs`: checks destinations, original asset, arrow rendering, wide layout and motion lifecycle rules.
-- `README.md`: adds startup and verification steps. No dependency or environment changes are required.
+- `src/app/home-ppt-sections.js`: PlaygroundSection takes no arguments, reads the selected language, and returns the heading, board scene and sidebar containing the existing destinations.
+- `src/app/playground-preview.js`: PlaygroundPreview takes no arguments and returns eight accessible board buttons. Its observer updates visibility and disconnects on removal; click handlers toggle the selected ID, and Escape clears it.
+- `src/app/playground-boards.mjs`: supplies stable model names, image dimensions, positions and rotations. Board selection is a local visual state, independent of tool navigation.
+- `public/home/playground-boards/`: eight compressed transparent images plus source provenance.
+- `src/app/globals.css`: scoped responsive layout, floating motion, hover/focus/selected feedback and reduced-motion rules.
+- `src/app/playground-section.test.mjs`: checks destinations, eight assets, stable positions, layout, accessible selection and motion lifecycle rules.
+- Documentation synchronized: `README.md` contains the current startup and verification steps; asset notes record source mapping; this report records design and test evidence. No dependency, environment or route changes are required.
 
-Flow: Home renders PlaygroundSection; the selected language supplies text, the original image fills the wide column, and links open the corresponding existing tools. The viewport observer controls decorative lighting independently of navigation.
+Flow: Home renders PlaygroundSection, which reads the language and renders PlaygroundPreview. The board data supplies each image and position. Entering the viewport starts floating; pointer or keyboard input changes the selected board. The sidebar links open the existing tools independently.
 
 ## Verification
 
-- 17 automated tests passed, including caption navigation, partner, project-loop and typewriter regression suites. Targeted lint passed. The preceding production build generated all 72 pages.
-- Pinout was opened by clicking its tool link; the destination rendered the Pinout heading. All four destinations exist and compile in the production build.
-- Leaving the section sets the preview visibility to false and removes its animation. Returning sets visibility to true and restores the pin animation.
-- Keyboard Tab focuses the Resources link with a visible outline. No device connection or firmware flashing was performed.
+- 21 automated tests passed, including all six Playground checks plus partner, project-loop, language, newsletter and typewriter regressions. Targeted lint and whitespace checks passed. The current production build generated all 72 pages successfully.
+- All eight image resources loaded successfully. Desktop has no horizontal overflow; mobile model labels stay within the screen and tool text wraps cleanly in both languages.
+- Leaving through the Newsletter chapter navigation changed visibility to false and animation to none. Returning through the Playground navigation restored visibility and playground-float animation.
+- Repeated clicking toggled aria-pressed true/false. Enter selected a board, Tab moved focus with a visible outline, and Escape cleared selection. Mobile tapping exposed the selected model label.
+- Initial fresh browser checks returned no warning/error entries. After tool navigation, Next.js reported the existing root smooth-scroll configuration warning; no hydration errors appeared. Existing Node module-type warnings remain unrelated to this change.
+- At 768px the tool list uses two columns without horizontal overflow. Clicking Pinout opened `/playground/pinout/` and rendered the localized pinout heading. All four destinations exist and compile in the production build. No device connection or firmware flashing was performed.
 - Reduced-motion CSS is covered by source checks; OS preference changes were not performed.
 - Follow the Home Playground Verification section in README to repeat desktop/mobile, language, link, replay and reduced-motion checks.

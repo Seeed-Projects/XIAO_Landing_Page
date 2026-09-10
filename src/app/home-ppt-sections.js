@@ -90,34 +90,36 @@ export function PlaygroundSection() {
         <Reveal className="home-playground-heading text-center">
           <h2 className="text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">XIAO Playground</h2>
           <p className="mx-auto mt-5 max-w-3xl text-base leading-[1.65] sm:text-lg">
-            {zh ? "\u5f15\u811a\u56fe\u3001\u89c4\u683c\u3001\u539f\u7406\u56fe\u3001\u7f51\u9875\u56fa\u4ef6\u70e7\u5f55\u5668\u3001\u6559\u7a0b\uff0c\u5168\u90e8\u5728 Playground \u5f00\u6e90\u3002" : "Pinouts, specs, schematics, web firmware flashing and tutorials. Open-source tools, built for XIAO."}
+            {zh ? "\u9009\u4e00\u5757 XIAO\uff0c\u63a2\u7d22\u3001\u521b\u9020\uff0c\u73a9\u8d77\u6765\u3002" : "Pick a board. Explore. Build. Play."}
           </p>
         </Reveal>
         <div className="home-playground-panel">
           <Reveal className="home-playground-visual">
             <PlaygroundPreview />
             <div className="home-playground-caption">
-              <span>{zh ? "\u5f00\u6e90\u5de5\u5177\uff0c\u4e3a XIAO \u5f00\u53d1\u8005\u800c\u751f" : "Open-source tools for XIAO developers"}</span>
+              <span>{zh ? "\u60ac\u505c\u63a2\u7d22\u578b\u53f7\uff0c\u70b9\u51fb\u9009\u4e2d\u4f60\u7684 XIAO" : "Hover to explore. Click to pick your XIAO."}</span>
             </div>
           </Reveal>
-          <Reveal delay={100} className="home-playground-tools">
-            {PLAYGROUND_TOOLS.map((tool) => {
-              const [title, description] = zh ? tool.zh : tool.en;
-              return (
-                <Link key={tool.key} href={tool.href} className="home-playground-tool" data-tool={tool.key}>
-                  <span className="home-playground-tool-icon"><PlaygroundToolIcon type={tool.icon} /></span>
-                  <div><h3>{title}</h3><p>{description}</p></div>
-                  <span className="home-playground-tool-arrow" aria-hidden="true">{"\u2192"}</span>
-                </Link>
-              );
-            })}
-          </Reveal>
+          <div className="home-playground-sidebar">
+            <Reveal delay={100} className="home-playground-tools">
+              {PLAYGROUND_TOOLS.map((tool) => {
+                const [title, description] = zh ? tool.zh : tool.en;
+                return (
+                  <Link key={tool.key} href={tool.href} className="home-playground-tool" data-tool={tool.key}>
+                    <span className="home-playground-tool-icon"><PlaygroundToolIcon type={tool.icon} /></span>
+                    <div><h3>{title}</h3><p>{description}</p></div>
+                    <span className="home-playground-tool-arrow" aria-hidden="true">{"\u2192"}</span>
+                  </Link>
+                );
+              })}
+            </Reveal>
+            <Reveal className="home-playground-action">
+              <Link href="/playground" className="home-playground-cta inline-flex items-center justify-center gap-3 rounded-full px-8 py-3 text-base font-bold transition">
+                {zh ? "\u5f00\u59cb\u73a9\uff01" : "Let\u2019s Play!"}<span aria-hidden="true">{"\u2192"}</span>
+              </Link>
+            </Reveal>
+          </div>
         </div>
-        <Reveal className="home-playground-action">
-          <Link href="/playground" className="home-playground-cta inline-flex items-center justify-center gap-3 rounded-full px-8 py-3 text-base font-bold transition">
-            {zh ? "\u5f00\u59cb\u73a9\uff01" : "Let\u2019s Play!"}<span aria-hidden="true">{"\u2192"}</span>
-          </Link>
-        </Reveal>
       </div>
     </section>
   );
