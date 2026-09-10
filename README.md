@@ -89,6 +89,11 @@ the end-to-start seam, image loading, and keyboard navigation before delivery.
 
 ## Roadmap Invitation Verification
 
+The English invitation reads "Developers, join us and shape the next XIAO!";
+the Chinese version carries the same collaborative product-development meaning.
+Run `node --test src/app/display-copy.test.mjs` to verify this copy, the
+"XIAO Dev Boards" category title and the complete nRF54LM20A pinout labels.
+
 Run `node --test src/app/typewriter-animation.test.mjs` to verify progressive
 typing, replay, cancellation, reduced-motion completion, and Unicode handling.
 With `npm run dev` running, open `http://localhost:3000/XIAO_Landing_Page/#roadmap`.

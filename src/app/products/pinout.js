@@ -72,7 +72,7 @@ const roundedOrthogonalPath = (points, maxRadius = 12) => {
 };
 
 const boardInfo = {
-  name: "XIAO nRF54LM20",
+  name: "XIAO nRF54LM20A",
   tagline: {
     en: "nRF54LM20A + nPM1300 + SAMD11 — ultra-low-power wireless controller",
     zh: "nRF54LM20A + nPM1300 + SAMD11，超低功耗无线主控",
@@ -696,8 +696,8 @@ const nrf52840PlusGroups = buildBoard("P0.18", {
 /* 选型下拉：XIAO 板型 → 板信息 + 引脚数据 + 板图两列 */
 const BOARDS = {
   nrf54: {
-    name: "XIAO nRF54LM20",
-    figureLabel: ["XIAO", "nRF54LM20"],
+    name: "XIAO nRF54LM20A",
+    figureLabel: ["XIAO", "nRF54LM20A"],
     figureSub: "nRF54LM20A · nPM1300 · SAMD11",
     figureImg: "/xiao-products/dev_boards/nrf54-front.webp",
     figureImgBack: "/xiao-products/dev_boards/nrf54-back.webp",
