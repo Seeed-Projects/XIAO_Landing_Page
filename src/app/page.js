@@ -32,7 +32,7 @@ export default function Home() {
         {/* 开发者区 - 全屏满宽，跑马灯带铺满 */}
         <section
           id="developer"
-          className="home-section bg-mod-green relative flex w-full scroll-mt-24 items-center overflow-hidden"
+          className="home-section bg-white relative flex w-full scroll-mt-24 items-center overflow-hidden"
         >
           <div className="w-full">
             <div className="mx-auto w-full max-w-[1808px] px-6 sm:px-10 lg:px-16">

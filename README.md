@@ -40,6 +40,19 @@ the viewport with consistent spacing at the seam. Check both a wide desktop
 window and a narrow mobile window, then verify pause and resume using hover or
 keyboard focus.
 
+## Partner Network Verification
+
+Run `node --test src/app/partner-marquee.test.mjs` to check category coverage,
+per-brand display bounds, identical loop halves, and accessible motion states.
+With `npm run dev` running, open `http://localhost:3000/XIAO_Landing_Page/#developer`.
+Each category has a fixed label and an edge-faded strip of equal-width logo slots.
+Original artwork keeps its proportions, with per-brand display sizes in
+`src/app/partner-marquee-layout.mjs`. The strips move at 24 pixels per second and
+pause on hover. Scroll away and return to replay. At mobile widths the labels
+sit above their strips. Keyboard focus or reduced motion exposes one stationary,
+wrapping list with every original partner link available. Check both languages,
+the end-to-start seam, image loading, and keyboard navigation before delivery.
+
 ## Roadmap Invitation Verification
 
 Run `node --test src/app/typewriter-animation.test.mjs` to verify progressive

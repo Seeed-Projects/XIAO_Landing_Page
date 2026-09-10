@@ -72,6 +72,100 @@
   animation-iteration-count: infinite;
 }
 
+
+.partner-network { display: grid; gap: 16px; }
+.partner-row {
+  display: grid;
+  grid-template-columns: 208px minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+}
+.partner-category {
+  max-width: 200px;
+  color: #758078;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+.partner-window {
+  min-width: 0;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 64px, #000 calc(100% - 64px), transparent);
+}
+.partner-track,
+.partner-half,
+.partner-cycle {
+  display: flex;
+  width: max-content;
+}
+.partner-track {
+  animation: marquee linear infinite;
+  will-change: transform;
+}
+.partner-row[data-visible="false"] .partner-track { animation-name: none; }
+.partner-window:hover .partner-track { animation-play-state: paused; }
+.partner-slot {
+  display: flex;
+  width: var(--partner-slot-width);
+  height: 104px;
+  flex: 0 0 var(--partner-slot-width);
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+.partner-brand {
+  display: flex;
+  max-width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  filter: grayscale(1);
+  opacity: 0.68;
+  transition: filter 180ms, opacity 180ms;
+}
+.partner-slot:hover .partner-brand,
+.partner-slot:focus-visible .partner-brand {
+  filter: grayscale(0);
+  opacity: 1;
+}
+.partner-logo { flex-shrink: 0; object-fit: contain; }
+.partner-slot[aria-label="Instructables"] .partner-logo { filter: brightness(0.48); }
+.partner-name {
+  color: #414941;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+/* Keyboard focus exposes the original list in a stationary, wrapping layout.
+   键盘聚焦时，原始列表以静止、自动换行的布局显示。 */
+.partner-window:has(:focus-visible) { mask-image: none; }
+.partner-window:has(:focus-visible) .partner-track {
+  animation: none;
+  width: 100%;
+  will-change: auto;
+}
+.partner-window:has(:focus-visible) .partner-half { display: contents; }
+.partner-window:has(:focus-visible) .partner-cycle { width: 100%; flex-wrap: wrap; }
+.partner-window:has(:focus-visible) .partner-cycle[data-copy="true"] { display: none; }
+@media (max-width: 767px) {
+  .partner-network { gap: 24px; }
+  .partner-row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .partner-category { max-width: none; font-size: 13px; }
+  .partner-slot { height: 88px; }
+  .partner-window {
+    mask-image: linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 24px), transparent);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .partner-window { mask-image: none; }
+  .partner-track { animation: none; width: 100%; will-change: auto; }
+  .partner-half { display: contents; }
+  .partner-cycle { width: 100%; flex-wrap: wrap; }
+  .partner-cycle[data-copy="true"] { display: none; }
+  .partner-brand { transition: none; }
+}
+
 /* Co-Create: 生态节点轻微浮动 */
 @keyframes cofloat {
   0%,
