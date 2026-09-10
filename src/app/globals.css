@@ -459,6 +459,18 @@ canvas {
   }
 }
 
+.home-newsletter-overlay {
+  background: rgba(11, 31, 43, 0.82);
+}
+
+.home-newsletter-copy {
+  color: #e8eef2;
+}
+
+.home-newsletter-consent {
+  color: #d7e2e9;
+}
+
 .home-playground-section {
   background:
     radial-gradient(ellipse at 46% 48%, rgba(22, 99, 111, 0.22), transparent 65%),
@@ -518,6 +530,14 @@ canvas {
 }
 
 @media (min-width: 1024px) {
+  .home-newsletter-overlay {
+    background: linear-gradient(90deg,
+      rgba(11, 31, 43, 0.18) 0%,
+      rgba(11, 31, 43, 0.32) 28%,
+      rgba(11, 31, 43, 0.82) 48%,
+      rgba(11, 31, 43, 0.94) 100%);
+  }
+
   .home-glimpse-image {
     height: clamp(224px, 17vw, 256px);
   }

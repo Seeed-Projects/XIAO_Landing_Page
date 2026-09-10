@@ -40,6 +40,21 @@ the viewport with consistent spacing at the seam. Check both a wide desktop
 window and a narrow mobile window, then verify pause and resume using hover or
 keyboard focus.
 
+## Newsletter Readability Verification
+
+Run the text contrast regression test with Node.js:
+
+```bash
+node --test src/app/newsletter-contrast.test.mjs
+```
+
+The test checks the desktop text-column and mobile overlay colors against a
+white photo pixel, with a minimum text contrast of 4.5:1. With `npm run dev`
+running, open `http://localhost:3000/XIAO_Landing_Page/#edm` and check English
+and Chinese at desktop and mobile widths. The heading, description, consent
+copy, and email field should remain distinct from the photo. Submit an empty
+email or `invalid-email` to check the inline validation message locally.
+
 ## Marketing analytics
 
 All buttons, navigation links, CTA links, and same-origin iframe controls emit a `xiao_click` event. Configure one of the following public environment variables at build time:
