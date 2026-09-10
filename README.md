@@ -47,6 +47,9 @@ staggered arrangement alongside four direct tool links. Desktop boards are at
 most 120px wide before rotation. Each board floats gently while visible; hovering
 or focusing reveals its model. Clicking selects a board, clicking again or
 pressing Escape clears selection. Selection is a visual preview state.
+The navy background carries a subtle, stationary circuit-trace texture reused
+from the main branch. The decorative layer leaves board and tool interactions
+available. Check its readability at desktop and mobile widths.
 
 With the existing dependencies installed, run `npm run dev -- --port 3000`
 (reuse the running server when available), then open
@@ -55,7 +58,7 @@ With the existing dependencies installed, run `npm run dev -- --port 3000`
 1. Check all eight images at desktop, tablet and 390px mobile widths. Images
    retain their proportions, and mobile content stacks without horizontal overflow.
 2. Hover a board, click twice, and use Tab, Enter and Escape. The model label,
-   selected state and keyboard focus should follow the active board.
+selected state and keyboard focus should follow the active board.
 3. Scroll completely away and return. Floating restarts. With the system's
    reduced-motion preference enabled, boards remain stationary and selectable.
 4. Switch languages. Click each of the four tool links and the green overview

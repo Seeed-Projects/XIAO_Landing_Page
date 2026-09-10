@@ -56,3 +56,13 @@ test("board selection exposes keyboard and touch accessible state", () => {
   assert.match(preview, /event.key === "Escape"/);
   assert.match(css, /\.playground-board:focus-visible/);
 });
+
+test("circuit texture stays decorative and preserves the navy surface", () => {
+  const texture = css.match(/\.home-playground-section::before \{([^}]+)\}/)[1];
+  assert.match(texture, /pointer-events: none/);
+  assert.match(texture, /position: absolute/);
+  assert.match(texture, /data:image\/svg\+xml/);
+  assert.match(texture, /background-size: 280px 280px/);
+  assert.match(texture, /opacity: 0\.65/);
+  assert.match(css, /\.home-playground-section \{[^}]*#0b1c27/s);
+});

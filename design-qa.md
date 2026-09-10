@@ -75,6 +75,19 @@ Flow: Home renders PartnerMarquee, which reads the original partner data, builds
 
 final result: passed
 
+## Circuit Texture Verification
+
+- `src/app/globals.css` reuses the main branch's 280px circuit-trace tile in a
+  decorative layer at 0.65 opacity over the existing navy surface. Rendering
+  places the texture behind the content; it accepts no pointer events and
+  remains stationary. Board layout and animation functions are unchanged.
+- Desktop and 390px mobile previews show readable text, all eight boards and
+  no horizontal overflow. Board selection remains clickable through the layer.
+- All 25 automated tests passed, including the texture-layer regression check;
+  the production build generated 72/72 pages. Preview remains on port 3000.
+- Documentation synchronized: README describes the texture and repeatable
+  desktop/mobile interaction checks. Existing startup instructions still apply.
+
 ## Target and Evidence
 
 - Scope: eight small, selectable XIAO boards in a staggered arrangement, with the existing navy surface, Montserrat headings, green action and four tool destinations.
