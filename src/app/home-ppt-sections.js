@@ -97,7 +97,7 @@ export function PlaygroundSection() {
           <Reveal className="home-playground-visual">
             <PlaygroundPreview />
             <div className="home-playground-caption">
-              <span>{zh ? "\u60ac\u505c\u63a2\u7d22\u578b\u53f7\uff0c\u70b9\u51fb\u9009\u4e2d\u4f60\u7684 XIAO" : "Hover to explore. Click to pick your XIAO."}</span>
+              <span>{zh ? "\u8f7b\u89e6\u4e00\u5757 XIAO\uff0c\u8ba9\u5927\u5bb6\u4e00\u8d77\u52a8\u8d77\u6765\u3002" : "Tap a XIAO. Set them all in motion."}</span>
             </div>
           </Reveal>
           <div className="home-playground-sidebar">

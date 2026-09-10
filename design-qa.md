@@ -75,6 +75,39 @@ Flow: Home renders PartnerMarquee, which reads the original partner data, builds
 
 final result: passed
 
+## Coordinated Board Motion
+
+- Entry uses an 820ms spread with 45ms staggering. Pointer proximity gently
+  displaces nearby boards; a click sends a 620ms bounce outward, delayed by
+  distance. Floating, entry, pointer and wave transforms use separate layers.
+  Model selection, existing artwork, navy texture and tool destinations remain.
+- `src/app/playground-motion.mjs`: `boardNudge(board, pointer, size)` returns
+  bounded scene-pixel offsets and rotation; `boardWave(board, source)` returns
+  delay and lift. `createPlaygroundMotion(scene, boards, clock)` returns move,
+  play, reset, visibility and disposal controls. Pointer updates share one
+  animation frame; new clicks cancel the previous wave.
+- `src/app/playground-preview.js` connects those controls to pointer, click,
+  keyboard, viewport and reduced-motion events. On entry the CSS spread starts;
+  leaving cancels interaction motion. Preference changes disable movement while
+  keeping selection available. `src/app/globals.css` defines entry and rest
+  states, with mobile clearance for raised model labels.
+- `src/app/home-ppt-sections.js` supplies the localized interaction hint.
+  `playground-motion.test.mjs` covers distance response, center-point stability,
+  frame batching, touch filtering, rapid clicks, cancellation and replay.
+- Browser verification: a click produced different wave transforms on near and
+  far boards; mouse movement displaced nearby boards only. Leaving cleared
+  transforms and removed entry animation; returning restored staggered entry.
+  Keyboard activation and Escape worked. At 390px both languages rendered with
+  all eight boards and no horizontal overflow; the wave returned to rest.
+- Reduced-motion behavior has unit and source coverage. OS preference toggling
+  and physical touchscreen scrolling remain manual checks; browser resizing is
+  not a physical touch-device test. Follow the README verification sequence.
+- Documentation synchronized: README records the interaction and edge-case
+  tests. No new dependencies, image assets, routes or environment variables.
+- Verification: all 30 tests and targeted ESLint passed. The final production
+  build generated 72/72 pages. The browser reported no warning/error entries;
+  the existing Node module-type warning remains in command-line output.
+
 ## Circuit Texture Verification
 
 - `src/app/globals.css` reuses the main branch's 280px circuit-trace tile in a

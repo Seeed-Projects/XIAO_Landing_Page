@@ -47,6 +47,10 @@ staggered arrangement alongside four direct tool links. Desktop boards are at
 most 120px wide before rotation. Each board floats gently while visible; hovering
 or focusing reveals its model. Clicking selects a board, clicking again or
 pressing Escape clears selection. Selection is a visual preview state.
+Boards spread into place on entry. Mouse movement gently nudges nearby boards;
+clicking or keyboard activation sends a short, distance-ordered bounce through
+the group. Each new click starts a fresh wave. Motion stays inside the board
+scene, while tool links and text remain stationary.
 The navy background carries a subtle, stationary circuit-trace texture reused
 from the main branch. The decorative layer leaves board and tool interactions
 available. Check its readability at desktop and mobile widths.
@@ -58,9 +62,13 @@ With the existing dependencies installed, run `npm run dev -- --port 3000`
 1. Check all eight images at desktop, tablet and 390px mobile widths. Images
    retain their proportions, and mobile content stacks without horizontal overflow.
 2. Hover a board, click twice, and use Tab, Enter and Escape. The model label,
-selected state and keyboard focus should follow the active board.
-3. Scroll completely away and return. Floating restarts. With the system's
-   reduced-motion preference enabled, boards remain stationary and selectable.
+   selected state and keyboard focus should follow the active board. Move the
+   mouse across the scene and out: nearby boards yield slightly and return.
+   Rapidly click different boards: the latest wave replaces the previous one.
+3. Scroll completely away and return. The spread animation and floating restart.
+   With the system's reduced-motion preference enabled, boards remain stationary
+   and selectable. Changing this preference during a wave cancels its movement.
+   On phones, verify tapping a board and scrolling vertically over the scene.
 4. Switch languages. Click each of the four tool links and the green overview
    action; each opens its existing destination.
 5. Run `node --test src/app/*.test.mjs` and `npm run build`; expect all tests

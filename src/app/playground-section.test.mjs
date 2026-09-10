@@ -47,6 +47,10 @@ test("floating replays on entry and supports reduced motion", () => {
   assert.match(css, /data-visible="true"/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{\s*\.home-playground-preview/);
   assert.match(css, /\.playground-board-float \{ animation: none; \}/);
+  assert.match(css, /\.playground-board-entry \{ animation: none; \}/);
+  assert.match(preview, /preference.addEventListener\("change", updateMotion\)/);
+  assert.match(preview, /inView && !preference.matches/);
+  assert.match(preview, /controller.dispose\(\)/);
 });
 
 test("board selection exposes keyboard and touch accessible state", () => {
