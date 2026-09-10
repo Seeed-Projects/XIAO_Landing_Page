@@ -40,6 +40,14 @@ the viewport with consistent spacing at the seam. Check both a wide desktop
 window and a narrow mobile window, then verify pause and resume using hover or
 keyboard focus.
 
+## Language Toggle Verification
+
+Run `node --test src/app/site-header.test.mjs` to check the shared dimensions
+and label alignment. With `npm run dev` running, switch between Chinese and
+English in the header at desktop and mobile widths. Both options should stay
+44 by 24 pixels, with centered labels and the selected background following
+the active language.
+
 ## Newsletter Readability Verification
 
 Run the text contrast regression test with Node.js:

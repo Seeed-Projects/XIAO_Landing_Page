@@ -16,14 +16,14 @@ function LangToggle() {
       className="flex shrink-0 items-center gap-1 rounded-full border border-[var(--line-soft)] bg-white/70 p-0.5 text-xs font-semibold backdrop-blur-sm"
     >
       <span
-        className={`rounded-full px-2.5 py-1 transition ${
+        className={`inline-flex h-6 w-11 shrink-0 items-center justify-center rounded-full transition ${
           lang === "zh" ? "bg-[var(--ink-strong)] text-white" : "text-[var(--ink-muted)]"
         }`}
       >
         中文
       </span>
       <span
-        className={`rounded-full px-2.5 py-1 transition ${
+        className={`inline-flex h-6 w-11 shrink-0 items-center justify-center rounded-full transition ${
           lang === "en" ? "bg-[var(--ink-strong)] text-white" : "text-[var(--ink-muted)]"
         }`}
       >
