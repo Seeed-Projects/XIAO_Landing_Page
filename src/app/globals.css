@@ -130,8 +130,12 @@
   opacity: 1;
 }
 .partner-logo { flex-shrink: 0; object-fit: contain; }
+.partner-brand[data-long-name="true"] { flex-direction: column; gap: 6px; text-align: center; }
+.partner-slot[aria-label="EDGE AI FOUNDATION"] .partner-logo { filter: brightness(0.28); }
 .partner-slot[aria-label="Instructables"] .partner-logo { filter: brightness(0.48); }
 .partner-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
   color: #414941;
   font-size: 14px;
   font-weight: 600;

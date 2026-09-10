@@ -11,7 +11,7 @@ function PartnerLogo({ partner }) {
   const [width, height] = partnerLogoSizes[partner.name] || [34, 34];
 
   return (
-    <span className="partner-brand">
+    <span className="partner-brand" data-long-name={partner.name.length > 15}>
       {!failed && (
         // eslint-disable-next-line @next/next/no-img-element
         <img

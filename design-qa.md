@@ -17,23 +17,23 @@ final result: passed
 - Typography: existing Montserrat retained. Category labels use 14px medium weight on desktop and 13px on mobile; long English categories wrap within the fixed label column.
 - Layout: 208px label column, 24px gutter, 192px logo slots, 104px desktop row height and 16px row spacing. Mobile labels stack above 88px strips. The 390px viewport has no horizontal page overflow.
 - Colors: white section, muted gray labels, grayscale branding at rest and original colors on hover/focus. The edge mask follows the reference's fade into the background.
-- Assets: all 22 original logo sources load successfully. Per-brand bounding boxes preserve aspect ratios. Icon-only artwork retains its existing adjacent brand name; wordmarks appear once without duplicate labels.
-- Copy: all three existing category translations and 22 partner names/links are preserved.
+- Assets: 21 logo sources load successfully, including the current official EDGE AI FOUNDATION wordmark. Per-brand bounding boxes preserve aspect ratios. Long company names sit below their icons; wordmarks appear once.
+- Copy: the three category translations accompany 6 hardware, 8 software/framework and 7 content/community entries using reviewed public brand names.
 
 ## Comparison History
 
 1. Initial desktop review identified uneven optical scale in the stacked Zephyr mark and low visibility in the light Instructables artwork. Zephyr uses a 92 x 56 display box and Instructables receives a display-only brightness adjustment. Source assets remain unchanged.
-2. Loading verification identified two pending, lazily loaded logos near the moving edge. Logo images now load eagerly. The final browser check confirmed all 22 original images complete with nonzero intrinsic sizes.
+2. Logo images load eagerly, with all 21 original entries reporting nonzero intrinsic image sizes.
 3. Final source/capture comparison confirms the three-row layout, equal spacing, proportional artwork and edge masking. No actionable P0/P1/P2 layout findings remain.
 
 ## Interaction Verification
 
-- Each track has two equal measured halves: 2304px for hardware and 3072px for software/community. Each half exceeds the maximum supported rail width, including at the loop boundary.
+- Each track has two equal halves: 2304px for hardware, 3072px for software and 2688px for community. Each half exceeds the maximum supported rail width, including at the loop boundary.
 - Browser observations confirm all three tracks moving with linear transforms; leaving the section clears their animation and returning restarts it.
-- Keyboard Tab reaches the original links. Keyboard focus exposes a stationary, wrapping list; all repeated copies remain outside keyboard navigation. There are exactly 22 original links.
+- Keyboard Tab reaches the original links. Keyboard focus exposes a stationary, wrapping list; all repeated copies remain outside keyboard navigation. There are exactly 21 original links.
 - Hover pause and reduced-motion layout are covered by stylesheet regression checks. The operating system's reduced-motion preference was not changed during browser testing.
 - Console inspection returned no warning/error entries for the checked preview.
-- Partner links retain their existing HTTPS destinations and new-tab behavior. No external form or submission was performed.
+- Partner links use HTTPS destinations and new-tab behavior; EDGE AI FOUNDATION targets its current official site. No external form or submission was performed.
 - Automated suite: 12 tests passed, covering partner layout, project loops and invitation typing. Targeted lint and production build passed.
 
 ## Implementation Map
@@ -59,7 +59,17 @@ Flow: Home renders PartnerMarquee, which reads the original partner data, builds
 
 ## Follow-up Polish
 
-- Digi-Key currently uses the existing 16px favicon. A higher-resolution official asset can improve its sharpness in a later asset update.
+- DigiKey currently uses the existing 16px favicon. A higher-resolution official asset can improve its sharpness in a later asset update.
+
+## Brand Name Maintenance
+
+- `site-data.js` supplies the 21 reviewed names and destinations. `partner-marquee-layout.mjs` matches every display name to its image bounds.
+- `PartnerLogo({ partner })` receives one partner record and returns its logo and text. Names longer than 15 characters use a stacked layout within the 192px slot; the public component interface is unchanged.
+- Home reads the partner records, renders three rows and repeats each full sequence for continuous scrolling. The seven-entry community row uses the same distance-based timing as the other rows.
+- The official [EDGE AI FOUNDATION site](https://www.edgeaifoundation.org/) and [brand resources](https://www.edgeaifoundation.org/posts/edge-ai-foundation-brand-guidelines) identify the current foundation branding.
+- Run `node --test src/app/partner-marquee.test.mjs src/app/playground-section.test.mjs src/app/typewriter-animation.test.mjs src/app/scroll-band-layout.test.mjs`: 18 tests pass, including exact partner identities, matching size keys and loop coverage. Targeted lint passes.
+- Production build passes with 72 generated pages. Browser verification confirms all 21 images loaded, no card overflow at 390px, three active marquee tracks, both languages, and no new warning/error logs after reload.
+- Repeat the Reproduce steps above in both languages. Expect all full names inside equal-width cards and the foundation logo visible against the white surface. Image failure should expose the full accessible name; reduced motion should expose one stationary list.
 
 # Home Playground Review
 

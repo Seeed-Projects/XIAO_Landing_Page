@@ -8,7 +8,7 @@ const component = readFileSync(new URL("./partner-marquee.js", import.meta.url),
 const css = readFileSync(new URL("./globals.css", import.meta.url), "utf8");
 
 test("all three categories retain their partners and calibrated logo bounds", () => {
-  assert.deepEqual(homepageSections.partnerGroups.map(group => group.partners.length), [6, 8, 8]);
+  assert.deepEqual(homepageSections.partnerGroups.map(group => group.partners.length), [6, 8, 7]);
   for (const group of homepageSections.partnerGroups) {
     for (const partner of group.partners) {
       const [width, height] = partnerLogoSizes[partner.name];
@@ -17,6 +17,21 @@ test("all three categories retain their partners and calibrated logo bounds", ()
       assert.equal(new URL(partner.url).protocol, "https:");
     }
   }
+});
+
+test("partner identities use the reviewed public brand names and destinations", () => {
+  const names = homepageSections.partnerGroups.map(group => group.partners.map(partner => partner.name));
+  assert.deepEqual(names, [
+    ["Nordic Semiconductor", "Espressif Systems", "Raspberry Pi", "Microchip Technology", "Silicon Labs", "STMicroelectronics"],
+    ["Arduino", "PlatformIO", "MicroPython", "CircuitPython", "Zephyr", "Matter", "EDGE AI FOUNDATION", "Edge Impulse"],
+    ["Hackster.io", "CNX Software", "Instructables", "Hackaday", "Adafruit Industries", "SparkFun Electronics", "DigiKey"],
+  ]);
+  const foundation = homepageSections.partnerGroups[1].partners[6];
+  assert.equal(foundation.url, "https://www.edgeaifoundation.org");
+  assert.equal(new URL(foundation.logo).hostname, "www.edgeaifoundation.org");
+  assert.deepEqual(Object.keys(partnerLogoSizes).sort(), names.flat().sort());
+  assert.match(component, /data-long-name=\{partner.name.length > 15\}/);
+  assert.match(css, /\.partner-brand\[data-long-name="true"\] \{ flex-direction: column;/);
 });
 
 test("identical track halves cover the widest rail throughout the seam", () => {

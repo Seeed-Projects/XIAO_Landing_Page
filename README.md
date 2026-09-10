@@ -60,6 +60,13 @@ the preview manually.
 
 ## Partner Network Verification
 
+The three categories contain 6 hardware, 8 software/framework and 7 content/community
+entries. Display names use the reviewed public brands, including STMicroelectronics,
+Nordic Semiconductor, Espressif Systems, Microchip Technology, Hackster.io,
+CNX Software, Adafruit Industries, SparkFun Electronics and DigiKey.
+EDGE AI FOUNDATION uses its current official website and logo. Long names stack
+below their icons inside the existing equal-width slots.
+
 Run `node --test src/app/partner-marquee.test.mjs` to check category coverage,
 per-brand display bounds, identical loop halves, and accessible motion states.
 With `npm run dev` running, open `http://localhost:3000/XIAO_Landing_Page/#developer`.
