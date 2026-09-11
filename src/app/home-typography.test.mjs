@@ -31,6 +31,7 @@ test("home typography tokens match the selected reference elements", () => {
   assert.match(css, /--home-subtitle-leading: 1\.5/);
   assert.match(css, /--home-body-size: 15px/);
   assert.match(css, /--home-body-weight: 400/);
+  assert.match(css, /--home-action-weight: 700/);
   assert.match(css, /--home-body-leading: 1\.65/);
   assert.match(css, /@media \(min-width: 640px\) \{\s*:root \{ --home-body-size: 16px; \}/);
 });
@@ -51,7 +52,18 @@ test("every Home content family opts into one semantic type role", () => {
     assert.match(sources[name], /home-type-action/, `${name} has an action role`);
   }
   assert.match(carouselCss, /font-size: var\(--home-body-size\)/);
-  assert.match(carouselCss, /font-weight: var\(--home-body-weight\)/);
+  assert.match(carouselCss, /font-weight: var\(--home-action-weight\)/);
+  assert.match(css, /\.home-type-action \{[\s\S]*?font-weight: var\(--home-action-weight\);/);
+  assert.match(css, /\.home-type-action\.home-filled-action \{\s*color: #fff;\s*\}/);
+  assert.match(css, /\.home-type-action\.home-text-action \{\s*color: #8fc93a;\s*\}/);
+  assert.match(css, /\.home-playground-cta \{ background: #a3d337; color: #fff; \}/);
+  assert.doesNotMatch(sources.sections, /style=\{\{ color: "#182b0c" \}\}/);
+  assert.doesNotMatch(sources.newsletter, /text-\[#13230c\]/);
+  assert.doesNotMatch(sources.intro, /text-\[var\(--button-text\)\]/);
+  for (const name of ["carousel", "intro", "sections", "page", "news", "cocreate", "newsletter"]) {
+    assert.match(sources[name], /home-filled-action/, `${name} identifies filled actions`);
+  }
+  assert.match(sources.news, /home-text-action/);
 });
 
 test("project rules record the Home typography hierarchy", () => {
@@ -61,4 +73,6 @@ test("project rules record the Home typography hierarchy", () => {
   assert.match(agents, /`Popular SoCs Integrated` 为基准/);
   assert.match(agents, /About XIAO 的介绍正文为基准/);
   assert.match(agents, /首图展示标题.*`home-type-hero-title`/);
+  assert.match(agents, /操作文字[\s\S]*?700 字重/);
+  assert.match(agents, /实心操作按钮.*白色文字/);
 });

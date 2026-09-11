@@ -39,7 +39,7 @@ export function EdmSubscribe() {
               <button
                 type="button"
                 onClick={reset}
-                className="home-type-action mt-5 inline-flex items-center rounded-full bg-[var(--button-bg)] px-8 py-3 text-[#13230c] transition hover:bg-[var(--button-bg-hover)]"
+                className="home-type-action home-filled-action mt-5 inline-flex items-center rounded-full bg-[var(--button-bg)] px-8 py-3 text-white transition hover:bg-[var(--button-bg-hover)]"
               >
                 {tr("Subscribe another email", "订阅其他邮箱")}
               </button>
@@ -74,7 +74,7 @@ export function EdmSubscribe() {
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="home-type-action mt-6 inline-flex min-w-[200px] items-center justify-center rounded-full bg-[var(--button-bg)] px-9 py-3 text-[#13230c] transition hover:bg-[var(--button-bg-hover)] disabled:cursor-not-allowed disabled:opacity-60"
+                className="home-type-action home-filled-action mt-6 inline-flex min-w-[200px] items-center justify-center rounded-full bg-[var(--button-bg)] px-9 py-3 text-white transition hover:bg-[var(--button-bg-hover)] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {status === "loading" ? tr("Subscribing…", "订阅中…") : tr("Subscribe", "订阅")}
               </button>

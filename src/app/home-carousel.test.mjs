@@ -10,6 +10,8 @@ test("home hero presents the requested message and Products action", () => {
   assert.match(component, /title: "Seeed Studio XIAO"/);
   assert.match(component, /The smallest dev platform\. The biggest/);
   assert.match(component, /possibilities\./);
+  assert.match(component, /description: "The smallest dev platform\. The biggest possibilities\."/);
+  assert.doesNotMatch(component, /description:\s*\([\s\S]*?<br \/>/);
   assert.match(component, /ctaLabel: "Explore"/);
   assert.match(component, /ctaHref: "\/products\/"/);
   assert.match(component, /href=\{withBase\(slide\.ctaHref\)\}/);
@@ -22,6 +24,7 @@ test("home hero copy remains readable and responsive", () => {
   assert.match(css, /\.heroContent \{[\s\S]*?z-index: 2;[\s\S]*?color: #fff;/);
   assert.match(css, /\.slide::after \{[\s\S]*?background: linear-gradient/);
   assert.match(css, /\.heroCta \{[\s\S]*?border-radius: 999px;[\s\S]*?background: var\(--button-bg\);/);
+  assert.match(css, /\.heroCta \{[\s\S]*?color: #fff;/);
   assert.match(css, /@media \(max-width: 700px\)[\s\S]*?height: max\(540px, calc\(75svh - 64px\)\);/);
   assert.match(css, /\.heroCta:focus-visible \{[\s\S]*?outline: 3px solid #fff;/);
 });

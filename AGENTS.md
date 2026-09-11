@@ -43,8 +43,9 @@ This version has breaking changes — APIs, conventions, and file structure may 
 4. **正文描述与操作文字**:
    - 以 About XIAO 的介绍正文为基准，使用 Montserrat、400 字重、1.65 行高和
      标准字距；手机端为 15px，640px 及以上为 16px。
-   - 页面内文字按钮和操作链接使用 `home-type-action`，与正文保持同一字体、
-     字号、字重、行高和字距，通过颜色、底色和形状表达可点击状态。
+   - 页面内操作文字使用 `home-type-action`，与正文保持同一字体、字号、行高和
+     字距，统一采用 700 字重。
+   - 实心操作按钮统一使用白色文字，通过品牌绿色底色和形状表达可点击状态。
 
 5. **新增内容与验收**:
    - 新增 Home 页模块时，为每段文字按章节标题、子标题、正文、操作文字或辅助信息

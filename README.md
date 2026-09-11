@@ -34,9 +34,10 @@ action.
 
 With the existing dependencies installed, run `npm run dev -- --port 3000` and
 open `http://localhost:3000/XIAO_Landing_Page/#hero`. At desktop and 390px phone
-widths, confirm the complete title, two-line description and green Explore
-button remain grouped in the dark image area without horizontal overflow. At
-2520px ultrawide width, confirm the copy aligns with the centered content grid
+widths, confirm the complete title, single-line desktop description and green
+Explore button remain grouped in the dark image area without horizontal
+overflow. On phones, the description may wrap naturally to preserve readable
+type. At 2520px ultrawide width, confirm the copy aligns with the centered content grid
 instead of staying against the browser edge. Click Explore and expect the
 browser to open `http://localhost:3000/XIAO_Landing_Page/products/`. Run
 `node --test src/app/home-carousel.test.mjs` for the content,
@@ -127,12 +128,13 @@ to verify the latch behavior in source.
 
 ## Home Typography Verification
 
-Home content uses four shared type roles. Section titles match XIAO Playground
+Home content uses five shared type roles. Section titles match XIAO Playground
 with responsive 28px to 44px type, 700 weight, 1.12 line height and tight
 tracking. Subtitles match Popular SoCs Integrated at 20px, 700 weight and 1.5
-line height. Descriptions and text actions match the About XIAO introduction at
-15px on phones and 16px from the small breakpoint, 400 weight and 1.65 line
-height. The hero campaign copy, navigation, footer, metrics, labels and form
+line height. Descriptions match the About XIAO introduction at 15px on phones
+and 16px from the small breakpoint, 400 weight and 1.65 line height. Action
+labels use the same family, size and line height at 700 weight; filled actions
+use white labels. The hero campaign copy, navigation, footer, metrics, labels and form
 hints keep their purpose-specific compact styles. The hero title uses the
 larger hero-title role with the same family, weight, line height and tracking as
 section titles, and its short supporting line uses the subtitle role.

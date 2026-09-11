@@ -53,7 +53,7 @@ export function GlimpseSection() {
           </Link>
         </Reveal>)}
       </div>
-      <Reveal className="mt-8 flex justify-center"><a href={withBase("/products")} style={{ color: "#fff" }} className="home-type-action rounded-full bg-[var(--button-bg)] px-10 py-3 text-white shadow-[0_8px_24px_rgba(143,195,31,0.18)] transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]">{zh ? "Seeed Studio XIAO 选型器" : "Seeed Studio XIAO Selector"}</a></Reveal>
+      <Reveal className="mt-8 flex justify-center"><a href={withBase("/products")} className="home-type-action home-filled-action rounded-full bg-[var(--button-bg)] px-10 py-3 text-white shadow-[0_8px_24px_rgba(143,195,31,0.18)] transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]">{zh ? "Seeed Studio XIAO 选型器" : "Seeed Studio XIAO Selector"}</a></Reveal>
     </div>
   </section>;
 }
@@ -65,7 +65,7 @@ export function RoadmapCallout() {
     <Reveal delay={100} className="mx-auto mt-10 max-w-4xl">
       <div className="flex items-center gap-4 rounded-2xl bg-[#f3f5f1] p-4 shadow-[0_5px_18px_rgba(35,52,29,0.08)] sm:gap-6 sm:p-6">
         <p className="home-type-body min-w-0 flex-1 text-left text-[#35473c]"><TypewriterText key={lang} text={lang === "en" ? "Developers, join us and shape the next XIAO!" : "\u5f00\u53d1\u8005\uff0c\u52a0\u5165\u6211\u4eec\uff0c\u5171\u540c\u6253\u9020\u4e0b\u4e00\u6b3e XIAO\uff01"} /></p>
-        <a href={withBase("/open-roadmap")} style={{ color: "#182b0c" }} className="home-type-action inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-[#9dcc3c] px-3 py-3 text-[#182b0c] transition-[transform,background-color] duration-150 hover:bg-[#8ab833] active:scale-95 motion-reduce:transform-none motion-reduce:transition-none sm:px-6">
+        <a href={withBase("/open-roadmap")} className="home-type-action home-filled-action inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-[#9dcc3c] px-3 py-3 text-white transition-[transform,background-color] duration-150 hover:bg-[#8ab833] active:scale-95 motion-reduce:transform-none motion-reduce:transition-none sm:px-6">
           {lang === "en" ? "Join Now" : "立即加入"}
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
         </a>
@@ -109,7 +109,7 @@ export function PlaygroundSection() {
                 })}
               </Reveal>
               <Reveal className="home-playground-action">
-                <Link href="/playground" className="home-type-action home-playground-cta inline-flex items-center justify-center gap-3 rounded-full px-8 py-3 transition">
+                <Link href="/playground" className="home-type-action home-filled-action home-playground-cta inline-flex items-center justify-center gap-3 rounded-full px-8 py-3 transition">
                   {zh ? "\u5f00\u59cb\u73a9\uff01" : "Let\u2019s Play!"}<span aria-hidden="true">{"\u2192"}</span>
                 </Link>
               </Reveal>

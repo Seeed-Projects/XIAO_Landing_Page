@@ -72,7 +72,7 @@ export default function Home() {
                   href={OSHW_HUB_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="home-type-action group inline-flex items-center gap-2 rounded-full border border-[var(--button-bg)] bg-[var(--button-bg)] px-6 py-3 text-white shadow-[0_8px_24px_rgba(143,195,31,0.22)] transition hover:-translate-y-0.5 hover:border-[var(--button-bg-hover)] hover:bg-[var(--button-bg-hover)]"
+                  className="home-type-action home-filled-action group inline-flex items-center gap-2 rounded-full border border-[var(--button-bg)] bg-[var(--button-bg)] px-6 py-3 text-white shadow-[0_8px_24px_rgba(143,195,31,0.22)] transition hover:-translate-y-0.5 hover:border-[var(--button-bg-hover)] hover:bg-[var(--button-bg-hover)]"
                   style={{ color: "#fff" }}
                 >
                   {isEn ? "Explore more" : "探索更多"}

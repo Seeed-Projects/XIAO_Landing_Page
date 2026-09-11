@@ -38,7 +38,7 @@ export function CoCreateSection() {
               href="https://www.seeedstudio.com/co-create.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="home-type-action inline-flex min-w-[180px] items-center justify-center justify-self-start rounded-full bg-[var(--button-bg)] px-7 py-3 text-white transition hover:bg-[var(--button-bg-hover)] md:justify-self-end"
+              className="home-type-action home-filled-action inline-flex min-w-[180px] items-center justify-center justify-self-start rounded-full bg-[var(--button-bg)] px-7 py-3 text-white transition hover:bg-[var(--button-bg-hover)] md:justify-self-end"
             >
               {c.banner.cta}
               <span className="ml-2">→</span>
@@ -77,7 +77,7 @@ export function CoCreateSection() {
               href="https://www.seeedstudio.com/blog/category/licensed-products-case-stories/"
               target="_blank"
               rel="noopener noreferrer"
-              className="home-type-action group inline-flex items-center gap-2 rounded-full bg-[#8fc31f] px-12 py-3 text-white transition hover:-translate-y-0.5 hover:bg-[#79ad12]"
+              className="home-type-action home-filled-action group inline-flex items-center gap-2 rounded-full bg-[#8fc31f] px-12 py-3 text-white transition hover:-translate-y-0.5 hover:bg-[#79ad12]"
               style={{ color: "#fff" }}
             >
               Explore more

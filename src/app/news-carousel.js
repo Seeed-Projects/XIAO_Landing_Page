@@ -134,7 +134,7 @@ export function NewsCarousel() {
               )}
             </div>
             <h3 className="home-type-subtitle mt-3 line-clamp-2 text-[#253946]">{item.title}</h3>
-            <span className="home-type-action mt-2 text-[#8fc93a]">{isEn ? "Read More »" : "阅读更多 »"}</span>
+            <span className="home-type-action home-text-action mt-2 text-[#8fc93a]">{isEn ? "Read More »" : "阅读更多 »"}</span>
           </a>
         ))}
         </div>
@@ -154,7 +154,7 @@ export function NewsCarousel() {
           href={BLOG_TAG_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="home-type-action group inline-flex items-center gap-2 rounded-full bg-[var(--button-bg)] px-12 py-3 text-white transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]"
+          className="home-type-action home-filled-action group inline-flex items-center gap-2 rounded-full bg-[var(--button-bg)] px-12 py-3 text-white transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]"
           style={{ color: "#fff" }}
         >
           {isEn ? "Explore more" : "探索更多"}

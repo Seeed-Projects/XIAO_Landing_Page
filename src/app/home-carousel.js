@@ -11,13 +11,7 @@ const SLIDES = [
     src: "/home-carousel/xiao-banner.webp",
     alt: "Seeed Studio XIAO boards and accessories",
     title: "Seeed Studio XIAO",
-    description: (
-      <>
-        The smallest dev platform. The biggest
-        <br />
-        possibilities.
-      </>
-    ),
+    description: "The smallest dev platform. The biggest possibilities.",
     ctaLabel: "Explore",
     ctaHref: "/products/",
   },
@@ -68,7 +62,7 @@ export function HomeCarousel() {
             <div className={styles.heroContent}>
               <h1 className="home-type-hero-title">{slide.title}</h1>
               <p className="home-type-subtitle">{slide.description}</p>
-              <a className={`${styles.heroCta} home-type-action`} href={withBase(slide.ctaHref)}>
+              <a className={`${styles.heroCta} home-type-action home-filled-action`} href={withBase(slide.ctaHref)}>
                 {slide.ctaLabel}
               </a>
             </div>

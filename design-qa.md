@@ -20,8 +20,11 @@ final result: passed
 - Section titles: Montserrat, 700 weight, 1.12 line height, `-0.035em` tracking,
   and `clamp(28px, 3.6vw, 44px)` sizing.
 - Subtitles: Montserrat, 20px, 700 weight, 1.5 line height and normal tracking.
-- Descriptions and text actions: Montserrat, 400 weight, 1.65 line height,
-  normal tracking, 15px on phones and 16px from 640px.
+- Descriptions: Montserrat, 400 weight, 1.65 line height, normal tracking, 15px
+  on phones and 16px from 640px.
+- Text actions: the same family, size and line height as descriptions at 700
+  weight. Filled actions use white labels; text-only actions keep their green
+  link color.
 - The hero supporting line uses the subtitle role. Navigation, footer, metrics,
   labels and form hints remain auxiliary typography. Mobile
   email inputs remain 16px to prevent touch-browser focus zoom.
@@ -34,9 +37,10 @@ final result: passed
   shared semantic roles.
 - Desktop computed styles form exactly one group per role: one hero title at
   64px/700, 11 section titles at 44px/700, 46 subtitles at 20px/700, 22
-  descriptions at 16px/400 and 16 text actions at 16px/400.
+  descriptions at 16px/400 and 16 text actions at 16px/700.
 - Mobile roles resolve to 36px/700 for the hero title, 28px/700 for section
-  titles, 20px/700 for subtitles and 15px/400 for descriptions/actions. The
+  titles, 20px/700 for subtitles, 15px/400 for descriptions and 15px/700 for
+  actions. The
   16px email input is the documented form control exception.
 - All Home content headings are classified. Long project and news titles retain
   their existing two-line clamp, Playground tool copy stays inside the widened
@@ -58,9 +62,9 @@ final result: passed
 
 ## Fidelity Surfaces
 
-- Typography: the title uses the dedicated Home hero role at 700 weight, tight tracking and responsive 36–64px sizing. The supporting line uses the shared 20px subtitle role, and the action uses the shared 15–16px body role.
+- Typography: the title uses the dedicated Home hero role at 700 weight, tight tracking and responsive 36–64px sizing. The supporting line uses the shared 20px subtitle role and stays on one line at desktop widths. The action uses the shared 15–16px action role at 700 weight.
 - Layout: the copy sits on a centered 1800px content grid with responsive inner padding. A 22–28px title gap and 34px action gap give the three elements room to breathe. The desktop CTA is 180 x 52px; the phone layout uses an 18px title gap, 28px action gap and 148 x 52px CTA. On phone, the hero occupies approximately three quarters of the viewport below the 64px header; content remains fully inside the hero.
-- Colors: white copy and a soft left-side darkening layer preserve contrast over the photograph. The CTA uses the existing XIAO green token, black-green text and a subtle shadow.
+- Colors: white copy and a soft left-side darkening layer preserve contrast over the photograph. The CTA uses the existing XIAO green token, bold white text and a subtle shadow.
 - Image quality: the existing 2560 x 965 XIAO banner remains unchanged and is rendered as the full-bleed source asset. Desktop uses the original centered crop; phone uses a focused crop that retains the product lineup.
 - Copy: title, description and Explore label match the supplied wording. Explore targets the XIAO Products page at `/XIAO_Landing_Page/products/`.
 

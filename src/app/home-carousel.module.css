@@ -91,9 +91,9 @@
   border-radius: 999px;
   background: var(--button-bg);
   box-shadow: 0 12px 34px rgba(108, 151, 18, .3);
-  color: #10200a;
+  color: #fff;
   font-size: var(--home-body-size);
-  font-weight: var(--home-body-weight);
+  font-weight: var(--home-action-weight);
   line-height: var(--home-body-leading);
   text-shadow: none;
   transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
