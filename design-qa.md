@@ -75,6 +75,15 @@ Flow: Home renders PartnerMarquee, which reads the original partner data, builds
 
 ## Current: Centered Tools and 22-Board Orbit
 
+- Wide-screen follow-up: the board scene now breaks out of the shared 1680px
+  content limit and spans the dark section, while the 560px reading panel stays
+  centered. Side boards use outer and inner lanes derived from the available
+  space, so the composition expands naturally on ultrawide screens.
+- At a 2520 x 1262 viewport matching the supplied screenshot ratio, the scene
+  covered 2392px. Board bounds reached from x=236.7px to x=2268.3px, leaving
+  balanced edge breathing room while keeping all 22 boards clear of the panel.
+  At 1440px and 390px, all images loaded, no board overlapped the reading panel,
+  and the page had no horizontal overflow.
 - The title, four tools and overview action share a centered navy panel. The
   existing circuit texture, green action and transparent artwork remain.
   The supplied collection now contributes 22 models: 12 base boards, four Plus

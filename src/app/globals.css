@@ -748,6 +748,12 @@ canvas {
   .home-playground-tool h3 { font-size: 16px; }
 }
 @media (min-width: 960px) {
+  .home-playground {
+    width: 100vw;
+    max-width: none;
+    margin-inline: calc(50% - 50vw);
+    padding-inline: clamp(32px, 3.2vw, 64px);
+  }
   .home-playground-panel {
     min-height: 920px;
     padding-block: 180px;

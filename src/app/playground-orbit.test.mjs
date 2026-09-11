@@ -11,7 +11,7 @@ test("scroll progress is bounded, advances downward and reverses upward", () => 
 });
 
 test("desktop paths reserve the full reading area at every scroll position", () => {
-  for (const width of [800, 832, 1088, 1312]) {
+  for (const width of [800, 832, 1088, 1312, 1680, 2460, 3712]) {
     const hubWidth = Math.min(560, width - 340);
     const size = { width, height: 920 };
     const hub = { left: (width - hubWidth) / 2, top: 180, width: hubWidth, height: 560 };
@@ -26,6 +26,17 @@ test("desktop paths reserve the full reading area at every scroll position", () 
       }
     }
   }
+});
+
+test("ultrawide layouts occupy the outer and inner side lanes", () => {
+  const size = { width: 2460, height: 920 };
+  const hub = { left: 950, top: 180, width: 560, height: 560 };
+  const left = Array.from({ length: 8 }, (_, index) => orbitPosition(index, size, hub, 0.55, true).x / 100 * size.width);
+  const right = Array.from({ length: 8 }, (_, index) => orbitPosition(index + 8, size, hub, 0.55, true).x / 100 * size.width);
+  assert.ok(Math.min(...left) < size.width * 0.12);
+  assert.ok(Math.max(...left) > size.width * 0.22);
+  assert.ok(Math.max(...right) > size.width * 0.88);
+  assert.ok(Math.min(...right) < size.width * 0.78);
 });
 
 test("narrow screens keep boards above and below the reading area", () => {

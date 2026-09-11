@@ -39,6 +39,7 @@ test("the tool hub stays centered while boards occupy a separate surrounding lay
   assert.match(css, /\.home-playground-panel \{[^}]*justify-content: center/s);
   assert.match(css, /\.home-playground-preview \{[^}]*position: absolute;[^}]*pointer-events: none/s);
   assert.match(css, /width: min\(560px, calc\(100% - 340px\)\)/);
+  assert.match(css, /\.home-playground \{[^}]*width: 100vw;[^}]*max-width: none;[^}]*margin-inline: calc\(50% - 50vw\)/s);
   assert.match(css, /\.playground-board img \{[^}]*width: 100%;[^}]*height: auto;/s);
   assert.match(css, /width: clamp\(64px, 6.2vw, 90px\)/);
 });
