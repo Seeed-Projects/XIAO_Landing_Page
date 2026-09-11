@@ -23,16 +23,20 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 ## Home Hero Verification
 
 The Home hero places the primary message over the existing XIAO product image.
-The Explore action opens the XIAO Products page.
+The Explore action opens the XIAO Products page and includes a right arrow that
+moves subtly on hover or keyboard focus.
 Desktop layouts place the copy on the same centered 1800px content grid used by
 the rest of the page. The hero title keeps the shared title family and 700
-weight at a poster-scale responsive 72–152px size. Its upper half stays solid
-white while an opacity mask fades the lower half completely into the photograph.
+weight at a poster-scale responsive 72–152px size. Its upper half combines a
+blue-gray gradient with a localized cyan highlight drawn from the photograph's
+light, while an opacity mask fades the lower
+half completely into the photograph. A clipped copy of the original upright
+ruler appears in front of the title on desktop.
 Entering the hero reveals
 the title through a soft blur-and-rise transition; leaving and returning replays
 the motion. A 22–28px title gap and 34px action gap keep the supporting copy and
 180px desktop action clear of the product lineup. Phone layouts preserve a
-roughly three-quarter-screen hero and use a responsive 52–68px title, 24px side
+roughly three-quarter-screen hero and use a responsive 36–68px title, 24px side
 padding, an 18px title gap, a 28px action gap and a compact 148px action.
 
 With the existing dependencies installed, run `npm run dev -- --port 3000` and
@@ -139,8 +143,8 @@ and 16px from the small breakpoint, 400 weight and 1.65 line height. Action
 labels use the same family, size and line height at 700 weight; filled actions
 use white labels. The hero campaign copy, navigation, footer, metrics, labels and form
 hints keep their purpose-specific compact styles. The hero title uses the
-larger hero-title role with the same family, weight, line height and tracking as
-section titles, and its short supporting line uses the subtitle role.
+larger hero-title role with the same family and weight as section titles, its
+own compact spacing and image-derived color, and the subtitle role for its short supporting line.
 
 With the preview running, open
 `http://localhost:3000/XIAO_Landing_Page/` and compare About, Features,

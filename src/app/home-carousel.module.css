@@ -70,24 +70,38 @@
   mask-image: linear-gradient(
     180deg,
     #000 0%,
-    #000 48%,
-    rgba(0, 0, 0, .4) 62%,
-    rgba(0, 0, 0, .06) 76%,
-    transparent 88%
+    #000 42%,
+    rgba(0, 0, 0, .86) 56%,
+    rgba(0, 0, 0, .4) 72%,
+    rgba(0, 0, 0, .06) 90%,
+    transparent 100%
   );
-  color: #fff;
+  background:
+    radial-gradient(ellipse at 34% 0%, rgba(137, 216, 234, .94), transparent 46%),
+    linear-gradient(110deg, #8b9fa7 0%, #c5d4d5 22%, #789eb0 58%, #bcc8ce 100%);
+  background-clip: text;
+  color: transparent;
   text-shadow: none;
   filter: blur(12px);
   font-size: clamp(72px, 8.2vw, 152px);
   font-weight: var(--home-title-weight);
   line-height: .88;
-  letter-spacing: -.06em;
+  letter-spacing: -.04em;
   opacity: 0;
   transform: translateY(24px) scale(.985);
   transition:
     opacity 900ms cubic-bezier(.22, 1, .36, 1),
     transform 1100ms cubic-bezier(.22, 1, .36, 1),
     filter 1100ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.heroForeground {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 .heroTitleVisible {
@@ -110,6 +124,7 @@
   min-height: 52px;
   align-items: center;
   justify-content: center;
+  gap: 12px;
   margin-top: 34px;
   padding: 10px 28px;
   border-radius: 999px;
@@ -127,6 +142,16 @@
   transform: translateY(-2px);
   background: var(--button-bg-hover);
   box-shadow: 0 16px 38px rgba(108, 151, 18, .4);
+}
+
+.heroCta svg {
+  flex: none;
+  transition: transform 180ms ease;
+}
+
+.heroCta:hover svg,
+.heroCta:focus-visible svg {
+  transform: translateX(3px);
 }
 
 .heroCta:focus-visible {
@@ -197,12 +222,13 @@
   }
   .heroContent p { margin-top: 18px; }
   .heroTitle {
-    font-size: clamp(52px, 16vw, 68px);
-    line-height: .96;
-    letter-spacing: -.055em;
-    mask-size: 100% .96em;
+    font-size: clamp(36px, 10.7vw, 68px);
+    line-height: 1.08;
+    letter-spacing: -.04em;
+    mask-size: 100% 1.08em;
     mask-repeat: repeat-y;
   }
+  .heroForeground { display: none; }
   .heroCta { min-width: 148px; min-height: 52px; margin-top: 28px; }
   .arrow { width: 36px; height: 48px; }
   .previous { left: 8px; }
@@ -215,4 +241,5 @@
   .slide img { transition: none; transform: none; }
   .heroTitle { opacity: 1; filter: none; transform: none; transition: none; }
   .heroCta { transition: none; }
+  .heroCta svg { transition: none; transform: none; }
 }

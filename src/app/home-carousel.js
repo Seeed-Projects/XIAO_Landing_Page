@@ -81,8 +81,20 @@ export function HomeCarousel() {
               <p className="home-type-subtitle">{slide.description}</p>
               <a className={`${styles.heroCta} home-type-action home-filled-action`} href={withBase(slide.ctaHref)}>
                 {slide.ctaLabel}
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M5 12h14m-6-6 6 6-6 6" />
+                </svg>
               </a>
             </div>
+            {/* The original photo's ruler silhouette forms the foreground layer. */}
+            <svg className={styles.heroForeground} viewBox="0 0 2048 772" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+              <defs>
+                <clipPath id={`hero-foreground-${index}`}>
+                  <path d="M1262 378 L1268 110 Q1268 108 1272 103 L1288 83 Q1292 78 1296 83 L1311 105 L1308 378 Z" />
+                </clipPath>
+              </defs>
+              <image href={withBase(slide.src)} width="2048" height="772" clipPath={`url(#hero-foreground-${index})`} />
+            </svg>
           </div>
         ))}
       </div>

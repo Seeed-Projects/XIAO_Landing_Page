@@ -15,9 +15,9 @@ final result: passed
 
 ## Typography System
 
-- Hero title: Montserrat, 700 weight, `.88` line height, `-0.06em` tracking and
-  `clamp(72px, 8.2vw, 152px)` desktop sizing. Phones use a responsive 52–68px
-  scale with `.96` line height.
+- Hero title: Montserrat, 700 weight, `.88` line height, `-0.04em` tracking and
+  `clamp(72px, 8.2vw, 152px)` desktop sizing. Phones use a responsive 36–68px
+  scale with `1.08` line height.
 - Section titles: Montserrat, 700 weight, 1.12 line height, `-0.035em` tracking,
   and `clamp(28px, 3.6vw, 44px)` sizing.
 - Subtitles: Montserrat, 20px, 700 weight, 1.5 line height and normal tracking.
@@ -39,7 +39,7 @@ final result: passed
 - Desktop computed styles form exactly one group per role: one hero title at up
   to 152px/700, 11 section titles at 44px/700, 46 subtitles at 20px/700, 22
   descriptions at 16px/400 and 16 text actions at 16px/700.
-- Mobile roles resolve to 52–68px/700 for the hero title, 28px/700 for section
+- Mobile roles resolve to 36–68px/700 for the hero title, 28px/700 for section
   titles, 20px/700 for subtitles, 15px/400 for descriptions and 15px/700 for
   actions. The
   16px email input is the documented form control exception.
@@ -63,9 +63,10 @@ final result: passed
 
 ## Fidelity Surfaces
 
-- Typography: the title uses the dedicated Home hero role at 700 weight, compact `.88` line height, tight tracking and responsive 72–152px desktop sizing. Its vertical white-to-transparent fill keeps the upper half solid and blends the lower half into the photograph. The supporting line uses the shared 20px subtitle role and stays on one line at desktop widths. The action uses the shared 15–16px action role at 700 weight.
+- Typography: the title uses the dedicated Home hero role at 700 weight, compact `.88` line height, tight tracking and responsive 72–152px desktop sizing. Its cyan-to-transparent fill keeps the upper half clear and blends the lower half into the photograph. The supporting line uses the shared 20px subtitle role and stays on one line at desktop widths. The action uses the shared 15–16px action role at 700 weight.
 - Layout: the copy sits on a centered 1800px content grid with responsive inner padding. A 22–28px title gap and 34px action gap give the three elements room to breathe. The desktop CTA is 180 x 52px; the phone layout uses an 18px title gap, 28px action gap and 148 x 52px CTA. On phone, the hero occupies approximately three quarters of the viewport below the 64px header; content remains fully inside the hero.
-- Colors: the hero title uses solid white with no text shadow and an opacity mask. The upper 48% stays opaque, the fill reaches 6% opacity at 76% height and becomes fully transparent at 88%. On phones the mask repeats per text line. The CTA uses the existing XIAO green token, bold white text and a subtle shadow.
+- Colors: the photo's sampled cyan light (`#0095c2`) guides a localized cyan highlight over a blue-gray gradient. The highlight sits near the cyan light column in the photo. The opacity mask keeps the upper 42% opaque, fades progressively through 86%, 40% and 6% opacity, and reaches full transparency at the bottom. On phones the mask repeats per text line. The CTA uses the existing XIAO green token, bold white text and a subtle shadow.
+- Depth: an SVG clip follows the original upright ruler silhouette and displays that portion of the same photograph above the title. The decorative layer is excluded from accessibility and pointer interaction. Desktop uses the same centered cover scaling for both photo layers; mobile uses the existing single-photo crop.
 - Image quality: the existing 2560 x 965 XIAO banner remains unchanged and is rendered as the full-bleed source asset. Desktop uses the original centered crop; phone uses a focused crop that retains the product lineup.
 - Copy: title, description and Explore label match the supplied wording. Explore targets the XIAO Products page at `/XIAO_Landing_Page/products/`.
 
@@ -79,6 +80,7 @@ final result: passed
 ## Interaction Verification
 
 - Clicking Explore opened `/XIAO_Landing_Page/products/` in the same tab and rendered the Products page hero.
+- Explore includes a decorative right arrow that moves 3px on hover or keyboard focus and stays stationary with reduced motion.
 - The title resets after the hero leaves the viewport and replays its 900–1100ms blur, opacity and vertical-motion transition when the hero returns. Reduced-motion mode renders the final state immediately.
 - Keyboard focus has a visible 3px white outline with a 4px offset. Reduced-motion mode removes carousel and CTA transitions.
 - The complete Node regression suite passed 46 tests, targeted lint passed, and the production build generated all 72 static pages.
