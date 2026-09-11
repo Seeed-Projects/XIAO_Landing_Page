@@ -33,8 +33,10 @@ This version has breaking changes — APIs, conventions, and file structure may 
 2. **章节大标题**:
    - 以 `XIAO Playground` 为基准，使用 Montserrat、700 字重、1.12 行高、
      `-0.035em` 字距和 `clamp(28px, 3.6vw, 44px)` 响应式字号。
-   - 首图展示标题延续相同字体、字重、行高和字距，使用
-     `clamp(36px, 4vw, 64px)` 建立首屏层级。
+   - 首图展示标题延续相同字体和 700 字重，使用海报式独立层级：桌面端采用
+     `clamp(72px, 8.2vw, 152px)`，手机端采用 `clamp(52px, 16vw, 68px)`。
+     标题上半部保持实体白色，下半部渐隐融入首图背景；进入视野时播放渐入动画，
+     离开后恢复待播放状态，再次进入时重新播放。
 
 3. **子标题**:
    - 以 `Popular SoCs Integrated` 为基准，使用 Montserrat、20px、700 字重、

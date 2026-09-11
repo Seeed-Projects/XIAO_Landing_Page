@@ -15,7 +15,8 @@ test("home hero presents the requested message and Products action", () => {
   assert.match(component, /ctaLabel: "Explore"/);
   assert.match(component, /ctaHref: "\/products\/"/);
   assert.match(component, /href=\{withBase\(slide\.ctaHref\)\}/);
-  assert.match(component, /<h1 className="home-type-hero-title">\{slide\.title\}<\/h1>/);
+  assert.match(component, /styles\.heroTitleVisible/);
+  assert.match(component, /<h1[\s\S]*?styles\.heroTitle[\s\S]*?home-type-hero-title[\s\S]*?>\s*\{slide\.title\}\s*<\/h1>/);
   assert.match(component, /<p className="home-type-subtitle">\{slide\.description\}<\/p>/);
   assert.doesNotMatch(page, /<h1 className="sr-only">Seeed Studio XIAO<\/h1>/);
 });
@@ -33,4 +34,14 @@ test("home hero copy follows the centered content grid with compact spacing", ()
   assert.match(css, /\.heroContent \{[\s\S]*?left: 50%;[\s\S]*?width: min\(100%, 1800px\);[\s\S]*?translate\(-50%, -50%\)/);
   assert.match(css, /\.heroContent p \{[\s\S]*?margin: clamp\(22px, 1\.4vw, 28px\) 0 0;/);
   assert.match(css, /\.heroCta \{[\s\S]*?min-width: 180px;[\s\S]*?min-height: 52px;[\s\S]*?margin-top: 34px;/);
+});
+
+test("home hero title is oversized, fades into the image and replays on re-entry", () => {
+  assert.match(component, /new IntersectionObserver/);
+  assert.match(component, /setHeroVisible\(entry\.isIntersecting\)/);
+  assert.match(css, /\.heroTitle \{[\s\S]*?font-size: clamp\(72px, 8\.2vw, 152px\);/);
+  assert.match(css, /\.heroTitle \{[\s\S]*?linear-gradient\(\s*180deg/);
+  assert.match(css, /\.heroTitle \{[\s\S]*?background-clip: text;/);
+  assert.match(css, /\.heroTitleVisible \{[\s\S]*?opacity: 1;[\s\S]*?filter: blur\(0\);/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.heroTitle \{[\s\S]*?opacity: 1;/);
 });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { withBase } from "../lib/basePath";
 import styles from "./home-carousel.module.css";
 
@@ -18,8 +18,10 @@ const SLIDES = [
 ];
 
 export function HomeCarousel() {
+  const heroRef = useRef(null);
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [heroVisible, setHeroVisible] = useState(false);
 
   useEffect(() => {
     SLIDES.forEach(({ src }) => {
@@ -35,10 +37,23 @@ export function HomeCarousel() {
     return () => window.clearInterval(timer);
   }, [paused]);
 
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setHeroVisible(entry.isIntersecting),
+      { threshold: 0.18 },
+    );
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
+
   const move = (direction) => setActive((index) => (index + direction + SLIDES.length) % SLIDES.length);
 
   return (
     <section
+      ref={heroRef}
       id="hero"
       className={`${styles.carousel} mt-16`}
       aria-roledescription="carousel"
@@ -60,7 +75,9 @@ export function HomeCarousel() {
               decoding="async"
             />
             <div className={styles.heroContent}>
-              <h1 className="home-type-hero-title">{slide.title}</h1>
+              <h1 className={`${styles.heroTitle} ${heroVisible ? styles.heroTitleVisible : ""} home-type-hero-title`}>
+                {slide.title}
+              </h1>
               <p className="home-type-subtitle">{slide.description}</p>
               <a className={`${styles.heroCta} home-type-action home-filled-action`} href={withBase(slide.ctaHref)}>
                 {slide.ctaLabel}

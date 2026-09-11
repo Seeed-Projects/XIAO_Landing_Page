@@ -25,12 +25,14 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 The Home hero places the primary message over the existing XIAO product image.
 The Explore action opens the XIAO Products page.
 Desktop layouts place the copy on the same centered 1800px content grid used by
-the rest of the page. The hero title keeps the shared title family and weight at
-a larger responsive 36–64px scale. A 22–28px title gap and 34px action gap give
-the message room to breathe, while the 180px desktop action stays clear of the
-product lineup. Phone layouts preserve a roughly three-quarter-screen hero and
-use 24px side padding, an 18px title gap, a 28px action gap and a compact 148px
-action.
+the rest of the page. The hero title keeps the shared title family and 700
+weight at a poster-scale responsive 72–152px size. Its upper half stays solid
+white while the lower half fades into the photograph. Entering the hero reveals
+the title through a soft blur-and-rise transition; leaving and returning replays
+the motion. A 22–28px title gap and 34px action gap keep the supporting copy and
+180px desktop action clear of the product lineup. Phone layouts preserve a
+roughly three-quarter-screen hero and use a responsive 52–68px title, 24px side
+padding, an 18px title gap, a 28px action gap and a compact 148px action.
 
 With the existing dependencies installed, run `npm run dev -- --port 3000` and
 open `http://localhost:3000/XIAO_Landing_Page/#hero`. At desktop and 390px phone
@@ -41,7 +43,7 @@ type. At 2520px ultrawide width, confirm the copy aligns with the centered conte
 instead of staying against the browser edge. Click Explore and expect the
 browser to open `http://localhost:3000/XIAO_Landing_Page/products/`. Run
 `node --test src/app/home-carousel.test.mjs` for the content,
-destination and responsive-layout regression checks.
+destination, responsive-layout and replayable-title-motion regression checks.
 
 ## Scroll Band Verification
 

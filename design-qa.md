@@ -15,8 +15,9 @@ final result: passed
 
 ## Typography System
 
-- Hero title: Montserrat, 700 weight, 1.12 line height, `-0.035em` tracking,
-  and `clamp(36px, 4vw, 64px)` sizing.
+- Hero title: Montserrat, 700 weight, `.88` line height, `-0.06em` tracking and
+  `clamp(72px, 8.2vw, 152px)` desktop sizing. Phones use a responsive 52–68px
+  scale with `.96` line height.
 - Section titles: Montserrat, 700 weight, 1.12 line height, `-0.035em` tracking,
   and `clamp(28px, 3.6vw, 44px)` sizing.
 - Subtitles: Montserrat, 20px, 700 weight, 1.5 line height and normal tracking.
@@ -35,10 +36,10 @@ final result: passed
   both 600 and 700 weights; body and action text ranged from 14px to 18px with
   several weights. These P1 consistency differences are resolved through the
   shared semantic roles.
-- Desktop computed styles form exactly one group per role: one hero title at
-  64px/700, 11 section titles at 44px/700, 46 subtitles at 20px/700, 22
+- Desktop computed styles form exactly one group per role: one hero title at up
+  to 152px/700, 11 section titles at 44px/700, 46 subtitles at 20px/700, 22
   descriptions at 16px/400 and 16 text actions at 16px/700.
-- Mobile roles resolve to 36px/700 for the hero title, 28px/700 for section
+- Mobile roles resolve to 52–68px/700 for the hero title, 28px/700 for section
   titles, 20px/700 for subtitles, 15px/400 for descriptions and 15px/700 for
   actions. The
   16px email input is the documented form control exception.
@@ -56,13 +57,13 @@ final result: passed
 
 - Source visual truth: `/var/folders/82/c3q_zgtd2zvbtgv_8qyn90fw0000gn/T/codex-clipboard-aa7dfe75-ee4e-4de1-bd3e-a04ece0008f7.jpg`, 3074 x 1162 pixels.
 - Implementation: Codex in-app Browser capture of `http://localhost:3000/XIAO_Landing_Page/#hero`.
-- Desktop viewport: 1231 x 1312 CSS pixels; rendered hero content area 1216 x 453 pixels. Browser density is 1 CSS pixel per captured pixel apart from the scrollbar inset.
+- Desktop viewport: 2548 x 1221 CSS pixels; rendered hero content area 2548 x 944 pixels. Browser density is 1 CSS pixel per captured pixel apart from the scrollbar inset.
 - Mobile viewport: 390 x 844 CSS pixels; rendered content width 375 pixels and hero height 569 pixels. Browser density is 1 CSS pixel per captured pixel apart from the scrollbar inset.
 - State: English, first carousel slide, page top. The source and rendered hero were inspected at their full width, then the copy and CTA region were checked separately for wrapping, contrast and alignment.
 
 ## Fidelity Surfaces
 
-- Typography: the title uses the dedicated Home hero role at 700 weight, tight tracking and responsive 36–64px sizing. The supporting line uses the shared 20px subtitle role and stays on one line at desktop widths. The action uses the shared 15–16px action role at 700 weight.
+- Typography: the title uses the dedicated Home hero role at 700 weight, compact `.88` line height, tight tracking and responsive 72–152px desktop sizing. Its vertical white-to-transparent fill keeps the upper half solid and blends the lower half into the photograph. The supporting line uses the shared 20px subtitle role and stays on one line at desktop widths. The action uses the shared 15–16px action role at 700 weight.
 - Layout: the copy sits on a centered 1800px content grid with responsive inner padding. A 22–28px title gap and 34px action gap give the three elements room to breathe. The desktop CTA is 180 x 52px; the phone layout uses an 18px title gap, 28px action gap and 148 x 52px CTA. On phone, the hero occupies approximately three quarters of the viewport below the 64px header; content remains fully inside the hero.
 - Colors: white copy and a soft left-side darkening layer preserve contrast over the photograph. The CTA uses the existing XIAO green token, bold white text and a subtle shadow.
 - Image quality: the existing 2560 x 965 XIAO banner remains unchanged and is rendered as the full-bleed source asset. Desktop uses the original centered crop; phone uses a focused crop that retains the product lineup.
@@ -73,11 +74,12 @@ final result: passed
 1. The first mobile capture exposed percentage-height positioning against a min-height container, placing the copy beneath the sticky header and hiding the product lineup.
 2. The mobile hero now has an explicit responsive height. A second 390 x 844 capture measured the copy from y=169px to y=436px inside the y=64px to y=633px hero, with no horizontal overflow.
 3. The typography pass exposed a new ultrawide imbalance: reducing the copy to the shared type scale left the old large gaps, oversized CTA and edge-based positioning intact.
-4. At 2520 x 942, the enlarged 64px title begins at x=448.5px and y=269px on the centered content grid. The copy begins at y=368.7px, followed by the 180 x 52px action at y=462.7px. The looser block remains in the dark negative space and stays clear of the product row.
+4. At 2548 x 1221, the 152px title begins at x=462.5px and y=257.4px on the centered content grid. The copy begins at y=419.1px, followed by the 180 x 52px action at y=483.1px. The title spans the background as the main graphic while the supporting controls remain in the left dark area.
 
 ## Interaction Verification
 
 - Clicking Explore opened `/XIAO_Landing_Page/products/` in the same tab and rendered the Products page hero.
+- The title resets after the hero leaves the viewport and replays its 900–1100ms blur, opacity and vertical-motion transition when the hero returns. Reduced-motion mode renders the final state immediately.
 - Keyboard focus has a visible 3px white outline with a 4px offset. Reduced-motion mode removes carousel and CTA transitions.
 - The complete Node regression suite passed 46 tests, targeted lint passed, and the production build generated all 72 static pages.
 

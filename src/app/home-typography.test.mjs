@@ -40,7 +40,7 @@ test("every Home content family opts into one semantic type role", () => {
   for (const name of ["components", "intro", "sections", "page", "cocreate", "newsletter"]) {
     assert.match(sources[name], /home-type-title/, `${name} has a section title role`);
   }
-  assert.match(sources.carousel, /<h1 className="home-type-hero-title">/);
+  assert.match(sources.carousel, /<h1[\s\S]*?home-type-hero-title/);
   assert.match(sources.carousel, /<p className="home-type-subtitle">/);
   for (const name of ["sections", "partners", "cards", "news", "cocreate", "newsletter"]) {
     assert.match(sources[name], /home-type-subtitle/, `${name} has a subtitle role`);
