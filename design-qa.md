@@ -1,3 +1,43 @@
+# Home Hero Design QA
+
+final result: passed
+
+## Visual Evidence
+
+- Source visual truth: `/var/folders/82/c3q_zgtd2zvbtgv_8qyn90fw0000gn/T/codex-clipboard-aa7dfe75-ee4e-4de1-bd3e-a04ece0008f7.jpg`, 3074 x 1162 pixels.
+- Implementation: Codex in-app Browser capture of `http://localhost:3000/XIAO_Landing_Page/#hero`.
+- Desktop viewport: 1231 x 1312 CSS pixels; rendered hero content area 1216 x 453 pixels. Browser density is 1 CSS pixel per captured pixel apart from the scrollbar inset.
+- Mobile viewport: 390 x 844 CSS pixels; rendered content width 375 pixels and hero height 569 pixels. Browser density is 1 CSS pixel per captured pixel apart from the scrollbar inset.
+- State: English, first carousel slide, page top. The source and rendered hero were inspected at their full width, then the copy and CTA region were checked separately for wrapping, contrast and alignment.
+
+## Fidelity Surfaces
+
+- Typography: the requested title uses the site's existing display family at 700 weight, tight tracking and responsive 44–80px sizing. Supporting copy retains the requested two-line break on desktop and wraps naturally on phone. Hierarchy follows the source.
+- Layout: copy sits in the dark left region at 4vw on desktop. The CTA follows the copy with proportional spacing. On phone, the hero occupies approximately three quarters of the viewport below the 64px header; content remains fully inside the hero.
+- Colors: white copy and a soft left-side darkening layer preserve contrast over the photograph. The CTA uses the existing XIAO green token, black-green text and a subtle shadow.
+- Image quality: the existing 2560 x 965 XIAO banner remains unchanged and is rendered as the full-bleed source asset. Desktop uses the original centered crop; phone uses a focused crop that retains the product lineup.
+- Copy: title, description and Explore label match the supplied wording. Explore targets the XIAO Products page at `/XIAO_Landing_Page/products/`.
+
+## Comparison History
+
+1. The first mobile capture exposed percentage-height positioning against a min-height container, placing the copy beneath the sticky header and hiding the product lineup.
+2. The mobile hero now has an explicit responsive height. A second 390 x 844 capture measured the copy from y=169px to y=436px inside the y=64px to y=633px hero, with no horizontal overflow.
+3. Desktop capture measured the copy from x=49px to x=640px and y=169px to y=384px inside the 1216 x 453px hero. The Explore action measures 150 x 54px and remains clear of the product row.
+
+## Interaction Verification
+
+- Clicking Explore opened `/XIAO_Landing_Page/products/` in the same tab and rendered the Products page hero.
+- Keyboard focus has a visible 3px white outline with a 4px offset. Reduced-motion mode removes carousel and CTA transitions.
+- The complete Node regression suite passed 42 tests, targeted lint passed, and the production build generated all 72 static pages.
+
+## Findings
+
+- No actionable P0, P1 or P2 differences remain. The reference uses a larger source canvas; responsive scaling intentionally preserves the same hierarchy instead of forcing its absolute pixel sizes.
+
+## Follow-up Polish
+
+- P3: if a future carousel slide uses a much brighter left edge, it can provide its own overlay strength alongside the slide data.
+
 # Partner Network Design QA
 
 final result: passed

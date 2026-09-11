@@ -7,7 +7,20 @@ import styles from "./home-carousel.module.css";
 /* 首页横幅轮播：保持轮播效果（自动切换/箭头/圆点），后续追加更多图。
    第 1 页：Seeed Studio XIAO featured banner（已裁去顶部黑边、对齐广告页标准比例）。 */
 const SLIDES = [
-  { src: "/home-carousel/xiao-banner.webp", alt: "Seeed Studio XIAO featured banner", href: "https://www.seeedstudio.com/xiao-series-page" },
+  {
+    src: "/home-carousel/xiao-banner.webp",
+    alt: "Seeed Studio XIAO boards and accessories",
+    title: "Seeed Studio XIAO",
+    description: (
+      <>
+        The smallest dev platform. The biggest
+        <br />
+        possibilities.
+      </>
+    ),
+    ctaLabel: "Explore",
+    ctaHref: "/products/",
+  },
 ];
 
 export function HomeCarousel() {
@@ -44,29 +57,21 @@ export function HomeCarousel() {
       <div className={styles.track} style={{ transform: `translate3d(-${active * 100}%, 0, 0)` }}>
         {SLIDES.map((slide, index) => (
           <div key={slide.src} className={`${styles.slide} ${index === active ? styles.slideActive : ""}`} aria-hidden={index !== active}>
-            {slide.href ? (
-              <a href={slide.href} target="_blank" rel="noopener noreferrer" aria-label={slide.alt}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={withBase(slide.src)}
-                  alt={slide.alt}
-                  loading={index === 0 ? "eager" : "lazy"}
-                  fetchPriority={index === 0 ? "high" : "auto"}
-                  decoding="async"
-                />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={withBase(slide.src)}
+              alt={slide.alt}
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchPriority={index === 0 ? "high" : "auto"}
+              decoding="async"
+            />
+            <div className={styles.heroContent}>
+              <h1>{slide.title}</h1>
+              <p>{slide.description}</p>
+              <a className={styles.heroCta} href={withBase(slide.ctaHref)}>
+                {slide.ctaLabel}
               </a>
-            ) : (
-              <>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={withBase(slide.src)}
-                  alt={slide.alt}
-                  loading={index === 0 ? "eager" : "lazy"}
-                  fetchPriority={index === 0 ? "high" : "auto"}
-                  decoding="async"
-                />
-              </>
-            )}
+            </div>
           </div>
         ))}
       </div>

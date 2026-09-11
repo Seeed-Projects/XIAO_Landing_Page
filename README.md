@@ -20,6 +20,22 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Home Hero Verification
+
+The Home hero places the primary message over the existing XIAO product image.
+The Explore action opens the XIAO Products page.
+Desktop layouts keep the copy in the image's dark left region, while phone
+layouts preserve a roughly three-quarter-screen hero and scale the type and
+button to remain readable above the product lineup.
+
+With the existing dependencies installed, run `npm run dev -- --port 3000` and
+open `http://localhost:3000/XIAO_Landing_Page/#hero`. At desktop and 390px phone
+widths, confirm the complete title, two-line description and green Explore
+button remain visible without horizontal overflow. Click Explore and expect the
+browser to open `http://localhost:3000/XIAO_Landing_Page/products/`. Run
+`node --test src/app/home-carousel.test.mjs` for the content,
+destination and responsive-layout regression checks.
+
 ## Scroll Band Verification
 
 The project carousel displays two rows and repeats its existing content to cover

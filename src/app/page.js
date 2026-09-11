@@ -20,7 +20,6 @@ export default function Home() {
   return (
     <>
       <SiteHeader />
-      <h1 className="sr-only">Seeed Studio XIAO</h1>
       {/* 首页商城式横幅轮播：全屏铺满，紧贴页眉，无顶部白边 */}
       <HomeCarousel />
       <main className="flex w-full flex-1 flex-col">

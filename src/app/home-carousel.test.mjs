@@ -1,0 +1,26 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import test from "node:test";
+
+const component = readFileSync(new URL("./home-carousel.js", import.meta.url), "utf8");
+const css = readFileSync(new URL("./home-carousel.module.css", import.meta.url), "utf8");
+const page = readFileSync(new URL("./page.js", import.meta.url), "utf8");
+
+test("home hero presents the requested message and Products action", () => {
+  assert.match(component, /title: "Seeed Studio XIAO"/);
+  assert.match(component, /The smallest dev platform\. The biggest/);
+  assert.match(component, /possibilities\./);
+  assert.match(component, /ctaLabel: "Explore"/);
+  assert.match(component, /ctaHref: "\/products\/"/);
+  assert.match(component, /href=\{withBase\(slide\.ctaHref\)\}/);
+  assert.match(component, /<h1>\{slide\.title\}<\/h1>/);
+  assert.doesNotMatch(page, /<h1 className="sr-only">Seeed Studio XIAO<\/h1>/);
+});
+
+test("home hero copy remains readable and responsive", () => {
+  assert.match(css, /\.heroContent \{[\s\S]*?z-index: 2;[\s\S]*?color: #fff;/);
+  assert.match(css, /\.slide::after \{[\s\S]*?background: linear-gradient/);
+  assert.match(css, /\.heroCta \{[\s\S]*?border-radius: 999px;[\s\S]*?background: var\(--button-bg\);/);
+  assert.match(css, /@media \(max-width: 700px\)[\s\S]*?height: max\(540px, calc\(75svh - 64px\)\);/);
+  assert.match(css, /\.heroCta:focus-visible \{[\s\S]*?outline: 3px solid #fff;/);
+});

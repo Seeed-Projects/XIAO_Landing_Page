@@ -27,10 +27,20 @@
 }
 
 .slide {
+  position: relative;
   flex: 0 0 100%;
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+.slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(0, 12, 20, .5) 0%, rgba(0, 12, 20, .24) 48%, rgba(0, 12, 20, 0) 74%);
 }
 
 .slide img {
@@ -39,6 +49,63 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+.heroContent {
+  position: absolute;
+  z-index: 2;
+  top: 47%;
+  left: clamp(32px, 4vw, 96px);
+  width: min(48vw, 980px);
+  transform: translateY(-50%);
+  color: #fff;
+  text-shadow: 0 3px 22px rgba(0, 0, 0, .52);
+}
+
+.heroContent h1 {
+  margin: 0;
+  font-size: clamp(44px, 3.7vw, 80px);
+  font-weight: 700;
+  line-height: 1.03;
+  letter-spacing: -.035em;
+}
+
+.heroContent p {
+  margin: clamp(20px, 2vw, 38px) 0 0;
+  font-size: clamp(22px, 1.9vw, 40px);
+  font-weight: 400;
+  line-height: 1.22;
+  letter-spacing: -.02em;
+}
+
+.heroCta {
+  display: inline-flex;
+  min-width: clamp(150px, 12vw, 250px);
+  min-height: clamp(52px, 4.4vw, 82px);
+  align-items: center;
+  justify-content: center;
+  margin-top: clamp(26px, 2.6vw, 48px);
+  padding: 12px 32px;
+  border-radius: 999px;
+  background: var(--button-bg);
+  box-shadow: 0 12px 34px rgba(108, 151, 18, .3);
+  color: #10200a;
+  font-size: clamp(18px, 1.35vw, 30px);
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: none;
+  transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.heroCta:hover {
+  transform: translateY(-2px);
+  background: var(--button-bg-hover);
+  box-shadow: 0 16px 38px rgba(108, 151, 18, .4);
+}
+
+.heroCta:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
 }
 
 .arrow {
@@ -92,7 +159,17 @@
 .dots .dotActive { width: 24px; background: #8fc31f; }
 
 @media (max-width: 700px) {
-  .slide img { object-position: center; }
+  .carousel { aspect-ratio: auto; height: max(540px, calc(75svh - 64px)); }
+  .slide img { object-position: 38% center; }
+  .slide::after { background: linear-gradient(90deg, rgba(0, 12, 20, .56) 0%, rgba(0, 12, 20, .32) 72%, rgba(0, 12, 20, .18) 100%); }
+  .heroContent {
+    top: 42%;
+    left: 24px;
+    width: calc(100% - 48px);
+  }
+  .heroContent h1 { font-size: clamp(38px, 11vw, 52px); }
+  .heroContent p { margin-top: 18px; font-size: clamp(20px, 5.8vw, 26px); }
+  .heroCta { min-width: 148px; min-height: 52px; margin-top: 26px; font-size: 18px; }
   .arrow { width: 36px; height: 48px; }
   .previous { left: 8px; }
   .next { right: 8px; }
@@ -102,4 +179,5 @@
 @media (prefers-reduced-motion: reduce) {
   .track { transition: none; }
   .slide img { transition: none; transform: none; }
+  .heroCta { transition: none; }
 }
