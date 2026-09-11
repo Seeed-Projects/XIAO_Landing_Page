@@ -56,8 +56,8 @@ final result: passed
 
 ## Fidelity Surfaces
 
-- Typography: the requested title uses the site's existing display family at 700 weight, tight tracking and responsive 44–80px sizing. Supporting copy retains the requested two-line break on desktop and wraps naturally on phone. Hierarchy follows the source.
-- Layout: copy sits in the dark left region at 4vw on desktop. The CTA follows the copy with proportional spacing. On phone, the hero occupies approximately three quarters of the viewport below the 64px header; content remains fully inside the hero.
+- Typography: the title uses the shared Home title role at 700 weight, tight tracking and responsive 28–44px sizing. The supporting line uses the shared 20px subtitle role, and the action uses the shared 15–16px body role.
+- Layout: the copy sits on a centered 1800px content grid with responsive inner padding. Compact 12–18px title spacing and a 24px action gap keep the three elements together. The desktop CTA is 180 x 52px; the phone CTA is 148 x 52px. On phone, the hero occupies approximately three quarters of the viewport below the 64px header; content remains fully inside the hero.
 - Colors: white copy and a soft left-side darkening layer preserve contrast over the photograph. The CTA uses the existing XIAO green token, black-green text and a subtle shadow.
 - Image quality: the existing 2560 x 965 XIAO banner remains unchanged and is rendered as the full-bleed source asset. Desktop uses the original centered crop; phone uses a focused crop that retains the product lineup.
 - Copy: title, description and Explore label match the supplied wording. Explore targets the XIAO Products page at `/XIAO_Landing_Page/products/`.
@@ -66,7 +66,8 @@ final result: passed
 
 1. The first mobile capture exposed percentage-height positioning against a min-height container, placing the copy beneath the sticky header and hiding the product lineup.
 2. The mobile hero now has an explicit responsive height. A second 390 x 844 capture measured the copy from y=169px to y=436px inside the y=64px to y=633px hero, with no horizontal overflow.
-3. Desktop capture measured the copy from x=49px to x=640px and y=169px to y=384px inside the 1216 x 453px hero. The Explore action measures 150 x 54px and remains clear of the product row.
+3. The typography pass exposed a new ultrawide imbalance: reducing the copy to the shared type scale left the old large gaps, oversized CTA and edge-based positioning intact.
+4. At 2520 x 942, the revised title begins at x=448.5px on the centered content grid. The copy runs from y=290.2px to y=417.5px, followed by the 180 x 52px action at y=441.5px. The block remains in the dark negative space and stays clear of the product row.
 
 ## Interaction Verification
 

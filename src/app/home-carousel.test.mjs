@@ -25,3 +25,9 @@ test("home hero copy remains readable and responsive", () => {
   assert.match(css, /@media \(max-width: 700px\)[\s\S]*?height: max\(540px, calc\(75svh - 64px\)\);/);
   assert.match(css, /\.heroCta:focus-visible \{[\s\S]*?outline: 3px solid #fff;/);
 });
+
+test("home hero copy follows the centered content grid with compact spacing", () => {
+  assert.match(css, /\.heroContent \{[\s\S]*?left: 50%;[\s\S]*?width: min\(100%, 1800px\);[\s\S]*?translate\(-50%, -50%\)/);
+  assert.match(css, /\.heroContent p \{[\s\S]*?margin: clamp\(12px, 1vw, 18px\) 0 0;/);
+  assert.match(css, /\.heroCta \{[\s\S]*?min-width: 180px;[\s\S]*?min-height: 52px;[\s\S]*?margin-top: 24px;/);
+});

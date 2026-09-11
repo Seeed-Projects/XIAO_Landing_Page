@@ -24,14 +24,18 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 The Home hero places the primary message over the existing XIAO product image.
 The Explore action opens the XIAO Products page.
-Desktop layouts keep the copy in the image's dark left region, while phone
-layouts preserve a roughly three-quarter-screen hero and scale the type and
-button to remain readable above the product lineup.
+Desktop layouts place the copy on the same centered 1800px content grid used by
+the rest of the page. Compact title-to-description and description-to-action
+spacing keeps the message together, while the 180px desktop action stays clear
+of the product lineup. Phone layouts preserve a roughly three-quarter-screen
+hero and use 24px side padding with a compact 148px action.
 
 With the existing dependencies installed, run `npm run dev -- --port 3000` and
 open `http://localhost:3000/XIAO_Landing_Page/#hero`. At desktop and 390px phone
 widths, confirm the complete title, two-line description and green Explore
-button remain visible without horizontal overflow. Click Explore and expect the
+button remain grouped in the dark image area without horizontal overflow. At
+2520px ultrawide width, confirm the copy aligns with the centered content grid
+instead of staying against the browser edge. Click Explore and expect the
 browser to open `http://localhost:3000/XIAO_Landing_Page/products/`. Run
 `node --test src/app/home-carousel.test.mjs` for the content,
 destination and responsive-layout regression checks.
