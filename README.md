@@ -28,7 +28,7 @@ moves subtly on hover or keyboard focus.
 Desktop layouts place the copy on the same centered 1800px content grid used by
 the rest of the page. The hero title keeps the shared title family and 700
 weight at a poster-scale responsive 72–152px size. Its upper half uses brand
-blue (`#004966`) mixed with 55% white for legibility over the dark photo, while an opacity mask fades the lower
+blue (`#004966`) mixed with 28% white for a muted tone over the dark photo, while an opacity mask fades the lower
 half completely into the photograph. A clipped copy of the original upright
 ruler appears in front of the title on desktop.
 Entering the hero reveals
