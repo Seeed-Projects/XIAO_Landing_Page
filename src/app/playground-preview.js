@@ -82,7 +82,7 @@ export function PlaygroundPreview() {
       onPointerCancel={() => motion.current?.clearPointer()}
       onKeyDown={(event) => { if (event.key === "Escape") { setSelected(null); motion.current?.reset(); } }}>
       {playgroundBoards.map((board, index) => (
-        <div key={board.id} className="playground-board-position" data-orbit-side={index < 4 ? "first" : "second"} style={{ "--board-x": `${[12, 37, 63, 88][index % 4]}%`, "--board-y": index < 4 ? "80px" : "calc(100% - 64px)", "--orbit-row": `${13 + index % 4 * 24}%`, "--board-angle": `${board.angle}deg`, "--board-delay": `${index * -0.65}s`, "--board-duration": `${5 + index * 0.35}s`, "--entry-x": "0px", "--entry-y": "10px", "--entry-delay": `${index * 45}ms` }}>
+        <div key={board.id} className="playground-board-position" data-orbit-side={index < 4 ? "first" : "second"} style={{ "--board-x": `${[12, 37, 63, 88][index % 4]}%`, "--board-y": index < 4 ? "80px" : "calc(100% - 64px)", "--orbit-row": `${13 + index % 4 * 24}%`, "--board-angle": `${board.angle}deg`, "--board-delay": `${index * -0.65}s`, "--board-duration": `${5 + index * 0.35}s`, "--float-x": `${index % 2 ? 3 : -3}px`, "--float-angle": `${index % 2 ? 0.7 : -0.7}deg`, "--entry-x": "0px", "--entry-y": "10px", "--entry-delay": `${index * 45}ms` }}>
           <div className="playground-board-scroll">
           <div className="playground-board-entry">
             <div className="playground-board-nudge">

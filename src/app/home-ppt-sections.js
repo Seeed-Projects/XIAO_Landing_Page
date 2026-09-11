@@ -114,9 +114,6 @@ export function PlaygroundSection() {
                 </Link>
               </Reveal>
             </div>
-            <div className="home-playground-caption">
-              <span>{zh ? "\u6eda\u52a8\u63a2\u7d22\uff0c\u70b9\u51fb XIAO \u4e00\u8d77\u73a9\u3002" : "Scroll to explore. Tap a XIAO to play."}</span>
-            </div>
           </div>
           <PlaygroundPreview />
         </div>

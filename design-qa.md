@@ -75,6 +75,14 @@ Flow: Home renders PartnerMarquee, which reads the original partner data, builds
 
 ## Current: Centered Tools and 22-Board Orbit
 
+- Central-content follow-up: the reading panel expands from 560px to a maximum
+  of 820px, while tool cards use a 108px minimum height and tighter body-copy
+  line spacing. The redundant interaction caption was removed together with its
+  reserved gap. The tool names, descriptions and destinations remain unchanged.
+- Idle-motion follow-up: visible boards now drift on three small axes with
+  per-board direction, duration and phase differences. The movement remains on
+  the existing float layer, so scroll placement, pointer nudges and click waves
+  continue to compose independently. Reduced-motion mode keeps this layer still.
 - Wide-screen follow-up: the board scene now breaks out of the shared 1680px
   content limit and spans the dark section, while the 560px reading panel stays
   centered. Side boards use outer and inner lanes derived from the available

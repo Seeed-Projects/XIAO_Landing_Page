@@ -15,9 +15,8 @@ test("all four tools target existing routes", () => {
   assert.match(section, /<Link key=\{tool.key\} href=\{tool.href\}/);
 });
 
-test("the preview caption is descriptive and tools provide direct navigation", () => {
-  const caption = section.match(/<div className="home-playground-caption">([\s\S]*?)<\/div>/)[1];
-  assert.doesNotMatch(caption, /<Link|<a\b/);
+test("the playground keeps its copy concise and tools provide direct navigation", () => {
+  assert.doesNotMatch(section, /Scroll to explore|home-playground-caption/);
   assert.match(section, /<Link href="\/playground"/);
 });
 
@@ -38,7 +37,8 @@ test("the tool hub stays centered while boards occupy a separate surrounding lay
   assert.match(section, /className="home-playground-hub"/);
   assert.match(css, /\.home-playground-panel \{[^}]*justify-content: center/s);
   assert.match(css, /\.home-playground-preview \{[^}]*position: absolute;[^}]*pointer-events: none/s);
-  assert.match(css, /width: min\(560px, calc\(100% - 340px\)\)/);
+  assert.match(css, /width: min\(820px, calc\(100% - 300px\)\)/);
+  assert.match(css, /\.home-playground-tool \{ min-height: 108px; \}/);
   assert.match(css, /\.home-playground \{[^}]*width: 100vw;[^}]*max-width: none;[^}]*margin-inline: calc\(50% - 50vw\)/s);
   assert.match(css, /\.playground-board img \{[^}]*width: 100%;[^}]*height: auto;/s);
   assert.match(css, /width: clamp\(64px, 6.2vw, 90px\)/);
@@ -51,6 +51,9 @@ test("floating replays on entry and supports reduced motion", () => {
   assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{\s*\.home-playground-preview/);
   assert.match(css, /\.playground-board-float \{ animation: none; \}/);
   assert.match(css, /\.playground-board-entry \{ animation: none; \}/);
+  assert.match(css, /@keyframes playground-float \{[^}]*translate3d/s);
+  assert.match(preview, /"--float-x"/);
+  assert.match(preview, /"--float-angle"/);
   assert.match(preview, /preference.addEventListener\("change", updateMotion\)/);
   assert.match(preview, /inView && !preference.matches/);
   assert.match(preview, /controller.dispose\(\)/);

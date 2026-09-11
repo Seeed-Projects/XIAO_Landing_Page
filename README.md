@@ -43,12 +43,13 @@ keyboard focus.
 ## Home Playground Verification
 
 The Home Playground section displays 22 original transparent XIAO board images,
-covering the supplied base, Plus and Sense models. The heading, four tool links
-and overview action form a centered reading area. Boards surround that area on
+covering the supplied base, Plus and Sense models. The heading, four compact tool
+links and overview action form a centered reading area up to 820px wide. Boards surround that area on
 desktop and form upper and lower groups on narrow screens. On wide and ultrawide
 desktops, the board scene spans the full dark section and uses outer and inner
 side lanes instead of inheriting the shared content-width limit. Desktop boards are
-at most 90px wide before rotation. Each board floats gently while visible; hovering
+at most 90px wide before rotation. Each board follows its own slow, subtle idle
+drift with small vertical, horizontal and rotational movement while visible; hovering
 or focusing reveals its model. Clicking selects a board, clicking again or
 pressing Escape clears selection. Selection is a visual preview state.
 Scrolling down spreads boards toward the perimeter; scrolling up gathers them
@@ -68,7 +69,8 @@ With the existing dependencies installed, run `npm run dev -- --port 3000`
 1. Check all 22 images at 2520px ultrawide, desktop, tablet and 390px mobile
    widths. The ultrawide layout should occupy both side regions. Images
    retain their proportions, and mobile content stacks without horizontal overflow.
-2. Hover a board, click twice, and use Tab, Enter and Escape. The model label,
+2. Watch several boards before interacting and confirm their idle drift is subtle
+   and out of phase. Hover a board, click twice, and use Tab, Enter and Escape. The model label,
    selected state and keyboard focus should follow the active board. Move the
    mouse across the scene and out: nearby boards yield slightly and return.
    Rapidly click different boards: the latest wave replaces the previous one.
@@ -78,7 +80,8 @@ With the existing dependencies installed, run `npm run dev -- --port 3000`
    With the system's reduced-motion preference enabled, boards remain stationary
    and selectable. Changing this preference during a wave cancels its movement.
    On phones, verify tapping a board and scrolling vertically over the scene.
-4. Switch languages. Click each of the four tool links and the green overview
+4. Switch languages. Confirm each tool description remains compact, then click
+   each of the four tool links and the green overview
    action; each opens its existing destination.
 5. Run `node --test src/app/*.test.mjs` and `npm run build`; expect all tests
    to pass and all 72 static pages to build. Building fetches public project data
