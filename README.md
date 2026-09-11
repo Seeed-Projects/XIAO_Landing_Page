@@ -27,8 +27,8 @@ The Explore action opens the XIAO Products page and includes a right arrow that
 moves subtly on hover or keyboard focus.
 Desktop layouts place the copy on the same centered 1800px content grid used by
 the rest of the page. The hero title keeps the shared title family and 700
-weight at a poster-scale responsive 72–152px size. Its upper half uses the same
-Seeed green token as the primary action, while an opacity mask fades the lower
+weight at a poster-scale responsive 72–152px size. Its upper half uses brand
+blue (`#004966`), while an opacity mask fades the lower
 half completely into the photograph. A clipped copy of the original upright
 ruler appears in front of the title on desktop.
 Entering the hero reveals
@@ -143,7 +143,7 @@ labels use the same family, size and line height at 700 weight; filled actions
 use white labels. The hero campaign copy, navigation, footer, metrics, labels and form
 hints keep their purpose-specific compact styles. The hero title uses the
 larger hero-title role with the same family and weight as section titles, its
-own compact spacing and Seeed green color, and the subtitle role for its short supporting line.
+own compact spacing and brand blue color, and the subtitle role for its short supporting line.
 
 With the preview running, open
 `http://localhost:3000/XIAO_Landing_Page/` and compare About, Features,
