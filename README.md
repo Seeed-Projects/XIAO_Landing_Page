@@ -119,16 +119,30 @@ project grid should remain fully expanded. Press Tab until a link inside the car
 receives focus and repeat the check. Run `node --test src/app/co-create-section.test.mjs`
 to verify the latch behavior in source.
 
-## Newsletter Typography Verification
+## Home Typography Verification
 
-The Newsletter description and email input use the same responsive type scale
-as the News introduction: 16px by default and 18px from the small breakpoint.
-The email field uses the description's 576px maximum width, compact vertical
-padding and a 20px envelope icon. The primary action uses a 200px minimum width,
-compact vertical padding and the same responsive 16px/18px type scale.
-Open `http://localhost:3000/XIAO_Landing_Page/#edm`, switch both languages and
-compare the description and input placeholder with the News introduction above.
-Run `node --test src/app/newsletter-contrast.test.mjs` to verify the shared scale.
+Home content uses four shared type roles. Section titles match XIAO Playground
+with responsive 28px to 44px type, 700 weight, 1.12 line height and tight
+tracking. Subtitles match Popular SoCs Integrated at 20px, 700 weight and 1.5
+line height. Descriptions and text actions match the About XIAO introduction at
+15px on phones and 16px from the small breakpoint, 400 weight and 1.65 line
+height. The hero campaign copy, navigation, footer, metrics, labels and form
+hints keep their purpose-specific compact styles. The hero title uses the
+section-title role, and its short supporting line uses the subtitle role.
+
+With the preview running, open
+`http://localhost:3000/XIAO_Landing_Page/` and compare About, Features,
+Glimpse, Developer Ecosystem, Roadmap, Projects, Playground, Co-Create, News and
+Newsletter in English and Chinese. At desktop and 390px phone widths, headings
+within the same role should have identical computed font family, size, weight,
+line height and tracking, with no clipped copy or horizontal overflow. Run
+`node --test src/app/home-typography.test.mjs src/app/newsletter-contrast.test.mjs`
+to verify the shared tokens, component coverage and Newsletter contrast.
+
+The Newsletter field retains its compact 576px maximum width, small vertical
+padding and 20px envelope icon. Its 16px mobile input size prevents automatic
+zoom in touch browsers, while the description and Subscribe action follow the
+shared Home body and action roles.
 
 ## Footer Width Verification
 

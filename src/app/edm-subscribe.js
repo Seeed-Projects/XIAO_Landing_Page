@@ -18,8 +18,8 @@ export function EdmSubscribe() {
       <div aria-hidden="true" className="home-newsletter-overlay pointer-events-none absolute inset-0" />
       <div className="relative z-10 ml-auto flex min-h-[500px] w-full items-center px-7 py-12 sm:min-h-[560px] sm:px-12 lg:w-[52%] lg:px-16">
         <div className="w-full max-w-[660px]">
-          <h3 className="text-4xl font-bold tracking-[-0.02em] text-white sm:text-5xl">XIAO Newsletter</h3>
-          <p className="home-newsletter-copy mt-5 max-w-xl text-base leading-[1.65] sm:text-lg">
+          <h3 className="home-type-title text-white">XIAO Newsletter</h3>
+          <p className="home-newsletter-copy home-type-body mt-5 max-w-xl">
             {zh ? (
               <>双周更新：产品、项目、<br className="hidden sm:block" />资讯、早鸟计划与更多</>
             ) : (
@@ -29,8 +29,8 @@ export function EdmSubscribe() {
 
           {status === "success" ? (
             <div className="mt-10 rounded-xl border-2 border-white/30 bg-white/95 px-5 py-6 sm:px-7">
-              <p className="text-2xl font-bold text-black sm:text-3xl">🎉 {tr("You're subscribed!", "订阅成功！")}</p>
-              <p className="mt-2 text-base leading-7 text-black/80 sm:text-lg">
+              <p className="home-type-subtitle text-black">🎉 {tr("You're subscribed!", "订阅成功！")}</p>
+              <p className="home-type-body mt-2 text-black/80">
                 {msg || tr(
                   "Almost done — check your inbox to confirm your subscription.",
                   "就差一步——请到收件箱确认订阅。"
@@ -39,7 +39,7 @@ export function EdmSubscribe() {
               <button
                 type="button"
                 onClick={reset}
-                className="mt-5 inline-flex items-center rounded-full bg-[var(--button-bg)] px-8 py-3 text-base font-bold text-[#13230c] transition hover:bg-[var(--button-bg-hover)]"
+                className="home-type-action mt-5 inline-flex items-center rounded-full bg-[var(--button-bg)] px-8 py-3 text-[#13230c] transition hover:bg-[var(--button-bg-hover)]"
               >
                 {tr("Subscribe another email", "订阅其他邮箱")}
               </button>
@@ -59,7 +59,7 @@ export function EdmSubscribe() {
                   placeholder={tr("Your email here", "请输入你的邮箱")}
                   aria-label={tr("Your email here", "请输入你的邮箱")}
                   disabled={status === "loading"}
-                  className="min-w-0 flex-1 bg-transparent text-base leading-[1.65] text-black outline-none placeholder:text-black/90 disabled:opacity-60 sm:text-lg"
+                  className="home-type-body min-w-0 flex-1 bg-transparent text-black outline-none placeholder:text-black/90 disabled:opacity-60"
                 />
               </div>
               {status === "error" && msg && (
@@ -74,7 +74,7 @@ export function EdmSubscribe() {
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="mt-6 inline-flex min-w-[200px] items-center justify-center rounded-full bg-[var(--button-bg)] px-9 py-3 text-base font-bold text-[#13230c] transition hover:bg-[var(--button-bg-hover)] disabled:cursor-not-allowed disabled:opacity-60 sm:text-lg"
+                className="home-type-action mt-6 inline-flex min-w-[200px] items-center justify-center rounded-full bg-[var(--button-bg)] px-9 py-3 text-[#13230c] transition hover:bg-[var(--button-bg-hover)] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {status === "loading" ? tr("Subscribing…", "订阅中…") : tr("Subscribe", "订阅")}
               </button>

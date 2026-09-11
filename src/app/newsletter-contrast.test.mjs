@@ -41,10 +41,10 @@ test("newsletter copy stays readable over the brightest possible photo", () => {
   }
 });
 
-test("newsletter description and email input match the news introduction size", () => {
-  assert.match(component, /home-newsletter-copy[^\n]*text-base leading-\[1\.65\] sm:text-lg/);
-  assert.match(component, /className="min-w-0 flex-1 bg-transparent text-base leading-\[1\.65\][^\n]*sm:text-lg"/);
-  assert.doesNotMatch(component, /home-newsletter-copy[^\n]*text-xl|placeholder:[^\n]*sm:text-2xl/);
+test("newsletter description and email input use the shared Home body role", () => {
+  assert.match(component, /home-newsletter-copy home-type-body/);
+  assert.match(component, /className="home-type-body min-w-0 flex-1 bg-transparent/);
+  assert.match(css, /\.home-type-body,\s*\.home-type-action \{[\s\S]*?font-size: var\(--home-body-size\);[\s\S]*?font-weight: var\(--home-body-weight\);/);
 });
 
 test("newsletter field uses a compact width and height", () => {
@@ -53,7 +53,7 @@ test("newsletter field uses a compact width and height", () => {
   assert.match(component, /className="h-5 w-5 shrink-0/);
 });
 
-test("newsletter action uses a compact primary-button scale", () => {
-  assert.match(component, /min-w-\[200px\][^\n]*px-9 py-3 text-base[^\n]*sm:text-lg/);
-  assert.doesNotMatch(component, /min-w-\[250px\][^\n]*px-12 py-4 text-xl/);
+test("newsletter action uses the shared Home action role at a compact scale", () => {
+  assert.match(component, /home-type-action[^\n]*min-w-\[200px\][^\n]*px-9 py-3/);
+  assert.doesNotMatch(component, /min-w-\[250px\][^\n]*px-12 py-4/);
 });

@@ -72,7 +72,7 @@ export default function Home() {
                   href={OSHW_HUB_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 rounded-full border border-[var(--button-bg)] bg-[var(--button-bg)] px-6 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(143,195,31,0.22)] transition hover:-translate-y-0.5 hover:border-[var(--button-bg-hover)] hover:bg-[var(--button-bg-hover)]"
+                  className="home-type-action group inline-flex items-center gap-2 rounded-full border border-[var(--button-bg)] bg-[var(--button-bg)] px-6 py-3 text-white shadow-[0_8px_24px_rgba(143,195,31,0.22)] transition hover:-translate-y-0.5 hover:border-[var(--button-bg-hover)] hover:bg-[var(--button-bg-hover)]"
                   style={{ color: "#fff" }}
                 >
                   {isEn ? "Explore more" : "探索更多"}
@@ -116,10 +116,10 @@ export default function Home() {
           <div className="w-full">
             <div className="mx-auto w-full max-w-[1808px] px-6 text-center sm:px-10 lg:px-16">
               <Reveal>
-                <h2 className="text-4xl font-bold leading-[1.12] tracking-[-0.035em] text-[#18224f] sm:text-5xl lg:text-[3.5rem]">
+                <h2 className="home-type-title text-[#18224f]">
                   {isEn ? "XIAO in the News" : "XIAO 新闻动态"}
                 </h2>
-                <p className="mx-auto mt-4 max-w-3xl text-base leading-[1.65] text-[#526b91] sm:text-lg">
+                <p className="home-type-body mx-auto mt-4 max-w-3xl text-[#526b91]">
                   {isEn
                     ? "Discover the latest news on XIAO, updates from Seeed and from our community all over the world"
                     : "了解 XIAO 最新资讯，以及来自 Seeed 和全球社区的动态。"}

@@ -29,16 +29,16 @@ export function CoCreateSection() {
       {/* 上部：共创主视觉文案，与下部 gif 同处一张卡片 */}
       <div className="relative z-10 p-7 sm:p-8">
         <div className="mx-auto max-w-6xl">
-          <h3 className="text-center font-display text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">
+          <h3 className="home-type-title text-center">
             {c.banner.title}
           </h3>
           <div className="mt-7 grid items-center gap-7 md:grid-cols-[minmax(0,1fr)_auto] md:gap-12">
-            <p className="text-left text-base font-normal leading-[1.65] text-white/88">{c.banner.text}</p>
+            <p className="home-type-body text-left text-white/88">{c.banner.text}</p>
             <a
               href="https://www.seeedstudio.com/co-create.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-w-[180px] items-center justify-center justify-self-start rounded-full bg-[var(--button-bg)] px-7 py-3 text-sm font-semibold text-white transition hover:bg-[var(--button-bg-hover)] md:justify-self-end"
+              className="home-type-action inline-flex min-w-[180px] items-center justify-center justify-self-start rounded-full bg-[var(--button-bg)] px-7 py-3 text-white transition hover:bg-[var(--button-bg-hover)] md:justify-self-end"
             >
               {c.banner.cta}
               <span className="ml-2">→</span>
@@ -58,8 +58,8 @@ export function CoCreateSection() {
 
       <div className={`${expanded ? "max-h-[900px] opacity-100" : "pointer-events-none max-h-0 opacity-0"} overflow-hidden bg-[#f3f7f8] text-[#18224f] transition-[max-height,opacity] duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transition-none`}>
         <div className={`${expanded ? "translate-y-0" : "translate-y-4"} px-6 py-14 transition-transform duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transform-none motion-reduce:transition-none sm:px-10 lg:px-12`}>
-          <h3 className="text-center text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">Scale-up Co-Create Projects</h3>
-          <p className="mx-auto mt-4 max-w-3xl text-center text-base leading-[1.65] text-[#526b91] sm:text-lg">Find out how the community is scaling up their XIAO-based projects via our Fusion Co-Create.</p>
+          <h3 className="home-type-title text-center">Scale-up Co-Create Projects</h3>
+          <p className="home-type-body mx-auto mt-4 max-w-3xl text-center text-[#526b91]">Find out how the community is scaling up their XIAO-based projects via our Fusion Co-Create.</p>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {SCALE_PROJECTS.map((project) => (
               <a key={project.title} href={project.href} target="_blank" rel="noopener noreferrer" className="group/project block text-left">
@@ -67,7 +67,7 @@ export function CoCreateSection() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={withBase(project.image)} alt={project.title} className="h-full w-full object-cover transition duration-300 group-hover/project:scale-[1.025]" />
                 </div>
-                <h4 className="mt-4 text-[15px] font-bold leading-snug text-[#18224f]">{project.title}</h4>
+                <h4 className="home-type-subtitle mt-4 text-[#18224f]">{project.title}</h4>
               </a>
             ))}
           </div>
@@ -77,7 +77,7 @@ export function CoCreateSection() {
               href="https://www.seeedstudio.com/blog/category/licensed-products-case-stories/"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 rounded-full bg-[#8fc31f] px-12 py-3 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#79ad12]"
+              className="home-type-action group inline-flex items-center gap-2 rounded-full bg-[#8fc31f] px-12 py-3 text-white transition hover:-translate-y-0.5 hover:bg-[#79ad12]"
               style={{ color: "#fff" }}
             >
               Explore more

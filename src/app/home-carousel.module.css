@@ -64,18 +64,18 @@
 
 .heroContent h1 {
   margin: 0;
-  font-size: clamp(44px, 3.7vw, 80px);
-  font-weight: 700;
-  line-height: 1.03;
-  letter-spacing: -.035em;
+  font-size: var(--home-title-size);
+  font-weight: var(--home-title-weight);
+  line-height: var(--home-title-leading);
+  letter-spacing: var(--home-title-tracking);
 }
 
 .heroContent p {
   margin: clamp(20px, 2vw, 38px) 0 0;
-  font-size: clamp(22px, 1.9vw, 40px);
-  font-weight: 400;
-  line-height: 1.22;
-  letter-spacing: -.02em;
+  font-size: var(--home-subtitle-size);
+  font-weight: var(--home-subtitle-weight);
+  line-height: var(--home-subtitle-leading);
+  letter-spacing: normal;
 }
 
 .heroCta {
@@ -90,9 +90,9 @@
   background: var(--button-bg);
   box-shadow: 0 12px 34px rgba(108, 151, 18, .3);
   color: #10200a;
-  font-size: clamp(18px, 1.35vw, 30px);
-  font-weight: 700;
-  line-height: 1;
+  font-size: var(--home-body-size);
+  font-weight: var(--home-body-weight);
+  line-height: var(--home-body-leading);
   text-shadow: none;
   transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
 }
@@ -167,9 +167,8 @@
     left: 24px;
     width: calc(100% - 48px);
   }
-  .heroContent h1 { font-size: clamp(38px, 11vw, 52px); }
-  .heroContent p { margin-top: 18px; font-size: clamp(20px, 5.8vw, 26px); }
-  .heroCta { min-width: 148px; min-height: 52px; margin-top: 26px; font-size: 18px; }
+  .heroContent p { margin-top: 18px; }
+  .heroCta { min-width: 148px; min-height: 52px; margin-top: 26px; }
   .arrow { width: 36px; height: 48px; }
   .previous { left: 8px; }
   .next { right: 8px; }

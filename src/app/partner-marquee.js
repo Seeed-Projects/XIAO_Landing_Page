@@ -44,7 +44,7 @@ function PartnerRow({ group, label, index }) {
 
   return (
     <div ref={ref} className="partner-row" data-visible={visible}>
-      <h3 id={`partner-category-${index}`} className="partner-category">{label}</h3>
+      <h3 id={`partner-category-${index}`} className="home-type-subtitle partner-category">{label}</h3>
       <div className="partner-window" role="group" aria-labelledby={`partner-category-${index}`}>
         <div className="partner-track" style={{ animationDuration: `${duration}s` }}>
           {[0, 1].map((half) => (

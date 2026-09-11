@@ -13,7 +13,8 @@ test("home hero presents the requested message and Products action", () => {
   assert.match(component, /ctaLabel: "Explore"/);
   assert.match(component, /ctaHref: "\/products\/"/);
   assert.match(component, /href=\{withBase\(slide\.ctaHref\)\}/);
-  assert.match(component, /<h1>\{slide\.title\}<\/h1>/);
+  assert.match(component, /<h1 className="home-type-title">\{slide\.title\}<\/h1>/);
+  assert.match(component, /<p className="home-type-subtitle">\{slide\.description\}<\/p>/);
   assert.doesNotMatch(page, /<h1 className="sr-only">Seeed Studio XIAO<\/h1>/);
 });
 

@@ -1,3 +1,47 @@
+# Home Typography Design QA
+
+final result: passed
+
+## Visual Evidence
+
+- Reference elements were measured in the running Home page: XIAO Playground
+  for section titles, Popular SoCs Integrated for subtitles, and the About XIAO
+  introduction for descriptions and text actions.
+- Desktop viewport: 1440 x 900 CSS pixels. About, Features, Playground,
+  Co-Create and Newsletter were inspected after their entrance motion settled.
+- Mobile viewport: 390 x 844 CSS pixels. The complete Home heading inventory
+  was checked in English, together with horizontal overflow and the mobile hero
+  transition into the next section.
+
+## Typography System
+
+- Section titles: Montserrat, 700 weight, 1.12 line height, `-0.035em` tracking,
+  and `clamp(28px, 3.6vw, 44px)` sizing.
+- Subtitles: Montserrat, 20px, 700 weight, 1.5 line height and normal tracking.
+- Descriptions and text actions: Montserrat, 400 weight, 1.65 line height,
+  normal tracking, 15px on phones and 16px from 640px.
+- The hero title and supporting line use the title and subtitle roles. Navigation,
+  footer, metrics, labels and form hints remain auxiliary typography. Mobile
+  email inputs remain 16px to prevent touch-browser focus zoom.
+
+## Findings and Verification
+
+- Before standardization, content headings ranged from 24px to 56px and used
+  both 600 and 700 weights; body and action text ranged from 14px to 18px with
+  several weights. These P1 consistency differences are resolved through the
+  shared semantic roles.
+- Desktop computed styles form exactly one group per role: 12 titles at
+  44px/700, 46 subtitles at 20px/700, 22 descriptions at 16px/400 and 16 text
+  actions at 16px/400.
+- Mobile content roles resolve to 28px/700 titles, 20px/700 subtitles and
+  15px/400 descriptions/actions. The 16px email input is the documented form
+  control exception.
+- All Home content headings are classified. Long project and news titles retain
+  their existing two-line clamp, Playground tool copy stays inside the widened
+  panel, and the page has no horizontal overflow at 390px.
+- The project rule, regression tests and this QA record define the same four
+  roles. No route, content, asset, dependency or interaction behavior changed.
+
 # Home Hero Design QA
 
 final result: passed

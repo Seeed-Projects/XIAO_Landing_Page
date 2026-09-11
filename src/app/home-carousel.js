@@ -66,9 +66,9 @@ export function HomeCarousel() {
               decoding="async"
             />
             <div className={styles.heroContent}>
-              <h1>{slide.title}</h1>
-              <p>{slide.description}</p>
-              <a className={styles.heroCta} href={withBase(slide.ctaHref)}>
+              <h1 className="home-type-title">{slide.title}</h1>
+              <p className="home-type-subtitle">{slide.description}</p>
+              <a className={`${styles.heroCta} home-type-action`} href={withBase(slide.ctaHref)}>
                 {slide.ctaLabel}
               </a>
             </div>

@@ -53,18 +53,18 @@ export function VideoIntroSection() {
         <Reveal delay={150} className="space-y-4">
           <Glow
             as="h2"
-            className="font-display text-[24px] font-bold leading-tight tracking-[-0.02em] text-[#18224f] sm:text-[28px]"
+            className="home-type-title text-[#18224f]"
           >
             {copy.title}
           </Glow>
-          <p className="max-w-[640px] text-[15px] leading-[1.65] text-[#526b91] sm:text-[16px]">
+          <p className="home-type-body max-w-[640px] text-[#526b91]">
             {copy.body}
           </p>
           <a
             href="https://mailchi.mp/seeed/xiao"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 rounded-full bg-[var(--button-bg)] px-6 py-3 text-sm font-bold text-[var(--button-text)] shadow-[0_12px_26px_rgba(143,195,31,0.22)] transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]"
+            className="home-type-action group inline-flex items-center gap-2 rounded-full bg-[var(--button-bg)] px-6 py-3 text-[var(--button-text)] shadow-[0_12px_26px_rgba(143,195,31,0.22)] transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]"
             style={{ color: "#fff" }}
           >
             {isEn ? "Join the XIAO Newsletter" : "订阅 XIAO Newsletter"}

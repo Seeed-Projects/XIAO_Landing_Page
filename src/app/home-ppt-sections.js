@@ -26,12 +26,12 @@ export function FeaturesSection() {
   const { lang } = useLang();
   return <section id="features" className="section home-section bg-[#f4f6f7] px-6 sm:px-10 lg:px-16">
     <div className="home-content">
-      <Reveal><h2 className="text-center text-4xl font-bold leading-[1.12] tracking-[-0.035em] text-[#18224f] sm:text-5xl lg:text-[3.5rem]">{lang === "en" ? "Features" : "特性一览"}</h2></Reveal>
+      <Reveal><h2 className="home-type-title text-center text-[#18224f]">{lang === "en" ? "Features" : "特性一览"}</h2></Reveal>
       <div className="home-feature-grid">
         {FEATURES.map((item, i) => { const copy = lang === "en" ? item.en : item.zh; return <Reveal key={item.en[0]} delay={i * 70} className="home-feature">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={withBase(item.image)} alt="" />
-          <div><h3>{copy[0]}</h3><p>{copy[1]}</p></div>
+          <div><h3 className="home-type-subtitle">{copy[0]}</h3><p className="home-type-body">{copy[1]}</p></div>
         </Reveal>; })}
       </div>
     </div>
@@ -44,16 +44,16 @@ export function GlimpseSection() {
   const pick = (f) => (f && f[lang]) || (f && f.en) || "";
   return <section id="glimpse" className="section home-section bg-white px-6 sm:px-10 lg:px-16">
     <div className="home-content home-glimpse">
-      <Reveal className="text-center"><h2 className="text-4xl font-semibold leading-[1.12] tracking-[-0.035em] text-[#18224f] sm:text-5xl lg:text-[3.5rem]">{zh ? "XIAO 一览" : "XIAO in a Glimpse"}</h2><p className="mx-auto mt-4 max-w-5xl text-base leading-[1.65] text-[#526b91] sm:text-lg">{zh ? "从核心开发板到扩展配件和开箱即用的智能设备——一个生态，无限可能" : "From core development boards to expansion add-ons and ready-to-use smart gadgets — one ecosystem, endless possibilities"}</p></Reveal>
+      <Reveal className="text-center"><h2 className="home-type-title text-[#18224f]">{zh ? "XIAO 一览" : "XIAO in a Glimpse"}</h2><p className="home-type-body mx-auto mt-4 max-w-5xl text-[#526b91]">{zh ? "从核心开发板到扩展配件和开箱即用的智能设备——一个生态，无限可能" : "From core development boards to expansion add-ons and ready-to-use smart gadgets — one ecosystem, endless possibilities"}</p></Reveal>
       <div className="mt-10 grid gap-6 md:grid-cols-3">
         {GLIMPSE.map((card, i) => <Reveal key={card.no} delay={i * 80} className="overflow-hidden rounded-2xl border border-[#e6e9ef] bg-white shadow-[0_12px_30px_rgba(26,39,77,.08)] transition hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(26,39,77,.14)]">
           <Link href={`/products?cat=${card.cat}#products-catalog`} className="flex h-full flex-col">
           <div className="home-glimpse-image relative h-40 shrink-0 overflow-hidden bg-[#f6faf8]"><div className="absolute inset-0 bg-cover bg-center opacity-90" style={{backgroundImage:`url(${withBase(card.image || defaultXiaoImage)})`}} /><span className="absolute left-4 top-4 rounded bg-white px-2 py-1 font-mono text-xs" style={{color:card.tone}}>{card.no}</span></div>
-          <div className="home-glimpse-copy flex flex-1 flex-col border-t-2 p-5" style={{borderColor:card.tone}}><p className="text-xs font-semibold" style={{color:card.tone}}>{pick(card.eyebrow)}</p><h3 className="mt-2 text-xl font-bold text-[#18224f]">{pick(card.title)}</h3><p className="mt-3 text-sm leading-6 text-[#526b91]">{pick(card.text)}</p><div className="mt-auto flex flex-wrap gap-2 pt-5">{pick(card.tags).map((tag) => <span key={tag} className="rounded-md bg-[#f7f9fc] px-2.5 py-1 text-[11px] font-semibold" style={{color:card.tone}}>{tag}</span>)}</div></div>
+          <div className="home-glimpse-copy flex flex-1 flex-col border-t-2 p-5" style={{borderColor:card.tone}}><p className="text-xs font-semibold" style={{color:card.tone}}>{pick(card.eyebrow)}</p><h3 className="home-type-subtitle mt-2 text-[#18224f]">{pick(card.title)}</h3><p className="home-type-body mt-3 text-[#526b91]">{pick(card.text)}</p><div className="mt-auto flex flex-wrap gap-2 pt-5">{pick(card.tags).map((tag) => <span key={tag} className="rounded-md bg-[#f7f9fc] px-2.5 py-1 text-[11px] font-semibold" style={{color:card.tone}}>{tag}</span>)}</div></div>
           </Link>
         </Reveal>)}
       </div>
-      <Reveal className="mt-8 flex justify-center"><a href={withBase("/products")} style={{ color: "#fff" }} className="rounded-full bg-[var(--button-bg)] px-10 py-3 text-base font-semibold text-white shadow-[0_8px_24px_rgba(143,195,31,0.18)] transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]">{zh ? "Seeed Studio XIAO 选型器" : "Seeed Studio XIAO Selector"}</a></Reveal>
+      <Reveal className="mt-8 flex justify-center"><a href={withBase("/products")} style={{ color: "#fff" }} className="home-type-action rounded-full bg-[var(--button-bg)] px-10 py-3 text-white shadow-[0_8px_24px_rgba(143,195,31,0.18)] transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]">{zh ? "Seeed Studio XIAO 选型器" : "Seeed Studio XIAO Selector"}</a></Reveal>
     </div>
   </section>;
 }
@@ -61,11 +61,11 @@ export function GlimpseSection() {
 export function RoadmapCallout() {
   const { lang } = useLang();
   return <section id="roadmap" className="section home-section bg-white px-6 sm:px-10 lg:px-16"><div className="home-content text-center">
-    <Reveal><h2 className="text-4xl font-bold leading-[1.12] tracking-[-0.035em] text-[#18224f] sm:text-5xl lg:text-[3.5rem]">{lang === "en" ? "You Decide What We Build Next" : "下一款 XIAO，由你决定"}</h2><p className="mx-auto mt-5 max-w-5xl text-base leading-[1.65] text-[#526b91] sm:text-lg">{lang === "en" ? "We’re open-sourcing our roadmap for XIAO on GitHub, and you have a say in it. Vote for your favorite entries, suggest features, propose new products, or share feedback." : "我们在 GitHub 上公开 XIAO 路线图。你可以投票、建议功能、提出新产品，或直接分享反馈。"}</p></Reveal>
+    <Reveal><h2 className="home-type-title text-[#18224f]">{lang === "en" ? "You Decide What We Build Next" : "下一款 XIAO，由你决定"}</h2><p className="home-type-body mx-auto mt-5 max-w-5xl text-[#526b91]">{lang === "en" ? "We’re open-sourcing our roadmap for XIAO on GitHub, and you have a say in it. Vote for your favorite entries, suggest features, propose new products, or share feedback." : "我们在 GitHub 上公开 XIAO 路线图。你可以投票、建议功能、提出新产品，或直接分享反馈。"}</p></Reveal>
     <Reveal delay={100} className="mx-auto mt-10 max-w-4xl">
       <div className="flex items-center gap-4 rounded-2xl bg-[#f3f5f1] p-4 shadow-[0_5px_18px_rgba(35,52,29,0.08)] sm:gap-6 sm:p-6">
-        <p className="min-w-0 flex-1 text-left text-base leading-[1.6] text-[#35473c] sm:text-lg"><TypewriterText key={lang} text={lang === "en" ? "Developers, join us and shape the next XIAO!" : "\u5f00\u53d1\u8005\uff0c\u52a0\u5165\u6211\u4eec\uff0c\u5171\u540c\u6253\u9020\u4e0b\u4e00\u6b3e XIAO\uff01"} /></p>
-        <a href={withBase("/open-roadmap")} style={{ color: "#182b0c" }} className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-[#9dcc3c] px-3 py-3 text-sm font-bold text-[#182b0c] transition-[transform,background-color] duration-150 hover:bg-[#8ab833] active:scale-95 motion-reduce:transform-none motion-reduce:transition-none sm:px-6 sm:text-base">
+        <p className="home-type-body min-w-0 flex-1 text-left text-[#35473c]"><TypewriterText key={lang} text={lang === "en" ? "Developers, join us and shape the next XIAO!" : "\u5f00\u53d1\u8005\uff0c\u52a0\u5165\u6211\u4eec\uff0c\u5171\u540c\u6253\u9020\u4e0b\u4e00\u6b3e XIAO\uff01"} /></p>
+        <a href={withBase("/open-roadmap")} style={{ color: "#182b0c" }} className="home-type-action inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-[#9dcc3c] px-3 py-3 text-[#182b0c] transition-[transform,background-color] duration-150 hover:bg-[#8ab833] active:scale-95 motion-reduce:transform-none motion-reduce:transition-none sm:px-6">
           {lang === "en" ? "Join Now" : "立即加入"}
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
         </a>
@@ -90,8 +90,8 @@ export function PlaygroundSection() {
         <div className="home-playground-panel">
           <div className="home-playground-hub">
             <Reveal className="home-playground-heading text-center">
-              <h2 className="text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">XIAO Playground</h2>
-              <p className="mx-auto mt-5 max-w-3xl text-base leading-[1.65] sm:text-lg">
+              <h2 className="home-type-title">XIAO Playground</h2>
+              <p className="home-type-body mx-auto mt-5 max-w-3xl">
                 {zh ? "\u9009\u4e00\u5757 XIAO\uff0c\u63a2\u7d22\u3001\u521b\u9020\uff0c\u73a9\u8d77\u6765\u3002" : "Pick a board. Explore. Build. Play."}
               </p>
             </Reveal>
@@ -102,14 +102,14 @@ export function PlaygroundSection() {
                   return (
                     <Link key={tool.key} href={tool.href} className="home-playground-tool" data-tool={tool.key}>
                       <span className="home-playground-tool-icon"><PlaygroundToolIcon type={tool.icon} /></span>
-                      <div><h3>{title}</h3><p>{description}</p></div>
+                      <div><h3 className="home-type-subtitle">{title}</h3><p className="home-type-body">{description}</p></div>
                       <span className="home-playground-tool-arrow" aria-hidden="true">{"\u2192"}</span>
                     </Link>
                   );
                 })}
               </Reveal>
               <Reveal className="home-playground-action">
-                <Link href="/playground" className="home-playground-cta inline-flex items-center justify-center gap-3 rounded-full px-8 py-3 text-base font-bold transition">
+                <Link href="/playground" className="home-type-action home-playground-cta inline-flex items-center justify-center gap-3 rounded-full px-8 py-3 transition">
                   {zh ? "\u5f00\u59cb\u73a9\uff01" : "Let\u2019s Play!"}<span aria-hidden="true">{"\u2192"}</span>
                 </Link>
               </Reveal>

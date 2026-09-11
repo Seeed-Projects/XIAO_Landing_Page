@@ -49,11 +49,11 @@ export function ScrollCard({ image, tag, meta, title, excerpt, alt = "", variant
             <span className="truncate text-[11px] text-[var(--ink-muted)]">{meta}</span>
           )}
         </div>
-        <h3 className={`${titleGap} line-clamp-2 text-sm font-bold leading-snug text-[var(--ink-strong)] sm:text-[15px]`}>
+        <h3 className={`home-type-subtitle ${titleGap} line-clamp-2 text-[var(--ink-strong)]`}>
           {title}
         </h3>
         {excerpt && (
-          <p className={`${excerptCls} text-xs leading-relaxed text-[var(--ink-body)] sm:text-[13px]`}>
+          <p className={`home-type-body ${excerptCls} text-[var(--ink-body)]`}>
             {excerpt}
           </p>
         )}
