@@ -25,20 +25,19 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 The Home hero places the primary message over the existing XIAO product image.
 The Explore action opens the XIAO Products page and includes a right arrow that
 moves subtly on hover or keyboard focus.
-Desktop layouts place the copy on the same centered 1800px content grid used by
-the rest of the page. The hero title keeps the shared title family and 700
-weight at a poster-scale responsive 80–168px size. A muted blue relief treatment
-combines a softly lit text face with a shallow dark-blue extrusion. Both layers
-stay opaque across the upper two thirds and fade together into the photograph
-across the lower third through an opacity mask. The decorative depth
-layer is hidden from assistive technology. A clipped copy of the original upright
-ruler appears in front of the title on desktop.
+Desktop supporting copy and its action align responsively with the midpoint of the
+initial `S` in the title. The hero title uses generated cinematic artwork at 75% of the hero
+width, combining smoked navy glass, a restrained cyan edge light and shallow
+matte-blue depth. Its upper two thirds remain visible while the lower third fades
+into the photograph. The accessible `h1` label remains in the page structure.
+The artwork uses a restrained 75vw desktop width and a calibrated horizontal offset so the center of the `I` in `XIAO`
+aligns with the original upright ruler, which remains in front of the title.
 Entering the hero reveals
 the title through a soft blur-and-rise transition; leaving and returning replays
 the motion. A 22–28px title gap and 34px action gap keep the supporting copy and
 180px desktop action clear of the product lineup. Phone layouts preserve a
-roughly three-quarter-screen hero and use a responsive 38–72px title, 24px side
-padding, an 18px title gap, a 28px action gap and a compact 148px action.
+roughly three-quarter-screen hero and use a dedicated two-line version of the
+same title artwork, responsive initial-`S` copy alignment, a 28px action gap and a compact 148px action.
 
 With the existing dependencies installed, run `npm run dev -- --port 3000` and
 open `http://localhost:3000/XIAO_Landing_Page/#hero`. At desktop and 390px phone
@@ -143,9 +142,9 @@ line height. Descriptions match the About XIAO introduction at 15px on phones
 and 16px from the small breakpoint, 400 weight and 1.65 line height. Action
 labels use the same family, size and line height at 700 weight; filled actions
 use white labels. The hero campaign copy, navigation, footer, metrics, labels and form
-hints keep their purpose-specific compact styles. The hero title uses the
-larger hero-title role with the same family and weight as section titles, its
-own compact spacing and brand blue color, and the subtitle role for its short supporting line.
+hints keep their purpose-specific compact styles. The hero title uses dedicated
+cinematic artwork while retaining an accessible heading label; its short supporting
+line continues to use the shared subtitle role.
 
 With the preview running, open
 `http://localhost:3000/XIAO_Landing_Page/` and compare About, Features,

@@ -74,11 +74,23 @@ export function HomeCarousel() {
               fetchPriority={index === 0 ? "high" : "auto"}
               decoding="async"
             />
+            <h1
+              className={`${styles.heroTitle} ${heroVisible ? styles.heroTitleVisible : ""} home-type-hero-title`}
+              aria-label={slide.title}
+            >
+              <picture className={styles.heroTitleArtwork}>
+                <source media="(max-width: 700px)" srcSet={withBase("/home-carousel/hero-title-cinematic-mobile.png")} />
+                <img
+                  src={withBase("/home-carousel/hero-title-cinematic.png")}
+                  alt=""
+                  aria-hidden="true"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                />
+              </picture>
+            </h1>
             <div className={styles.heroContent}>
-              <h1 className={`${styles.heroTitle} ${heroVisible ? styles.heroTitleVisible : ""} home-type-hero-title`}>
-                <span className={styles.heroTitleDepth} aria-hidden="true">{slide.title}</span>
-                <span className={styles.heroTitleFace}>{slide.title}</span>
-              </h1>
               <p className="home-type-subtitle">{slide.description}</p>
               <a className={`${styles.heroCta} home-type-action home-filled-action`} href={withBase(slide.ctaHref)}>
                 {slide.ctaLabel}

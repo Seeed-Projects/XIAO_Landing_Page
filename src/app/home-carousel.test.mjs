@@ -17,15 +17,21 @@ test("home hero presents the requested message and Products action", () => {
   assert.match(component, /href=\{withBase\(slide\.ctaHref\)\}/);
   assert.match(component, /styles\.heroTitleVisible/);
   assert.match(component, /<h1[\s\S]*?styles\.heroTitle[\s\S]*?home-type-hero-title/);
-  assert.match(component, /<span className=\{styles\.heroTitleFace\}>\{slide\.title\}<\/span>/);
+  assert.match(component, /aria-label=\{slide\.title\}/);
+  assert.match(component, /hero-title-cinematic\.png/);
+  assert.match(component, /hero-title-cinematic-mobile\.png/);
   assert.match(component, /<p className="home-type-subtitle">\{slide\.description\}<\/p>/);
   assert.doesNotMatch(page, /<h1 className="sr-only">Seeed Studio XIAO<\/h1>/);
 });
 
-test("home hero relief uses a decorative depth layer and a readable text face", () => {
-  assert.match(component, /className=\{styles\.heroTitleDepth\} aria-hidden="true"/);
-  assert.match(css, /\.heroTitleDepth \{[^}]*position: absolute;[^}]*pointer-events: none;[^}]*text-shadow:/);
-  assert.match(css, /\.heroTitleFace \{[^}]*background: linear-gradient[^}]*background-clip: text;/);
+test("home hero uses generated cinematic artwork while retaining an accessible heading", () => {
+  assert.match(component, /<picture className=\{styles\.heroTitleArtwork\}>/);
+  assert.match(component, /alt=""\s+aria-hidden="true"/);
+  assert.match(css, /--hero-title-left: 4vw;/);
+  assert.match(css, /--hero-title-width: 75vw;/);
+  assert.match(css, /--hero-copy-left: 9\.75vw;/);
+  assert.match(css, /\.heroContent \{[^}]*left: var\(--hero-copy-left\);[^}]*width: calc\(100% - var\(--hero-copy-left\)\);/);
+  assert.match(css, /\.heroTitle \{[^}]*left: var\(--hero-title-left\);[^}]*width: var\(--hero-title-width\);[^}]*mix-blend-mode: screen;/);
 });
 
 test("home hero copy remains readable and responsive", () => {
@@ -37,16 +43,15 @@ test("home hero copy remains readable and responsive", () => {
   assert.match(css, /\.heroCta:focus-visible \{[\s\S]*?outline: 3px solid #fff;/);
 });
 
-test("home hero copy follows the centered content grid with compact spacing", () => {
-  assert.match(css, /\.heroContent \{[\s\S]*?left: 50%;[\s\S]*?width: min\(100%, 1800px\);[\s\S]*?translate\(-50%, -50%\)/);
-  assert.match(css, /\.heroContent p \{[\s\S]*?margin: clamp\(22px, 1\.4vw, 28px\) 0 0;/);
+test("home hero copy follows the title alignment with compact spacing", () => {
+  assert.match(css, /\.heroContent \{[\s\S]*?left: var\(--hero-copy-left\);[\s\S]*?width: calc\(100% - var\(--hero-copy-left\)\);[\s\S]*?transform: none;/);
+  assert.match(css, /\.heroContent p \{[\s\S]*?margin: 0;/);
   assert.match(css, /\.heroCta \{[\s\S]*?min-width: 180px;[\s\S]*?min-height: 52px;[\s\S]*?margin-top: 34px;/);
 });
 
 test("home hero title is oversized, fades into the image and replays on re-entry", () => {
   assert.match(component, /new IntersectionObserver/);
   assert.match(component, /setHeroVisible\(entry\.isIntersecting\)/);
-  assert.match(css, /\.heroTitle \{[\s\S]*?font-size: clamp\(80px, 9vw, 168px\);/);
   assert.match(css, /\.heroTitle \{[\s\S]*?linear-gradient\(\s*180deg/);
   assert.match(css, /\.heroTitle \{[\s\S]*?mask-image: linear-gradient/);
   assert.match(css, /mask-image: linear-gradient\([^;]*#000 66\.667%[^;]*transparent 100%/);

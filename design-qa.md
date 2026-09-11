@@ -15,9 +15,8 @@ final result: passed
 
 ## Typography System
 
-- Hero title: Montserrat, 700 weight, `.88` line height, `-0.04em` tracking and
-  `clamp(80px, 9vw, 168px)` desktop sizing. Phones use a responsive 38–72px
-  scale with `1.08` line height.
+- Hero title: generated cinematic artwork at 80vw on desktop, with a dedicated
+  two-line mobile asset. The accessible heading keeps the exact title text.
 - Section titles: Montserrat, 700 weight, 1.12 line height, `-0.035em` tracking,
   and `clamp(28px, 3.6vw, 44px)` sizing.
 - Subtitles: Montserrat, 20px, 700 weight, 1.5 line height and normal tracking.
@@ -36,11 +35,11 @@ final result: passed
   both 600 and 700 weights; body and action text ranged from 14px to 18px with
   several weights. These P1 consistency differences are resolved through the
   shared semantic roles.
-- Desktop computed styles form exactly one group per role: one hero title at up
-  to 168px/700, 11 section titles at 44px/700, 46 subtitles at 20px/700, 22
+- Desktop computed styles form exactly one group per live-text role: 11 section
+  titles at 44px/700, 46 subtitles at 20px/700, 22
   descriptions at 16px/400 and 16 text actions at 16px/700.
-- Mobile roles resolve to 38–72px/700 for the hero title, 28px/700 for section
-  titles, 20px/700 for subtitles, 15px/400 for descriptions and 15px/700 for
+- Mobile roles resolve to 28px/700 for section titles, 20px/700 for subtitles,
+  15px/400 for descriptions and 15px/700 for
   actions. The
   16px email input is the documented form control exception.
 - All Home content headings are classified. Long project and news titles retain
@@ -56,16 +55,24 @@ final result: passed
 ## Visual Evidence
 
 - Source visual truth: `/var/folders/82/c3q_zgtd2zvbtgv_8qyn90fw0000gn/T/codex-clipboard-aa7dfe75-ee4e-4de1-bd3e-a04ece0008f7.jpg`, 3074 x 1162 pixels.
+- Selected title direction: generated cinematic concept with smoked navy glass,
+  cyan rim light and shallow metal depth. The final project assets are
+  `public/home-carousel/hero-title-cinematic.png` and
+  `public/home-carousel/hero-title-cinematic-mobile.png`.
 - Implementation: Codex in-app Browser capture of `http://localhost:3000/XIAO_Landing_Page/#hero`.
 - Desktop viewport: 2548 x 1221 CSS pixels; rendered hero content area 2548 x 944 pixels. Browser density is 1 CSS pixel per captured pixel apart from the scrollbar inset.
 - Mobile viewport: 390 x 844 CSS pixels; rendered content width 375 pixels and hero height 569 pixels. Browser density is 1 CSS pixel per captured pixel apart from the scrollbar inset.
 - State: English, first carousel slide, page top. The source and rendered hero were inspected at their full width, then the copy and CTA region were checked separately for wrapping, contrast and alignment.
+- Latest comparison: the selected generated title and the rendered desktop hero
+  were reviewed together. The generated material is preserved, the black canvas
+  disappears under screen blending, and the ruler covers the center of the `I`
+  in `XIAO` without changing the source photograph.
 
 ## Fidelity Surfaces
 
-- Typography: the title uses the dedicated Home hero role at 700 weight, compact `.88` line height, tight tracking and responsive 80–168px desktop sizing. Its brand-blue-to-transparent fill blends the lower third into the photograph. The supporting line uses the shared 20px subtitle role and stays on one line at desktop widths. The action uses the shared 15–16px action role at 700 weight.
-- Layout: the copy sits on a centered 1800px content grid with responsive inner padding. A 22–28px title gap and 34px action gap give the three elements room to breathe. The desktop CTA is 180 x 52px; the phone layout uses an 18px title gap, 28px action gap and 148 x 52px CTA. On phone, the hero occupies approximately three quarters of the viewport below the 64px header; content remains fully inside the hero.
-- Colors: the title face uses a vertical muted-blue gradient (`#638fa3`, `#477c91`, `#29566e`, `#15364a`) with a fine upper rim light. A decorative dark-blue text layer creates shallow extrusion and a soft contact shadow; its depth scales with the font size. Both layers share an opacity mask that keeps the upper two thirds opaque, fades progressively through 75%, 30% and 5% opacity across the lower third, and reaches full transparency at the bottom. On phones the mask repeats per text line. The CTA uses the existing green token, bold white text and a subtle shadow.
+- Typography: the title uses dedicated generated artwork: a single desktop line at 75vw, horizontally calibrated so the `I` overlaps the upright ruler, and a two-line mobile composition. The semantic `h1` retains the exact title through its accessible label. The supporting line uses the shared 20px subtitle role and stays on one line at desktop widths. The action uses the shared 15–16px action role at 700 weight.
+- Layout: the supporting copy and CTA share a responsive left edge aligned with the midpoint of the title's initial `S`. A 22–28px title gap and 34px action gap give the three elements room to breathe. The desktop CTA is 180 x 52px; the phone layout preserves the same alignment with an 18px title gap, 28px action gap and 148 x 52px CTA. On phone, the hero occupies approximately three quarters of the viewport below the 64px header; content remains fully inside the hero.
+- Colors: generated title artwork supplies the smoked navy glass face, cyan rim light and shallow metal depth. A screen blend removes the asset's pure-black canvas without changing the original photograph. The shared opacity mask keeps the upper two thirds opaque and fades through the lower third. The CTA uses the existing green token, bold white text and a subtle shadow.
 - Depth: an SVG clip follows the original upright ruler silhouette and displays that portion of the same photograph above the title. The decorative layer is excluded from accessibility and pointer interaction. Desktop uses the same centered cover scaling for both photo layers; mobile uses the existing single-photo crop.
 - Image quality: the existing 2560 x 965 XIAO banner remains unchanged and is rendered as the full-bleed source asset. Desktop uses the original centered crop; phone uses a focused crop that retains the product lineup.
 - Copy: title, description and Explore label match the supplied wording. Explore targets the XIAO Products page at `/XIAO_Landing_Page/products/`.
@@ -75,7 +82,7 @@ final result: passed
 1. The first mobile capture exposed percentage-height positioning against a min-height container, placing the copy beneath the sticky header and hiding the product lineup.
 2. The mobile hero now has an explicit responsive height. A second 390 x 844 capture measured the copy from y=169px to y=436px inside the y=64px to y=633px hero, with no horizontal overflow.
 3. The typography pass exposed a new ultrawide imbalance: reducing the copy to the shared type scale left the old large gaps, oversized CTA and edge-based positioning intact.
-4. At 2548 x 1221, the 152px title begins at x=462.5px and y=257.4px on the centered content grid. The copy begins at y=419.1px, followed by the 180 x 52px action at y=483.1px. The title spans the background as the main graphic while the supporting controls remain in the left dark area.
+4. The generated desktop title spans 80% of the hero width and is positioned from the hero itself. Supporting copy remains on the centered content grid, while the title alignment follows the full-width photograph and ruler.
 
 ## Interaction Verification
 
