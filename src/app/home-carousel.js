@@ -76,7 +76,8 @@ export function HomeCarousel() {
             />
             <div className={styles.heroContent}>
               <h1 className={`${styles.heroTitle} ${heroVisible ? styles.heroTitleVisible : ""} home-type-hero-title`}>
-                {slide.title}
+                <span className={styles.heroTitleDepth} aria-hidden="true">{slide.title}</span>
+                <span className={styles.heroTitleFace}>{slide.title}</span>
               </h1>
               <p className="home-type-subtitle">{slide.description}</p>
               <a className={`${styles.heroCta} home-type-action home-filled-action`} href={withBase(slide.ctaHref)}>

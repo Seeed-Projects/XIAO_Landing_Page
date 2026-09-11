@@ -27,9 +27,10 @@ The Explore action opens the XIAO Products page and includes a right arrow that
 moves subtly on hover or keyboard focus.
 Desktop layouts place the copy on the same centered 1800px content grid used by
 the rest of the page. The hero title keeps the shared title family and 700
-weight at a poster-scale responsive 72–152px size. Its upper half uses brand
-blue (`#004966`) mixed with 28% white for a muted tone over the dark photo, while an opacity mask fades the lower
-half completely into the photograph. A clipped copy of the original upright
+weight at a poster-scale responsive 72–152px size. A muted blue relief treatment
+combines a softly lit text face with a shallow dark-blue extrusion. Both layers
+fade together into the photograph through an opacity mask. The decorative depth
+layer is hidden from assistive technology. A clipped copy of the original upright
 ruler appears in front of the title on desktop.
 Entering the hero reveals
 the title through a soft blur-and-rise transition; leaving and returning replays

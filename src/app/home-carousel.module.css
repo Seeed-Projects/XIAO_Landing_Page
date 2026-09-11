@@ -65,6 +65,8 @@
 }
 
 .heroTitle {
+  position: relative;
+  isolation: isolate;
   margin: 0;
   max-width: 100%;
   mask-image: linear-gradient(
@@ -89,6 +91,29 @@
     opacity 900ms cubic-bezier(.22, 1, .36, 1),
     transform 1100ms cubic-bezier(.22, 1, .36, 1),
     filter 1100ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.heroTitleDepth {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  color: #173c51;
+  text-shadow:
+    .006em .008em 0 #305b70,
+    .012em .016em 0 #284d62,
+    .018em .024em 0 #204357,
+    .024em .032em 0 #18384c,
+    .03em .04em 0 #102d40,
+    .045em .065em .045em rgba(0, 10, 18, .55);
+}
+
+.heroTitleFace {
+  position: relative;
+  display: block;
+  background: linear-gradient(180deg, #638fa3 0%, #477c91 35%, #29566e 72%, #15364a 100%);
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 -.5px 0 rgba(152, 193, 207, .35));
 }
 
 .heroForeground {
@@ -225,6 +250,7 @@
     mask-repeat: repeat-y;
   }
   .heroForeground { display: none; }
+  .heroTitleFace { background-size: 100% 1.08em; background-repeat: repeat-y; }
   .heroCta { min-width: 148px; min-height: 52px; margin-top: 28px; }
   .arrow { width: 36px; height: 48px; }
   .previous { left: 8px; }

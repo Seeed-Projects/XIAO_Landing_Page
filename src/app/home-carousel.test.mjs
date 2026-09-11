@@ -16,9 +16,16 @@ test("home hero presents the requested message and Products action", () => {
   assert.match(component, /ctaHref: "\/products\/"/);
   assert.match(component, /href=\{withBase\(slide\.ctaHref\)\}/);
   assert.match(component, /styles\.heroTitleVisible/);
-  assert.match(component, /<h1[\s\S]*?styles\.heroTitle[\s\S]*?home-type-hero-title[\s\S]*?>\s*\{slide\.title\}\s*<\/h1>/);
+  assert.match(component, /<h1[\s\S]*?styles\.heroTitle[\s\S]*?home-type-hero-title/);
+  assert.match(component, /<span className=\{styles\.heroTitleFace\}>\{slide\.title\}<\/span>/);
   assert.match(component, /<p className="home-type-subtitle">\{slide\.description\}<\/p>/);
   assert.doesNotMatch(page, /<h1 className="sr-only">Seeed Studio XIAO<\/h1>/);
+});
+
+test("home hero relief uses a decorative depth layer and a readable text face", () => {
+  assert.match(component, /className=\{styles\.heroTitleDepth\} aria-hidden="true"/);
+  assert.match(css, /\.heroTitleDepth \{[^}]*position: absolute;[^}]*pointer-events: none;[^}]*text-shadow:/);
+  assert.match(css, /\.heroTitleFace \{[^}]*background: linear-gradient[^}]*background-clip: text;/);
 });
 
 test("home hero copy remains readable and responsive", () => {
