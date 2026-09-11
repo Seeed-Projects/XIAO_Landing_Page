@@ -76,11 +76,7 @@
     rgba(0, 0, 0, .06) 90%,
     transparent 100%
   );
-  background:
-    radial-gradient(ellipse at 34% 0%, rgba(137, 216, 234, .94), transparent 46%),
-    linear-gradient(110deg, #8b9fa7 0%, #c5d4d5 22%, #789eb0 58%, #bcc8ce 100%);
-  background-clip: text;
-  color: transparent;
+  color: var(--button-bg);
   text-shadow: none;
   filter: blur(12px);
   font-size: clamp(72px, 8.2vw, 152px);

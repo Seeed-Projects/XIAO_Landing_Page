@@ -35,7 +35,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
      `-0.035em` 字距和 `clamp(28px, 3.6vw, 44px)` 响应式字号。
    - 首图展示标题延续相同字体和 700 字重，使用海报式独立层级：桌面端采用
      `clamp(72px, 8.2vw, 152px)`，手机端采用 `clamp(36px, 10.7vw, 68px)`。
-     标题色彩取自首图光线和产品色调，上半部保持清晰，下半部渐隐融入背景。
+     首图标题使用与主操作按钮一致的 Seeed 品牌绿 `--button-bg`，上半部保持清晰，
+     下半部渐隐融入背景。
      桌面端以原图前景轮廓遮挡标题，建立产品与文字的前后层次；进入视野时播放渐入动画，
      离开后恢复待播放状态，再次进入时重新播放。
 
