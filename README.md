@@ -27,7 +27,8 @@ The Explore action opens the XIAO Products page.
 Desktop layouts place the copy on the same centered 1800px content grid used by
 the rest of the page. The hero title keeps the shared title family and 700
 weight at a poster-scale responsive 72–152px size. Its upper half stays solid
-white while the lower half fades into the photograph. Entering the hero reveals
+white while an opacity mask fades the lower half completely into the photograph.
+Entering the hero reveals
 the title through a soft blur-and-rise transition; leaving and returning replays
 the motion. A 22–28px title gap and 34px action gap keep the supporting copy and
 180px desktop action clear of the product lineup. Phone layouts preserve a

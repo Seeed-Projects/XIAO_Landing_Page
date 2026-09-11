@@ -65,7 +65,7 @@ final result: passed
 
 - Typography: the title uses the dedicated Home hero role at 700 weight, compact `.88` line height, tight tracking and responsive 72–152px desktop sizing. Its vertical white-to-transparent fill keeps the upper half solid and blends the lower half into the photograph. The supporting line uses the shared 20px subtitle role and stays on one line at desktop widths. The action uses the shared 15–16px action role at 700 weight.
 - Layout: the copy sits on a centered 1800px content grid with responsive inner padding. A 22–28px title gap and 34px action gap give the three elements room to breathe. The desktop CTA is 180 x 52px; the phone layout uses an 18px title gap, 28px action gap and 148 x 52px CTA. On phone, the hero occupies approximately three quarters of the viewport below the 64px header; content remains fully inside the hero.
-- Colors: white copy and a soft left-side darkening layer preserve contrast over the photograph. The CTA uses the existing XIAO green token, bold white text and a subtle shadow.
+- Colors: the hero title uses solid white with no text shadow and an opacity mask. The upper 48% stays opaque, the fill reaches 6% opacity at 76% height and becomes fully transparent at 88%. On phones the mask repeats per text line. The CTA uses the existing XIAO green token, bold white text and a subtle shadow.
 - Image quality: the existing 2560 x 965 XIAO banner remains unchanged and is rendered as the full-bleed source asset. Desktop uses the original centered crop; phone uses a focused crop that retains the product lineup.
 - Copy: title, description and Explore label match the supplied wording. Explore targets the XIAO Products page at `/XIAO_Landing_Page/products/`.
 

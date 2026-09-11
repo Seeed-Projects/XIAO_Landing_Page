@@ -41,7 +41,7 @@ test("home hero title is oversized, fades into the image and replays on re-entry
   assert.match(component, /setHeroVisible\(entry\.isIntersecting\)/);
   assert.match(css, /\.heroTitle \{[\s\S]*?font-size: clamp\(72px, 8\.2vw, 152px\);/);
   assert.match(css, /\.heroTitle \{[\s\S]*?linear-gradient\(\s*180deg/);
-  assert.match(css, /\.heroTitle \{[\s\S]*?background-clip: text;/);
+  assert.match(css, /\.heroTitle \{[\s\S]*?mask-image: linear-gradient/);
   assert.match(css, /\.heroTitleVisible \{[\s\S]*?opacity: 1;[\s\S]*?filter: blur\(0\);/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.heroTitle \{[\s\S]*?opacity: 1;/);
 });

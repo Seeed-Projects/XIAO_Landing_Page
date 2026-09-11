@@ -54,7 +54,7 @@
 .heroContent {
   position: absolute;
   z-index: 2;
-  top: 42%;
+  top: 44%;
   left: 50%;
   width: min(100%, 1800px);
   box-sizing: border-box;
@@ -67,15 +67,16 @@
 .heroTitle {
   margin: 0;
   max-width: 100%;
-  background: linear-gradient(
+  mask-image: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 255, 255, 1) 46%,
-    rgba(255, 255, 255, .72) 70%,
-    rgba(255, 255, 255, .08) 100%
+    #000 0%,
+    #000 48%,
+    rgba(0, 0, 0, .4) 62%,
+    rgba(0, 0, 0, .06) 76%,
+    transparent 88%
   );
-  background-clip: text;
-  color: transparent;
+  color: #fff;
+  text-shadow: none;
   filter: blur(12px);
   font-size: clamp(72px, 8.2vw, 152px);
   font-weight: var(--home-title-weight);
@@ -87,8 +88,6 @@
     opacity 900ms cubic-bezier(.22, 1, .36, 1),
     transform 1100ms cubic-bezier(.22, 1, .36, 1),
     filter 1100ms cubic-bezier(.22, 1, .36, 1);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 .heroTitleVisible {
@@ -201,6 +200,8 @@
     font-size: clamp(52px, 16vw, 68px);
     line-height: .96;
     letter-spacing: -.055em;
+    mask-size: 100% .96em;
+    mask-repeat: repeat-y;
   }
   .heroCta { min-width: 148px; min-height: 52px; margin-top: 28px; }
   .arrow { width: 36px; height: 48px; }
