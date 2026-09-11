@@ -73,6 +73,20 @@ Flow: Home renders PartnerMarquee, which reads the original partner data, builds
 
 # Home Playground Review
 
+## Footer Wide-Screen Distribution
+
+- The five-group footer navigation expands from the original 1440px limit to a
+  balanced 1800px maximum. Its responsive edge padding is 24px on
+  phones, 40px on small screens, and 64px to 128px on desktop and ultrawide.
+  Vertical padding is 64px on phones and 80px on desktop.
+- Existing column ratios keep the brand, Company, Develop with XIAO, Community
+  and subscription areas in their established order while using the previously
+  empty side regions. The copyright strip remains centered below the full-width
+  divider.
+- `site-footer.test.mjs` checks the uncapped container, responsive padding and
+  five-column grid. README records desktop, ultrawide, tablet and phone checks.
+  No content, destinations, subscription behavior, assets or dependencies changed.
+
 ## Newsletter Typography Alignment
 
 - `EdmSubscribe()` now applies the News introduction's responsive 16px/18px

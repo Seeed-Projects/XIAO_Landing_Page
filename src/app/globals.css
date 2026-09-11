@@ -481,6 +481,23 @@ canvas {
   margin-inline: auto;
 }
 
+.site-footer-content {
+  max-width: 1800px;
+  padding-inline: 24px;
+}
+
+@media (min-width: 640px) {
+  .site-footer-content {
+    padding-inline: 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .site-footer-content {
+    padding-inline: clamp(64px, 5vw, 128px);
+  }
+}
+
 .home-feature-grid {
   display: grid;
   gap: 32px 56px;

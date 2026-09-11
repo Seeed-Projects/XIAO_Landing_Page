@@ -114,6 +114,19 @@ Open `http://localhost:3000/XIAO_Landing_Page/#edm`, switch both languages and
 compare the description and input placeholder with the News introduction above.
 Run `node --test src/app/newsletter-contrast.test.mjs` to verify the shared scale.
 
+## Footer Width Verification
+
+The five footer groups use a balanced 1800px maximum width instead of the previous
+1440px content cap. Edge padding grows from 24px on phones to a maximum of 128px
+on wide displays. Vertical padding grows from 64px on phones to 80px on desktop,
+while the existing five-column proportions remain.
+
+Open the bottom of the Home page at desktop and 2520px ultrawide sizes. The
+brand and subscription groups should use more of the side regions while retaining
+comfortable outer margins, and the three navigation groups should remain evenly spaced.
+At tablet and phone widths, confirm the existing two-column and stacked layouts.
+Run `node --test src/app/site-footer.test.mjs` for the width regression check.
+
 ## Partner Network Verification
 
 The three categories contain 6 hardware, 8 software/framework and 7 content/community
