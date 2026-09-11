@@ -90,6 +90,19 @@ With the existing dependencies installed, run `npm run dev -- --port 3000`
 Asset provenance is recorded in [the board asset notes](public/home/playground-boards/README.md).
 Use Ctrl+C in the dev terminal to stop the preview manually.
 
+## Co-Create Expansion Verification
+
+The Scale-up Co-Create Projects panel starts collapsed. The first mouse entry or
+keyboard focus expands it and latches that state for the rest of the page visit.
+Moving the pointer away, moving focus away, or scrolling out and back does not
+collapse it. Refreshing the page restores the initial collapsed state.
+
+Open `http://localhost:3000/XIAO_Landing_Page/#cocreate`, move the pointer into
+the Co-Create card, then move away and scroll to another section and back. The
+project grid should remain fully expanded. Press Tab until a link inside the card
+receives focus and repeat the check. Run `node --test src/app/co-create-section.test.mjs`
+to verify the latch behavior in source.
+
 ## Partner Network Verification
 
 The three categories contain 6 hardware, 8 software/framework and 7 content/community

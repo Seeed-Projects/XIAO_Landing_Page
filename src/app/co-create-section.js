@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useLang } from "./i18n";
 import { Reveal } from "./reveal";
 import { withBase } from "../lib/basePath";
@@ -17,27 +17,14 @@ export function CoCreateSection() {
   const { t } = useLang();
   const c = t.cocreate;
   const [expanded, setExpanded] = useState(false);
-  const closeTimer = useRef(null);
 
-  const openProjects = () => {
-    window.clearTimeout(closeTimer.current);
-    setExpanded(true);
-  };
-
-  const closeProjects = () => {
-    window.clearTimeout(closeTimer.current);
-    closeTimer.current = window.setTimeout(() => setExpanded(false), 650);
-  };
-
-  useEffect(() => () => window.clearTimeout(closeTimer.current), []);
+  const openProjects = () => setExpanded(true);
 
   return (
     <Reveal
       className="hero-orb relative overflow-hidden rounded-[28px] border border-[var(--line-soft)] bg-[linear-gradient(135deg,rgba(0,73,102,0.96),rgba(8,102,126,0.92),rgba(143,195,31,0.88))] text-white"
       onMouseEnter={openProjects}
-      onMouseLeave={closeProjects}
       onFocusCapture={openProjects}
-      onBlurCapture={closeProjects}
     >
       {/* 上部：共创主视觉文案，与下部 gif 同处一张卡片 */}
       <div className="relative z-10 p-7 sm:p-8">

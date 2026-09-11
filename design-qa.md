@@ -73,6 +73,20 @@ Flow: Home renders PartnerMarquee, which reads the original partner data, builds
 
 # Home Playground Review
 
+## Co-Create Persistent Expansion
+
+- `CoCreateSection()` starts with a collapsed project grid. Mouse entry or
+  keyboard focus calls `openProjects()`, which sets the expanded state to true.
+  The state remains true until the page component is recreated, so pointer exit,
+  focus exit and repeated scrolling leave the project grid open.
+- The delayed close timer and its cleanup lifecycle were removed. This makes the
+  flow direct: render collapsed, receive the first interaction, render expanded,
+  and retain that result for the current page visit.
+- `co-create-section.test.mjs` checks both supported opening triggers and confirms
+  that no closing state path remains. README documents mouse, keyboard, scroll
+  and refresh verification. No routes, assets, dependencies or environment
+  variables changed.
+
 ## Current: Centered Tools and 22-Board Orbit
 
 - Central-content follow-up: the reading panel expands from 560px to a maximum
