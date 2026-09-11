@@ -103,6 +103,17 @@ project grid should remain fully expanded. Press Tab until a link inside the car
 receives focus and repeat the check. Run `node --test src/app/co-create-section.test.mjs`
 to verify the latch behavior in source.
 
+## Newsletter Typography Verification
+
+The Newsletter description and email input use the same responsive type scale
+as the News introduction: 16px by default and 18px from the small breakpoint.
+The email field uses the description's 576px maximum width, compact vertical
+padding and a 20px envelope icon. The primary action uses a 200px minimum width,
+compact vertical padding and the same responsive 16px/18px type scale.
+Open `http://localhost:3000/XIAO_Landing_Page/#edm`, switch both languages and
+compare the description and input placeholder with the News introduction above.
+Run `node --test src/app/newsletter-contrast.test.mjs` to verify the shared scale.
+
 ## Partner Network Verification
 
 The three categories contain 6 hardware, 8 software/framework and 7 content/community

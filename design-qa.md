@@ -73,6 +73,18 @@ Flow: Home renders PartnerMarquee, which reads the original partner data, builds
 
 # Home Playground Review
 
+## Newsletter Typography Alignment
+
+- `EdmSubscribe()` now applies the News introduction's responsive 16px/18px
+  type scale and 1.65 line height to the Newsletter description and email input.
+  The email field also adopts the description's 576px maximum width, compact
+  vertical padding and a 20px icon. The Subscribe action uses a 200px minimum
+  width, 12px vertical padding and matching 16px/18px type. Content, contrast
+  treatment and submission behavior remain.
+- `newsletter-contrast.test.mjs` verifies both typography targets alongside the
+  existing contrast checks. README adds desktop, mobile and language comparison
+  steps. No routes, assets, dependencies or environment variables changed.
+
 ## Co-Create Persistent Expansion
 
 - `CoCreateSection()` starts with a collapsed project grid. Mouse entry or

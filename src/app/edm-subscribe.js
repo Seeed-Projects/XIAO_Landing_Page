@@ -19,7 +19,7 @@ export function EdmSubscribe() {
       <div className="relative z-10 ml-auto flex min-h-[500px] w-full items-center px-7 py-12 sm:min-h-[560px] sm:px-12 lg:w-[52%] lg:px-16">
         <div className="w-full max-w-[660px]">
           <h3 className="text-4xl font-bold tracking-[-0.02em] text-white sm:text-5xl">XIAO Newsletter</h3>
-          <p className="home-newsletter-copy mt-5 max-w-xl text-xl leading-[1.35] sm:text-2xl">
+          <p className="home-newsletter-copy mt-5 max-w-xl text-base leading-[1.65] sm:text-lg">
             {zh ? (
               <>双周更新：产品、项目、<br className="hidden sm:block" />资讯、早鸟计划与更多</>
             ) : (
@@ -45,9 +45,9 @@ export function EdmSubscribe() {
               </button>
             </div>
           ) : (
-            <form onSubmit={submit} noValidate className="mt-10">
-              <div className="flex items-center gap-3 rounded-xl border-2 border-white/30 bg-white/95 px-5 py-4 focus-within:border-[var(--button-bg)] focus-within:bg-white sm:px-7 sm:py-5">
-                <svg className="h-6 w-6 shrink-0 text-[#667883]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <form onSubmit={submit} noValidate className="mt-10 max-w-xl">
+              <div className="flex items-center gap-3 rounded-xl border-2 border-white/30 bg-white/95 px-5 py-3 focus-within:border-[var(--button-bg)] focus-within:bg-white sm:px-6 sm:py-3.5">
+                <svg className="h-5 w-5 shrink-0 text-[#667883]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="5" width="18" height="14" rx="2" />
                   <polyline points="3 7 12 13 21 7" />
                 </svg>
@@ -59,7 +59,7 @@ export function EdmSubscribe() {
                   placeholder={tr("Your email here", "请输入你的邮箱")}
                   aria-label={tr("Your email here", "请输入你的邮箱")}
                   disabled={status === "loading"}
-                  className="min-w-0 flex-1 bg-transparent text-xl text-black outline-none placeholder:text-black/90 disabled:opacity-60 sm:text-2xl"
+                  className="min-w-0 flex-1 bg-transparent text-base leading-[1.65] text-black outline-none placeholder:text-black/90 disabled:opacity-60 sm:text-lg"
                 />
               </div>
               {status === "error" && msg && (
@@ -74,7 +74,7 @@ export function EdmSubscribe() {
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="mt-6 inline-flex min-w-[250px] items-center justify-center rounded-full bg-[var(--button-bg)] px-12 py-4 text-xl font-bold text-[#13230c] transition hover:bg-[var(--button-bg-hover)] disabled:cursor-not-allowed disabled:opacity-60 sm:text-2xl"
+                className="mt-6 inline-flex min-w-[200px] items-center justify-center rounded-full bg-[var(--button-bg)] px-9 py-3 text-base font-bold text-[#13230c] transition hover:bg-[var(--button-bg-hover)] disabled:cursor-not-allowed disabled:opacity-60 sm:text-lg"
               >
                 {status === "loading" ? tr("Subscribing…", "订阅中…") : tr("Subscribe", "订阅")}
               </button>

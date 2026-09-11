@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const css = readFileSync(new URL("./globals.css", import.meta.url), "utf8");
+const component = readFileSync(new URL("./edm-subscribe.js", import.meta.url), "utf8");
 
 // Returns relative luminance for an RGB color.
 // 返回 RGB 颜色的相对亮度。
@@ -38,4 +39,21 @@ test("newsletter copy stays readable over the brightest possible photo", () => {
       }
     }
   }
+});
+
+test("newsletter description and email input match the news introduction size", () => {
+  assert.match(component, /home-newsletter-copy[^\n]*text-base leading-\[1\.65\] sm:text-lg/);
+  assert.match(component, /className="min-w-0 flex-1 bg-transparent text-base leading-\[1\.65\][^\n]*sm:text-lg"/);
+  assert.doesNotMatch(component, /home-newsletter-copy[^\n]*text-xl|placeholder:[^\n]*sm:text-2xl/);
+});
+
+test("newsletter field uses a compact width and height", () => {
+  assert.match(component, /<form[^>]*className="mt-10 max-w-xl"/);
+  assert.match(component, /bg-white\/95 px-5 py-3[^\n]*sm:px-6 sm:py-3\.5/);
+  assert.match(component, /className="h-5 w-5 shrink-0/);
+});
+
+test("newsletter action uses a compact primary-button scale", () => {
+  assert.match(component, /min-w-\[200px\][^\n]*px-9 py-3 text-base[^\n]*sm:text-lg/);
+  assert.doesNotMatch(component, /min-w-\[250px\][^\n]*px-12 py-4 text-xl/);
 });
