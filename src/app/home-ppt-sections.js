@@ -87,38 +87,38 @@ export function PlaygroundSection() {
   return (
     <section id="playground" className="section home-section home-playground-section relative overflow-hidden px-6 text-white sm:px-10 lg:px-16">
       <div className="home-content home-playground">
-        <Reveal className="home-playground-heading text-center">
-          <h2 className="text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">XIAO Playground</h2>
-          <p className="mx-auto mt-5 max-w-3xl text-base leading-[1.65] sm:text-lg">
-            {zh ? "\u9009\u4e00\u5757 XIAO\uff0c\u63a2\u7d22\u3001\u521b\u9020\uff0c\u73a9\u8d77\u6765\u3002" : "Pick a board. Explore. Build. Play."}
-          </p>
-        </Reveal>
         <div className="home-playground-panel">
-          <Reveal className="home-playground-visual">
-            <PlaygroundPreview />
-            <div className="home-playground-caption">
-              <span>{zh ? "\u8f7b\u89e6\u4e00\u5757 XIAO\uff0c\u8ba9\u5927\u5bb6\u4e00\u8d77\u52a8\u8d77\u6765\u3002" : "Tap a XIAO. Set them all in motion."}</span>
+          <div className="home-playground-hub">
+            <Reveal className="home-playground-heading text-center">
+              <h2 className="text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">XIAO Playground</h2>
+              <p className="mx-auto mt-5 max-w-3xl text-base leading-[1.65] sm:text-lg">
+                {zh ? "\u9009\u4e00\u5757 XIAO\uff0c\u63a2\u7d22\u3001\u521b\u9020\uff0c\u73a9\u8d77\u6765\u3002" : "Pick a board. Explore. Build. Play."}
+              </p>
+            </Reveal>
+            <div className="home-playground-sidebar">
+              <Reveal delay={100} className="home-playground-tools">
+                {PLAYGROUND_TOOLS.map((tool) => {
+                  const [title, description] = zh ? tool.zh : tool.en;
+                  return (
+                    <Link key={tool.key} href={tool.href} className="home-playground-tool" data-tool={tool.key}>
+                      <span className="home-playground-tool-icon"><PlaygroundToolIcon type={tool.icon} /></span>
+                      <div><h3>{title}</h3><p>{description}</p></div>
+                      <span className="home-playground-tool-arrow" aria-hidden="true">{"\u2192"}</span>
+                    </Link>
+                  );
+                })}
+              </Reveal>
+              <Reveal className="home-playground-action">
+                <Link href="/playground" className="home-playground-cta inline-flex items-center justify-center gap-3 rounded-full px-8 py-3 text-base font-bold transition">
+                  {zh ? "\u5f00\u59cb\u73a9\uff01" : "Let\u2019s Play!"}<span aria-hidden="true">{"\u2192"}</span>
+                </Link>
+              </Reveal>
             </div>
-          </Reveal>
-          <div className="home-playground-sidebar">
-            <Reveal delay={100} className="home-playground-tools">
-              {PLAYGROUND_TOOLS.map((tool) => {
-                const [title, description] = zh ? tool.zh : tool.en;
-                return (
-                  <Link key={tool.key} href={tool.href} className="home-playground-tool" data-tool={tool.key}>
-                    <span className="home-playground-tool-icon"><PlaygroundToolIcon type={tool.icon} /></span>
-                    <div><h3>{title}</h3><p>{description}</p></div>
-                    <span className="home-playground-tool-arrow" aria-hidden="true">{"\u2192"}</span>
-                  </Link>
-                );
-              })}
-            </Reveal>
-            <Reveal className="home-playground-action">
-              <Link href="/playground" className="home-playground-cta inline-flex items-center justify-center gap-3 rounded-full px-8 py-3 text-base font-bold transition">
-                {zh ? "\u5f00\u59cb\u73a9\uff01" : "Let\u2019s Play!"}<span aria-hidden="true">{"\u2192"}</span>
-              </Link>
-            </Reveal>
+            <div className="home-playground-caption">
+              <span>{zh ? "\u6eda\u52a8\u63a2\u7d22\uff0c\u70b9\u51fb XIAO \u4e00\u8d77\u73a9\u3002" : "Scroll to explore. Tap a XIAO to play."}</span>
+            </div>
           </div>
+          <PlaygroundPreview />
         </div>
       </div>
     </section>

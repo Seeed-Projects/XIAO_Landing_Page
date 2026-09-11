@@ -19,7 +19,7 @@ export function boardWave(board, source) {
 
 // Coordinates pointer frames and cancellable wave animations for one board scene.
 // 管理一个板卡场景的鼠标绘制帧和可取消的波浪动画。
-export function createPlaygroundMotion(scene, boards, clock) {
+export function createPlaygroundMotion(scene, boards, clock, getPositions = () => boards) {
   const nudges = [...scene.querySelectorAll('.playground-board-nudge')];
   const waves = [...scene.querySelectorAll('.playground-board-wave')];
   const animations = new Set();
@@ -51,7 +51,7 @@ export function createPlaygroundMotion(scene, boards, clock) {
         frame = null;
         const rect = scene.getBoundingClientRect();
         const local = { x: pointer.x - rect.left, y: pointer.y - rect.top };
-        boards.forEach((board, index) => {
+        getPositions().forEach((board, index) => {
           const offset = boardNudge(board, local, rect);
           nudges[index].style.transform = `translate(${offset.x}px, ${offset.y}px) rotate(${offset.angle}deg)`;
         });
@@ -60,8 +60,9 @@ export function createPlaygroundMotion(scene, boards, clock) {
     play(index) {
       if (!enabled || !boards[index]) return;
       cancelWaves();
-      boards.forEach((board, boardIndex) => {
-        const { delay, lift } = boardWave(board, boards[index]);
+      const positions = getPositions();
+      positions.forEach((board, boardIndex) => {
+        const { delay, lift } = boardWave(board, positions[index]);
         const animation = waves[boardIndex].animate([
           { transform: 'translateY(0) scale(1)', offset: 0 },
           { transform: 'translateY(3px) scale(0.97)', offset: 0.15 },

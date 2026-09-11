@@ -66,13 +66,13 @@ test("rapid clicks replace the previous wave and completed waves are released", 
   const f = fixture();
   f.controller.setEnabled(true);
   f.controller.play(0);
-  assert.equal(f.played.length, 8);
+  assert.equal(f.played.length, playgroundBoards.length);
   f.controller.play(3);
-  assert.ok(f.played.slice(0, 8).every(animation => animation.canceled));
-  assert.equal(f.played.length, 16);
-  f.played.slice(8).forEach(animation => animation.onfinish());
+  assert.ok(f.played.slice(0, playgroundBoards.length).every(animation => animation.canceled));
+  assert.equal(f.played.length, playgroundBoards.length * 2);
+  f.played.slice(playgroundBoards.length).forEach(animation => animation.onfinish());
   f.controller.reset();
-  assert.ok(f.played.slice(8).every(animation => !animation.canceled));
+  assert.ok(f.played.slice(playgroundBoards.length).every(animation => !animation.canceled));
 });
 
 test("viewport exit and reduced motion cancel work; re-entry enables replay", () => {
@@ -86,12 +86,12 @@ test("viewport exit and reduced motion cancel work; re-entry enables replay", ()
   f.controller.move(180, 220, "mouse");
   f.controller.play(0);
   assert.equal(f.pending.size, 0);
-  assert.equal(f.played.length, 8);
+  assert.equal(f.played.length, playgroundBoards.length);
   f.controller.setEnabled(true);
   f.controller.play(0);
-  assert.equal(f.played.length, 16);
+  assert.equal(f.played.length, playgroundBoards.length * 2);
   f.controller.dispose();
   assert.ok(f.played.every(animation => animation.canceled));
   f.controller.play(0);
-  assert.equal(f.played.length, 16);
+  assert.equal(f.played.length, playgroundBoards.length * 2);
 });

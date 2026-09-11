@@ -73,6 +73,71 @@ Flow: Home renders PartnerMarquee, which reads the original partner data, builds
 
 # Home Playground Review
 
+## Current: Centered Tools and 22-Board Orbit
+
+- The title, four tools and overview action share a centered navy panel. The
+  existing circuit texture, green action and transparent artwork remain.
+  The supplied collection now contributes 22 models: 12 base boards, four Plus
+  variants and six Sense variants. Desktop boards frame all four sides; narrow
+  screens use upper and lower groups. Source images retain their proportions.
+- Scroll position controls a reversible gathered-to-scattered arrangement.
+  Measuring the actual text panel keeps the boards outside its reading area.
+  Pointer nudges and click waves use the current board positions. Separate
+  transform layers combine scroll rotation, entry, floating and interaction.
+
+### Files and Function Responsibilities
+
+- `home-ppt-sections.js`: `PlaygroundSection()` reads the selected language and
+  renders the centered heading, tool links, action, hint and board scene.
+- `playground-boards.mjs` and `public/home/playground-boards/`: supply 22 names,
+  image dimensions and compressed transparent images, including 14 additions.
+- `playground-orbit.mjs`: `orbitProgress(top, height, viewportHeight)` returns a
+  bounded scroll fraction. `orbitPosition(index, size, hub, progress, wide)`
+  returns a board's percentage coordinates and rotation for the measured panel.
+- `playground-preview.js`: `PlaygroundPreview()` renders the selectable boards.
+  Its `updateOrbit()` measures the scene and panel, calculates positions and
+  writes them to the board elements; `scheduleOrbit()` batches updates into one
+  display frame. Scroll, size and language changes update the measurements.
+  Observers and listeners are released when the component is removed.
+- `playground-motion.mjs`: `createPlaygroundMotion()` accepts a current-position
+  getter so pointer and click effects follow the moving composition. It returns
+  movement, wave, reset, enable and disposal controls.
+- `globals.css`: defines the centered panel, responsive board sizes and separate
+  motion layers. The orbit, motion and section tests cover the associated rules.
+
+Flow: Home renders the localized panel and images. Once measured, each board
+receives a position outside the reading area. Scrolling changes those positions;
+pointer or keyboard input selects a board and triggers the existing wave.
+Tool links navigate independently. Reduced motion uses the stationary spread
+positions while retaining board selection and navigation.
+
+### Verification and Documentation
+
+- All 34 automated tests passed; targeted ESLint passed. The production build
+  generated 72/72 pages. The existing Node module-type warning remains.
+- Desktop: all 22 images loaded, and board rectangles stayed outside the central
+  panel. Scrolling down changed the first board from (10.1792%, 19.5686%) to
+  (6.39211%, 14.0734%); scrolling back restored its original coordinates.
+  Clicking the added ESP32-C5 selected it and animated neighboring boards.
+- Clicking Pinout opened the existing pinout route and rendered its heading.
+  Browser logs contained no errors; navigation reported the existing root
+  smooth-scroll configuration warning.
+- At 390px, all 22 images loaded with no horizontal overflow or central-panel
+  overlaps. Both languages were inspected. Physical touchscreen scrolling and
+  OS reduced-motion preference switching remain manual checks; source and unit
+  tests cover reduced-motion and lifecycle behavior.
+- README documents startup, main flow, language/resize, repeated entry, rapid
+  clicks, keyboard and reduced-motion checks. The asset README records all 22
+  source mappings and their approximately 725.5 KiB combined size. No dependencies,
+  routes or environment variables were added.
+- Preview stays at `http://localhost:3000/XIAO_Landing_Page/#playground` using
+  `npm run dev -- --port 3000`. The existing server remains running. Ctrl+C in
+  its terminal stops it manually. Repeat the README verification sequence.
+
+## Historical Eight-Board Verification
+
+The following records describe the preceding eight-board composition.
+
 final result: passed
 
 ## Coordinated Board Motion

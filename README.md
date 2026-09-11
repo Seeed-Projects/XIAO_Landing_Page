@@ -42,12 +42,16 @@ keyboard focus.
 
 ## Home Playground Verification
 
-The Home Playground section displays eight original XIAO board images in a
-staggered arrangement alongside four direct tool links. Desktop boards are at
-most 120px wide before rotation. Each board floats gently while visible; hovering
+The Home Playground section displays 22 original transparent XIAO board images,
+covering the supplied base, Plus and Sense models. The heading, four tool links
+and overview action form a centered reading area. Boards surround that area on
+desktop and form upper and lower groups on narrow screens. Desktop boards are
+at most 90px wide before rotation. Each board floats gently while visible; hovering
 or focusing reveals its model. Clicking selects a board, clicking again or
 pressing Escape clears selection. Selection is a visual preview state.
-Boards spread into place on entry. Mouse movement gently nudges nearby boards;
+Scrolling down spreads boards toward the perimeter; scrolling up gathers them
+again. Positions are measured around the reading area, including after language
+or viewport changes. Mouse movement gently nudges nearby boards;
 clicking or keyboard activation sends a short, distance-ordered bounce through
 the group. Each new click starts a fresh wave. Motion stays inside the board
 scene, while tool links and text remain stationary.
@@ -59,13 +63,15 @@ With the existing dependencies installed, run `npm run dev -- --port 3000`
 (reuse the running server when available), then open
 `http://localhost:3000/XIAO_Landing_Page/#playground`.
 
-1. Check all eight images at desktop, tablet and 390px mobile widths. Images
+1. Check all 22 images at desktop, tablet and 390px mobile widths. Images
    retain their proportions, and mobile content stacks without horizontal overflow.
 2. Hover a board, click twice, and use Tab, Enter and Escape. The model label,
    selected state and keyboard focus should follow the active board. Move the
    mouse across the scene and out: nearby boards yield slightly and return.
    Rapidly click different boards: the latest wave replaces the previous one.
-3. Scroll completely away and return. The spread animation and floating restart.
+3. Scroll down and back up: board positions move outward and return while the
+   central text stays clear. Scroll completely away and return: entry motion
+   and floating restart.
    With the system's reduced-motion preference enabled, boards remain stationary
    and selectable. Changing this preference during a wave cancels its movement.
    On phones, verify tapping a board and scrolling vertically over the scene.

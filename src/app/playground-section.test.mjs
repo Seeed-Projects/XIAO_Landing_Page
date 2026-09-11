@@ -21,9 +21,9 @@ test("the preview caption is descriptive and tools provide direct navigation", (
   assert.match(section, /<Link href="\/playground"/);
 });
 
-test("eight distinct board assets are available and keep stable positions", () => {
-  assert.equal(playgroundBoards.length, 8);
-  assert.equal(new Set(playgroundBoards.map(board => board.id)).size, 8);
+test("twenty-two distinct board assets cover the supplied XIAO series", () => {
+  assert.equal(playgroundBoards.length, 22);
+  assert.equal(new Set(playgroundBoards.map(board => board.id)).size, 22);
   for (const board of playgroundBoards) {
     assert.ok(existsSync(new URL(`../../public/home/playground-boards/${board.id}.webp`, import.meta.url)));
     assert.ok(board.x >= 20 && board.x <= 79);
@@ -34,11 +34,13 @@ test("eight distinct board assets are available and keep stable positions", () =
   assert.match(section, /<PlaygroundToolIcon type=\{tool.icon\}/);
 });
 
-test("the main visual receives the wide column with normal document flow", () => {
-  assert.match(css, /grid-template-columns: minmax\(0, 2.1fr\) minmax\(300px, 1fr\)/);
-  assert.doesNotMatch(css, /grid-template-columns: minmax\(0, 0.8fr\) minmax\(0, 1.8fr\)/);
+test("the tool hub stays centered while boards occupy a separate surrounding layer", () => {
+  assert.match(section, /className="home-playground-hub"/);
+  assert.match(css, /\.home-playground-panel \{[^}]*justify-content: center/s);
+  assert.match(css, /\.home-playground-preview \{[^}]*position: absolute;[^}]*pointer-events: none/s);
+  assert.match(css, /width: min\(560px, calc\(100% - 340px\)\)/);
   assert.match(css, /\.playground-board img \{[^}]*width: 100%;[^}]*height: auto;/s);
-  assert.match(css, /width: clamp\(80px, 9vw, 120px\)/);
+  assert.match(css, /width: clamp\(64px, 6.2vw, 90px\)/);
 });
 
 test("floating replays on entry and supports reduced motion", () => {
@@ -51,6 +53,9 @@ test("floating replays on entry and supports reduced motion", () => {
   assert.match(preview, /preference.addEventListener\("change", updateMotion\)/);
   assert.match(preview, /inView && !preference.matches/);
   assert.match(preview, /controller.dispose\(\)/);
+  assert.match(preview, /resize.disconnect\(\)/);
+  assert.match(preview, /removeEventListener\("scroll", onScroll\)/);
+  assert.match(preview, /preference.matches \? 1 : orbitProgress/);
 });
 
 test("board selection exposes keyboard and touch accessible state", () => {
