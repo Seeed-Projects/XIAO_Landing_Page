@@ -15,13 +15,15 @@ final result: passed
 
 ## Typography System
 
+- Hero title: Montserrat, 700 weight, 1.12 line height, `-0.035em` tracking,
+  and `clamp(36px, 4vw, 64px)` sizing.
 - Section titles: Montserrat, 700 weight, 1.12 line height, `-0.035em` tracking,
   and `clamp(28px, 3.6vw, 44px)` sizing.
 - Subtitles: Montserrat, 20px, 700 weight, 1.5 line height and normal tracking.
 - Descriptions and text actions: Montserrat, 400 weight, 1.65 line height,
   normal tracking, 15px on phones and 16px from 640px.
-- The hero title and supporting line use the title and subtitle roles. Navigation,
-  footer, metrics, labels and form hints remain auxiliary typography. Mobile
+- The hero supporting line uses the subtitle role. Navigation, footer, metrics,
+  labels and form hints remain auxiliary typography. Mobile
   email inputs remain 16px to prevent touch-browser focus zoom.
 
 ## Findings and Verification
@@ -30,16 +32,16 @@ final result: passed
   both 600 and 700 weights; body and action text ranged from 14px to 18px with
   several weights. These P1 consistency differences are resolved through the
   shared semantic roles.
-- Desktop computed styles form exactly one group per role: 12 titles at
-  44px/700, 46 subtitles at 20px/700, 22 descriptions at 16px/400 and 16 text
-  actions at 16px/400.
-- Mobile content roles resolve to 28px/700 titles, 20px/700 subtitles and
-  15px/400 descriptions/actions. The 16px email input is the documented form
-  control exception.
+- Desktop computed styles form exactly one group per role: one hero title at
+  64px/700, 11 section titles at 44px/700, 46 subtitles at 20px/700, 22
+  descriptions at 16px/400 and 16 text actions at 16px/400.
+- Mobile roles resolve to 36px/700 for the hero title, 28px/700 for section
+  titles, 20px/700 for subtitles and 15px/400 for descriptions/actions. The
+  16px email input is the documented form control exception.
 - All Home content headings are classified. Long project and news titles retain
   their existing two-line clamp, Playground tool copy stays inside the widened
   panel, and the page has no horizontal overflow at 390px.
-- The project rule, regression tests and this QA record define the same four
+- The project rule, regression tests and this QA record define the same five
   roles. No route, content, asset, dependency or interaction behavior changed.
 
 # Home Hero Design QA
@@ -56,8 +58,8 @@ final result: passed
 
 ## Fidelity Surfaces
 
-- Typography: the title uses the shared Home title role at 700 weight, tight tracking and responsive 28–44px sizing. The supporting line uses the shared 20px subtitle role, and the action uses the shared 15–16px body role.
-- Layout: the copy sits on a centered 1800px content grid with responsive inner padding. Compact 12–18px title spacing and a 24px action gap keep the three elements together. The desktop CTA is 180 x 52px; the phone CTA is 148 x 52px. On phone, the hero occupies approximately three quarters of the viewport below the 64px header; content remains fully inside the hero.
+- Typography: the title uses the dedicated Home hero role at 700 weight, tight tracking and responsive 36–64px sizing. The supporting line uses the shared 20px subtitle role, and the action uses the shared 15–16px body role.
+- Layout: the copy sits on a centered 1800px content grid with responsive inner padding. A 22–28px title gap and 34px action gap give the three elements room to breathe. The desktop CTA is 180 x 52px; the phone layout uses an 18px title gap, 28px action gap and 148 x 52px CTA. On phone, the hero occupies approximately three quarters of the viewport below the 64px header; content remains fully inside the hero.
 - Colors: white copy and a soft left-side darkening layer preserve contrast over the photograph. The CTA uses the existing XIAO green token, black-green text and a subtle shadow.
 - Image quality: the existing 2560 x 965 XIAO banner remains unchanged and is rendered as the full-bleed source asset. Desktop uses the original centered crop; phone uses a focused crop that retains the product lineup.
 - Copy: title, description and Explore label match the supplied wording. Explore targets the XIAO Products page at `/XIAO_Landing_Page/products/`.
@@ -67,13 +69,13 @@ final result: passed
 1. The first mobile capture exposed percentage-height positioning against a min-height container, placing the copy beneath the sticky header and hiding the product lineup.
 2. The mobile hero now has an explicit responsive height. A second 390 x 844 capture measured the copy from y=169px to y=436px inside the y=64px to y=633px hero, with no horizontal overflow.
 3. The typography pass exposed a new ultrawide imbalance: reducing the copy to the shared type scale left the old large gaps, oversized CTA and edge-based positioning intact.
-4. At 2520 x 942, the revised title begins at x=448.5px on the centered content grid. The copy runs from y=290.2px to y=417.5px, followed by the 180 x 52px action at y=441.5px. The block remains in the dark negative space and stays clear of the product row.
+4. At 2520 x 942, the enlarged 64px title begins at x=448.5px and y=269px on the centered content grid. The copy begins at y=368.7px, followed by the 180 x 52px action at y=462.7px. The looser block remains in the dark negative space and stays clear of the product row.
 
 ## Interaction Verification
 
 - Clicking Explore opened `/XIAO_Landing_Page/products/` in the same tab and rendered the Products page hero.
 - Keyboard focus has a visible 3px white outline with a 4px offset. Reduced-motion mode removes carousel and CTA transitions.
-- The complete Node regression suite passed 42 tests, targeted lint passed, and the production build generated all 72 static pages.
+- The complete Node regression suite passed 46 tests, targeted lint passed, and the production build generated all 72 static pages.
 
 ## Findings
 

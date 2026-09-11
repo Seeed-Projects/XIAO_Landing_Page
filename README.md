@@ -25,10 +25,12 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 The Home hero places the primary message over the existing XIAO product image.
 The Explore action opens the XIAO Products page.
 Desktop layouts place the copy on the same centered 1800px content grid used by
-the rest of the page. Compact title-to-description and description-to-action
-spacing keeps the message together, while the 180px desktop action stays clear
-of the product lineup. Phone layouts preserve a roughly three-quarter-screen
-hero and use 24px side padding with a compact 148px action.
+the rest of the page. The hero title keeps the shared title family and weight at
+a larger responsive 36–64px scale. A 22–28px title gap and 34px action gap give
+the message room to breathe, while the 180px desktop action stays clear of the
+product lineup. Phone layouts preserve a roughly three-quarter-screen hero and
+use 24px side padding, an 18px title gap, a 28px action gap and a compact 148px
+action.
 
 With the existing dependencies installed, run `npm run dev -- --port 3000` and
 open `http://localhost:3000/XIAO_Landing_Page/#hero`. At desktop and 390px phone
@@ -132,7 +134,8 @@ line height. Descriptions and text actions match the About XIAO introduction at
 15px on phones and 16px from the small breakpoint, 400 weight and 1.65 line
 height. The hero campaign copy, navigation, footer, metrics, labels and form
 hints keep their purpose-specific compact styles. The hero title uses the
-section-title role, and its short supporting line uses the subtitle role.
+larger hero-title role with the same family, weight, line height and tracking as
+section titles, and its short supporting line uses the subtitle role.
 
 With the preview running, open
 `http://localhost:3000/XIAO_Landing_Page/` and compare About, Features,

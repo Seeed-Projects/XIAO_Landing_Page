@@ -13,7 +13,7 @@ test("home hero presents the requested message and Products action", () => {
   assert.match(component, /ctaLabel: "Explore"/);
   assert.match(component, /ctaHref: "\/products\/"/);
   assert.match(component, /href=\{withBase\(slide\.ctaHref\)\}/);
-  assert.match(component, /<h1 className="home-type-title">\{slide\.title\}<\/h1>/);
+  assert.match(component, /<h1 className="home-type-hero-title">\{slide\.title\}<\/h1>/);
   assert.match(component, /<p className="home-type-subtitle">\{slide\.description\}<\/p>/);
   assert.doesNotMatch(page, /<h1 className="sr-only">Seeed Studio XIAO<\/h1>/);
 });
@@ -28,6 +28,6 @@ test("home hero copy remains readable and responsive", () => {
 
 test("home hero copy follows the centered content grid with compact spacing", () => {
   assert.match(css, /\.heroContent \{[\s\S]*?left: 50%;[\s\S]*?width: min\(100%, 1800px\);[\s\S]*?translate\(-50%, -50%\)/);
-  assert.match(css, /\.heroContent p \{[\s\S]*?margin: clamp\(12px, 1vw, 18px\) 0 0;/);
-  assert.match(css, /\.heroCta \{[\s\S]*?min-width: 180px;[\s\S]*?min-height: 52px;[\s\S]*?margin-top: 24px;/);
+  assert.match(css, /\.heroContent p \{[\s\S]*?margin: clamp\(22px, 1\.4vw, 28px\) 0 0;/);
+  assert.match(css, /\.heroCta \{[\s\S]*?min-width: 180px;[\s\S]*?min-height: 52px;[\s\S]*?margin-top: 34px;/);
 });

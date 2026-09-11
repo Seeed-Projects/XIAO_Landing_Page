@@ -25,14 +25,16 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## 首页字体层级规范
 
 1. **适用范围**:
-   - Home 页统一使用 `home-type-title`、`home-type-subtitle`、
-     `home-type-body` 和 `home-type-action` 四类语义字阶。
-   - 首图主标题归入章节大标题，首图解释文案归入子标题；导航、页脚、数据数字、
-     标签、眉标、表单提示等辅助信息使用各自的紧凑字阶。
+   - Home 页统一使用 `home-type-hero-title`、`home-type-title`、
+     `home-type-subtitle`、`home-type-body` 和 `home-type-action` 五类语义字阶。
+   - 首图展示标题使用 `home-type-hero-title`，首图解释文案归入子标题；导航、页脚、
+     数据数字、标签、眉标、表单提示等辅助信息使用各自的紧凑字阶。
 
 2. **章节大标题**:
    - 以 `XIAO Playground` 为基准，使用 Montserrat、700 字重、1.12 行高、
      `-0.035em` 字距和 `clamp(28px, 3.6vw, 44px)` 响应式字号。
+   - 首图展示标题延续相同字体、字重、行高和字距，使用
+     `clamp(36px, 4vw, 64px)` 建立首屏层级。
 
 3. **子标题**:
    - 以 `Popular SoCs Integrated` 为基准，使用 Montserrat、20px、700 字重、

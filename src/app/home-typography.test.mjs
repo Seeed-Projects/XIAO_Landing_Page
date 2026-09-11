@@ -21,6 +21,7 @@ const sources = {
 };
 
 test("home typography tokens match the selected reference elements", () => {
+  assert.match(css, /--home-hero-title-size: clamp\(36px, 4vw, 64px\)/);
   assert.match(css, /--home-title-size: clamp\(28px, 3\.6vw, 44px\)/);
   assert.match(css, /--home-title-weight: 700/);
   assert.match(css, /--home-title-leading: 1\.12/);
@@ -35,10 +36,10 @@ test("home typography tokens match the selected reference elements", () => {
 });
 
 test("every Home content family opts into one semantic type role", () => {
-  for (const name of ["carousel", "components", "intro", "sections", "page", "cocreate", "newsletter"]) {
+  for (const name of ["components", "intro", "sections", "page", "cocreate", "newsletter"]) {
     assert.match(sources[name], /home-type-title/, `${name} has a section title role`);
   }
-  assert.match(sources.carousel, /<h1 className="home-type-title">/);
+  assert.match(sources.carousel, /<h1 className="home-type-hero-title">/);
   assert.match(sources.carousel, /<p className="home-type-subtitle">/);
   for (const name of ["sections", "partners", "cards", "news", "cocreate", "newsletter"]) {
     assert.match(sources[name], /home-type-subtitle/, `${name} has a subtitle role`);
@@ -55,8 +56,9 @@ test("every Home content family opts into one semantic type role", () => {
 
 test("project rules record the Home typography hierarchy", () => {
   assert.match(agents, /## 首页字体层级规范/);
-  assert.match(agents, /`home-type-title`、`home-type-subtitle`、\s*`home-type-body` 和 `home-type-action`/);
+  assert.match(agents, /`home-type-hero-title`、`home-type-title`、\s*`home-type-subtitle`、`home-type-body` 和 `home-type-action`/);
   assert.match(agents, /`XIAO Playground` 为基准/);
   assert.match(agents, /`Popular SoCs Integrated` 为基准/);
   assert.match(agents, /About XIAO 的介绍正文为基准/);
+  assert.match(agents, /首图展示标题.*`home-type-hero-title`/);
 });

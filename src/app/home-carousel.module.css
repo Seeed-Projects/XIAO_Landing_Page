@@ -66,14 +66,14 @@
 
 .heroContent h1 {
   margin: 0;
-  font-size: var(--home-title-size);
+  font-size: var(--home-hero-title-size);
   font-weight: var(--home-title-weight);
   line-height: var(--home-title-leading);
   letter-spacing: var(--home-title-tracking);
 }
 
 .heroContent p {
-  margin: clamp(12px, 1vw, 18px) 0 0;
+  margin: clamp(22px, 1.4vw, 28px) 0 0;
   font-size: var(--home-subtitle-size);
   font-weight: var(--home-subtitle-weight);
   line-height: var(--home-subtitle-leading);
@@ -86,7 +86,7 @@
   min-height: 52px;
   align-items: center;
   justify-content: center;
-  margin-top: 24px;
+  margin-top: 34px;
   padding: 10px 28px;
   border-radius: 999px;
   background: var(--button-bg);
@@ -171,8 +171,8 @@
     padding-inline: 24px;
     transform: translateY(-50%);
   }
-  .heroContent p { margin-top: 14px; }
-  .heroCta { min-width: 148px; min-height: 52px; margin-top: 20px; }
+  .heroContent p { margin-top: 18px; }
+  .heroCta { min-width: 148px; min-height: 52px; margin-top: 28px; }
   .arrow { width: 36px; height: 48px; }
   .previous { left: 8px; }
   .next { right: 8px; }

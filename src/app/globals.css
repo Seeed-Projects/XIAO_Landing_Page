@@ -44,6 +44,7 @@
   --type-card-copy: clamp(14px, 1.05vw, 16px);
   --leading-copy: 1.65;
 
+  --home-hero-title-size: clamp(36px, 4vw, 64px);
   --home-title-size: clamp(28px, 3.6vw, 44px);
   --home-title-weight: 700;
   --home-title-leading: 1.12;
@@ -492,12 +493,20 @@ canvas {
   margin-inline: auto;
 }
 
+.home-type-hero-title,
 .home-type-title {
   font-family: var(--font-display), sans-serif;
-  font-size: var(--home-title-size);
   font-weight: var(--home-title-weight);
   line-height: var(--home-title-leading);
   letter-spacing: var(--home-title-tracking);
+}
+
+.home-type-hero-title {
+  font-size: var(--home-hero-title-size);
+}
+
+.home-type-title {
+  font-size: var(--home-title-size);
 }
 
 .home-type-subtitle {
