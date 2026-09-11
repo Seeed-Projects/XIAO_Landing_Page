@@ -34,9 +34,9 @@ This version has breaking changes — APIs, conventions, and file structure may 
    - 以 `XIAO Playground` 为基准，使用 Montserrat、700 字重、1.12 行高、
      `-0.035em` 字距和 `clamp(28px, 3.6vw, 44px)` 响应式字号。
    - 首图展示标题延续相同字体和 700 字重，使用海报式独立层级：桌面端采用
-     `clamp(72px, 8.2vw, 152px)`，手机端采用 `clamp(36px, 10.7vw, 68px)`。
+     `clamp(80px, 9vw, 168px)`，手机端采用 `clamp(38px, 11.4vw, 72px)`。
      首图标题采用品牌蓝衍生的浅浮雕字面，上沿柔和受光，深蓝侧面表现厚度；
-     字面与侧面共同由上半部实体渐隐至下半部透明，融入背景。
+     字面与侧面上方 2/3 保持实体，下方 1/3 逐渐透明，融入背景。
      桌面端以原图前景轮廓遮挡标题，建立产品与文字的前后层次；进入视野时播放渐入动画，
      离开后恢复待播放状态，再次进入时重新播放。
 

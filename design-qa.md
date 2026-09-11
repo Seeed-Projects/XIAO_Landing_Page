@@ -16,7 +16,7 @@ final result: passed
 ## Typography System
 
 - Hero title: Montserrat, 700 weight, `.88` line height, `-0.04em` tracking and
-  `clamp(72px, 8.2vw, 152px)` desktop sizing. Phones use a responsive 36–68px
+  `clamp(80px, 9vw, 168px)` desktop sizing. Phones use a responsive 38–72px
   scale with `1.08` line height.
 - Section titles: Montserrat, 700 weight, 1.12 line height, `-0.035em` tracking,
   and `clamp(28px, 3.6vw, 44px)` sizing.
@@ -37,9 +37,9 @@ final result: passed
   several weights. These P1 consistency differences are resolved through the
   shared semantic roles.
 - Desktop computed styles form exactly one group per role: one hero title at up
-  to 152px/700, 11 section titles at 44px/700, 46 subtitles at 20px/700, 22
+  to 168px/700, 11 section titles at 44px/700, 46 subtitles at 20px/700, 22
   descriptions at 16px/400 and 16 text actions at 16px/700.
-- Mobile roles resolve to 36–68px/700 for the hero title, 28px/700 for section
+- Mobile roles resolve to 38–72px/700 for the hero title, 28px/700 for section
   titles, 20px/700 for subtitles, 15px/400 for descriptions and 15px/700 for
   actions. The
   16px email input is the documented form control exception.
@@ -63,9 +63,9 @@ final result: passed
 
 ## Fidelity Surfaces
 
-- Typography: the title uses the dedicated Home hero role at 700 weight, compact `.88` line height, tight tracking and responsive 72–152px desktop sizing. Its brand-blue-to-transparent fill blends the lower half into the photograph. The supporting line uses the shared 20px subtitle role and stays on one line at desktop widths. The action uses the shared 15–16px action role at 700 weight.
+- Typography: the title uses the dedicated Home hero role at 700 weight, compact `.88` line height, tight tracking and responsive 80–168px desktop sizing. Its brand-blue-to-transparent fill blends the lower third into the photograph. The supporting line uses the shared 20px subtitle role and stays on one line at desktop widths. The action uses the shared 15–16px action role at 700 weight.
 - Layout: the copy sits on a centered 1800px content grid with responsive inner padding. A 22–28px title gap and 34px action gap give the three elements room to breathe. The desktop CTA is 180 x 52px; the phone layout uses an 18px title gap, 28px action gap and 148 x 52px CTA. On phone, the hero occupies approximately three quarters of the viewport below the 64px header; content remains fully inside the hero.
-- Colors: the title face uses a vertical muted-blue gradient (`#638fa3`, `#477c91`, `#29566e`, `#15364a`) with a fine upper rim light. A decorative dark-blue text layer creates shallow extrusion and a soft contact shadow; its depth scales with the font size. Both layers share an opacity mask that keeps the upper 42% opaque, fades progressively through 86%, 40% and 6% opacity, and reaches full transparency at the bottom. On phones the mask repeats per text line. The CTA uses the existing green token, bold white text and a subtle shadow.
+- Colors: the title face uses a vertical muted-blue gradient (`#638fa3`, `#477c91`, `#29566e`, `#15364a`) with a fine upper rim light. A decorative dark-blue text layer creates shallow extrusion and a soft contact shadow; its depth scales with the font size. Both layers share an opacity mask that keeps the upper two thirds opaque, fades progressively through 75%, 30% and 5% opacity across the lower third, and reaches full transparency at the bottom. On phones the mask repeats per text line. The CTA uses the existing green token, bold white text and a subtle shadow.
 - Depth: an SVG clip follows the original upright ruler silhouette and displays that portion of the same photograph above the title. The decorative layer is excluded from accessibility and pointer interaction. Desktop uses the same centered cover scaling for both photo layers; mobile uses the existing single-photo crop.
 - Image quality: the existing 2560 x 965 XIAO banner remains unchanged and is rendered as the full-bleed source asset. Desktop uses the original centered crop; phone uses a focused crop that retains the product lineup.
 - Copy: title, description and Explore label match the supplied wording. Explore targets the XIAO Products page at `/XIAO_Landing_Page/products/`.

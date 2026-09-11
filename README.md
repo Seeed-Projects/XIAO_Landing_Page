@@ -27,16 +27,17 @@ The Explore action opens the XIAO Products page and includes a right arrow that
 moves subtly on hover or keyboard focus.
 Desktop layouts place the copy on the same centered 1800px content grid used by
 the rest of the page. The hero title keeps the shared title family and 700
-weight at a poster-scale responsive 72–152px size. A muted blue relief treatment
+weight at a poster-scale responsive 80–168px size. A muted blue relief treatment
 combines a softly lit text face with a shallow dark-blue extrusion. Both layers
-fade together into the photograph through an opacity mask. The decorative depth
+stay opaque across the upper two thirds and fade together into the photograph
+across the lower third through an opacity mask. The decorative depth
 layer is hidden from assistive technology. A clipped copy of the original upright
 ruler appears in front of the title on desktop.
 Entering the hero reveals
 the title through a soft blur-and-rise transition; leaving and returning replays
 the motion. A 22–28px title gap and 34px action gap keep the supporting copy and
 180px desktop action clear of the product lineup. Phone layouts preserve a
-roughly three-quarter-screen hero and use a responsive 36–68px title, 24px side
+roughly three-quarter-screen hero and use a responsive 38–72px title, 24px side
 padding, an 18px title gap, a 28px action gap and a compact 148px action.
 
 With the existing dependencies installed, run `npm run dev -- --port 3000` and
