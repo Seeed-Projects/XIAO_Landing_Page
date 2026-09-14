@@ -2,93 +2,19 @@
 
 import { useRef } from "react";
 import { useLang } from "./i18n";
+import content from "./home-content.generated.json";
 
 /**
- * 资讯滚动带 —— GitHub Pages 阶段只用静态快照，不运行时拉取。
- * 直连 Seeed WordPress wp-json 因重复 CORS 头失败；JSONP 取回后
- * re-render 会让卡片样式跳动（首屏对、几秒后变小）。为保持首屏
- * 样子稳定，这里不做 fetch，直接渲染静态数据。上到同源域名后再
- * 启用实时拉取。
+ * Render the build-time news snapshot so static hosting remains stable.
+ * 渲染构建阶段生成的新闻快照，让静态托管保持稳定。
  */
 
 const BLOG_TAG_URL = "https://www.seeedstudio.com/blog/tag/seeed-studio-xiao/";
 
-// 静态新闻快照：与 Seeed Blog XIAO 标签文章对齐，保证卡片有匹配的链接与配图。
-const NEWS_FALLBACK = [
-  {
-    title: "Axiometa Genesis XIAO Shield: Build Real Devices Without the Wiring",
-    excerpt:
-      "Meet the Axiometa Genesis XIAO Shield, a board that turns compatible Seeed Studio XIAO boards into practical devices.",
-    date: "2026-08-17",
-    url: "https://www.seeedstudio.com/blog/2026/08/17/axiometa-genesis-xiao-shield/",
-    media_url:
-      "https://www.seeedstudio.com/blog/wp-content/uploads/2026/08/axiometa-xiao-shield-poster.png",
-    source: "Kezang Loday",
-    tag: "Seeed Blog",
-  },
-  {
-    title: "Customize Your XIAO for Production: Firmware, Headers, Assembly & More",
-    excerpt:
-      "Seeed Fusion helps take a XIAO prototype toward a production-ready solution with customization and assembly services.",
-    date: "2026-08-06",
-    url:
-      "https://www.seeedstudio.com/blog/2026/08/06/seeed-fusion-customize-your-xiao-for-production-firmware-headers-assembly-and-more/",
-    media_url:
-      "https://www.seeedstudio.com/blog/wp-content/uploads/2026/08/xiaoblog-%E5%A4%B4%E5%9B%BE-scaled.jpg",
-    source: "Ginny Zhang",
-    tag: "Seeed Blog",
-  },
-  {
-    title: "Oli v1: A Fist-Grip Mouse That Gives Your Hand a Break",
-    excerpt:
-      "Meet Oli v1, a fist-grip computer mouse with tilt-layer functionality built with XIAO nRF52840 Sense.",
-    date: "2026-08-04",
-    url: "https://www.seeedstudio.com/blog/2026/08/04/oli-v1-fist-grip-mouse-xiao-nrf52840-sense/",
-    media_url: "https://www.seeedstudio.com/blog/wp-content/uploads/2026/08/DSC01472_2.webp",
-    source: "Kezang Loday",
-    tag: "Seeed Blog",
-  },
-  {
-    title: "Add Voice Interaction to LeKiwi Robot with reSpeaker Flex",
-    excerpt:
-      "A practical project combining robotics and voice interaction with reSpeaker Flex.",
-    date: "2026-05-20",
-    url:
-      "https://www.seeedstudio.com/blog/2026/05/20/add-voice-interaction-to-lekiwi-robot-with-respeaker-flex/",
-    media_url:
-      "https://www.seeedstudio.com/blog/wp-content/uploads/2026/05/banner_javis-1.png",
-    source: "Elena Tang",
-    tag: "Seeed Blog",
-  },
-  {
-    title: "ESP32-S31 vs. ESP32-S3: Should the XIAO Get an Upgrade?",
-    excerpt:
-      "A comparison of ESP32-S31 and ESP32-S3, and a discussion about the direction of the next XIAO.",
-    date: "2026-04-14",
-    url:
-      "https://www.seeedstudio.com/blog/2026/04/14/esp32-s31-vs-esp32-s3-should-the-xiao-get-an-upgrade/",
-    media_url:
-      "https://www.seeedstudio.com/blog/wp-content/uploads/2026/04/ESP32-S31.png",
-    source: "Josie",
-    tag: "Seeed Blog",
-  },
-  {
-    title: "Vision AI & Voice AI at Embedded World 2026",
-    excerpt:
-      "Seeed Studio showcased how edge AI sensing is moving rapidly from concept to real-world deployment.",
-    date: "2026-03-20",
-    url:
-      "https://www.seeedstudio.com/blog/2026/03/20/vision-ai-voice-ai-at-embedded-world-2026-bringing-ai-sensing-from-concept-to-reality/",
-    media_url: "https://www.seeedstudio.com/blog/wp-content/uploads/2026/03/EW1.jpg",
-    source: "Elena Tang",
-    tag: "Seeed Blog",
-  },
-];
-
 export function NewsCarousel() {
   const { lang } = useLang();
   const isEn = lang === "en";
-  const items = NEWS_FALLBACK;
+  const items = content.news;
   const trackRef = useRef(null);
   const scrollByCard = (dir) => {
     const el = trackRef.current;
