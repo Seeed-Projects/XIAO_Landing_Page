@@ -17,7 +17,7 @@ export function ProjectsCarousel() {
     <ScrollBand
       items={PROJECTS}
       rows={2}
-      speed={0.55}
+      speed={0.361}
       delayStep={45}
       hrefFor={(item) => item.url || "#"}
       renderCard={(item) => (
