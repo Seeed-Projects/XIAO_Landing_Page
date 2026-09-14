@@ -2,6 +2,29 @@
   "projects": [
     {
       "title": {
+        "en": "XIAO Formula 1 Key Holder",
+        "zh": "XIAO Formula 1 Key Holder"
+      },
+      "excerpt": {
+        "en": "Battery-powered F1-garage key holder — XIAO ESP32-S3 firmware that plays a driver's theme when you hang up your keys.",
+        "zh": "Battery-powered F1-garage key holder — XIAO ESP32-S3 firmware that plays a driver's theme when you hang up your keys."
+      },
+      "author": {
+        "en": "nullsych",
+        "zh": "nullsych"
+      },
+      "tag": {
+        "en": "Smart Home",
+        "zh": "Smart Home"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://github.com/nullsych/f1-key-holder",
+      "media_url": "https://raw.githubusercontent.com/nullsych/f1-key-holder/main/img/demo-img.jpg",
+      "date": "2026-09-09",
+      "featured": true
+    },
+    {
+      "title": {
         "en": "ble-leveler",
         "zh": "ble-leveler 蓝牙水平仪"
       },
@@ -1078,29 +1101,6 @@
       "board": "XIAO ESP32-S3",
       "url": "https://www.youtube.com/shorts/BvSES4DGh6c",
       "media_url": "https://i.ytimg.com/vi/BvSES4DGh6c/maxresdefault.jpg",
-      "date": "2026-04-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "ESP32-Bus-Pirate",
-        "zh": "ESP32-Bus-Pirate"
-      },
-      "excerpt": {
-        "en": "A Hardware Hacking Tool with Web-Based CLI That Speaks Every Protocol. Supports I2C, SPI, UART, 1-Wire, JTAG, BLE, Wi-Fi, Sub-GHz, RFID via web terminal.",
-        "zh": "Web CLI 硬件黑客工具，支持 I2C、SPI、UART、1-Wire、JTAG、BLE、Wi-Fi、Sub-GHz、RFID 等多种协议。"
-      },
-      "author": {
-        "en": "geo-tp",
-        "zh": "geo-tp"
-      },
-      "tag": {
-        "en": "Tools & Accessories",
-        "zh": "工具配件"
-      },
-      "board": "XIAO ESP32-S3",
-      "url": "https://github.com/geo-tp/ESP32-Bus-Pirate",
-      "media_url": "https://avatars.githubusercontent.com/u/72315006?v=4",
       "date": "2026-04-01",
       "featured": false
     }
