@@ -209,29 +209,6 @@
     },
     {
       "title": {
-        "en": "Giant XIAO — 15x Scale Fully Functional XIAO ESP32-C3 Replica",
-        "zh": "巨型 XIAO — 15 倍大全功能 XIAO ESP32-C3 复制品"
-      },
-      "excerpt": {
-        "en": "A fully functional 15× scale replica of the Seeed Studio XIAO ESP32-C3, built with 3D-printed PLA and copper tape wiring. Every pin is wired through to a real XIAO hidden inside the giant USB-C port, making the giant board electrically functional. Features swappable chip housing and magnetic interior tray. Created by the TinyGo team and presented at GopherCon EU 2026.",
-        "zh": "3D 打印的全功能 15 倍大 XIAO ESP32-C3 复制品。每个引脚通过铜箔胶带连接到藏在巨型 USB-C 接口内的真实 XIAO，使巨型开发板具备完整电气功能。配备可更换芯片外壳和磁吸内部收纳托盘。由 TinyGo 团队制作，在 GopherCon EU 2026 展示。"
-      },
-      "author": {
-        "en": "Daniel Esteban (TinyGo Team)",
-        "zh": "Daniel Esteban (TinyGo 团队)"
-      },
-      "tag": {
-        "en": "Tools & Accessories",
-        "zh": "工具配件"
-      },
-      "board": "XIAO ESP32-C3",
-      "url": "https://madriguera.me/building-a-giant-xiao-a-fully-functional-15x-scale-seeed-studio-xiao-esp32-c3/",
-      "media_url": "https://madriguera.me/content/images/2026/06/02-size-comparison-real-vs-giant.jpg",
-      "date": "2026-06-01",
-      "featured": false
-    },
-    {
-      "title": {
         "en": "ESP Dash — Local ESP32 Sensor Data Visualization",
         "zh": "ESP Dash — 本地 ESP32 传感器数据可视化"
       },
@@ -324,29 +301,6 @@
     },
     {
       "title": {
-        "en": "E61 Gauge — Analog Temperature Gauge for E61 Espresso Machines",
-        "zh": "E61 模拟温度表 — 适用于 E61 咖啡机"
-      },
-      "excerpt": {
-        "en": "An analog temperature gauge for E61 espresso machines. Custom PCB drives a VID6606 stepper motor gauge needle, reading temperature from an NTC thermistor. Connects via BLE to a web app for calibration and real-time monitoring. Features a non-linear dial scale (0–150°C) with expanded green zone at 92–97°C, SLM 3D-printed metal enclosure, and open-source KiCad/Arduino design.",
-        "zh": "一款 E61 咖啡机模拟温度表。定制 PCB 驱动 VID6606 步进电机表针，NTC 热敏电阻测温。通过 BLE 蓝牙连接网页应用进行校准和实时监测。非线性表盘刻度（0–150°C），92–97°C 绿色区间放大便于精确观察。SLM 3D 打印金属外壳，KiCad 源文件和 Arduino 固件全部开源。"
-      },
-      "author": {
-        "en": "gidim",
-        "zh": "gidim"
-      },
-      "tag": {
-        "en": "Tools & Accessories",
-        "zh": "工具配件"
-      },
-      "board": "XIAO nRF52840 (XIAO BLE)",
-      "url": "https://github.com/gidim/e61-gauge",
-      "media_url": "https://raw.githubusercontent.com/gidim/e61-gauge/main/media/hero.jpg",
-      "date": "2026-05-01",
-      "featured": false
-    },
-    {
-      "title": {
         "en": "Bit:busy — LED Bar That Indicates Your Work Status",
         "zh": "Bit:busy LED 工作状态指示条"
       },
@@ -365,52 +319,6 @@
       "board": "XIAO ESP32-C3",
       "url": "https://www.hackster.io/glutesha/bit-busy-led-bar-that-indicates-your-work-status-0fd501",
       "media_url": "https://hackster.imgix.net/uploads/attachments/1895412/_WzzfZpP47a.blob?auto=compress&w=1600&h=1200&fit=min&fm=jpg",
-      "date": "2026-05-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "AI Meeting Recorder using XIAO ESP32 S3 Sense",
-        "zh": "AI 会议记录器 — 基于 XIAO ESP32-S3 Sense"
-      },
-      "excerpt": {
-        "en": "A pocket-sized AI meeting recorder built with the Seeed Studio XIAO ESP32-S3 Sense. Records conversations and automatically generates detailed summaries using Elevenlabs and OpenAI APIs. Leverages the dual-core processor to chunk audio into 15-second segments for seamless real-time transcription without hitting memory limits. Inspired by the Neo Sapiens pitch on Shark Tank India.",
-        "zh": "一款口袋大小的 AI 会议记录器，基于 Seeed Studio XIAO ESP32-S3 Sense。录制对话内容，通过 Elevenlabs 和 OpenAI API 自动生成详细摘要。利用双核处理器将音频分块为 15 秒片段，实现无缝实时转录。灵感来自 Shark Tank India 的 Neo Sapiens 演示。"
-      },
-      "author": {
-        "en": "techiesms",
-        "zh": "techiesms"
-      },
-      "tag": {
-        "en": "AI Gadget",
-        "zh": "AI Gadget"
-      },
-      "board": "XIAO ESP32-S3 Sense",
-      "url": "https://www.youtube.com/watch?v=FhV9c0Vv3Ng",
-      "media_url": "https://i.ytimg.com/vi/FhV9c0Vv3Ng/maxresdefault.jpg",
-      "date": "2026-05-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "Getting Started with XIAO MG24 / XIAO MG24 Sense (Arduino)",
-        "zh": "XIAO MG24 / XIAO MG24 Sense Arduino 入门指南"
-      },
-      "excerpt": {
-        "en": "A comprehensive Japanese tutorial blog post on using the Seeed Studio XIAO MG24 and XIAO MG24 Sense in the Arduino environment. Covers basic GPIO, I2C (Wire/Wire1 troubleshooting), WS2812 LED control, DAC output, 6-axis IMU, PDM microphone, and BLE UART communication with practical troubleshooting advice.",
-        "zh": "一篇详细的日文博客教程，介绍如何在 Arduino 环境中使用 Seeed Studio XIAO MG24 和 XIAO MG24 Sense。涵盖 GPIO 基础、I2C（Wire/Wire1 问题排查）、WS2812 LED 控制、DAC 输出、6 轴 IMU、PDM 麦克风和 BLE UART 通信，附有实用的故障排除建议。"
-      },
-      "author": {
-        "en": "tamanegi",
-        "zh": "tamanegi"
-      },
-      "tag": {
-        "en": "Tools & Accessories",
-        "zh": "工具配件"
-      },
-      "board": "XIAO MG24, XIAO MG24 Sense",
-      "url": "https://tamanegi-digick.com/it/xiaomg24/",
-      "media_url": "https://tamanegi-digick.com/wp-content/uploads/2026/04/ec-xiaomg24.jpg",
       "date": "2026-05-01",
       "featured": false
     },
@@ -968,29 +876,6 @@
     },
     {
       "title": {
-        "en": "plainFlightController",
-        "zh": "plainFlight 飞控"
-      },
-      "excerpt": {
-        "en": "Flight stabilisation software for RC multirotor aircraft. Runs on XIAO ESP32-S3 with MPU6050 IMU.",
-        "zh": "无人机飞行稳定软件，运行在 XIAO ESP32-S3"
-      },
-      "author": {
-        "en": "plainFlight",
-        "zh": "plainFlight"
-      },
-      "tag": {
-        "en": "Robotics",
-        "zh": "机器人"
-      },
-      "board": "XIAO ESP32-S3",
-      "url": "https://github.com/plainFlight/plainFlightController",
-      "media_url": "https://github.com/plainFlight/plainFlightController/blob/main/assets/images/PlainFlight%20Logo%20Large.PNG",
-      "date": "2026-04-01",
-      "featured": false
-    },
-    {
-      "title": {
         "en": "Smart Matter Button using XIAO ESP32 C6",
         "zh": "智能 Matter 按钮"
       },
@@ -1101,6 +986,121 @@
       "board": "XIAO nRF52840 (XIAO BLE)",
       "url": "https://www.youtube.com/watch?v=Rmd7PqXNT28",
       "media_url": "https://i.ytimg.com/vi/Rmd7PqXNT28/maxresdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "DIY Zigbee Smart Home with ESP32-C6",
+        "zh": "DIY Zigbee 智能家居"
+      },
+      "excerpt": {
+        "en": "DIY Zigbee Smart Home with ESP32-C6: Door Sensor, Lights & Temperature.",
+        "zh": "使用 ESP32-C6 构建 DIY Zigbee 智能家居：门传感器、灯光和温度。"
+      },
+      "author": {
+        "en": "BMonster Laboratory",
+        "zh": "BMonster Laboratory"
+      },
+      "tag": {
+        "en": "Smart Home",
+        "zh": "智能家居"
+      },
+      "board": "XIAO ESP32-C6",
+      "url": "https://www.youtube.com/watch?v=HzwI6xXlNrE",
+      "media_url": "https://i.ytimg.com/vi/HzwI6xXlNrE/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "Smart Air Quality Sensor for Home Assistant",
+        "zh": "Home Assistant 智能空气质量传感器"
+      },
+      "excerpt": {
+        "en": "I Built a Smart Air Quality Sensor for Home Assistant using ESP32-C5.",
+        "zh": "使用 ESP32-C5 为 Home Assistant 构建智能空气质量传感器。"
+      },
+      "author": {
+        "en": "J-Rat Techworks",
+        "zh": "J-Rat Techworks"
+      },
+      "tag": {
+        "en": "Smart Home",
+        "zh": "智能家居"
+      },
+      "board": "XIAO ESP32-C5",
+      "url": "https://www.youtube.com/watch?v=AuWQobj5qaU",
+      "media_url": "https://i.ytimg.com/vi/AuWQobj5qaU/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "DIY AI Desk Buddy",
+        "zh": "DIY AI 桌面助手"
+      },
+      "excerpt": {
+        "en": "This DIY AI Desk Buddy built with XIAO ESP32-S3 that can understand voice commands and respond like a real assistant.",
+        "zh": "这个 DIY AI 桌面助手基于 XIAO ESP32-S3，能理解语音命令并像真正的助手一样回应。"
+      },
+      "author": {
+        "en": "Pro maker 101",
+        "zh": "Pro maker 101"
+      },
+      "tag": {
+        "en": "AI Gadget",
+        "zh": "AI Gadget"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://www.youtube.com/watch?v=WIUowv3Huhk",
+      "media_url": "https://i.ytimg.com/vi/WIUowv3Huhk/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "ESP32 WiFiManager Tutorial",
+        "zh": "ESP32 WiFiManager 教程"
+      },
+      "excerpt": {
+        "en": "Setup ESP32 WiFi From Your Phone! Ultimate WiFiManager Tutorial featuring XIAO ESP32-C3.",
+        "zh": "用手机设置 ESP32 WiFi！终极 WiFiManager 教程，介绍 XIAO ESP32-C3。"
+      },
+      "author": {
+        "en": "BJD Solutions",
+        "zh": "BJD Solutions"
+      },
+      "tag": {
+        "en": "Tools & Accessories",
+        "zh": "工具配件"
+      },
+      "board": "XIAO ESP32-C3",
+      "url": "https://www.youtube.com/watch?v=5HjYeiXsTLg",
+      "media_url": "https://i.ytimg.com/vi/5HjYeiXsTLg/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "WIFI Controlled Car with GYROSCOPE",
+        "zh": "WiFi 控制陀螺仪小车"
+      },
+      "excerpt": {
+        "en": "How to make WIFI Controlled Car with GYROSCOPE and Normal Control using XIAO ESP32-S3, L298N Motor Driver, BO Motor.",
+        "zh": "如何使用 XIAO ESP32-S3、L298N 电机驱动、BO 电机制作 WiFi 控制陀螺仪小车。"
+      },
+      "author": {
+        "en": "roboattic Lab",
+        "zh": "roboattic Lab"
+      },
+      "tag": {
+        "en": "Robotics",
+        "zh": "机器人"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://www.youtube.com/watch?v=QAcoPOQ87BI",
+      "media_url": "https://i.ytimg.com/vi/QAcoPOQ87BI/hqdefault.jpg",
       "date": "2026-04-01",
       "featured": false
     }
