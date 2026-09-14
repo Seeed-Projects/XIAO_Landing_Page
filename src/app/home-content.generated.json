@@ -2,52 +2,6 @@
   "projects": [
     {
       "title": {
-        "en": "XIAO Formula 1 Key Holder",
-        "zh": "XIAO Formula 1 Key Holder"
-      },
-      "excerpt": {
-        "en": "Battery-powered F1-garage key holder — XIAO ESP32-S3 firmware that plays a driver's theme when you hang up your keys.",
-        "zh": "Battery-powered F1-garage key holder — XIAO ESP32-S3 firmware that plays a driver's theme when you hang up your keys."
-      },
-      "author": {
-        "en": "nullsych",
-        "zh": "nullsych"
-      },
-      "tag": {
-        "en": "Smart Home",
-        "zh": "Smart Home"
-      },
-      "board": "XIAO ESP32-S3",
-      "url": "https://github.com/nullsych/f1-key-holder",
-      "media_url": "https://raw.githubusercontent.com/nullsych/f1-key-holder/main/img/demo-img.jpg",
-      "date": "2026-09-09",
-      "featured": true
-    },
-    {
-      "title": {
-        "en": "ble-leveler",
-        "zh": "ble-leveler 蓝牙水平仪"
-      },
-      "excerpt": {
-        "en": "A wireless dual-axis leveling tool built with XIAO nRF52840 Sense, its LSM6DS3 IMU, Rust, and Bluetooth Low Energy. It sends a self-contained interactive crosshair interface to the Phyphox mobile app, supports 24 mounting orientations, and stores calibration references and tolerance limits in non-volatile memory.",
-        "zh": "一款使用 XIAO nRF52840 Sense、板载 LSM6DS3 IMU、Rust 和蓝牙低功耗技术构建的无线双轴水平仪。设备会向 Phyphox 手机应用发送自包含的交互式十字准星界面，支持 24 种安装方向，并在非易失存储器中保存校准基准和容差范围。"
-      },
-      "author": {
-        "en": "Jan Češpivo",
-        "zh": "Jan Češpivo"
-      },
-      "tag": {
-        "en": "Tools & Accessories",
-        "zh": "工具配件"
-      },
-      "board": "XIAO nRF52840 Sense (XIAO BLE Sense)",
-      "url": "https://github.com/jancespivo/ble-leveler",
-      "media_url": "https://raw.githubusercontent.com/jancespivo/ble-leveler/main/screenshot.png",
-      "date": "2026-09-01",
-      "featured": false
-    },
-    {
-      "title": {
         "en": "TRMNL 7.5-inch DIY Weather Dashboard",
         "zh": "TRMNL 7.5 英寸 DIY 天气仪表盘"
       },
@@ -692,29 +646,6 @@
     },
     {
       "title": {
-        "en": "Biofeedback Device for Nerve Injury Exercises",
-        "zh": "神经损伤训练生物反馈设备"
-      },
-      "excerpt": {
-        "en": "A thin silicone facial wearable that uses embedded LEDs to provide visual cues for therapeutic muscle exercises after a facial nerve injury. The prototype uses a FabriXIAO breakout board with XIAO ESP32-C3 and supports button-controlled alternating light sequences.",
-        "zh": "一款薄型硅胶面部可穿戴设备，通过嵌入式 LED 为面部神经损伤后的肌肉训练提供视觉提示。原型使用搭载 XIAO ESP32-C3 的 FabriXIAO 扩展板，并支持按钮控制的交替灯光序列。"
-      },
-      "author": {
-        "en": "Maddie Olsen",
-        "zh": "Maddie Olsen"
-      },
-      "tag": {
-        "en": "Wearables",
-        "zh": "可穿戴"
-      },
-      "board": "XIAO ESP32-C3",
-      "url": "https://class.textile-academy.org/2026/madeleine-olsen/assignments/week12/",
-      "media_url": "https://class.textile-academy.org/2026/madeleine-olsen/images/week12/week12-schematic.png",
-      "date": "2026-04-01",
-      "featured": false
-    },
-    {
-      "title": {
         "en": "Corporate Slave Digital Phone DP192 — Reviving a 1996 Phone with ESP32",
         "zh": "社畜数字电话 DP192 — 用 ESP32 复活 1996 年手机"
       },
@@ -968,139 +899,208 @@
     },
     {
       "title": {
-        "en": "ESP32-Bus-Pirate",
-        "zh": "ESP32-Bus-Pirate"
+        "en": "Vail Adapter",
+        "zh": "Vail 莫尔斯电码适配器"
       },
       "excerpt": {
-        "en": "A Hardware Hacking Tool with Web-Based CLI That Speaks Every Protocol. Supports I2C, SPI, UART, 1-Wire, JTAG, BLE, Wi-Fi, Sub-GHz, RFID via web terminal.",
-        "zh": "Web CLI 硬件黑客工具，支持 I2C、SPI、UART、1-Wire、JTAG、BLE、Wi-Fi、Sub-GHz、RFID 等多种协议。"
+        "en": "Morse code key/paddle to USB HID adapter using Seeed Studio XIAO SAMD21. Implements all nine keyer modes from Vail.",
+        "zh": "使用 Seeed Studio XIAO SAMD21 的莫尔斯电码键/桨转 USB HID 适配器，实现 Vail 的全部 9 种电键模式。"
       },
       "author": {
-        "en": "geo-tp",
-        "zh": "geo-tp"
+        "en": "Vail-CW",
+        "zh": "Vail-CW"
       },
       "tag": {
         "en": "Tools & Accessories",
         "zh": "工具配件"
       },
-      "board": "XIAO ESP32-S3",
-      "url": "https://github.com/geo-tp/ESP32-Bus-Pirate",
-      "media_url": "https://avatars.githubusercontent.com/u/72315006?v=4",
+      "board": "XIAO SAMD21 (Seeeduino XIAO)",
+      "url": "https://github.com/Vail-CW/vail-adapter",
+      "media_url": "https://avatars.githubusercontent.com/u/207725212?v=4",
       "date": "2026-04-01",
       "featured": false
     },
     {
       "title": {
-        "en": "MitsubishiCN105ESPHome",
-        "zh": "三菱空调 ESPHome 集成"
+        "en": "xiamocon",
+        "zh": "xiamocon 游戏机形态主板"
       },
       "excerpt": {
-        "en": "ESPHome firmware for Mitsubishi heat pumps via CN105 UART connector with native Home Assistant integration.",
-        "zh": "通过 CN105 UART 接口连接三菱空调的 ESPHome 固件，原生接入 Home Assistant。"
+        "en": "Game-console-shaped motherboard for XIAO RP2350 and XIAO ESP32-S3. Custom PCB design in retro game console form factor.",
+        "zh": "XIAO RP2350 和 XIAO ESP32-S3 的游戏机形态主板，复古游戏机外形的定制 PCB 设计。"
       },
       "author": {
-        "en": "echavet",
-        "zh": "echavet"
+        "en": "shapoco",
+        "zh": "shapoco"
+      },
+      "tag": {
+        "en": "Hardware Design",
+        "zh": "硬件设计"
+      },
+      "board": "XIAO RP2350, XIAO ESP32-S3",
+      "url": "https://github.com/shapoco/xiamocon",
+      "media_url": "https://avatars.githubusercontent.com/u/40152459?v=4",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "opticka",
+        "zh": "opticka 心理物理学实验管理器"
+      },
+      "excerpt": {
+        "en": "Behavioral experiment manager for psychophysics research with MATLAB. Object-oriented framework for visual stimuli presentation.",
+        "zh": "MATLAB 心理物理学研究的行为实验管理器，面向对象的视觉刺激呈现框架。"
+      },
+      "author": {
+        "en": "iandol",
+        "zh": "iandol"
+      },
+      "tag": {
+        "en": "Scientific Tools",
+        "zh": "科学工具"
+      },
+      "board": "XIAO SAMD21 (Seeeduino XIAO)",
+      "url": "https://github.com/iandol/opticka",
+      "media_url": "https://avatars.githubusercontent.com/u/153905?v=4",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "Open source ESP32 AI Chatbot - DIY",
+        "zh": "开源 ESP32 AI 聊天机器人 DIY"
+      },
+      "excerpt": {
+        "en": "DIY AI assistant using XIAO ESP32-S3 with I2S audio modules for voice interaction.",
+        "zh": "用 XIAO ESP32-S3 加 I2S 音频模块 DIY AI 助手，支持语音交互。"
+      },
+      "author": {
+        "en": "EDISON SCIENCE CORNER",
+        "zh": "EDISON SCIENCE CORNER"
+      },
+      "tag": {
+        "en": "AI Gadget",
+        "zh": "AI Gadget"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://www.youtube.com/watch?v=B7jzMLpdjqo",
+      "media_url": "https://i.ytimg.com/vi/B7jzMLpdjqo/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "I Built an AI Desk Assistant That Can Rewrite it's Own Code!",
+        "zh": "我会自己写代码的 AI 桌面助手"
+      },
+      "excerpt": {
+        "en": "AI desk assistant that can rewrite its own code, built with XIAO ESP32-S3 Sense featuring touch display.",
+        "zh": "用 XIAO ESP32-S3 Sense 制作的桌面 AI 助手，能自己改写代码，带触摸屏。"
+      },
+      "author": {
+        "en": "Naz Louis",
+        "zh": "Naz Louis"
+      },
+      "tag": {
+        "en": "AI Gadget",
+        "zh": "AI Gadget"
+      },
+      "board": "XIAO ESP32-S3 Sense",
+      "url": "https://www.youtube.com/watch?v=NAz847JrGU4",
+      "media_url": "https://i.ytimg.com/vi/NAz847JrGU4/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "Running AI Agent on ESP32 S3 Board",
+        "zh": "在 ESP32 S3 开发板上运行 AI Agent"
+      },
+      "excerpt": {
+        "en": "Run the ESP Claw AI agent on an ESP32-S3 development board.",
+        "zh": "在XIAO ESP32-S3上跑ESP Claw。"
+      },
+      "author": {
+        "en": "techiesms",
+        "zh": "techiesms"
+      },
+      "tag": {
+        "en": "AI Gadget",
+        "zh": "AI Gadget"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://www.youtube.com/watch?v=S0czt7Ld5fw",
+      "media_url": "https://i.ytimg.com/vi/S0czt7Ld5fw/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "Make Your Own Fallout Smart Watch",
+        "zh": "自制 Fallout 风格智能手表"
+      },
+      "excerpt": {
+        "en": "DIY Fallout-style smart watch powered by XIAO ESP32-S3 with custom retro post-apocalyptic UI.",
+        "zh": "用 XIAO ESP32-S3 制作的 Fallout 风格智能手表，带复古末日主题 UI。"
+      },
+      "author": {
+        "en": "Huy Vector",
+        "zh": "Huy Vector"
+      },
+      "tag": {
+        "en": "Wearables",
+        "zh": "可穿戴"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://www.youtube.com/watch?v=wQn11GyUdrk",
+      "media_url": "https://i.ytimg.com/vi/wQn11GyUdrk/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "DIY Zigbee Temperature Sensor with XIAO ESP32C6",
+        "zh": "DIY XIAO ESP32C6 Zigbee 温湿度传感器"
+      },
+      "excerpt": {
+        "en": "Build your own Zigbee temperature sensor with XIAO ESP32C6 using PlatformIO and Home Assistant.",
+        "zh": "用 XIAO ESP32C6 配合 PlatformIO 和 Home Assistant 搭建自己的 Zigbee 温湿度传感器。"
+      },
+      "author": {
+        "en": "pixeledi Tech Hub",
+        "zh": "pixeledi Tech Hub"
       },
       "tag": {
         "en": "Smart Home",
         "zh": "智能家居"
       },
-      "board": "XIAO ESP32-S3",
-      "url": "https://github.com/echavet/MitsubishiCN105ESPHome",
-      "media_url": "https://avatars.githubusercontent.com/u/3224452?v=4",
+      "board": "XIAO ESP32-C6",
+      "url": "https://www.youtube.com/watch?v=BghjrjYVG8Y",
+      "media_url": "https://i.ytimg.com/vi/BghjrjYVG8Y/hqdefault.jpg",
       "date": "2026-04-01",
       "featured": false
     },
     {
       "title": {
-        "en": "lvgl_micropython",
-        "zh": "LVGL MicroPython 绑定"
+        "en": "Meshtastic with XIAO nRF52840",
+        "zh": "Meshtastic XIAO nRF52840 mesh 网络"
       },
       "excerpt": {
-        "en": "LVGL module for MicroPython enabling GUI development on embedded devices with Python scripting.",
-        "zh": "LVGL 的 MicroPython 绑定，用 Python 脚本在嵌入式设备上开发图形界面。"
+        "en": "Mesh networking solution using XIAO nRF52840 with Meshtastic firmware for long-range off-grid communication.",
+        "zh": "用 XIAO nRF52840 加 Meshtastic 固件实现远距离离线 mesh 网络通信。"
       },
       "author": {
-        "en": "lvgl-micropython",
-        "zh": "lvgl-micropython"
+        "en": "Ham Radio DX",
+        "zh": "Ham Radio DX"
       },
       "tag": {
-        "en": "Tools & Accessories",
-        "zh": "工具配件"
-      },
-      "board": "XIAO ESP32-S3",
-      "url": "https://github.com/lvgl-micropython/lvgl_micropython",
-      "media_url": "https://avatars.githubusercontent.com/u/173945867?v=4",
-      "date": "2026-04-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "Sky-Spy",
-        "zh": "Sky-Spy 无人机追踪固件"
-      },
-      "excerpt": {
-        "en": "Official OUI-SPY firmware for drone RemoteID detection and mapping using OpenDroneID protocol. Tracks up to 8 simultaneous drones.",
-        "zh": "OUI-SPY 官方固件，用 OpenDroneID 协议检测和追踪无人机，最多同时追踪 8 架。"
-      },
-      "author": {
-        "en": "colonelpanichacks",
-        "zh": "colonelpanichacks"
-      },
-      "tag": {
-        "en": "Robotics",
-        "zh": "机器人"
-      },
-      "board": "XIAO ESP32-S3",
-      "url": "https://github.com/colonelpanichacks/Sky-Spy",
-      "media_url": "https://avatars.githubusercontent.com/u/90460753?v=4",
-      "date": "2026-04-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "trackpuck",
-        "zh": "trackpuck 6DoF CAD 输入设备"
-      },
-      "excerpt": {
-        "en": "6 DoF input peripheral designed for CAD navigation, powered by ZMK firmware, wireless with integrated magnetometers.",
-        "zh": "6 自由度 CAD 导航输入外设，采用 ZMK 固件，无线设计，集成磁力计。"
-      },
-      "author": {
-        "en": "badjeff",
-        "zh": "badjeff"
-      },
-      "tag": {
-        "en": "Tools & Accessories",
-        "zh": "工具配件"
+        "en": "Telecommunication",
+        "zh": "通信"
       },
       "board": "XIAO nRF52840 (XIAO BLE)",
-      "url": "https://github.com/badjeff/trackpuck",
-      "media_url": "https://avatars.githubusercontent.com/u/141321?v=4",
-      "date": "2026-04-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "OUI-SPY Unified",
-        "zh": "OUI-SPY 多模式监控检测固件"
-      },
-      "excerpt": {
-        "en": "Multi-mode surveillance detection firmware for Seeed Studio XIAO ESP32-S3 combining BLE detector, Foxhunter, Flock-You and Sky-Spy.",
-        "zh": "Seeed Studio XIAO ESP32-S3 多模式监控检测固件，集 BLE 检测、狐狸猎人、Flock-You 和 Sky-Spy 于一体。"
-      },
-      "author": {
-        "en": "colonelpanichacks",
-        "zh": "colonelpanichacks"
-      },
-      "tag": {
-        "en": "Robotics",
-        "zh": "机器人"
-      },
-      "board": "XIAO ESP32-S3",
-      "url": "https://github.com/colonelpanichacks/oui-spy-unified-blue",
-      "media_url": "https://avatars.githubusercontent.com/u/90460753?v=4",
+      "url": "https://www.youtube.com/watch?v=7CpB9z0BtgM",
+      "media_url": "https://i.ytimg.com/vi/7CpB9z0BtgM/hqdefault.jpg",
       "date": "2026-04-01",
       "featured": false
     }
