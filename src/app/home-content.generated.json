@@ -301,29 +301,6 @@
     },
     {
       "title": {
-        "en": "Tonalli",
-        "zh": "Tonalli"
-      },
-      "excerpt": {
-        "en": "A collaborative fashion capsule inspired by Quetzalcoatl that connects Mexican heritage, handcraft, and digital fabrication. The garments combine embroidery, recycled textiles, biomaterial scales, 3D-made feathers, and responsive LED or NeoPixel circuits powered by XIAO ESP32-C3 and XIAO RP2040 boards.",
-        "zh": "一个以羽蛇神为灵感、连接墨西哥文化传统、手工艺与数字制造的合作式时装系列。服装融合刺绣、再生纺织品、生物材料鳞片、3D 制作羽毛，以及由 XIAO ESP32-C3 和 XIAO RP2040 驱动的响应式 LED 或 NeoPixel 电路。"
-      },
-      "author": {
-        "en": "Patricia Pérez Vizcaya",
-        "zh": "Patricia Pérez Vizcaya"
-      },
-      "tag": {
-        "en": "Wearables",
-        "zh": "可穿戴"
-      },
-      "board": "XIAO ESP32-C3, XIAO RP2040",
-      "url": "https://class.textile-academy.org/2026/patricia-vizcaya/project/",
-      "media_url": "https://class.textile-academy.org/2026/patricia-vizcaya/images/Pictures/Together_1.jpg",
-      "date": "2026-05-01",
-      "featured": false
-    },
-    {
-      "title": {
         "en": "Mood Paint",
         "zh": "Mood Paint 情绪绘画"
       },
@@ -365,52 +342,6 @@
       "board": "XIAO nRF52840 (XIAO BLE)",
       "url": "https://github.com/gidim/e61-gauge",
       "media_url": "https://raw.githubusercontent.com/gidim/e61-gauge/main/media/hero.jpg",
-      "date": "2026-05-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "eFortune Cookie — a Tiny ESP32 Fortune Teller",
-        "zh": "eFortune Cookie ESP32 幸运饼干签语器"
-      },
-      "excerpt": {
-        "en": "A tiny interactive fortune cookie gadget housed in a 3D-printed cookie enclosure. Built with the XIAO EPaper Display Board EE05 (powered by XIAO ESP32-S3 Plus), a 1.54\" monochrome ePaper display, and MPU-6050 accelerometer for shake detection. Shake to receive random fortunes, roll dice, or flip a coin. Programmed via Arduino IDE with no-code Sensecraft HMI support for the ePaper interface. Powered by a 150mAh LiPo battery with built-in charging.",
-        "zh": "一个装在 3D 打印幸运饼干外壳里的 ESP32 互动小工具。基于 XIAO EPaper Display Board EE05（XIAO ESP32-S3 Plus），配 1.54\" 电子墨水屏和 MPU-6050 加速度传感器。摇晃即可获取随机签语、掷骰子或抛硬币。支持 Arduino IDE 编程和 Sensecraft HMI 无代码界面配置。150mAh 锂电池供电，内置充电电路。"
-      },
-      "author": {
-        "en": "gokux",
-        "zh": "gokux"
-      },
-      "tag": {
-        "en": "AI Gadget",
-        "zh": "AI Gadget"
-      },
-      "board": "XIAO ESP32-S3",
-      "url": "https://www.instructables.com/EFortune-Cookie-a-Tiny-ESP32-Fortune-Teller/",
-      "media_url": "https://content.instructables.com/F6G/WPQT/MOKK3HWT/F6GWPQTMOKK3HWT.jpg",
-      "date": "2026-05-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "Creating 4 Zigbee Devices on ESP32 in Home Assistant (Without Code)",
-        "zh": "在 Home Assistant 中创建 4 个 ESP32 Zigbee 设备（无需编程）"
-      },
-      "excerpt": {
-        "en": "A comprehensive tutorial (Russian) on building 4 Zigbee smart home devices using ESP32 boards featuring Seeed Studio XIAO. Covers Zigbee device creation, Home Assistant integration, and ESP32 Zigbee firmware flashing — all without writing code. Includes affiliate links for XIAO ESP32 boards and related smart home hardware.",
-        "zh": "俄语综合教程，使用 ESP32 开发板（含 Seeed Studio XIAO）制作 4 个 Zigbee 智能家居设备。涵盖 Zigbee 设备创建、Home Assistant 集成和 ESP32 Zigbee 固件刷写，全部无需编写代码。包含 XIAO ESP32 开发板及相关智能家居硬件的购买链接。"
-      },
-      "author": {
-        "en": "Китай Г. (Kitay G.)",
-        "zh": "Китай Г."
-      },
-      "tag": {
-        "en": "Smart Home",
-        "zh": "智能家居"
-      },
-      "board": "XIAO ESP32-C6",
-      "url": "https://www.youtube.com/watch?v=OfGnYurjj8Y",
-      "media_url": "https://i.ytimg.com/vi/OfGnYurjj8Y/maxresdefault.jpg",
       "date": "2026-05-01",
       "featured": false
     },
@@ -876,98 +807,6 @@
     },
     {
       "title": {
-        "en": "Build a Speaking Alarm Clock Using XIAO ESP32-S3",
-        "zh": "用 XIAO ESP32-S3 制作语音报时闹钟"
-      },
-      "excerpt": {
-        "en": "DIY speaking alarm clock using XIAO ESP32-S3 with real voice output.",
-        "zh": "使用 XIAO ESP32-S3 制作带语音播报功能的闹钟。"
-      },
-      "author": {
-        "en": "Circuit Digest",
-        "zh": "Circuit Digest"
-      },
-      "tag": {
-        "en": "Smart Home",
-        "zh": "智能家居"
-      },
-      "board": "XIAO ESP32-S3",
-      "url": "https://www.youtube.com/shorts/BvSES4DGh6c",
-      "media_url": "https://i.ytimg.com/vi/BvSES4DGh6c/maxresdefault.jpg",
-      "date": "2026-04-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "Vail Adapter",
-        "zh": "Vail 莫尔斯电码适配器"
-      },
-      "excerpt": {
-        "en": "Morse code key/paddle to USB HID adapter using Seeed Studio XIAO SAMD21. Implements all nine keyer modes from Vail.",
-        "zh": "使用 Seeed Studio XIAO SAMD21 的莫尔斯电码键/桨转 USB HID 适配器，实现 Vail 的全部 9 种电键模式。"
-      },
-      "author": {
-        "en": "Vail-CW",
-        "zh": "Vail-CW"
-      },
-      "tag": {
-        "en": "Tools & Accessories",
-        "zh": "工具配件"
-      },
-      "board": "XIAO SAMD21 (Seeeduino XIAO)",
-      "url": "https://github.com/Vail-CW/vail-adapter",
-      "media_url": "https://avatars.githubusercontent.com/u/207725212?v=4",
-      "date": "2026-04-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "xiamocon",
-        "zh": "xiamocon 游戏机形态主板"
-      },
-      "excerpt": {
-        "en": "Game-console-shaped motherboard for XIAO RP2350 and XIAO ESP32-S3. Custom PCB design in retro game console form factor.",
-        "zh": "XIAO RP2350 和 XIAO ESP32-S3 的游戏机形态主板，复古游戏机外形的定制 PCB 设计。"
-      },
-      "author": {
-        "en": "shapoco",
-        "zh": "shapoco"
-      },
-      "tag": {
-        "en": "Hardware Design",
-        "zh": "硬件设计"
-      },
-      "board": "XIAO RP2350, XIAO ESP32-S3",
-      "url": "https://github.com/shapoco/xiamocon",
-      "media_url": "https://avatars.githubusercontent.com/u/40152459?v=4",
-      "date": "2026-04-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "opticka",
-        "zh": "opticka 心理物理学实验管理器"
-      },
-      "excerpt": {
-        "en": "Behavioral experiment manager for psychophysics research with MATLAB. Object-oriented framework for visual stimuli presentation.",
-        "zh": "MATLAB 心理物理学研究的行为实验管理器，面向对象的视觉刺激呈现框架。"
-      },
-      "author": {
-        "en": "iandol",
-        "zh": "iandol"
-      },
-      "tag": {
-        "en": "Scientific Tools",
-        "zh": "科学工具"
-      },
-      "board": "XIAO SAMD21 (Seeeduino XIAO)",
-      "url": "https://github.com/iandol/opticka",
-      "media_url": "https://avatars.githubusercontent.com/u/153905?v=4",
-      "date": "2026-04-01",
-      "featured": false
-    },
-    {
-      "title": {
         "en": "Open source ESP32 AI Chatbot - DIY",
         "zh": "开源 ESP32 AI 聊天机器人 DIY"
       },
@@ -1101,6 +940,167 @@
       "board": "XIAO nRF52840 (XIAO BLE)",
       "url": "https://www.youtube.com/watch?v=7CpB9z0BtgM",
       "media_url": "https://i.ytimg.com/vi/7CpB9z0BtgM/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "pico-cec",
+        "zh": "pico-cec HDMI 适配器"
+      },
+      "excerpt": {
+        "en": "HDMI CEC to USB HID keyboard adapter. Supports XIAO RP2350 and Raspberry Pi Pico boards.",
+        "zh": "HDMI CEC 转 USB HID 键盘适配器"
+      },
+      "author": {
+        "en": "gkoh",
+        "zh": "gkoh"
+      },
+      "tag": {
+        "en": "Tools & Accessories",
+        "zh": "工具配件"
+      },
+      "board": "XIAO RP2040, XIAO RP2350",
+      "url": "https://github.com/gkoh/pico-cec",
+      "media_url": "https://github.com/user-attachments/assets/7b971a8d-e5fd-4bc1-8ff5-a342004288a5",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "plainFlightController",
+        "zh": "plainFlight 飞控"
+      },
+      "excerpt": {
+        "en": "Flight stabilisation software for RC multirotor aircraft. Runs on XIAO ESP32-S3 with MPU6050 IMU.",
+        "zh": "无人机飞行稳定软件，运行在 XIAO ESP32-S3"
+      },
+      "author": {
+        "en": "plainFlight",
+        "zh": "plainFlight"
+      },
+      "tag": {
+        "en": "Robotics",
+        "zh": "机器人"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://github.com/plainFlight/plainFlightController",
+      "media_url": "https://github.com/plainFlight/plainFlightController/blob/main/assets/images/PlainFlight%20Logo%20Large.PNG",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "Smart Matter Button using XIAO ESP32 C6",
+        "zh": "智能 Matter 按钮"
+      },
+      "excerpt": {
+        "en": "Tutorial on building a smart Matter button using Seeed XIAO ESP32 C6 with Arduino.",
+        "zh": "使用 Seeed XIAO ESP32 C6 构建智能 Matter 按钮的教程"
+      },
+      "author": {
+        "en": "techiesms",
+        "zh": "techiesms"
+      },
+      "tag": {
+        "en": "Smart Home",
+        "zh": "智能家居"
+      },
+      "board": "XIAO ESP32-C6",
+      "url": "https://www.youtube.com/watch?v=wokw847hjKM",
+      "media_url": "https://i.ytimg.com/vi/wokw847hjKM/maxresdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "VFD Display with XIAO ESP32S3 NTP Clock",
+        "zh": "VFD 显示 NTP 时钟"
+      },
+      "excerpt": {
+        "en": "Build a VFD display clock with animations using Seeed XIAO ESP32S3 and NTP time sync.",
+        "zh": "使用 XIAO ESP32S3 构建 VFD 显示时钟"
+      },
+      "author": {
+        "en": "iHayri1",
+        "zh": "iHayri1"
+      },
+      "tag": {
+        "en": "Smart Home",
+        "zh": "智能家居"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://www.youtube.com/watch?v=ToGKmtNXNh8",
+      "media_url": "https://i.ytimg.com/vi/ToGKmtNXNh8/maxresdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "Solar Powered Water Tank Level Sensor V2",
+        "zh": "太阳能水位传感器"
+      },
+      "excerpt": {
+        "en": "Build a solar powered wireless water tank level sensor using Xiao ESP32C3 with BLE.",
+        "zh": "使用 Xiao ESP32C3 和 BLE 构建太阳能无线水位传感器"
+      },
+      "author": {
+        "en": "Electronic Clinic",
+        "zh": "Electronic Clinic"
+      },
+      "tag": {
+        "en": "Smart Home",
+        "zh": "智能家居"
+      },
+      "board": "XIAO ESP32-C3",
+      "url": "https://www.youtube.com/watch?v=J7URXH6Qo6Q",
+      "media_url": "https://i.ytimg.com/vi/J7URXH6Qo6Q/maxresdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "Voice-Controlled Robot Dog",
+        "zh": "语音控制机器狗"
+      },
+      "excerpt": {
+        "en": "Build a voice-controlled quadruped robot dog using Seeed XIAO ESP32S3.",
+        "zh": "使用 Seeed XIAO ESP32S3 构建语音控制四足机器狗"
+      },
+      "author": {
+        "en": "Tech Talkies",
+        "zh": "Tech Talkies"
+      },
+      "tag": {
+        "en": "Robotics",
+        "zh": "机器人"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://www.youtube.com/watch?v=QQHyo7KlaQk",
+      "media_url": "https://i.ytimg.com/vi/QQHyo7KlaQk/maxresdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "Embassy Rust + XIAO BLE - Digital Input",
+        "zh": "Embassy Rust XIAO BLE 数字输入"
+      },
+      "excerpt": {
+        "en": "Tutorial on using Embassy Rust framework with Seeed XIAO BLE for digital input.",
+        "zh": "使用 Embassy Rust 框架和 XIAO BLE 的数字输入教程"
+      },
+      "author": {
+        "en": "Sarmad Gulzar",
+        "zh": "Sarmad Gulzar"
+      },
+      "tag": {
+        "en": "Robotics",
+        "zh": "机器人"
+      },
+      "board": "XIAO nRF52840 (XIAO BLE)",
+      "url": "https://www.youtube.com/watch?v=Rmd7PqXNT28",
+      "media_url": "https://i.ytimg.com/vi/Rmd7PqXNT28/maxresdefault.jpg",
       "date": "2026-04-01",
       "featured": false
     }
