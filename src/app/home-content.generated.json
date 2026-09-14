@@ -94,75 +94,6 @@
     },
     {
       "title": {
-        "en": "Gesture Detection Wearable Jewelry Bracelet Xerces Aurora",
-        "zh": "Gesture Detection Wearable Jewelry Bracelet Xerces Aurora"
-      },
-      "excerpt": {
-        "en": "PlatformIO firmware for Seeed Studio XIAO nRF52840 Sense. Implements gesture recognition via LSM6DS3TR-C IMU double-tap detection, pose gating, and BLE data transfer to a companion React Native app for gesture-password training and detection.",
-        "zh": "Seeed Studio XIAO nRF52840 Sense 的 PlatformIO 固件。通过 LSM6DS3TR-C IMU 双击检测、姿态门控和 BLE 数据传输实现手势识别，配合 React Native 应用进行手势密码训练和检测。"
-      },
-      "author": {
-        "en": "Xerces Aurora",
-        "zh": "Xerces Aurora"
-      },
-      "tag": {
-        "en": "Wearables",
-        "zh": "可穿戴"
-      },
-      "board": "XIAO nRF52840 Sense (XIAO BLE Sense)",
-      "url": "https://github.com/hybrisCole/abracadabra-platformio",
-      "media_url": "https://opengraph.githubassets.com/38442e6cfccd98d0829b14e3db1f6ce937cf51955b1f0f0ff0555b9d150cb62c/hybrisCole/abracadabra-platformio",
-      "date": "2026-07-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "ESP-32 C3 SEN MQTT",
-        "zh": "ESP-32 C3 SEN MQTT"
-      },
-      "excerpt": {
-        "en": "A XIAO ESP32-C3 based sensor hub that measures temperature, humidity, and a growing number of other sensors via I2C and SPI. Results are transferred via MQTT. Configurable through credentials.h to define sensor types, addresses, and network/MQTT parameters. Can read all sensors simultaneously.",
-        "zh": "一款基于 XIAO ESP32-C3 的传感器中枢，测量温度、湿度以及通过 I2C 和 SPI 连接的多种其他传感器。数据通过 MQTT 传输。通过 credentials.h 配置传感器类型、地址和网络/MQTT 参数。可同时读取所有传感器。"
-      },
-      "author": {
-        "en": "MikeEitel",
-        "zh": "MikeEitel"
-      },
-      "tag": {
-        "en": "Smart Home",
-        "zh": "智能家居"
-      },
-      "board": "XIAO ESP32-C3",
-      "url": "https://github.com/MikeEitel/ESP-32_C3_SEN_MQTT",
-      "media_url": "https://opengraph.githubassets.com/bce293bdec75fd4cbbf5fdf336272dae1c5370b0a6e28f39eb36162ab70806d0/MikeEitel/ESP-32_C3_SEN_MQTT",
-      "date": "2026-06-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "Cobalt Voice Band - AI Assistant Wearable DevKit",
-        "zh": "Cobalt Voice Band - AI 助手可穿戴开发套件"
-      },
-      "excerpt": {
-        "en": "A push-to-talk voice wearable built on the Seeed XIAO nRF52840 Sense with open-source firmware.",
-        "zh": "一款基于 Seeed XIAO nRF52840 Sense 的按键通话语音可穿戴设备，采用开源固件。"
-      },
-      "author": {
-        "en": "Jean de Bailliencourt",
-        "zh": "Jean de Bailliencourt"
-      },
-      "tag": {
-        "en": "Wearables",
-        "zh": "可穿戴"
-      },
-      "board": "XIAO nRF52840 Sense (XIAO BLE Sense)",
-      "url": "https://github.com/Cobalt-Watch/Voice-Band",
-      "media_url": "https://opengraph.githubassets.com/662d37d4e75e8bd7cdcecd538659ea178fc5b31ab72e70922b5ff01e8ef80a94/Cobalt-Watch/Voice-Band",
-      "date": "2026-06-01",
-      "featured": false
-    },
-    {
-      "title": {
         "en": "TrailNAV: Solar-Powered Off-Grid Exploration Device",
         "zh": "TrailNAV 太阳能离线探险导航设备"
       },
@@ -249,29 +180,6 @@
       },
       "board": "XIAO ESP32-C6",
       "url": "https://www.youtube.com/watch?v=DqiMmY5ppnE",
-      "media_url": "https://i.ytimg.com/vi/u1eQ4RQV828/maxresdefault.jpg",
-      "date": "2026-06-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "How I Built a Wireless Walkie Talkie with Two ESP32 | Arduino Project with code",
-        "zh": "用两个 ESP32 制作无线对讲机 | Arduino 项目含代码"
-      },
-      "excerpt": {
-        "en": "A wireless walkie talkie built with two XIAO ESP32-S3 Sense boards using ESP-NOW wireless communication. Audio captured from the onboard microphone on one XIAO is transmitted wirelessly via ESP-NOW and played back through a speaker connected to another XIAO. Features real-time audio transmission, I2S audio output, and no Wi-Fi router required. Full Arduino code, schematic, and project details on GitHub.",
-        "zh": "一款基于两个 XIAO ESP32-S3 Sense 的无线对讲机，利用 ESP-NOW 无线协议通信。一个 XIAO 的内置麦克风采集音频，通过 ESP-NOW 无线传输到另一个 XIAO 驱动扬声器播放。支持实时音频传输、I2S 音频输出，无需 Wi-Fi 路由器。提供完整的 Arduino 代码、原理图和项目详情。"
-      },
-      "author": {
-        "en": "Tech Talkies",
-        "zh": "Tech Talkies"
-      },
-      "tag": {
-        "en": "Telecommunication",
-        "zh": "通信"
-      },
-      "board": "XIAO ESP32-S3 Sense",
-      "url": "https://www.youtube.com/watch?v=u1eQ4RQV828",
       "media_url": "https://i.ytimg.com/vi/u1eQ4RQV828/maxresdefault.jpg",
       "date": "2026-06-01",
       "featured": false
@@ -365,52 +273,6 @@
       "board": "XIAO ESP32-C3",
       "url": "https://madriguera.me/building-a-giant-xiao-a-fully-functional-15x-scale-seeed-studio-xiao-esp32-c3/",
       "media_url": "https://madriguera.me/content/images/2026/06/02-size-comparison-real-vs-giant.jpg",
-      "date": "2026-06-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "WeatherPaper V2 — 500-Day Battery E-Paper Weather Display",
-        "zh": "WeatherPaper V2 — 500 天续航电子墨水屏天气显示"
-      },
-      "excerpt": {
-        "en": "An ultra-low-power e-paper weather display engineered for up to 500 days of battery life on a single charge. Built around the XIAO ESP32-C3 with custom PCB (EasyEDA) and 3D-printed resin enclosure. Features deep sleep optimization (44µA), downclocking to 80MHz, WiFiManager captive portal with QR pairing, and OpenWeatherMap integration.",
-        "zh": "一款超低功耗电子墨水屏天气显示器，单次充电续航长达 500 天。基于 XIAO ESP32-C3 构建，配以 EasyEDA 定制 PCB 和 3D 打印树脂外壳。采用深度睡眠优化（44µA）、CPU 降频至 80MHz、WiFiManager 二维码配对和 OpenWeatherMap 数据集成。"
-      },
-      "author": {
-        "en": "Jeremy Ngai (ngai-jeremy)",
-        "zh": "Jeremy Ngai (ngai-jeremy)"
-      },
-      "tag": {
-        "en": "Smart Home",
-        "zh": "智能家居"
-      },
-      "board": "XIAO ESP32-C3",
-      "url": "https://www.instructables.com/WeatherPaper-Squeezing-500-Days-of-Battery-Life-Ou/",
-      "media_url": "https://content.instructables.com/F5R/SM2S/MPX8P861/F5RSM2SMPX8P861.jpg?auto=webp&frame=1&width=2100",
-      "date": "2026-06-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "Veltoc Model 01 — Retro E-Ink Environmental Monitor",
-        "zh": "Veltoc Model 01 — 复古 E-Ink 环境监测器"
-      },
-      "excerpt": {
-        "en": "A retro-inspired environmental monitor with a 2.9\" E-Ink display, built around the XIAO ESP32-C6. Monitors temperature, humidity, and air pressure via a BME280 sensor with WiFi time sync. Features a rotary encoder for navigating views, deep sleep wake-on-press, and a 1400mAh LiPo battery for extended use. The ePaper Driver Board for XIAO handles display control.",
-        "zh": "一款复古风格的环境监测器，配备 2.9\" E-Ink 显示屏，基于 XIAO ESP32-C6 构建。通过 BME280 传感器监测温度、湿度和气压，支持 WiFi 时间同步。具有旋转编码器导航、按压唤醒深度睡眠、1400mAh 锂电池等特性。使用 ePaper Driver Board for XIAO 驱动屏幕。"
-      },
-      "author": {
-        "en": "danking6",
-        "zh": "danking6"
-      },
-      "tag": {
-        "en": "Tools & Accessories",
-        "zh": "工具配件"
-      },
-      "board": "XIAO ESP32-C6",
-      "url": "https://github.com/danking6/veltoc",
-      "media_url": "https://private-user-images.githubusercontent.com/35265770/605069097-abb05084-31d4-4e59-87b8-da9ddf925d28.jpg",
       "date": "2026-06-01",
       "featured": false
     },
@@ -1101,6 +963,144 @@
       "board": "XIAO ESP32-S3",
       "url": "https://www.youtube.com/shorts/BvSES4DGh6c",
       "media_url": "https://i.ytimg.com/vi/BvSES4DGh6c/maxresdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "ESP32-Bus-Pirate",
+        "zh": "ESP32-Bus-Pirate"
+      },
+      "excerpt": {
+        "en": "A Hardware Hacking Tool with Web-Based CLI That Speaks Every Protocol. Supports I2C, SPI, UART, 1-Wire, JTAG, BLE, Wi-Fi, Sub-GHz, RFID via web terminal.",
+        "zh": "Web CLI 硬件黑客工具，支持 I2C、SPI、UART、1-Wire、JTAG、BLE、Wi-Fi、Sub-GHz、RFID 等多种协议。"
+      },
+      "author": {
+        "en": "geo-tp",
+        "zh": "geo-tp"
+      },
+      "tag": {
+        "en": "Tools & Accessories",
+        "zh": "工具配件"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://github.com/geo-tp/ESP32-Bus-Pirate",
+      "media_url": "https://avatars.githubusercontent.com/u/72315006?v=4",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "MitsubishiCN105ESPHome",
+        "zh": "三菱空调 ESPHome 集成"
+      },
+      "excerpt": {
+        "en": "ESPHome firmware for Mitsubishi heat pumps via CN105 UART connector with native Home Assistant integration.",
+        "zh": "通过 CN105 UART 接口连接三菱空调的 ESPHome 固件，原生接入 Home Assistant。"
+      },
+      "author": {
+        "en": "echavet",
+        "zh": "echavet"
+      },
+      "tag": {
+        "en": "Smart Home",
+        "zh": "智能家居"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://github.com/echavet/MitsubishiCN105ESPHome",
+      "media_url": "https://avatars.githubusercontent.com/u/3224452?v=4",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "lvgl_micropython",
+        "zh": "LVGL MicroPython 绑定"
+      },
+      "excerpt": {
+        "en": "LVGL module for MicroPython enabling GUI development on embedded devices with Python scripting.",
+        "zh": "LVGL 的 MicroPython 绑定，用 Python 脚本在嵌入式设备上开发图形界面。"
+      },
+      "author": {
+        "en": "lvgl-micropython",
+        "zh": "lvgl-micropython"
+      },
+      "tag": {
+        "en": "Tools & Accessories",
+        "zh": "工具配件"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://github.com/lvgl-micropython/lvgl_micropython",
+      "media_url": "https://avatars.githubusercontent.com/u/173945867?v=4",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "Sky-Spy",
+        "zh": "Sky-Spy 无人机追踪固件"
+      },
+      "excerpt": {
+        "en": "Official OUI-SPY firmware for drone RemoteID detection and mapping using OpenDroneID protocol. Tracks up to 8 simultaneous drones.",
+        "zh": "OUI-SPY 官方固件，用 OpenDroneID 协议检测和追踪无人机，最多同时追踪 8 架。"
+      },
+      "author": {
+        "en": "colonelpanichacks",
+        "zh": "colonelpanichacks"
+      },
+      "tag": {
+        "en": "Robotics",
+        "zh": "机器人"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://github.com/colonelpanichacks/Sky-Spy",
+      "media_url": "https://avatars.githubusercontent.com/u/90460753?v=4",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "trackpuck",
+        "zh": "trackpuck 6DoF CAD 输入设备"
+      },
+      "excerpt": {
+        "en": "6 DoF input peripheral designed for CAD navigation, powered by ZMK firmware, wireless with integrated magnetometers.",
+        "zh": "6 自由度 CAD 导航输入外设，采用 ZMK 固件，无线设计，集成磁力计。"
+      },
+      "author": {
+        "en": "badjeff",
+        "zh": "badjeff"
+      },
+      "tag": {
+        "en": "Tools & Accessories",
+        "zh": "工具配件"
+      },
+      "board": "XIAO nRF52840 (XIAO BLE)",
+      "url": "https://github.com/badjeff/trackpuck",
+      "media_url": "https://avatars.githubusercontent.com/u/141321?v=4",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "OUI-SPY Unified",
+        "zh": "OUI-SPY 多模式监控检测固件"
+      },
+      "excerpt": {
+        "en": "Multi-mode surveillance detection firmware for Seeed Studio XIAO ESP32-S3 combining BLE detector, Foxhunter, Flock-You and Sky-Spy.",
+        "zh": "Seeed Studio XIAO ESP32-S3 多模式监控检测固件，集 BLE 检测、狐狸猎人、Flock-You 和 Sky-Spy 于一体。"
+      },
+      "author": {
+        "en": "colonelpanichacks",
+        "zh": "colonelpanichacks"
+      },
+      "tag": {
+        "en": "Robotics",
+        "zh": "机器人"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://github.com/colonelpanichacks/oui-spy-unified-blue",
+      "media_url": "https://avatars.githubusercontent.com/u/90460753?v=4",
       "date": "2026-04-01",
       "featured": false
     }
