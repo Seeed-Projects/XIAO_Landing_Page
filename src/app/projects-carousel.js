@@ -3,9 +3,16 @@
 import { ScrollBand } from "./scroll-band";
 import { ScrollCard } from "./scroll-card";
 import { PROJECTS } from "./projects-data";
+import { useLang } from "./i18n";
+
+function localize(value, lang) {
+  if (typeof value === "string") return value;
+  return value?.[lang] || value?.en || value?.zh || "";
+}
 
 /** 热门项目滚动带 —— 复用 ScrollBand，数据来自 projects-data.js（真实社区项目） */
 export function ProjectsCarousel() {
+  const { lang } = useLang();
   return (
     <ScrollBand
       items={PROJECTS}
@@ -16,11 +23,11 @@ export function ProjectsCarousel() {
       renderCard={(item) => (
         <ScrollCard
           image={item.media_url}
-          tag={item.tag}
-          meta={item.author}
-          title={item.title}
-          excerpt={item.excerpt}
-          alt={item.title}
+          tag={localize(item.tag, lang)}
+          meta={localize(item.author, lang)}
+          title={localize(item.title, lang)}
+          excerpt={localize(item.excerpt, lang)}
+          alt={localize(item.title, lang)}
         />
       )}
     />

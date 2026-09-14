@@ -70,6 +70,38 @@ the viewport with consistent spacing at the seam. Check both a wide desktop
 window and a narrow mobile window, then verify pause and resume using hover or
 keyboard focus.
 
+## Home Projects and News Sync
+
+Home Projects and News are generated before each production build and stored in
+`src/app/home-content.generated.json`. Projects come from the public
+`Seeed-Studio/OSHW-XIAO-Series` catalog; News comes from the Seeed Studio Blog
+tag `seeed-studio-xiao`. The committed snapshot keeps the page complete when one
+source is temporarily unavailable.
+
+The Home page shows at most 48 project cards and 12 news cards. Projects marked
+`homepage: featured` appear first, projects marked `homepage: catalog` remain in
+the Project Hub only, and projects marked `homepage: review` wait for editorial
+review. Legacy records without a homepage field remain eligible until they are
+reviewed. Every Home project requires a public cover image.
+
+Run a manual refresh with:
+
+```bash
+npm run sync:home-content
+```
+
+Run the feed normalization, ordering, limit, and fallback checks with:
+
+```bash
+npm run test:home-content
+```
+
+GitHub Pages refreshes every six hours, on manual dispatch, on pushes to `main`,
+and when the OSHW repository sends the `projects-updated` repository event. The
+OSHW repository uses `LANDING_PAGE_DISPATCH_TOKEN` for that cross-repository
+event. A fine-grained token needs access to this repository and permission to
+write repository dispatch events.
+
 ## Home Playground Verification
 
 The Home Playground section displays 22 original transparent XIAO board images,
