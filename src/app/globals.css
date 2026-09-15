@@ -103,6 +103,7 @@
   font-size: var(--home-subtitle-size);
   font-weight: var(--home-subtitle-weight);
   line-height: var(--home-subtitle-leading);
+  white-space: nowrap;
 }
 .partner-window {
   min-width: 0;

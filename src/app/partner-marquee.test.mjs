@@ -6,6 +6,7 @@ import { partnerLogoSizes, partnerLoop } from "./partner-marquee-layout.mjs";
 
 const component = readFileSync(new URL("./partner-marquee.js", import.meta.url), "utf8");
 const css = readFileSync(new URL("./globals.css", import.meta.url), "utf8");
+const i18n = readFileSync(new URL("./i18n.js", import.meta.url), "utf8");
 
 test("all three categories retain their partners and calibrated logo bounds", () => {
   assert.deepEqual(homepageSections.partnerGroups.map(group => group.partners.length), [6, 8, 7]);
@@ -17,6 +18,13 @@ test("all three categories retain their partners and calibrated logo bounds", ()
       assert.equal(new URL(partner.url).protocol, "https:");
     }
   }
+});
+
+test("partner category labels stay concise and on one line", () => {
+  assert.deepEqual(homepageSections.partnerGroups.map(group => group.label), ["硬件合作伙伴", "软件合作伙伴", "社区合作伙伴"]);
+  assert.match(i18n, /groupLabels: \["Hardware Partners", "Software Partners", "Community Partners"\]/);
+  assert.match(i18n, /groupLabels: \["硬件合作伙伴", "软件合作伙伴", "社区合作伙伴"\]/);
+  assert.match(css, /\.partner-category \{[\s\S]*?white-space: nowrap;/);
 });
 
 test("partner identities use the reviewed public brand names and destinations", () => {

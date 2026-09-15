@@ -161,7 +161,7 @@ const zh = {
   },
   developer: {
     title: "开发者生态",
-    groupLabels: ["芯片/硬件伙伴", "软件/框架伙伴", "内容/社区伙伴"],
+    groupLabels: ["硬件合作伙伴", "软件合作伙伴", "社区合作伙伴"],
   },
   news: {
     title: "XIAO 新闻",
@@ -429,7 +429,7 @@ const en = {
   },
   developer: {
     title: "Developer Ecosystem",
-    groupLabels: ["Chip / Hardware Partners", "Software / Framework Partners", "Content / Community Partners"],
+    groupLabels: ["Hardware Partners", "Software Partners", "Community Partners"],
   },
   news: {
     title: "XIAO in the News",

@@ -25,7 +25,7 @@ export const homepageSections = {
   developerSummary: "生态Ecosystem（软件，硬件，社区）",
   partnerGroups: [
     {
-      label: "芯片/硬件伙伴",
+      label: "硬件合作伙伴",
       partners: [
         { name: "Nordic Semiconductor", url: "https://www.nordicsemi.com", logo: "https://cdn.simpleicons.org/nordicsemiconductor" },
         { name: "Espressif Systems", url: "https://www.espressif.com", logo: "https://cdn.simpleicons.org/espressif" },
@@ -36,7 +36,7 @@ export const homepageSections = {
       ],
     },
     {
-      label: "软件/框架伙伴",
+      label: "软件合作伙伴",
       partners: [
         { name: "Arduino", url: "https://www.arduino.cc", logo: "https://cdn.simpleicons.org/arduino" },
         { name: "PlatformIO", url: "https://platformio.org", logo: "https://files.seeedstudio.com/wiki/xiao_topicpage/platformio.png", wordmark: true },
@@ -49,7 +49,7 @@ export const homepageSections = {
       ],
     },
     {
-      label: "内容/社区伙伴",
+      label: "社区合作伙伴",
       partners: [
         { name: "Hackster.io", url: "https://www.hackster.io", logo: "https://cdn.simpleicons.org/hackster" },
         { name: "CNX Software", url: "https://www.cnx-software.com", logo: "https://www.cnx-software.com/wp-content/uploads/2021/04/cropped-CNX-Software-Square-Logo-Light-Grey-1-270x270.png" },
