@@ -6,6 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import { useLang } from "./i18n";
 import { BASE_PATH, withBase } from "../lib/basePath";
 
+const LANGUAGE_OPTION_CLASS =
+  "flex h-full w-full items-center justify-center rounded-full transition-colors duration-200";
+
 function LangToggle() {
   const { lang, toggle } = useLang();
   return (
@@ -13,17 +16,17 @@ function LangToggle() {
       type="button"
       onClick={toggle}
       aria-label="切换语言 / Switch language"
-      className="flex shrink-0 items-center gap-1 rounded-full border border-[var(--line-soft)] bg-white/70 p-0.5 text-xs font-semibold backdrop-blur-sm"
+      className="grid h-8 w-[100px] shrink-0 grid-cols-2 overflow-hidden rounded-full border border-[var(--line-soft)] bg-white/70 text-xs font-semibold backdrop-blur-sm"
     >
       <span
-        className={`inline-flex h-6 w-11 shrink-0 items-center justify-center rounded-full transition ${
+        className={`${LANGUAGE_OPTION_CLASS} ${
           lang === "zh" ? "bg-[var(--ink-strong)] text-white" : "text-[var(--ink-muted)]"
         }`}
       >
         中文
       </span>
       <span
-        className={`inline-flex h-6 w-11 shrink-0 items-center justify-center rounded-full transition ${
+        className={`${LANGUAGE_OPTION_CLASS} ${
           lang === "en" ? "bg-[var(--ink-strong)] text-white" : "text-[var(--ink-muted)]"
         }`}
       >
@@ -62,6 +65,11 @@ const Chevron = ({ open }) => (
     <path d="m6 9 6 6 6-6" />
   </svg>
 );
+
+const DESKTOP_NAV_ITEM_CLASS =
+  "flex h-9 w-full min-w-0 items-center justify-center whitespace-nowrap rounded-full px-2 text-xs font-medium text-[var(--ink-body)] transition-colors hover:bg-white/80 hover:text-[var(--brand-blue)] lg:text-sm";
+const DESKTOP_NAV_ACTIVE_CLASS =
+  "bg-white/90 text-[var(--brand-blue)] shadow-sm";
 
 export function SiteHeader() {
   const { t, lang } = useLang();
@@ -132,8 +140,6 @@ export function SiteHeader() {
 
   const pgItems = PLAYGROUND_ITEMS[lang] || PLAYGROUND_ITEMS.en;
 
-  const linkCls =
-    "flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-2 text-[13px] text-[var(--ink-body)] transition hover:bg-white/80 hover:text-[var(--brand-blue)] lg:px-3 lg:text-sm";
   const isActive = (href) => pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
 
   return (
@@ -153,20 +159,20 @@ export function SiteHeader() {
         </Link>
 
         {/* 中：导航 —— 只有 Playground 带下拉，其余为普通链接 */}
-        <nav className="hidden flex-1 items-center justify-center gap-0 min-[860px]:flex">
+        <nav className="mx-auto hidden min-w-0 max-w-[660px] flex-1 grid-cols-5 items-center gap-1 px-2 min-[860px]:grid lg:px-4">
           {nav.map((item) =>
             item.key === "playground" ? (
               <div
                 key={item.key}
-                className="relative"
+                className="relative min-w-0"
                 onMouseEnter={openPlayground}
                 onMouseLeave={scheduleClose}
               >
-                <div className={`${linkCls} gap-0 py-0 pr-1 ${isActive(item.href) ? "bg-white/90 text-[var(--brand-blue)] shadow-sm" : ""}`}>
-                  <Link href={item.href} onClick={() => setPgOpen(false)} className="py-2 pl-1 pr-1.5" aria-current={isActive(item.href) ? "page" : undefined}>
+                <div className={`${DESKTOP_NAV_ITEM_CLASS} gap-0 p-0 ${isActive(item.href) ? DESKTOP_NAV_ACTIVE_CLASS : ""}`}>
+                  <Link href={item.href} onClick={() => setPgOpen(false)} className="flex h-full min-w-0 flex-1 items-center justify-center pl-3 pr-1" aria-current={isActive(item.href) ? "page" : undefined}>
                     {item.label}
                   </Link>
-                  <button type="button" aria-label="Open Playground menu" aria-expanded={pgOpen} onClick={() => setPgOpen((o) => !o)} className="flex h-8 w-6 items-center justify-center rounded-full">
+                  <button type="button" aria-label="Open Playground menu" aria-expanded={pgOpen} onClick={() => setPgOpen((o) => !o)} className="flex h-full w-8 shrink-0 items-center justify-center rounded-full">
                     <Chevron open={pgOpen} />
                   </button>
                 </div>
@@ -213,7 +219,7 @@ export function SiteHeader() {
                 key={item.key}
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
-                className={`${linkCls} ${isActive(item.href) ? "bg-white/90 font-semibold text-[var(--brand-blue)] shadow-sm" : ""}`}
+                className={`${DESKTOP_NAV_ITEM_CLASS} ${isActive(item.href) ? DESKTOP_NAV_ACTIVE_CLASS : ""}`}
               >
                 <span>{item.label}</span>
               </Link>
