@@ -9,34 +9,11 @@ import { PlaygroundToolIcon } from "./playground-tool-icon";
 import { defaultXiaoImage } from "./site-data";
 import { withBase } from "../lib/basePath";
 
-const FEATURES = [
-  { image: "/home/XIAO落地页素材-1.webp", en: ["Popular SoCs Integrated", "RA4M1, RP2350, ESP32, RP2040, nRF52840, SAMD21, and more for embedded machine learning on MCUs."], zh: ["集成主流 SoC", "覆盖 RA4M1、RP2350、ESP32、RP2040、nRF52840、SAMD21 等平台，轻松构建 MCU 端嵌入式机器学习应用。"] },
-  { image: "/home/XIAO落地页素材-2.webp", en: ["Thumb Size With SMD", "Sized at 21×17.8 mm with a single-sided surface-mount design, ready for space-constrained and tap-on designs."], zh: ["拇指大小，支持 SMD", "21×17.8 mm 单面贴装设计，适合空间受限及直接贴装式产品。"] },
-  { image: "/home/XIAO落地页素材-3.webp", en: ["TinyML Native", "Compatible with Seeed’s no-code model training and deployment platform SenseCraft AI, making TinyML scalable."], zh: ["原生支持 TinyML", "兼容 Seeed 无代码模型训练与部署平台 SenseCraft AI，让 TinyML 更易规模化。"] },
-  { image: "/home/XIAO落地页素材-4.webp", en: ["Developer-Friendly", "Natively compatible with Arduino, supporting PlatformIO, MicroPython, and CircuitPython."], zh: ["开发者友好", "原生兼容 Arduino，并支持 PlatformIO、MicroPython 与 CircuitPython。"] },
-];
-
 const GLIMPSE = [
   { no: "01", eyebrow: { en: "Core MCUs", zh: "核心 MCU" }, title: { en: "XIAO Dev Boards", zh: "XIAO 开发板" }, cat: "dev-boards", image: "/home/glimpse-devboards.webp", text: { en: "Thumb-sized, Arduino-compatible microcontrollers powered by popular chipsets for TinyML and edge computing.", zh: "拇指大小的 Arduino 兼容微控制器，搭载主流芯片，适合 TinyML 与边缘计算。" }, tags: { en: ["Plus Series", "Pre-soldered", "Tape & Reel", "3-Pack"], zh: ["Plus 系列", "预焊排针", "编带包装", "3 联包"] }, tone: "#3976ff" },
   { no: "02", eyebrow: { en: "Expansion Accessories", zh: "扩展配件" }, title: { en: "XIAO Add-ons", zh: "XIAO 扩展模块" }, cat: "addons", image: "/home/glimpse-addons.jpeg", text: { en: "Expansion boards, sensors, connectivity modules, actuators and kits designed for XIAO.", zh: "为 XIAO 设计的扩展板、传感器、连接模块、执行器与套件。" }, tags: { en: ["Expansion Boards", "Sensors", "Connectivity", "Actuators"], zh: ["扩展板", "传感器", "连接模块", "执行器"] }, tone: "#16a4bd" },
   { no: "03", eyebrow: { en: "Ready-to-Use Devices", zh: "即用设备" }, title: { en: "XIAO Gadgets", zh: "XIAO 智能设备" }, cat: "gadgets", image: "/home/glimpse-gadgets.jpeg", text: { en: "Out-of-the-box smart devices built on XIAO boards and add-ons for smart home, vision AI and maker projects.", zh: "基于 XIAO 开发板与扩展模块的开箱即用智能设备，覆盖智能家居、视觉 AI 与创客项目。" }, tags: { en: ["Smart Home", "Vision AI", "Maker Devices"], zh: ["智能家居", "视觉 AI", "创客设备"] }, tone: "#9857ff" },
 ];
-
-export function FeaturesSection() {
-  const { lang } = useLang();
-  return <section id="features" className="section home-section bg-[#f4f6f7] px-6 sm:px-10 lg:px-16">
-    <div className="home-content">
-      <Reveal><h2 className="home-type-title text-center text-[#18224f]">{lang === "en" ? "Features" : "特性一览"}</h2></Reveal>
-      <div className="home-feature-grid">
-        {FEATURES.map((item, i) => { const copy = lang === "en" ? item.en : item.zh; return <Reveal key={item.en[0]} delay={i * 70} className="home-feature">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={withBase(item.image)} alt="" />
-          <div><h3 className="home-type-subtitle">{copy[0]}</h3><p className="home-type-body">{copy[1]}</p></div>
-        </Reveal>; })}
-      </div>
-    </div>
-  </section>;
-}
 
 export function GlimpseSection() {
   const { lang } = useLang();

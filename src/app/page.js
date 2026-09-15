@@ -10,7 +10,7 @@ import { ProjectsCarousel } from "./projects-carousel";
 import { CoCreateSection } from "./co-create-section";
 import { EdmSubscribe } from "./edm-subscribe";
 import { Reveal } from "./reveal";
-import { FeaturesSection, GlimpseSection, PlaygroundSection, RoadmapCallout } from "./home-ppt-sections";
+import { GlimpseSection, PlaygroundSection, RoadmapCallout } from "./home-ppt-sections";
 
 export default function Home() {
   const { t, lang } = useLang();
@@ -25,7 +25,6 @@ export default function Home() {
       <main className="flex w-full flex-1 flex-col">
         {/* 视频解说 + 文字 */}
         <VideoIntroSection />
-        <FeaturesSection />
         <GlimpseSection />
 
         {/* 开发者区 - 全屏满宽，跑马灯带铺满 */}
