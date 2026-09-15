@@ -34,3 +34,11 @@ test("roadmap and developer ecosystem form one section with the invitation first
   assert.doesNotMatch(i18n, /\{ id: "developer", label: "Developer Ecosystem" \}/);
   assert.doesNotMatch(i18n, /\{ id: "developer", label: "开发者生态" \}/);
 });
+
+test("XIAO Add-ons tags describe practical ecosystem benefits", () => {
+  const source = readSource("./home-ppt-sections.js");
+
+  assert.match(source, /tags: \{ en: \["Grove Ecosystem", "Stackable Modules", "Starter Kits"\]/);
+  assert.match(source, /zh: \["Grove 生态", "可堆叠模块", "入门套件"\]/);
+  assert.doesNotMatch(source, /"XIAO Footprint"/);
+});
