@@ -67,9 +67,9 @@ const Chevron = ({ open }) => (
 );
 
 const DESKTOP_NAV_ITEM_CLASS =
-  "flex h-9 w-full min-w-0 items-center justify-center whitespace-nowrap rounded-full px-2 text-xs font-medium text-[var(--ink-body)] transition-colors hover:bg-white/80 hover:text-[var(--brand-blue)] lg:text-sm";
+  "relative flex h-10 shrink-0 items-center justify-center whitespace-nowrap text-xs font-medium text-[var(--ink-body)] transition-colors duration-200 hover:text-[var(--brand-blue)] lg:text-[13px] xl:text-sm";
 const DESKTOP_NAV_ACTIVE_CLASS =
-  "bg-white/90 text-[var(--brand-blue)] shadow-sm";
+  "text-[var(--brand-blue)] after:absolute after:bottom-0.5 after:left-1/2 after:h-0.5 after:w-7 after:-translate-x-1/2 after:rounded-full after:bg-[var(--button-bg)] after:content-['']";
 
 export function SiteHeader() {
   const { t, lang } = useLang();
@@ -159,7 +159,7 @@ export function SiteHeader() {
         </Link>
 
         {/* 中：导航 —— 只有 Playground 带下拉，其余为普通链接 */}
-        <nav className="mx-auto hidden min-w-0 max-w-[660px] flex-1 grid-cols-5 items-center gap-1 px-2 min-[860px]:grid lg:px-4">
+        <nav className="mx-auto hidden min-w-0 flex-1 items-center justify-center gap-[clamp(18px,2vw,32px)] px-2 min-[860px]:flex lg:px-4">
           {nav.map((item) =>
             item.key === "playground" ? (
               <div
@@ -169,7 +169,7 @@ export function SiteHeader() {
                 onMouseLeave={scheduleClose}
               >
                 <div className={`${DESKTOP_NAV_ITEM_CLASS} gap-0 p-0 ${isActive(item.href) ? DESKTOP_NAV_ACTIVE_CLASS : ""}`}>
-                  <Link href={item.href} onClick={() => setPgOpen(false)} className="flex h-full min-w-0 flex-1 items-center justify-center pl-3 pr-1" aria-current={isActive(item.href) ? "page" : undefined}>
+                  <Link href={item.href} onClick={() => setPgOpen(false)} className="flex h-full min-w-0 flex-1 items-center justify-center pr-1" aria-current={isActive(item.href) ? "page" : undefined}>
                     {item.label}
                   </Link>
                   <button type="button" aria-label="Open Playground menu" aria-expanded={pgOpen} onClick={() => setPgOpen((o) => !o)} className="flex h-full w-8 shrink-0 items-center justify-center rounded-full">

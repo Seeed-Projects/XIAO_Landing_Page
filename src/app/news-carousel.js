@@ -79,11 +79,12 @@ export function NewsCarousel() {
   useEffect(() => {
     const viewport = viewportRef.current;
     if (!viewport) return;
+    const section = viewport.closest("#news") || viewport;
     const observer = new IntersectionObserver(
       ([entry]) => setVisible(entry.isIntersecting),
-      { threshold: 0.25 },
+      { threshold: 0 },
     );
-    observer.observe(viewport);
+    observer.observe(section);
     return () => observer.disconnect();
   }, []);
 

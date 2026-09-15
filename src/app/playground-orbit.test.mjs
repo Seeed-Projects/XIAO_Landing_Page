@@ -2,12 +2,16 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { orbitPosition, orbitProgress } from "./playground-orbit.mjs";
 
-test("scroll progress is bounded, advances downward and reverses upward", () => {
-  assert.equal(orbitProgress(1500, 760, 900), 0);
-  assert.equal(orbitProgress(-1000, 760, 900), 1);
-  const values = [650, 400, 100, -200].map(top => orbitProgress(top, 760, 900));
+test("scroll progress finishes when the scene reaches the viewport center and reverses upward", () => {
+  const viewportHeight = 900;
+  const sceneHeight = 760;
+  const centeredTop = (viewportHeight - sceneHeight) / 2;
+  assert.equal(orbitProgress(viewportHeight, sceneHeight, viewportHeight), 0);
+  assert.equal(orbitProgress(centeredTop, sceneHeight, viewportHeight), 1);
+  assert.equal(orbitProgress(centeredTop - 300, sceneHeight, viewportHeight), 1);
+  const values = [viewportHeight, 650, 400, centeredTop].map(top => orbitProgress(top, sceneHeight, viewportHeight));
   assert.deepEqual([...values].sort((a, b) => a - b), values);
-  assert.equal(orbitProgress(400, 760, 900), values[1]);
+  assert.equal(orbitProgress(400, sceneHeight, viewportHeight), values[2]);
 });
 
 test("desktop paths reserve the full reading area at every scroll position", () => {

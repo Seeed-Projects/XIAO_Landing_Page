@@ -14,10 +14,24 @@ test("language options share fixed dimensions and centered labels", () => {
   assert.doesNotMatch(toggle, /gap-[^\s"]+|\sp-[^\s"]+/);
 });
 
-test("desktop page navigation uses five equal columns and stable item geometry", () => {
-  const desktopNav = source.match(/<nav className="([^"]*grid-cols-5[^"]*)">/)?.[1] || "";
-  assert.match(desktopNav, /grid-cols-5/);
-  assert.match(desktopNav, /max-w-\[660px\]/);
-  assert.match(source, /DESKTOP_NAV_ITEM_CLASS\s*=\s*\n?\s*"[^"]*h-9[^"]*w-full[^"]*font-medium/);
+test("desktop page navigation keeps equal visual gaps and stable item geometry", () => {
+  const desktopNav = source.match(/<nav className="([^"]*gap-\[clamp[^"]*)">/)?.[1] || "";
+  assert.match(desktopNav, /min-\[860px\]:flex/);
+  assert.match(desktopNav, /gap-\[clamp\(18px,2vw,32px\)\]/);
+  assert.doesNotMatch(desktopNav, /grid-cols/);
+  assert.match(source, /DESKTOP_NAV_ITEM_CLASS\s*=\s*\n?\s*"[^"]*h-10[^"]*shrink-0[^"]*font-medium/);
   assert.doesNotMatch(source, /isActive\(item\.href\)[^\n]*font-(?:medium|semibold|bold)/);
+});
+
+test("desktop active navigation uses a lightweight underline without a pill", () => {
+  const activeClass = source.match(/DESKTOP_NAV_ACTIVE_CLASS\s*=\s*\n?\s*"([^"]+)"/)?.[1] || "";
+  assert.match(activeClass, /after:w-7/);
+  assert.match(activeClass, /after:bg-\[var\(--button-bg\)\]/);
+  assert.doesNotMatch(activeClass, /bg-white|shadow/);
+});
+
+test("Playground label does not add extra leading space before its dropdown arrow", () => {
+  const playgroundLink = source.match(/<Link href=\{item\.href\}[\s\S]*?className="([^"]+)" aria-current=\{isActive\(item\.href\)/)?.[1] || "";
+  assert.doesNotMatch(playgroundLink, /\bpl-/);
+  assert.match(playgroundLink, /\bpr-1\b/);
 });

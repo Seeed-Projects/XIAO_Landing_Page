@@ -4,7 +4,8 @@ const mix = (start, end, progress) => start + (end - start) * progress;
 // Converts the scene's viewport position into reversible scroll progress.
 // 将场景相对视口的位置换算为可随滚动反向变化的进度。
 export function orbitProgress(top, height, viewportHeight) {
-  return clamp((viewportHeight * 0.7 - top) / Math.max(1, viewportHeight * 0.7 + height * 0.5), 0, 1);
+  const centeredTop = (viewportHeight - height) / 2;
+  return clamp((viewportHeight - top) / Math.max(1, viewportHeight - centeredTop), 0, 1);
 }
 
 // Places boards outside the measured reading area throughout their scroll paths.
