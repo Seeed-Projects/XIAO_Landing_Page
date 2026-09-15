@@ -87,6 +87,10 @@
 
 
 .partner-network { display: grid; gap: 16px; }
+
+.home-roadmap-partners {
+  margin-top: clamp(48px, 5vw, 72px);
+}
 .partner-row {
   display: grid;
   grid-template-columns: 208px minmax(0, 1fr);

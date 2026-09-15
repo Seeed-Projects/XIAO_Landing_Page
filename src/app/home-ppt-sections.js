@@ -6,6 +6,7 @@ import { Reveal } from "./reveal";
 import { TypewriterText } from "./typewriter-text";
 import { PlaygroundPreview } from "./playground-preview";
 import { PlaygroundToolIcon } from "./playground-tool-icon";
+import { PartnerMarquee } from "./partner-marquee";
 import { defaultXiaoImage } from "./site-data";
 import { withBase } from "../lib/basePath";
 
@@ -37,18 +38,51 @@ export function GlimpseSection() {
 
 export function RoadmapCallout() {
   const { lang } = useLang();
-  return <section id="roadmap" className="section home-section bg-white px-6 sm:px-10 lg:px-16"><div className="home-content text-center">
-    <Reveal><h2 className="home-type-title text-[#18224f]">{lang === "en" ? "You Decide What We Build Next" : "下一款 XIAO，由你决定"}</h2><p className="home-type-body mx-auto mt-5 max-w-5xl text-[#526b91]">{lang === "en" ? "We’re open-sourcing our roadmap for XIAO on GitHub, and you have a say in it. Vote for your favorite entries, suggest features, propose new products, or share feedback." : "我们在 GitHub 上公开 XIAO 路线图。你可以投票、建议功能、提出新产品，或直接分享反馈。"}</p></Reveal>
-    <Reveal delay={100} className="mx-auto mt-10 max-w-4xl">
-      <div className="flex items-center gap-4 rounded-2xl bg-[#f3f5f1] p-4 shadow-[0_5px_18px_rgba(35,52,29,0.08)] sm:gap-6 sm:p-6">
-        <p className="home-type-body min-w-0 flex-1 text-left text-[#35473c]"><TypewriterText key={lang} text={lang === "en" ? "Developers, join us and shape the next XIAO!" : "\u5f00\u53d1\u8005\uff0c\u52a0\u5165\u6211\u4eec\uff0c\u5171\u540c\u6253\u9020\u4e0b\u4e00\u6b3e XIAO\uff01"} /></p>
-        <a href={withBase("/open-roadmap")} className="home-type-action home-filled-action inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-[#9dcc3c] px-3 py-3 text-white transition-[transform,background-color] duration-150 hover:bg-[#8ab833] active:scale-95 motion-reduce:transform-none motion-reduce:transition-none sm:px-6">
-          {lang === "en" ? "Join Now" : "立即加入"}
-          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
-        </a>
+  return (
+    <section id="roadmap" className="section home-section home-roadmap-ecosystem overflow-hidden bg-white px-6 sm:px-10 lg:px-16">
+      <div className="home-content text-center">
+        <Reveal>
+          <h2 className="home-type-title text-[#18224f]">
+            {lang === "en" ? "You Decide What We Build Next" : "下一款 XIAO，由你决定"}
+          </h2>
+          <p className="home-type-body mx-auto mt-5 max-w-5xl text-[#526b91]">
+            {lang === "en"
+              ? "We’re open-sourcing our roadmap for XIAO on GitHub, and you have a say in it. Vote for your favorite entries, suggest features, propose new products, or share feedback."
+              : "我们在 GitHub 上公开 XIAO 路线图。你可以投票、建议功能、提出新产品，或直接分享反馈。"}
+          </p>
+        </Reveal>
+
+        <Reveal delay={100} className="mx-auto mt-10 max-w-4xl">
+          <div className="flex items-center gap-4 rounded-2xl bg-[#f3f5f1] px-4 py-[14px] shadow-[0_5px_18px_rgba(35,52,29,0.08)] sm:gap-6 sm:px-6">
+            <p className="home-type-body min-w-0 flex-1 text-left text-[#35473c]">
+              <TypewriterText
+                key={lang}
+                text={lang === "en" ? "Developers, join us and shape the next XIAO!" : "\u5f00\u53d1\u8005\uff0c\u52a0\u5165\u6211\u4eec\uff0c\u5171\u540c\u6253\u9020\u4e0b\u4e00\u6b3e XIAO\uff01"}
+              />
+            </p>
+            <a
+              href={withBase("/open-roadmap")}
+              className="home-type-action home-filled-action inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-[#9dcc3c] px-3 py-3 text-white transition-[transform,background-color] duration-150 hover:bg-[#8ab833] active:scale-95 motion-reduce:transform-none motion-reduce:transition-none sm:px-6"
+            >
+              {lang === "en" ? "Join Now" : "立即加入"}
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5">
+                <path d="m22 2-7 20-4-9-9-4Z" />
+                <path d="M22 2 11 13" />
+              </svg>
+            </a>
+          </div>
+        </Reveal>
+
+        <div
+          id="developer"
+          className="home-roadmap-partners scroll-mt-24 text-left"
+          aria-label={lang === "en" ? "Developer Ecosystem" : "\u5f00\u53d1\u8005\u751f\u6001"}
+        >
+          <PartnerMarquee />
+        </div>
       </div>
-    </Reveal>
-  </div></section>;
+    </section>
+  );
 }
 
 const PLAYGROUND_TOOLS = [

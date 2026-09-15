@@ -4,7 +4,6 @@ import { useLang } from "./i18n";
 import { SectionHeader, SiteHeader } from "./components";
 import { HomeCarousel } from "./home-carousel";
 import { VideoIntroSection } from "./video-intro-section";
-import { PartnerMarquee } from "./partner-marquee";
 import { NewsCarousel } from "./news-carousel";
 import { ProjectsCarousel } from "./projects-carousel";
 import { CoCreateSection } from "./co-create-section";
@@ -26,23 +25,6 @@ export default function Home() {
         {/* 视频解说 + 文字 */}
         <VideoIntroSection />
         <GlimpseSection />
-
-        {/* 开发者区 - 全屏满宽，跑马灯带铺满 */}
-        <section
-          id="developer"
-          className="home-section bg-white relative flex w-full scroll-mt-24 items-center overflow-hidden"
-        >
-          <div className="w-full">
-            <div className="mx-auto w-full max-w-[1808px] px-6 sm:px-10 lg:px-16">
-              <Reveal>
-                <SectionHeader kicker={t.developer.title} title={t.developer.title} description="" />
-              </Reveal>
-            </div>
-            <div className="mx-auto mt-8 w-full max-w-[1808px] px-6 sm:px-10 lg:px-12">
-              <PartnerMarquee />
-            </div>
-          </div>
-        </section>
 
         <RoadmapCallout />
 

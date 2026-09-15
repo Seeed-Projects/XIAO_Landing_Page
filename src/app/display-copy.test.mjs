@@ -19,5 +19,18 @@ test("pinout model labels use the complete nRF54LM20A name", () => {
 test("roadmap invitation invites developers to shape the next XIAO", () => {
   const source = readSource("./home-ppt-sections.js");
   assert.match(source, /Developers, join us and shape the next XIAO!/);
-  assert.match(source, /<TypewriterText key=\{lang\}/);
+  assert.match(source, /<TypewriterText\s+key=\{lang\}/);
+});
+
+test("roadmap and developer ecosystem form one section with the invitation first", () => {
+  const page = readSource("./page.js");
+  const section = readSource("./home-ppt-sections.js");
+  const i18n = readSource("./i18n.js");
+
+  assert.doesNotMatch(page, /id="developer"/);
+  assert.match(section, /id="roadmap"[\s\S]*id="developer"/);
+  assert.match(section, /<TypewriterText[\s\S]*<PartnerMarquee \/>/);
+  assert.equal((section.match(/You Decide What We Build Next/g) || []).length, 1);
+  assert.doesNotMatch(i18n, /\{ id: "developer", label: "Developer Ecosystem" \}/);
+  assert.doesNotMatch(i18n, /\{ id: "developer", label: "开发者生态" \}/);
 });
