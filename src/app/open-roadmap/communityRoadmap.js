@@ -58,7 +58,7 @@ export function CommunityRoadmap() {
     sub: lang === "zh"
       ? "下一步做什么，由你决定"
       : "You decide what we build next",
-    btnSubmit: lang === "zh" ? "在 GitHub 提交想法 ↗" : "Submit an idea on GitHub ↗",
+    btnSubmit: lang === "zh" ? "在 GitHub 提交想法" : "Submit an idea on GitHub",
     count: (n) => lang === "zh" ? `${n} 条想法` : `${n} ${n === 1 ? "idea" : "ideas"}`,
     empty: lang === "zh" ? "该分类下暂无想法。" : "No ideas in this category yet.",
     votes: lang === "zh" ? "票" : "votes",
@@ -114,12 +114,17 @@ export function CommunityRoadmap() {
           </p>
           <div className={styles.headActions}>
             <a
-              className={`home-type-action home-filled-action home-primary-cta ${styles.btn}`}
+              className="home-type-action home-filled-action home-primary-cta"
               href={GITHUB_DISCUSSIONS}
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
+              style={{ color: "#fff" }}
             >
               {T.btnSubmit}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
             </a>
           </div>
         </div>

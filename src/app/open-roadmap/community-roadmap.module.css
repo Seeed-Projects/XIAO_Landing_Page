@@ -46,8 +46,18 @@
   padding-block: 4rem;
   transform: translateY(-1.25rem);
 }
-.roadmapHero .headActions { margin: 30px 0 0; }
-.headActions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+.roadmapHero .headActions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 28px 0 0;
+}
+.headActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
 
 .btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
 
@@ -147,8 +157,8 @@
     padding-block: 4rem;
     transform: translateY(-1.25rem);
   }
-  .roadmapHero .headActions { align-items: stretch; flex-direction: column; }
-  .roadmapHero .btn { justify-content: center; width: 100%; }
+  .roadmapHero .headActions { align-items: flex-start; flex-direction: column; }
+  .roadmapHero .headActions :global(.home-primary-cta) { width: auto; }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .cardTop { gap: 12px; }
   .vote { width: 50px; }
@@ -186,8 +196,42 @@
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.42);
 }
 .headActions :global(.home-primary-cta),
-.drawerActions :global(.home-primary-cta) {
-  color: #fff;
+.headActions :global(.home-type-action),
+.drawerActions :global(.home-primary-cta),
+.drawerActions :global(.home-type-action) {
+  display: inline-flex;
+  width: auto;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 9999px;
+  font-size: var(--home-body-size);
+  font-weight: var(--home-action-weight);
+  line-height: var(--home-body-leading);
+  letter-spacing: normal;
+  text-decoration: none;
+  background: var(--button-bg) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.headActions :global(.home-primary-cta):hover,
+.headActions :global(.home-type-action):hover,
+.drawerActions :global(.home-primary-cta):hover,
+.drawerActions :global(.home-type-action):hover {
+  transform: translateY(-2px);
+  background: var(--button-bg-hover) !important;
+  color: #fff !important;
+}
+.headActions :global(.home-primary-cta):focus-visible,
+.headActions :global(.home-type-action):focus-visible,
+.drawerActions :global(.home-primary-cta):focus-visible,
+.drawerActions :global(.home-type-action):focus-visible {
+  outline: 3px solid rgba(0, 73, 102, 0.3);
+  outline-offset: 3px;
 }
 .cardTitle:global(.home-type-subtitle),
 .drawerTitle:global(.home-type-subtitle) {
