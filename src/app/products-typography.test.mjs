@@ -12,7 +12,7 @@ const globals = read("./globals.css");
 const agents = read("../../AGENTS.md");
 
 test("Products reuses the shared typography roles", () => {
-  assert.match(page, /titleClassName="home-type-hero-title/);
+  assert.match(page, /titleClassName="[^"]*home-type-hero-title/);
   assert.match(hero, /home-type-body[^\n]*text-white/);
   assert.match(hero, /home-type-action home-filled-action/g);
   assert.match(panel, /home-type-title/);
@@ -43,4 +43,11 @@ test("Products hero copy starts at the Home hero copy edge", () => {
   assert.match(hero, /className="page-hero-copy/);
   assert.match(globals, /\.page-hero-copy\s*{[^}]*padding-inline:\s*9\.75vw 24px/s);
   assert.match(globals, /@media \(max-width: 700px\)[\s\S]*?\.page-hero-copy\s*{[^}]*padding-left:\s*calc\(8\.85vw \+ 19\.75px\)/);
+});
+
+test("Products hero keeps the title on one line and the description within two lines", () => {
+  assert.match(page, /titleClassName="products-hero-title home-type-hero-title/);
+  assert.match(hero, /className="page-hero-description home-type-body/);
+  assert.match(globals, /\.products-hero-title\s*{[^}]*white-space:\s*nowrap/s);
+  assert.match(globals, /\.page-hero-description\s*{[^}]*max-width:\s*920px[^}]*-webkit-line-clamp:\s*2/s);
 });

@@ -61,7 +61,7 @@ export function HeroSection({ title, subtitle, titleClassName, kicker, brand, im
 
       {/* 叠加内容 */}
       <div className="page-hero-copy relative z-10 w-full -translate-y-5 py-16 sm:-translate-y-7 lg:-translate-y-8">
-        <Reveal className="max-w-2xl space-y-6">
+        <Reveal className="max-w-[1080px] space-y-6">
           {copy.kicker && (
             <p className="font-display text-sm font-semibold uppercase tracking-[0.34em] text-white/85">
               {copy.kicker}
@@ -78,7 +78,7 @@ export function HeroSection({ title, subtitle, titleClassName, kicker, brand, im
           >
             {copy.title}
           </Glow>
-          <p className="home-type-body max-w-xl text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]">
+          <p className="page-hero-description home-type-body text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]">
             {copy.subtitle}
           </p>
           <div className="grid grid-cols-1 gap-3 pt-2 min-[420px]:flex min-[420px]:flex-wrap min-[420px]:items-center">

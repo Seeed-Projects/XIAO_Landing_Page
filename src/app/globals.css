@@ -503,6 +503,19 @@ canvas {
   padding-inline: 9.75vw 24px;
 }
 
+.products-hero-title {
+  font-size: clamp(20px, 4vw, 64px);
+  white-space: nowrap;
+}
+
+.page-hero-description {
+  display: -webkit-box;
+  max-width: 920px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
 @media (max-width: 700px) {
   .page-hero-copy {
     padding-left: calc(8.85vw + 19.75px);
