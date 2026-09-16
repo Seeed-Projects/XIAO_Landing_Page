@@ -4,6 +4,24 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
+## 任务规模与验证分级
+
+1. **微小改动快速流程**:
+   - 仅涉及文案、字号、字重、颜色、间距或单个样式类，且不改变业务逻辑、数据结构、
+     路由和构建配置时，按微小改动处理。
+   - 先定位目标元素与现有样式，再完成最小范围修改；随后只检查目标区域的实际渲染，
+     并运行相关文件的静态检查。
+   - 验证通过后立即交付，交付说明聚焦改动位置、页面效果和验证结果。
+
+2. **完整功能验证流程**:
+   - 涉及交互逻辑、数据来源、接口、路由、依赖、构建配置或跨模块影响时，运行相关测试，
+     并根据影响范围决定是否执行完整生产构建和多尺寸回归检查。
+   - 改动直接影响生产构建、静态导出或服务端渲染时，完整生产构建属于必检项目。
+
+3. **执行时效**:
+   - 微小改动以数分钟内完成为目标；工具或环境检查超过 5 分钟时，立即说明当前阻塞点，
+     并切换到能够验证目标改动的最小流程。
+
 ## 滚动动画与首屏连续性
 
 1. **首屏内容连续性**:
