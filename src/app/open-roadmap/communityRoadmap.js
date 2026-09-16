@@ -103,12 +103,29 @@ export function CommunityRoadmap() {
           priority
         />
         <div className={styles.heroShade} />
-        <div className={styles.heroCopy}>
-          <Glow as="h1">{T.h1}</Glow>
-          <p>{T.sub}</p>
+        <div className={`page-hero-copy ${styles.heroCopy}`}>
+          <Glow
+            as="h1"
+            className="home-type-hero-title text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]"
+          >
+            {T.h1}
+          </Glow>
+          <p className="page-hero-description home-type-body text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]">
+            {T.sub}
+          </p>
           <div className={styles.headActions}>
-            <a className={`${styles.btn} ${styles.btnPrimary}`} href="#ideas">{T.btnAll}</a>
-            <a className={`${styles.btn} ${styles.btnSecondary}`} href={GITHUB_DISCUSSIONS} target="_blank" rel="noopener">
+            <a
+              className={`home-type-action home-filled-action home-primary-cta ${styles.btn}`}
+              href="#ideas"
+            >
+              {T.btnAll}
+            </a>
+            <a
+              className={`home-type-action home-filled-action home-primary-cta ${styles.btn}`}
+              href={GITHUB_DISCUSSIONS}
+              target="_blank"
+              rel="noopener"
+            >
               {T.btnSubmit}
             </a>
           </div>
@@ -138,7 +155,7 @@ export function CommunityRoadmap() {
 
         <div className={styles.list}>
           {visible.length === 0 && (
-            <div className={styles.empty}>{T.empty}</div>
+            <div className={`home-type-body ${styles.empty}`}>{T.empty}</div>
           )}
           {visible.map((it) => (
             <article key={it.id} className={styles.card} onClick={() => setActive(it)}>
@@ -149,8 +166,8 @@ export function CommunityRoadmap() {
                 </div>
                 <div className={styles.cardMain}>
                   <span className={`${styles.status} ${STATUS_CLASS[it.status] || styles.sIdea}`}>{pick(it.statusLabel)}</span>
-                  <h3 className={styles.cardTitle}>{pick(it.title)}</h3>
-                  <p className={styles.cardSummary}>{pick(it.summary)}</p>
+                  <h3 className={`home-type-subtitle ${styles.cardTitle}`}>{pick(it.title)}</h3>
+                  <p className={`home-type-body ${styles.cardSummary}`}>{pick(it.summary)}</p>
                   <div className={styles.cardMeta}>
                     <span>💬 {T.comments(it.comments)}</span>
                     <span className={styles.metaDot} />
@@ -160,7 +177,7 @@ export function CommunityRoadmap() {
               </div>
               <div className={styles.cardFoot}>
                 <a
-                  className={styles.voteLink}
+                  className={`home-type-action home-filled-action ${styles.voteLink}`}
                   href={it.githubUrl}
                   target="_blank"
                   rel="noopener"
@@ -180,7 +197,7 @@ export function CommunityRoadmap() {
           <div className={styles.drawerHead}>
             <div className={styles.drawerHeadLeft}>
               <span className={styles.drawerKicker}>{T.drawerKicker}</span>
-              <h2 className={styles.drawerTitle}>{pick(active.title)}</h2>
+              <h2 className={`home-type-subtitle ${styles.drawerTitle}`}>{pick(active.title)}</h2>
               <span className={`${styles.status} ${STATUS_CLASS[active.status] || styles.sIdea}`}>{pick(active.statusLabel)}</span>
             </div>
             <button type="button" className={styles.closeBtn} onClick={() => setActive(null)}>×</button>
@@ -200,27 +217,37 @@ export function CommunityRoadmap() {
             {pick(active.proposed) && (
             <div className={styles.section}>
               <h4>{T.proposed}</h4>
-              <p>{pick(active.proposed)}</p>
+              <p className="home-type-body">{pick(active.proposed)}</p>
             </div>
             )}
             {pick(active.why) && (
             <div className={styles.section}>
               <h4>{T.why}</h4>
-              <p>{pick(active.why)}</p>
+              <p className="home-type-body">{pick(active.why)}</p>
             </div>
             )}
             {pick(active.update) && (
             <div className={styles.section}>
               <h4>{T.update}</h4>
-              <p>{pick(active.update)}</p>
+              <p className="home-type-body">{pick(active.update)}</p>
             </div>
             )}
 
             <div className={styles.drawerActions}>
-              <a className={`${styles.btn} ${styles.btnLight}`} href={active.githubUrl} target="_blank" rel="noopener">
+              <a
+                className={`home-type-action home-filled-action home-primary-cta ${styles.btn}`}
+                href={active.githubUrl}
+                target="_blank"
+                rel="noopener"
+              >
                 {T.fullDiscussion}
               </a>
-              <a className={`${styles.btn} ${styles.btnGreen}`} href={active.githubUrl} target="_blank" rel="noopener">
+              <a
+                className={`home-type-action home-filled-action home-primary-cta ${styles.btn}`}
+                href={active.githubUrl}
+                target="_blank"
+                rel="noopener"
+              >
                 {T.voteGithub}
               </a>
             </div>

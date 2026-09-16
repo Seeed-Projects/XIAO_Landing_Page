@@ -51,10 +51,10 @@ export function SuccessCases() {
     <section id="success" className="w-full scroll-mt-24 bg-[var(--page-bg)] px-6 py-16 sm:px-10 lg:px-16">
       <div className="mx-auto w-full max-w-[1440px]">
         <Reveal className="text-center">
-          <Glow as="h2" className="font-display text-4xl font-bold leading-[1.12] tracking-[-0.035em] text-[var(--ink-strong)] sm:text-5xl lg:text-[3.5rem]">
+          <Glow as="h2" className="home-type-title text-[var(--ink-strong)]">
             {title}
           </Glow>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-[1.65] text-[var(--ink-body)] sm:text-lg">
+          <p className="home-type-body mx-auto mt-4 max-w-2xl text-[var(--ink-body)]">
             {sub}
           </p>
         </Reveal>
@@ -78,10 +78,10 @@ export function SuccessCases() {
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-4">
-                  <p className="text-sm font-semibold leading-snug text-[var(--ink-strong)]">
+                  <p className="home-type-subtitle text-[var(--ink-strong)]">
                     {c.name}
                   </p>
-                  <span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[var(--brand-blue)]">
+                  <span className="home-type-action home-text-action mt-3 inline-flex items-center gap-1">
                     {cta}
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-0.5">
                       <path d="M5 12h14" />
