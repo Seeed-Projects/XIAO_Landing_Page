@@ -9,3 +9,9 @@ test("news autoplay starts as soon as the news section enters the viewport", () 
   assert.match(source, /\{ threshold: 0 \}/);
   assert.match(source, /observer\.observe\(section\)/);
 });
+
+test("news cards display the synchronized publication date", () => {
+  assert.match(source, /function formatNewsDate\(date\)/);
+  assert.match(source, /<time className="news-card-date mt-2" dateTime=\{item\.date\}>/);
+  assert.match(source, /\{formatNewsDate\(item\.date\)\}/);
+});

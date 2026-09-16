@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useLang } from "./i18n";
+import { HoverCardCopy } from "./scroll-card";
 import content from "./home-content.generated.json";
 import {
   centerNewsLoopIndex,
@@ -18,6 +19,10 @@ import {
 const BLOG_TAG_URL = "https://www.seeedstudio.com/blog/tag/seeed-studio-xiao/";
 const AUTO_ADVANCE_MS = 4800;
 const SCROLL_SETTLE_MS = 180;
+
+function formatNewsDate(date) {
+  return date?.replaceAll("-", ".") || "";
+}
 
 export function NewsCarousel() {
   const { lang } = useLang();
@@ -157,7 +162,7 @@ export function NewsCarousel() {
                 rel="noopener noreferrer"
                 aria-hidden={accessible ? undefined : true}
                 tabIndex={accessible ? undefined : -1}
-                className="flex w-[280px] shrink-0 snap-start cursor-pointer flex-col rounded-2xl border border-[var(--line-soft)] bg-white/90 p-3 no-underline shadow-[0_8px_24px_rgba(0,73,102,0.06)] backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-[rgba(143,195,31,0.35)] hover:shadow-[0_14px_30px_rgba(0,73,102,0.11)] sm:w-[320px] lg:w-[340px]"
+                className="hover-copy-card flex w-[280px] shrink-0 snap-start cursor-pointer flex-col rounded-2xl border border-[var(--line-soft)] bg-white/90 p-3 no-underline shadow-[0_8px_24px_rgba(0,73,102,0.06)] backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-[rgba(143,195,31,0.35)] hover:shadow-[0_14px_30px_rgba(0,73,102,0.11)] sm:w-[320px] lg:w-[340px]"
               >
                 <div className="aspect-[1.55] w-full overflow-hidden rounded-lg bg-[#edf2eb]">
                   {item.media_url && (
@@ -171,10 +176,17 @@ export function NewsCarousel() {
                     />
                   )}
                 </div>
-                <h3 className="home-type-subtitle mt-3 line-clamp-2 text-[#253946]">{item.title}</h3>
-                <span className="home-type-action home-text-action mt-2 text-[#8fc93a]">
+                <h3 className="home-type-subtitle mt-3 min-h-[3em] line-clamp-2 text-[#253946]">{item.title}</h3>
+                {item.date && (
+                  <time className="news-card-date mt-2" dateTime={item.date}>
+                    {formatNewsDate(item.date)}
+                  </time>
+                )}
+                {item.excerpt && <span className="sr-only">{item.excerpt}</span>}
+                <span className="home-type-action home-text-action mt-auto pt-3 text-[#8fc93a]">
                   {isEn ? "Read More »" : "阅读更多 »"}
                 </span>
+                <HoverCardCopy title={item.title} description={item.excerpt} />
               </a>
             );
           })}

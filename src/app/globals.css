@@ -547,6 +547,51 @@ canvas {
   color: #8fc93a;
 }
 
+.hover-copy-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.news-card-date {
+  color: #73828c;
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+
+.hover-card-copy {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  padding: 22px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.97);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.hover-copy-card:focus-within .hover-card-copy {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hover-copy-card:hover .hover-card-copy {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-card-copy {
+    transition: none;
+  }
+}
+
 @media (min-width: 640px) {
   :root { --home-body-size: 16px; }
 }

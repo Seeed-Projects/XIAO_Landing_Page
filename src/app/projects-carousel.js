@@ -19,6 +19,7 @@ export function ProjectsCarousel() {
       rows={2}
       speed={0.361}
       delayStep={45}
+      cardClassName="hover-copy-card"
       hrefFor={(item) => item.url || "#"}
       renderCard={(item) => (
         <ScrollCard
@@ -28,6 +29,7 @@ export function ProjectsCarousel() {
           title={localize(item.title, lang)}
           excerpt={localize(item.excerpt, lang)}
           alt={localize(item.title, lang)}
+          showHoverCopy
         />
       )}
     />
