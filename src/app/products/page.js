@@ -2,7 +2,7 @@
 
 import { SiteHeader } from "../components";
 import { ProductPanel } from "../product-panel";
-import { SmartSelector } from "./smart-selector";
+import { XiaoSelector } from "./xiao-selector";
 import { HeroSection } from "../hero-section";
 import { useLang } from "../i18n";
 
@@ -45,7 +45,7 @@ export default function ProductsPage() {
         </div>
 
         {/* 选型器 */}
-        <SmartSelector />
+        <XiaoSelector />
 
         {/* Pinout 与 ESP Flasher 暂从 products 页下线（注释保留），
             由顶部 Playground 下拉进入对应入口。

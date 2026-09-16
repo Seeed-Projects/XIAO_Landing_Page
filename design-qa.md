@@ -389,3 +389,24 @@ Flow: Home renders PlaygroundSection, which reads the language and renders Playg
 - At 768px the tool list uses two columns without horizontal overflow. Clicking Pinout opened `/playground/pinout/` and rendered the localized pinout heading. All four destinations exist and compile in the production build. No device connection or firmware flashing was performed.
 - Reduced-motion CSS is covered by source checks; OS preference changes were not performed.
 - Follow the Home Playground Verification section in README to repeat desktop/mobile, language, link, replay and reduced-motion checks.
+
+## Products Selector Verification
+
+- Desktop (1440px): sticky filter sidebar on the left, results on the right.
+  Default groups are open, More Filters is collapsed, Purchase Options sits
+  under its own divider. Each option shows a live remaining count; options
+  with 0 remaining are dimmed.
+- Selecting Bluetooth LE + IMU returns 5 boards; the active chip bar shows both
+  conditions and Clear all resets the view.
+- Table view scrolls horizontally with a sticky header; tags matching the
+  current filters are highlighted in green.
+- Compare: selecting 2–4 boards shows the bottom bar; the compare panel opens
+  with Only show differences on and highlights differing rows.
+- Empty result (Wi-Fi + Raspberry Pi) shows removal suggestions with the
+  number of boards each removal restores.
+- Mobile (390px): the Filters button opens the bottom drawer; the footer button
+  reports the live count and closes the drawer.
+- Chinese labels render for groups, options, chips and empty-state copy.
+- Help Me Choose remains a coming-soon placeholder while Filter by Specs stays
+  the active workflow.
+- Regression: `node --test src/app/products/spec-filter.test.mjs src/app/products-typography.test.mjs`.

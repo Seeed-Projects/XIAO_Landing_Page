@@ -50,6 +50,42 @@ browser to open `http://localhost:3000/XIAO_Landing_Page/products/`. Run
 `node --test src/app/home-carousel.test.mjs` for the content,
 destination, responsive-layout and replayable-title-motion regression checks.
 
+## XIAO Selector (Products)
+
+The Products page includes **XIAO Selector**, a faceted workbench for picking
+a development board:
+
+- **Filter sidebar** (sticky on desktop, bottom drawer on mobile): search by
+  board name or MCU, collapsible groups for connectivity, variant, chip
+  platform, onboard sensors and power, a **More Filters** section for I/O and
+  development platforms, and a separate **Purchase Options** block. Every
+  option shows a live count of boards that remain if it is selected.
+  Capability groups use AND; category groups use OR; groups combine with AND.
+- **Results**: card view (default) or spec table with MCU, core, Flash / RAM,
+  GPIO and capability tags. Active filters appear as removable chips; an empty
+  result lists which single condition to remove to get boards back.
+- **Compare**: pick up to four boards, then open the compare panel with an
+  "Only show differences" toggle.
+- **Help Me Choose**: placeholder entry for the guided wizard (coming soon).
+
+Files: `src/app/products/xiao-selector.js` (UI),
+`src/app/products/board-specs.mjs` (filter groups, spec matrix, hardware
+summary, Wiki links) and `src/app/products/spec-filter.mjs` (filtering, facet
+counts, search, suggestions).
+
+Verification:
+
+```bash
+node --test src/app/products/spec-filter.test.mjs src/app/products-typography.test.mjs
+```
+
+With `npm run dev` running, open
+`http://localhost:3000/XIAO_Landing_Page/products/#smart-selector`. Tick
+options and confirm the result count and facet numbers update, switch between
+Cards and Table, add boards to compare and open the panel, and create an empty
+result to see removal suggestions. On a phone-width viewport the sidebar opens
+from the **Filters** button.
+
 ## Scroll Band Verification
 
 The project carousel displays two rows and repeats its existing content to cover

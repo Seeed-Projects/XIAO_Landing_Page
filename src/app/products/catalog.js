@@ -21,13 +21,16 @@ export const PRODUCT_CATALOG = [
       group("esp32", "Espressif ESP32 Series", [
         product("XIAO ESP32-C3", "https://www.seeedstudio.com/Seeed-XIAO-ESP32C3-p-5431.html", "dev_boards/XIAO落地页素材-19-1536x1257.jpg", "Cost effective with Wi-Fi and BLE on board"),
         product("XIAO ESP32-S3", "https://www.seeedstudio.com/XIAO-ESP32S3-p-5627.html", "dev_boards/XIAO落地页素材-20-1536x1257.jpg", "High-performance dev board with Wi-Fi and BLE"),
+        product("XIAO ESP32-S3 Plus", "https://www.seeedstudio.com/Seeed-Studio-XIAO-ESP32S3-Plus-p-6361.html", "dev_boards/s3plus-front.webp", "ESP32-S3 with expanded castellated I/O for production designs"),
         product("XIAO ESP32-S3 Sense", "https://www.seeedstudio.com/XIAO-ESP32S3-Sense-p-5639.html", "dev_boards/XIAO落地页素材-21-1536x1257.jpg", "Mini camera perfect for computer vision"),
         product("XIAO ESP32-C6", "https://www.seeedstudio.com/Seeed-Studio-XIAO-ESP32C6-p-5884.html", "dev_boards/Group-43-1536x1256.webp", "2.4GHz Wi-Fi 6, BLE 5.0, Zigbee, and Thread for Matter"),
         product("XIAO ESP32-C5", "https://www.seeedstudio.com/Seeed-Studio-XIAO-ESP32C5-p-6609.html", "dev_boards/XIAO-ESP32-C5-Bazaar-1536x1256.jpg", "2.4 & 5 GHz Wi-Fi 6, BLE 5.0, Zigbee, and Thread for Matter"),
       ]),
       group("nrf52", "Nordic nRF52 Series", [
         product("XIAO nRF52840", "https://www.seeedstudio.com/Seeed-XIAO-BLE-nRF52840-p-5201.html", "dev_boards/Group-42-1536x1256.webp", "Ultra-low power consumption, perfect for BLE applications"),
+        product("XIAO nRF52840 Plus", "https://www.seeedstudio.com/Seeed-Studio-XIAO-nRF52840-Plus-p-6359.html", "dev_boards/nrf52840plus-front.webp", "nRF52840 with expanded castellated I/O for BLE projects"),
         product("XIAO nRF52840 Sense", "https://www.seeedstudio.com/Seeed-XIAO-BLE-Sense-nRF52840-p-5253.html", "dev_boards/XIAO落地页素材-04-1536x1257.jpg", "Low power BLE with onboard microphone and 6-axis IMU"),
+        product("XIAO nRF52840 Sense Plus", "https://www.seeedstudio.com/Seeed-Studio-XIAO-nRF52840-Sense-Plus-p-6360.html", "dev_boards/nrf52840plus-front.webp", "Sense sensors plus expanded castellated I/O"),
       ]),
       group("nrf54", "Nordic nRF54 Series", [
         product("XIAO nRF54L15", "https://www.seeedstudio.com/XIAO-nRF54L15-p-6493.html", "dev_boards/Group-12.webp", "Ultra low power consumption with multiple connectivity"),
@@ -37,6 +40,7 @@ export const PRODUCT_CATALOG = [
       ]),
       group("rp", "Raspberry Pi RP Series", [
         product("XIAO RP2040", "https://www.seeedstudio.com/XIAO-RP2040-v1-0-p-5026.html", "dev_boards/XIAO落地页素材-05-1536x1257.jpg", "Raspberry Pi Ecosystem with great MicroPython support"),
+        product("XIAO RP2040 Plus", "https://www.seeedstudio.com/Seeed-Studio-XIAO-RP2040-Plus-p-6932.html", "dev_boards/rp2040plus-front.webp", "RP2040 with expanded I/O and onboard battery management"),
         product("XIAO RP2350", "https://www.seeedstudio.com/Seeed-XIAO-RP2350-p-5944.html", "dev_boards/XIAO-RP2350-2-1536x1245.webp", "MicroPython-ready based on Raspberry Pi RP2350"),
       ]),
       group("mg", "Silicon Labs MG Series", [
@@ -45,6 +49,7 @@ export const PRODUCT_CATALOG = [
       ]),
       group("samd", "Microchip SAMD Series", [
         product("XIAO SAMD21", "https://www.seeedstudio.com/Seeeduino-XIAO-Arduino-Microcontroller-SAMD21-Cortex-M0+-p-4426.html", "dev_boards/Seeed-Studio-XIAO-SAMD21-1536x1257.jpg", "Classic for Arduino beginners, with courses"),
+        product("XIAO SAMD21 Plus", "https://www.seeedstudio.com/Seeed-Studio-XIAO-SAMD21-Plus-p-6933.html", "dev_boards/samd21plus-front.webp", "SAMD21 with expanded I/O and onboard battery management"),
       ]),
       group("ra", "Renesas RA Series", [
         product("XIAO RA4M1", "https://www.seeedstudio.com/Seeed-XIAO-RA4M1-p-5943.html", "dev_boards/XIAO-RA4M1-1536x1258.webp", "Renesas 32-bit ARM Cortex-M4 MCU, Arduino IDE-ready"),

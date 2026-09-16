@@ -6,8 +6,8 @@ const read = (name) => readFileSync(new URL(name, import.meta.url), "utf8");
 const page = read("./products/page.js");
 const hero = read("./hero-section.js");
 const panel = read("./product-panel.js");
-const selector = read("./products/smart-selector.js");
-const selectorCss = read("./products/smart-selector.module.css");
+const selector = read("./products/xiao-selector.js");
+const selectorCss = read("./products/xiao-selector.module.css");
 const globals = read("./globals.css");
 const agents = read("../../AGENTS.md");
 
@@ -21,16 +21,27 @@ test("Products reuses the shared typography roles", () => {
   assert.match(selector, /home-type-title/);
   assert.match(selector, /home-type-subtitle/);
   assert.match(selector, /home-type-body/);
+  assert.match(selector, /home-type-action home-filled-action/);
 });
 
 test("Products component CSS points to the shared typography tokens", () => {
-  assert.match(selectorCss, /\.introBlock h2[^}]*font-size: var\(--home-title-size\)/s);
-  assert.match(selectorCss, /\.introBlock p[^}]*font-size: var\(--home-body-size\)/s);
-  assert.match(selectorCss, /\.filterHead h2[^}]*font-size: var\(--home-subtitle-size\)/s);
-  assert.match(selectorCss, /\.filterHead p[^}]*font-size: var\(--home-body-size\)/s);
-  assert.match(selectorCss, /\.catalogCard h3[^}]*font-size: var\(--home-subtitle-size\)/s);
-  assert.match(selectorCss, /\.catalogCard p[^}]*font-size: var\(--home-body-size\)/s);
-  assert.match(selectorCss, /\.miniBtn[^}]*font-size: var\(--home-body-size\)/s);
+  assert.match(selectorCss, /\.intro h2[^}]*font-size: var\(--home-title-size\)/s);
+  assert.match(selectorCss, /\.intro p[^}]*font-size: var\(--home-body-size\)/s);
+  assert.match(selectorCss, /\.cardBody h3[^}]*font-size: var\(--home-subtitle-size\)/s);
+  assert.match(selectorCss, /\.resultsTitle[^}]*font-size: var\(--home-body-size\)/s);
+});
+
+test("XIAO Selector exposes the faceted workbench structure", () => {
+  assert.match(page, /<XiaoSelector \/>/);
+  assert.match(selector, /tabFilter: "Filter by Specs"/);
+  assert.match(selector, /tabHelp: "Help Me Choose"/);
+  assert.match(selector, /moreFilters: "More Filters"/);
+  assert.match(selector, /purchase: "Purchase Options"/);
+  assert.match(selector, /facetCounts\(/);
+  assert.match(selector, /removalSuggestions\(/);
+  assert.match(selector, /diffOnly/);
+  assert.match(selectorCss, /\.sidebar\s*{[^}]*position: sticky/s);
+  assert.match(selectorCss, /@media \(max-width: 1023px\)[\s\S]*\.sidebar\s*{[^}]*position: fixed/);
 });
 
 test("project rules apply the shared typography hierarchy to every page", () => {
