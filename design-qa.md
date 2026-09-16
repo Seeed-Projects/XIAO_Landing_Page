@@ -399,6 +399,14 @@ Flow: Home renders PlaygroundSection, which reads the language and renders Playg
   and `page-hero-copy` so width and left edge match Home and Products.
 - Regression: `node --test src/app/project-hub-typography.test.mjs`.
 
+## Project Hub Featured Projects Verification
+
+- Title reads Featured Projects / 精选项目.
+- Seven projects are sampled from Home `PROJECTS` on each page load.
+- Lead story plus three-column grid show tag, board, date, title, excerpt and CTA.
+- Side rail anchors: top, featured-projects, collection.
+- Regression: `node --test src/app/project-hub-featured.test.mjs`.
+
 ## Primary CTA Verification
 
 - Page-level primary buttons share `.home-primary-cta` (48px min-height,

@@ -6,7 +6,7 @@ export default function ProjectHubPage() {
     <>
       <SiteHeader />
       <main className="flex w-full flex-1 flex-col">
-        <div className="mt-16">
+        <div id="top" className="mt-16">
           <ProjectHub />
         </div>
       </main>

@@ -249,14 +249,20 @@ card titles, body copy and actions. The hero image uses the shared full-bleed
 frame (`aspect-ratio: 1695 / 632`, `min-height: 420px`, phone `620px`) with
 copy starting at the shared `page-hero-copy` left edge.
 
+## Project Hub Featured Projects
+
+The Featured Projects section randomly selects **7** builds from the same Home
+`PROJECTS` catalog (`home-content.generated.json`, 48 items). Each page load
+reshuffles the set—no manual curation. The layout uses one large lead story
+plus a three-column card grid and shows tag, board, date, title, excerpt and a
+view action—more detail than the Home marquee cards.
+
 With the preview running, open
-`http://localhost:3000/XIAO_Landing_Page/project-hub/` in English and Chinese at
-desktop and 390px. Compare hero title/body/action sizes with Home and Products,
-confirm the left edge matches, and check that Recent Projects and collection
-headings follow the shared title role. Run:
+`http://localhost:3000/XIAO_Landing_Page/project-hub/` and refresh a few times
+to confirm the seven projects change. Run:
 
 ```bash
-node --test src/app/project-hub-typography.test.mjs
+node --test src/app/project-hub-featured.test.mjs src/app/project-hub-typography.test.mjs
 ```
 
 The Newsletter field retains its compact 576px maximum width, small vertical
