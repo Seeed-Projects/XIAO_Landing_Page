@@ -34,24 +34,27 @@ test("pickFeaturedProjects returns seven unique items from the catalog", () => {
   }
 });
 
-test("Featured Projects renders one card recipe with one identical CTA per card", () => {
-  assert.match(hub, /function ProjectCard\(/);
-  assert.match(hub, /featured\.map\(\(project, index\) => \(\s*<ProjectCard/s);
-  assert.match(hub, /lead=\{index === 0\}/);
+test("Featured Projects renders a stage plus a numbered index with a single CTA", () => {
+  assert.match(hub, /function FeaturedStage\(/);
+  assert.match(hub, /function FeaturedIndex\(/);
+  assert.match(hub, /useState\(0\)/);
+  assert.match(hub, /onMouseEnter=\{\(\) => onSelect\(index\)\}/);
+  assert.match(hub, /aria-pressed=\{active\}/);
+  assert.match(hub, /String\(index \+ 1\)\.padStart\(2, "0"\)/);
   assert.match(hub, /project\.board/);
   assert.match(hub, /project\.excerpt/);
-  // Every card carries the shared filled CTA; no text-only variant remains.
+  // The stage holds the only filled CTA on the spread; index rows are selectors.
   assert.equal((hub.match(/home-primary-cta/g) || []).length, 2);
   assert.doesNotMatch(hub, /home-text-action/);
-  assert.doesNotMatch(hub, /styles\.featuredLead\b/);
+  assert.doesNotMatch(hub, /ProjectCard/);
 });
 
-test("Featured Projects shows whole images and spans four columns on desktop", () => {
-  assert.match(hubCss, /\.projectMediaImage\s*{[^}]*object-fit:\s*contain/s);
-  assert.match(hubCss, /\.projectMediaBackdrop\s*{[^}]*filter:\s*blur/s);
-  assert.match(hubCss, /\.projectMedia\s*{[^}]*aspect-ratio:\s*16 \/ 10/s);
-  assert.match(hubCss, /\.featuredGrid\s*{[^}]*grid-template-columns:\s*repeat\(4/s);
-  assert.match(hubCss, /\.projectCardLead\s*{[^}]*grid-column:\s*span 2/s);
-  assert.match(hubCss, /\.projectExcerpt\s*{[^}]*-webkit-line-clamp:\s*2/s);
+test("Featured Projects spread fills the width with three areas and whole images", () => {
+  assert.match(hubCss, /\.featuredSpread\s*{[^}]*grid-template-columns:\s*minmax\(0, 5fr\) minmax\(0, 3fr\) minmax\(0, 4fr\)/s);
+  assert.match(hubCss, /\.featuredSpread\s*{[^}]*grid-template-areas:\s*"media copy index"/s);
+  assert.match(hubCss, /\.stageImage\s*{[^}]*object-fit:\s*contain/s);
+  assert.match(hubCss, /\.stageBackdrop\s*{[^}]*filter:\s*blur/s);
+  assert.match(hubCss, /\.indexRowActive::before\s*{[^}]*transform:\s*scaleY\(1\)/s);
   assert.match(hubCss, /\.featuredSection\s*{[^}]*width:\s*min\(100% - 48px, 1695px\)/s);
+  assert.match(hubCss, /@media \(max-width: 760px\)[^@]*"media"\s*"copy"\s*"index"/s);
 });

@@ -84,73 +84,92 @@ function ArrowIcon() {
   );
 }
 
+const hideBrokenImage = (event) => {
+  event.currentTarget.style.display = "none";
+};
+
 /**
- * One card recipe for every featured project; `lead` widens it to two columns.
- * 所有精选项目共用同一张卡片；lead 仅将其加宽为两列。
+ * Stage: the selected project's whole picture on a blurred plate plus its copy and the single CTA.
+ * 舞台：当前选中项目的完整图片（模糊底衬）、说明文字与唯一操作按钮。
  */
-function ProjectCard({ project, lang, lead = false, actionLabel }) {
-  const title = localize(project.title, lang);
+function FeaturedStage({ project, lang, actionLabel }) {
   return (
-    <a
-      className={`${styles.projectCard} ${lead ? styles.projectCardLead : ""}`}
-      href={project.url || "#"}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <div className={styles.projectMedia}>
+    <>
+      <div className={styles.stageMedia} key={`media-${project.url}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          className={styles.projectMediaBackdrop}
-          src={project.media_url}
-          alt=""
-          aria-hidden="true"
-          loading={lead ? "eager" : "lazy"}
-          onError={(event) => {
-            event.currentTarget.style.display = "none";
-          }}
-        />
+        <img className={styles.stageBackdrop} src={project.media_url} alt="" aria-hidden="true" onError={hideBrokenImage} />
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          className={styles.projectMediaImage}
-          src={project.media_url}
-          alt=""
-          loading={lead ? "eager" : "lazy"}
-          onError={(event) => {
-            event.currentTarget.style.display = "none";
-          }}
-        />
+        <img className={styles.stageImage} src={project.media_url} alt="" onError={hideBrokenImage} />
       </div>
-      <div className={styles.projectBody}>
+      <div className={styles.stageCopy} key={`copy-${project.url}`}>
         <ProjectMeta
           tag={localize(project.tag, lang)}
           board={project.board}
           date={formatProjectDate(project.date)}
         />
-        <h3 className="home-type-subtitle">{title}</h3>
-        <p className={`home-type-body ${styles.projectExcerpt}`}>
-          {localize(project.excerpt, lang)}
-        </p>
-        <div className={styles.projectFooter}>
-          <span className={styles.projectAuthor}>{localize(project.author, lang)}</span>
-          <span className="home-type-action home-filled-action home-primary-cta" style={{ color: "#fff" }}>
-            {actionLabel}
-            <ArrowIcon />
-          </span>
-        </div>
+        <h3 className={`home-type-title ${styles.stageTitle}`}>{localize(project.title, lang)}</h3>
+        <p className={`home-type-body ${styles.stageExcerpt}`}>{localize(project.excerpt, lang)}</p>
+        <p className={styles.stageAuthor}>{localize(project.author, lang)}</p>
+        <a
+          className={`home-type-action home-filled-action home-primary-cta ${styles.stageAction}`}
+          href={project.url || "#"}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "#fff" }}
+        >
+          {actionLabel}
+          <ArrowIcon />
+        </a>
       </div>
-    </a>
+    </>
+  );
+}
+
+/**
+ * Index: numbered rows for all seven projects; hover, focus or click selects the stage item.
+ * 索引：七个项目的编号行，悬停、聚焦或点击即切换舞台内容。
+ */
+function FeaturedIndex({ projects, lang, activeIndex, onSelect }) {
+  return (
+    <ol className={styles.indexList}>
+      {projects.map((project, index) => {
+        const active = index === activeIndex;
+        return (
+          <li key={project.url || index}>
+            <button
+              type="button"
+              className={`${styles.indexRow} ${active ? styles.indexRowActive : ""}`}
+              aria-pressed={active}
+              onClick={() => onSelect(index)}
+              onMouseEnter={() => onSelect(index)}
+              onFocus={() => onSelect(index)}
+            >
+              <span className={styles.indexNumber}>{String(index + 1).padStart(2, "0")}</span>
+              <span className={styles.indexThumb}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={project.media_url} alt="" loading="lazy" onError={hideBrokenImage} />
+              </span>
+              <span className={styles.indexText}>
+                <span className={`home-type-subtitle ${styles.indexTitle}`}>{localize(project.title, lang)}</span>
+                <span className={styles.indexBoard}>{project.board || localize(project.tag, lang)}</span>
+              </span>
+              <span className={styles.indexChevron} aria-hidden="true">
+                <ArrowIcon />
+              </span>
+            </button>
+          </li>
+        );
+      })}
+    </ol>
   );
 }
 
 function FeaturedSkeleton({ label }) {
   return (
-    <div className={styles.featuredGrid} aria-busy="true" aria-label={label}>
-      {Array.from({ length: FEATURED_COUNT }, (_, index) => (
-        <div
-          key={index}
-          className={`${styles.skeletonCard} ${index === 0 ? styles.projectCardLead : ""}`}
-        />
-      ))}
+    <div className={styles.featuredSpread} aria-busy="true" aria-label={label}>
+      <div className={`${styles.skeletonBlock} ${styles.stageMedia}`} />
+      <div className={`${styles.skeletonBlock} ${styles.stageCopy}`} />
+      <div className={`${styles.skeletonBlock} ${styles.indexList}`} />
     </div>
   );
 }
@@ -161,6 +180,7 @@ export function ProjectHub() {
   // Server / hydration snapshot is null (skeleton); the browser picks once per page load.
   // 服务端与水合阶段为 null（显示骨架屏），浏览器每次加载页面随机抽取一次。
   const featured = useSyncExternalStore(subscribeNoop, getFeaturedSnapshot, getServerSnapshot);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [embedHeight, setEmbedHeight] = useState(1400);
 
   useEffect(() => {
@@ -230,16 +250,18 @@ export function ProjectHub() {
           {!featured ? (
             <FeaturedSkeleton label={t.loading} />
           ) : (
-            <div className={styles.featuredGrid}>
-              {featured.map((project, index) => (
-                <ProjectCard
-                  key={project.url || index}
-                  project={project}
-                  lang={lang}
-                  lead={index === 0}
-                  actionLabel={t.viewProject}
-                />
-              ))}
+            <div className={styles.featuredSpread}>
+              <FeaturedStage
+                project={featured[Math.min(activeIndex, featured.length - 1)]}
+                lang={lang}
+                actionLabel={t.viewProject}
+              />
+              <FeaturedIndex
+                projects={featured}
+                lang={lang}
+                activeIndex={activeIndex}
+                onSelect={setActiveIndex}
+              />
             </div>
           )}
         </Reveal>

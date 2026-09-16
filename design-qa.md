@@ -403,12 +403,14 @@ Flow: Home renders PlaygroundSection, which reads the language and renders Playg
 
 - Title reads Featured Projects / 精选项目.
 - Seven projects are sampled from Home `PROJECTS` on each page load.
-- Four-column card grid; the first card spans two columns (image left, copy
-  right). Two columns ≤1200px, one column ≤760px (lead stacks vertically).
-- Every thumbnail is fully visible inside its 16:10 plate (no cropping), with a
-  blurred backdrop filling the remaining plate area.
-- All seven cards carry the identical filled `home-primary-cta` "View project"
-  action; hovering a card darkens its button and lifts the card.
+- Three-area spread on desktop: stage picture | stage copy | numbered index
+  (5/12, 3/12, 4/12) inside one rounded panel spanning the content width.
+- Stage picture is fully visible (no cropping) with a blurred backdrop filling
+  the plate; the stage copy holds the only filled `home-primary-cta` action.
+- Index rows 01–07 show thumbnail, title and board; hover / focus / click swaps
+  the stage, and the active row carries the green side bar and arrow.
+- ≤1200px: index moves under the stage as a three-per-row strip; ≤760px: stage
+  picture, copy and index stack in one column.
 - Side rail anchors: top, featured-projects, collection.
 - Regression: `node --test src/app/project-hub-featured.test.mjs`.
 
