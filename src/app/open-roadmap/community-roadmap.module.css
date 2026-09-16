@@ -38,11 +38,13 @@
     linear-gradient(0deg, rgba(0,20,30,.42), transparent 58%);
 }
 .heroCopy {
+  position: relative;
+  z-index: 10;
   width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding-block: 64px;
-  transform: translateY(-28px);
+  max-width: none;
+  margin: 0;
+  padding-block: 4rem;
+  transform: translateY(-1.25rem);
 }
 .roadmapHero .headActions { margin: 30px 0 0; }
 .headActions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
@@ -138,10 +140,13 @@
 
 @media (max-width: 760px) {
   .wrap { padding: 46px 16px 80px; }
-  .roadmapHero { aspect-ratio: auto; min-height: 780px; }
+  .roadmapHero { aspect-ratio: auto; min-height: 620px; }
   .roadmapHero > img { object-position: 58% center; }
   .heroShade { background: linear-gradient(0deg, rgba(0,25,37,.94) 0%, rgba(0,31,44,.68) 60%, rgba(0,31,44,.08) 100%); }
-  .heroCopy { padding-block: 100px 58px; transform: translateY(-12px); }
+  .heroCopy {
+    padding-block: 4rem;
+    transform: translateY(-1.25rem);
+  }
   .roadmapHero .headActions { align-items: stretch; flex-direction: column; }
   .roadmapHero .btn { justify-content: center; width: 100%; }
   .stats { grid-template-columns: repeat(2, 1fr); }
@@ -209,13 +214,10 @@
   letter-spacing: normal;
 }
 
-@media (max-width: 700px) {
-  .heroCopy {
-    padding-inline-start: calc(8.85vw + 19.75px);
-  }
-}
-
 @media (min-width: 640px) {
+  .heroCopy {
+    transform: translateY(-1.75rem);
+  }
   .heroCopy :global(.page-hero-description),
   .cardSummary:global(.home-type-body),
   .section :global(.home-type-body),
@@ -224,5 +226,11 @@
   .headActions :global(.home-type-action),
   .drawerActions :global(.home-type-action) {
     font-size: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroCopy {
+    transform: translateY(-2rem);
   }
 }
