@@ -6,11 +6,11 @@ import { Reveal } from "./reveal";
 import { withBase } from "../lib/basePath";
 
 const SCALE_PROJECTS = [
+  { title: "ESP-FLY DIY Micro Drone Kit by Max Imagination", href: "https://www.seeedstudio.com/ESP-FLY-co-create-p-6744.html", image: "/co-create-projects/esp-fly.jpg" },
   { title: "OpenUC2 10x AI Microscope by OpenUC2", href: "https://www.seeedstudio.com/XIAO-Microscope-p-5971.html", image: "/co-create-projects/openuc2.webp" },
-  { title: "Green Dot Board by Collins Emasi", href: "https://www.seeedstudio.com/blog/2025/07/17/how-to-build-an-iot-sensor-node-with-flux-ai-wio-e5-lora-module-and-xiao-rp2040-mcu/", image: "/co-create-projects/green-dot.webp" },
-  { title: "6 Channel Temperature Meter by Gokul", href: "https://www.seeedstudio.com/6-Channel-Temperature-Meter-g-1402461", image: "/co-create-projects/temperature.webp" },
-  { title: "Fusion DIY XIAO Mechanical Keyboards", href: "https://github.com/mchldotdev/totem", image: "/co-create-projects/keyboards.webp" },
-  { title: "Seeed Studio XIAO Use Case", href: "https://files.seeedstudio.com/wiki/XIAO/XIAO-Reference-Design.pdf", image: "/co-create-projects/use-case.webp" },
+  { title: "XIAO PowerBread Breadboard Power Supply and Meter by Nicho D", href: "https://www.seeedstudio.com/XIAO-PowerBread-p-6318.html", image: "/xiao-products/addons/Expansion/1-114993507-xiao-powerbread-45font.jpg" },
+  { title: "XIAO Logger HAT for Temperature, Humidity and Light by Marcel", href: "https://www.seeedstudio.com/XIAO-LOG-p-6341.html", image: "/xiao-products/addons/sensors/1-114993446-xiao-log-45font.jpg" },
+  { title: "Fusion DIY XIAO Mechanical Keyboards", href: "https://www.seeedstudio.com/blog/2022/12/02/seeed-fusion-diy-xiao-mechanical-keyboard-contest-is-closed-the-winners-are/", image: "/co-create-projects/keyboards.webp" },
 ];
 
 export function CoCreateSection() {
@@ -56,7 +56,7 @@ export function CoCreateSection() {
         loading="lazy"
       />
 
-      <div className={`${expanded ? "max-h-[900px] opacity-100" : "pointer-events-none max-h-0 opacity-0"} overflow-hidden bg-[#f3f7f8] text-[#18224f] transition-[max-height,opacity] duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transition-none`}>
+      <div className={`${expanded ? "max-h-[2600px] opacity-100 sm:max-h-[1900px] lg:max-h-[900px]" : "pointer-events-none max-h-0 opacity-0"} overflow-hidden bg-[#f3f7f8] text-[#18224f] transition-[max-height,opacity] duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transition-none`}>
         <div className={`${expanded ? "translate-y-0" : "translate-y-4"} px-6 py-14 transition-transform duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transform-none motion-reduce:transition-none sm:px-10 lg:px-12`}>
           <h3 className="home-type-title text-center">Scale-up Co-Create Projects</h3>
           <p className="home-type-body mx-auto mt-4 max-w-3xl text-center text-[#526b91]">Find out how the community is scaling up their XIAO-based projects via our Fusion Co-Create.</p>
@@ -67,7 +67,7 @@ export function CoCreateSection() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={withBase(project.image)} alt={project.title} className="h-full w-full object-cover transition duration-300 group-hover/project:scale-[1.025]" />
                 </div>
-                <h4 className="home-type-subtitle mt-4 text-[#18224f]">{project.title}</h4>
+                <h4 className="home-type-body mt-4 font-semibold text-[#18224f]">{project.title}</h4>
               </a>
             ))}
           </div>
