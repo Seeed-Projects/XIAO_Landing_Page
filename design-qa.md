@@ -411,8 +411,13 @@ Flow: Home renders PlaygroundSection, which reads the language and renders Playg
   the stage, and the active row carries the green side bar and arrow.
 - ≤1200px: index moves under the stage as a three-per-row strip; ≤760px: stage
   picture, copy and index stack in one column.
-- Side rail anchors: top, featured-projects, collection.
-- Regression: `node --test src/app/project-hub-featured.test.mjs`.
+- Side rail anchors: `top` on the hero, `featured-projects`, `collection`.
+  Labels match section titles (Featured Projects / Explore every project).
+  Clicking a rail item scrolls to that section; the active dot follows scroll.
+- Explore every project embeds the baked
+  [OSHW XIAO Series](https://seeed-studio.github.io/OSHW-XIAO-Series/) hub
+  (`public/project-hub-embed.html`, refreshed by `npm run bake:hub` / predev / prebuild).
+- Regression: `node --test src/app/project-hub-featured.test.mjs src/app/project-hub-side-nav.test.mjs`.
 
 ## Primary CTA Verification
 

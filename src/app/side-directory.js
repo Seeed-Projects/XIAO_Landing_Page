@@ -41,7 +41,15 @@ export function SideDirectory() {
       (entries) => {
         const visible = entries
           .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+          .sort((a, b) => {
+            // Prefer the section whose top edge is closest to the observer focus band.
+            // 优先选顶部最靠近观察带的区块，避免大容器抢走高亮。
+            const focusY = window.innerHeight * 0.45;
+            return (
+              Math.abs(a.boundingClientRect.top - focusY) -
+              Math.abs(b.boundingClientRect.top - focusY)
+            );
+          });
         if (visible[0]) setActive(visible[0].target.id);
       },
       { rootMargin: "-45% 0px -50% 0px", threshold: 0 }

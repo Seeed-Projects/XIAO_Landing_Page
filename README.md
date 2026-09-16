@@ -267,8 +267,23 @@ With the preview running, open
 to confirm the seven projects change. Run:
 
 ```bash
-node --test src/app/project-hub-featured.test.mjs src/app/project-hub-typography.test.mjs
+node --test src/app/project-hub-featured.test.mjs src/app/project-hub-typography.test.mjs src/app/project-hub-side-nav.test.mjs
 ```
+
+## Project Hub collection embed
+
+The **Explore every project** block embeds the live
+[OSHW XIAO Series](https://seeed-studio.github.io/OSHW-XIAO-Series/) hub.
+At `npm run dev` / `npm run build`, `scripts/bake-project-hub-embed.js` fetches
+that page into `public/project-hub-embed.html` (gitignored), injects a `<base>`
+so remote assets still load, hides the remote header to avoid duplicating this
+page’s hero, and posts height updates so the iframe grows with its content.
+Manual refresh: `npm run bake:hub`.
+
+The right-side section rail labels match the on-page titles (`Top` /
+`Featured Projects` / `Explore every project`, and the Chinese equivalents).
+The `top` anchor lives on the hero only, so the active rail item tracks the
+section under the viewport focus band.
 
 The Newsletter field retains its compact 576px maximum width, small vertical
 padding and 20px envelope icon. Its 16px mobile input size prevents automatic

@@ -199,7 +199,7 @@ export function ProjectHub() {
     <div className={styles.hub}>
       <div className={styles.noise} />
 
-      <Reveal as="header" className={styles.projectIntro}>
+      <Reveal as="header" className={`${styles.projectIntro} scroll-mt-24`} id="top">
         <div className={styles.introVisual}>
           <Image
             src={withBase("/projecthub-hero.webp")}
@@ -279,7 +279,7 @@ export function ProjectHub() {
             <iframe
               className={styles.liveSite}
               src={withBase(HUB_EMBED)}
-              title="OSHW XIAO Series 互动网页"
+              title="XIAO Project Hub collection"
               loading="lazy"
               allow="fullscreen"
               scrolling="no"

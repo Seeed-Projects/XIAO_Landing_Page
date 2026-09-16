@@ -262,7 +262,7 @@ const zh = {
     projectHub: [
       { id: "top", label: "顶部" },
       { id: "featured-projects", label: "精选项目" },
-      { id: "collection", label: "全部项目" },
+      { id: "collection", label: "浏览全部项目" },
     ],
     openRoadmap: [
       { id: "top", label: "顶部" },
@@ -532,8 +532,8 @@ const en = {
     ],
     projectHub: [
       { id: "top", label: "Top" },
-      { id: "featured-projects", label: "Featured" },
-      { id: "collection", label: "Collection" },
+      { id: "featured-projects", label: "Featured Projects" },
+      { id: "collection", label: "Explore every project" },
     ],
     openRoadmap: [
       { id: "top", label: "Top" },
