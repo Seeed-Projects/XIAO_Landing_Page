@@ -53,7 +53,7 @@ const T = {
     contributeTitle: "Built something with XIAO?",
     contributeDek:
       "Share your work with makers around the world and help grow the project collection.",
-    contributeButton: "Contribute your project →",
+    contributeButton: "Contribute your project",
     contributeKicker: "OPEN SOURCE · COMMUNITY DRIVEN",
     sourceLabel: "PROJECT SOURCES",
     sourceNote:
@@ -83,7 +83,7 @@ const T = {
     contributeTitle: "你也用 XIAO 做了项目？",
     contributeDek:
       "把作品分享给世界各地的创客，一起扩展这个开放项目集合。",
-    contributeButton: "提交你的项目 →",
+    contributeButton: "提交你的项目",
     contributeKicker: "开源共创 · 由社区驱动",
     sourceLabel: "内容来源",
     sourceNote:
@@ -169,10 +169,15 @@ export function ProjectHub() {
             <a
               href={CONTRIBUTE_LINK}
               target="_blank"
-              rel="noopener"
-              className="home-type-action home-filled-action inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--button-bg)] px-6 py-3 text-white shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]"
+              rel="noopener noreferrer"
+              className="home-type-action home-filled-action inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[var(--button-bg)] px-6 py-3 text-white shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]"
+              style={{ color: "#fff" }}
             >
               {t.contributeButton}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
             </a>
           </div>
         </div>

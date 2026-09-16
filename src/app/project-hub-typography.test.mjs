@@ -44,3 +44,16 @@ test("Project Hub hero shell matches Home / Products full-bleed frame", () => {
   assert.match(hero, /min-h-\[420px\]/);
   assert.match(hero, /max-md:min-h-\[620px\]/);
 });
+
+test("Project Hub contribute CTA matches the Home hero primary button", () => {
+  assert.match(hub, /Contribute your project"/);
+  assert.match(hub, /提交你的项目"/);
+  assert.doesNotMatch(hub, /Contribute your project →/);
+  assert.match(
+    hub,
+    /home-type-action home-filled-action inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-\[var\(--button-bg\)\] px-6 py-3/
+  );
+  assert.match(hub, /<svg width="16" height="16"/);
+  assert.match(hubCss, /\.introAction :global\(\.home-type-action\)\s*{[^}]*background: var\(--button-bg\) !important/s);
+  assert.match(hubCss, /\.introAction :global\(\.home-type-action\):hover\s*{[^}]*background: var\(--button-bg-hover\) !important/s);
+});
