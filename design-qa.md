@@ -397,7 +397,6 @@ Flow: Home renders PlaygroundSection, which reads the language and renders Playg
   `home-type-body`; primary actions use `home-type-action home-filled-action`.
 - Hero image uses the shared full-bleed frame (`1695 / 632`, min-height 420 / 620)
   and `page-hero-copy` so width and left edge match Home and Products.
-- Metrics sit below the hero and use `home-about-stat-value`.
 - Regression: `node --test src/app/project-hub-typography.test.mjs`.
 
 ## Primary CTA Verification

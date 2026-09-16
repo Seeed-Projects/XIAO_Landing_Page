@@ -27,13 +27,6 @@ const SHOWCASE_PROJECTS = [
   ["E61 Gauge", "工具配件", "https://github.com/gidim/e61-gauge", "/project-hub-projects/e61-gauge.png", "Tools & Accessories", "E61 模拟温度表", "2026.05"],
 ];
 
-const METRICS = [
-  ["100+", "metricProjects", "community projects", "社区项目"],
-  ["13", "metricAreas", "application areas", "应用方向"],
-  ["10+", "metricBoards", "XIAO boards", "XIAO 开发板"],
-  ["6", "metricSources", "source platforms", "内容来源"],
-];
-
 const T = {
   en: {
     introTagline:
@@ -182,19 +175,6 @@ export function ProjectHub() {
           </div>
         </div>
       </Reveal>
-
-      <div className={styles.introMetrics} aria-label="Project Hub statistics">
-        {METRICS.map((m) => (
-          <div key={m[1]} className="home-about-stat min-w-0">
-            <strong className="home-about-stat-value whitespace-nowrap font-bold tracking-[-0.04em] text-[#14384a]">
-              {m[0]}
-            </strong>
-            <span className="text-xs font-semibold text-[#667981] sm:text-sm">
-              {lang === "en" ? m[2] : m[3]}
-            </span>
-          </div>
-        ))}
-      </div>
 
       <main>
         <Reveal as="section" className={styles.hero}>

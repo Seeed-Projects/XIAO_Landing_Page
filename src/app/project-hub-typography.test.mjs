@@ -14,9 +14,10 @@ test("Project Hub reuses the shared typography roles", () => {
   assert.match(hub, /home-type-subtitle/);
   assert.match(hub, /home-type-body/);
   assert.match(hub, /home-type-action home-filled-action/);
-  assert.match(hub, /home-about-stat-value/);
   assert.match(hub, /page-hero-copy/);
   assert.match(hub, /page-hero-description/);
+  assert.doesNotMatch(hub, /introMetrics/);
+  assert.doesNotMatch(hub, /community projects/);
 });
 
 test("Project Hub hero copy starts at the Home hero copy edge", () => {
@@ -38,8 +39,6 @@ test("Project Hub hero shell matches Home / Products full-bleed frame", () => {
   assert.match(hubCss, /\.projectIntro\s*{[^}]*aspect-ratio:\s*1695\s*\/\s*632/s);
   assert.match(hubCss, /\.projectIntro\s*{[^}]*min-height:\s*420px/s);
   assert.match(hubCss, /@media \(max-width: 767px\)[\s\S]*?\.projectIntro\s*{[^}]*min-height:\s*620px/);
-  assert.match(hubCss, /\.introMetrics\s*{[^}]*position:\s*relative/s);
-  assert.match(hub, /<\/Reveal>\s*<div className=\{styles\.introMetrics\}/);
   assert.match(hero, /aspect-\[1695\/632\]/);
   assert.match(hero, /min-h-\[420px\]/);
   assert.match(hero, /max-md:min-h-\[620px\]/);
