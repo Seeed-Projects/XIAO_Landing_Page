@@ -11,8 +11,7 @@ import { pickFeaturedProjects } from "./pick-featured-projects.mjs";
 import styles from "./project-hub.module.css";
 
 const HUB_EMBED = "/project-hub-embed.html";
-const CONTRIBUTE_LINK =
-  "https://docs.google.com/forms/d/e/1FAIpQLSdiju4D3-h0fZavfZeRrXcOtAh-Lb7Ll8zbrkziB94RCvbZrQ/viewform";
+const CONTRIBUTE_LINK = "https://seeed-studio.github.io/OSHW-XIAO-Series/";
 const FEATURED_COUNT = 7;
 
 let featuredSnapshot = null;
