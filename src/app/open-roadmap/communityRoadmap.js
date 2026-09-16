@@ -58,7 +58,6 @@ export function CommunityRoadmap() {
     sub: lang === "zh"
       ? "下一步做什么，由你决定"
       : "You decide what we build next",
-    btnAll: lang === "zh" ? "查看全部想法" : "View all ideas",
     btnSubmit: lang === "zh" ? "在 GitHub 提交想法 ↗" : "Submit an idea on GitHub ↗",
     count: (n) => lang === "zh" ? `${n} 条想法` : `${n} ${n === 1 ? "idea" : "ideas"}`,
     empty: lang === "zh" ? "该分类下暂无想法。" : "No ideas in this category yet.",
@@ -114,12 +113,6 @@ export function CommunityRoadmap() {
             {T.sub}
           </p>
           <div className={styles.headActions}>
-            <a
-              className={`home-type-action home-filled-action home-primary-cta ${styles.btn}`}
-              href="#ideas"
-            >
-              {T.btnAll}
-            </a>
             <a
               className={`home-type-action home-filled-action home-primary-cta ${styles.btn}`}
               href={GITHUB_DISCUSSIONS}
