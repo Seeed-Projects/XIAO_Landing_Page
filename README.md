@@ -224,7 +224,11 @@ tracking. Subtitles match Popular SoCs Integrated at 20px, 700 weight and 1.5
 line height. Descriptions match the About XIAO introduction at 15px on phones
 and 16px from the small breakpoint, 400 weight and 1.65 line height. Action
 labels use the same family, size and line height at 700 weight; filled actions
-use white labels. The hero campaign copy, navigation, footer, metrics, labels and form
+use white labels. Page-level primary CTAs share the `home-primary-cta` recipe
+(`min-height: 48px`, `padding: 0.75rem 1.5rem`, pill radius, brand green fill
+and a light lift on hover) across Home, Products and Project Hub. Compact row
+actions such as catalog Wiki / Buy keep a smaller hit area while using the same
+fill and pill shape. The hero campaign copy, navigation, footer, metrics, labels and form
 hints keep their purpose-specific compact styles. The hero title uses dedicated
 cinematic artwork while retaining an accessible heading label; its short supporting
 line continues to use the shared subtitle role.

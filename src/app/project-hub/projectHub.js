@@ -170,7 +170,7 @@ export function ProjectHub() {
               href={CONTRIBUTE_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="home-type-action home-filled-action inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[var(--button-bg)] px-6 py-3 text-white shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]"
+              className="home-type-action home-filled-action home-primary-cta"
               style={{ color: "#fff" }}
             >
               {t.contributeButton}

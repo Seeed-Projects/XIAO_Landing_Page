@@ -138,7 +138,7 @@ export function ProductPanel() {
             </span>
             {currentCategory.id === "dev-boards" ? (
               <a
-                className={`${styles.selectorLink} home-type-action`}
+                className={`${styles.selectorLink} home-type-action home-filled-action home-primary-cta`}
                 href={withBase("/products#smart-selector")}
               >
                 {isEn ? "Open XIAO Selector" : "打开选型器"}
@@ -214,7 +214,7 @@ export function ProductPanel() {
                         </a>
                       ) : null}
                       <a
-                        className={`${styles.buy} home-type-action`}
+                        className={`${styles.buy} home-type-action home-filled-action`}
                         href={item.link}
                         target="_blank"
                         rel="noopener noreferrer"

@@ -37,7 +37,7 @@ test("home hero uses generated cinematic artwork while retaining an accessible h
 test("home hero copy remains readable and responsive", () => {
   assert.match(css, /\.heroContent \{[\s\S]*?z-index: 2;[\s\S]*?color: #fff;/);
   assert.match(css, /\.slide::after \{[\s\S]*?background: linear-gradient/);
-  assert.match(css, /\.heroCta \{[\s\S]*?border-radius: 999px;[\s\S]*?background: var\(--button-bg\);/);
+  assert.match(css, /\.heroCta \{[\s\S]*?border-radius: 9999px;[\s\S]*?background: var\(--button-bg\);/);
   assert.match(css, /\.heroCta \{[\s\S]*?color: #fff;/);
   assert.match(css, /@media \(max-width: 700px\)[\s\S]*?height: max\(540px, calc\(75svh - 64px\)\);/);
   assert.match(css, /\.heroCta:focus-visible \{[\s\S]*?outline: 3px solid #fff;/);
@@ -46,7 +46,7 @@ test("home hero copy remains readable and responsive", () => {
 test("home hero copy follows the title alignment with compact spacing", () => {
   assert.match(css, /\.heroContent \{[\s\S]*?left: var\(--hero-copy-left\);[\s\S]*?width: calc\(100% - var\(--hero-copy-left\)\);[\s\S]*?transform: none;/);
   assert.match(css, /\.heroContent p \{[\s\S]*?margin: 0;/);
-  assert.match(css, /\.heroCta \{[\s\S]*?min-width: 180px;[\s\S]*?min-height: 52px;[\s\S]*?margin-top: 34px;/);
+  assert.match(css, /\.heroCta \{[\s\S]*?min-height: 48px;[\s\S]*?margin-top: 34px;[\s\S]*?padding: 0\.75rem 1\.5rem;/);
 });
 
 test("home hero title is oversized, fades into the image and replays on re-entry", () => {

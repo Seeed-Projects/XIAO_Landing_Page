@@ -92,7 +92,7 @@ export function HomeCarousel() {
             </h1>
             <div className={styles.heroContent}>
               <p className="home-type-subtitle">{slide.description}</p>
-              <a className={`${styles.heroCta} home-type-action home-filled-action`} href={withBase(slide.ctaHref)}>
+              <a className={`${styles.heroCta} home-type-action home-filled-action home-primary-cta`} href={withBase(slide.ctaHref)}>
                 {slide.ctaLabel}
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M5 12h14m-6-6 6 6-6 6" />

@@ -342,7 +342,7 @@ export function XiaoSelector() {
           </dl>
         </div>
         <div className={styles.cardFooter}>
-          <a className={`${styles.primaryBtn} home-type-action home-filled-action`} href={board.link} target="_blank" rel="noopener noreferrer">{t.buy}</a>
+          <a className={`${styles.primaryBtn} home-type-action home-filled-action home-primary-cta`} href={board.link} target="_blank" rel="noopener noreferrer">{t.buy}</a>
           <a className={styles.ghostBtn} href={board.hardware.wiki} target="_blank" rel="noopener noreferrer">{t.wiki}</a>
           <label className={`${styles.compareToggle} ${inCompare ? styles.compareToggleOn : ""}`}>
             <input type="checkbox" checked={inCompare} onChange={() => toggleCompare(board.id)} />
@@ -458,7 +458,7 @@ export function XiaoSelector() {
         <section className={styles.placeholder}>
           <h3 className="home-type-subtitle">{t.helpTitle}</h3>
           <p className="home-type-body">{t.helpBody}</p>
-          <button type="button" className={`${styles.primaryBtn} home-type-action home-filled-action`} onClick={() => setMode("filter")}>
+          <button type="button" className={`${styles.primaryBtn} home-type-action home-filled-action home-primary-cta`} onClick={() => setMode("filter")}>
             {t.helpBack}
           </button>
         </section>

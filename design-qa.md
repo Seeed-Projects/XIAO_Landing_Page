@@ -400,6 +400,15 @@ Flow: Home renders PlaygroundSection, which reads the language and renders Playg
 - Metrics sit below the hero and use `home-about-stat-value`.
 - Regression: `node --test src/app/project-hub-typography.test.mjs`.
 
+## Primary CTA Verification
+
+- Page-level primary buttons share `.home-primary-cta` (48px min-height,
+  0.75rem / 1.5rem padding, pill radius, brand green fill).
+- Home carousel, Products hero / selector / Open XIAO Selector, and Project Hub
+  contribute CTAs use this recipe.
+- Catalog row Wiki / Buy stay compact but keep the same pill shape and brand fill.
+- Regression: `node --test src/app/primary-cta.test.mjs`.
+
 ## Product Catalog Verification
 
 - Three series cards (Dev Boards / Add-ons / Gadgets) switch the stage; each

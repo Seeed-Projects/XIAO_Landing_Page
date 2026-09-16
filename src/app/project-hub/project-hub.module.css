@@ -1150,6 +1150,7 @@
   letter-spacing: normal;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.42);
 }
+.introAction :global(.home-primary-cta),
 .introAction :global(.home-type-action) {
   display: inline-flex;
   width: auto;
@@ -1170,11 +1171,13 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
+.introAction :global(.home-primary-cta):hover,
 .introAction :global(.home-type-action):hover {
   transform: translateY(-2px);
   background: var(--button-bg-hover) !important;
   color: #fff !important;
 }
+.introAction :global(.home-primary-cta):focus-visible,
 .introAction :global(.home-type-action):focus-visible {
   outline: 3px solid rgba(0, 73, 102, 0.3);
   outline-offset: 3px;
@@ -1255,10 +1258,27 @@
 }
 .play:global(.home-type-action),
 .sideSubscribe:global(.home-type-action) {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 9999px;
   font-size: var(--home-body-size);
   font-weight: var(--home-action-weight);
   line-height: var(--home-body-leading);
   letter-spacing: normal;
+  background: var(--button-bg) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+.play:global(.home-type-action):hover,
+.sideSubscribe:global(.home-type-action):hover {
+  transform: translateY(-2px);
+  background: var(--button-bg-hover) !important;
+  color: #fff !important;
 }
 .hero {
   height: auto;
@@ -1269,6 +1289,7 @@
 }
 
 @media (max-width: 767px) {
+  .introAction :global(.home-primary-cta),
   .introAction :global(.home-type-action) {
     width: auto;
   }
