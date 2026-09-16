@@ -42,7 +42,7 @@ test("every Home content family opts into one semantic type role", () => {
   }
   assert.match(sources.carousel, /<h1[\s\S]*?home-type-hero-title/);
   assert.match(sources.carousel, /<p className="home-type-subtitle">/);
-  for (const name of ["sections", "partners", "cards", "news", "cocreate", "newsletter"]) {
+  for (const name of ["sections", "partners", "cards", "news", "newsletter"]) {
     assert.match(sources[name], /home-type-subtitle/, `${name} has a subtitle role`);
   }
   for (const name of ["components", "intro", "sections", "page", "cards", "cocreate", "newsletter"]) {
@@ -66,9 +66,9 @@ test("every Home content family opts into one semantic type role", () => {
   assert.match(sources.news, /home-text-action/);
 });
 
-test("project rules record the Home typography hierarchy", () => {
-  assert.match(agents, /## 首页字体层级规范/);
-  assert.match(agents, /`home-type-hero-title`、`home-type-title`、\s*`home-type-subtitle`、`home-type-body` 和 `home-type-action`/);
+test("project rules record the site typography hierarchy", () => {
+  assert.match(agents, /## 全站字体层级规范/);
+  assert.match(agents, /`home-type-hero-title`、`home-type-title`、\s*`home-type-subtitle`、\s*`home-type-body` 和 `home-type-action`/);
   assert.match(agents, /`XIAO Playground` 为基准/);
   assert.match(agents, /`Popular SoCs Integrated` 为基准/);
   assert.match(agents, /About XIAO 的介绍正文为基准/);

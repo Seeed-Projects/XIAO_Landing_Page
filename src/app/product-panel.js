@@ -50,7 +50,7 @@ export function ProductPanel() {
     <div className="mx-auto flex min-h-[680px] w-full max-w-none flex-col overflow-hidden rounded-3xl border border-[var(--line-soft)] bg-white/80 backdrop-blur-sm lg:h-[calc(100dvh-13rem)] lg:min-h-[720px]">
       {/* 卡片头部 - 标题（只留大标题，去掉重复的小字 eyebrow） */}
       <div className="relative flex min-h-[76px] shrink-0 items-center px-6 py-5 sm:px-8">
-        <Glow as="h2" className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap font-display text-[length:var(--type-section-title)] font-bold leading-[1.12] tracking-[-0.035em] text-[var(--ink-strong)]">
+        <Glow as="h2" className="home-type-title absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-[var(--ink-strong)]">
           {t.products.title}
         </Glow>
         <h3 className="ml-auto hidden text-sm font-medium text-[var(--ink-muted)] sm:block">
@@ -168,11 +168,11 @@ export function ProductPanel() {
                     </div>
                   ) : null}
                   <div className="p-3.5">
-                    <h4 className="line-clamp-2 text-[15px] font-bold leading-snug text-[var(--ink-strong)]">
+                    <h4 className="home-type-subtitle line-clamp-2 text-[var(--ink-strong)]">
                       {item.title}
                     </h4>
                     {itemDesc(item) ? (
-                      <p className="mt-1.5 line-clamp-3 text-[13px] leading-relaxed text-[var(--ink-body)]">
+                      <p className="home-type-body mt-1.5 line-clamp-3 text-[var(--ink-body)]">
                         {itemDesc(item)}
                       </p>
                     ) : null}

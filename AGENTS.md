@@ -40,11 +40,12 @@ This version has breaking changes — APIs, conventions, and file structure may 
    - 每次调整滚动动画后,依次验证初次进入、向下离开、向上返回三个过程。
    - 验收时同时检查内容出现时机、可读性、重复触发和页面滚动连续性。
 
-## 首页字体层级规范
+## 全站字体层级规范
 
 1. **适用范围**:
-   - Home 页统一使用 `home-type-hero-title`、`home-type-title`、
-     `home-type-subtitle`、`home-type-body` 和 `home-type-action` 五类语义字阶。
+   - Home 已确定的字体层级作为全站设计基准。Home、Products 以及后续所有核心内容页面
+     统一使用 `home-type-hero-title`、`home-type-title`、`home-type-subtitle`、
+     `home-type-body` 和 `home-type-action` 五类语义字阶。
    - 首图展示标题使用 `home-type-hero-title`，首图解释文案归入子标题；导航、页脚、
      数据数字、标签、眉标、表单提示等辅助信息使用各自的紧凑字阶。
 
@@ -73,7 +74,9 @@ This version has breaking changes — APIs, conventions, and file structure may 
    - 实心操作按钮统一使用白色文字，通过品牌绿色底色和形状表达可点击状态。
 
 5. **新增内容与验收**:
-   - 新增 Home 页模块时，为每段文字按章节标题、子标题、正文、操作文字或辅助信息
-     明确分类，并复用对应语义字阶。
+   - 新增或调整任意页面模块时，为每段文字按首图标题、章节标题、子标题、正文、
+     操作文字或辅助信息明确分类，并复用对应语义字阶。
+   - 产品名称、卡片标题等内容标题使用 `home-type-subtitle`；产品说明、章节描述等内容
+     使用 `home-type-body`；主要按钮和文字操作使用 `home-type-action`。
    - 每次调整后在中英文、桌面端和手机端核对计算后的字体、字重、字号、行高、
      换行和按钮尺寸；同一语义类别应保持相同结果。

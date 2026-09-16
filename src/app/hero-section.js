@@ -74,11 +74,11 @@ export function HeroSection({ title, subtitle, titleClassName, kicker, brand, im
           )}
           <Glow
             as="h1"
-            className={titleClassName ?? "font-display text-6xl font-semibold leading-[0.9] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] sm:text-9xl lg:text-[11rem]"}
+            className={titleClassName ?? "home-type-hero-title text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]"}
           >
             {copy.title}
           </Glow>
-          <p className="max-w-xl text-lg leading-8 text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)] sm:text-xl sm:leading-9">
+          <p className="home-type-body max-w-xl text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]">
             {copy.subtitle}
           </p>
           <div className="grid grid-cols-1 gap-3 pt-2 min-[420px]:flex min-[420px]:flex-wrap min-[420px]:items-center">
@@ -86,7 +86,7 @@ export function HeroSection({ title, subtitle, titleClassName, kicker, brand, im
               href="https://www.seeedstudio.com/xiao-selector"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[var(--button-bg)] px-6 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]"
+              className="home-type-action home-filled-action inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[var(--button-bg)] px-6 py-3 text-white shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]"
               style={{ color: "#fff" }}
             >
               {copy.primary}
@@ -99,7 +99,7 @@ export function HeroSection({ title, subtitle, titleClassName, kicker, brand, im
               href="https://wiki.seeedstudio.com/xiao_topic_page/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[var(--button-bg)] bg-[var(--button-bg)] px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:border-[var(--button-bg-hover)] hover:bg-[var(--button-bg-hover)]"
+              className="home-type-action home-filled-action inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[var(--button-bg)] bg-[var(--button-bg)] px-6 py-3 text-white transition hover:-translate-y-0.5 hover:border-[var(--button-bg-hover)] hover:bg-[var(--button-bg-hover)]"
               style={{ color: "#fff" }}
             >
               {copy.secondary}
