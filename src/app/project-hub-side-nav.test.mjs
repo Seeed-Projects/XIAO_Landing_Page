@@ -37,4 +37,6 @@ test("Explore every project embeds the baked OSHW XIAO Series hub", () => {
   assert.match(hub, /xiao-project-hub-height/);
   assert.match(bake, /seeed-studio\.github\.io\/OSHW-XIAO-Series\//);
   assert.match(bake, /xiao-project-hub-height/);
+  assert.match(bake, /#like-status\{display:none/);
+  assert.match(bake, /submission-config\.json',\s*'\$\{HUB_URL\}'/);
 });

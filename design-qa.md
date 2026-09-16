@@ -417,6 +417,9 @@ Flow: Home renders PlaygroundSection, which reads the language and renders Playg
 - Explore every project embeds the baked
   [OSHW XIAO Series](https://seeed-studio.github.io/OSHW-XIAO-Series/) hub
   (`public/project-hub-embed.html`, refreshed by `npm run bake:hub` / predev / prebuild).
+  The yellow likes-status banner is hidden in the embed; browsing still works.
+  Like counts resolve on the GitHub Pages origin after the bake pins
+  `submission-config.json` to the remote hub URL.
 - Regression: `node --test src/app/project-hub-featured.test.mjs src/app/project-hub-side-nav.test.mjs`.
 
 ## Primary CTA Verification

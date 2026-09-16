@@ -276,9 +276,15 @@ The **Explore every project** block embeds the live
 [OSHW XIAO Series](https://seeed-studio.github.io/OSHW-XIAO-Series/) hub.
 At `npm run dev` / `npm run build`, `scripts/bake-project-hub-embed.js` fetches
 that page into `public/project-hub-embed.html` (gitignored), injects a `<base>`
-so remote assets still load, hides the remote header to avoid duplicating this
-page’s hero, and posts height updates so the iframe grows with its content.
-Manual refresh: `npm run bake:hub`.
+so remote assets still load, pins the likes config URL to the remote hub (the
+hub script’s `new URL(..., location.href)` would otherwise miss under our
+origin), hides the remote header and the yellow likes-status banner, and posts
+height updates so the iframe grows with its content. Manual refresh:
+`npm run bake:hub`.
+
+On `localhost`, the likes Worker may still refuse our Origin; browsing and
+filters keep working. On the GitHub Pages deploy (`seeed-studio.github.io`)
+the same Origin is allowed, so like counts work after the config pin.
 
 The right-side section rail labels match the on-page titles (`Top` /
 `Featured Projects` / `Explore every project`, and the Chinese equivalents).
