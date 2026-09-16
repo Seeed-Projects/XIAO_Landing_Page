@@ -181,19 +181,20 @@ export function ProjectHub() {
             <span>{t.contributeIntro}</span>
           </div>
         </div>
-        <div className={styles.introMetrics} aria-label="Project Hub statistics">
-          {METRICS.map((m) => (
-            <div key={m[1]} className="home-about-stat min-w-0">
-              <strong className="home-about-stat-value whitespace-nowrap font-bold tracking-[-0.04em] text-[#14384a]">
-                {m[0]}
-              </strong>
-              <span className="text-xs font-semibold text-[#667981] sm:text-sm">
-                {lang === "en" ? m[2] : m[3]}
-              </span>
-            </div>
-          ))}
-        </div>
       </Reveal>
+
+      <div className={styles.introMetrics} aria-label="Project Hub statistics">
+        {METRICS.map((m) => (
+          <div key={m[1]} className="home-about-stat min-w-0">
+            <strong className="home-about-stat-value whitespace-nowrap font-bold tracking-[-0.04em] text-[#14384a]">
+              {m[0]}
+            </strong>
+            <span className="text-xs font-semibold text-[#667981] sm:text-sm">
+              {lang === "en" ? m[2] : m[3]}
+            </span>
+          </div>
+        ))}
+      </div>
 
       <main>
         <Reveal as="section" className={styles.hero}>

@@ -241,10 +241,10 @@ to verify the shared tokens, component coverage and Newsletter contrast.
 ## Project Hub Typography
 
 Project Hub uses the same five Home type roles for hero title, section titles,
-card titles, body copy and actions. Hero title, description and CTA start at the
-shared `page-hero-copy` left edge (`9.75vw` desktop, `calc(8.85vw + 19.75px)` on
-phones). Bottom hero metrics reuse the Home About stat number style
-(`home-about-stat-value`).
+card titles, body copy and actions. The hero image uses the shared full-bleed
+frame (`aspect-ratio: 1695 / 632`, `min-height: 420px`, phone `620px`) with
+copy starting at the shared `page-hero-copy` left edge. Metrics sit under the
+hero image and reuse the Home About stat number style (`home-about-stat-value`).
 
 With the preview running, open
 `http://localhost:3000/XIAO_Landing_Page/project-hub/` in English and Chinese at

@@ -6,6 +6,7 @@ const read = (name) => readFileSync(new URL(name, import.meta.url), "utf8");
 const hub = read("./project-hub/projectHub.js");
 const hubCss = read("./project-hub/project-hub.module.css");
 const globals = read("./globals.css");
+const hero = read("./hero-section.js");
 
 test("Project Hub reuses the shared typography roles", () => {
   assert.match(hub, /home-type-hero-title/);
@@ -30,4 +31,16 @@ test("Project Hub CSS defers typed text to Home tokens", () => {
   assert.match(hubCss, /font-size: var\(--home-subtitle-size\)/);
   assert.match(hubCss, /font-size: var\(--home-body-size\)/);
   assert.match(hubCss, /font-size: clamp\(28px, 3vw, 42px\)/);
+});
+
+test("Project Hub hero shell matches Home / Products full-bleed frame", () => {
+  assert.match(hubCss, /\.projectIntro\s*{[^}]*width:\s*100%/s);
+  assert.match(hubCss, /\.projectIntro\s*{[^}]*aspect-ratio:\s*1695\s*\/\s*632/s);
+  assert.match(hubCss, /\.projectIntro\s*{[^}]*min-height:\s*420px/s);
+  assert.match(hubCss, /@media \(max-width: 767px\)[\s\S]*?\.projectIntro\s*{[^}]*min-height:\s*620px/);
+  assert.match(hubCss, /\.introMetrics\s*{[^}]*position:\s*relative/s);
+  assert.match(hub, /<\/Reveal>\s*<div className=\{styles\.introMetrics\}/);
+  assert.match(hero, /aspect-\[1695\/632\]/);
+  assert.match(hero, /min-h-\[420px\]/);
+  assert.match(hero, /max-md:min-h-\[620px\]/);
 });

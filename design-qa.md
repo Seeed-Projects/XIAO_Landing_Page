@@ -395,9 +395,9 @@ Flow: Home renders PlaygroundSection, which reads the language and renders Playg
 - Hero title uses `home-type-hero-title`; section headings use `home-type-title`;
   featured and list project names use `home-type-subtitle`; descriptions use
   `home-type-body`; primary actions use `home-type-action home-filled-action`.
-- Hero copy uses `page-hero-copy` / `page-hero-description` so the left edge
-  matches Home and Products.
-- Bottom metrics use `home-about-stat-value` at the Home About number size.
+- Hero image uses the shared full-bleed frame (`1695 / 632`, min-height 420 / 620)
+  and `page-hero-copy` so width and left edge match Home and Products.
+- Metrics sit below the hero and use `home-about-stat-value`.
 - Regression: `node --test src/app/project-hub-typography.test.mjs`.
 
 ## Product Catalog Verification
