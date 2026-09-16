@@ -499,6 +499,16 @@ canvas {
   margin-inline: auto;
 }
 
+.page-hero-copy {
+  padding-inline: 9.75vw 24px;
+}
+
+@media (max-width: 700px) {
+  .page-hero-copy {
+    padding-left: calc(8.85vw + 19.75px);
+  }
+}
+
 .home-type-hero-title,
 .home-type-title {
   font-family: var(--font-display), sans-serif;

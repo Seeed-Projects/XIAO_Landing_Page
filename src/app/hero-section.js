@@ -60,7 +60,7 @@ export function HeroSection({ title, subtitle, titleClassName, kicker, brand, im
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.25)_0%,transparent_30%,transparent_70%,rgba(0,0,0,0.35)_100%)]" />
 
       {/* 叠加内容 */}
-      <div className="relative z-10 mx-auto w-full max-w-[1440px] -translate-y-5 px-5 py-16 sm:-translate-y-7 sm:px-10 lg:-translate-y-8 lg:px-16">
+      <div className="page-hero-copy relative z-10 w-full -translate-y-5 py-16 sm:-translate-y-7 lg:-translate-y-8">
         <Reveal className="max-w-2xl space-y-6">
           {copy.kicker && (
             <p className="font-display text-sm font-semibold uppercase tracking-[0.34em] text-white/85">

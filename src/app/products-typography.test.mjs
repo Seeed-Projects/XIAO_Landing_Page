@@ -8,6 +8,7 @@ const hero = read("./hero-section.js");
 const panel = read("./product-panel.js");
 const selector = read("./products/smart-selector.js");
 const selectorCss = read("./products/smart-selector.module.css");
+const globals = read("./globals.css");
 const agents = read("../../AGENTS.md");
 
 test("Products reuses the shared typography roles", () => {
@@ -36,4 +37,10 @@ test("project rules apply the shared typography hierarchy to every page", () => 
   assert.match(agents, /## 全站字体层级规范/);
   assert.match(agents, /Products/);
   assert.match(agents, /所有核心内容页面/);
+});
+
+test("Products hero copy starts at the Home hero copy edge", () => {
+  assert.match(hero, /className="page-hero-copy/);
+  assert.match(globals, /\.page-hero-copy\s*{[^}]*padding-inline:\s*9\.75vw 24px/s);
+  assert.match(globals, /@media \(max-width: 700px\)[\s\S]*?\.page-hero-copy\s*{[^}]*padding-left:\s*calc\(8\.85vw \+ 19\.75px\)/);
 });
