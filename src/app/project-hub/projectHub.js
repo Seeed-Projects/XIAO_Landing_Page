@@ -39,8 +39,6 @@ const T = {
     introTagline:
       "Discover what you can build with XIAO through real projects from makers around the world. Find an idea, learn from the build, and make it your own.",
     introKicker: "DISCOVER · BUILD · SHARE",
-    contributeIntro:
-      "Built something with XIAO? Add your project to the community collection.",
     heroEyebrow: "FEATURED PROJECT · XIAO ESP32-C6",
     heroDek:
       "A solar-powered offline navigation device for outdoor exploration, waypoint tracking and off-grid adventures, integrating ePaper, GPS, a digital compass and MPPT solar charging.",
@@ -71,8 +69,6 @@ const T = {
     introTagline:
       "从世界各地创客的真实作品中，发现 XIAO 可以实现什么。寻找灵感、参考构建过程，再创造属于你的版本。",
     introKicker: "发现 · 构建 · 分享",
-    contributeIntro:
-      "用 XIAO 做出了新项目？把它加入社区项目集合。",
     heroEyebrow: "精选项目 · XIAO ESP32-C6",
     heroDek:
       "一款面向户外探索、航点追踪与离网冒险的太阳能离线导航设备，集成电子纸、GPS、数字罗盘与 MPPT 太阳能充电。",
@@ -178,7 +174,6 @@ export function ProjectHub() {
             >
               {t.contributeButton}
             </a>
-            <span>{t.contributeIntro}</span>
           </div>
         </div>
       </Reveal>
