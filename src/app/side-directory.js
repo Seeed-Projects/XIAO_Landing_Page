@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import { useLang } from "./i18n";
 
 function routeKey(pathname) {
-  switch (pathname) {
+  const path = pathname.replace(/\/+$/, "") || "/";
+  switch (path) {
     case "/":
       return "home";
     case "/products":
@@ -19,8 +20,8 @@ function routeKey(pathname) {
     case "/software-center":
       return "softwareCenter";
     default:
-      // 未匹配路由（如软件详情页 /software-center/[slug]、official 子页）
-      //没有对应锚点目录，返回 null → 不渲染侧栏，避免误显示首页目录。
+      // Unmatched routes (software detail, official subpages) hide the rail.
+      // 未匹配路由（软件详情、official 子页）不渲染侧栏。
       return null;
   }
 }
@@ -34,7 +35,7 @@ export function SideDirectory() {
 
   // 滚动监听，高亮当前可视区段
   useEffect(() => {
-    const ids = [...new Set(items.map((i) => i.id))].filter((id) => id !== "top");
+    const ids = [...new Set(items.map((i) => i.id))];
     if (!ids.length) return;
     const obs = new IntersectionObserver(
       (entries) => {

@@ -50,6 +50,21 @@ browser to open `http://localhost:3000/XIAO_Landing_Page/products/`. Run
 `node --test src/app/home-carousel.test.mjs` for the content,
 destination, responsive-layout and replayable-title-motion regression checks.
 
+## Product Catalog
+
+The Products page (and Home products section) present three XIAO series as the
+primary browsing stage:
+
+- **Series switcher**: Dev Boards, Add-ons, Gadgets — each with cover, eyebrow,
+  title and product count
+- **Series stage**: intro copy, tags, subcategory chips, and a short product
+  row (small thumbnail on the left, name, one-line blurb, Wiki and Buy).
+  Desktop shows 5–6 cards per row. Dev Boards also link to XIAO Selector
+- Data lives in `src/app/products/catalog.js` (`PRODUCT_CATALOG`,
+  `SERIES_PRESENTATION`); UI in `src/app/product-panel.js`
+
+Deep link: `/products/?cat=addons#products-catalog` opens the Add-ons series.
+
 ## XIAO Selector (Products)
 
 The Products page includes **XIAO Selector**, a faceted workbench for picking

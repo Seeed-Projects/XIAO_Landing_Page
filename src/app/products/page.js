@@ -35,12 +35,12 @@ export default function ProductsPage() {
       <SiteHeader />
       <main className="flex w-full flex-1 flex-col">
         {/* 广告 Hero：mt-16 顶住页眉，无顶部白边 */}
-        <div className="mt-16">
+        <div id="top" className="mt-16">
           <ProductsHero />
         </div>
 
-        {/* 产品目录 */}
-        <div id="products-catalog" className="w-full scroll-mt-24 px-4 pb-24 sm:px-6 sm:pb-28 lg:px-8 lg:pb-32">
+        {/* 产品目录：与首图拉开间距，避免标题贴在大图下沿 */}
+        <div id="products-catalog" className="w-full scroll-mt-24 px-4 pb-24 pt-20 sm:px-6 sm:pb-28 sm:pt-24 lg:px-8 lg:pb-32 lg:pt-28">
           <ProductPanel />
         </div>
 

@@ -390,6 +390,16 @@ Flow: Home renders PlaygroundSection, which reads the language and renders Playg
 - Reduced-motion CSS is covered by source checks; OS preference changes were not performed.
 - Follow the Home Playground Verification section in README to repeat desktop/mobile, language, link, replay and reduced-motion checks.
 
+## Product Catalog Verification
+
+- Three series cards (Dev Boards / Add-ons / Gadgets) switch the stage; each
+  uses its own tone color and cover image.
+- Subcategory chips filter the compact product rows; All restores the full
+  series list. Dev Boards show an Open XIAO Selector link.
+- Deep link `?cat=addons` selects Add-ons after hydration.
+- Mobile stacks the series cards and scrolls subcategory chips horizontally.
+- Regression: `node --test src/app/products-typography.test.mjs`.
+
 ## Products Selector Verification
 
 - Desktop (1440px): sticky filter sidebar on the left, results on the right.

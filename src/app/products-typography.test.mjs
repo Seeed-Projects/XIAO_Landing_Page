@@ -18,10 +18,31 @@ test("Products reuses the shared typography roles", () => {
   assert.match(panel, /home-type-title/);
   assert.match(panel, /home-type-subtitle/);
   assert.match(panel, /home-type-body/);
+  assert.match(panel, /home-type-action/);
+  assert.match(panel, /SERIES_PRESENTATION/);
+  assert.match(panel, /seriesGrid/);
   assert.match(selector, /home-type-title/);
   assert.match(selector, /home-type-subtitle/);
   assert.match(selector, /home-type-body/);
   assert.match(selector, /home-type-action home-filled-action/);
+});
+
+test("Product catalog presents three series as the primary stage", () => {
+  const panelCss = read("./product-panel.module.css");
+  const catalog = read("./products/catalog.js");
+  assert.match(catalog, /SERIES_PRESENTATION/);
+  assert.match(catalog, /"dev-boards"/);
+  assert.match(catalog, /addons:/);
+  assert.match(catalog, /gadgets:/);
+  assert.match(panel, /Open XIAO Selector/);
+  assert.match(panelCss, /\.seriesGrid\s*{[^}]*grid-template-columns: repeat\(3/s);
+  assert.match(panelCss, /\.productListDense\s*{[^}]*repeat\(6/s);
+  assert.match(panelCss, /\.productRow\s*{[^}]*grid-template-columns:\s*64px/s);
+  assert.match(panelCss, /\.thumb\s*{[^}]*64px/s);
+  assert.match(panelCss, /\.thumb > img\s*{[^}]*object-fit:\s*contain/s);
+  assert.match(panelCss, /\.preview\s*{[^}]*220px/s);
+  assert.match(panel, /BOARD_HARDWARE/);
+  assert.match(panel, /styles\.preview/);
 });
 
 test("Products component CSS points to the shared typography tokens", () => {
@@ -54,6 +75,15 @@ test("Products hero copy starts at the Home hero copy edge", () => {
   assert.match(hero, /className="page-hero-copy/);
   assert.match(globals, /\.page-hero-copy\s*{[^}]*padding-inline:\s*9\.75vw 24px/s);
   assert.match(globals, /@media \(max-width: 700px\)[\s\S]*?\.page-hero-copy\s*{[^}]*padding-left:\s*calc\(8\.85vw \+ 19\.75px\)/);
+});
+
+test("Products page spaces the catalog below the hero and keeps a matching side rail", () => {
+  const directory = read("./side-directory.js");
+  const i18n = read("./i18n.js");
+  assert.match(page, /id="top"/);
+  assert.match(page, /id="products-catalog"[^>]*pt-20/);
+  assert.match(directory, /pathname\.replace\(\/\\\/\+\$\/, ""\)/);
+  assert.match(i18n, /products: \[[^\]]*id: "smart-selector"/s);
 });
 
 test("Products hero keeps the title on one line and the description within two lines", () => {

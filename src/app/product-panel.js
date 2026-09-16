@@ -1,16 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { startTransition, useEffect, useState } from "react";
 import { useLang } from "./i18n";
 import { Glow } from "./Glow";
-import { PRODUCT_CATALOG } from "./products/catalog";
+import { PRODUCT_CATALOG, SERIES_PRESENTATION } from "./products/catalog";
+import { BOARD_HARDWARE } from "./products/board-specs.mjs";
 import { withBase } from "@/lib/basePath";
+import styles from "./product-panel.module.css";
+
+const countItems = (category) =>
+  (category.subcategories ?? []).reduce((n, s) => n + (s.items?.length ?? 0), category.items?.length ?? 0);
 
 /**
- * ProductPanel —— 首页与产品页共享的产品面板。
- * 左：分类 → 子分类 嵌套导航；右：固定高度内部可滚动的产品卡片网格。
- * 数据来自 seeedstudio.com XIAO 分类页 (c-2428)，每张卡片含真实产品图与跳转链接。
- * 切换分类/子分类时，右侧网格与子分类列表带滑动入场动画。
+ * ProductPanel — three-series product catalog stage.
+ * 产品目录：以 Dev Boards / Add-ons / Gadgets 三大系列为主舞台。
  */
 export function ProductPanel() {
   const { lang, t } = useLang();
@@ -18,171 +21,214 @@ export function ProductPanel() {
   const categories = PRODUCT_CATALOG;
 
   const [activeCat, setActiveCat] = useState(0);
-  // activeSub = null 表示「全部」：展示当前分类下所有子分类的产品，不做细分
   const [activeSub, setActiveSub] = useState(null);
 
-  // 挂载后读取 ?cat=<id> 深链预选分类（来自 Glimpse 等卡片跳转）。
-  // 放在 useEffect 而非 useState 初始化器，避免 SSR/CSR 状态不一致导致水合后仍停在默认分类。
+  // Deep-link ?cat=<id> from Glimpse cards; deferred to avoid SSR/CSR mismatch.
+  // 深链预选系列：放在 effect + startTransition，避免服务端与客户端首屏不一致。
   useEffect(() => {
     const cat = new URLSearchParams(window.location.search).get("cat");
     if (!cat) return;
     const idx = categories.findIndex((c) => c.id === cat);
-    if (idx >= 0 && idx !== activeCat) setActiveCat(idx);
-  }, []);
+    if (idx < 0) return;
+    startTransition(() => {
+      setActiveCat(idx);
+      setActiveSub(null);
+    });
+  }, [categories]);
 
   const currentCategory = categories[activeCat] ?? categories[0];
+  const presentation = SERIES_PRESENTATION[currentCategory.id] ?? SERIES_PRESENTATION["dev-boards"];
   const subs = currentCategory.subcategories ?? [];
-  // 当前分类下所有子分类产品合并（用于「全部」视图）
-  const allItems = subs.flatMap((s) => s.items ?? []).concat(currentCategory.items ?? []);
+  const allItems = subs.flatMap((s) =>
+    (s.items ?? []).map((item) => ({
+      ...item,
+      subId: s.id,
+      subLabel: isEn ? s.labelEn : s.labelZh || s.labelEn,
+    }))
+  );
   const currentSub = activeSub != null ? subs[activeSub] ?? null : null;
-  const displayItems = currentSub?.items ?? allItems;
+  const displayItems = currentSub
+    ? (currentSub.items ?? []).map((item) => ({
+        ...item,
+        subId: currentSub.id,
+        subLabel: isEn ? currentSub.labelEn : currentSub.labelZh || currentSub.labelEn,
+      }))
+    : allItems;
 
-  const handleCategoryClick = (i) => {
+  const L = (obj) => (obj && (isEn ? obj.en : obj.zh)) || "";
+  const seriesTitle = (category) =>
+    isEn ? category.labelEn || category.label : category.labelZh || category.labelEn || category.label;
+  const seriesCount = (category) => countItems(category);
+  const handleSeriesClick = (i) => {
     setActiveCat(i);
     setActiveSub(null);
   };
 
-  const catLabel = (c) => (isEn ? c.labelEn : c.label) ?? c.label;
-  const subLabel = (s) => (isEn ? s.labelEn : s.label) ?? s.label;
   const itemDesc = (it) => (isEn ? it.descEn : it.desc) ?? it.descEn ?? it.desc ?? "";
 
   return (
-    <div className="mx-auto flex min-h-[680px] w-full max-w-none flex-col overflow-hidden rounded-3xl border border-[var(--line-soft)] bg-white/80 backdrop-blur-sm lg:h-[calc(100dvh-13rem)] lg:min-h-[720px]">
-      {/* 卡片头部 - 标题（只留大标题，去掉重复的小字 eyebrow） */}
-      <div className="relative flex min-h-[76px] shrink-0 items-center px-6 py-5 sm:px-8">
-        <Glow as="h2" className="home-type-title absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-[var(--ink-strong)]">
+    <section className={styles.panel} aria-labelledby="product-catalog-title">
+      <header className={styles.header}>
+        <Glow as="h2" id="product-catalog-title" className={`home-type-title ${styles.title}`}>
           {t.products.title}
         </Glow>
-        <h3 className="ml-auto hidden text-sm font-medium text-[var(--ink-muted)] sm:block">
-          {catLabel(currentCategory)}
-          {subs.length > 0
-            ? ` / ${currentSub ? subLabel(currentSub) : isEn ? "All" : "全部"}`
-            : ""}
-        </h3>
+        <p className={`home-type-body ${styles.lead}`}>
+          {isEn
+            ? "Three product families — core boards, expansion add-ons, and ready-to-use gadgets — one XIAO ecosystem."
+            : "三大产品系列——核心开发板、扩展模块与开箱即用设备——同属一个 XIAO 生态。"}
+        </p>
+      </header>
+
+      {/* Series switcher — primary navigation for the three families */}
+      <div className={styles.seriesGrid} role="tablist" aria-label={isEn ? "Product series" : "产品系列"}>
+        {categories.map((category, i) => {
+          const meta = SERIES_PRESENTATION[category.id];
+          const active = i === activeCat;
+          const count = seriesCount(category);
+          return (
+            <button
+              key={category.id}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              className={`${styles.seriesCard} ${active ? styles.seriesCardActive : ""}`}
+              style={{ "--series-tone": meta?.tone || "#3976ff" }}
+              onClick={() => handleSeriesClick(i)}
+            >
+              <div className={styles.seriesCover}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={withBase(meta.cover)} alt="" loading="lazy" decoding="async" />
+              </div>
+              <div className={styles.seriesCopy}>
+                <span className={styles.seriesEyebrow}>{L(meta.eyebrow)}</span>
+                <strong className={styles.seriesName}>{seriesTitle(category)}</strong>
+                <span className={styles.seriesCount}>
+                  {isEn ? `${count} products` : `${count} 款产品`}
+                </span>
+              </div>
+            </button>
+          );
+        })}
       </div>
 
-      {/* 卡片主体 - 左导航 + 右内容 */}
-      <div className="grid flex-1 grid-cols-[216px_minmax(0,1fr)] overflow-hidden">
-        {/* 左侧分类导航 */}
-        <aside className="overflow-y-auto bg-[var(--surface-tint)]/40 px-4 py-4">
-          <div className="space-y-1">
-            {categories.map((category, i) => {
-              const isActive = i === activeCat;
-              const catItems = (category.subcategories ?? []).reduce(
-                (n, s) => n + (s.items?.length ?? 0),
-                (category.items?.length ?? 0)
-              );
-              return (
-                <div key={`${category.id}-${i}`} className="space-y-0.5">
-                  <button
-                    type="button"
-                    onClick={() => handleCategoryClick(i)}
-                    className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm font-medium transition ${
-                      isActive
-                        ? "bg-[var(--brand-green)]/12 text-[var(--brand-green-deep)]"
-                        : "text-[var(--ink-body)] hover:bg-white/60 hover:text-[var(--ink-strong)]"
-                    }`}
-                  >
-                    <span>{catLabel(category)}</span>
-                    <span className={`text-[11px] tabular-nums ${isActive ? "text-[var(--brand-green-deep)]/70" : "text-[var(--ink-muted)]"}`}>
-                      {catItems}
-                    </span>
-                  </button>
+      {/* Active series stage */}
+      <div
+        className={styles.stage}
+        style={{ "--series-tone": presentation.tone }}
+        key={currentCategory.id}
+      >
+        <div className={styles.stageIntro}>
+          <div className={styles.stageText}>
+            <span className={styles.stageEyebrow}>{L(presentation.eyebrow)}</span>
+            <h3 className={`home-type-subtitle ${styles.stageTitle}`}>{L(presentation.title)}</h3>
+            <p className={`home-type-body ${styles.stageDesc}`}>{L(presentation.description)}</p>
+            <div className={styles.stageTags}>
+              {(isEn ? presentation.tags.en : presentation.tags.zh).map((tag) => (
+                <span key={tag} className={styles.stageTag}>
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className={styles.stageActions}>
+            <span className={styles.stageMeta}>
+              {isEn
+                ? `Showing ${displayItems.length} of ${allItems.length}`
+                : `显示 ${displayItems.length} / ${allItems.length}`}
+            </span>
+            {currentCategory.id === "dev-boards" ? (
+              <a
+                className={`${styles.selectorLink} home-type-action`}
+                href={withBase("/products#smart-selector")}
+              >
+                {isEn ? "Open XIAO Selector" : "打开选型器"}
+              </a>
+            ) : null}
+          </div>
+        </div>
 
-                  {isActive && category.subcategories && (
-                    <div
-                      key={`sub-${i}`}
-                      className="ml-3 space-y-0.5 border-l border-[var(--line-soft)] pl-3 animate-[panelSlide_300ms_ease-out]"
-                    >
-                      {/* 「全部」：展示该分类下所有子分类产品 */}
-                      <button
-                        type="button"
-                        onClick={() => setActiveSub(null)}
-                        className={`flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-left text-xs font-medium transition ${
-                          activeSub == null
-                            ? "bg-[var(--brand-blue)]/8 text-[var(--brand-blue)]"
-                            : "text-[var(--ink-muted)] hover:text-[var(--ink-strong)]"
-                        }`}
+        <div className={styles.chipRow} role="tablist" aria-label={isEn ? "Subcategories" : "子分类"}>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeSub == null}
+            className={`${styles.chip} ${activeSub == null ? styles.chipActive : ""}`}
+            onClick={() => setActiveSub(null)}
+          >
+            {isEn ? "All" : "全部"}
+            <span className={styles.chipCount}>{allItems.length}</span>
+          </button>
+          {subs.map((sub, j) => (
+            <button
+              key={sub.id}
+              type="button"
+              role="tab"
+              aria-selected={activeSub === j}
+              className={`${styles.chip} ${activeSub === j ? styles.chipActive : ""}`}
+              onClick={() => setActiveSub(j)}
+            >
+              {isEn ? sub.labelEn : sub.labelZh || sub.labelEn}
+              <span className={styles.chipCount}>{sub.items?.length ?? 0}</span>
+            </button>
+          ))}
+        </div>
+
+        {displayItems.length === 0 ? (
+          <div className={styles.empty}>
+            {isEn ? "No product currently listed in this category." : "该分类暂无在售产品，敬请期待。"}
+          </div>
+        ) : (
+          <div
+            className={`${styles.productList} ${styles.productListDense}`}
+            key={`${currentCategory.id}-${activeSub}`}
+          >
+            {displayItems.map((item, index) => {
+              const wiki = BOARD_HARDWARE[item.title]?.wiki;
+              const desc = itemDesc(item) || item.subLabel || "";
+              return (
+                <article key={`${currentCategory.id}-${item.title}-${index}`} className={styles.productRow}>
+                  <div className={styles.thumb}>
+                    {item.img ? (
+                      <>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={withBase(item.img)} alt="" loading="lazy" decoding="async" />
+                        <div className={styles.preview} aria-hidden="true">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={withBase(item.img)} alt="" loading="lazy" decoding="async" />
+                        </div>
+                      </>
+                    ) : null}
+                  </div>
+                  <div className={styles.productBody}>
+                    <h4 className={`home-type-subtitle ${styles.productName}`}>{item.title}</h4>
+                    {desc ? <p className={`home-type-body ${styles.productDesc}`}>{desc}</p> : null}
+                    <div className={styles.actions}>
+                      {wiki ? (
+                        <a
+                          className={`${styles.wiki} home-type-action`}
+                          href={wiki}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {isEn ? "Wiki" : "文档"}
+                        </a>
+                      ) : null}
+                      <a
+                        className={`${styles.buy} home-type-action`}
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
-                        <span>{isEn ? "All" : "全部"}</span>
-                        <span className="text-[10px] tabular-nums opacity-70">{catItems}</span>
-                      </button>
-                      {category.subcategories.map((sub, j) => {
-                        const isSubActive = j === activeSub;
-                        const count = sub.items?.length ?? 0;
-                        return (
-                          <button
-                            key={`${sub.id}-${j}`}
-                            type="button"
-                            onClick={() => setActiveSub(j)}
-                            className={`flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-left text-xs font-medium transition ${
-                              isSubActive
-                                ? "bg-[var(--brand-blue)]/8 text-[var(--brand-blue)]"
-                                : "text-[var(--ink-muted)] hover:text-[var(--ink-strong)]"
-                            }`}
-                          >
-                            <span>{subLabel(sub)}</span>
-                            <span className="text-[10px] tabular-nums opacity-70">{count}</span>
-                          </button>
-                        );
-                      })}
+                        {isEn ? "Buy" : "购买"}
+                      </a>
                     </div>
-                  )}
-                </div>
+                  </div>
+                </article>
               );
             })}
           </div>
-        </aside>
-
-        {/* 右侧产品网格 —— 切换分类/子分类时滑动入场 */}
-        <div className="overflow-y-auto px-4 py-4 sm:px-5 lg:px-6">
-          {displayItems.length === 0 ? (
-            <div className="flex h-full flex-col items-center justify-center text-center text-[var(--ink-muted)]">
-              <span className="text-sm">{isEn ? "No product currently listed in this category." : "该芯片类型暂无在售产品，敬请期待。"}</span>
-            </div>
-          ) : (
-            <div
-              key={`${activeCat}-${activeSub}`}
-              className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 animate-[panelSlide_360ms_ease-out]"
-            >
-              {displayItems.map((item, index) => (
-                <a
-                  key={`${currentCategory.id}-${item.title}-${index}`}
-                  href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block overflow-hidden rounded-xl border border-[var(--line-soft)] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-                >
-                  {/* 产品图：固定 4:3 白框 + object-contain 贴底（不放大、不裁切）。
-                      统一框尺寸与对齐，避免不同比例图源导致板子忽大忽小；白底与图源白底融合。 */}
-                  {item.img ? (
-                    <div className="aspect-[4/3] bg-white">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={withBase(item.img)}
-                        alt={item.title}
-                        loading="lazy"
-                        decoding="async"
-                        className="block h-full w-full object-contain object-bottom"
-                      />
-                    </div>
-                  ) : null}
-                  <div className="p-3.5">
-                    <h4 className="home-type-subtitle line-clamp-2 text-[var(--ink-strong)]">
-                      {item.title}
-                    </h4>
-                    {itemDesc(item) ? (
-                      <p className="home-type-body mt-1.5 line-clamp-3 text-[var(--ink-body)]">
-                        {itemDesc(item)}
-                      </p>
-                    ) : null}
-                  </div>
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
+        )}
       </div>
-    </div>
+    </section>
   );
 }

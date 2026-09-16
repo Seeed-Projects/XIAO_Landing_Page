@@ -254,8 +254,6 @@ const zh = {
       { id: "top", label: "概览" },
       { id: "products-catalog", label: "产品目录" },
       { id: "smart-selector", label: "智能选型" },
-      { id: "pinout", label: "引脚定义" },
-      { id: "esp-flasher", label: "在线烧录" },
     ],
     res: [
       { id: "top", label: "顶部" },
@@ -525,9 +523,7 @@ const en = {
     products: [
       { id: "top", label: "Overview" },
       { id: "products-catalog", label: "Catalog" },
-      { id: "smart-selector", label: "Smart Selector" },
-      { id: "pinout", label: "Pinout" },
-      { id: "esp-flasher", label: "ESP Flasher" },
+      { id: "smart-selector", label: "XIAO Selector" },
     ],
     res: [
       { id: "top", label: "Top" },
