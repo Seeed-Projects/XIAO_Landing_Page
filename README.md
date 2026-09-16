@@ -253,9 +253,12 @@ copy starting at the shared `page-hero-copy` left edge.
 
 The Featured Projects section randomly selects **7** builds from the same Home
 `PROJECTS` catalog (`home-content.generated.json`, 48 items). Each page load
-reshuffles the set—no manual curation. The layout stays wide and compact: one
-horizontal lead row plus a three-column row of short cards (thumbnail + copy),
-showing tag, board, date, title, excerpt and a view action.
+reshuffles the set—no manual curation. All seven items share one card recipe
+on a four-column grid (the first card spans two columns as the lead; two columns
+below 1200px, one column below 760px). Each card is a single link that shows
+tag, board, date, title, excerpt, author and the same `home-primary-cta` view
+action. Thumbnails render whole (`object-fit: contain`) inside a 16:10 plate
+backed by a blurred copy of the same picture, so no image is cropped.
 
 With the preview running, open
 `http://localhost:3000/XIAO_Landing_Page/project-hub/` and refresh a few times

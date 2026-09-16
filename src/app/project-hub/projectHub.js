@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { useLang } from "../i18n";
 import { Reveal } from "../reveal";
 import { Glow } from "../Glow";
@@ -14,6 +14,16 @@ const HUB_EMBED = "/project-hub-embed.html";
 const CONTRIBUTE_LINK =
   "https://docs.google.com/forms/d/e/1FAIpQLSdiju4D3-h0fZavfZeRrXcOtAh-Lb7Ll8zbrkziB94RCvbZrQ/viewform";
 const FEATURED_COUNT = 7;
+
+let featuredSnapshot = null;
+const subscribeNoop = () => () => {};
+const getServerSnapshot = () => null;
+function getFeaturedSnapshot() {
+  if (!featuredSnapshot) {
+    featuredSnapshot = pickFeaturedProjects(PROJECTS, FEATURED_COUNT);
+  }
+  return featuredSnapshot;
+}
 
 const T = {
   en: {
@@ -65,15 +75,82 @@ function ProjectMeta({ tag, board, date }) {
   );
 }
 
+function ArrowIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 12h14" />
+      <path d="m12 5 7 7-7 7" />
+    </svg>
+  );
+}
+
+/**
+ * One card recipe for every featured project; `lead` widens it to two columns.
+ * 所有精选项目共用同一张卡片；lead 仅将其加宽为两列。
+ */
+function ProjectCard({ project, lang, lead = false, actionLabel }) {
+  const title = localize(project.title, lang);
+  return (
+    <a
+      className={`${styles.projectCard} ${lead ? styles.projectCardLead : ""}`}
+      href={project.url || "#"}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <div className={styles.projectMedia}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          className={styles.projectMediaBackdrop}
+          src={project.media_url}
+          alt=""
+          aria-hidden="true"
+          loading={lead ? "eager" : "lazy"}
+          onError={(event) => {
+            event.currentTarget.style.display = "none";
+          }}
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          className={styles.projectMediaImage}
+          src={project.media_url}
+          alt=""
+          loading={lead ? "eager" : "lazy"}
+          onError={(event) => {
+            event.currentTarget.style.display = "none";
+          }}
+        />
+      </div>
+      <div className={styles.projectBody}>
+        <ProjectMeta
+          tag={localize(project.tag, lang)}
+          board={project.board}
+          date={formatProjectDate(project.date)}
+        />
+        <h3 className="home-type-subtitle">{title}</h3>
+        <p className={`home-type-body ${styles.projectExcerpt}`}>
+          {localize(project.excerpt, lang)}
+        </p>
+        <div className={styles.projectFooter}>
+          <span className={styles.projectAuthor}>{localize(project.author, lang)}</span>
+          <span className="home-type-action home-filled-action home-primary-cta" style={{ color: "#fff" }}>
+            {actionLabel}
+            <ArrowIcon />
+          </span>
+        </div>
+      </div>
+    </a>
+  );
+}
+
 function FeaturedSkeleton({ label }) {
   return (
-    <div className={styles.featuredSkeleton} aria-busy="true" aria-label={label}>
-      <div className={`${styles.skeletonBlock} ${styles.skeletonLead}`} />
-      <div className={styles.skeletonGrid}>
-        {Array.from({ length: 6 }, (_, index) => (
-          <div key={index} className={`${styles.skeletonBlock} ${styles.skeletonCard}`} />
-        ))}
-      </div>
+    <div className={styles.featuredGrid} aria-busy="true" aria-label={label}>
+      {Array.from({ length: FEATURED_COUNT }, (_, index) => (
+        <div
+          key={index}
+          className={`${styles.skeletonCard} ${index === 0 ? styles.projectCardLead : ""}`}
+        />
+      ))}
     </div>
   );
 }
@@ -81,12 +158,10 @@ function FeaturedSkeleton({ label }) {
 export function ProjectHub() {
   const { lang } = useLang();
   const t = T[lang];
-  const [featured, setFeatured] = useState(null);
+  // Server / hydration snapshot is null (skeleton); the browser picks once per page load.
+  // 服务端与水合阶段为 null（显示骨架屏），浏览器每次加载页面随机抽取一次。
+  const featured = useSyncExternalStore(subscribeNoop, getFeaturedSnapshot, getServerSnapshot);
   const [embedHeight, setEmbedHeight] = useState(1400);
-
-  useEffect(() => {
-    setFeatured(pickFeaturedProjects(PROJECTS, FEATURED_COUNT));
-  }, []);
 
   useEffect(() => {
     const onMessage = (event) => {
@@ -99,9 +174,6 @@ export function ProjectHub() {
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
   }, []);
-
-  const lead = featured?.[0] ?? null;
-  const grid = featured?.slice(1) ?? [];
 
   return (
     <div className={styles.hub}>
@@ -158,95 +230,16 @@ export function ProjectHub() {
           {!featured ? (
             <FeaturedSkeleton label={t.loading} />
           ) : (
-            <div className={styles.featuredStage}>
-              {lead ? (
-                <article className={styles.featuredLead}>
-                  <a
-                    className={styles.featuredLeadMedia}
-                    href={lead.url || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={lead.media_url}
-                      alt=""
-                      loading="eager"
-                      onError={(event) => {
-                        event.currentTarget.style.display = "none";
-                      }}
-                    />
-                  </a>
-                  <div className={styles.featuredLeadCopy}>
-                    <ProjectMeta
-                      tag={localize(lead.tag, lang)}
-                      board={lead.board}
-                      date={formatProjectDate(lead.date)}
-                    />
-                    <h3 className="home-type-subtitle">{localize(lead.title, lang)}</h3>
-                    <p className={`home-type-body ${styles.featuredLeadExcerpt}`}>
-                      {localize(lead.excerpt, lang)}
-                    </p>
-                    <p className={styles.featuredAuthor}>
-                      {localize(lead.author, lang)}
-                    </p>
-                    <a
-                      className="home-type-action home-filled-action home-primary-cta"
-                      href={lead.url || "#"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ color: "#fff" }}
-                    >
-                      {t.viewProject}
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <path d="M5 12h14" />
-                        <path d="m12 5 7 7-7 7" />
-                      </svg>
-                    </a>
-                  </div>
-                </article>
-              ) : null}
-
-              <div className={styles.featuredGrid}>
-                {grid.map((project) => {
-                  const title = localize(project.title, lang);
-                  return (
-                    <a
-                      key={`${project.url}-${title}`}
-                      className={styles.featuredCard}
-                      href={project.url || "#"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <div className={styles.featuredCardMedia}>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={project.media_url}
-                          alt=""
-                          loading="lazy"
-                          onError={(event) => {
-                            event.currentTarget.style.display = "none";
-                          }}
-                        />
-                      </div>
-                      <div className={styles.featuredCardBody}>
-                        <ProjectMeta
-                          tag={localize(project.tag, lang)}
-                          board={project.board}
-                          date={formatProjectDate(project.date)}
-                        />
-                        <h3 className="home-type-subtitle">{title}</h3>
-                        <p className={`home-type-body ${styles.featuredCardExcerpt}`}>
-                          {localize(project.excerpt, lang)}
-                        </p>
-                        <span className={`home-type-action home-text-action ${styles.featuredCardAction}`}>
-                          {t.viewProject}
-                        </span>
-                      </div>
-                    </a>
-                  );
-                })}
-              </div>
+            <div className={styles.featuredGrid}>
+              {featured.map((project, index) => (
+                <ProjectCard
+                  key={project.url || index}
+                  project={project}
+                  lang={lang}
+                  lead={index === 0}
+                  actionLabel={t.viewProject}
+                />
+              ))}
             </div>
           )}
         </Reveal>

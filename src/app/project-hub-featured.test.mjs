@@ -34,14 +34,24 @@ test("pickFeaturedProjects returns seven unique items from the catalog", () => {
   }
 });
 
-test("Featured Projects layout uses a lead story and a three-column grid", () => {
-  assert.match(hub, /styles\.featuredLead/);
-  assert.match(hub, /styles\.featuredGrid/);
+test("Featured Projects renders one card recipe with one identical CTA per card", () => {
+  assert.match(hub, /function ProjectCard\(/);
+  assert.match(hub, /featured\.map\(\(project, index\) => \(\s*<ProjectCard/s);
+  assert.match(hub, /lead=\{index === 0\}/);
   assert.match(hub, /project\.board/);
   assert.match(hub, /project\.excerpt/);
-  assert.match(hubCss, /\.featuredLead\s*{[^}]*grid-template-columns:\s*minmax\(240px, 360px\) minmax\(0, 1fr\)/s);
-  assert.match(hubCss, /\.featuredGrid\s*{[^}]*grid-template-columns:\s*repeat\(3/s);
-  assert.match(hubCss, /\.featuredCard\s*{[^}]*grid-template-columns:\s*148px/s);
-  assert.match(hubCss, /\.featuredCardExcerpt\s*{[^}]*-webkit-line-clamp:\s*2/s);
+  // Every card carries the shared filled CTA; no text-only variant remains.
+  assert.equal((hub.match(/home-primary-cta/g) || []).length, 2);
+  assert.doesNotMatch(hub, /home-text-action/);
+  assert.doesNotMatch(hub, /styles\.featuredLead\b/);
+});
+
+test("Featured Projects shows whole images and spans four columns on desktop", () => {
+  assert.match(hubCss, /\.projectMediaImage\s*{[^}]*object-fit:\s*contain/s);
+  assert.match(hubCss, /\.projectMediaBackdrop\s*{[^}]*filter:\s*blur/s);
+  assert.match(hubCss, /\.projectMedia\s*{[^}]*aspect-ratio:\s*16 \/ 10/s);
+  assert.match(hubCss, /\.featuredGrid\s*{[^}]*grid-template-columns:\s*repeat\(4/s);
+  assert.match(hubCss, /\.projectCardLead\s*{[^}]*grid-column:\s*span 2/s);
+  assert.match(hubCss, /\.projectExcerpt\s*{[^}]*-webkit-line-clamp:\s*2/s);
   assert.match(hubCss, /\.featuredSection\s*{[^}]*width:\s*min\(100% - 48px, 1695px\)/s);
 });
