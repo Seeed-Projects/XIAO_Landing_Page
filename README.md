@@ -286,8 +286,10 @@ On `localhost`, the likes Worker may still refuse our Origin; browsing and
 filters keep working. On the GitHub Pages deploy (`seeed-studio.github.io`)
 the same Origin is allowed, so like counts work after the config pin.
 
-The right-side section rail labels match the on-page titles (`Top` /
-`Featured Projects` / `Explore every project`, and the Chinese equivalents).
+The right-side section rail starts with **Top** on every page (Home, Products,
+Resources, Project Hub, Open Roadmap, Software Center), in both EN and ZH.
+On Project Hub the remaining labels match the on-page titles
+(`Featured Projects` / `Explore every project`, and the Chinese equivalents).
 The `top` anchor lives on the hero only, so the active rail item tracks the
 section under the viewport focus band.
 

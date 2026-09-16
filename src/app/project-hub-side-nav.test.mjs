@@ -16,6 +16,14 @@ test("Project Hub top anchor sits on the hero, not a page-wide wrapper", () => {
   assert.match(hub, /id="collection"/);
 });
 
+test("Every page side rail starts with the Top label", () => {
+  const firstLabels = [...i18n.matchAll(/^\s{4}(home|products|res|projectHub|openRoadmap|softwareCenter): \[\n\s+\{ id: "[^"]+", label: "([^"]+)"/gm)];
+  assert.equal(firstLabels.length, 12);
+  for (const match of firstLabels) {
+    assert.equal(match[2], "Top", `${match[1]} first rail label`);
+  }
+});
+
 test("Side rail labels match the Project Hub section titles", () => {
   assert.match(i18n, /id: "featured-projects", label: "精选项目"/);
   assert.match(i18n, /id: "collection", label: "浏览全部项目"/);

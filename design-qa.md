@@ -412,7 +412,8 @@ Flow: Home renders PlaygroundSection, which reads the language and renders Playg
 - ≤1200px: index moves under the stage as a three-per-row strip; ≤760px: stage
   picture, copy and index stack in one column.
 - Side rail anchors: `top` on the hero, `featured-projects`, `collection`.
-  Labels match section titles (Featured Projects / Explore every project).
+  First rail label is **Top** on every page (EN/ZH). Remaining Project Hub
+  labels match section titles (Featured Projects / Explore every project).
   Clicking a rail item scrolls to that section; the active dot follows scroll.
 - Explore every project embeds the baked
   [OSHW XIAO Series](https://seeed-studio.github.io/OSHW-XIAO-Series/) hub

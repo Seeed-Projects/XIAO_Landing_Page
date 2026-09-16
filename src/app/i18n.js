@@ -239,7 +239,7 @@ const zh = {
   contact: { label: "联系方式" },
   side: {
     home: [
-      { id: "hero", label: "主视觉" },
+      { id: "hero", label: "Top" },
       { id: "intro", label: "认识 XIAO" },
       { id: "features", label: "核心特性" },
       { id: "glimpse", label: "XIAO 一览" },
@@ -251,26 +251,26 @@ const zh = {
       { id: "edm", label: "XIAO 电子报" },
     ],
     products: [
-      { id: "top", label: "概览" },
+      { id: "top", label: "Top" },
       { id: "products-catalog", label: "产品目录" },
       { id: "smart-selector", label: "智能选型" },
     ],
     res: [
-      { id: "top", label: "顶部" },
+      { id: "top", label: "Top" },
       { id: "resources", label: "资源" },
     ],
     projectHub: [
-      { id: "top", label: "顶部" },
+      { id: "top", label: "Top" },
       { id: "featured-projects", label: "精选项目" },
       { id: "collection", label: "浏览全部项目" },
     ],
     openRoadmap: [
-      { id: "top", label: "顶部" },
+      { id: "top", label: "Top" },
       { id: "ideas", label: "创意投票" },
       { id: "success", label: "成功案例" },
     ],
     softwareCenter: [
-      { id: "top", label: "概览" },
+      { id: "top", label: "Top" },
       { id: "official", label: "官方软件" },
       { id: "community", label: "社区软件" },
     ],
@@ -510,7 +510,7 @@ const en = {
   contact: { label: "contact" },
   side: {
     home: [
-      { id: "hero", label: "Hero" },
+      { id: "hero", label: "Top" },
       { id: "intro", label: "Meet XIAO" },
       { id: "features", label: "Core Features" },
       { id: "glimpse", label: "XIAO at a Glance" },
@@ -522,7 +522,7 @@ const en = {
       { id: "edm", label: "NEWSLETTER" },
     ],
     products: [
-      { id: "top", label: "Overview" },
+      { id: "top", label: "Top" },
       { id: "products-catalog", label: "Catalog" },
       { id: "smart-selector", label: "XIAO Selector" },
     ],
@@ -541,7 +541,7 @@ const en = {
       { id: "success", label: "Success Cases" },
     ],
     softwareCenter: [
-      { id: "top", label: "Overview" },
+      { id: "top", label: "Top" },
       { id: "official", label: "Official" },
       { id: "community", label: "Community" },
     ],
