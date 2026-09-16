@@ -390,6 +390,16 @@ Flow: Home renders PlaygroundSection, which reads the language and renders Playg
 - Reduced-motion CSS is covered by source checks; OS preference changes were not performed.
 - Follow the Home Playground Verification section in README to repeat desktop/mobile, language, link, replay and reduced-motion checks.
 
+## Project Hub Typography Verification
+
+- Hero title uses `home-type-hero-title`; section headings use `home-type-title`;
+  featured and list project names use `home-type-subtitle`; descriptions use
+  `home-type-body`; primary actions use `home-type-action home-filled-action`.
+- Hero copy uses `page-hero-copy` / `page-hero-description` so the left edge
+  matches Home and Products.
+- Bottom metrics use `home-about-stat-value` at the Home About number size.
+- Regression: `node --test src/app/project-hub-typography.test.mjs`.
+
 ## Product Catalog Verification
 
 - Three series cards (Dev Boards / Add-ons / Gadgets) switch the stage; each

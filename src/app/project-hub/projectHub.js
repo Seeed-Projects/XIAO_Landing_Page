@@ -159,11 +159,23 @@ export function ProjectHub() {
           />
         </div>
         <div className={styles.introShade} />
-        <div className={styles.introCopy}>
-          <Glow as="h1">XIAO Project Hub</Glow>
-          <p>{t.introTagline}</p>
+        <div className={`page-hero-copy ${styles.introCopy}`}>
+          <Glow
+            as="h1"
+            className="home-type-hero-title text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]"
+          >
+            XIAO Project Hub
+          </Glow>
+          <p className="page-hero-description home-type-body text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]">
+            {t.introTagline}
+          </p>
           <div className={styles.introAction}>
-            <a href={CONTRIBUTE_LINK} target="_blank" rel="noopener">
+            <a
+              href={CONTRIBUTE_LINK}
+              target="_blank"
+              rel="noopener"
+              className="home-type-action home-filled-action inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--button-bg)] px-6 py-3 text-white shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition hover:-translate-y-0.5 hover:bg-[var(--button-bg-hover)]"
+            >
               {t.contributeButton}
             </a>
             <span>{t.contributeIntro}</span>
@@ -171,9 +183,13 @@ export function ProjectHub() {
         </div>
         <div className={styles.introMetrics} aria-label="Project Hub statistics">
           {METRICS.map((m) => (
-            <div key={m[1]}>
-              <strong>{m[0]}</strong>
-              <span>{lang === "en" ? m[2] : m[3]}</span>
+            <div key={m[1]} className="home-about-stat min-w-0">
+              <strong className="home-about-stat-value whitespace-nowrap font-bold tracking-[-0.04em] text-[#14384a]">
+                {m[0]}
+              </strong>
+              <span className="text-xs font-semibold text-[#667981] sm:text-sm">
+                {lang === "en" ? m[2] : m[3]}
+              </span>
             </div>
           ))}
         </div>
@@ -188,12 +204,17 @@ export function ProjectHub() {
             />
             <div className={styles.leadCopy}>
               <span className={styles.featuredLabel}>{t.heroEyebrow}</span>
-              <h1>{featuredTitle}</h1>
-              <p className={styles.dek}>
+              <h2 className="home-type-subtitle">{featuredTitle}</h2>
+              <p className={`home-type-body ${styles.dek}`}>
                 {featured ? `${featured[6]} · ${featuredCategory}` : t.heroDek}
               </p>
               <div className={styles.meta}>
-                <a className={styles.play} href={featuredLink} target="_blank" rel="noopener">
+                <a
+                  className={`${styles.play} home-type-action home-filled-action`}
+                  href={featuredLink}
+                  target="_blank"
+                  rel="noopener"
+                >
                   {t.viewProject}
                 </a>
                 <span>{featured ? featured[6] : "2026.06 · Hackster"}</span>
@@ -218,12 +239,13 @@ export function ProjectHub() {
           <aside className={styles.side}>
             <div className={styles.sideHead}>
               <div>
-                <h2>{t.recentTitle}</h2>
+                <h2 className="home-type-title">{t.recentTitle}</h2>
                 <span className={styles.count}>{t.latestCount}</span>
               </div>
               <div className={styles.subscribeCluster}>
                 <button
-                  className={styles.sideSubscribe}
+                  type="button"
+                  className={`${styles.sideSubscribe} home-type-action home-filled-action`}
                   onClick={() => notify(t.subscribeToast)}
                 >
                   <span />
@@ -266,7 +288,7 @@ export function ProjectHub() {
                       <small>
                         {p[6]} · {lang === "en" ? p[4] : p[1]}
                       </small>
-                      <h3>{lang === "en" ? p[0] : p[5]}</h3>
+                      <h3 className="home-type-subtitle">{lang === "en" ? p[0] : p[5]}</h3>
                     </div>
                   </a>
                 ))}
@@ -277,9 +299,11 @@ export function ProjectHub() {
         <Reveal as="section" className={styles.browserSection}>
           <div className={styles.collectionIntro}>
             <div>
-              <Glow as="h2">{t.collectionTitle}</Glow>
+              <Glow as="h2" className="home-type-title">
+                {t.collectionTitle}
+              </Glow>
             </div>
-            <p>{t.collectionDek}</p>
+            <p className="home-type-body">{t.collectionDek}</p>
           </div>
           <div className={styles.browserBody} style={{ height: embedHeight }}>
             <iframe

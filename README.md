@@ -238,6 +238,24 @@ line height and tracking, with no clipped copy or horizontal overflow. Run
 `node --test src/app/home-typography.test.mjs src/app/newsletter-contrast.test.mjs`
 to verify the shared tokens, component coverage and Newsletter contrast.
 
+## Project Hub Typography
+
+Project Hub uses the same five Home type roles for hero title, section titles,
+card titles, body copy and actions. Hero title, description and CTA start at the
+shared `page-hero-copy` left edge (`9.75vw` desktop, `calc(8.85vw + 19.75px)` on
+phones). Bottom hero metrics reuse the Home About stat number style
+(`home-about-stat-value`).
+
+With the preview running, open
+`http://localhost:3000/XIAO_Landing_Page/project-hub/` in English and Chinese at
+desktop and 390px. Compare hero title/body/action sizes with Home and Products,
+confirm the left edge matches, and check that Recent Projects and collection
+headings follow the shared title role. Run:
+
+```bash
+node --test src/app/project-hub-typography.test.mjs
+```
+
 The Newsletter field retains its compact 576px maximum width, small vertical
 padding and 20px envelope icon. Its 16px mobile input size prevents automatic
 zoom in touch browsers, while the description and Subscribe action follow the
