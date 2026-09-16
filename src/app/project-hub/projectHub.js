@@ -183,7 +183,7 @@ export function ProjectHub() {
                       board={lead.board}
                       date={formatProjectDate(lead.date)}
                     />
-                    <h3 className="home-type-title">{localize(lead.title, lang)}</h3>
+                    <h3 className="home-type-subtitle">{localize(lead.title, lang)}</h3>
                     <p className={`home-type-body ${styles.featuredLeadExcerpt}`}>
                       {localize(lead.excerpt, lang)}
                     </p>

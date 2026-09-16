@@ -39,7 +39,9 @@ test("Featured Projects layout uses a lead story and a three-column grid", () =>
   assert.match(hub, /styles\.featuredGrid/);
   assert.match(hub, /project\.board/);
   assert.match(hub, /project\.excerpt/);
-  assert.match(hubCss, /\.featuredLead\s*{[^}]*grid-template-columns:\s*minmax\(0, 1\.15fr\) minmax\(0, 0\.85fr\)/s);
+  assert.match(hubCss, /\.featuredLead\s*{[^}]*grid-template-columns:\s*minmax\(240px, 360px\) minmax\(0, 1fr\)/s);
   assert.match(hubCss, /\.featuredGrid\s*{[^}]*grid-template-columns:\s*repeat\(3/s);
-  assert.match(hubCss, /\.featuredCardExcerpt\s*{[^}]*-webkit-line-clamp:\s*4/s);
+  assert.match(hubCss, /\.featuredCard\s*{[^}]*grid-template-columns:\s*148px/s);
+  assert.match(hubCss, /\.featuredCardExcerpt\s*{[^}]*-webkit-line-clamp:\s*2/s);
+  assert.match(hubCss, /\.featuredSection\s*{[^}]*width:\s*min\(100% - 48px, 1695px\)/s);
 });

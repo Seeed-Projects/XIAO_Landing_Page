@@ -403,7 +403,8 @@ Flow: Home renders PlaygroundSection, which reads the language and renders Playg
 
 - Title reads Featured Projects / 精选项目.
 - Seven projects are sampled from Home `PROJECTS` on each page load.
-- Lead story plus three-column grid show tag, board, date, title, excerpt and CTA.
+- Lead story plus three-column compact cards (thumbnail + copy) show tag, board,
+  date, title, excerpt and CTA without oversized image stretch.
 - Side rail anchors: top, featured-projects, collection.
 - Regression: `node --test src/app/project-hub-featured.test.mjs`.
 
