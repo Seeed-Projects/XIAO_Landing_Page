@@ -288,7 +288,7 @@
 .cardArt { border-radius: 16px; box-shadow: 0 10px 22px rgba(0, 73, 102, 0.12); }
 .card h3 small { color: var(--muted); }
 
-.browserSection { padding-top: 94px; }
+.browserSection { padding-top: 26px; }
 .collectionIntro p, .contribute p, .sourceNote { color: var(--muted); }
 .browser {
   border-color: var(--line);
@@ -944,7 +944,7 @@
 
 /* Embedded hub is page content, not a browser card. */
 .browserSection {
-  padding: clamp(40px, 5vw, 64px) 0 0;
+  padding: clamp(8px, 2vw, 26px) 0 0;
   background: transparent;
 }
 .browserBody {
