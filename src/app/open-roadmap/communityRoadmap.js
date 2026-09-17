@@ -128,35 +128,31 @@ function IdeaCard({ item, lang, labels }) {
           <div className={styles.ideaHead}>
             <div className={styles.ideaHeadText}>
               <h3 className={styles.ideaTitle}>{title}</h3>
-              {excerpt ? <p className={styles.ideaExcerpt}>{excerpt}</p> : null}
+              <p className={styles.ideaExcerpt}>{excerpt || "\u00A0"}</p>
             </div>
-            {item.image ? (
-              <div className={styles.ideaThumb}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+            <div className={styles.ideaThumb} aria-hidden={item.image ? undefined : true}>
+              {item.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img src={item.image} alt="" loading="lazy" />
-              </div>
-            ) : null}
+              ) : null}
+            </div>
           </div>
 
-          {topics.length > 0 && (
-            <div className={styles.topicRow}>
-              {topics.map((topic) => (
-                <span key={topic} className={styles.topicChip}>
-                  {topic}
-                </span>
-              ))}
-            </div>
-          )}
+          <div className={styles.topicRow}>
+            {topics.map((topic) => (
+              <span key={topic} className={styles.topicChip}>
+                {topic}
+              </span>
+            ))}
+          </div>
 
-          {badges.length > 0 && (
-            <div className={styles.badgeRow}>
-              {badges.map((badge) => (
-                <span key={badge.key} className={`${styles.badge} ${badge.className}`}>
-                  {badge.text}
-                </span>
-              ))}
-            </div>
-          )}
+          <div className={styles.badgeRow}>
+            {badges.map((badge) => (
+              <span key={badge.key} className={`${styles.badge} ${badge.className}`}>
+                {badge.text}
+              </span>
+            ))}
+          </div>
 
           <div className={styles.signalRow}>
             <div className={styles.participantBlock}>

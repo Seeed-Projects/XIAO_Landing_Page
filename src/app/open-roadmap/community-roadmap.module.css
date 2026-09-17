@@ -172,10 +172,15 @@
   border-radius: 16px;
 }
 
-/* Soft floating idea card — hover lifts + tilts over a fixed ghost pad */
+/* Soft floating idea card — hover lifts + tilts over a fixed ghost pad.
+   Every card reserves the fullest layout slots so heights stay uniform. */
 .ideaSlot {
   position: relative;
   isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 252px;
 }
 .ideaSlot::before {
   content: "";
@@ -202,6 +207,9 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: inherit;
   overflow: hidden;
   border-radius: 18px;
   border: 1.5px solid transparent;
@@ -229,13 +237,16 @@
 .ideaBody {
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto;
   gap: 8px;
+  height: 100%;
   padding: 14px 14px 12px;
 }
 .ideaHead {
   display: flex;
   align-items: flex-start;
   gap: 10px;
+  min-height: 64px;
 }
 .ideaHeadText {
   flex: 1 1 auto;
@@ -270,6 +281,7 @@
   font-weight: 700;
   line-height: 1.35;
   letter-spacing: -0.01em;
+  min-height: calc(15px * 1.35 * 2);
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -281,6 +293,7 @@
   font-size: 12.5px;
   font-weight: 400;
   line-height: 1.5;
+  min-height: calc(12.5px * 1.5 * 2);
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -289,7 +302,9 @@
 .topicRow {
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   gap: 4px;
+  min-height: 18px;
 }
 .topicChip {
   display: inline-flex;
@@ -306,7 +321,9 @@
 .badgeRow {
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   gap: 4px;
+  min-height: 20px;
 }
 .badge {
   display: inline-flex;
@@ -340,6 +357,7 @@
   justify-content: space-between;
   gap: 8px;
   flex-wrap: wrap;
+  min-height: 28px;
 }
 .participantBlock {
   display: inline-flex;
@@ -404,7 +422,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-top: 2px;
+  margin-top: auto;
   padding-top: 2px;
   color: #8b95a1;
   font-size: 12px;
@@ -544,6 +562,12 @@
   }
   .columnBlurb {
     white-space: normal;
+  }
+  .ideaSlot {
+    min-height: 236px;
+  }
+  .ideaHead {
+    min-height: 48px;
   }
   .ideaThumb {
     flex-basis: 48px;
