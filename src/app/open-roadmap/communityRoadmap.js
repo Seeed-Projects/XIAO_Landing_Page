@@ -82,6 +82,7 @@ function relativeDate(iso, lang) {
 
 function IdeaCard({ item, lang }) {
   const title = (item.title && (item.title[lang] || item.title.en)) || "";
+  const excerpt = (item.excerpt && (item.excerpt[lang] || item.excerpt.en)) || "";
   const topics = item.topics || [];
   return (
     <a
@@ -90,7 +91,8 @@ function IdeaCard({ item, lang }) {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <h3 className={`home-type-subtitle ${styles.ideaTitle}`}>{title}</h3>
+      <h3 className={styles.ideaTitle}>{title}</h3>
+      {excerpt ? <p className={styles.ideaExcerpt}>{excerpt}</p> : null}
       {topics.length > 0 && (
         <div className={styles.topicRow}>
           {topics.map((topic) => (
@@ -114,11 +116,15 @@ function IdeaCard({ item, lang }) {
 function StageColumn({ stage, items, lang, emptyLabel }) {
   const label = stage.label[lang] || stage.label.en;
   const blurb = stage.blurb[lang] || stage.blurb.en;
+  const toneClass = styles[`tone_${stage.id}`] || "";
   return (
-    <section className={styles.column} aria-labelledby={`stage-${stage.id}`}>
+    <section
+      className={`${styles.column} ${toneClass}`}
+      aria-labelledby={`stage-${stage.id}`}
+    >
       <header className={styles.columnHead}>
         <div className={styles.columnTitleRow}>
-          <h2 id={`stage-${stage.id}`} className={`home-type-subtitle ${styles.columnTitle}`}>
+          <h2 id={`stage-${stage.id}`} className={styles.columnTitle}>
             {label}
           </h2>
           <span className={styles.columnCount}>{items.length}</span>
@@ -229,10 +235,10 @@ export function CommunityRoadmap() {
           ))}
         </div>
 
-        <section className={styles.helpRail} aria-labelledby="stage-help">
+        <section className={`${styles.helpRail} ${styles.tone_help}`} aria-labelledby="stage-help">
           <header className={styles.helpHead}>
             <div className={styles.columnTitleRow}>
-              <h2 id="stage-help" className={`home-type-subtitle ${styles.columnTitle}`}>
+              <h2 id="stage-help" className={styles.columnTitle}>
                 {HELP_STAGE.label[lang] || HELP_STAGE.label.en}
               </h2>
               <span className={styles.columnCount}>{byStage.help.length}</span>
