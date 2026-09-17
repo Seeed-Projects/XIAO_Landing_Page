@@ -13,11 +13,11 @@ test("Playground reuses the shared typography roles", () => {
   assert.match(page, /home-type-title/);
   assert.match(page, /home-type-subtitle/);
   assert.match(page, /home-type-body/);
-  assert.match(page, /home-type-action home-filled-action/);
-  assert.match(page, /home-type-action home-text-action/);
   assert.match(page, /page-hero-copy/);
   assert.match(page, /page-hero-description/);
-  assert.match(page, /home-primary-cta/);
+  assert.doesNotMatch(page, /Start with Pinout/);
+  assert.doesNotMatch(page, /Open Web Flasher/);
+  assert.doesNotMatch(page, /home-primary-cta/);
 });
 
 test("Playground hero title stays on one line like Products", () => {
@@ -45,11 +45,4 @@ test("Playground hero shell matches Home / Products full-bleed frame", () => {
   assert.match(css, /\.hero\s*{[^}]*min-height:\s*420px/s);
   assert.match(hero, /aspect-\[1695\/632\]/);
   assert.match(hero, /min-h-\[420px\]/);
-});
-
-test("Playground primary CTA matches the Home hero primary button", () => {
-  assert.match(page, /home-type-action home-filled-action home-primary-cta/);
-  assert.match(page, /<svg\s+width="16"\s+height="16"/);
-  assert.match(globals, /\.home-primary-cta\s*{[^}]*min-height:\s*48px/s);
-  assert.match(css, /\.actions :global\(\.home-primary-cta\)/);
 });

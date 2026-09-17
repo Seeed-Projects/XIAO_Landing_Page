@@ -39,23 +39,6 @@ const TOOLS = [
   },
 ];
 
-const CTA_ARROW = (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    <path d="M5 12h14" />
-    <path d="m12 5 7 7-7 7" />
-  </svg>
-);
-
 export default function PlaygroundPage() {
   const { lang } = useLang();
   const zh = lang === "zh";
@@ -82,22 +65,6 @@ export default function PlaygroundPage() {
                 ? "Pinout、硬件资料、软件指南与网页固件烧录集中在一个入口。少一点查找，多一点构建。"
                 : "Pinouts, hardware resources, software guides and browser-based firmware flashing—one place to move from board to build."}
             </p>
-            <div className={styles.actions}>
-              <Link
-                href="/playground/pinout"
-                className="home-type-action home-filled-action home-primary-cta"
-                style={{ color: "#fff" }}
-              >
-                {zh ? "从 Pinout 开始" : "Start with Pinout"}
-                {CTA_ARROW}
-              </Link>
-              <Link
-                href="/playground/esp-flasher"
-                className={`home-type-action home-text-action ${styles.secondaryLink}`}
-              >
-                {zh ? "打开网页烧录器" : "Open Web Flasher"} ↗
-              </Link>
-            </div>
           </div>
           <div className={styles.boardStage}>
             <span className={styles.boardHalo} aria-hidden="true" />

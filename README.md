@@ -252,8 +252,8 @@ copy starting at the shared `page-hero-copy` left edge.
 ## Playground Typography
 
 The Playground landing page (`/playground/`) uses the same five Home type roles
-and the shared hero copy edge (`page-hero-copy`). Primary actions use
-`home-primary-cta`; the secondary action uses `home-text-action`. Run
+and the shared hero copy edge (`page-hero-copy`). The hero carries title and
+description only; tool cards below are the entry points. Run
 `node --test src/app/playground-typography.test.mjs` to verify the shared
 tokens and hero frame.
 
