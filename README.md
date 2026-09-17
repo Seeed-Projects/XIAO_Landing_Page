@@ -286,6 +286,38 @@ On `localhost`, the likes Worker may still refuse our Origin; browsing and
 filters keep working. On the GitHub Pages deploy (`seeed-studio.github.io`)
 the same Origin is allowed, so like counts work after the config pin.
 
+## Open Roadmap
+
+The Open Roadmap page
+(`http://localhost:3000/XIAO_Landing_Page/open-roadmap/`) shows a four-column
+board that mirrors the GitHub Discussions lifecycle in
+[OSHW-XIAO-Series](https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions):
+
+| Board column | GitHub category |
+| --- | --- |
+| Wish List | Wish List |
+| Open for Vote | Open for Vote |
+| In Development | In Development |
+| Accomplished | Accomplished |
+
+Help Needed sits in a separate rail under the board. Each card is a compact
+link to its GitHub discussion (title, topic chips from whitelisted labels,
+votes, comments, relative update time). Cards are sorted automatically by
+votes, then comments, then update time—no hand-curated order.
+
+At build time (`prebuild`), `scripts/bake-discussions.js` fetches discussions
+into `public/open-roadmap/discussions.json`. With `GH_TOKEN` / `GITHUB_TOKEN`
+the script uses GraphQL for exact upvote counts; without a token it falls back
+to the REST discussions API (votes ≈ positive reactions). CI injects
+`GH_ROADMAP_TOKEN` and redeploys on a six-hour schedule. Local refresh:
+
+```bash
+GH_TOKEN=<pat> node scripts/bake-discussions.js
+```
+
+Discussion #1 (welcome / how-it-works) is skipped in the board and linked from
+the hero as **How the roadmap works**.
+
 The right-side section rail starts with **Top** on every page (Home, Products,
 Resources, Project Hub, Open Roadmap, Software Center), in both EN and ZH.
 On Project Hub the remaining labels match the on-page titles
