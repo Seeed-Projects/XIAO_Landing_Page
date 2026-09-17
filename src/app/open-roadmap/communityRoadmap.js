@@ -98,77 +98,79 @@ function IdeaCard({ item, lang, progressLabel }) {
   const author = item.author;
 
   return (
-    <a
-      className={styles.ideaCard}
-      href={item.url}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {item.image ? (
-        <div className={styles.ideaCover}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={item.image} alt="" loading="lazy" />
-        </div>
-      ) : null}
-      <div className={styles.ideaBody}>
-        <h3 className={styles.ideaTitle}>{title}</h3>
-        {excerpt ? <p className={styles.ideaExcerpt}>{excerpt}</p> : null}
-        {topics.length > 0 && (
-          <div className={styles.topicRow}>
-            {topics.map((topic) => (
-              <span key={topic} className={styles.topicChip}>
-                {topic}
+    <div className={styles.ideaSlot}>
+      <a
+        className={styles.ideaCard}
+        href={item.url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {item.image ? (
+          <div className={styles.ideaCover}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={item.image} alt="" loading="lazy" />
+          </div>
+        ) : null}
+        <div className={styles.ideaBody}>
+          <h3 className={styles.ideaTitle}>{title}</h3>
+          {excerpt ? <p className={styles.ideaExcerpt}>{excerpt}</p> : null}
+          {topics.length > 0 && (
+            <div className={styles.topicRow}>
+              {topics.map((topic) => (
+                <span key={topic} className={styles.topicChip}>
+                  {topic}
+                </span>
+              ))}
+            </div>
+          )}
+          <div className={styles.progressBlock}>
+            <div className={styles.progressLabelRow}>
+              <span>{progressLabel}</span>
+              <span>
+                {progress.done}/{progress.total}
               </span>
-            ))}
+            </div>
+            <div className={styles.progressTrack} aria-hidden="true">
+              <span className={styles.progressFill} style={{ width: `${pct}%` }} />
+            </div>
           </div>
-        )}
-        <div className={styles.progressBlock}>
-          <div className={styles.progressLabelRow}>
-            <span>{progressLabel}</span>
-            <span>
-              {progress.done}/{progress.total}
-            </span>
-          </div>
-          <div className={styles.progressTrack} aria-hidden="true">
-            <span className={styles.progressFill} style={{ width: `${pct}%` }} />
+          <div className={styles.ideaFoot}>
+            <div className={styles.ideaStats}>
+              <span className={styles.stat} title="Votes">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 5l7 12H5L12 5z" fill="currentColor" />
+                </svg>
+                {item.votes}
+              </span>
+              <span className={styles.stat} title="Comments">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v6A2.5 2.5 0 0 1 16.5 15H11l-4 3.5V15H7.5A2.5 2.5 0 0 1 5 12.5v-6Z"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                {item.comments}
+              </span>
+              <span className={styles.statMuted}>{relativeDate(item.updatedAt, lang)}</span>
+            </div>
+            {author?.avatar ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                className={styles.authorAvatar}
+                src={author.avatar}
+                alt={author.login || ""}
+                title={author.login || ""}
+                loading="lazy"
+                width={28}
+                height={28}
+              />
+            ) : null}
           </div>
         </div>
-        <div className={styles.ideaFoot}>
-          <div className={styles.ideaStats}>
-            <span className={styles.stat} title="Votes">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M12 5l7 12H5L12 5z" fill="currentColor" />
-              </svg>
-              {item.votes}
-            </span>
-            <span className={styles.stat} title="Comments">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v6A2.5 2.5 0 0 1 16.5 15H11l-4 3.5V15H7.5A2.5 2.5 0 0 1 5 12.5v-6Z"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              {item.comments}
-            </span>
-            <span className={styles.statMuted}>{relativeDate(item.updatedAt, lang)}</span>
-          </div>
-          {author?.avatar ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              className={styles.authorAvatar}
-              src={author.avatar}
-              alt={author.login || ""}
-              title={author.login || ""}
-              loading="lazy"
-              width={28}
-              height={28}
-            />
-          ) : null}
-        </div>
-      </div>
-    </a>
+      </a>
+    </div>
   );
 }
 

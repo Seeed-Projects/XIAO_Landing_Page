@@ -1107,6 +1107,15 @@
   ],
   "news": [
     {
+      "title": "XIAO IPS Display Series Now Has Wi-Fi: Meet the XIAO IPS Display (ESP32S3) Series",
+      "excerpt": "Last week we launched the XIAO IPS Display Series on the XIAO nRF52840 Plus —",
+      "date": "2026-09-15",
+      "url": "https://www.seeedstudio.com/blog/2026/09/15/xiao-ips-display-series-now-has-wi-fi-meet-the-xiao-ips-display-esp32s3-series/",
+      "media_url": "https://www.seeedstudio.com/blog/wp-content/uploads/2026/09/1-_ESP32S3-SNS.jpg",
+      "source": "Ellie Cai",
+      "tag": "Seeed Blog"
+    },
+    {
       "title": "Meet the XIAO IPS Display (nRF52840) Series: Display, Motion, Sound, and BLE in One Tiny Board",
       "excerpt": "The XIAO IPS Display (nRF52840) Series is a family of ready-to-use smart device boards, available in three sizes — 1.47″, 1.14″, and 0.96″. Each board pairs a color IPS display with a 6-axis IMU, a PDM digital microphone, and Bluetooth Low Energy via the pre-soldered XIAO nRF52840 Plus, plus onboard LiPo battery management — all pre-wired on a single board.",
       "date": "2026-09-08",
@@ -1203,15 +1212,6 @@
       "url": "https://www.seeedstudio.com/blog/2026/06/01/keymera-diy-3d-printed-keychain-camera-xiao-esp32s3-sense/",
       "media_url": "https://www.seeedstudio.com/blog/wp-content/uploads/2026/06/cover4.jpg",
       "source": "Kezang Loday",
-      "tag": "Seeed Blog"
-    },
-    {
-      "title": "Wireless Security Testing with XIAO ESP32-C5: A Guide to Dual-Band Wi-Fi 6 & IoT Auditing",
-      "excerpt": "Explore real-world wireless security case studies using the XIAO ESP32-C5. See how researchers deploy this dual-band Wi-Fi 6 chip for wardriving and audits.",
-      "date": "2026-05-21",
-      "url": "https://www.seeedstudio.com/blog/2026/05/21/wireless-security-testing-with-xiao-esp32-c5-a-guide-to-dual-band-wi-fi-6-iot-auditing/",
-      "media_url": "https://www.seeedstudio.com/blog/wp-content/uploads/2026/05/容器-128.jpg",
-      "source": "Josie",
       "tag": "Seeed Blog"
     }
   ]

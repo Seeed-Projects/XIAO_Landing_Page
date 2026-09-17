@@ -69,6 +69,7 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
   align-items: start;
+  overflow: visible;
 }
 
 .column,
@@ -76,6 +77,7 @@
   --stage-accent: #9aa3ad;
   --stage-soft: rgba(154, 163, 173, 0.18);
   min-width: 0;
+  overflow: visible;
 }
 .tone_wish {
   --stage-accent: #9aa3ad;
@@ -159,6 +161,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  overflow: visible;
 }
 .columnEmpty {
   margin: 0;
@@ -169,21 +172,59 @@
   border-radius: 16px;
 }
 
-/* Soft floating idea card */
+/* Soft floating idea card — hover lifts + tilts over a fixed ghost pad */
+.ideaSlot {
+  position: relative;
+  isolation: isolate;
+}
+.ideaSlot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--stage-accent) 26%, #dbeafe 74%);
+  opacity: 0;
+  transform: none;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+.ideaSlot:hover,
+.ideaSlot:focus-within {
+  z-index: 4;
+}
+.ideaSlot:hover::before,
+.ideaSlot:focus-within::before {
+  opacity: 1;
+}
 .ideaCard {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border-radius: 18px;
+  border: 1.5px solid transparent;
   background: #fff;
   box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
   text-decoration: none;
   color: inherit;
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  cursor: grab;
+  transform-origin: center center;
+  transition:
+    transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 220ms ease,
+    border-color 220ms ease;
 }
-.ideaCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12);
+.ideaSlot:hover .ideaCard,
+.ideaSlot:focus-within .ideaCard {
+  transform: rotate(-3.5deg) translateY(-4px) scale(1.015);
+  border-color: color-mix(in srgb, var(--stage-accent) 70%, #3b82f6);
+  box-shadow: 0 22px 40px rgba(15, 23, 42, 0.16);
+  cursor: grabbing;
+}
+.ideaCard:active {
+  cursor: grabbing;
 }
 .ideaCover {
   height: 88px;
@@ -318,6 +359,7 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
+  overflow: visible;
 }
 
 /* Hero CTA reinforcement — match Project Hub */
@@ -435,5 +477,12 @@
 
 @media (prefers-reduced-motion: reduce) {
   .roadmap * { transition: none !important; }
-  .ideaCard:hover { transform: none; }
+  .ideaSlot:hover .ideaCard,
+  .ideaSlot:focus-within .ideaCard {
+    transform: none;
+  }
+  .ideaSlot:hover::before,
+  .ideaSlot:focus-within::before {
+    opacity: 0;
+  }
 }
