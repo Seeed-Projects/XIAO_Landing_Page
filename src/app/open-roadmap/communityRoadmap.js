@@ -250,8 +250,8 @@ function StageHeader({ stage, count, lang, step, total, stepLabel }) {
         <div className={railClass} aria-hidden="true">
           <span className={styles.stageNode}>{step}</span>
           {!isLast ? (
-            <svg className={styles.stageArrow} width="10" height="14" viewBox="0 0 10 14" fill="none">
-              <path d="M2 2l5 5-5 5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+            <svg className={styles.stageArrow} viewBox="0 0 10 12" fill="currentColor">
+              <path d="M1.4 1.55c0-1.03 1.14-1.65 2-1.1l6.1 3.9a1.35 1.35 0 0 1 0 2.3l-6.1 3.9c-.86.55-2-.07-2-1.1V1.55Z" />
             </svg>
           ) : null}
         </div>

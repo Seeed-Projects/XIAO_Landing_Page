@@ -84,21 +84,26 @@
   min-width: 0;
   overflow: visible;
 }
+/* --stage-next: accent of the following stage, used by the connector */
 .tone_wish {
   --stage-accent: #8b5cf6;
   --stage-soft: rgba(139, 92, 246, 0.16);
+  --stage-next: #f0a202;
 }
 .tone_vote {
   --stage-accent: #f0a202;
   --stage-soft: rgba(240, 162, 2, 0.18);
+  --stage-next: #3b82f6;
 }
 .tone_dev {
   --stage-accent: #3b82f6;
   --stage-soft: rgba(59, 130, 246, 0.16);
+  --stage-next: #22c55e;
 }
 .tone_done {
   --stage-accent: #22c55e;
   --stage-soft: rgba(34, 197, 94, 0.16);
+  --stage-next: #22c55e;
 }
 .tone_help {
   --stage-accent: #ef7d3b;
@@ -129,20 +134,22 @@
   align-items: center;
   height: 30px;
 }
+/* Connector: distance from this node's right edge to the next node's left edge */
+.stageRail {
+  --rail-span: calc(var(--lane-pad) * 2 + var(--lane-gap));
+  --arrow-w: 10px;
+  --arrow-inset: 7px; /* tip stops just before the next node's halo */
+}
 .stageRail::after {
   content: "";
   position: absolute;
   top: 50%;
-  left: 30px;
-  right: calc(-1 * (var(--lane-pad) * 2 + var(--lane-gap)) + 2px);
-  height: 3px;
-  margin-top: -1.5px;
+  left: 34px;
+  right: calc(-1 * var(--rail-span) + var(--arrow-inset) + var(--arrow-w) - 2px);
+  height: 2px;
+  margin-top: -1px;
   border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    var(--stage-accent),
-    color-mix(in srgb, var(--stage-accent) 45%, #cbd5e1)
-  );
+  background: linear-gradient(90deg, var(--stage-accent), var(--stage-next));
   pointer-events: none;
 }
 .stageRailLast::after {
@@ -169,10 +176,13 @@
 .stageArrow {
   position: absolute;
   top: 50%;
-  right: calc(-1 * (var(--lane-pad) + var(--lane-gap) / 2) - 5px);
+  right: calc(-1 * var(--rail-span) + var(--arrow-inset));
+  width: var(--arrow-w);
+  height: 12px;
   transform: translateY(-50%);
   z-index: 2;
-  color: color-mix(in srgb, var(--stage-accent) 60%, #94a3b8);
+  color: var(--stage-next);
+  filter: drop-shadow(0 1px 1px rgba(15, 23, 42, 0.12));
   pointer-events: none;
 }
 .stageTitleRow {
