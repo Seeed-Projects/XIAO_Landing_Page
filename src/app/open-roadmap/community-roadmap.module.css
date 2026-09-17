@@ -172,15 +172,10 @@
   border-radius: 16px;
 }
 
-/* Soft floating idea card — hover lifts + tilts over a fixed ghost pad.
-   Every card reserves the fullest layout slots so heights stay uniform. */
+/* Soft floating idea card — hover lifts + tilts over a fixed ghost pad */
 .ideaSlot {
   position: relative;
   isolation: isolate;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  min-height: 252px;
 }
 .ideaSlot::before {
   content: "";
@@ -207,9 +202,6 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto;
-  height: 100%;
-  min-height: inherit;
   overflow: hidden;
   border-radius: 18px;
   border: 1.5px solid transparent;
@@ -237,16 +229,13 @@
 .ideaBody {
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto;
   gap: 8px;
-  height: 100%;
   padding: 14px 14px 12px;
 }
 .ideaHead {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  min-height: 64px;
 }
 .ideaHeadText {
   flex: 1 1 auto;
@@ -266,12 +255,56 @@
   display: grid;
   place-items: center;
 }
+.ideaThumbHot {
+  cursor: zoom-in;
+}
 .ideaThumb img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   object-position: center;
   display: block;
+}
+/* Large preview sits outside the clipped card so it can overflow freely. */
+.ideaZoom {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 8;
+  width: min(280px, calc(100% + 48px));
+  padding: 8px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--stage-accent, #94a3b8) 28%, #e2e8f0);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.22);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.92);
+  transform-origin: top right;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease,
+    visibility 180ms ease;
+}
+.ideaZoom img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 220px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+.ideaSlot:has(.ideaThumbHot:hover),
+.ideaSlot:has(.ideaThumbHot:focus-within) {
+  z-index: 6;
+}
+.ideaSlot:has(.ideaThumbHot:hover) .ideaZoom,
+.ideaSlot:has(.ideaThumbHot:focus-within) .ideaZoom {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
 }
 .ideaTitle {
   margin: 0;
@@ -281,7 +314,6 @@
   font-weight: 700;
   line-height: 1.35;
   letter-spacing: -0.01em;
-  min-height: calc(15px * 1.35 * 2);
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -293,7 +325,6 @@
   font-size: 12.5px;
   font-weight: 400;
   line-height: 1.5;
-  min-height: calc(12.5px * 1.5 * 2);
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -302,9 +333,7 @@
 .topicRow {
   display: flex;
   flex-wrap: wrap;
-  align-content: flex-start;
   gap: 4px;
-  min-height: 18px;
 }
 .topicChip {
   display: inline-flex;
@@ -321,9 +350,7 @@
 .badgeRow {
   display: flex;
   flex-wrap: wrap;
-  align-content: flex-start;
   gap: 4px;
-  min-height: 20px;
 }
 .badge {
   display: inline-flex;
@@ -357,7 +384,6 @@
   justify-content: space-between;
   gap: 8px;
   flex-wrap: wrap;
-  min-height: 28px;
 }
 .participantBlock {
   display: inline-flex;
@@ -422,7 +448,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-top: auto;
+  margin-top: 2px;
   padding-top: 2px;
   color: #8b95a1;
   font-size: 12px;
@@ -563,17 +589,17 @@
   .columnBlurb {
     white-space: normal;
   }
-  .ideaSlot {
-    min-height: 236px;
-  }
-  .ideaHead {
-    min-height: 48px;
-  }
   .ideaThumb {
     flex-basis: 48px;
     width: 48px;
     height: 48px;
     border-radius: 10px;
+  }
+  .ideaZoom {
+    width: min(220px, calc(100% + 24px));
+  }
+  .ideaZoom img {
+    max-height: 160px;
   }
 }
 
@@ -586,5 +612,9 @@
   .ideaSlot:hover::before,
   .ideaSlot:focus-within::before {
     opacity: 0;
+  }
+  .ideaSlot:has(.ideaThumbHot:hover) .ideaZoom,
+  .ideaSlot:has(.ideaThumbHot:focus-within) .ideaZoom {
+    transform: none;
   }
 }

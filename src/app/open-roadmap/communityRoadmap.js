@@ -128,31 +128,35 @@ function IdeaCard({ item, lang, labels }) {
           <div className={styles.ideaHead}>
             <div className={styles.ideaHeadText}>
               <h3 className={styles.ideaTitle}>{title}</h3>
-              <p className={styles.ideaExcerpt}>{excerpt || "\u00A0"}</p>
+              {excerpt ? <p className={styles.ideaExcerpt}>{excerpt}</p> : null}
             </div>
-            <div className={styles.ideaThumb} aria-hidden={item.image ? undefined : true}>
-              {item.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
+            {item.image ? (
+              <div className={`${styles.ideaThumb} ${styles.ideaThumbHot}`}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={item.image} alt="" loading="lazy" />
-              ) : null}
+              </div>
+            ) : null}
+          </div>
+
+          {topics.length > 0 ? (
+            <div className={styles.topicRow}>
+              {topics.map((topic) => (
+                <span key={topic} className={styles.topicChip}>
+                  {topic}
+                </span>
+              ))}
             </div>
-          </div>
+          ) : null}
 
-          <div className={styles.topicRow}>
-            {topics.map((topic) => (
-              <span key={topic} className={styles.topicChip}>
-                {topic}
-              </span>
-            ))}
-          </div>
-
-          <div className={styles.badgeRow}>
-            {badges.map((badge) => (
-              <span key={badge.key} className={`${styles.badge} ${badge.className}`}>
-                {badge.text}
-              </span>
-            ))}
-          </div>
+          {badges.length > 0 ? (
+            <div className={styles.badgeRow}>
+              {badges.map((badge) => (
+                <span key={badge.key} className={`${styles.badge} ${badge.className}`}>
+                  {badge.text}
+                </span>
+              ))}
+            </div>
+          ) : null}
 
           <div className={styles.signalRow}>
             <div className={styles.participantBlock}>
@@ -212,6 +216,12 @@ function IdeaCard({ item, lang, labels }) {
           </div>
         </div>
       </a>
+      {item.image ? (
+        <div className={styles.ideaZoom} aria-hidden="true">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={item.image} alt="" loading="lazy" />
+        </div>
+      ) : null}
     </div>
   );
 }
