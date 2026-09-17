@@ -249,6 +249,14 @@ card titles, body copy and actions. The hero image uses the shared full-bleed
 frame (`aspect-ratio: 1695 / 632`, `min-height: 420px`, phone `620px`) with
 copy starting at the shared `page-hero-copy` left edge.
 
+## Playground Typography
+
+The Playground landing page (`/playground/`) uses the same five Home type roles
+and the shared hero copy edge (`page-hero-copy`). Primary actions use
+`home-primary-cta`; the secondary action uses `home-text-action`. Run
+`node --test src/app/playground-typography.test.mjs` to verify the shared
+tokens and hero frame.
+
 ## Project Hub Featured Projects
 
 The Featured Projects section randomly selects **7** builds from the same Home

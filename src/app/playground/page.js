@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { SiteHeader } from "../components";
+import { Glow } from "../Glow";
 import { useLang } from "../i18n";
 import { withBase } from "../../lib/basePath";
 import styles from "./playground.module.css";
@@ -38,6 +39,22 @@ const TOOLS = [
   },
 ];
 
+const CTA_ARROW = (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
+  </svg>
+);
 
 export default function PlaygroundPage() {
   const { lang } = useLang();
@@ -53,12 +70,33 @@ export default function PlaygroundPage() {
           <div className={styles.heroShade} aria-hidden="true" />
           <div className={styles.grid} aria-hidden="true" />
           <div className={styles.orbit} aria-hidden="true" />
-          <div className={styles.copy}>
-            <h1>{zh ? "从一个引脚，走到完整作品" : "From one pin to a finished build"}</h1>
-            <p>{zh ? "Pinout、硬件资料、软件指南与网页固件烧录集中在一个入口。少一点查找，多一点构建。" : "Pinouts, hardware resources, software guides and browser-based firmware flashing—one place to move from board to build."}</p>
+          <div className={`page-hero-copy ${styles.copy}`}>
+            <Glow
+              as="h1"
+              className="home-type-hero-title text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]"
+            >
+              {zh ? "从一个引脚，走到完整作品" : "From one pin to a finished build"}
+            </Glow>
+            <p className="page-hero-description home-type-body text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]">
+              {zh
+                ? "Pinout、硬件资料、软件指南与网页固件烧录集中在一个入口。少一点查找，多一点构建。"
+                : "Pinouts, hardware resources, software guides and browser-based firmware flashing—one place to move from board to build."}
+            </p>
             <div className={styles.actions}>
-              <Link href="/playground/pinout">{zh ? "从 Pinout 开始" : "Start with Pinout"}<span>→</span></Link>
-              <Link href="/playground/esp-flasher" className={styles.ghost}>{zh ? "打开网页烧录器" : "Open Web Flasher"}</Link>
+              <Link
+                href="/playground/pinout"
+                className="home-type-action home-filled-action home-primary-cta"
+                style={{ color: "#fff" }}
+              >
+                {zh ? "从 Pinout 开始" : "Start with Pinout"}
+                {CTA_ARROW}
+              </Link>
+              <Link
+                href="/playground/esp-flasher"
+                className={`home-type-action home-text-action ${styles.secondaryLink}`}
+              >
+                {zh ? "打开网页烧录器" : "Open Web Flasher"} ↗
+              </Link>
             </div>
           </div>
           <div className={styles.boardStage}>
@@ -73,7 +111,7 @@ export default function PlaygroundPage() {
 
         <section className={styles.toolSection}>
           <div className={styles.sectionHead}>
-            <h2>{zh ? "开发所需，全部就位" : "Everything you need to keep building"}</h2>
+            <h2 className="home-type-title">{zh ? "开发所需，全部就位" : "Everything you need to keep building"}</h2>
           </div>
           <div className={styles.toolGrid}>
             {TOOLS.map((tool) => {
@@ -82,10 +120,10 @@ export default function PlaygroundPage() {
                 <Link key={tool.key} href={tool.href} className={styles.toolCard}>
                   <span className={styles.toolIcon}><ToolIcon type={tool.icon} /></span>
                   <span className={styles.toolCopy}>
-                    <strong>{content[0]}</strong>
-                    <small>{content[1]}</small>
+                    <strong className="home-type-subtitle">{content[0]}</strong>
+                    <small className="home-type-body">{content[1]}</small>
                   </span>
-                  <span className={styles.arrow}>↗</span>
+                  <span className={styles.arrow} aria-hidden="true">↗</span>
                 </Link>
               );
             })}
