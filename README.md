@@ -300,9 +300,10 @@ board that mirrors the GitHub Discussions lifecycle in
 | In Development | In Development |
 | Accomplished | Accomplished |
 
-Help Needed sits in a separate rail under the board. Each card is a compact
-link to its GitHub discussion (title, topic chips from whitelisted labels,
-votes, comments, relative update time). Cards are sorted automatically by
+Help Needed sits in a separate rail under the board. Each card is a soft
+floating link to its GitHub discussion: optional cover image (first image in
+the post), title, excerpt, topic chips, lifecycle progress bar, votes,
+comments, update time, and author avatar. Cards are sorted automatically by
 votes, then comments, then update time—no hand-curated order.
 
 At build time (`prebuild`), `scripts/bake-discussions.js` fetches discussions

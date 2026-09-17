@@ -48,6 +48,7 @@ const QUERY = `query Discussions($owner: String!, $name: String!, $first: Int!, 
         comments { totalCount }
         category { name slug }
         labels(first: 20) { nodes { name } }
+        author { login avatarUrl }
       }
     }
   }
@@ -57,8 +58,9 @@ function strip(md) {
   return (md || "")
     .replace(/```[\s\S]*?```/g, " ")
     .replace(/`([^`]+)`/g, "$1")
-    .replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, " ")
     .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/<img\b[^>]*>/gi, " ")
     .replace(/<[^>]+>/g, " ")
     .replace(/^#{1,6}\s*/gm, "")
     .replace(/\*\*([^*]+)\*\*/g, "$1")
@@ -79,6 +81,19 @@ function strip(md) {
     .trim();
 }
 
+/** First markdown / HTML / GitHub asset image URL from discussion body */
+function firstImage(body) {
+  const text = body || "";
+  const md = text.match(/!\[[^\]]*\]\(([^)\s]+)\)/);
+  if (md) return md[1];
+  const html = text.match(/<img\b[^>]*\bsrc=["']([^"']+)["']/i);
+  if (html) return html[1];
+  const asset = text.match(
+    /(https?:\/\/(?:user-images\.githubusercontent\.com|github\.com\/[^/\s]+\/[^/\s]+\/assets\/|github\.com\/user-attachments\/assets\/)[^\s)"<>]+)/i
+  );
+  return asset ? asset[1] : "";
+}
+
 function pickTopics(labelNames) {
   const out = [];
   for (const name of labelNames || []) {
@@ -87,7 +102,20 @@ function pickTopics(labelNames) {
   return out;
 }
 
-function mapNode({ number, title, body, url, createdAt, updatedAt, votes, comments, categorySlug, labelNames }) {
+function mapNode({
+  number,
+  title,
+  body,
+  url,
+  createdAt,
+  updatedAt,
+  votes,
+  comments,
+  categorySlug,
+  labelNames,
+  authorLogin,
+  authorAvatar,
+}) {
   if (number === 1) return null;
   const stage = CATEGORY_TO_STAGE[categorySlug] || "wish";
   const text = strip(body || "");
@@ -103,6 +131,10 @@ function mapNode({ number, title, body, url, createdAt, updatedAt, votes, commen
     createdAt: (createdAt || "").slice(0, 10),
     updatedAt: (updatedAt || "").slice(0, 10),
     url,
+    image: firstImage(body),
+    author: authorLogin
+      ? { login: authorLogin, avatar: authorAvatar || "" }
+      : null,
   };
 }
 
@@ -118,6 +150,8 @@ function mapGraphQL(node) {
     comments: node.comments?.totalCount ?? 0,
     categorySlug: node.category?.slug || "",
     labelNames: (node.labels?.nodes || []).map((l) => l.name),
+    authorLogin: node.author?.login || "",
+    authorAvatar: node.author?.avatarUrl || "",
   });
 }
 
@@ -142,6 +176,8 @@ function mapREST(node) {
     comments: node.comments ?? 0,
     categorySlug: node.category?.slug || "",
     labelNames: labels,
+    authorLogin: node.user?.login || "",
+    authorAvatar: node.user?.avatar_url || "",
   });
 }
 

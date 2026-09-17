@@ -57,6 +57,15 @@ const HELP_STAGE = {
   },
 };
 
+/** Lifecycle progress shown on cards (wish → done). */
+const STAGE_PROGRESS = {
+  wish: { done: 1, total: 4 },
+  vote: { done: 2, total: 4 },
+  help: { done: 2, total: 4 },
+  dev: { done: 3, total: 4 },
+  done: { done: 4, total: 4 },
+};
+
 function relativeDate(iso, lang) {
   if (!iso) return "";
   const d = new Date(iso);
@@ -80,10 +89,14 @@ function relativeDate(iso, lang) {
       : `${years} years ago`;
 }
 
-function IdeaCard({ item, lang }) {
+function IdeaCard({ item, lang, progressLabel }) {
   const title = (item.title && (item.title[lang] || item.title.en)) || "";
   const excerpt = (item.excerpt && (item.excerpt[lang] || item.excerpt.en)) || "";
   const topics = item.topics || [];
+  const progress = STAGE_PROGRESS[item.stage] || STAGE_PROGRESS.wish;
+  const pct = Math.round((progress.done / progress.total) * 100);
+  const author = item.author;
+
   return (
     <a
       className={styles.ideaCard}
@@ -91,29 +104,75 @@ function IdeaCard({ item, lang }) {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <h3 className={styles.ideaTitle}>{title}</h3>
-      {excerpt ? <p className={styles.ideaExcerpt}>{excerpt}</p> : null}
-      {topics.length > 0 && (
-        <div className={styles.topicRow}>
-          {topics.map((topic) => (
-            <span key={topic} className={styles.topicChip}>
-              {topic}
-            </span>
-          ))}
+      {item.image ? (
+        <div className={styles.ideaCover}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={item.image} alt="" loading="lazy" />
         </div>
-      )}
-      <div className={styles.ideaMeta}>
-        <span>▲ {item.votes}</span>
-        <span className={styles.metaDot} aria-hidden="true" />
-        <span>💬 {item.comments}</span>
-        <span className={styles.metaDot} aria-hidden="true" />
-        <span>{relativeDate(item.updatedAt, lang)}</span>
+      ) : null}
+      <div className={styles.ideaBody}>
+        <h3 className={styles.ideaTitle}>{title}</h3>
+        {excerpt ? <p className={styles.ideaExcerpt}>{excerpt}</p> : null}
+        {topics.length > 0 && (
+          <div className={styles.topicRow}>
+            {topics.map((topic) => (
+              <span key={topic} className={styles.topicChip}>
+                {topic}
+              </span>
+            ))}
+          </div>
+        )}
+        <div className={styles.progressBlock}>
+          <div className={styles.progressLabelRow}>
+            <span>{progressLabel}</span>
+            <span>
+              {progress.done}/{progress.total}
+            </span>
+          </div>
+          <div className={styles.progressTrack} aria-hidden="true">
+            <span className={styles.progressFill} style={{ width: `${pct}%` }} />
+          </div>
+        </div>
+        <div className={styles.ideaFoot}>
+          <div className={styles.ideaStats}>
+            <span className={styles.stat} title="Votes">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 5l7 12H5L12 5z" fill="currentColor" />
+              </svg>
+              {item.votes}
+            </span>
+            <span className={styles.stat} title="Comments">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v6A2.5 2.5 0 0 1 16.5 15H11l-4 3.5V15H7.5A2.5 2.5 0 0 1 5 12.5v-6Z"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              {item.comments}
+            </span>
+            <span className={styles.statMuted}>{relativeDate(item.updatedAt, lang)}</span>
+          </div>
+          {author?.avatar ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              className={styles.authorAvatar}
+              src={author.avatar}
+              alt={author.login || ""}
+              title={author.login || ""}
+              loading="lazy"
+              width={28}
+              height={28}
+            />
+          ) : null}
+        </div>
       </div>
     </a>
   );
 }
 
-function StageColumn({ stage, items, lang, emptyLabel }) {
+function StageColumn({ stage, items, lang, emptyLabel, progressLabel }) {
   const label = stage.label[lang] || stage.label.en;
   const blurb = stage.blurb[lang] || stage.blurb.en;
   const toneClass = styles[`tone_${stage.id}`] || "";
@@ -122,20 +181,28 @@ function StageColumn({ stage, items, lang, emptyLabel }) {
       className={`${styles.column} ${toneClass}`}
       aria-labelledby={`stage-${stage.id}`}
     >
-      <header className={styles.columnHead}>
-        <div className={styles.columnTitleRow}>
+      <header className={styles.columnPill}>
+        <span className={styles.stageRing} aria-hidden="true" />
+        <div className={styles.columnPillText}>
           <h2 id={`stage-${stage.id}`} className={styles.columnTitle}>
             {label}
           </h2>
-          <span className={styles.columnCount}>{items.length}</span>
+          <p className={styles.columnBlurb}>{blurb}</p>
         </div>
-        <p className={styles.columnBlurb}>{blurb}</p>
+        <span className={styles.columnCount}>{items.length}</span>
       </header>
       <div className={styles.columnBody}>
         {items.length === 0 ? (
           <p className={`home-type-body ${styles.columnEmpty}`}>{emptyLabel}</p>
         ) : (
-          items.map((item) => <IdeaCard key={item.id} item={item} lang={lang} />)
+          items.map((item) => (
+            <IdeaCard
+              key={item.id}
+              item={item}
+              lang={lang}
+              progressLabel={progressLabel}
+            />
+          ))
         )}
       </div>
     </section>
@@ -154,6 +221,7 @@ export function CommunityRoadmap() {
     btnSubmit: lang === "zh" ? "在 GitHub 提交想法" : "Submit an idea on GitHub",
     howItWorks: lang === "zh" ? "路线图如何运作" : "How the roadmap works",
     empty: lang === "zh" ? "这一阶段暂无条目。" : "No ideas in this stage yet.",
+    progress: lang === "zh" ? "推进进度" : "Progress",
   };
 
   const byStage = useMemo(() => {
@@ -231,28 +299,35 @@ export function CommunityRoadmap() {
               items={byStage[stage.id]}
               lang={lang}
               emptyLabel={T.empty}
+              progressLabel={T.progress}
             />
           ))}
         </div>
 
         <section className={`${styles.helpRail} ${styles.tone_help}`} aria-labelledby="stage-help">
-          <header className={styles.helpHead}>
-            <div className={styles.columnTitleRow}>
+          <header className={styles.columnPill}>
+            <span className={styles.stageRing} aria-hidden="true" />
+            <div className={styles.columnPillText}>
               <h2 id="stage-help" className={styles.columnTitle}>
                 {HELP_STAGE.label[lang] || HELP_STAGE.label.en}
               </h2>
-              <span className={styles.columnCount}>{byStage.help.length}</span>
+              <p className={styles.columnBlurb}>
+                {HELP_STAGE.blurb[lang] || HELP_STAGE.blurb.en}
+              </p>
             </div>
-            <p className={styles.columnBlurb}>
-              {HELP_STAGE.blurb[lang] || HELP_STAGE.blurb.en}
-            </p>
+            <span className={styles.columnCount}>{byStage.help.length}</span>
           </header>
           <div className={styles.helpBody}>
             {byStage.help.length === 0 ? (
               <p className={`home-type-body ${styles.columnEmpty}`}>{T.empty}</p>
             ) : (
               byStage.help.map((item) => (
-                <IdeaCard key={item.id} item={item} lang={lang} />
+                <IdeaCard
+                  key={item.id}
+                  item={item}
+                  lang={lang}
+                  progressLabel={T.progress}
+                />
               ))
             )}
           </div>

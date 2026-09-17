@@ -7,8 +7,8 @@
       "zh": "M3 screw in adapter for xiao , best for 3d printed non PCB projects"
     },
     "excerpt": {
-      "en": "image I had trouble fitting the Xiao into my 3D printed projects because it doesn't have any screw holes. While glue is an option for some projects, it's not id",
-      "zh": "image I had trouble fitting the Xiao into my 3D printed projects because it doesn't have any screw holes. While glue is an option for some projects, it's not id"
+      "en": "I had trouble fitting the Xiao into my 3D printed projects because it doesn't have any screw holes. While glue is an option for some projects, it's not ideal if",
+      "zh": "I had trouble fitting the Xiao into my 3D printed projects because it doesn't have any screw holes. While glue is an option for some projects, it's not ideal if"
     },
     "stage": "wish",
     "topics": [
@@ -18,7 +18,12 @@
     "comments": 3,
     "createdAt": "2024-06-22",
     "updatedAt": "2025-01-22",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/12"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/12",
+    "image": "https://github.com/Seeed-Studio/XIAO_Series/assets/64944561/c99fc4d1-0b1e-43b6-86a6-7d85c0d83e0f",
+    "author": {
+      "login": "gokuxmaker",
+      "avatar": "https://avatars.githubusercontent.com/u/64944561?v=4"
+    }
   },
   {
     "id": "d13",
@@ -37,7 +42,12 @@
     "comments": 1,
     "createdAt": "2024-06-30",
     "updatedAt": "2024-08-26",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/13"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/13",
+    "image": "",
+    "author": {
+      "login": "Thrasher0831",
+      "avatar": "https://avatars.githubusercontent.com/u/102756370?v=4"
+    }
   },
   {
     "id": "d11",
@@ -58,7 +68,12 @@
     "comments": 2,
     "createdAt": "2024-06-18",
     "updatedAt": "2024-06-28",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/11"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/11",
+    "image": "https://github.com/Seeed-Studio/XIAO_Series/assets/1319304/89c9fabe-4fd4-406c-8244-bcf68b68ff2c",
+    "author": {
+      "login": "Timo614",
+      "avatar": "https://avatars.githubusercontent.com/u/1319304?v=4"
+    }
   },
   {
     "id": "d64",
@@ -77,7 +92,12 @@
     "comments": 1,
     "createdAt": "2026-06-09",
     "updatedAt": "2026-06-10",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/64"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/64",
+    "image": "https://github.com/user-attachments/assets/bd534ce2-b933-4f7a-8c35-b08fd9021722",
+    "author": {
+      "login": "burningthrough",
+      "avatar": "https://avatars.githubusercontent.com/u/108779034?v=4"
+    }
   },
   {
     "id": "d23",
@@ -96,7 +116,12 @@
     "comments": 3,
     "createdAt": "2024-10-15",
     "updatedAt": "2024-12-31",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/23"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/23",
+    "image": "",
+    "author": {
+      "login": "usermctech",
+      "avatar": "https://avatars.githubusercontent.com/u/98517893?v=4"
+    }
   },
   {
     "id": "d63",
@@ -115,7 +140,12 @@
     "comments": 2,
     "createdAt": "2026-06-08",
     "updatedAt": "2026-07-01",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/63"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/63",
+    "image": "https://github.com/user-attachments/assets/ef970b3e-b842-4a68-80f5-0479fa453a8f",
+    "author": {
+      "login": "burningthrough",
+      "avatar": "https://avatars.githubusercontent.com/u/108779034?v=4"
+    }
   },
   {
     "id": "d33",
@@ -134,7 +164,12 @@
     "comments": 1,
     "createdAt": "2025-05-31",
     "updatedAt": "2025-07-17",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/33"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/33",
+    "image": "",
+    "author": {
+      "login": "bclml",
+      "avatar": "https://avatars.githubusercontent.com/u/9451245?v=4"
+    }
   },
   {
     "id": "d24",
@@ -153,7 +188,12 @@
     "comments": 1,
     "createdAt": "2024-10-15",
     "updatedAt": "2024-10-28",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/24"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/24",
+    "image": "",
+    "author": {
+      "login": "usermctech",
+      "avatar": "https://avatars.githubusercontent.com/u/98517893?v=4"
+    }
   },
   {
     "id": "d62",
@@ -172,7 +212,12 @@
     "comments": 0,
     "createdAt": "2026-06-05",
     "updatedAt": "2026-06-05",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/62"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/62",
+    "image": "",
+    "author": {
+      "login": "MrSchism",
+      "avatar": "https://avatars.githubusercontent.com/u/3085862?v=4"
+    }
   },
   {
     "id": "d29",
@@ -191,7 +236,12 @@
     "comments": 0,
     "createdAt": "2025-01-06",
     "updatedAt": "2025-01-06",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/29"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/29",
+    "image": "",
+    "author": {
+      "login": "usermctech",
+      "avatar": "https://avatars.githubusercontent.com/u/98517893?v=4"
+    }
   },
   {
     "id": "d18",
@@ -201,8 +251,8 @@
       "zh": "Example Board for Revision to XIAO"
     },
     "excerpt": {
-      "en": "https://www.seeedstudio.com/SODAQ-Mbili-rev-5-p-2387.html image",
-      "zh": "https://www.seeedstudio.com/SODAQ-Mbili-rev-5-p-2387.html image"
+      "en": "https://www.seeedstudio.com/SODAQ-Mbili-rev-5-p-2387.html",
+      "zh": "https://www.seeedstudio.com/SODAQ-Mbili-rev-5-p-2387.html"
     },
     "stage": "wish",
     "topics": [],
@@ -210,7 +260,12 @@
     "comments": 0,
     "createdAt": "2024-07-17",
     "updatedAt": "2024-07-17",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/18"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/18",
+    "image": "https://github.com/user-attachments/assets/c2b52141-ee25-470c-a1ce-c53afc74ed2a",
+    "author": {
+      "login": "CWGwaltney",
+      "avatar": "https://avatars.githubusercontent.com/u/154296902?v=4"
+    }
   },
   {
     "id": "d14",
@@ -231,7 +286,12 @@
     "comments": 1,
     "createdAt": "2024-07-02",
     "updatedAt": "2024-07-05",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/14"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/14",
+    "image": "",
+    "author": {
+      "login": "256ericpan",
+      "avatar": "https://avatars.githubusercontent.com/u/20021559?v=4"
+    }
   },
   {
     "id": "d16",
@@ -252,7 +312,12 @@
     "comments": 15,
     "createdAt": "2024-07-05",
     "updatedAt": "2024-11-07",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/16"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/16",
+    "image": "https://github.com/Seeed-Studio/XIAO_Series/assets/170942971/ef052a05-db32-44e8-872e-9c690bec788c",
+    "author": {
+      "login": "kevin-seeed",
+      "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
+    }
   },
   {
     "id": "d74",
@@ -271,7 +336,12 @@
     "comments": 7,
     "createdAt": "2026-09-01",
     "updatedAt": "2026-09-04",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/74"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/74",
+    "image": "",
+    "author": {
+      "login": "burningthrough",
+      "avatar": "https://avatars.githubusercontent.com/u/108779034?v=4"
+    }
   },
   {
     "id": "d26",
@@ -290,7 +360,12 @@
     "comments": 3,
     "createdAt": "2024-11-18",
     "updatedAt": "2025-01-05",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/26"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/26",
+    "image": "",
+    "author": {
+      "login": "ckrenslehner",
+      "avatar": "https://avatars.githubusercontent.com/u/11628575?v=4"
+    }
   },
   {
     "id": "d41",
@@ -309,7 +384,12 @@
     "comments": 1,
     "createdAt": "2026-01-15",
     "updatedAt": "2026-07-15",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/41"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/41",
+    "image": "",
+    "author": {
+      "login": "Bodobolero",
+      "avatar": "https://avatars.githubusercontent.com/u/12803391?v=4"
+    }
   },
   {
     "id": "d58",
@@ -328,7 +408,12 @@
     "comments": 1,
     "createdAt": "2026-05-18",
     "updatedAt": "2026-06-10",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/58"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/58",
+    "image": "",
+    "author": {
+      "login": "burningthrough",
+      "avatar": "https://avatars.githubusercontent.com/u/108779034?v=4"
+    }
   },
   {
     "id": "d25",
@@ -347,7 +432,12 @@
     "comments": 1,
     "createdAt": "2024-11-13",
     "updatedAt": "2024-12-31",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/25"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/25",
+    "image": "",
+    "author": {
+      "login": "rootexpression",
+      "avatar": "https://avatars.githubusercontent.com/u/19788955?v=4"
+    }
   },
   {
     "id": "d3",
@@ -366,7 +456,12 @@
     "comments": 1,
     "createdAt": "2024-05-27",
     "updatedAt": "2024-07-17",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/3"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/3",
+    "image": "",
+    "author": {
+      "login": "kevin-seeed",
+      "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
+    }
   },
   {
     "id": "d17",
@@ -385,7 +480,12 @@
     "comments": 1,
     "createdAt": "2024-07-11",
     "updatedAt": "2024-07-17",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/17"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/17",
+    "image": "",
+    "author": {
+      "login": "256ericpan",
+      "avatar": "https://avatars.githubusercontent.com/u/20021559?v=4"
+    }
   },
   {
     "id": "d73",
@@ -404,7 +504,12 @@
     "comments": 0,
     "createdAt": "2026-08-18",
     "updatedAt": "2026-08-18",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/73"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/73",
+    "image": "",
+    "author": {
+      "login": "peterk54",
+      "avatar": "https://avatars.githubusercontent.com/u/38879818?v=4"
+    }
   },
   {
     "id": "d19",
@@ -423,7 +528,12 @@
     "comments": 0,
     "createdAt": "2024-07-23",
     "updatedAt": "2024-07-23",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/19"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/19",
+    "image": "",
+    "author": {
+      "login": "256ericpan",
+      "avatar": "https://avatars.githubusercontent.com/u/20021559?v=4"
+    }
   },
   {
     "id": "d4",
@@ -444,7 +554,12 @@
     "comments": 0,
     "createdAt": "2024-05-27",
     "updatedAt": "2024-05-27",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/4"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/4",
+    "image": "",
+    "author": {
+      "login": "kevin-seeed",
+      "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
+    }
   },
   {
     "id": "d6",
@@ -465,7 +580,12 @@
     "comments": 23,
     "createdAt": "2024-05-27",
     "updatedAt": "2026-08-28",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/6"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/6",
+    "image": "https://github.com/Seeed-Studio/XIAO_Series/assets/170942971/657f9680-1620-4554-8e7d-7b0576c3edb3",
+    "author": {
+      "login": "kevin-seeed",
+      "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
+    }
   },
   {
     "id": "d2",
@@ -486,7 +606,12 @@
     "comments": 11,
     "createdAt": "2024-05-24",
     "updatedAt": "2024-09-04",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/2"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/2",
+    "image": "https://github.com/Seeed-Projects/SeeedStudio_XIAO_Series/assets/37475446/2fd564ee-7fbf-4d8e-a1db-7dc54d28491d",
+    "author": {
+      "login": "limengdu",
+      "avatar": "https://avatars.githubusercontent.com/u/37475446?v=4"
+    }
   },
   {
     "id": "d20",
@@ -507,7 +632,12 @@
     "comments": 18,
     "createdAt": "2024-07-29",
     "updatedAt": "2025-11-27",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/20"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/20",
+    "image": "",
+    "author": {
+      "login": "rei-vilo",
+      "avatar": "https://avatars.githubusercontent.com/u/951776?v=4"
+    }
   },
   {
     "id": "d8",
@@ -526,7 +656,12 @@
     "comments": 4,
     "createdAt": "2024-05-31",
     "updatedAt": "2024-12-31",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/8"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/8",
+    "image": "",
+    "author": {
+      "login": "256ericpan",
+      "avatar": "https://avatars.githubusercontent.com/u/20021559?v=4"
+    }
   },
   {
     "id": "d15",
@@ -547,7 +682,12 @@
     "comments": 3,
     "createdAt": "2024-07-04",
     "updatedAt": "2024-10-28",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/15"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/15",
+    "image": "https://github.com/Seeed-Studio/XIAO_Series/assets/170942971/dd990481-1df4-45e3-af62-c3a3e7566c32",
+    "author": {
+      "login": "kevin-seeed",
+      "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
+    }
   },
   {
     "id": "d9",
@@ -569,7 +709,12 @@
     "comments": 1,
     "createdAt": "2024-06-04",
     "updatedAt": "2024-12-31",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/9"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/9",
+    "image": "https://github.com/Seeed-Studio/XIAO_Series/assets/111474938/b1b9842d-bedb-47a7-8843-92417b0340df",
+    "author": {
+      "login": "meilily",
+      "avatar": "https://avatars.githubusercontent.com/u/111474938?v=4"
+    }
   },
   {
     "id": "d7",
@@ -590,7 +735,12 @@
     "comments": 2,
     "createdAt": "2024-05-27",
     "updatedAt": "2024-07-11",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/7"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/7",
+    "image": "",
+    "author": {
+      "login": "meilily",
+      "avatar": "https://avatars.githubusercontent.com/u/111474938?v=4"
+    }
   },
   {
     "id": "d5",
@@ -611,7 +761,12 @@
     "comments": 0,
     "createdAt": "2024-05-27",
     "updatedAt": "2024-10-28",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/5"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/5",
+    "image": "https://github.com/Seeed-Studio/XIAO_Series/assets/170942971/5adc0f8a-dbd6-4571-9eb1-eca73842cc63",
+    "author": {
+      "login": "kevin-seeed",
+      "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
+    }
   },
   {
     "id": "d30",
@@ -630,7 +785,12 @@
     "comments": 5,
     "createdAt": "2025-02-23",
     "updatedAt": "2025-03-16",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/30"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/30",
+    "image": "",
+    "author": {
+      "login": "clovisf",
+      "avatar": "https://avatars.githubusercontent.com/u/989006?v=4"
+    }
   },
   {
     "id": "d40",
@@ -649,7 +809,12 @@
     "comments": 2,
     "createdAt": "2025-11-20",
     "updatedAt": "2025-11-26",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/40"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/40",
+    "image": "https://github.com/user-attachments/assets/2e9aa00d-dcce-4470-a538-3f1c8d9e6a87",
+    "author": {
+      "login": "WigandClone",
+      "avatar": "https://avatars.githubusercontent.com/u/91802144?v=4"
+    }
   },
   {
     "id": "d36",
@@ -668,7 +833,12 @@
     "comments": 1,
     "createdAt": "2025-07-10",
     "updatedAt": "2025-07-10",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/36"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/36",
+    "image": "",
+    "author": {
+      "login": "oltaco",
+      "avatar": "https://avatars.githubusercontent.com/u/37787853?v=4"
+    }
   },
   {
     "id": "d38",
@@ -687,7 +857,12 @@
     "comments": 0,
     "createdAt": "2025-10-02",
     "updatedAt": "2025-10-02",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/38"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/38",
+    "image": "",
+    "author": {
+      "login": "kparasha",
+      "avatar": "https://avatars.githubusercontent.com/u/140921949?v=4"
+    }
   },
   {
     "id": "d35",
@@ -706,7 +881,12 @@
     "comments": 0,
     "createdAt": "2025-06-23",
     "updatedAt": "2025-06-23",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/35"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/35",
+    "image": "",
+    "author": {
+      "login": "Grkinator",
+      "avatar": "https://avatars.githubusercontent.com/u/209876096?v=4"
+    }
   },
   {
     "id": "d32",
@@ -725,6 +905,11 @@
     "comments": 0,
     "createdAt": "2025-05-19",
     "updatedAt": "2025-05-19",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/32"
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/32",
+    "image": "",
+    "author": {
+      "login": "blondie63",
+      "avatar": "https://avatars.githubusercontent.com/u/1261851?v=4"
+    }
   }
 ]
