@@ -644,7 +644,7 @@
 }
 
 @media (max-width: 760px) {
-  .wrap { padding: 22px clamp(12px, 7cm, 20vw) 72px; }
+  .wrap { padding: 22px 16px 72px; }
   .roadmapHero { aspect-ratio: auto; min-height: 620px; }
   .roadmapHero > img { object-position: 58% center; }
   .heroShade {

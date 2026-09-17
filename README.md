@@ -326,6 +326,12 @@ be wired without hunting through the board.
 Discussion #1 (welcome / how-it-works) is skipped in the board and linked from
 the hero as **How the roadmap works**.
 
+Below the board, **Success Stories** (`src/app/open-roadmap/successCases.js`)
+closes the loop as "Stage 04 · Shipped": each story card pairs the original
+community idea (quote, author, votes, participants) with the shipped product,
+and a four-dot timeline (Wish / Vote / Build / Ship) coloured like the board
+columns. Story copy currently lives in the `STORIES` array in that file.
+
 The right-side section rail starts with **Top** on every page (Home, Products,
 Resources, Project Hub, Open Roadmap, Software Center), in both EN and ZH.
 On Project Hub the remaining labels match the on-page titles
