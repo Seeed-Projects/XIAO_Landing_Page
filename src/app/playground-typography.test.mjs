@@ -9,7 +9,7 @@ const globals = read("./globals.css");
 const hero = read("./hero-section.js");
 
 test("Playground reuses the shared typography roles", () => {
-  assert.match(page, /home-type-hero-title/);
+  assert.match(page, /products-hero-title home-type-hero-title/);
   assert.match(page, /home-type-title/);
   assert.match(page, /home-type-subtitle/);
   assert.match(page, /home-type-body/);
@@ -20,6 +20,11 @@ test("Playground reuses the shared typography roles", () => {
   assert.match(page, /home-primary-cta/);
 });
 
+test("Playground hero title stays on one line like Products", () => {
+  assert.match(css, /white-space:\s*nowrap/);
+  assert.match(globals, /\.products-hero-title\s*{[^}]*white-space:\s*nowrap/s);
+});
+
 test("Playground hero copy starts at the Home hero copy edge", () => {
   assert.match(page, /page-hero-copy/);
   assert.match(globals, /\.page-hero-copy\s*{[^}]*padding-inline:\s*9\.75vw 24px/s);
@@ -27,10 +32,10 @@ test("Playground hero copy starts at the Home hero copy edge", () => {
 });
 
 test("Playground CSS defers typed text to Home tokens", () => {
-  assert.match(css, /font-size: var\(--home-hero-title-size\)/);
   assert.match(css, /font-size: var\(--home-title-size\)/);
   assert.match(css, /font-size: var\(--home-subtitle-size\)/);
   assert.match(css, /font-size: var\(--home-body-size\)/);
+  assert.match(css, /font-size: clamp\(18px, 3\.4vw, 56px\)/);
   assert.doesNotMatch(css, /\.copy h1\s*{[^}]*font-size:\s*clamp\(48px/s);
   assert.doesNotMatch(css, /\.actions a\s*{[^}]*font-size:\s*14px/s);
 });

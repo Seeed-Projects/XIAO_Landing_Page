@@ -73,22 +73,26 @@
 .copy {
   position: relative;
   z-index: 10;
-  width: min(100%, 720px);
+  width: 100%;
   max-width: none;
   margin: 0;
   padding-block: 4rem;
   transform: translateY(-1.25rem);
 }
 
-.copy :global(.home-type-hero-title) {
-  max-width: 1180px;
+/* Long EN title stays one line — same pattern as Products hero */
+.copy :global(.home-type-hero-title),
+.copy :global(.products-hero-title) {
+  display: block;
+  max-width: none;
   margin: 0;
   color: #fff;
   font-family: var(--font-display), sans-serif;
-  font-size: var(--home-hero-title-size);
+  font-size: clamp(18px, 3.4vw, 56px);
   font-weight: var(--home-title-weight);
   line-height: var(--home-title-leading);
   letter-spacing: var(--home-title-tracking);
+  white-space: nowrap;
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 

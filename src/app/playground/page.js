@@ -73,7 +73,7 @@ export default function PlaygroundPage() {
           <div className={`page-hero-copy ${styles.copy}`}>
             <Glow
               as="h1"
-              className="home-type-hero-title text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]"
+              className="products-hero-title home-type-hero-title text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]"
             >
               {zh ? "从一个引脚，走到完整作品" : "From one pin to a finished build"}
             </Glow>
