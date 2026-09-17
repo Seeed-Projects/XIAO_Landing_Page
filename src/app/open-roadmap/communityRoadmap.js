@@ -226,25 +226,69 @@ function IdeaCard({ item, lang, labels }) {
   );
 }
 
-function StageColumn({ stage, items, lang, emptyLabel, labels }) {
+/**
+ * Column header: numbered stage node on a left-to-right flow rail,
+ * followed by the stage title, count and blurb.
+ * 列头：流程线上的编号节点，下方是阶段名称、数量与说明。
+ */
+function StageHeader({ stage, count, lang, step, total, stepLabel }) {
   const label = stage.label[lang] || stage.label.en;
   const blurb = stage.blurb[lang] || stage.blurb.en;
+  const isFirst = step === 1;
+  const isLast = step === total;
+  const railClass = [
+    styles.stageRail,
+    isFirst ? styles.stageRailFirst : "",
+    isLast ? styles.stageRailLast : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return (
+    <header className={styles.stageHead}>
+      {step ? (
+        <div className={railClass} aria-hidden="true">
+          <span className={styles.stageNode}>{step}</span>
+          {!isLast ? (
+            <svg className={styles.stageArrow} width="10" height="14" viewBox="0 0 10 14" fill="none">
+              <path d="M2 2l5 5-5 5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          ) : null}
+        </div>
+      ) : null}
+      <div className={styles.stageTitleRow}>
+        <div className={styles.stageTitleText}>
+          {step ? (
+            <span className={styles.stageEyebrow}>
+              {stepLabel} {String(step).padStart(2, "0")}
+            </span>
+          ) : null}
+          <h2 id={`stage-${stage.id}`} className={styles.columnTitle}>
+            {label}
+          </h2>
+        </div>
+        <span className={styles.columnCount}>{count}</span>
+      </div>
+      <p className={styles.columnBlurb}>{blurb}</p>
+    </header>
+  );
+}
+
+function StageColumn({ stage, items, lang, emptyLabel, labels, step, total, stepLabel }) {
   const toneClass = styles[`tone_${stage.id}`] || "";
   return (
     <section
       className={`${styles.column} ${toneClass}`}
       aria-labelledby={`stage-${stage.id}`}
     >
-      <header className={styles.columnPill}>
-        <span className={styles.stageRing} aria-hidden="true" />
-        <div className={styles.columnPillText}>
-          <h2 id={`stage-${stage.id}`} className={styles.columnTitle}>
-            {label}
-          </h2>
-          <p className={styles.columnBlurb}>{blurb}</p>
-        </div>
-        <span className={styles.columnCount}>{items.length}</span>
-      </header>
+      <StageHeader
+        stage={stage}
+        count={items.length}
+        lang={lang}
+        step={step}
+        total={total}
+        stepLabel={stepLabel}
+      />
       <div className={styles.columnBody}>
         {items.length === 0 ? (
           <p className={`home-type-body ${styles.columnEmpty}`}>{emptyLabel}</p>
@@ -276,6 +320,7 @@ export function CommunityRoadmap() {
     participant: lang === "zh" ? "位参与者" : "participant",
     participants: lang === "zh" ? "位参与者" : "participants",
     active: lang === "zh" ? "活跃" : "Active",
+    step: lang === "zh" ? "阶段" : "Stage",
   };
 
   const cardLabels = {
@@ -355,7 +400,7 @@ export function CommunityRoadmap() {
 
       <div className={styles.wrap}>
         <div className={styles.board}>
-          {STAGES.map((stage) => (
+          {STAGES.map((stage, index) => (
             <StageColumn
               key={stage.id}
               stage={stage}
@@ -363,23 +408,15 @@ export function CommunityRoadmap() {
               lang={lang}
               emptyLabel={T.empty}
               labels={cardLabels}
+              step={index + 1}
+              total={STAGES.length}
+              stepLabel={T.step}
             />
           ))}
         </div>
 
         <section className={`${styles.helpRail} ${styles.tone_help}`} aria-labelledby="stage-help">
-          <header className={styles.columnPill}>
-            <span className={styles.stageRing} aria-hidden="true" />
-            <div className={styles.columnPillText}>
-              <h2 id="stage-help" className={styles.columnTitle}>
-                {HELP_STAGE.label[lang] || HELP_STAGE.label.en}
-              </h2>
-              <p className={styles.columnBlurb}>
-                {HELP_STAGE.blurb[lang] || HELP_STAGE.blurb.en}
-              </p>
-            </div>
-            <span className={styles.columnCount}>{byStage.help.length}</span>
-          </header>
+          <StageHeader stage={HELP_STAGE} count={byStage.help.length} lang={lang} />
           <div className={styles.helpBody}>
             {byStage.help.length === 0 ? (
               <p className={`home-type-body ${styles.columnEmpty}`}>{T.empty}</p>

@@ -72,16 +72,21 @@
   overflow: visible;
 }
 
+/* Stage lanes: each column is a tinted bucket with its own accent colour */
 .column,
 .helpRail {
-  --stage-accent: #9aa3ad;
-  --stage-soft: rgba(154, 163, 173, 0.18);
+  --stage-accent: #8b5cf6;
+  --stage-soft: rgba(139, 92, 246, 0.16);
+  --stage-tint: color-mix(in srgb, var(--stage-accent) 8%, #fff);
+  --stage-line: color-mix(in srgb, var(--stage-accent) 22%, #fff);
+  --lane-gap: 14px;
+  --lane-pad: 12px;
   min-width: 0;
   overflow: visible;
 }
 .tone_wish {
-  --stage-accent: #9aa3ad;
-  --stage-soft: rgba(154, 163, 173, 0.18);
+  --stage-accent: #8b5cf6;
+  --stage-soft: rgba(139, 92, 246, 0.16);
 }
 .tone_vote {
   --stage-accent: #f0a202;
@@ -100,58 +105,120 @@
   --stage-soft: rgba(239, 125, 59, 0.16);
 }
 
-.column {
+.column,
+.helpRail {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding: var(--lane-pad);
+  border-radius: 22px;
+  background: var(--stage-tint);
+  border: 1px solid var(--stage-line);
 }
 
-.columnPill {
+/* Stage header: flow rail (numbered node + connector) above the title */
+.stageHead {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 2px 2px 4px;
+}
+.stageRail {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
+  height: 30px;
+}
+.stageRail::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  right: calc(-1 * (var(--lane-pad) * 2 + var(--lane-gap)) + 2px);
+  height: 3px;
+  margin-top: -1.5px;
   border-radius: 999px;
-  background: #fff;
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+  background: linear-gradient(
+    90deg,
+    var(--stage-accent),
+    color-mix(in srgb, var(--stage-accent) 45%, #cbd5e1)
+  );
+  pointer-events: none;
 }
-.stageRing {
-  flex: none;
-  width: 18px;
-  height: 18px;
+.stageRailLast::after {
+  display: none;
+}
+.stageNode {
+  position: relative;
+  z-index: 1;
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border: 3px solid var(--stage-accent);
-  background: transparent;
-  box-shadow: inset 0 0 0 2px #fff;
+  background: var(--stage-accent);
+  color: #fff;
+  font-family: var(--font-display), sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow:
+    0 0 0 4px var(--stage-tint),
+    0 6px 14px color-mix(in srgb, var(--stage-accent) 35%, transparent);
 }
-.columnPillText {
-  flex: 1;
+.stageArrow {
+  position: absolute;
+  top: 50%;
+  right: calc(-1 * (var(--lane-pad) + var(--lane-gap) / 2) - 5px);
+  transform: translateY(-50%);
+  z-index: 2;
+  color: color-mix(in srgb, var(--stage-accent) 60%, #94a3b8);
+  pointer-events: none;
+}
+.stageTitleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.stageTitleText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   min-width: 0;
+}
+.stageEyebrow {
+  color: var(--stage-accent);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.2;
 }
 .columnTitle {
   margin: 0;
   color: #111827;
   font-family: var(--font-display), sans-serif;
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 700;
   line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 .columnBlurb {
-  margin: 2px 0 0;
-  color: #8b95a1;
-  font-size: 11px;
-  line-height: 1.35;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin: 0;
+  color: #6b7785;
+  font-size: 12px;
+  line-height: 1.4;
 }
 .columnCount {
   flex: none;
-  min-width: 1.6rem;
-  padding: 3px 8px;
+  min-width: 1.8rem;
+  margin-top: 2px;
+  padding: 4px 9px;
   border-radius: 999px;
-  background: var(--stage-soft);
+  background: #fff;
   color: var(--stage-accent);
+  border: 1px solid var(--stage-line);
   font-size: 12px;
   font-weight: 700;
   text-align: center;
@@ -467,9 +534,6 @@
 /* Help Needed rail */
 .helpRail {
   margin-top: 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 }
 .helpBody {
   display: grid;
@@ -563,6 +627,10 @@
   .helpBody {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .stageRail::after,
+  .stageArrow {
+    display: none;
+  }
 }
 
 @media (max-width: 760px) {
@@ -585,9 +653,6 @@
   }
   .helpBody {
     grid-template-columns: 1fr;
-  }
-  .columnBlurb {
-    white-space: normal;
   }
   .ideaThumb {
     flex-basis: 48px;
