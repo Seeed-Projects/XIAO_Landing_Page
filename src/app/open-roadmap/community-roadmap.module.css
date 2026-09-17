@@ -226,23 +226,41 @@
 .ideaCard:active {
   cursor: grabbing;
 }
-.ideaCover {
-  height: 88px;
-  background: #e8edf2;
-  overflow: hidden;
-}
-.ideaCover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-}
 .ideaBody {
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding: 14px 14px 12px;
+}
+.ideaHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.ideaHeadText {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ideaThumb {
+  flex: 0 0 64px;
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background: var(--stage-tint, #eef2ff);
+  border: 1px solid color-mix(in srgb, var(--stage-accent, #94a3b8) 18%, #e2e8f0);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.ideaThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
 }
 .ideaTitle {
   margin: 0;
@@ -285,32 +303,100 @@
   line-height: 1.3;
 }
 
-.progressBlock {
+.badgeRow {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: 2px;
+  flex-wrap: wrap;
+  gap: 4px;
 }
-.progressLabelRow {
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.badgeSeeed {
+  color: #3f6212;
+  background: color-mix(in srgb, #8fc31f 16%, #fff);
+  border-color: color-mix(in srgb, #8fc31f 55%, #d9f99d);
+}
+.badgeAnswered {
+  color: color-mix(in srgb, var(--stage-accent) 72%, #0f172a);
+  background: var(--stage-tint);
+  border-color: color-mix(in srgb, var(--stage-accent) 40%, #e2e8f0);
+}
+.badgeClosed {
+  color: #64748b;
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+.signalRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.participantBlock {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.avatarStack {
+  display: inline-flex;
+  align-items: center;
+}
+.avatarStack > * {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px #e5e9ee;
+  object-fit: cover;
+  background: #e2e8f0;
+}
+.avatarStack > * + * {
+  margin-left: -8px;
+}
+.avatarFallback,
+.avatarMore {
+  display: inline-grid;
+  place-items: center;
+  color: #475569;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+.avatarMore {
+  background: #f8fafc;
+  color: #64748b;
+  position: relative;
+  z-index: 1;
+}
+.participantLabel {
   color: #8b95a1;
   font-size: 11px;
   font-weight: 600;
+  white-space: nowrap;
+}
+.reactionRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.reaction {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: #475569;
+  font-size: 12px;
   font-variant-numeric: tabular-nums;
-}
-.progressTrack {
-  height: 7px;
-  border-radius: 999px;
-  background: #e8edf2;
-  overflow: hidden;
-}
-.progressFill {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: var(--stage-accent);
 }
 
 .ideaFoot {
@@ -318,14 +404,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-top: 4px;
+  margin-top: 2px;
   padding-top: 2px;
-}
-.ideaStats {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
   color: #8b95a1;
   font-size: 12px;
   font-variant-numeric: tabular-nums;
@@ -338,14 +418,6 @@
 .statMuted {
   color: #a0aab4;
   font-size: 11px;
-}
-.authorAvatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #fff;
-  box-shadow: 0 0 0 1px #e5e9ee;
 }
 
 /* Help Needed rail */
@@ -472,6 +544,12 @@
   }
   .columnBlurb {
     white-space: normal;
+  }
+  .ideaThumb {
+    flex-basis: 48px;
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
   }
 }
 

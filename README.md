@@ -301,21 +301,28 @@ board that mirrors the GitHub Discussions lifecycle in
 | Accomplished | Accomplished |
 
 Help Needed sits in a separate rail under the board. Each card is a soft
-floating link to its GitHub discussion: optional cover image (first image in
-the post), title, excerpt, topic chips, lifecycle progress bar, votes,
-comments, update time, and author avatar. Cards are sorted automatically by
-votes, then comments, then update time—no hand-curated order.
+floating link to its GitHub discussion: optional thumbnail (first valid image
+in the post; videos and non-images are skipped), title, excerpt, topic chips,
+status badges (`Seeed replied` / `Answered` / `Closed` when applicable),
+participant avatar stack, reaction breakdown, last-activity time, and comment
+count. Cards are sorted automatically by votes, then participant count, then
+last activity—no hand-curated order.
 
 At build time (`prebuild`), `scripts/bake-discussions.js` fetches discussions
 into `public/open-roadmap/discussions.json`. With `GH_TOKEN` / `GITHUB_TOKEN`
-the script uses GraphQL for exact upvote counts; without a token it falls back
-to the REST discussions API (votes ≈ positive reactions). CI injects
-`GH_ROADMAP_TOKEN` and redeploys on a six-hour schedule. Local refresh:
+the script uses GraphQL for exact upvote counts and nested comments; without a
+token it falls back to the REST discussions API (votes ≈ positive reactions)
+plus one comments request per discussion (~40 requests total, within the
+anonymous GitHub rate limit). CI injects `GH_ROADMAP_TOKEN` and redeploys on a
+six-hour schedule. Local refresh:
 
 ```bash
 GH_TOKEN=<pat> node scripts/bake-discussions.js
 ```
 
+Category → column and topic-label mappings live in the bake script. Unknown
+categories or labels are reported in the build log so new GitHub taxonomy can
+be wired without hunting through the board.
 Discussion #1 (welcome / how-it-works) is skipped in the board and linked from
 the hero as **How the roadmap works**.
 

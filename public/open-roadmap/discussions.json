@@ -18,12 +18,38 @@
     "comments": 3,
     "createdAt": "2024-06-22",
     "updatedAt": "2025-01-22",
+    "lastActivityAt": "2025-01-22",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/12",
     "image": "https://github.com/Seeed-Studio/XIAO_Series/assets/64944561/c99fc4d1-0b1e-43b6-86a6-7d85c0d83e0f",
     "author": {
       "login": "gokuxmaker",
       "avatar": "https://avatars.githubusercontent.com/u/64944561?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "gokuxmaker",
+        "avatar": "https://avatars.githubusercontent.com/u/64944561?v=4"
+      },
+      {
+        "login": "ekuleshov",
+        "avatar": "https://avatars.githubusercontent.com/u/440954?v=4"
+      },
+      {
+        "login": "rootexpression",
+        "avatar": "https://avatars.githubusercontent.com/u/19788955?v=4"
+      }
+    ],
+    "participantCount": 3,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 3,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d13",
@@ -42,12 +68,80 @@
     "comments": 1,
     "createdAt": "2024-06-30",
     "updatedAt": "2024-08-26",
+    "lastActivityAt": "2024-07-17",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/13",
     "image": "",
     "author": {
       "login": "Thrasher0831",
       "avatar": "https://avatars.githubusercontent.com/u/102756370?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "Thrasher0831",
+        "avatar": "https://avatars.githubusercontent.com/u/102756370?v=4"
+      },
+      {
+        "login": "CWGwaltney",
+        "avatar": "https://avatars.githubusercontent.com/u/154296902?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 2,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
+  },
+  {
+    "id": "d64",
+    "number": 64,
+    "title": {
+      "en": "A new XIAO display expansion board is on the way! What projects would you use it for?",
+      "zh": "A new XIAO display expansion board is on the way! What projects would you use it for?"
+    },
+    "excerpt": {
+      "en": "",
+      "zh": ""
+    },
+    "stage": "wish",
+    "topics": [],
+    "votes": 1,
+    "comments": 1,
+    "createdAt": "2026-06-09",
+    "updatedAt": "2026-06-10",
+    "lastActivityAt": "2026-06-10",
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/64",
+    "image": "https://github.com/user-attachments/assets/bd534ce2-b933-4f7a-8c35-b08fd9021722",
+    "author": {
+      "login": "burningthrough",
+      "avatar": "https://avatars.githubusercontent.com/u/108779034?v=4"
+    },
+    "participants": [
+      {
+        "login": "burningthrough",
+        "avatar": "https://avatars.githubusercontent.com/u/108779034?v=4"
+      },
+      {
+        "login": "ZL1ROD",
+        "avatar": "https://avatars.githubusercontent.com/u/261333324?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 1,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d11",
@@ -68,60 +162,34 @@
     "comments": 2,
     "createdAt": "2024-06-18",
     "updatedAt": "2024-06-28",
+    "lastActivityAt": "2024-06-28",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/11",
     "image": "https://github.com/Seeed-Studio/XIAO_Series/assets/1319304/89c9fabe-4fd4-406c-8244-bcf68b68ff2c",
     "author": {
       "login": "Timo614",
       "avatar": "https://avatars.githubusercontent.com/u/1319304?v=4"
-    }
-  },
-  {
-    "id": "d64",
-    "number": 64,
-    "title": {
-      "en": "A new XIAO display expansion board is on the way! What projects would you use it for?",
-      "zh": "A new XIAO display expansion board is on the way! What projects would you use it for?"
     },
-    "excerpt": {
-      "en": "",
-      "zh": ""
+    "participants": [
+      {
+        "login": "Timo614",
+        "avatar": "https://avatars.githubusercontent.com/u/1319304?v=4"
+      },
+      {
+        "login": "limengdu",
+        "avatar": "https://avatars.githubusercontent.com/u/37475446?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": true,
+    "reactions": {
+      "thumbsUp": 1,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
     },
-    "stage": "wish",
-    "topics": [],
-    "votes": 1,
-    "comments": 1,
-    "createdAt": "2026-06-09",
-    "updatedAt": "2026-06-10",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/64",
-    "image": "https://github.com/user-attachments/assets/bd534ce2-b933-4f7a-8c35-b08fd9021722",
-    "author": {
-      "login": "burningthrough",
-      "avatar": "https://avatars.githubusercontent.com/u/108779034?v=4"
-    }
-  },
-  {
-    "id": "d23",
-    "number": 23,
-    "title": {
-      "en": "NEW XIAO ADD-ON WITH SENSORS",
-      "zh": "NEW XIAO ADD-ON WITH SENSORS"
-    },
-    "excerpt": {
-      "en": "Please make some add-ons with sensors: bme280 light sensor accelerate sensor compas imu (gyro x-y-) And some more",
-      "zh": "Please make some add-ons with sensors: bme280 light sensor accelerate sensor compas imu (gyro x-y-) And some more"
-    },
-    "stage": "wish",
-    "topics": [],
-    "votes": 0,
-    "comments": 3,
-    "createdAt": "2024-10-15",
-    "updatedAt": "2024-12-31",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/23",
-    "image": "",
-    "author": {
-      "login": "usermctech",
-      "avatar": "https://avatars.githubusercontent.com/u/98517893?v=4"
-    }
+    "answered": false,
+    "closed": true
   },
   {
     "id": "d63",
@@ -140,12 +208,34 @@
     "comments": 2,
     "createdAt": "2026-06-08",
     "updatedAt": "2026-07-01",
+    "lastActivityAt": "2026-07-01",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/63",
     "image": "https://github.com/user-attachments/assets/ef970b3e-b842-4a68-80f5-0479fa453a8f",
     "author": {
       "login": "burningthrough",
       "avatar": "https://avatars.githubusercontent.com/u/108779034?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "burningthrough",
+        "avatar": "https://avatars.githubusercontent.com/u/108779034?v=4"
+      },
+      {
+        "login": "msfujino",
+        "avatar": "https://avatars.githubusercontent.com/u/50060737?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 1
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d33",
@@ -164,12 +254,80 @@
     "comments": 1,
     "createdAt": "2025-05-31",
     "updatedAt": "2025-07-17",
+    "lastActivityAt": "2025-07-17",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/33",
     "image": "",
     "author": {
       "login": "bclml",
       "avatar": "https://avatars.githubusercontent.com/u/9451245?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "bclml",
+        "avatar": "https://avatars.githubusercontent.com/u/9451245?v=4"
+      },
+      {
+        "login": "meilily",
+        "avatar": "https://avatars.githubusercontent.com/u/111474938?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
+  },
+  {
+    "id": "d23",
+    "number": 23,
+    "title": {
+      "en": "NEW XIAO ADD-ON WITH SENSORS",
+      "zh": "NEW XIAO ADD-ON WITH SENSORS"
+    },
+    "excerpt": {
+      "en": "Please make some add-ons with sensors: bme280 light sensor accelerate sensor compas imu (gyro x-y-) And some more",
+      "zh": "Please make some add-ons with sensors: bme280 light sensor accelerate sensor compas imu (gyro x-y-) And some more"
+    },
+    "stage": "wish",
+    "topics": [],
+    "votes": 0,
+    "comments": 3,
+    "createdAt": "2024-10-15",
+    "updatedAt": "2024-12-31",
+    "lastActivityAt": "2024-12-31",
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/23",
+    "image": "",
+    "author": {
+      "login": "usermctech",
+      "avatar": "https://avatars.githubusercontent.com/u/98517893?v=4"
+    },
+    "participants": [
+      {
+        "login": "usermctech",
+        "avatar": "https://avatars.githubusercontent.com/u/98517893?v=4"
+      },
+      {
+        "login": "meilily",
+        "avatar": "https://avatars.githubusercontent.com/u/111474938?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d24",
@@ -188,12 +346,34 @@
     "comments": 1,
     "createdAt": "2024-10-15",
     "updatedAt": "2024-10-28",
+    "lastActivityAt": "2024-10-28",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/24",
     "image": "",
     "author": {
       "login": "usermctech",
       "avatar": "https://avatars.githubusercontent.com/u/98517893?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "usermctech",
+        "avatar": "https://avatars.githubusercontent.com/u/98517893?v=4"
+      },
+      {
+        "login": "meilily",
+        "avatar": "https://avatars.githubusercontent.com/u/111474938?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d62",
@@ -212,12 +392,30 @@
     "comments": 0,
     "createdAt": "2026-06-05",
     "updatedAt": "2026-06-05",
+    "lastActivityAt": "2026-06-05",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/62",
     "image": "",
     "author": {
       "login": "MrSchism",
       "avatar": "https://avatars.githubusercontent.com/u/3085862?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "MrSchism",
+        "avatar": "https://avatars.githubusercontent.com/u/3085862?v=4"
+      }
+    ],
+    "participantCount": 1,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d29",
@@ -236,12 +434,30 @@
     "comments": 0,
     "createdAt": "2025-01-06",
     "updatedAt": "2025-01-06",
+    "lastActivityAt": "2025-01-06",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/29",
     "image": "",
     "author": {
       "login": "usermctech",
       "avatar": "https://avatars.githubusercontent.com/u/98517893?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "usermctech",
+        "avatar": "https://avatars.githubusercontent.com/u/98517893?v=4"
+      }
+    ],
+    "participantCount": 1,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d18",
@@ -251,8 +467,8 @@
       "zh": "Example Board for Revision to XIAO"
     },
     "excerpt": {
-      "en": "https://www.seeedstudio.com/SODAQ-Mbili-rev-5-p-2387.html",
-      "zh": "https://www.seeedstudio.com/SODAQ-Mbili-rev-5-p-2387.html"
+      "en": "",
+      "zh": ""
     },
     "stage": "wish",
     "topics": [],
@@ -260,12 +476,30 @@
     "comments": 0,
     "createdAt": "2024-07-17",
     "updatedAt": "2024-07-17",
+    "lastActivityAt": "2024-07-17",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/18",
     "image": "https://github.com/user-attachments/assets/c2b52141-ee25-470c-a1ce-c53afc74ed2a",
     "author": {
       "login": "CWGwaltney",
       "avatar": "https://avatars.githubusercontent.com/u/154296902?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "CWGwaltney",
+        "avatar": "https://avatars.githubusercontent.com/u/154296902?v=4"
+      }
+    ],
+    "participantCount": 1,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d14",
@@ -286,12 +520,34 @@
     "comments": 1,
     "createdAt": "2024-07-02",
     "updatedAt": "2024-07-05",
+    "lastActivityAt": "2024-07-05",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/14",
     "image": "",
     "author": {
       "login": "256ericpan",
       "avatar": "https://avatars.githubusercontent.com/u/20021559?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "256ericpan",
+        "avatar": "https://avatars.githubusercontent.com/u/20021559?v=4"
+      },
+      {
+        "login": "limengdu",
+        "avatar": "https://avatars.githubusercontent.com/u/37475446?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": true,
+    "reactions": {
+      "thumbsUp": 1,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d16",
@@ -312,12 +568,54 @@
     "comments": 15,
     "createdAt": "2024-07-05",
     "updatedAt": "2024-11-07",
+    "lastActivityAt": "2024-11-07",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/16",
     "image": "https://github.com/Seeed-Studio/XIAO_Series/assets/170942971/ef052a05-db32-44e8-872e-9c690bec788c",
     "author": {
       "login": "kevin-seeed",
       "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "kevin-seeed",
+        "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
+      },
+      {
+        "login": "mdroberts1243",
+        "avatar": "https://avatars.githubusercontent.com/u/2804506?v=4"
+      },
+      {
+        "login": "chalei",
+        "avatar": "https://avatars.githubusercontent.com/u/5271515?v=4"
+      },
+      {
+        "login": "meilily",
+        "avatar": "https://avatars.githubusercontent.com/u/111474938?v=4"
+      },
+      {
+        "login": "CWGwaltney",
+        "avatar": "https://avatars.githubusercontent.com/u/154296902?v=4"
+      },
+      {
+        "login": "kkwestt",
+        "avatar": "https://avatars.githubusercontent.com/u/3273001?v=4"
+      },
+      {
+        "login": "Pixeldieb",
+        "avatar": "https://avatars.githubusercontent.com/u/58830847?v=4"
+      }
+    ],
+    "participantCount": 7,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d74",
@@ -336,36 +634,50 @@
     "comments": 7,
     "createdAt": "2026-09-01",
     "updatedAt": "2026-09-04",
+    "lastActivityAt": "2026-09-04",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/74",
     "image": "",
     "author": {
       "login": "burningthrough",
       "avatar": "https://avatars.githubusercontent.com/u/108779034?v=4"
-    }
-  },
-  {
-    "id": "d26",
-    "number": 26,
-    "title": {
-      "en": "Xiao with USB high speed interface",
-      "zh": "Xiao with USB high speed interface"
     },
-    "excerpt": {
-      "en": "Hi! Are you planning to design a Xiao which features a high speed USB interface? I find this interesting in terms of developing a CMSIS DAP compatible debug pro",
-      "zh": "Hi! Are you planning to design a Xiao which features a high speed USB interface? I find this interesting in terms of developing a CMSIS DAP compatible debug pro"
+    "participants": [
+      {
+        "login": "burningthrough",
+        "avatar": "https://avatars.githubusercontent.com/u/108779034?v=4"
+      },
+      {
+        "login": "orandasoft",
+        "avatar": "https://avatars.githubusercontent.com/u/9914080?v=4"
+      },
+      {
+        "login": "jan-tdy",
+        "avatar": "https://avatars.githubusercontent.com/u/184698134?v=4"
+      },
+      {
+        "login": "MikeBP13",
+        "avatar": "https://avatars.githubusercontent.com/u/168282845?v=4"
+      },
+      {
+        "login": "knuti1960",
+        "avatar": "https://avatars.githubusercontent.com/u/12773338?v=4"
+      },
+      {
+        "login": "flamchops",
+        "avatar": "https://avatars.githubusercontent.com/u/112533177?v=4"
+      }
+    ],
+    "participantCount": 6,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 1
     },
-    "stage": "vote",
-    "topics": [],
-    "votes": 0,
-    "comments": 3,
-    "createdAt": "2024-11-18",
-    "updatedAt": "2025-01-05",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/26",
-    "image": "",
-    "author": {
-      "login": "ckrenslehner",
-      "avatar": "https://avatars.githubusercontent.com/u/11628575?v=4"
-    }
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d41",
@@ -384,12 +696,34 @@
     "comments": 1,
     "createdAt": "2026-01-15",
     "updatedAt": "2026-07-15",
+    "lastActivityAt": "2026-07-15",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/41",
     "image": "",
     "author": {
       "login": "Bodobolero",
       "avatar": "https://avatars.githubusercontent.com/u/12803391?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "Bodobolero",
+        "avatar": "https://avatars.githubusercontent.com/u/12803391?v=4"
+      },
+      {
+        "login": "burningthrough",
+        "avatar": "https://avatars.githubusercontent.com/u/108779034?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d58",
@@ -408,12 +742,80 @@
     "comments": 1,
     "createdAt": "2026-05-18",
     "updatedAt": "2026-06-10",
+    "lastActivityAt": "2026-06-10",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/58",
     "image": "",
     "author": {
       "login": "burningthrough",
       "avatar": "https://avatars.githubusercontent.com/u/108779034?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "burningthrough",
+        "avatar": "https://avatars.githubusercontent.com/u/108779034?v=4"
+      },
+      {
+        "login": "ejdprops",
+        "avatar": "https://avatars.githubusercontent.com/u/47348053?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
+  },
+  {
+    "id": "d26",
+    "number": 26,
+    "title": {
+      "en": "Xiao with USB high speed interface",
+      "zh": "Xiao with USB high speed interface"
+    },
+    "excerpt": {
+      "en": "Hi! Are you planning to design a Xiao which features a high speed USB interface? I find this interesting in terms of developing a CMSIS DAP compatible debug pro",
+      "zh": "Hi! Are you planning to design a Xiao which features a high speed USB interface? I find this interesting in terms of developing a CMSIS DAP compatible debug pro"
+    },
+    "stage": "vote",
+    "topics": [],
+    "votes": 0,
+    "comments": 3,
+    "createdAt": "2024-11-18",
+    "updatedAt": "2025-01-05",
+    "lastActivityAt": "2025-01-05",
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/26",
+    "image": "",
+    "author": {
+      "login": "ckrenslehner",
+      "avatar": "https://avatars.githubusercontent.com/u/11628575?v=4"
+    },
+    "participants": [
+      {
+        "login": "ckrenslehner",
+        "avatar": "https://avatars.githubusercontent.com/u/11628575?v=4"
+      },
+      {
+        "login": "rootexpression",
+        "avatar": "https://avatars.githubusercontent.com/u/19788955?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 1
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d25",
@@ -432,12 +834,34 @@
     "comments": 1,
     "createdAt": "2024-11-13",
     "updatedAt": "2024-12-31",
+    "lastActivityAt": "2024-12-31",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/25",
     "image": "",
     "author": {
       "login": "rootexpression",
       "avatar": "https://avatars.githubusercontent.com/u/19788955?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "rootexpression",
+        "avatar": "https://avatars.githubusercontent.com/u/19788955?v=4"
+      },
+      {
+        "login": "Chunchun-tian",
+        "avatar": "https://avatars.githubusercontent.com/u/56999025?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 1
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d3",
@@ -456,12 +880,34 @@
     "comments": 1,
     "createdAt": "2024-05-27",
     "updatedAt": "2024-07-17",
+    "lastActivityAt": "2024-07-17",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/3",
     "image": "",
     "author": {
       "login": "kevin-seeed",
       "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "kevin-seeed",
+        "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
+      },
+      {
+        "login": "CWGwaltney",
+        "avatar": "https://avatars.githubusercontent.com/u/154296902?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d17",
@@ -480,12 +926,34 @@
     "comments": 1,
     "createdAt": "2024-07-11",
     "updatedAt": "2024-07-17",
+    "lastActivityAt": "2024-07-17",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/17",
     "image": "",
     "author": {
       "login": "256ericpan",
       "avatar": "https://avatars.githubusercontent.com/u/20021559?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "256ericpan",
+        "avatar": "https://avatars.githubusercontent.com/u/20021559?v=4"
+      },
+      {
+        "login": "CWGwaltney",
+        "avatar": "https://avatars.githubusercontent.com/u/154296902?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d73",
@@ -504,12 +972,30 @@
     "comments": 0,
     "createdAt": "2026-08-18",
     "updatedAt": "2026-08-18",
+    "lastActivityAt": "2026-08-18",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/73",
     "image": "",
     "author": {
       "login": "peterk54",
       "avatar": "https://avatars.githubusercontent.com/u/38879818?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "peterk54",
+        "avatar": "https://avatars.githubusercontent.com/u/38879818?v=4"
+      }
+    ],
+    "participantCount": 1,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d19",
@@ -528,12 +1014,30 @@
     "comments": 0,
     "createdAt": "2024-07-23",
     "updatedAt": "2024-07-23",
+    "lastActivityAt": "2024-07-23",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/19",
     "image": "",
     "author": {
       "login": "256ericpan",
       "avatar": "https://avatars.githubusercontent.com/u/20021559?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "256ericpan",
+        "avatar": "https://avatars.githubusercontent.com/u/20021559?v=4"
+      }
+    ],
+    "participantCount": 1,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d4",
@@ -554,12 +1058,30 @@
     "comments": 0,
     "createdAt": "2024-05-27",
     "updatedAt": "2024-05-27",
+    "lastActivityAt": "2024-05-27",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/4",
     "image": "",
     "author": {
       "login": "kevin-seeed",
       "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "kevin-seeed",
+        "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
+      }
+    ],
+    "participantCount": 1,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d6",
@@ -580,12 +1102,58 @@
     "comments": 23,
     "createdAt": "2024-05-27",
     "updatedAt": "2026-08-28",
+    "lastActivityAt": "2026-08-28",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/6",
-    "image": "https://github.com/Seeed-Studio/XIAO_Series/assets/170942971/657f9680-1620-4554-8e7d-7b0576c3edb3",
+    "image": "",
     "author": {
       "login": "kevin-seeed",
       "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "kevin-seeed",
+        "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
+      },
+      {
+        "login": "PjGLasso",
+        "avatar": "https://avatars.githubusercontent.com/u/144751661?v=4"
+      },
+      {
+        "login": "Chunchun-tian",
+        "avatar": "https://avatars.githubusercontent.com/u/56999025?v=4"
+      },
+      {
+        "login": "meilily",
+        "avatar": "https://avatars.githubusercontent.com/u/111474938?v=4"
+      },
+      {
+        "login": "rei-vilo",
+        "avatar": "https://avatars.githubusercontent.com/u/951776?v=4"
+      },
+      {
+        "login": "SleepInfinity",
+        "avatar": "https://avatars.githubusercontent.com/u/161524919?v=4"
+      },
+      {
+        "login": "Lepoulpevert",
+        "avatar": "https://avatars.githubusercontent.com/u/45456850?v=4"
+      },
+      {
+        "login": "SEFitzstephe",
+        "avatar": "https://avatars.githubusercontent.com/u/20422933?v=4"
+      }
+    ],
+    "participantCount": 9,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 4,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d2",
@@ -606,12 +1174,50 @@
     "comments": 11,
     "createdAt": "2024-05-24",
     "updatedAt": "2024-09-04",
+    "lastActivityAt": "2024-09-04",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/2",
     "image": "https://github.com/Seeed-Projects/SeeedStudio_XIAO_Series/assets/37475446/2fd564ee-7fbf-4d8e-a1db-7dc54d28491d",
     "author": {
       "login": "limengdu",
       "avatar": "https://avatars.githubusercontent.com/u/37475446?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "limengdu",
+        "avatar": "https://avatars.githubusercontent.com/u/37475446?v=4"
+      },
+      {
+        "login": "pistachio101",
+        "avatar": "https://avatars.githubusercontent.com/u/163710212?v=4"
+      },
+      {
+        "login": "kevin-seeed",
+        "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
+      },
+      {
+        "login": "PjGLasso",
+        "avatar": "https://avatars.githubusercontent.com/u/144751661?v=4"
+      },
+      {
+        "login": "StuartsProjects",
+        "avatar": "https://avatars.githubusercontent.com/u/28686802?v=4"
+      },
+      {
+        "login": "Peterhj05",
+        "avatar": "https://avatars.githubusercontent.com/u/92696866?v=4"
+      }
+    ],
+    "participantCount": 6,
+    "seeedReplied": true,
+    "reactions": {
+      "thumbsUp": 3,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d20",
@@ -632,12 +1238,42 @@
     "comments": 18,
     "createdAt": "2024-07-29",
     "updatedAt": "2025-11-27",
+    "lastActivityAt": "2025-11-27",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/20",
     "image": "",
     "author": {
       "login": "rei-vilo",
       "avatar": "https://avatars.githubusercontent.com/u/951776?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "rei-vilo",
+        "avatar": "https://avatars.githubusercontent.com/u/951776?v=4"
+      },
+      {
+        "login": "limengdu",
+        "avatar": "https://avatars.githubusercontent.com/u/37475446?v=4"
+      },
+      {
+        "login": "CWGwaltney",
+        "avatar": "https://avatars.githubusercontent.com/u/154296902?v=4"
+      },
+      {
+        "login": "meilily",
+        "avatar": "https://avatars.githubusercontent.com/u/111474938?v=4"
+      }
+    ],
+    "participantCount": 4,
+    "seeedReplied": true,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d8",
@@ -656,12 +1292,34 @@
     "comments": 4,
     "createdAt": "2024-05-31",
     "updatedAt": "2024-12-31",
+    "lastActivityAt": "2024-09-27",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/8",
     "image": "",
     "author": {
       "login": "256ericpan",
       "avatar": "https://avatars.githubusercontent.com/u/20021559?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "256ericpan",
+        "avatar": "https://avatars.githubusercontent.com/u/20021559?v=4"
+      },
+      {
+        "login": "gmacario",
+        "avatar": "https://avatars.githubusercontent.com/u/75182?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d15",
@@ -682,12 +1340,42 @@
     "comments": 3,
     "createdAt": "2024-07-04",
     "updatedAt": "2024-10-28",
+    "lastActivityAt": "2024-10-28",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/15",
     "image": "https://github.com/Seeed-Studio/XIAO_Series/assets/170942971/dd990481-1df4-45e3-af62-c3a3e7566c32",
     "author": {
       "login": "kevin-seeed",
       "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "kevin-seeed",
+        "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
+      },
+      {
+        "login": "kkwestt",
+        "avatar": "https://avatars.githubusercontent.com/u/3273001?v=4"
+      },
+      {
+        "login": "Uspizig",
+        "avatar": "https://avatars.githubusercontent.com/u/56263335?v=4"
+      },
+      {
+        "login": "meilily",
+        "avatar": "https://avatars.githubusercontent.com/u/111474938?v=4"
+      }
+    ],
+    "participantCount": 4,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 2,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d9",
@@ -709,12 +1397,30 @@
     "comments": 1,
     "createdAt": "2024-06-04",
     "updatedAt": "2024-12-31",
+    "lastActivityAt": "2024-12-31",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/9",
     "image": "https://github.com/Seeed-Studio/XIAO_Series/assets/111474938/b1b9842d-bedb-47a7-8843-92417b0340df",
     "author": {
       "login": "meilily",
       "avatar": "https://avatars.githubusercontent.com/u/111474938?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "meilily",
+        "avatar": "https://avatars.githubusercontent.com/u/111474938?v=4"
+      }
+    ],
+    "participantCount": 1,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 1,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d7",
@@ -735,12 +1441,34 @@
     "comments": 2,
     "createdAt": "2024-05-27",
     "updatedAt": "2024-07-11",
+    "lastActivityAt": "2024-07-03",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/7",
     "image": "",
     "author": {
       "login": "meilily",
       "avatar": "https://avatars.githubusercontent.com/u/111474938?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "meilily",
+        "avatar": "https://avatars.githubusercontent.com/u/111474938?v=4"
+      },
+      {
+        "login": "gokuxmaker",
+        "avatar": "https://avatars.githubusercontent.com/u/64944561?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 1
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d5",
@@ -761,36 +1489,30 @@
     "comments": 0,
     "createdAt": "2024-05-27",
     "updatedAt": "2024-10-28",
+    "lastActivityAt": "2024-05-27",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/5",
     "image": "https://github.com/Seeed-Studio/XIAO_Series/assets/170942971/5adc0f8a-dbd6-4571-9eb1-eca73842cc63",
     "author": {
       "login": "kevin-seeed",
       "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
-    }
-  },
-  {
-    "id": "d30",
-    "number": 30,
-    "title": {
-      "en": "Pi Pico 2 uf2 file for RP2350",
-      "zh": "Pi Pico 2 uf2 file for RP2350"
     },
-    "excerpt": {
-      "en": "Hi all, I bought a Xiao RP2350 and am running Arduino code in it no problem. Now I want to run micropython in it, and the official guide https://wiki-seeedstudi",
-      "zh": "Hi all, I bought a Xiao RP2350 and am running Arduino code in it no problem. Now I want to run micropython in it, and the official guide https://wiki-seeedstudi"
+    "participants": [
+      {
+        "login": "kevin-seeed",
+        "avatar": "https://avatars.githubusercontent.com/u/170942971?v=4"
+      }
+    ],
+    "participantCount": 1,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
     },
-    "stage": "help",
-    "topics": [],
-    "votes": 0,
-    "comments": 5,
-    "createdAt": "2025-02-23",
-    "updatedAt": "2025-03-16",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/30",
-    "image": "",
-    "author": {
-      "login": "clovisf",
-      "avatar": "https://avatars.githubusercontent.com/u/989006?v=4"
-    }
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d40",
@@ -809,36 +1531,80 @@
     "comments": 2,
     "createdAt": "2025-11-20",
     "updatedAt": "2025-11-26",
+    "lastActivityAt": "2025-11-21",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/40",
     "image": "https://github.com/user-attachments/assets/2e9aa00d-dcce-4470-a538-3f1c8d9e6a87",
     "author": {
       "login": "WigandClone",
       "avatar": "https://avatars.githubusercontent.com/u/91802144?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "WigandClone",
+        "avatar": "https://avatars.githubusercontent.com/u/91802144?v=4"
+      },
+      {
+        "login": "gokuxmaker",
+        "avatar": "https://avatars.githubusercontent.com/u/64944561?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": true,
+    "closed": false
   },
   {
-    "id": "d36",
-    "number": 36,
+    "id": "d30",
+    "number": 30,
     "title": {
-      "en": "Wio Tracker L1 Pro datasheets",
-      "zh": "Wio Tracker L1 Pro datasheets"
+      "en": "Pi Pico 2 uf2 file for RP2350",
+      "zh": "Pi Pico 2 uf2 file for RP2350"
     },
     "excerpt": {
-      "en": "Hi I am looking for schematics and pinouts for the Wio Tracker L1 Pro, is there datasheets available somewhere? Thanks",
-      "zh": "Hi I am looking for schematics and pinouts for the Wio Tracker L1 Pro, is there datasheets available somewhere? Thanks"
+      "en": "Hi all, I bought a Xiao RP2350 and am running Arduino code in it no problem. Now I want to run micropython in it, and the official guide https://wiki-seeedstudi",
+      "zh": "Hi all, I bought a Xiao RP2350 and am running Arduino code in it no problem. Now I want to run micropython in it, and the official guide https://wiki-seeedstudi"
     },
     "stage": "help",
     "topics": [],
     "votes": 0,
-    "comments": 1,
-    "createdAt": "2025-07-10",
-    "updatedAt": "2025-07-10",
-    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/36",
+    "comments": 5,
+    "createdAt": "2025-02-23",
+    "updatedAt": "2025-03-16",
+    "lastActivityAt": "2025-03-16",
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/30",
     "image": "",
     "author": {
-      "login": "oltaco",
-      "avatar": "https://avatars.githubusercontent.com/u/37787853?v=4"
-    }
+      "login": "clovisf",
+      "avatar": "https://avatars.githubusercontent.com/u/989006?v=4"
+    },
+    "participants": [
+      {
+        "login": "clovisf",
+        "avatar": "https://avatars.githubusercontent.com/u/989006?v=4"
+      },
+      {
+        "login": "MrKohESP",
+        "avatar": "https://avatars.githubusercontent.com/u/123512275?v=4"
+      }
+    ],
+    "participantCount": 2,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d38",
@@ -857,12 +1623,72 @@
     "comments": 0,
     "createdAt": "2025-10-02",
     "updatedAt": "2025-10-02",
+    "lastActivityAt": "2025-10-02",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/38",
     "image": "",
     "author": {
       "login": "kparasha",
       "avatar": "https://avatars.githubusercontent.com/u/140921949?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "kparasha",
+        "avatar": "https://avatars.githubusercontent.com/u/140921949?v=4"
+      }
+    ],
+    "participantCount": 1,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
+  },
+  {
+    "id": "d36",
+    "number": 36,
+    "title": {
+      "en": "Wio Tracker L1 Pro datasheets",
+      "zh": "Wio Tracker L1 Pro datasheets"
+    },
+    "excerpt": {
+      "en": "Hi I am looking for schematics and pinouts for the Wio Tracker L1 Pro, is there datasheets available somewhere? Thanks",
+      "zh": "Hi I am looking for schematics and pinouts for the Wio Tracker L1 Pro, is there datasheets available somewhere? Thanks"
+    },
+    "stage": "help",
+    "topics": [],
+    "votes": 0,
+    "comments": 1,
+    "createdAt": "2025-07-10",
+    "updatedAt": "2025-07-10",
+    "lastActivityAt": "2025-07-10",
+    "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/36",
+    "image": "",
+    "author": {
+      "login": "oltaco",
+      "avatar": "https://avatars.githubusercontent.com/u/37787853?v=4"
+    },
+    "participants": [
+      {
+        "login": "oltaco",
+        "avatar": "https://avatars.githubusercontent.com/u/37787853?v=4"
+      }
+    ],
+    "participantCount": 1,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d35",
@@ -881,12 +1707,30 @@
     "comments": 0,
     "createdAt": "2025-06-23",
     "updatedAt": "2025-06-23",
+    "lastActivityAt": "2025-06-23",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/35",
     "image": "",
     "author": {
       "login": "Grkinator",
       "avatar": "https://avatars.githubusercontent.com/u/209876096?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "Grkinator",
+        "avatar": "https://avatars.githubusercontent.com/u/209876096?v=4"
+      }
+    ],
+    "participantCount": 1,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   },
   {
     "id": "d32",
@@ -905,11 +1749,29 @@
     "comments": 0,
     "createdAt": "2025-05-19",
     "updatedAt": "2025-05-19",
+    "lastActivityAt": "2025-05-19",
     "url": "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/32",
     "image": "",
     "author": {
       "login": "blondie63",
       "avatar": "https://avatars.githubusercontent.com/u/1261851?v=4"
-    }
+    },
+    "participants": [
+      {
+        "login": "blondie63",
+        "avatar": "https://avatars.githubusercontent.com/u/1261851?v=4"
+      }
+    ],
+    "participantCount": 1,
+    "seeedReplied": false,
+    "reactions": {
+      "thumbsUp": 0,
+      "hooray": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "answered": false,
+    "closed": false
   }
 ]

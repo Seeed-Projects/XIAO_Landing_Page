@@ -57,14 +57,15 @@ const HELP_STAGE = {
   },
 };
 
-/** Lifecycle progress shown on cards (wish → done). */
-const STAGE_PROGRESS = {
-  wish: { done: 1, total: 4 },
-  vote: { done: 2, total: 4 },
-  help: { done: 2, total: 4 },
-  dev: { done: 3, total: 4 },
-  done: { done: 4, total: 4 },
-};
+const REACTION_META = [
+  { key: "thumbsUp", emoji: "👍" },
+  { key: "hooray", emoji: "🎉" },
+  { key: "heart", emoji: "❤️" },
+  { key: "rocket", emoji: "🚀" },
+  { key: "eyes", emoji: "👀" },
+];
+
+const AVATAR_VISIBLE = 5;
 
 function relativeDate(iso, lang) {
   if (!iso) return "";
@@ -89,13 +90,31 @@ function relativeDate(iso, lang) {
       : `${years} years ago`;
 }
 
-function IdeaCard({ item, lang, progressLabel }) {
+function pickReactions(reactions) {
+  const list = REACTION_META.map((meta) => ({
+    ...meta,
+    count: (reactions && reactions[meta.key]) || 0,
+  })).filter((r) => r.count > 0);
+  if (list.length === 0) {
+    return [{ key: "thumbsUp", emoji: "👍", count: 0 }];
+  }
+  return list.slice(0, 3);
+}
+
+function IdeaCard({ item, lang, labels }) {
   const title = (item.title && (item.title[lang] || item.title.en)) || "";
   const excerpt = (item.excerpt && (item.excerpt[lang] || item.excerpt.en)) || "";
   const topics = item.topics || [];
-  const progress = STAGE_PROGRESS[item.stage] || STAGE_PROGRESS.wish;
-  const pct = Math.round((progress.done / progress.total) * 100);
-  const author = item.author;
+  const participants = item.participants || [];
+  const participantCount = item.participantCount || participants.length;
+  const visibleAvatars = participants.slice(0, AVATAR_VISIBLE);
+  const overflow = Math.max(0, participantCount - visibleAvatars.length);
+  const reactions = pickReactions(item.reactions);
+  const activityIso = item.lastActivityAt || item.updatedAt || item.createdAt;
+  const badges = [];
+  if (item.seeedReplied) badges.push({ key: "seeed", className: styles.badgeSeeed, text: labels.seeed });
+  if (item.answered) badges.push({ key: "answered", className: styles.badgeAnswered, text: labels.answered });
+  if (item.closed) badges.push({ key: "closed", className: styles.badgeClosed, text: labels.closed });
 
   return (
     <div className={styles.ideaSlot}>
@@ -105,15 +124,20 @@ function IdeaCard({ item, lang, progressLabel }) {
         target="_blank"
         rel="noopener noreferrer"
       >
-        {item.image ? (
-          <div className={styles.ideaCover}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={item.image} alt="" loading="lazy" />
-          </div>
-        ) : null}
         <div className={styles.ideaBody}>
-          <h3 className={styles.ideaTitle}>{title}</h3>
-          {excerpt ? <p className={styles.ideaExcerpt}>{excerpt}</p> : null}
+          <div className={styles.ideaHead}>
+            <div className={styles.ideaHeadText}>
+              <h3 className={styles.ideaTitle}>{title}</h3>
+              {excerpt ? <p className={styles.ideaExcerpt}>{excerpt}</p> : null}
+            </div>
+            {item.image ? (
+              <div className={styles.ideaThumb}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={item.image} alt="" loading="lazy" />
+              </div>
+            ) : null}
+          </div>
+
           {topics.length > 0 && (
             <div className={styles.topicRow}>
               {topics.map((topic) => (
@@ -123,50 +147,72 @@ function IdeaCard({ item, lang, progressLabel }) {
               ))}
             </div>
           )}
-          <div className={styles.progressBlock}>
-            <div className={styles.progressLabelRow}>
-              <span>{progressLabel}</span>
-              <span>
-                {progress.done}/{progress.total}
+
+          {badges.length > 0 && (
+            <div className={styles.badgeRow}>
+              {badges.map((badge) => (
+                <span key={badge.key} className={`${styles.badge} ${badge.className}`}>
+                  {badge.text}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <div className={styles.signalRow}>
+            <div className={styles.participantBlock}>
+              {visibleAvatars.length > 0 ? (
+                <div className={styles.avatarStack} aria-hidden="true">
+                  {visibleAvatars.map((person) =>
+                    person.avatar ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        key={person.login}
+                        src={person.avatar}
+                        alt=""
+                        title={person.login}
+                        loading="lazy"
+                        width={24}
+                        height={24}
+                      />
+                    ) : (
+                      <span key={person.login} className={styles.avatarFallback} title={person.login}>
+                        {(person.login || "?").slice(0, 1).toUpperCase()}
+                      </span>
+                    )
+                  )}
+                  {overflow > 0 ? <span className={styles.avatarMore}>+{overflow}</span> : null}
+                </div>
+              ) : null}
+              <span className={styles.participantLabel}>
+                {participantCount}{" "}
+                {participantCount === 1 ? labels.participant : labels.participants}
               </span>
             </div>
-            <div className={styles.progressTrack} aria-hidden="true">
-              <span className={styles.progressFill} style={{ width: `${pct}%` }} />
+            <div className={styles.reactionRow}>
+              {reactions.map((reaction) => (
+                <span key={reaction.key} className={styles.reaction}>
+                  <span aria-hidden="true">{reaction.emoji}</span>
+                  {reaction.count}
+                </span>
+              ))}
             </div>
           </div>
+
           <div className={styles.ideaFoot}>
-            <div className={styles.ideaStats}>
-              <span className={styles.stat} title="Votes">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M12 5l7 12H5L12 5z" fill="currentColor" />
-                </svg>
-                {item.votes}
-              </span>
-              <span className={styles.stat} title="Comments">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v6A2.5 2.5 0 0 1 16.5 15H11l-4 3.5V15H7.5A2.5 2.5 0 0 1 5 12.5v-6Z"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                {item.comments}
-              </span>
-              <span className={styles.statMuted}>{relativeDate(item.updatedAt, lang)}</span>
-            </div>
-            {author?.avatar ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                className={styles.authorAvatar}
-                src={author.avatar}
-                alt={author.login || ""}
-                title={author.login || ""}
-                loading="lazy"
-                width={28}
-                height={28}
-              />
-            ) : null}
+            <span className={styles.statMuted}>
+              {labels.active} {relativeDate(activityIso, lang)}
+            </span>
+            <span className={styles.stat} title="Comments">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v6A2.5 2.5 0 0 1 16.5 15H11l-4 3.5V15H7.5A2.5 2.5 0 0 1 5 12.5v-6Z"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              {item.comments}
+            </span>
           </div>
         </div>
       </a>
@@ -174,7 +220,7 @@ function IdeaCard({ item, lang, progressLabel }) {
   );
 }
 
-function StageColumn({ stage, items, lang, emptyLabel, progressLabel }) {
+function StageColumn({ stage, items, lang, emptyLabel, labels }) {
   const label = stage.label[lang] || stage.label.en;
   const blurb = stage.blurb[lang] || stage.blurb.en;
   const toneClass = styles[`tone_${stage.id}`] || "";
@@ -198,12 +244,7 @@ function StageColumn({ stage, items, lang, emptyLabel, progressLabel }) {
           <p className={`home-type-body ${styles.columnEmpty}`}>{emptyLabel}</p>
         ) : (
           items.map((item) => (
-            <IdeaCard
-              key={item.id}
-              item={item}
-              lang={lang}
-              progressLabel={progressLabel}
-            />
+            <IdeaCard key={item.id} item={item} lang={lang} labels={labels} />
           ))
         )}
       </div>
@@ -223,7 +264,21 @@ export function CommunityRoadmap() {
     btnSubmit: lang === "zh" ? "在 GitHub 提交想法" : "Submit an idea on GitHub",
     howItWorks: lang === "zh" ? "路线图如何运作" : "How the roadmap works",
     empty: lang === "zh" ? "这一阶段暂无条目。" : "No ideas in this stage yet.",
-    progress: lang === "zh" ? "推进进度" : "Progress",
+    seeed: lang === "zh" ? "Seeed 已回复" : "Seeed replied",
+    answered: lang === "zh" ? "已解答" : "Answered",
+    closed: lang === "zh" ? "已关闭" : "Closed",
+    participant: lang === "zh" ? "位参与者" : "participant",
+    participants: lang === "zh" ? "位参与者" : "participants",
+    active: lang === "zh" ? "活跃" : "Active",
+  };
+
+  const cardLabels = {
+    seeed: T.seeed,
+    answered: T.answered,
+    closed: T.closed,
+    participant: T.participant,
+    participants: T.participants,
+    active: T.active,
   };
 
   const byStage = useMemo(() => {
@@ -301,7 +356,7 @@ export function CommunityRoadmap() {
               items={byStage[stage.id]}
               lang={lang}
               emptyLabel={T.empty}
-              progressLabel={T.progress}
+              labels={cardLabels}
             />
           ))}
         </div>
@@ -324,12 +379,7 @@ export function CommunityRoadmap() {
               <p className={`home-type-body ${styles.columnEmpty}`}>{T.empty}</p>
             ) : (
               byStage.help.map((item) => (
-                <IdeaCard
-                  key={item.id}
-                  item={item}
-                  lang={lang}
-                  progressLabel={T.progress}
-                />
+                <IdeaCard key={item.id} item={item} lang={lang} labels={cardLabels} />
               ))
             )}
           </div>
