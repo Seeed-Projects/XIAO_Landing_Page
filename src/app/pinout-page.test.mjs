@@ -111,13 +111,12 @@ test("every board face has a diagram whose rows resolve to pins", () => {
   }
 });
 
-test("front and back diagram crops share one frame size", () => {
+test("front and back diagram crops share one frame width", () => {
   for (const board of uniqueBoards) {
     const front = board.diagram.front;
     const back = board.diagram.back;
-    if (front.width !== back.width || front.height !== back.height) continue;
+    if (front.width !== back.width) continue;
     assert.equal(front.crop.w, back.crop.w, `${board.id} crop width`);
-    assert.equal(front.crop.h, back.crop.h, `${board.id} crop height`);
   }
 });
 
@@ -125,13 +124,14 @@ test("diagram crop keeps the lower colour key", () => {
   for (const board of uniqueBoards) {
     for (const face of ["front", "back"]) {
       const diagram = board.diagram[face];
-      assert.equal(
-        diagram.crop.y + diagram.crop.h,
-        diagram.height,
-        `${board.id} ${face} crop reaches the bottom of the artwork`,
+      assert.ok(diagram.legend, `${board.id} ${face} missing colour key`);
+      assert.ok(
+        diagram.legend.y >= diagram.crop.y + diagram.crop.h - 8,
+        `${board.id} ${face} colour key stays below the pin crop`,
       );
     }
   }
+  assert.ok(BOARDS.samd21.diagram.front.crop.h < 520);
 });
 
 test("function primers exist in English and Chinese for every key", () => {
@@ -243,10 +243,12 @@ test("Pinout view stacks both faces, floats a pin card and drops the flip/side U
   assert.match(view, /placePinCard/);
   assert.doesNotMatch(view, /workBox\.height - 240/);
   assert.match(css, /5cm/);
-  assert.match(css, /diagramFrame/);
+  assert.match(css, /legendStrip/);
+  assert.match(view, /legendStrip/);
+  assert.match(css, /diagram-max-w/);
+  assert.match(view, /diagramMaxW/);
   assert.doesNotMatch(css, /\.padRight/);
   assert.doesNotMatch(view, /padRight/);
-  assert.match(view, /frameRatio/);
   assert.match(css, /@media \(max-width: 899px\)/);
   assert.match(css, /prefers-reduced-motion/);
 });

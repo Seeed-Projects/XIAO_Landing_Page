@@ -7,15 +7,20 @@
 .page * { box-sizing: border-box; }
 .page button { font: inherit; cursor: pointer; }
 .page :global(#pinout) {
-  padding-top: clamp(36px, 5vw, 56px);
-  padding-bottom: 28px;
+  padding-top: 12px;
+  padding-bottom: 4px;
+}
+.page :global(#pinout p) {
+  margin-top: 6px;
+  font-size: 15px;
+  line-height: 1.45;
 }
 
 .wrap {
   width: 100%;
   max-width: none;
   margin: 0 auto;
-  padding: 0 clamp(16px, 12vw, 5cm) 96px;
+  padding: 0 clamp(16px, 12vw, 5cm) 32px;
 }
 
 .toolbar,
@@ -181,9 +186,9 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  margin-top: 18px;
-  padding: 18px 12px 24px;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 10px 12px 12px;
   border: 1px solid var(--line-soft);
   clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
   background: linear-gradient(180deg, #fbfcfd 0%, #f4f7f9 100%);
@@ -197,7 +202,7 @@
   justify-content: space-between;
   gap: 12px;
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
 }
 .stageName {
   color: var(--ink-strong);
@@ -215,8 +220,19 @@
   text-transform: uppercase;
 }
 
+.diagramStack {
+  width: min(100%, var(--diagram-max-w, 100%));
+  max-width: 100%;
+  margin: 0 auto;
+}
 .diagramFrame {
   width: 100%;
+}
+.legendStrip {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
 }
 .diagram {
   display: block;

@@ -95,12 +95,13 @@ function sampleCode(pin, primer, framework) {
  * Official diagram with a click / highlight layer over its label rows.
  * 官方引脚图，叠加一层可点击、可高亮的标签行。
  */
-function DiagramStage({ diagram, board, selection, isDim, lang, face, onSelect, frameRatio }) {
-  const { crop, width, height, src, rows } = diagram;
+function DiagramStage({ diagram, board, selection, isDim, lang, face, onSelect }) {
+  const { crop, legend, width, height, src, rows } = diagram;
   const pinOf = (id) => board.pins.find((pin) => pin.id === id) || null;
   const rowLabel = (pin, id) => (pin ? (pin.kind === "onboard" ? onboardLabel(pin) : pin.names.silk) : id);
   return (
-    <div className={styles.diagramFrame} data-diagram-frame="1" style={{ aspectRatio: frameRatio }}>
+    <div className={styles.diagramStack}>
+    <div className={styles.diagramFrame} data-diagram-frame="1" style={{ aspectRatio: `${crop.w} / ${crop.h}` }}>
       <svg
         className={styles.diagram}
         viewBox={`${crop.x} ${crop.y} ${crop.w} ${crop.h}`}
@@ -158,6 +159,18 @@ function DiagramStage({ diagram, board, selection, isDim, lang, face, onSelect, 
         );
       })}
       </svg>
+    </div>
+    {legend && (
+      <svg
+        className={styles.legendStrip}
+        viewBox={`${legend.x} ${legend.y} ${legend.w} ${legend.h}`}
+        preserveAspectRatio="xMidYMid meet"
+        style={{ aspectRatio: `${legend.w} / ${legend.h}` }}
+        aria-hidden="true"
+      >
+        <image href={withBase(src)} width={width} height={height} />
+      </svg>
+    )}
     </div>
   );
 }
@@ -280,17 +293,11 @@ export function PinoutView() {
   const [sheetMode, setSheetMode] = useState(false);
   const [tableOpen, setTableOpen] = useState(false);
   const [cardPos, setCardPos] = useState({ top: 12, left: 12, width: 420, maxHeight: 560 });
+  const [diagramMaxW, setDiagramMaxW] = useState(null);
   const [announce, setAnnounce] = useState("");
 
   const boardId = boardChoice ?? (BOARDS[urlParams.board] ? urlParams.board : "samd21");
   const board = getBoard(boardId);
-  const frameRatio = useMemo(() => {
-    const front = board.diagram?.front?.crop;
-    const back = board.diagram?.back?.crop;
-    const width = Math.max(front?.w || 0, back?.w || 0);
-    const height = Math.max(front?.h || 0, back?.h || 0);
-    return width && height ? `${width} / ${height}` : "16 / 9";
-  }, [board]);
   const activeId = selection?.id ?? activeChoice ?? urlParams.pin;
   const categoryId = categoryChoice ?? categoryOf(boardId);
   const framework = frameworkChoice && board.frameworks.includes(frameworkChoice) ? frameworkChoice : board.frameworks[0];
@@ -445,6 +452,38 @@ export function PinoutView() {
     faceRefs[selection.face]?.current?.scrollIntoView({ block: "start", inline: "nearest" });
   }, [selection, sheetMode, boardId]);
 
+  useLayoutEffect(() => {
+    const fit = () => {
+      const el = workspaceRef.current;
+      if (!el) return;
+      const top = el.getBoundingClientRect().top;
+      const available = window.innerHeight - top - 12;
+      const workW = Math.max(160, el.clientWidth - 24);
+      const faceH = (face) => {
+        const spec = board.diagram?.[face];
+        const pin = spec?.crop;
+        if (!pin?.w || !pin?.h) return 0;
+        const pinH = workW * (pin.h / pin.w);
+        const key = spec.legend;
+        const legendH = key ? workW * (key.h / key.w) : 0;
+        return 34 + pinH + legendH;
+      };
+      const total = faceH("front") + faceH("back") + 10;
+      const scale = total > available && total > 0 ? available / total : 1;
+      setDiagramMaxW(scale >= 0.999 ? null : Math.max(160, Math.round(workW * scale)));
+    };
+    fit();
+    const node = workspaceRef.current;
+    if (!node) return undefined;
+    const observer = new ResizeObserver(fit);
+    observer.observe(node);
+    window.addEventListener("resize", fit);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", fit);
+    };
+  }, [board, boardId]);
+
   const pickBoard = (id) => {
     setBoardId(id);
     setSelection(null);
@@ -558,6 +597,7 @@ export function PinoutView() {
         <div
           className={styles.workspace}
           ref={workspaceRef}
+          style={diagramMaxW ? { "--diagram-max-w": `${diagramMaxW}px` } : undefined}
           onPointerDown={(event) => {
             if (event.target.closest("[data-pin-row], [data-pin-card], [data-summary], a, button, input")) return;
             setSelection(null);
@@ -580,7 +620,6 @@ export function PinoutView() {
                   isDim={isDim}
                   lang={lang}
                   face={face}
-                  frameRatio={frameRatio}
                   onSelect={selectPin}
                 />
               </div>

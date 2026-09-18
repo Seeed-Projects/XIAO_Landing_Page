@@ -1,5 +1,6 @@
 import { createPin } from "./schema.js";
 import { DEFAULT_FACTS } from "./footprint.js";
+import { DIAGRAM_LEGENDS } from "./diagram/legends.js";
 
 /**
  * Build a board from explicit, photo-measured layout.
@@ -58,23 +59,38 @@ export function defineBoard(spec) {
   };
 }
 
-/** Padding around pin labels when trimming empty side/top margins. 裁左右和上方空白时，引脚标签外再留的边距。 */
+/** Padding around pin labels / colour keys when trimming empty canvas. 裁空白时，引脚标签和图例外再留的边距。 */
 const DIAGRAM_CROP_PAD = 0.012;
 
+function padPx(size) {
+  return Math.round(size.width * DIAGRAM_CROP_PAD);
+}
+
 /**
- * Crop empty canvas around the artwork, keeping every colour block.
- * 只裁掉画布空白，引脚色块和底部图例都留下。
+ * Tight crop around pin colour blocks; drop empty canvas above and below.
+ * 贴着引脚色块裁，上下空白去掉。
  */
-function cropArt(size, rows) {
-  const pad = Math.round(size.width * DIAGRAM_CROP_PAD);
-  const minY = Math.min(...rows.flatMap((row) => row.boxes.map((box) => box.y)));
+function cropPins(size, rows) {
+  const pad = padPx(size);
+  const boxes = rows.flatMap((row) => row.boxes);
+  const minY = Math.min(...boxes.map((box) => box.y));
+  const maxY = Math.max(...boxes.map((box) => box.y + box.h));
   const y = Math.max(0, Math.round(minY - pad));
-  return {
-    x: 0,
-    y,
-    w: size.width,
-    h: size.height - y,
-  };
+  const bottom = Math.min(size.height, Math.round(maxY + pad));
+  return { x: 0, y, w: size.width, h: bottom - y };
+}
+
+/**
+ * Tight crop around the bottom colour key, including a short caption band.
+ * 贴着底部图例裁，并留下一小条说明文字。
+ */
+function cropLegend(size, key) {
+  if (!key) return null;
+  const pad = padPx(size);
+  const caption = Math.round(size.width * 0.03);
+  const y = Math.max(0, Math.round(key.y - pad));
+  const bottom = Math.min(size.height, Math.round(key.y + key.h + caption));
+  return { x: 0, y, w: size.width, h: bottom - y };
 }
 
 /**
@@ -103,7 +119,8 @@ export function buildDiagram(diagram, boardId) {
       src: spec.src,
       width: size.width,
       height: size.height,
-      crop: cropArt(size, rows),
+      crop: cropPins(size, rows),
+      legend: cropLegend(size, DIAGRAM_LEGENDS[boardId]?.[face]),
       rows,
     };
   }
@@ -112,9 +129,8 @@ export function buildDiagram(diagram, boardId) {
 }
 
 /**
- * Expand each face crop to the same pixel size so front and back render
- * at one shared scale inside identical frames.
- * 把正反面裁切扩成同一像素尺寸，两张图在同样大的框里、同一比例显示。
+ * Match front and back crop width so both faces share one horizontal scale.
+ * 正反面裁切宽度对齐，两张图同一水平比例。
  */
 function fitCrop(crop, width, height, imageWidth, imageHeight) {
   const nextW = Math.min(Math.max(width, crop.w), imageWidth);
@@ -143,13 +159,8 @@ function unifyDiagramCrops(diagram) {
     front.width,
     back.width,
   );
-  const height = Math.min(
-    Math.round(Math.max(front.crop.h, back.crop.h)),
-    front.height,
-    back.height,
-  );
-  front.crop = fitCrop(front.crop, width, height, front.width, front.height);
-  back.crop = fitCrop(back.crop, width, height, back.width, back.height);
+  front.crop = fitCrop(front.crop, width, front.crop.h, front.width, front.height);
+  back.crop = fitCrop(back.crop, width, back.crop.h, back.width, back.height);
 }
 
 /**
