@@ -21,6 +21,7 @@ import {
   pinMatchesQuery,
 } from "./data";
 import styles from "./pinout.module.css";
+import { placePinCard } from "./placePinCard.js";
 
 const STATUS_LABEL = {
   free: { en: "Free to use", zh: "空闲，可随意使用" },
@@ -162,7 +163,7 @@ function DiagramStage({ diagram, board, selection, isDim, lang, face, onSelect, 
 }
 
 function PinCard({
-  pin, board, framework, lang, zh, placement, style, onClose, onJump, copied, onCopy,
+  pin, board, framework, lang, zh, placement, style, onClose, onJump, copied, onCopy, cardRef,
 }) {
   const [openGuide, setOpenGuide] = useState("");
   const guides = functionKeysForPin(pin);
@@ -171,6 +172,7 @@ function PinCard({
   const fwName = codeName(pin, framework);
   return (
     <aside
+      ref={cardRef}
       className={`${styles.card} ${placement === "sheet" ? styles.cardSheet : styles.cardFloat}`}
       data-pin-card="1"
       style={{ "--pin-color": FN_COLOR[pin.fn], ...style }}
@@ -277,7 +279,7 @@ export function PinoutView() {
   const [copied, setCopied] = useState(false);
   const [sheetMode, setSheetMode] = useState(false);
   const [tableOpen, setTableOpen] = useState(false);
-  const [cardPos, setCardPos] = useState({ top: 12, left: 12 });
+  const [cardPos, setCardPos] = useState({ top: 12, left: 12, width: 420, maxHeight: 560 });
   const [announce, setAnnounce] = useState("");
 
   const boardId = boardChoice ?? (BOARDS[urlParams.board] ? urlParams.board : "samd21");
@@ -296,6 +298,7 @@ export function PinoutView() {
   const workspaceRef = useRef(null);
   const frontRef = useRef(null);
   const backRef = useRef(null);
+  const cardRef = useRef(null);
   const faceRefs = { front: frontRef, back: backRef };
   const menuRef = useRef(null);
 
@@ -399,22 +402,35 @@ export function PinoutView() {
       const row = diagram?.rows?.[selection.index];
       if (!workspace || !faceEl || !diagram || !row) return;
       const workBox = workspace.getBoundingClientRect();
-      const faceBox = faceEl.getBoundingClientRect();
       const frameEl = faceEl.querySelector("[data-diagram-frame]");
       const frameBox = (frameEl || faceEl).getBoundingClientRect();
-      const yRatio = (row.y - diagram.crop.y) / diagram.crop.h;
-      const width = Math.min(560, Math.max(420, workBox.width * 0.42));
-      let top = frameBox.top - workBox.top + yRatio * frameBox.height;
-      let left = selection.side === "left"
-        ? faceBox.left - workBox.left + faceBox.width + 12
-        : faceBox.left - workBox.left - width - 12;
-      top = Math.max(8, Math.min(top, workBox.height - 240));
-      left = Math.max(8, Math.min(left, workBox.width - width - 8));
-      setCardPos({ top, left, width });
+      const next = placePinCard({
+        workWidth: workBox.width,
+        workHeight: workBox.height,
+        workTop: workBox.top,
+        frameLeft: frameBox.left - workBox.left,
+        frameTop: frameBox.top - workBox.top,
+        frameWidth: frameBox.width,
+        frameHeight: frameBox.height,
+        crop: diagram.crop,
+        row,
+        side: selection.side,
+        viewportHeight: window.innerHeight,
+        cardHeight: cardRef.current?.getBoundingClientRect().height,
+      });
+      setCardPos((prev) => (
+        prev.top === next.top
+        && prev.left === next.left
+        && prev.width === next.width
+        && prev.maxHeight === next.maxHeight
+          ? prev
+          : next
+      ));
     };
     measure();
     const observer = new ResizeObserver(measure);
     if (workspaceRef.current) observer.observe(workspaceRef.current);
+    if (cardRef.current) observer.observe(cardRef.current);
     window.addEventListener("resize", measure);
     window.addEventListener("scroll", measure, true);
     return () => {
@@ -579,7 +595,8 @@ export function PinoutView() {
               lang={lang}
               zh={zh}
               placement="float"
-              style={{ top: cardPos.top, left: cardPos.left, width: cardPos.width }}
+              style={{ top: cardPos.top, left: cardPos.left, width: cardPos.width, maxHeight: cardPos.maxHeight }}
+              cardRef={cardRef}
               onClose={() => { setSelection(null); setActiveId(""); }}
               onJump={jumpTo}
               copied={copied}
