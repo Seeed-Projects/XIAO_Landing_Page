@@ -13,9 +13,9 @@
 
 .wrap {
   width: 100%;
-  max-width: 1600px;
+  max-width: none;
   margin: 0 auto;
-  padding: 0 28px 96px;
+  padding: 0 clamp(16px, 12vw, 5cm) 96px;
 }
 
 .toolbar,
@@ -183,15 +183,12 @@
   flex-direction: column;
   gap: 28px;
   margin-top: 18px;
-  padding: 18px 20px 24px;
+  padding: 18px 12px 24px;
   border: 1px solid var(--line-soft);
   clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
   background: linear-gradient(180deg, #fbfcfd 0%, #f4f7f9 100%);
   box-shadow: var(--shadow-card);
-  transition: padding 180ms ease;
 }
-.padRight { padding-right: min(360px, 34%); }
-.padLeft { padding-left: min(360px, 34%); }
 
 .faceBlock { width: 100%; scroll-margin-top: 88px; }
 .stageHead {
@@ -218,10 +215,13 @@
   text-transform: uppercase;
 }
 
+.diagramFrame {
+  width: 100%;
+}
 .diagram {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   overflow: hidden;
   border: 1px solid rgba(0, 73, 102, 0.08);
   background: #fff;
@@ -374,8 +374,6 @@
 
 @media (max-width: 899px) {
   .workspace { padding: 14px 10px 18px; }
-  .padRight,
-  .padLeft { padding-left: 10px; padding-right: 10px; }
   .cardFloat { display: none; }
   .fwSwitch button,
   .legendBtn { min-height: 0; }

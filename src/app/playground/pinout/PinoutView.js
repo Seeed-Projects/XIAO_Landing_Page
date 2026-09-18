@@ -94,18 +94,19 @@ function sampleCode(pin, primer, framework) {
  * Official diagram with a click / highlight layer over its label rows.
  * 官方引脚图，叠加一层可点击、可高亮的标签行。
  */
-function DiagramStage({ diagram, board, selection, isDim, lang, face, onSelect }) {
+function DiagramStage({ diagram, board, selection, isDim, lang, face, onSelect, frameRatio }) {
   const { crop, width, height, src, rows } = diagram;
   const pinOf = (id) => board.pins.find((pin) => pin.id === id) || null;
   const rowLabel = (pin, id) => (pin ? (pin.kind === "onboard" ? onboardLabel(pin) : pin.names.silk) : id);
   return (
-    <svg
-      className={styles.diagram}
-      viewBox={`${crop.x} ${crop.y} ${crop.w} ${crop.h}`}
-      style={{ aspectRatio: `${crop.w} / ${crop.h}` }}
-      role="group"
-      aria-label={lang === "zh" ? `${board.name} ${face === "front" ? "正面" : "背面"}引脚图` : `${board.name} ${face} pinout`}
-    >
+    <div className={styles.diagramFrame} data-diagram-frame="1" style={{ aspectRatio: frameRatio }}>
+      <svg
+        className={styles.diagram}
+        viewBox={`${crop.x} ${crop.y} ${crop.w} ${crop.h}`}
+        preserveAspectRatio="xMidYMid meet"
+        role="group"
+        aria-label={lang === "zh" ? `${board.name} ${face === "front" ? "正面" : "背面"}引脚图` : `${board.name} ${face} pinout`}
+      >
       <image href={withBase(src)} width={width} height={height} />
       {rows.map((row, index) => {
         const pin = pinOf(row.id);
@@ -155,7 +156,8 @@ function DiagramStage({ diagram, board, selection, isDim, lang, face, onSelect }
           </g>
         );
       })}
-    </svg>
+      </svg>
+    </div>
   );
 }
 
@@ -280,6 +282,13 @@ export function PinoutView() {
 
   const boardId = boardChoice ?? (BOARDS[urlParams.board] ? urlParams.board : "samd21");
   const board = getBoard(boardId);
+  const frameRatio = useMemo(() => {
+    const front = board.diagram?.front?.crop;
+    const back = board.diagram?.back?.crop;
+    const width = Math.max(front?.w || 0, back?.w || 0);
+    const height = Math.max(front?.h || 0, back?.h || 0);
+    return width && height ? `${width} / ${height}` : "16 / 9";
+  }, [board]);
   const activeId = selection?.id ?? activeChoice ?? urlParams.pin;
   const categoryId = categoryChoice ?? categoryOf(boardId);
   const framework = frameworkChoice && board.frameworks.includes(frameworkChoice) ? frameworkChoice : board.frameworks[0];
@@ -391,9 +400,11 @@ export function PinoutView() {
       if (!workspace || !faceEl || !diagram || !row) return;
       const workBox = workspace.getBoundingClientRect();
       const faceBox = faceEl.getBoundingClientRect();
+      const frameEl = faceEl.querySelector("[data-diagram-frame]");
+      const frameBox = (frameEl || faceEl).getBoundingClientRect();
       const yRatio = (row.y - diagram.crop.y) / diagram.crop.h;
       const width = Math.min(340, Math.max(260, workBox.width * 0.28));
-      let top = faceBox.top - workBox.top + yRatio * faceBox.height;
+      let top = frameBox.top - workBox.top + yRatio * frameBox.height;
       let left = selection.side === "left"
         ? faceBox.left - workBox.left + faceBox.width + 12
         : faceBox.left - workBox.left - width - 12;
@@ -529,7 +540,7 @@ export function PinoutView() {
         </div>
 
         <div
-          className={`${styles.workspace} ${selection && !sheetMode ? (selection.side === "left" ? styles.padRight : styles.padLeft) : ""}`}
+          className={styles.workspace}
           ref={workspaceRef}
           onPointerDown={(event) => {
             if (event.target.closest("[data-pin-row], [data-pin-card], [data-summary], a, button, input")) return;
@@ -553,6 +564,7 @@ export function PinoutView() {
                   isDim={isDim}
                   lang={lang}
                   face={face}
+                  frameRatio={frameRatio}
                   onSelect={selectPin}
                 />
               </div>

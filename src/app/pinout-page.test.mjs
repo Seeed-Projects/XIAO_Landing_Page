@@ -110,6 +110,15 @@ test("every board face has a diagram whose rows resolve to pins", () => {
   }
 });
 
+test("front and back diagram crops share one frame size", () => {
+  for (const board of uniqueBoards) {
+    const front = board.diagram.front.crop;
+    const back = board.diagram.back.crop;
+    assert.equal(front.w, back.w, `${board.id} crop width`);
+    assert.equal(front.h, back.h, `${board.id} crop height`);
+  }
+});
+
 test("function primers exist in English and Chinese for every key", () => {
   assert.deepEqual(FUNCTION_KEYS, [
     "i2c", "spi", "uart", "adc", "pwm", "dac", "power", "gnd", "rst", "debug", "battery", "wireless", "touch",
@@ -170,6 +179,11 @@ test("Pinout view stacks both faces, floats a pin card and drops the flip/side U
   assert.doesNotMatch(view, /function Strip/);
   assert.match(css, /cardFloat/);
   assert.match(css, /cardSheet/);
+  assert.match(css, /5cm/);
+  assert.match(css, /diagramFrame/);
+  assert.doesNotMatch(css, /\.padRight/);
+  assert.doesNotMatch(view, /padRight/);
+  assert.match(view, /frameRatio/);
   assert.match(css, /@media \(max-width: 899px\)/);
   assert.match(css, /prefers-reduced-motion/);
 });

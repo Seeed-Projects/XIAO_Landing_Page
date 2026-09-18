@@ -97,7 +97,41 @@ export function buildDiagram(diagram, boardId) {
       rows,
     };
   }
+  unifyDiagramCrops(out);
   return out;
+}
+
+/**
+ * Expand each face crop to the same pixel size so front and back render
+ * at one shared scale inside identical frames.
+ * 把正反面裁切扩成同一像素尺寸，两张图在同样大的框里、同一比例显示。
+ */
+function fitCrop(crop, width, height, imageWidth, imageHeight) {
+  const nextW = Math.min(width, imageWidth);
+  const nextH = Math.min(height, imageHeight);
+  const cx = crop.x + crop.w / 2;
+  const cy = crop.y + crop.h / 2;
+  const x = Math.max(0, Math.min(Math.round(cx - nextW / 2), imageWidth - nextW));
+  const y = Math.max(0, Math.min(Math.round(cy - nextH / 2), imageHeight - nextH));
+  return { x, y, w: nextW, h: nextH };
+}
+
+function unifyDiagramCrops(diagram) {
+  const front = diagram.front;
+  const back = diagram.back;
+  if (!front || !back) return;
+  const width = Math.min(
+    Math.round(Math.max(front.crop.w, back.crop.w)),
+    front.width,
+    back.width,
+  );
+  const height = Math.min(
+    Math.round(Math.max(front.crop.h, back.crop.h)),
+    front.height,
+    back.height,
+  );
+  front.crop = fitCrop(front.crop, width, height, front.width, front.height);
+  back.crop = fitCrop(back.crop, width, height, back.width, back.height);
 }
 
 /**
