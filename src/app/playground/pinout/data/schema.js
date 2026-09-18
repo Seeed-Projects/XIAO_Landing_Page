@@ -16,6 +16,8 @@ export const PIN_FN = ["power", "gnd", "rst", "digital", "analog", "i2c", "spi",
  * onboard：接到板载器件的芯片引脚，无焊盘，显示在板载行。
  */
 export const PIN_KIND = ["header", "pad", "onboard"];
+export const NOTE_LEVELS = ["danger", "caution", "info"];
+export const ALT_KEYS = ["adc", "i2c", "spi", "uart", "pwm", "other"];
 
 function gpioNumber(chip) {
   const match = String(chip || "").match(/GPIO\s*(\d+)/i);
@@ -59,6 +61,9 @@ export function createPin(spec) {
     desc,
     code: spec.code || "",
     occupiedBy: spec.occupiedBy || "",
+    notes: Array.isArray(spec.notes) ? spec.notes : [],
+    alt: spec.alt && typeof spec.alt === "object" ? spec.alt : {},
+    padIndex: spec.padIndex ?? null,
   };
 }
 
@@ -212,6 +217,16 @@ export function validateBoard(board) {
     const hasPad = Boolean(pin.pad) || Boolean(pin.pads && (pin.pads.front || pin.pads.back));
     if (pin.kind !== "onboard" && !hasPad) errors.push(`${board.id}/${pin.id}: missing pad coordinate`);
     if (pin.kind === "onboard" && hasPad) errors.push(`${board.id}/${pin.id}: onboard pin must not carry a pad`);
+    if (pin.padIndex != null && (!Number.isInteger(pin.padIndex) || pin.padIndex < 1)) {
+      errors.push(`${board.id}/${pin.id}: padIndex must be a positive integer`);
+    }
+    for (const note of pin.notes || []) {
+      if (!NOTE_LEVELS.includes(note.level)) errors.push(`${board.id}/${pin.id}: bad note level ${note.level}`);
+      if (!note.en || !note.zh) errors.push(`${board.id}/${pin.id}: note missing en/zh`);
+    }
+    for (const key of Object.keys(pin.alt || {})) {
+      if (!ALT_KEYS.includes(key)) errors.push(`${board.id}/${pin.id}: bad alt key ${key}`);
+    }
     for (const face of ["front", "back"]) {
       const pad = pin.pads?.[face];
       if (!pad) continue;

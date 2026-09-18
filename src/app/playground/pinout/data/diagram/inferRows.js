@@ -1,5 +1,64 @@
 import { laneOnSide, padOnSide } from "../schema.js";
 
+/**
+ * Re-group scanned boxes by height, then split into left / right columns
+ * with 2-means on box centres so paired pads at the same Y become two rows.
+ * 按高度重新分组，再用框中心的 2 均值切开左右列，让同一高度的左右焊盘各成一行。
+ */
+export function regroupDiagramLayout(layout) {
+  const all = [...layout.rows.left, ...layout.rows.right].flatMap((row) => row.boxes.map((box) => ({
+    ...box,
+    cy: box.y + box.h / 2,
+    cx: box.x + box.w / 2,
+  })));
+  const xs = all.map((box) => box.cx);
+  let leftMean = Math.min(...xs);
+  let rightMean = Math.max(...xs);
+  if (rightMean - leftMean < 80) {
+    leftMean = layout.content.x;
+    rightMean = layout.content.x + layout.content.w;
+  } else {
+    for (let i = 0; i < 8; i += 1) {
+      const leftXs = xs.filter((x) => Math.abs(x - leftMean) <= Math.abs(x - rightMean));
+      const rightXs = xs.filter((x) => Math.abs(x - leftMean) > Math.abs(x - rightMean));
+      if (!leftXs.length || !rightXs.length) break;
+      leftMean = leftXs.reduce((sum, x) => sum + x, 0) / leftXs.length;
+      rightMean = rightXs.reduce((sum, x) => sum + x, 0) / rightXs.length;
+    }
+  }
+  const center = (leftMean + rightMean) / 2;
+  const bands = [];
+  for (const box of [...all].sort((a, b) => a.cy - b.cy)) {
+    const band = bands.find((item) => Math.abs(item.cy - box.cy) < Math.max(box.h, 20) * 0.7);
+    if (band) {
+      band.boxes.push(box);
+      band.cy = (band.cy * (band.boxes.length - 1) + box.cy) / band.boxes.length;
+    } else {
+      bands.push({ cy: box.cy, boxes: [box] });
+    }
+  }
+  const toRow = (boxes) => ({
+    y: Math.round(boxes.reduce((sum, box) => sum + box.cy, 0) / boxes.length),
+    boxes: boxes.map(({ x, y, w, h, cat }) => ({ x, y, w, h, cat })),
+  });
+  const left = [];
+  const right = [];
+  for (const band of bands) {
+    const leftBoxes = band.boxes.filter((box) => box.cx < center);
+    const rightBoxes = band.boxes.filter((box) => box.cx >= center);
+    if (leftBoxes.length) left.push(toRow(leftBoxes));
+    if (rightBoxes.length) right.push(toRow(rightBoxes));
+  }
+  const used = [...left, ...right].flatMap((row) => row.boxes);
+  const content = used.length ? {
+    x: Math.min(...used.map((box) => box.x)),
+    y: Math.min(...used.map((box) => box.y)),
+    w: Math.max(...used.map((box) => box.x + box.w)) - Math.min(...used.map((box) => box.x)),
+    h: Math.max(...used.map((box) => box.y + box.h)) - Math.min(...used.map((box) => box.y)),
+  } : layout.content;
+  return { ...layout, content, rows: { left, right } };
+}
+
 /** A diagram row that maps to a castellated / power header pin. 对应排针或电源行的标签行。 */
 export function isHeaderDiagramRow(row) {
   const cats = new Set(row.boxes.map((box) => box.cat));
@@ -79,12 +138,9 @@ function assignBackRows(board, layout, backLeft = [], backRight = []) {
  * 根据扫描布局与板数据推断左右侧行 id。
  */
 export function inferDiagramRows(board, face, layout, options = {}) {
-  const { markerIds = [], backLeft = [], backRight = [], minBackRects = 24 } = options;
+  const { markerIds = [], backLeft = [], backRight = [] } = options;
 
   if (face === "back") {
-    if (options.rectCount && options.rectCount < minBackRects) {
-      throw new Error(`${board.id} back: only ${options.rectCount} rects — photo-style back, skip diagram`);
-    }
     return assignBackRows(board, layout, backLeft, backRight);
   }
 

@@ -2,6 +2,7 @@ import { BOARD_CATEGORIES } from "./footprint.js";
 import { BOARDS as RAW_BOARDS, BOARD_LIST as RAW_BOARD_LIST } from "./catalog.js";
 import { enrichBoard } from "./diagram/enrich.js";
 import { validateBoard } from "./schema.js";
+import { BOARD_FUNCTION_NOTES, BOARD_LINKS, FUNCTION_KEYS, FUNCTIONS, functionKeysForPin } from "./functions.js";
 
 export const BOARD_LIST = RAW_BOARD_LIST.map(enrichBoard);
 export const BOARDS = Object.fromEntries(BOARD_LIST.map((board) => [board.id, board]));
@@ -20,7 +21,10 @@ export {
   stripCells,
   extraCapLabel,
   validateBoard,
+  ALT_KEYS,
+  NOTE_LEVELS,
 } from "./schema.js";
+export { BOARD_FUNCTION_NOTES, BOARD_LINKS, FUNCTION_KEYS, FUNCTIONS, functionKeysForPin };
 
 export function getBoard(id) {
   return BOARDS[id] || BOARDS.samd21;

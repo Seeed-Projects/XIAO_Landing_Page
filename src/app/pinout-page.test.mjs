@@ -1,9 +1,21 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
-import { BOARD_CATEGORIES, BOARDS, laneOnSide, padOnSide, stripCells, validateAllBoards } from "./playground/pinout/data/index.js";
+import {
+  ALT_KEYS,
+  BOARD_CATEGORIES,
+  BOARD_LINKS,
+  BOARDS,
+  FUNCTION_KEYS,
+  FUNCTIONS,
+  laneOnSide,
+  padOnSide,
+  stripCells,
+  validateAllBoards,
+} from "./playground/pinout/data/index.js";
 
 const read = (name) => readFileSync(new URL(name, import.meta.url), "utf8");
+const uniqueBoards = BOARD_CATEGORIES.flatMap((item) => item.boardIds).map((id) => BOARDS[id]);
 
 test("every official XIAO board is present with unique valid pins", () => {
   const ids = BOARD_CATEGORIES.flatMap((item) => item.boardIds);
@@ -14,7 +26,7 @@ test("every official XIAO board is present with unique valid pins", () => {
 });
 
 test("boards expose facts, sized images and legal pin kinds", () => {
-  for (const board of Object.values(BOARDS)) {
+  for (const board of uniqueBoards) {
     assert.ok(board.facts.logic);
     assert.equal(typeof board.facts.fiveVTolerant, "boolean");
     assert.ok(board.facts.vbus.en);
@@ -59,28 +71,74 @@ test("SAMD21 reference layout: 14 header pads per face, mirrored lanes, measured
   assert.ok(onboard.every((pin) => pin.anchor?.side === "front"));
 });
 
-test("SAMD21 front diagram: every scanned label row maps to a real pin inside the crop", () => {
+test("SAMD21 diagrams: every scanned label row maps to a real pin inside the crop", () => {
   const board = BOARDS.samd21;
-  const diagram = board.diagram.front;
-  assert.ok(diagram.src.endsWith(".svg"), "diagram is the vector file");
-  assert.equal(diagram.width, 1920);
-  assert.equal(diagram.rows.length, 19);
-  assert.equal(diagram.rows.filter((row) => row.side === "left").length, 10);
-  const ids = new Set(board.pins.map((pin) => pin.id));
-  for (const row of diagram.rows) {
-    assert.ok(ids.has(row.id), `${row.id} exists on the board`);
-    assert.ok(row.boxes.length >= 1, `${row.id} has boxes`);
-    for (const box of row.boxes) {
-      assert.ok(box.x >= diagram.crop.x && box.x + box.w <= diagram.crop.x + diagram.crop.w, `${row.id} box inside crop (x)`);
-      assert.ok(box.y >= diagram.crop.y && box.y + box.h <= diagram.crop.y + diagram.crop.h, `${row.id} box inside crop (y)`);
+  for (const face of ["front", "back"]) {
+    const diagram = board.diagram[face];
+    assert.ok(diagram, `${face} diagram`);
+    assert.ok(diagram.src.endsWith(".svg"), `${face} is the vector file`);
+    const ids = new Set(board.pins.map((pin) => pin.id));
+    for (const row of diagram.rows) {
+      assert.ok(ids.has(row.id), `${face} ${row.id} exists on the board`);
+      assert.ok(row.boxes.length >= 1, `${row.id} has boxes`);
+      for (const box of row.boxes) {
+        assert.ok(box.x >= diagram.crop.x && box.x + box.w <= diagram.crop.x + diagram.crop.w, `${row.id} box inside crop (x)`);
+        assert.ok(box.y >= diagram.crop.y && box.y + box.h <= diagram.crop.y + diagram.crop.h, `${row.id} box inside crop (y)`);
+      }
     }
   }
-  // Header rows sit at the same height as the matching pad on the other side of the board.
-  // 排针行与板子另一侧对应的引脚行处于同一高度。
-  const rowY = (id) => diagram.rows.find((row) => row.id === id).y;
+  const front = board.diagram.front;
+  assert.equal(front.width, 1920);
+  assert.equal(front.rows.length, 19);
+  assert.equal(front.rows.filter((row) => row.side === "left").length, 10);
+  const rowY = (id) => front.rows.find((row) => row.id === id).y;
   assert.ok(Math.abs(rowY("D0") - rowY("5V")) <= 2);
   assert.ok(Math.abs(rowY("D6") - rowY("D7")) <= 2);
-  assert.equal(board.diagram.back, undefined);
+});
+
+test("every board face has a diagram whose rows resolve to pins", () => {
+  for (const board of uniqueBoards) {
+    const pinIds = new Set(board.pins.map((pin) => pin.id));
+    for (const face of ["front", "back"]) {
+      const diagram = board.diagram?.[face];
+      assert.ok(diagram, `${board.id} missing ${face} diagram`);
+      assert.ok(diagram.rows.length > 0, `${board.id} ${face} has rows`);
+      for (const row of diagram.rows) {
+        assert.ok(pinIds.has(row.id), `${board.id} ${face} unknown row ${row.id}`);
+      }
+    }
+  }
+});
+
+test("function primers exist in English and Chinese for every key", () => {
+  assert.deepEqual(FUNCTION_KEYS, [
+    "i2c", "spi", "uart", "adc", "pwm", "dac", "power", "gnd", "rst", "debug", "battery", "wireless", "touch",
+  ]);
+  for (const key of FUNCTION_KEYS) {
+    const primer = FUNCTIONS[key];
+    assert.ok(primer, key);
+    assert.ok(primer.title.en && primer.title.zh, `${key} title`);
+    assert.ok(primer.intro.en && primer.intro.zh, `${key} intro`);
+    assert.ok(primer.wiring.en && primer.wiring.zh, `${key} wiring`);
+    assert.ok(primer.code.arduino, `${key} arduino sample`);
+  }
+});
+
+test("every header pin has notes and legal alt keys", () => {
+  for (const board of uniqueBoards) {
+    assert.ok(BOARD_LINKS[board.id]?.wiki, `${board.id} wiki link`);
+    for (const pin of board.pins) {
+      if (pin.kind === "header") {
+        assert.ok(pin.notes?.length >= 1, `${board.id}/${pin.id} missing notes`);
+        for (const note of pin.notes) {
+          assert.ok(note.en && note.zh, `${board.id}/${pin.id} note bilingual`);
+        }
+      }
+      for (const key of Object.keys(pin.alt || {})) {
+        assert.ok(ALT_KEYS.includes(key), `${board.id}/${pin.id} bad alt ${key}`);
+      }
+    }
+  }
 });
 
 test("strip cells never repeat a name and collapse to capability labels", () => {
@@ -95,7 +153,7 @@ test("strip cells never repeat a name and collapse to capability labels", () => 
   assert.equal(stripCells(gnd, "arduino").chip, "");
 });
 
-test("Pinout view uses shared Home type roles, photo-relative overlay and docked drawer", () => {
+test("Pinout view stacks both faces, floats a pin card and drops the flip/side URL", () => {
   const view = read("./playground/pinout/PinoutView.js");
   const page = read("./playground/pinout/page.js");
   const css = read("./playground/pinout/pinout.module.css");
@@ -103,14 +161,15 @@ test("Pinout view uses shared Home type roles, photo-relative overlay and docked
   assert.match(view, /home-type-subtitle/);
   assert.match(view, /home-type-body/);
   assert.match(view, /home-type-action home-filled-action home-primary-cta/);
-  assert.match(view, /styles\.overlay/);
-  assert.match(view, /styles\.onboardRow/);
-  assert.match(view, /styles\.tag\b/);
-  assert.match(view, /laneTemplate/);
-  assert.match(view, /calibrate/);
-  assert.match(css, /rotateY\(180deg\)/);
-  assert.match(css, /--strip-scale/);
-  assert.match(css, /\.bodyDocked/);
+  assert.match(view, /function PinCard/);
+  assert.match(view, /\[\"front\", \"back\"\]/);
+  assert.match(view, /searchParams\.delete\(\"side\"\)/);
+  assert.match(view, /cardSheet/);
+  assert.match(view, /summaryRows/);
+  assert.doesNotMatch(view, /flipTo/);
+  assert.doesNotMatch(view, /function Strip/);
+  assert.match(css, /cardFloat/);
+  assert.match(css, /cardSheet/);
+  assert.match(css, /@media \(max-width: 899px\)/);
   assert.match(css, /prefers-reduced-motion/);
-  assert.match(css, /@media \(max-width: 1023px\)/);
 });

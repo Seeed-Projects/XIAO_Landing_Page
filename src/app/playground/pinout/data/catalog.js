@@ -115,6 +115,8 @@ const s3 = stdBoard({
   pad("MTDI", "MTDI", "digital", "GPIO41", "JTAG TDI (shares D12/GPIO41)", "JTAG TDI（与 D12/GPIO41 共用）", "esp32", { status: "conditional" }),
   pad("MTCK", "MTCK", "digital", "GPIO39", "JTAG TCK", "JTAG TCK", "esp32"),
   pad("MTMS", "MTMS", "digital", "GPIO42", "JTAG TMS (shares D11/GPIO42)", "JTAG TMS（与 D11/GPIO42 共用）", "esp32", { status: "conditional" }),
+  pad("USB_D+", "D+", "digital", "USB_DP", "USB data positive", "USB 数据正", "esp32"),
+  pad("USB_D-", "D-", "digital", "USB_DM", "USB data negative", "USB 数据负", "esp32"),
   ...batPair("esp32"),
 ]);
 
@@ -234,6 +236,8 @@ const nrf52 = stdBoard({
   onboard("USER_LED_B", "P0.06", "digital", "RGB LED Blue", "RGB LED 蓝", "nrf52"),
   pad("NFC1", "NFC1", "digital", "P0.09", "NFC Antenna 1", "NFC 天线 1", "nrf52"),
   pad("NFC2", "NFC2", "digital", "P0.10", "NFC Antenna 2", "NFC 天线 2", "nrf52"),
+  pad("SWCLK", "SWCLK", "digital", "SWCLK", "SWD debug clock", "SWD 调试时钟", "nrf52"),
+  pad("SWDIO", "SWDIO", "digital", "SWDIO", "SWD debug data", "SWD 调试数据", "nrf52"),
   onboard("ADC_BAT", "P0.14", "analog", "Battery Voltage ADC Enable", "电池电压 ADC 使能", "nrf52", { caps: { adc: "VBAT" } }),
   onboard("RF_SW_PORT", "P2.05", "digital", "RF Switch Port Select (onboard antenna)", "射频开关端口选择（板载天线）", "nrf52"),
   onboard("RF_SW_PWR", "P2.03", "digital", "RF Switch Power", "射频开关电源", "nrf52"),
@@ -342,6 +346,7 @@ const nrf54Pins = [
   onboard("IMU_SCL", "P0.07", "i2c", "IMU I2C SCL (Onboard IMU)", "IMU I2C SCL（板载 IMU）", "nrf54"),
   onboard("IMU_CS", "P3.12", "digital", "IMU Chip Select", "IMU 片选", "nrf54"),
   onboard("IMU_INT1", "P0.06", "digital", "IMU Interrupt 1", "IMU 中断 1", "nrf54"),
+  onboard("CHARGE_LED", "CHG", "power", "Charging Indicator LED", "充电指示灯", "nrf54"),
   pad("NFC1", "N1", "digital", "P1.02", "NFC Antenna Pin 1", "NFC 天线引脚 1", "nrf54"),
   pad("NFC2", "N2", "digital", "P1.01", "NFC Antenna Pin 2", "NFC 天线引脚 2", "nrf54"),
   ...[
@@ -425,8 +430,8 @@ const rp2350 = stdBoard({
   headerPin("D3", { silk: "CS", chip: "GPIO5", fn: "spi", caps: { spi: "CS" }, desc: "SPI0 Chip Select", descZh: "SPI0 片选", warning: note("RP2350 routes D3 to SPI0 CS instead of analog.", "RP2350 将 D3 用作 SPI0 片选，非模拟。"), code: "SPI.begin(SCK, MISO, MOSI, CS);" }, "rp"),
   headerPin("D11", { silk: "D11", chip: "GPIO21", fn: "uart", caps: { uart: "RX1" }, desc: "Digital 11 (UART1 RX)", descZh: "数字 11（UART1 接收）", side: "back" }, "rp"),
   headerPin("D12", { silk: "D12", chip: "GPIO20", fn: "uart", caps: { uart: "TX1" }, desc: "Digital 12 (UART1 TX)", descZh: "数字 12（UART1 发送）", side: "back" }, "rp"),
-  headerPin("D13", { silk: "D13", chip: "GPIO17", fn: "i2c", caps: { i2c: "SCL0" }, desc: "Digital 13 (I2C0 SCL)", descZh: "数字 13（I2C0 时钟）", side: "back" }, "rp"),
-  headerPin("D14", { silk: "D14", chip: "GPIO16", fn: "i2c", caps: { i2c: "SDA0" }, desc: "Digital 14 (I2C0 SDA)", descZh: "数字 14（I2C0 数据）", side: "back" }, "rp"),
+  headerPin("D13", { silk: "D13", chip: "GPIO17", fn: "i2c", caps: { i2c: "SDA0" }, desc: "Digital 13 (I2C0 SDA)", descZh: "数字 13（I2C0 数据）", side: "back" }, "rp"),
+  headerPin("D14", { silk: "D14", chip: "GPIO16", fn: "i2c", caps: { i2c: "SCL0" }, desc: "Digital 14 (I2C0 SCL)", descZh: "数字 14（I2C0 时钟）", side: "back" }, "rp"),
   headerPin("D15", { silk: "D15", chip: "GPIO11", fn: "spi", caps: { spi: "MOSI1" }, desc: "Digital 15 (SPI1 MOSI)", descZh: "数字 15（SPI1 主出从入）", side: "back" }, "rp"),
   headerPin("D16", { silk: "D16", chip: "GPIO12", fn: "spi", caps: { spi: "MISO1" }, desc: "Digital 16 (SPI1 MISO)", descZh: "数字 16（SPI1 主入从出）", side: "back" }, "rp"),
   headerPin("D17", { silk: "D17", chip: "GPIO10", fn: "spi", caps: { spi: "SCK1" }, desc: "Digital 17 (SPI1 SCK)", descZh: "数字 17（SPI1 时钟）", side: "back" }, "rp"),

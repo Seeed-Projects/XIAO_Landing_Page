@@ -5,7 +5,6 @@
 export const BOARD_DIAGRAM_META = {
   samd21: {
     markerIds: ["USER_LED", "POWER_LED", "TX_LED", "RX_LED", "RST"],
-    minBackRects: 24,
   },
   samd21plus: {
     markerIds: ["RGB_LED", "USER_BUTTON", "VBAT_EN", "AIN11_VBAT", "CHARGE_LED"],
@@ -17,22 +16,18 @@ export const BOARD_DIAGRAM_META = {
   c3: {
     markerIds: ["Boot", "UFL_ANT", "CHARGE_LED"],
     back: { left: ["MTDO", "GND", "MTCK", "3V3"], right: ["MTDI", "RST", "MTMS", "BAT-", "BAT+", "Boot"] },
-    minBackRects: 24,
   },
   c5: {
     markerIds: ["USER_LED", "Boot", "CHARGE_LED", "ADC_BAT", "ADC_CRL", "UFL_ANT"],
     back: { left: ["MTDO", "GND", "MTCK", "3V3"], right: ["MTDI", "RST", "MTMS", "Boot", "BAT-", "BAT+"] },
-    minBackRects: 24,
   },
   c6: {
     markerIds: ["USER_LED", "Boot", "RF_SW_PORT", "RF_SW_PWR"],
     back: { left: ["MTDO", "GND", "MTCK", "3V3"], right: ["MTDI", "RST", "MTMS", "Boot", "BAT-", "BAT+"] },
-    minBackRects: 24,
   },
   s3: {
     markerIds: ["USER_LED", "Boot", "UFL_ANT", "CHARGE_LED"],
     back: { left: ["MTDO", "GND", "MTCK", "3V3"], right: ["MTDI", "RST", "MTMS", "BAT-", "BAT+"] },
-    minBackRects: 24,
   },
   s3plus: {
     markerIds: ["USER_LED", "Boot", "CHARGE_LED"],
@@ -44,17 +39,14 @@ export const BOARD_DIAGRAM_META = {
   s3sense: {
     markerIds: ["USER_LED", "Boot", "UFL_ANT", "CHARGE_LED"],
     back: { left: ["MTDO", "GND", "MTCK", "3V3"], right: ["MTDI", "RST", "MTMS", "BAT-", "BAT+"] },
-    minBackRects: 24,
   },
   nrf52: {
     markerIds: ["USER_LED_R", "USER_LED_G", "USER_LED_B", "CHARGE_LED", "ADC_BAT", "RF_SW_PORT", "RF_SW_PWR"],
     back: { left: [], right: ["NFC1", "NFC2", "BAT-", "BAT+"] },
-    minBackRects: 24,
   },
   nrf52840sense: {
     markerIds: ["USER_LED_R", "USER_LED_G", "USER_LED_B", "CHARGE_LED", "IMU_INT1", "MIC_DATA", "MIC_CLK", "ADC_BAT", "RF_SW_PORT", "RF_SW_PWR"],
     back: { left: [], right: ["NFC1", "NFC2", "BAT-", "BAT+"] },
-    minBackRects: 24,
   },
   nrf52840plus: {
     markerIds: ["USER_LED_R", "USER_LED_G", "USER_LED_B", "CHARGE_LED", "IMU_INT1", "MIC_DATA", "MIC_CLK"],
@@ -101,7 +93,6 @@ export const BOARD_DIAGRAM_META = {
   rp2040: {
     markerIds: ["USER_LED_R", "USER_LED_G", "USER_LED_B", "Boot"],
     back: { left: ["SWCLK", "GND", "Boot"], right: ["SWDIO", "RST", "5V"] },
-    minBackRects: 24,
   },
   rp2040plus: {
     markerIds: ["USER_LED_R", "USER_LED_G", "USER_LED_B", "Boot", "BAT_ADC", "BAT_EN"],

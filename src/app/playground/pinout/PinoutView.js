@@ -6,23 +6,20 @@ import { useLang } from "../../i18n";
 import { withBase } from "../../../lib/basePath";
 import {
   BOARD_CATEGORIES,
+  BOARD_FUNCTION_NOTES,
+  BOARD_LINKS,
   BOARDS,
   FN_COLOR,
   FN_LABEL,
+  FUNCTIONS,
   LEGEND_ORDER,
-  STRIP_COLUMNS,
-  STRIP_TITLE,
-  STRIP_WIDTH,
-  anchorOnSide,
+  codeName,
+  functionKeysForPin,
   getBoard,
-  laneOnSide,
   localize,
-  padOnSide,
   pinHasFilter,
   pinMatchesQuery,
-  stripCells,
 } from "./data";
-import { FLIP_DELAY_MS, FLIP_MS, leaderPoints, roundedOrthogonalPath } from "./geometry";
 import styles from "./pinout.module.css";
 
 const STATUS_LABEL = {
@@ -32,27 +29,15 @@ const STATUS_LABEL = {
 };
 
 const CAP_LABEL = { adc: "ADC", dac: "DAC", i2c: "I²C", spi: "SPI", uart: "UART", pwm: "PWM", wake: "WAKE", touch: "TOUCH" };
-
-/**
- * Grid template for one lane; the left lane reads outward-to-board.
- * Widths scale with `--strip-scale` so narrow desktops can shrink the grid.
- * 单侧标签带网格模板，左侧由外向板；宽度乘以 `--strip-scale`，窄屏桌面可整体缩小。
- */
-const laneColumns = (lane) => (lane === "left" ? [...STRIP_COLUMNS].reverse() : STRIP_COLUMNS);
-const laneTemplate = (lane) => laneColumns(lane).map((key) => `calc(${STRIP_WIDTH[key]}px * var(--strip-scale, 1))`).join(" ");
+const NOTE_TONE = { danger: styles.noteDanger, caution: styles.noteCaution, info: styles.noteInfo };
+const ALT_ORDER = ["adc", "i2c", "spi", "uart", "pwm", "other"];
+const FRAMEWORK_LABEL = { arduino: "Arduino", micropython: "MicroPython", zephyr: "Zephyr", espidf: "ESP-IDF" };
 
 function parseParams(search) {
   const params = new URLSearchParams(search);
-  return {
-    board: params.get("board") || "",
-    side: params.get("side") || "",
-    pin: params.get("pin") || "",
-    calibrate: params.get("calibrate") === "1",
-  };
+  return { board: params.get("board") || "", pin: params.get("pin") || "" };
 }
 
-// URL search string as an external store: empty during SSR / hydration, live afterwards.
-// 把 URL 查询串当作外部数据源：服务端与水合阶段为空，之后读取真实值。
 const subscribeNoop = () => () => {};
 const readSearch = () => window.location.search;
 const readServerSearch = () => "";
@@ -60,99 +45,71 @@ const readClient = () => true;
 const readServer = () => false;
 const categoryOf = (boardId) => BOARD_CATEGORIES.find((item) => item.boardIds.includes(boardId))?.id || "samd";
 
-function writeParams(board, side, pin) {
+function writeParams(board, pin) {
   const url = new URL(window.location.href);
   url.searchParams.set("board", board);
-  url.searchParams.set("side", side);
+  url.searchParams.delete("side");
   if (pin) url.searchParams.set("pin", pin);
   else url.searchParams.delete("pin");
   window.history.replaceState(null, "", url);
 }
 
-function cellColor(key, pin) {
-  if (key === "silk" || key === "code" || key === "chip") return FN_COLOR[pin.fn];
-  if (key === "adc") return FN_COLOR.analog;
-  if (key === "i2c") return FN_COLOR.i2c;
-  if (key === "spi") return FN_COLOR.spi;
-  if (key === "uart") return FN_COLOR.uart;
-  return FN_COLOR.digital;
-}
-
-function imageRatio(image) {
-  return image?.width && image?.height ? image.width / image.height : 0.62;
-}
-
-function Strip({ pin, framework, active, dim, retract, lane, delay, onSelect, silkRef }) {
-  const cells = stripCells(pin, framework);
-  return (
-    <div
-      className={`${styles.strip} ${active ? styles.stripActive : ""} ${dim ? styles.stripDim : ""} ${retract ? styles.stripRetract : ""}`}
-      style={{ gridTemplateColumns: laneTemplate(lane), transitionDelay: retract ? "0ms" : `${delay}ms` }}
-    >
-      {laneColumns(lane).map((key) => {
-        const value = cells[key];
-        const isSilk = key === "silk";
-        return (
-          <button
-            key={key}
-            type="button"
-            ref={isSilk ? silkRef : undefined}
-            className={`${styles.cell} ${styles[`cell_${key}`] || ""} ${value ? "" : styles.cellEmpty} ${isSilk ? styles.cellSilk : ""} ${isSilk ? styles[pin.status] || "" : ""} ${value && !isSilk && key !== "code" && key !== "chip" ? styles.cellCap : ""}`}
-            style={{ "--cell-color": value ? cellColor(key, pin) : undefined }}
-            onClick={() => onSelect(pin.id)}
-            tabIndex={isSilk ? 0 : -1}
-            aria-label={isSilk ? `${pin.names.silk}, ${pin.names.chip}, ${pin.fn}, ${pin.status}` : undefined}
-          >
-            {value}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
-/** Display name for an onboard part: silk mark plus readable id. 板载器件显示名：丝印加可读 id。 */
 function onboardLabel(pin) {
   const name = pin.id.replaceAll("_", " ");
   return pin.names.silk && pin.names.silk !== "—" && pin.names.silk !== pin.id ? `${pin.names.silk} · ${name}` : name;
 }
 
-function LaneHead({ lane, lang }) {
-  return (
-    <div className={styles.laneHead} style={{ gridTemplateColumns: laneTemplate(lane) }} aria-hidden="true">
-      {laneColumns(lane).map((key) => (
-        <span key={key}>{localize(STRIP_TITLE[key], lang)}</span>
-      ))}
-    </div>
-  );
+function relatedPins(board, pin) {
+  const keys = ["i2c", "spi", "uart"].filter((key) => pin.fn === key || pin.caps?.[key]);
+  if (!keys.length) return [];
+  return board.pins.filter((item) => item.id !== pin.id && keys.some((key) => item.fn === key || item.caps?.[key]));
+}
+
+function summaryRows(board) {
+  const seen = new Set();
+  const rows = [];
+  for (const face of ["front", "back"]) {
+    for (const row of board.diagram?.[face]?.rows || []) {
+      if (seen.has(row.id)) continue;
+      const pin = board.pins.find((item) => item.id === row.id);
+      if (!pin) continue;
+      seen.add(row.id);
+      rows.push({ pin, face, side: row.side });
+    }
+  }
+  return rows;
+}
+
+function altCell(value) {
+  if (Array.isArray(value)) return value.filter(Boolean).join(" · ");
+  return value || "";
+}
+
+function sampleCode(pin, primer, framework) {
+  if (pin.code) return pin.code;
+  return primer?.code?.[framework] || primer?.code?.arduino || "";
 }
 
 /**
- * Official pinout diagram with a click / highlight layer over its label rows.
+ * Official diagram with a click / highlight layer over its label rows.
  * 官方引脚图，叠加一层可点击、可高亮的标签行。
- *
- * diagram: { src, width, height, crop, rows: [{ id, side, y, boxes }] } (image pixels)
- * diagram：{ src, width, height, crop, rows }，坐标均为图片像素。
  */
-function DiagramStage({ diagram, board, activeId, isDim, retract, lang, onSelect }) {
+function DiagramStage({ diagram, board, selection, isDim, lang, face, onSelect }) {
   const { crop, width, height, src, rows } = diagram;
   const pinOf = (id) => board.pins.find((pin) => pin.id === id) || null;
-  const rowLabel = (pin, id) => {
-    if (!pin) return id;
-    return pin.kind === "onboard" ? onboardLabel(pin) : pin.names.silk;
-  };
+  const rowLabel = (pin, id) => (pin ? (pin.kind === "onboard" ? onboardLabel(pin) : pin.names.silk) : id);
   return (
     <svg
-      className={`${styles.diagram} ${retract ? styles.overlayHidden : ""}`}
+      className={styles.diagram}
       viewBox={`${crop.x} ${crop.y} ${crop.w} ${crop.h}`}
       style={{ aspectRatio: `${crop.w} / ${crop.h}` }}
       role="group"
-      aria-label={lang === "zh" ? `${board.name} 引脚图` : `${board.name} pinout diagram`}
+      aria-label={lang === "zh" ? `${board.name} ${face === "front" ? "正面" : "背面"}引脚图` : `${board.name} ${face} pinout`}
     >
       <image href={withBase(src)} width={width} height={height} />
-      {rows.map((row) => {
+      {rows.map((row, index) => {
         const pin = pinOf(row.id);
-        const active = row.id === activeId;
+        const active = selection?.face === face && selection?.index === index && selection?.id === row.id;
         const dim = pin ? isDim(pin) : false;
         const left = Math.min(...row.boxes.map((box) => box.x));
         const right = Math.max(...row.boxes.map((box) => box.x + box.w));
@@ -161,11 +118,12 @@ function DiagramStage({ diagram, board, activeId, isDim, retract, lang, onSelect
         const activate = (event) => {
           if (event.type === "keydown" && event.key !== "Enter" && event.key !== " ") return;
           event.preventDefault();
-          onSelect(row.id);
+          onSelect({ face, side: row.side, index, id: row.id });
         };
         return (
           <g
-            key={row.id}
+            key={`${row.side}-${index}-${row.id}`}
+            data-pin-row="1"
             className={`${styles.diagramRow} ${active ? styles.diagramRowActive : ""} ${dim ? styles.diagramRowDim : ""}`}
             style={{ "--pin-color": FN_COLOR[pin?.fn] || "#0f172a" }}
             role="button"
@@ -187,9 +145,9 @@ function DiagramStage({ diagram, board, activeId, isDim, retract, lang, onSelect
                 ? `${right + 6},${top - 1} ${right + 14},${(top + bottom) / 2} ${right + 6},${bottom + 1}`
                 : `${left - 6},${top - 1} ${left - 14},${(top + bottom) / 2} ${left - 6},${bottom + 1}`}
             />
-            {row.boxes.map((box, index) => (
+            {row.boxes.map((box, boxIndex) => (
               <polygon
-                key={index}
+                key={boxIndex}
                 className={styles.diagramBox}
                 points={`${box.x + 5},${box.y} ${box.x + box.w},${box.y} ${box.x + box.w},${box.y + box.h} ${box.x},${box.y + box.h} ${box.x},${box.y + 5}`}
               />
@@ -201,149 +159,179 @@ function DiagramStage({ diagram, board, activeId, isDim, retract, lang, onSelect
   );
 }
 
+function PinCard({
+  pin, board, framework, lang, zh, placement, style, onClose, onJump, copied, onCopy,
+}) {
+  const [openGuide, setOpenGuide] = useState("");
+  const guides = functionKeysForPin(pin);
+  const related = relatedPins(board, pin);
+  const links = BOARD_LINKS[board.id] || {};
+  const fwName = codeName(pin, framework);
+  return (
+    <aside
+      className={`${styles.card} ${placement === "sheet" ? styles.cardSheet : styles.cardFloat}`}
+      data-pin-card="1"
+      style={{ "--pin-color": FN_COLOR[pin.fn], ...style }}
+    >
+      <div className={styles.cardHead}>
+        <div>
+          <h2 className="home-type-subtitle">{pin.kind === "onboard" ? onboardLabel(pin) : pin.names.silk}</h2>
+          <p className={styles.cardMeta}>
+            {pin.names.arduino && pin.names.arduino !== pin.names.silk ? `Arduino ${pin.names.arduino} · ` : ""}
+            {zh ? "芯片" : "Chip"} {pin.names.chip}
+            {fwName ? ` · ${FRAMEWORK_LABEL[framework] || framework} ${fwName}` : ""}
+            {pin.padIndex ? ` · #${pin.padIndex}` : ""}
+          </p>
+          <span className={`${styles.status} ${styles[pin.status] || ""}`}>{localize(STATUS_LABEL[pin.status], lang)}</span>
+        </div>
+        <button type="button" className={styles.close} onClick={onClose} aria-label={zh ? "关闭" : "Close"}>×</button>
+      </div>
+      <p className={`home-type-body ${styles.cardDesc}`}>{localize(pin.desc, lang)}</p>
+      {pin.notes?.length > 0 && (
+        <ul className={styles.notes}>
+          {pin.notes.map((note) => (
+            <li key={note.en} className={NOTE_TONE[note.level] || styles.noteInfo}>{lang === "zh" ? note.zh : note.en}</li>
+          ))}
+        </ul>
+      )}
+      {Object.keys(pin.alt || {}).length > 0 && (
+        <table className={styles.altTable}>
+          <thead>
+            <tr>{ALT_ORDER.filter((key) => pin.alt[key]).map((key) => <th key={key}>{key === "other" ? (zh ? "其它" : "Other") : key.toUpperCase()}</th>)}</tr>
+          </thead>
+          <tbody>
+            <tr>{ALT_ORDER.filter((key) => pin.alt[key]).map((key) => <td key={key}>{altCell(pin.alt[key])}</td>)}</tr>
+          </tbody>
+        </table>
+      )}
+      {guides.map((key) => {
+        const primer = FUNCTIONS[key];
+        const boardNote = BOARD_FUNCTION_NOTES[board.id]?.[key];
+        const open = openGuide === key;
+        return (
+          <div key={key} className={styles.guide}>
+            <button type="button" className={styles.guideToggle} onClick={() => setOpenGuide(open ? "" : key)}>
+              {localize(primer.title, lang)}
+              <span>{open ? "−" : "+"}</span>
+            </button>
+            {open && (
+              <div className={styles.guideBody}>
+                <p className="home-type-body">{localize(primer.intro, lang)}</p>
+                <p className="home-type-body">{localize(primer.wiring, lang)}</p>
+                {boardNote && <p className={styles.boardNote}>{localize(boardNote, lang)}</p>}
+                {primer.pitfalls?.map((item) => (
+                  <p key={item.en} className={styles.pitfall}>{localize(item, lang)}</p>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+      {(() => {
+        const primer = FUNCTIONS[guides[0]];
+        const code = sampleCode(pin, primer, framework);
+        if (!code) return null;
+        return (
+          <>
+            <pre className={styles.code}>{code}</pre>
+            <button type="button" className={`home-type-action home-filled-action home-primary-cta ${styles.copy}`} onClick={() => onCopy(code)}>
+              {copied ? (zh ? "已复制" : "Copied") : (zh ? "复制代码" : "Copy code")}
+            </button>
+          </>
+        );
+      })()}
+      {related.length > 0 && (
+        <div className={styles.related}>
+          <p className={styles.relatedLabel}>{zh ? "同总线相关引脚" : "Same bus"}</p>
+          <div className={styles.relatedList}>
+            {related.map((item) => (
+              <button key={item.id} type="button" onClick={() => onJump(item.id)}>{item.names.silk}</button>
+            ))}
+          </div>
+        </div>
+      )}
+      <div className={styles.cardLinks}>
+        {links.wiki && <a href={links.wiki} target="_blank" rel="noreferrer">{zh ? "Wiki 文档" : "Board wiki"}</a>}
+        {links.schematic && <a href={links.schematic} target="_blank" rel="noreferrer">{zh ? "原理图" : "Schematic"}</a>}
+      </div>
+    </aside>
+  );
+}
+
 export function PinoutView() {
   const { lang } = useLang();
   const zh = lang === "zh";
-  // User choices override URL parameters; null means "not chosen yet".
-  // 用户选择优先于 URL 参数；null 表示尚未选择。
   const hydrated = useSyncExternalStore(subscribeNoop, readClient, readServer);
   const search = useSyncExternalStore(subscribeNoop, readSearch, readServerSearch);
   const urlParams = useMemo(() => parseParams(search), [search]);
   const [boardChoice, setBoardId] = useState(null);
-  const [sideChoice, setSide] = useState(null);
   const [activeChoice, setActiveId] = useState(null);
+  const [selection, setSelection] = useState(null);
   const [categoryChoice, setCategoryId] = useState(null);
   const [filter, setFilter] = useState("");
   const [query, setQuery] = useState("");
   const [frameworkChoice, setFramework] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [flipping, setFlipping] = useState(false);
-  const [retract, setRetract] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [lines, setLines] = useState([]);
-  const [calibrated, setCalibrated] = useState({});
-  const [reduceMotion, setReduceMotion] = useState(false);
+  const [sheetMode, setSheetMode] = useState(false);
+  const [tableOpen, setTableOpen] = useState(false);
+  const [cardPos, setCardPos] = useState({ top: 12, left: 12 });
   const [announce, setAnnounce] = useState("");
 
   const boardId = boardChoice ?? (BOARDS[urlParams.board] ? urlParams.board : "samd21");
-  const side = sideChoice ?? (urlParams.side === "back" ? "back" : "front");
-  const activeId = activeChoice ?? urlParams.pin;
-  const categoryId = categoryChoice ?? categoryOf(boardId);
-  const calibrateOn = urlParams.calibrate && process.env.NODE_ENV !== "production";
-
   const board = getBoard(boardId);
+  const activeId = selection?.id ?? activeChoice ?? urlParams.pin;
+  const categoryId = categoryChoice ?? categoryOf(boardId);
   const framework = frameworkChoice && board.frameworks.includes(frameworkChoice) ? frameworkChoice : board.frameworks[0];
-  const workspaceRef = useRef(null);
-  const overlayRef = useRef(null);
-  const padRefs = useRef({});
-  const silkRefs = useRef({});
-  const menuRef = useRef(null);
-  const flipTimer = useRef([]);
-
-  // Pins with a pad on the current face, carrying that face's lane / order.
-  // 当前面上有焊盘的引脚，并带上该面的标签带侧与顺序。
-  const facePins = useMemo(() => {
-    return board.pins
-      .map((pin) => ({ ...pin, _pad: padOnSide(pin, side), ...laneOnSide(pin, side) }))
-      .filter((pin) => pin._pad)
-      .sort((a, b) => a.order - b.order);
-  }, [board, side]);
-
-  const stripPins = useMemo(() => facePins.filter((pin) => pin.kind === "header" && pin.lane), [facePins]);
-  const tagPins = facePins.filter((pin) => !(pin.kind === "header" && pin.lane));
-  const leftPins = stripPins.filter((pin) => pin.lane === "left");
-  const rightPins = stripPins.filter((pin) => pin.lane === "right");
-  const onboardPins = useMemo(() => board.pins.filter((pin) => pin.kind === "onboard" && (anchorOnSide(pin, side) || (!pin.anchor && side === "front"))), [board, side]);
   const activePin = board.pins.find((pin) => pin.id === activeId) || null;
-  const matches = query ? board.pins.filter((pin) => pinMatchesQuery(pin, query)) : [];
+  const workspaceRef = useRef(null);
+  const frontRef = useRef(null);
+  const backRef = useRef(null);
+  const faceRefs = { front: frontRef, back: backRef };
+  const menuRef = useRef(null);
+
   const isDim = useCallback(
     (pin) => Boolean((filter && !pinHasFilter(pin, filter)) || (query && !pinMatchesQuery(pin, query))),
     [filter, query],
   );
+  const matches = query ? board.pins.filter((pin) => pinMatchesQuery(pin, query)) : [];
 
-  const frontRatio = imageRatio(board.images.front);
-  const backRatio = imageRatio(board.images.back);
-  const stageRatio = Math.min(frontRatio, backRatio);
-
-  const backOnly = useMemo(() => {
-    return board.pins
-      .filter((pin) => pin.pads?.back && !pin.pads?.front)
-      .map((pin) => pin.names.silk)
-      .filter((name, index, all) => name && name !== "—" && all.indexOf(name) === index)
-      .slice(0, 6)
-      .join(" · ");
+  const findRow = useCallback((id, preferredFace) => {
+    for (const face of preferredFace ? [preferredFace, "front", "back"] : ["front", "back"]) {
+      const rows = board.diagram?.[face]?.rows || [];
+      const index = rows.findIndex((row) => row.id === id);
+      if (index >= 0) return { face, side: rows[index].side, index, id };
+    }
+    return id ? { face: "front", side: "right", index: -1, id } : null;
   }, [board]);
 
-  const clearFlipTimers = () => {
-    flipTimer.current.forEach((id) => window.clearTimeout(id));
-    flipTimer.current = [];
-  };
-
-  const flipTo = useCallback((next, pinAfter) => {
-    if (next === side) {
-      if (pinAfter) setActiveId(pinAfter);
-      return;
-    }
-    if (flipping) return;
-    const stays = activePin && (padOnSide(activePin, next) || activePin.kind === "onboard");
-    const keep = pinAfter || (stays ? activePin.id : "");
-    const message = next === "back" ? (zh ? "已翻到背面" : "Showing the back") : (zh ? "已翻到正面" : "Showing the front");
-    if (reduceMotion) {
-      setSide(next);
-      setActiveId(keep);
-      setAnnounce(message);
-      return;
-    }
-    setFlipping(true);
-    setRetract(true);
-    if (!keep) setActiveId("");
-    clearFlipTimers();
-    flipTimer.current.push(window.setTimeout(() => setSide(next), FLIP_DELAY_MS));
-    flipTimer.current.push(window.setTimeout(() => {
-      setRetract(false);
-      setFlipping(false);
-      if (keep) setActiveId(keep);
-      setAnnounce(message);
-    }, FLIP_DELAY_MS + FLIP_MS));
-  }, [side, flipping, activePin, reduceMotion, zh]);
-
-  const setActive = useCallback((id) => {
-    if (!id || id === activeId) {
+  const selectPin = useCallback((next) => {
+    if (!next?.id || (selection && selection.id === next.id && selection.face === next.face && selection.index === next.index)) {
+      setSelection(null);
       setActiveId("");
       return;
     }
-    const pin = board.pins.find((item) => item.id === id);
-    if (!pin) return;
-    if (pin.kind === "onboard") {
-      const anchorSide = pin.anchor?.side;
-      if (anchorSide && anchorSide !== "both" && anchorSide !== side) {
-        flipTo(anchorSide, id);
-        return;
-      }
-      setActiveId(id);
-      return;
-    }
-    if (!padOnSide(pin, side)) {
-      flipTo(side === "front" ? "back" : "front", id);
-      return;
-    }
-    setActiveId(id);
-  }, [activeId, board, side, flipTo]);
+    setSelection(next);
+    setActiveId(next.id);
+  }, [selection]);
 
-  useEffect(() => () => clearFlipTimers(), []);
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setReduceMotion(media.matches);
-    sync();
-    media.addEventListener("change", sync);
-    return () => media.removeEventListener("change", sync);
-  }, []);
+  const jumpTo = useCallback((id) => {
+    const next = findRow(id, selection?.face);
+    if (next) selectPin(next);
+  }, [findRow, selectPin, selection]);
 
   useEffect(() => {
     if (!hydrated) return;
-    writeParams(boardId, side, activeId);
-  }, [hydrated, boardId, side, activeId]);
+    writeParams(boardId, activeId);
+  }, [hydrated, boardId, activeId]);
+
+  useEffect(() => {
+    if (!hydrated || !urlParams.pin) return;
+    setSelection((current) => {
+      if (current?.id === urlParams.pin) return current;
+      return findRow(urlParams.pin) || current;
+    });
+  }, [hydrated, boardId, findRow, urlParams.pin]);
 
   useEffect(() => {
     if (!menuOpen) return undefined;
@@ -364,12 +352,21 @@ export function PinoutView() {
   useEffect(() => {
     const onKey = (event) => {
       if (event.key === "Escape") {
+        setSelection(null);
         setActiveId("");
         setQuery("");
       }
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 899px)");
+    const sync = () => setSheetMode(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
   }, []);
 
   useEffect(() => {
@@ -384,97 +381,68 @@ export function PinoutView() {
     return () => { preloaded.length = 0; };
   }, []);
 
-  // Leader lines run from each pad centre to the inner edge of its strip.
-  // 引出线从焊盘圆心连到标签带靠板一侧的边。
   useLayoutEffect(() => {
     const measure = () => {
+      if (sheetMode || !selection || selection.index < 0) return;
       const workspace = workspaceRef.current;
-      if (!workspace) return;
-      const box = workspace.getBoundingClientRect();
-      const next = stripPins.map((pin) => {
-        const padEl = padRefs.current[pin.id];
-        const silkEl = silkRefs.current[pin.id];
-        if (!padEl || !silkEl) return null;
-        const padBox = padEl.getBoundingClientRect();
-        const silkBox = silkEl.getBoundingClientRect();
-        const from = { x: padBox.left + padBox.width / 2 - box.left, y: padBox.top + padBox.height / 2 - box.top };
-        const to = {
-          x: pin.lane === "left" ? silkBox.right - box.left : silkBox.left - box.left,
-          y: silkBox.top + silkBox.height / 2 - box.top,
-        };
-        return {
-          id: pin.id,
-          d: roundedOrthogonalPath(leaderPoints(from, to, pin.lane)),
-          color: FN_COLOR[pin.fn],
-          active: pin.id === activeId,
-          dim: isDim(pin),
-        };
-      }).filter(Boolean);
-      setLines(next);
+      const faceEl = faceRefs[selection.face]?.current;
+      const diagram = board.diagram?.[selection.face];
+      const row = diagram?.rows?.[selection.index];
+      if (!workspace || !faceEl || !diagram || !row) return;
+      const workBox = workspace.getBoundingClientRect();
+      const faceBox = faceEl.getBoundingClientRect();
+      const yRatio = (row.y - diagram.crop.y) / diagram.crop.h;
+      const width = Math.min(340, Math.max(260, workBox.width * 0.28));
+      let top = faceBox.top - workBox.top + yRatio * faceBox.height;
+      let left = selection.side === "left"
+        ? faceBox.left - workBox.left + faceBox.width + 12
+        : faceBox.left - workBox.left - width - 12;
+      top = Math.max(8, Math.min(top, workBox.height - 120));
+      left = Math.max(8, Math.min(left, workBox.width - width - 8));
+      setCardPos({ top, left, width });
     };
     measure();
     const observer = new ResizeObserver(measure);
     if (workspaceRef.current) observer.observe(workspaceRef.current);
     window.addEventListener("resize", measure);
+    window.addEventListener("scroll", measure, true);
     return () => {
       observer.disconnect();
       window.removeEventListener("resize", measure);
+      window.removeEventListener("scroll", measure, true);
     };
-  }, [stripPins, isDim, activeId, side, retract, boardId]);
+  }, [sheetMode, selection, board, boardId]);
+
+  useLayoutEffect(() => {
+    if (!selection || !sheetMode) return;
+    faceRefs[selection.face]?.current?.scrollIntoView({ block: "start", inline: "nearest" });
+  }, [selection, sheetMode, boardId]);
 
   const pickBoard = (id) => {
     setBoardId(id);
+    setSelection(null);
     setActiveId("");
-    setSide("front");
     setMenuOpen(false);
     setCategoryId(BOARD_CATEGORIES.find((item) => item.boardIds.includes(id))?.id || categoryId);
+    setAnnounce(BOARDS[id].name);
   };
 
   const onSearchKey = (event) => {
-    if (event.key === "Enter" && matches[0]) setActive(matches[0].id);
+    if (event.key === "Enter" && matches[0]) jumpTo(matches[0].id);
     if (event.key === "Escape") setQuery("");
   };
 
-  const onCalibrateClick = (event) => {
-    if (!calibrateOn || !overlayRef.current) return;
-    const box = overlayRef.current.getBoundingClientRect();
-    const x = Number((((event.clientX - box.left) / box.width) * 100).toFixed(2));
-    const y = Number((((event.clientY - box.top) / box.height) * 100).toFixed(2));
-    const pending = facePins.find((pin) => !calibrated[`${boardId}:${side}:${pin.id}`]);
-    if (!pending) return;
-    setCalibrated((prev) => ({ ...prev, [`${boardId}:${side}:${pending.id}`]: { id: pending.id, x, y } }));
-  };
-
-  const copyCode = async () => {
-    if (!activePin?.code) return;
-    await navigator.clipboard.writeText(activePin.code);
+  const copyCode = async (code) => {
+    await navigator.clipboard.writeText(code);
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1400);
   };
 
   const category = BOARD_CATEGORIES.find((item) => item.id === categoryId) || BOARD_CATEGORIES[0];
-  const drawerOpen = Boolean(activePin);
-  const nextCalibrate = facePins.find((pin) => !calibrated[`${boardId}:${side}:${pin.id}`]);
   const batteryFact = board.facts.battery === "back"
     ? (zh ? "电池焊盘在背面" : "Battery pads on the back")
     : localize(board.facts.battery, lang);
-  const diagram = board.diagram?.[side] || null;
-  const flipRow = (
-    <div className={styles.flipRow}>
-      <button
-        type="button"
-        className={styles.flipBtn}
-        disabled={flipping}
-        onClick={() => flipTo(side === "front" ? "back" : "front")}
-        aria-label={side === "front" ? (zh ? "当前显示正面，按下翻到背面" : "Front showing, press to flip to back") : (zh ? "当前显示背面，按下翻到正面" : "Back showing, press to flip to front")}
-      >
-        {side === "front" ? (zh ? "查看背面" : "Show back") : (zh ? "查看正面" : "Show front")}
-      </button>
-      {side === "front" && backOnly && (
-        <p className={styles.backHint}>{zh ? "背面还有" : "Also on back"} {backOnly}</p>
-      )}
-    </div>
-  );
+  const table = summaryRows(board);
 
   return (
     <section className={styles.page} id="top">
@@ -482,10 +450,10 @@ export function PinoutView() {
         id="pinout"
         title={zh ? "XIAO 引脚对照" : "XIAO Pinout"}
         description={zh
-          ? "对照丝印、代码名与芯片名，看清每个焊盘能做什么、能不能用。"
-          : "Match silkscreen, code names and chip names. See what each pad can do, and whether you can use it."}
+          ? "正面、背面同一页。点一行看注意事项、备用功能和接线说明。"
+          : "Front and back on one page. Click a row for notes, alt functions and wiring."}
       />
-      <div className={styles.wrap}>
+      <div className={`${styles.wrap} ${sheetMode && selection ? styles.wrapSheet : ""}`}>
         <div className={styles.toolbar}>
           <div className={styles.boardSelect} ref={menuRef}>
             <button
@@ -516,19 +484,11 @@ export function PinoutView() {
               </div>
             )}
           </div>
-          <div className={styles.faceSwitch}>
-            <button type="button" className={side === "front" ? styles.active : ""} disabled={flipping} onClick={() => flipTo("front")}>
-              {zh ? "正面" : "Front"}
-            </button>
-            <button type="button" className={side === "back" ? styles.active : ""} disabled={flipping} onClick={() => flipTo("back")}>
-              {zh ? "背面" : "Back"}
-            </button>
-          </div>
           {board.frameworks.length > 1 && (
             <div className={styles.fwSwitch}>
               {board.frameworks.map((item) => (
                 <button key={item} type="button" className={framework === item ? styles.active : ""} onClick={() => setFramework(item)}>
-                  {item === "micropython" ? "MicroPython" : item === "zephyr" ? "Zephyr" : "Arduino"}
+                  {FRAMEWORK_LABEL[item] || item}
                 </button>
               ))}
             </div>
@@ -568,217 +528,121 @@ export function PinoutView() {
           ))}
         </div>
 
-        <div className={`${styles.body} ${drawerOpen ? (diagram ? styles.bodyInline : styles.bodyDocked) : ""}`}>
-          {diagram ? (
-            <div className={`${styles.workspace} ${styles.workspaceDiagram}`} ref={workspaceRef}>
-              <div className={styles.stageHead}>
-                <span className={styles.stageName}>{board.name}</span>
-                <span className={styles.stageFace}>{side === "front" ? (zh ? "正面" : "Front") : (zh ? "背面" : "Back")}</span>
-              </div>
-              <DiagramStage
-                diagram={diagram}
-                board={board}
-                activeId={activeId}
-                isDim={isDim}
-                retract={retract}
-                lang={lang}
-                onSelect={setActive}
-              />
-              {flipRow}
-            </div>
-          ) : (
-          <div className={styles.workspace} ref={workspaceRef}>
-            <svg className={styles.leaders} aria-hidden="true">
-              {lines.map((line) => (
-                <path
-                  key={line.id}
-                  d={line.d}
-                  className={`${line.active ? styles.activeLine : ""} ${line.dim ? styles.dimLine : ""}`}
-                  style={{ "--pin-color": line.color }}
-                />
-              ))}
-            </svg>
-
-            <div className={`${styles.col} ${styles.colLeft}`}>
-              {leftPins.length > 0 && <LaneHead lane="left" lang={lang} />}
-              {leftPins.map((pin, index) => (
-                <Strip
-                  key={pin.id}
-                  pin={pin}
-                  framework={framework}
-                  active={pin.id === activeId}
-                  dim={isDim(pin)}
-                  retract={retract}
-                  lane="left"
-                  delay={index * 30}
-                  onSelect={setActive}
-                  silkRef={(node) => { silkRefs.current[pin.id] = node; }}
-                />
-              ))}
-            </div>
-
-            <div className={styles.stageCol}>
-              <div className={styles.onboardRow}>
-                {onboardPins.map((pin) => (
-                  <button
-                    key={pin.id}
-                    type="button"
-                    className={`${styles.onboardChip} ${pin.id === activeId ? styles.onboardChipActive : ""} ${isDim(pin) ? styles.padDim : ""}`}
-                    style={{ "--pin-color": FN_COLOR[pin.fn] }}
-                    onClick={() => setActive(pin.id)}
-                  >
-                    <i />
-                    {onboardLabel(pin)}
-                  </button>
-                ))}
-              </div>
-
-              <div className={styles.stage3d} style={{ aspectRatio: stageRatio }} onClick={calibrateOn ? onCalibrateClick : undefined}>
-                <div className={`${styles.flipper} ${side === "back" ? styles.back : ""}`}>
-                  <div className={`${styles.face} ${board.frontRotated ? styles.rotated : ""}`}>
-                    <div className={styles.photo} style={{ aspectRatio: frontRatio }}>
-                      <img src={withBase(board.images.front.src)} alt="" />
-                    </div>
-                  </div>
-                  <div className={`${styles.face} ${styles.faceBack}`}>
-                    <div className={styles.photo} style={{ aspectRatio: backRatio }}>
-                      <img src={withBase(board.images.back.src)} alt="" />
-                    </div>
-                  </div>
+        <div
+          className={`${styles.workspace} ${selection && !sheetMode ? (selection.side === "left" ? styles.padRight : styles.padLeft) : ""}`}
+          ref={workspaceRef}
+          onPointerDown={(event) => {
+            if (event.target.closest("[data-pin-row], [data-pin-card], [data-summary], a, button, input")) return;
+            setSelection(null);
+            setActiveId("");
+          }}
+        >
+          {["front", "back"].map((face) => {
+            const diagram = board.diagram?.[face];
+            if (!diagram) return null;
+            return (
+              <div key={face} className={styles.faceBlock} ref={faceRefs[face]}>
+                <div className={styles.stageHead}>
+                  <span className={styles.stageName}>{board.name}</span>
+                  <span className={styles.stageFace}>{face === "front" ? (zh ? "正面" : "Front") : (zh ? "背面" : "Back")}</span>
                 </div>
-
-                <div
-                  ref={overlayRef}
-                  className={`${styles.overlay} ${retract ? styles.overlayHidden : ""}`}
-                  style={{ aspectRatio: side === "back" ? backRatio : frontRatio }}
-                >
-                  {facePins.map((pin) => (
-                    <button
-                      key={pin.id}
-                      type="button"
-                      ref={(node) => { padRefs.current[pin.id] = node; }}
-                      className={`${styles.pad} ${pin.id === activeId ? styles.padActive : ""} ${isDim(pin) ? styles.padDim : ""}`}
-                      style={{ left: `${pin._pad.x}%`, top: `${pin._pad.y}%`, "--pin-color": FN_COLOR[pin.fn] }}
-                      onClick={() => setActive(pin.id)}
-                      aria-label={pin.names.silk}
-                    />
-                  ))}
-                  {tagPins.map((pin) => (
-                    <span
-                      key={`tag-${pin.id}`}
-                      className={`${styles.tag} ${styles[`tag${(pin._pad.tag || "right")[0].toUpperCase()}${(pin._pad.tag || "right").slice(1)}`] || styles.tagRight} ${pin.id === activeId ? styles.tagActive : ""} ${isDim(pin) ? styles.padDim : ""}`}
-                      style={{ left: `${pin._pad.x}%`, top: `${pin._pad.y}%`, "--pin-color": FN_COLOR[pin.fn] }}
-                      aria-hidden="true"
-                    >
-                      {pin.names.silk}
-                    </span>
-                  ))}
-                  {onboardPins.filter((pin) => anchorOnSide(pin, side)).map((pin) => (
-                    <button
-                      key={`anchor-${pin.id}`}
-                      type="button"
-                      className={`${styles.anchor} ${pin.id === activeId ? styles.anchorActive : ""} ${isDim(pin) ? styles.padDim : ""}`}
-                      style={{ left: `${pin.anchor.x}%`, top: `${pin.anchor.y}%`, "--pin-color": FN_COLOR[pin.fn] }}
-                      onClick={() => setActive(pin.id)}
-                      aria-label={onboardLabel(pin)}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {flipRow}
-            </div>
-
-            <div className={`${styles.col} ${styles.colRight}`}>
-              {rightPins.length > 0 && <LaneHead lane="right" lang={lang} />}
-              {rightPins.map((pin, index) => (
-                <Strip
-                  key={pin.id}
-                  pin={pin}
-                  framework={framework}
-                  active={pin.id === activeId}
-                  dim={isDim(pin)}
-                  retract={retract}
-                  lane="right"
-                  delay={index * 30}
-                  onSelect={setActive}
-                  silkRef={(node) => { silkRefs.current[pin.id] = node; }}
+                <DiagramStage
+                  diagram={diagram}
+                  board={board}
+                  selection={selection}
+                  isDim={isDim}
+                  lang={lang}
+                  face={face}
+                  onSelect={selectPin}
                 />
-              ))}
-            </div>
-          </div>
+              </div>
+            );
+          })}
+          {activePin && selection && !sheetMode && (
+            <PinCard
+              key={activePin.id}
+              pin={activePin}
+              board={board}
+              framework={framework}
+              lang={lang}
+              zh={zh}
+              placement="float"
+              style={{ top: cardPos.top, left: cardPos.left, width: cardPos.width }}
+              onClose={() => { setSelection(null); setActiveId(""); }}
+              onJump={jumpTo}
+              copied={copied}
+              onCopy={copyCode}
+            />
           )}
-
-          <div className={styles.list}>
-            <LaneHead lane="right" lang={lang} />
-            {[...leftPins, ...rightPins, ...tagPins].map((pin) => (
-              <Strip
-                key={pin.id}
-                pin={pin}
-                framework={framework}
-                active={pin.id === activeId}
-                dim={isDim(pin)}
-                retract={false}
-                lane="right"
-                delay={0}
-                onSelect={setActive}
-              />
-            ))}
-          </div>
-
-          <aside
-            className={`${styles.drawer} ${drawerOpen ? styles.drawerOpen : ""}`}
-            hidden={!drawerOpen}
-            style={{ "--pin-color": activePin ? FN_COLOR[activePin.fn] : undefined }}
-          >
-            {activePin && (
-              <>
-                <div className={styles.drawerHead}>
-                  <div>
-                    <h2 className="home-type-subtitle">{activePin.kind === "onboard" ? onboardLabel(activePin) : activePin.names.silk}</h2>
-                    <span className={`${styles.status} ${styles[activePin.status] || ""}`}>{localize(STATUS_LABEL[activePin.status], lang)}</span>
-                  </div>
-                  <button type="button" className={styles.close} onClick={() => setActiveId("")} aria-label={zh ? "关闭" : "Close"}>×</button>
-                </div>
-                <p className={`home-type-body ${styles.drawerDesc}`}>{localize(activePin.desc, lang)}</p>
-                <table className={styles.names}>
-                  <tbody>
-                    <tr><th>{zh ? "丝印" : "Silkscreen"}</th><td>{activePin.names.silk}</td></tr>
-                    {activePin.names.arduino && activePin.names.arduino !== activePin.names.silk && <tr><th>Arduino</th><td>{activePin.names.arduino}</td></tr>}
-                    {activePin.names.micropython && <tr><th>MicroPython</th><td>{activePin.names.micropython}</td></tr>}
-                    {activePin.names.zephyr && <tr><th>Zephyr</th><td>{activePin.names.zephyr}</td></tr>}
-                    <tr><th>{zh ? "芯片" : "Chip"}</th><td>{activePin.names.chip}</td></tr>
-                  </tbody>
-                </table>
-                <div className={styles.caps}>
-                  <span className={styles.cap} style={{ background: FN_COLOR[activePin.fn], color: "#fff" }}>{localize(FN_LABEL[activePin.fn], lang)}</span>
-                  {Object.entries(activePin.caps).filter(([, value]) => value).map(([key, value]) => (
-                    <span key={key} className={styles.cap}>{CAP_LABEL[key] || key.toUpperCase()}{value === true ? "" : ` ${value}`}</span>
-                  ))}
-                </div>
-                {localize(activePin.warning, lang) && <p className={styles.warning}>{localize(activePin.warning, lang)}</p>}
-                {activePin.code && (
-                  <>
-                    <pre className={styles.code}>{activePin.code}</pre>
-                    <button type="button" className={`home-type-action home-filled-action home-primary-cta ${styles.copy}`} onClick={copyCode}>
-                      {copied ? (zh ? "已复制" : "Copied") : (zh ? "复制代码" : "Copy code")}
-                    </button>
-                  </>
-                )}
-              </>
-            )}
-          </aside>
         </div>
 
-        {calibrateOn && (
-          <div className={styles.calibrate}>
-            <p className="home-type-body">
-              {zh ? "校准模式：点击板图上的下一个焊盘。" : "Calibrate mode: click the next pad on the photo."}
-              {" "}
-              {nextCalibrate ? `${zh ? "下一个" : "Next"}: ${nextCalibrate.id}` : (zh ? "本面已完成" : "This face is done")}
-            </p>
-            <pre>{JSON.stringify(Object.values(calibrated).filter((item) => calibrated[`${boardId}:${side}:${item.id}`]), null, 2)}</pre>
-          </div>
+        <div className={styles.tableWrap} data-summary="1">
+          <button type="button" className={styles.tableToggle} onClick={() => setTableOpen((open) => !open)}>
+            {zh ? "全板总表" : "Board table"}
+            <span>{tableOpen ? "−" : "+"}</span>
+          </button>
+          {tableOpen && (
+            <div className={styles.tableScroll}>
+              <table className={styles.summary}>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>{zh ? "丝印" : "Silk"}</th>
+                    <th>Arduino</th>
+                    <th>{zh ? "芯片" : "Chip"}</th>
+                    <th>ADC</th>
+                    <th>I²C</th>
+                    <th>SPI</th>
+                    <th>UART</th>
+                    <th>PWM</th>
+                    <th>{zh ? "其它" : "Other"}</th>
+                    <th>{zh ? "注意" : "Note"}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {table.map((row) => {
+                    const pin = row.pin;
+                    const active = pin.id === activeId;
+                    return (
+                      <tr
+                        key={`${row.face}-${pin.id}`}
+                        className={active ? styles.summaryActive : ""}
+                        onClick={() => jumpTo(pin.id)}
+                      >
+                        <td>{pin.padIndex || "—"}</td>
+                        <td>{pin.names.silk}</td>
+                        <td>{pin.names.arduino}</td>
+                        <td>{pin.names.chip}</td>
+                        <td>{altCell(pin.alt.adc)}</td>
+                        <td>{altCell(pin.alt.i2c)}</td>
+                        <td>{altCell(pin.alt.spi)}</td>
+                        <td>{altCell(pin.alt.uart)}</td>
+                        <td>{altCell(pin.alt.pwm)}</td>
+                        <td>{altCell(pin.alt.other)}</td>
+                        <td>{pin.notes?.[0] ? (lang === "zh" ? pin.notes[0].zh : pin.notes[0].en) : ""}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {activePin && selection && sheetMode && (
+          <PinCard
+            key={`sheet-${activePin.id}`}
+            pin={activePin}
+            board={board}
+            framework={framework}
+            lang={lang}
+            zh={zh}
+            placement="sheet"
+            onClose={() => { setSelection(null); setActiveId(""); }}
+            onJump={jumpTo}
+            copied={copied}
+            onCopy={copyCode}
+          />
         )}
         <div className={styles.live} aria-live="polite">{announce}</div>
       </div>

@@ -147,6 +147,11 @@ export function buildVariantBoards(baseBoards) {
     onboard("USER_LED", "LED", "digital", "User LED", "用户 LED", "stm32"),
     onboard("Boot", "BOOT", "rst", "Boot button", "Boot 按键", "stm32", { status: "conditional", silk: "BOOT" }),
     onboard("CHARGE_LED", "VBUS", "power", "Charge LED", "充电指示灯", "stm32"),
+    headerPin("SWCLK", { silk: "SWCLK", chip: "SWCLK", fn: "digital", desc: "SWD debug clock", descZh: "SWD 调试时钟", side: "back" }, "stm32"),
+    headerPin("SWDIO", { silk: "SWDIO", chip: "SWDIO", fn: "digital", desc: "SWD debug data", descZh: "SWD 调试数据", side: "back" }, "stm32"),
+    headerPin("RST", { silk: "RST", chip: "NRST", fn: "rst", status: "conditional", desc: "Reset", descZh: "复位", side: "back" }, "stm32"),
+    headerPin("BAT-", { silk: "BAT-", chip: "BAT-", fn: "gnd", desc: "Battery negative pad", descZh: "电池负极焊盘", side: "back" }, "stm32"),
+    headerPin("BAT+", { silk: "BAT+", chip: "BAT+", fn: "power", desc: "Battery positive pad", descZh: "电池正极焊盘", side: "back" }, "stm32"),
   ], {
     left: ["SWCLK", "GND", "3V3"],
     right: ["SWDIO", "RST", "BAT-", "BAT+"],
