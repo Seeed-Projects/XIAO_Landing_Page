@@ -260,12 +260,39 @@ tokens and hero frame.
 ## Playground Pinout
 
 `/playground/pinout/` shows every official XIAO pinout as two stacked diagrams
-(front above back) on one page. Click a label row to open a floating card on
-the opposite side of the board: names, per-pin notes, an alt-function table,
-a collapsible function primer, a copyable code sample, related bus pins, and
-Wiki / schematic links. Below the diagrams a collapsible table lists every
-mapped pin. On viewports narrower than 900px the card becomes a bottom sheet
-and the table scrolls sideways. URLs keep `?board=` and `?pin=`.
+(front above back) on one page. A rounded control bar on top carries the board
+picker, the framework switch, pin search and the colour key; the diagram stack
+scales itself so both faces stay in one screen. Click a label row to open a
+floating card on the opposite side of the board: names, per-pin notes, an
+alt-function table, one function primer per capability, a copyable code sample,
+related bus pins, and Wiki / schematic links. The primers start collapsed so the
+card opens on the pin facts; each one expands on click and every pin opens
+fresh. The card is as tall as its content and only grows to the visible height
+when a pin carries enough of it. Clicking anywhere outside a pin row, the card
+and the board table closes the card, as does `Esc`. Below the diagrams a board reference card holds the
+electrical facts (logic level, 5 V tolerance, 3V3 budget, VBUS, battery) as a
+read-only spec strip, followed by
+the pin table, which starts expanded. The table is a read-only reference: rows
+highlight to follow the pin selected on a diagram, and the note column keeps one
+line per pin with the full text available on hover. On viewports narrower than
+900px the card becomes a bottom sheet and the table scrolls sideways. URLs keep
+`?board=` and `?pin=`.
+
+The page chrome reuses the site design tokens — the `--r-card` / `--r-inner` /
+`--r-pill` radii, `--surface`, `--line-soft`, `--shadow-card` and the brand
+green accent — so it reads like Home, Products and Playground. Interactive
+controls are pills or colour chips, read-only data uses label-above-value pairs,
+face markers are centred section rules, and the official artwork stays frameless
+so it blends into the page background.
+
+`FN_COLOR` and `FN_LABEL` in `data/footprint.js` carry the official XIAO pinout
+palette and the wording printed on the artwork colour key (`POWER`, `GND`,
+`DIGITAL GPIO`, `ADC INPUT`, `I2C`, `SPI`, `UART`, `SYSTEM`). The colour key
+chips, the row highlight and the pin card accent all read from that one map, so
+a colour change lands everywhere at once. Chip wording is identical in both
+languages to match the printed artwork. Every chip carries the same width, sized
+to the longest label, and the row stays left aligned and wraps on narrow
+viewports.
 
 Official artwork lives in `public/xiao-products/pinout/<boardId>-<face>.svg`
 (46 faces). Label boxes are scanned from SVG rects; row ids are mapped in

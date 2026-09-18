@@ -3,29 +3,33 @@
  * 共享引脚图色板、标签列顺序，以及标准封装正面焊盘坐标。
  */
 
+/** Official XIAO pinout palette, shared by the colour key, row highlight and pin card.
+ *  官方 XIAO 引脚图配色，颜色图例、行高亮与引脚卡片共用。 */
 export const FN_COLOR = {
-  power: "#e1554f",
-  gnd: "#3a423d",
-  rst: "#d8a13a",
-  digital: "#16b66a",
-  analog: "#2f73f1",
-  i2c: "#8b5cf6",
-  spi: "#f59e0b",
-  uart: "#ec4899",
+  power: "#d32f2f",
+  gnd: "#2d2d2d",
+  rst: "#78909c",
+  digital: "#8fc31f",
+  analog: "#ffa726",
+  i2c: "#29b6f6",
+  spi: "#ab47bc",
+  uart: "#26a69a",
 };
 
+/** Chip wording copied from the official colour key; identical in both languages.
+ *  与官方颜色标注条一致的标签文字，中英文相同。 */
 export const FN_LABEL = {
-  power: { en: "Power", zh: "电源" },
-  gnd: { en: "GND", zh: "地" },
-  analog: { en: "ADC", zh: "模拟" },
-  i2c: { en: "I²C", zh: "I²C" },
-  spi: { en: "SPI", zh: "SPI" },
-  uart: { en: "UART", zh: "UART" },
-  digital: { en: "Digital", zh: "数字" },
-  rst: { en: "Reset", zh: "复位" },
+  power: "POWER",
+  gnd: "GND",
+  analog: "ADC INPUT",
+  i2c: "I2C",
+  spi: "SPI",
+  uart: "UART",
+  digital: "DIGITAL GPIO",
+  rst: "SYSTEM",
 };
 
-export const LEGEND_ORDER = ["power", "gnd", "analog", "i2c", "spi", "uart", "digital", "rst"];
+export const LEGEND_ORDER = ["power", "gnd", "digital", "analog", "i2c", "spi", "uart", "rst"];
 
 /** Label-strip columns from the board outward. 标签带列顺序：靠近板子一侧向外。 */
 export const STRIP_COLUMNS = ["silk", "code", "chip", "adc", "i2c", "spi", "uart", "pwm"];

@@ -179,7 +179,7 @@ function PinCard({
   pin, board, framework, lang, zh, placement, style, onClose, onJump, copied, onCopy, cardRef,
 }) {
   const guides = functionKeysForPin(pin);
-  const [closedGuides, setClosedGuides] = useState(() => new Set());
+  const [openGuides, setOpenGuides] = useState(() => new Set());
   const related = relatedPins(board, pin);
   const links = BOARD_LINKS[board.id] || {};
   const fwName = codeName(pin, framework);
@@ -224,10 +224,10 @@ function PinCard({
       {guides.map((key) => {
         const primer = FUNCTIONS[key];
         const boardNote = BOARD_FUNCTION_NOTES[board.id]?.[key];
-        const open = !closedGuides.has(key);
+        const open = openGuides.has(key);
         return (
           <div key={key} className={styles.guide}>
-            <button type="button" className={styles.guideToggle} onClick={() => setClosedGuides((cur) => {
+            <button type="button" className={styles.guideToggle} onClick={() => setOpenGuides((cur) => {
               const next = new Set(cur);
               if (next.has(key)) next.delete(key);
               else next.add(key);
@@ -296,7 +296,7 @@ export function PinoutView() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [sheetMode, setSheetMode] = useState(false);
-  const [tableOpen, setTableOpen] = useState(false);
+  const [tableOpen, setTableOpen] = useState(true);
   const [cardPos, setCardPos] = useState({ top: 12, left: 12, width: 560, maxHeight: 720 });
   const [diagramMaxW, setDiagramMaxW] = useState(null);
   const [announce, setAnnounce] = useState("");
@@ -385,6 +385,22 @@ export function PinoutView() {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
+  /**
+   * Anywhere outside a pin row, the card itself or the board table closes the card.
+   * Bound to click so a touch scroll that starts on the page never dismisses it.
+   * 点击引脚行、卡片与总表之外的任意位置即收起引脚卡片；
+   * 使用 click 事件，触摸滚动的起手动作不会误触发收起。
+   */
+  useEffect(() => {
+    const onOutside = (event) => {
+      if (event.target.closest("[data-pin-row], [data-pin-card], [data-summary], a, button, input")) return;
+      setSelection(null);
+      setActiveId("");
+    };
+    document.addEventListener("click", onOutside);
+    return () => document.removeEventListener("click", onOutside);
+  }, []);
+
   useEffect(() => {
     const media = window.matchMedia("(max-width: 899px)");
     const sync = () => setSheetMode(media.matches);
@@ -467,7 +483,7 @@ export function PinoutView() {
         const pinH = workW * (pin.h / pin.w);
         const key = spec.legend;
         const legendH = key ? workW * (key.h / key.w) : 0;
-        return 28 + pinH + legendH;
+        return 30 + pinH + legendH;
       };
       const total = faceH("front") + faceH("back") + 10;
       const scale = total > available && total > 0 ? available / total : 1;
@@ -521,98 +537,91 @@ export function PinoutView() {
           : "Front and back on one page. Click a row for notes, alt functions and wiring."}
       />
       <div className={`${styles.wrap} ${sheetMode && selection ? styles.wrapSheet : ""}`}>
-        <div className={styles.toolbar}>
-          <div className={styles.boardSelect} ref={menuRef}>
-            <button
-              type="button"
-              data-board-trigger="1"
-              className={`${styles.boardTrigger} ${menuOpen ? styles.boardTriggerOpen : ""}`}
-              onClick={() => setMenuOpen((open) => !open)}
-              aria-expanded={menuOpen}
-            >
-              {board.name}
-              <span aria-hidden="true">▾</span>
-            </button>
-            {menuOpen && (
-              <div className={styles.boardMenu}>
-                <div className={styles.boardCats}>
-                  {BOARD_CATEGORIES.map((item) => (
-                    <button key={item.id} type="button" className={categoryId === item.id ? styles.active : ""} onClick={() => setCategoryId(item.id)}>
-                      {item.label}
-                    </button>
-                  ))}
+        <div className={styles.controls}>
+          <div className={styles.toolbar}>
+            <div className={styles.boardSelect} ref={menuRef}>
+              <button
+                type="button"
+                data-board-trigger="1"
+                className={`${styles.boardTrigger} ${menuOpen ? styles.boardTriggerOpen : ""}`}
+                onClick={() => setMenuOpen((open) => !open)}
+                aria-expanded={menuOpen}
+              >
+                {board.name}
+                <span aria-hidden="true">
+                  <svg viewBox="0 0 12 12" width="12" height="12">
+                    <path d="M2 4.5 6 8.5 10 4.5" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+              </button>
+              {menuOpen && (
+                <div className={styles.boardMenu}>
+                  <div className={styles.boardCats}>
+                    {BOARD_CATEGORIES.map((item) => (
+                      <button key={item.id} type="button" className={categoryId === item.id ? styles.active : ""} onClick={() => setCategoryId(item.id)}>
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                  <div className={styles.boardModels}>
+                    {category.boardIds.map((id) => (
+                      <button key={id} type="button" className={boardId === id ? styles.active : ""} onClick={() => pickBoard(id)}>
+                        {BOARDS[id].name}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <div className={styles.boardModels}>
-                  {category.boardIds.map((id) => (
-                    <button key={id} type="button" className={boardId === id ? styles.active : ""} onClick={() => pickBoard(id)}>
-                      {BOARDS[id].name}
-                    </button>
-                  ))}
-                </div>
+              )}
+            </div>
+            {board.frameworks.length > 1 && (
+              <div className={styles.fwSwitch}>
+                {board.frameworks.map((item) => (
+                  <button key={item} type="button" className={framework === item ? styles.active : ""} onClick={() => setFramework(item)}>
+                    {FRAMEWORK_LABEL[item] || item}
+                  </button>
+                ))}
               </div>
             )}
+            <input
+              className={styles.search}
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              onKeyDown={onSearchKey}
+              placeholder={zh ? "搜索 SDA、PA08、A0…" : "Search SDA, PA08, A0…"}
+              aria-label={zh ? "搜索引脚" : "Search pins"}
+            />
           </div>
-          {board.frameworks.length > 1 && (
-            <div className={styles.fwSwitch}>
-              {board.frameworks.map((item) => (
-                <button key={item} type="button" className={framework === item ? styles.active : ""} onClick={() => setFramework(item)}>
-                  {FRAMEWORK_LABEL[item] || item}
-                </button>
-              ))}
-            </div>
-          )}
-          <input
-            className={styles.search}
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            onKeyDown={onSearchKey}
-            placeholder={zh ? "搜索 SDA、PA08、A0…" : "Search SDA, PA08, A0…"}
-            aria-label={zh ? "搜索引脚" : "Search pins"}
-          />
-        </div>
 
-        <div className={styles.facts}>
-          <span className={styles.fact}>{zh ? "逻辑电平" : "Logic"} {board.facts.logic}</span>
-          <span className={`${styles.fact} ${styles.factWarn}`}>
-            {board.facts.fiveVTolerant ? (zh ? "耐 5V" : "5V tolerant") : (zh ? "不耐 5V" : "Not 5V tolerant")}
-          </span>
-          <span className={styles.fact}>{localize(board.facts.vbus, lang)}</span>
-          <span className={styles.fact}>3V3 ≤ {board.facts.v33MaxMa} mA</span>
-          <span className={styles.fact}>{batteryFact}</span>
-        </div>
-
-        <div className={styles.legend}>
-          {LEGEND_ORDER.map((fn) => (
-            <button
-              key={fn}
-              type="button"
-              className={`${styles.legendBtn} ${filter === fn ? styles.on : ""}`}
-              style={{ color: FN_COLOR[fn] }}
-              onClick={() => setFilter((cur) => (cur === fn ? "" : fn))}
-            >
-              <i style={{ background: FN_COLOR[fn] }} />
-              {localize(FN_LABEL[fn], lang)}
-            </button>
-          ))}
+          <div className={styles.legend} data-filtered={filter ? "1" : "0"}>
+            {LEGEND_ORDER.map((fn) => (
+              <button
+                key={fn}
+                type="button"
+                className={`${styles.legendBtn} ${filter === fn ? styles.on : ""}`}
+                style={{ "--fn-color": FN_COLOR[fn] }}
+                aria-pressed={filter === fn}
+                onClick={() => setFilter((cur) => (cur === fn ? "" : fn))}
+              >
+                {FN_LABEL[fn]}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div
           className={styles.workspace}
           ref={workspaceRef}
           style={diagramMaxW ? { "--diagram-max-w": `${diagramMaxW}px` } : undefined}
-          onPointerDown={(event) => {
-            if (event.target.closest("[data-pin-row], [data-pin-card], [data-summary], a, button, input")) return;
-            setSelection(null);
-            setActiveId("");
-          }}
         >
           {["front", "back"].map((face) => {
             const diagram = board.diagram?.[face];
             if (!diagram) return null;
             return (
               <div key={face} className={styles.faceBlock} ref={faceRefs[face]}>
-                <div className={styles.stageHead}>
+                <div className={styles.stageHead} aria-hidden="true">
+                  <span className={styles.stageRule} />
                   <span className={styles.stageFace}>{face === "front" ? (zh ? "正面" : "Front") : (zh ? "背面" : "Back")}</span>
+                  <span className={styles.stageRule} />
                 </div>
                 <DiagramStage
                   diagram={diagram}
@@ -635,7 +644,7 @@ export function PinoutView() {
               lang={lang}
               zh={zh}
               placement="float"
-              style={{ top: cardPos.top, left: cardPos.left, width: cardPos.width, height: cardPos.maxHeight, maxHeight: cardPos.maxHeight }}
+              style={{ top: cardPos.top, left: cardPos.left, width: cardPos.width, maxHeight: cardPos.maxHeight }}
               cardRef={cardRef}
               onClose={() => { setSelection(null); setActiveId(""); }}
               onJump={jumpTo}
@@ -645,57 +654,84 @@ export function PinoutView() {
           )}
         </div>
 
-        <div className={styles.tableWrap} data-summary="1">
-          <button type="button" className={styles.tableToggle} onClick={() => setTableOpen((open) => !open)}>
-            {zh ? "全板总表" : "Board table"}
-            <span>{tableOpen ? "−" : "+"}</span>
-          </button>
-          {tableOpen && (
-            <div className={styles.tableScroll}>
-              <table className={styles.summary}>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>{zh ? "丝印" : "Silk"}</th>
-                    <th>Arduino</th>
-                    <th>{zh ? "芯片" : "Chip"}</th>
-                    <th>ADC</th>
-                    <th>I²C</th>
-                    <th>SPI</th>
-                    <th>UART</th>
-                    <th>PWM</th>
-                    <th>{zh ? "其它" : "Other"}</th>
-                    <th>{zh ? "注意" : "Note"}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {table.map((row) => {
-                    const pin = row.pin;
-                    const active = pin.id === activeId;
-                    return (
-                      <tr
-                        key={`${row.face}-${pin.id}`}
-                        className={active ? styles.summaryActive : ""}
-                        onClick={() => jumpTo(pin.id)}
-                      >
-                        <td>{pin.padIndex || "—"}</td>
-                        <td>{pin.names.silk}</td>
-                        <td>{pin.names.arduino}</td>
-                        <td>{pin.names.chip}</td>
-                        <td>{altCell(pin.alt.adc)}</td>
-                        <td>{altCell(pin.alt.i2c)}</td>
-                        <td>{altCell(pin.alt.spi)}</td>
-                        <td>{altCell(pin.alt.uart)}</td>
-                        <td>{altCell(pin.alt.pwm)}</td>
-                        <td>{altCell(pin.alt.other)}</td>
-                        <td>{pin.notes?.[0] ? (lang === "zh" ? pin.notes[0].zh : pin.notes[0].en) : ""}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+        <div className={styles.reference}>
+          <dl className={styles.facts}>
+            <div className={styles.fact}>
+              <dt>{zh ? "逻辑电平" : "Logic level"}</dt>
+              <dd>{board.facts.logic}</dd>
             </div>
-          )}
+            <div className={styles.fact}>
+              <dt>{zh ? "5V 耐受" : "5V tolerance"}</dt>
+              <dd className={board.facts.fiveVTolerant ? "" : styles.factWarn}>
+                {board.facts.fiveVTolerant ? (zh ? "耐 5V" : "Tolerant") : (zh ? "不耐 5V" : "Not tolerant")}
+              </dd>
+            </div>
+            <div className={styles.fact}>
+              <dt>{zh ? "3V3 电流上限" : "3V3 budget"}</dt>
+              <dd>≤ {board.facts.v33MaxMa} mA</dd>
+            </div>
+            <div className={`${styles.fact} ${styles.factWide}`}>
+              <dt>VBUS</dt>
+              <dd>{localize(board.facts.vbus, lang)}</dd>
+            </div>
+            <div className={`${styles.fact} ${styles.factWide}`}>
+              <dt>{zh ? "电池" : "Battery"}</dt>
+              <dd>{batteryFact}</dd>
+            </div>
+          </dl>
+
+          <div className={styles.tableWrap} data-summary="1">
+            <button type="button" className={styles.tableToggle} onClick={() => setTableOpen((open) => !open)}>
+              {zh ? "全板总表" : "Board table"}
+              <span>{tableOpen ? "−" : "+"}</span>
+            </button>
+            {tableOpen && (
+              <div className={styles.tableScroll}>
+                <table className={styles.summary}>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>{zh ? "丝印" : "Silk"}</th>
+                      <th>Arduino</th>
+                      <th>{zh ? "芯片" : "Chip"}</th>
+                      <th>ADC</th>
+                      <th>I²C</th>
+                      <th>SPI</th>
+                      <th>UART</th>
+                      <th>PWM</th>
+                      <th>{zh ? "其它" : "Other"}</th>
+                      <th>{zh ? "注意" : "Note"}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {table.map((row) => {
+                      const pin = row.pin;
+                      const active = pin.id === activeId;
+                      const note = pin.notes?.[0] ? (lang === "zh" ? pin.notes[0].zh : pin.notes[0].en) : "";
+                      return (
+                        <tr
+                          key={`${row.face}-${pin.id}`}
+                          className={active ? styles.summaryActive : ""}
+                        >
+                          <td>{pin.padIndex || "—"}</td>
+                          <td>{pin.names.silk}</td>
+                          <td>{pin.names.arduino}</td>
+                          <td>{pin.names.chip}</td>
+                          <td>{altCell(pin.alt.adc)}</td>
+                          <td>{altCell(pin.alt.i2c)}</td>
+                          <td>{altCell(pin.alt.spi)}</td>
+                          <td>{altCell(pin.alt.uart)}</td>
+                          <td>{altCell(pin.alt.pwm)}</td>
+                          <td>{altCell(pin.alt.other)}</td>
+                          <td title={note}>{note}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         </div>
 
         {activePin && selection && sheetMode && (

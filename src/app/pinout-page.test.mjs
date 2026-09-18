@@ -6,8 +6,11 @@ import {
   BOARD_CATEGORIES,
   BOARD_LINKS,
   BOARDS,
+  FN_COLOR,
+  FN_LABEL,
   FUNCTION_KEYS,
   FUNCTIONS,
+  LEGEND_ORDER,
   laneOnSide,
   padOnSide,
   stripCells,
@@ -134,6 +137,26 @@ test("diagram crop keeps the lower colour key", () => {
   assert.ok(BOARDS.samd21.diagram.front.crop.h < 520);
 });
 
+test("colour key follows the official palette and chip wording", () => {
+  assert.deepEqual(FN_COLOR, {
+    power: "#d32f2f",
+    gnd: "#2d2d2d",
+    rst: "#78909c",
+    digital: "#8fc31f",
+    analog: "#ffa726",
+    i2c: "#29b6f6",
+    spi: "#ab47bc",
+    uart: "#26a69a",
+  });
+  assert.deepEqual(LEGEND_ORDER.map((fn) => FN_LABEL[fn]), [
+    "POWER", "GND", "DIGITAL GPIO", "ADC INPUT", "I2C", "SPI", "UART", "SYSTEM",
+  ]);
+  const css = read("./playground/pinout/pinout.module.css");
+  assert.match(css, /\.legend \{\s*display: flex;\s*flex-wrap: wrap;/);
+  assert.match(css, /\.legendBtn \{\s*min-width: 106px;/);
+  assert.match(css, /\.page button \{ font-family: inherit;/);
+});
+
 test("function primers exist in English and Chinese for every key", () => {
   assert.deepEqual(FUNCTION_KEYS, [
     "i2c", "spi", "uart", "adc", "pwm", "dac", "power", "gnd", "rst", "debug", "battery", "wireless", "touch",
@@ -229,6 +252,7 @@ test("Pinout view stacks both faces, floats a pin card and drops the flip/side U
   assert.match(view, /searchParams\.delete\(\"side\"\)/);
   assert.match(view, /cardSheet/);
   assert.match(view, /summaryRows/);
+  assert.match(view, /style=\{\{ top: cardPos\.top, left: cardPos\.left, width: cardPos\.width, maxHeight: cardPos\.maxHeight \}\}/);
   assert.doesNotMatch(view, /flipTo/);
   assert.doesNotMatch(view, /function Strip/);
   assert.match(css, /cardFloat/);
@@ -251,4 +275,28 @@ test("Pinout view stacks both faces, floats a pin card and drops the flip/side U
   assert.doesNotMatch(view, /padRight/);
   assert.match(css, /@media \(max-width: 899px\)/);
   assert.match(css, /prefers-reduced-motion/);
+});
+
+test("card closes on any outside click, primers start collapsed, table starts open", () => {
+  const view = read("./playground/pinout/PinoutView.js");
+  const css = read("./playground/pinout/pinout.module.css");
+  assert.match(view, /document\.addEventListener\("click", onOutside\)/);
+  assert.doesNotMatch(view, /onPointerDown=\{\(event\) =>/);
+  assert.match(view, /const \[tableOpen, setTableOpen\] = useState\(true\)/);
+  assert.match(view, /const \[openGuides, setOpenGuides\] = useState\(\(\) => new Set\(\)\)/);
+  assert.match(view, /const open = openGuides\.has\(key\)/);
+  assert.match(view, /stageRule/);
+  assert.match(css, /\.stageRule/);
+  assert.match(css, /data-filtered/);
+  assert.match(css, /background: var\(--fn-color\)/);
+  assert.doesNotMatch(css, /\.fact::before/);
+});
+
+test("board table rows only read out, long notes carry a hover tooltip", () => {
+  const view = read("./playground/pinout/PinoutView.js");
+  const css = read("./playground/pinout/pinout.module.css");
+  assert.doesNotMatch(view, /onClick=\{\(\) => jumpTo\(pin\.id\)\}/);
+  assert.match(view, /<td title=\{note\}>\{note\}<\/td>/);
+  assert.match(css, /\.summary tbody tr \{ transition/);
+  assert.doesNotMatch(css, /\.summary tbody tr \{ cursor: pointer/);
 });
