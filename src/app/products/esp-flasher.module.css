@@ -64,7 +64,7 @@
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) clamp(400px, 32vw, 500px);
+  grid-template-columns: minmax(0, 1fr) clamp(640px, 49vw, 750px);
   gap: 18px;
 }
 
