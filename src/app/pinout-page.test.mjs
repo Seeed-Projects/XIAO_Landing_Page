@@ -13,7 +13,7 @@ import {
   stripCells,
   validateAllBoards,
 } from "./playground/pinout/data/index.js";
-import { placePinCard } from "./playground/pinout/placePinCard.js";
+import { placePinCard, PIN_CLEARANCE } from "./playground/pinout/placePinCard.js";
 
 const read = (name) => readFileSync(new URL(name, import.meta.url), "utf8");
 const uniqueBoards = BOARD_CATEGORIES.flatMap((item) => item.boardIds).map((id) => BOARDS[id]);
@@ -182,43 +182,37 @@ test("pin card sits beside a right-edge pin and stays in the viewport", () => {
   const row = board.diagram.front.rows.find((item) => item.id === "D8");
   const pos = placePinCard({
     workWidth: 1100,
-    workHeight: 1400,
     workTop: 180,
     frameLeft: 12,
-    frameTop: 48,
     frameWidth: 1068,
-    frameHeight: 220,
     crop: board.diagram.front.crop,
     row,
     side: "right",
     viewportHeight: 900,
-    cardHeight: 520,
   });
   const pinLeft = 12 + ((Math.min(...row.boxes.map((box) => box.x)) - board.diagram.front.crop.x) / board.diagram.front.crop.w) * 1068;
-  assert.ok(pos.left > 80, "card is not glued to the workspace left edge");
-  assert.ok(pos.left + pos.width <= pinLeft + 2, "card sits on the inner side of a right-edge pin");
-  assert.ok(pos.top >= 8);
-  assert.ok(pos.top < 250, "card stays near the pin instead of dropping to the bottom");
-  assert.ok(pos.top + Math.min(pos.maxHeight, 520) <= 900 - 180 - 8);
+  assert.ok(pos.width >= 500, "card uses the free width beside the pin");
+  assert.ok(pos.left + pos.width + PIN_CLEARANCE <= pinLeft + 1, "card leaves the clicked pin visible");
+  assert.ok(pinLeft - (pos.left + pos.width) >= PIN_CLEARANCE - 1);
+  assert.equal(pos.top, 8);
+  assert.ok(pos.maxHeight >= 600, "card uses the visible viewport height");
+  assert.ok(pos.top + pos.maxHeight <= 900 - 180 - 8);
 });
 
 test("pin card slides up into free space when the pin is low on the diagram", () => {
   const pos = placePinCard({
     workWidth: 1100,
-    workHeight: 1400,
     workTop: 200,
     frameLeft: 12,
-    frameTop: 40,
     frameWidth: 1068,
-    frameHeight: 220,
     crop: { x: 0, y: 200, w: 1920, h: 395 },
     row: { y: 560, boxes: [{ x: 1600, y: 540, w: 280, h: 28 }] },
     side: "right",
     viewportHeight: 900,
-    cardHeight: 700,
   });
   assert.equal(pos.top, 8);
   assert.ok(pos.left > 200);
+  assert.ok(pos.left + pos.width + PIN_CLEARANCE <= 12 + (1600 / 1920) * 1068 + 1);
   assert.ok(pos.top + pos.maxHeight <= 700);
 });
 
@@ -239,8 +233,11 @@ test("Pinout view stacks both faces, floats a pin card and drops the flip/side U
   assert.doesNotMatch(view, /function Strip/);
   assert.match(css, /cardFloat/);
   assert.match(css, /cardSheet/);
-  assert.match(css, /min\(84vh, 780px\)/);
+  assert.match(css, /z-index: 30/);
+  assert.match(css, /padding: 28px 34px 36px/);
+  assert.doesNotMatch(css, /min\(84vh, 780px\)/);
   assert.match(view, /placePinCard/);
+  assert.match(view, /data-board-trigger/);
   assert.doesNotMatch(view, /workBox\.height - 240/);
   assert.match(css, /5cm/);
   assert.match(css, /legendStrip/);

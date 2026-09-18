@@ -178,8 +178,8 @@ function DiagramStage({ diagram, board, selection, isDim, lang, face, onSelect }
 function PinCard({
   pin, board, framework, lang, zh, placement, style, onClose, onJump, copied, onCopy, cardRef,
 }) {
-  const [openGuide, setOpenGuide] = useState("");
   const guides = functionKeysForPin(pin);
+  const [closedGuides, setClosedGuides] = useState(() => new Set());
   const related = relatedPins(board, pin);
   const links = BOARD_LINKS[board.id] || {};
   const fwName = codeName(pin, framework);
@@ -224,10 +224,15 @@ function PinCard({
       {guides.map((key) => {
         const primer = FUNCTIONS[key];
         const boardNote = BOARD_FUNCTION_NOTES[board.id]?.[key];
-        const open = openGuide === key;
+        const open = !closedGuides.has(key);
         return (
           <div key={key} className={styles.guide}>
-            <button type="button" className={styles.guideToggle} onClick={() => setOpenGuide(open ? "" : key)}>
+            <button type="button" className={styles.guideToggle} onClick={() => setClosedGuides((cur) => {
+              const next = new Set(cur);
+              if (next.has(key)) next.delete(key);
+              else next.add(key);
+              return next;
+            })}>
               {localize(primer.title, lang)}
               <span>{open ? "−" : "+"}</span>
             </button>
@@ -292,7 +297,7 @@ export function PinoutView() {
   const [copied, setCopied] = useState(false);
   const [sheetMode, setSheetMode] = useState(false);
   const [tableOpen, setTableOpen] = useState(false);
-  const [cardPos, setCardPos] = useState({ top: 12, left: 12, width: 420, maxHeight: 560 });
+  const [cardPos, setCardPos] = useState({ top: 12, left: 12, width: 560, maxHeight: 720 });
   const [diagramMaxW, setDiagramMaxW] = useState(null);
   const [announce, setAnnounce] = useState("");
 
@@ -413,17 +418,13 @@ export function PinoutView() {
       const frameBox = (frameEl || faceEl).getBoundingClientRect();
       const next = placePinCard({
         workWidth: workBox.width,
-        workHeight: workBox.height,
         workTop: workBox.top,
         frameLeft: frameBox.left - workBox.left,
-        frameTop: frameBox.top - workBox.top,
         frameWidth: frameBox.width,
-        frameHeight: frameBox.height,
         crop: diagram.crop,
         row,
         side: selection.side,
         viewportHeight: window.innerHeight,
-        cardHeight: cardRef.current?.getBoundingClientRect().height,
       });
       setCardPos((prev) => (
         prev.top === next.top
@@ -524,6 +525,7 @@ export function PinoutView() {
           <div className={styles.boardSelect} ref={menuRef}>
             <button
               type="button"
+              data-board-trigger="1"
               className={`${styles.boardTrigger} ${menuOpen ? styles.boardTriggerOpen : ""}`}
               onClick={() => setMenuOpen((open) => !open)}
               aria-expanded={menuOpen}
@@ -633,7 +635,7 @@ export function PinoutView() {
               lang={lang}
               zh={zh}
               placement="float"
-              style={{ top: cardPos.top, left: cardPos.left, width: cardPos.width, maxHeight: cardPos.maxHeight }}
+              style={{ top: cardPos.top, left: cardPos.left, width: cardPos.width, height: cardPos.maxHeight, maxHeight: cardPos.maxHeight }}
               cardRef={cardRef}
               onClose={() => { setSelection(null); setActiveId(""); }}
               onJump={jumpTo}

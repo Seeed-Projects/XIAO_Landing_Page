@@ -1,14 +1,13 @@
 /**
  * Place the floating pin card beside the clicked row and keep it on screen.
- * 把浮动卡片贴在被点的那一行旁边，并留在当前可视区域内。
+ * 把浮动卡片放在被点的那一行旁边，并留在当前可视区域内。
  */
 
 const PAD = 8;
-const GAP = 16;
-const MIN_WIDTH = 360;
-const MAX_WIDTH = 560;
-const MIN_HEIGHT = 280;
-const MAX_HEIGHT = 780;
+/** Clearance between the card and the clicked pin boxes. 卡片与被点引脚色块之间的空隙。 */
+export const PIN_CLEARANCE = Math.round((1.5 * 96) / 2.54);
+const MIN_WIDTH = 420;
+const MAX_WIDTH = 760;
 
 function clamp(value, min, max) {
   return Math.max(min, Math.min(value, max));
@@ -20,57 +19,64 @@ function clamp(value, min, max) {
  */
 export function placePinCard({
   workWidth,
-  workHeight,
   workTop,
   frameLeft,
-  frameTop,
   frameWidth,
-  frameHeight,
   crop,
   row,
   side,
   viewportHeight,
-  cardHeight,
 }) {
   const xScale = frameWidth / crop.w;
-  const yScale = frameHeight / crop.h;
   const rowLeft = Math.min(...row.boxes.map((box) => box.x));
   const rowRight = Math.max(...row.boxes.map((box) => box.x + box.w));
-  const rowTop = Math.min(row.y, ...row.boxes.map((box) => box.y));
   const pinLeft = frameLeft + (rowLeft - crop.x) * xScale;
   const pinRight = frameLeft + (rowRight - crop.x) * xScale;
-  const pinTop = frameTop + (rowTop - crop.y) * yScale;
 
   const viewTop = Math.max(PAD, PAD - workTop);
-  const viewBottom = Math.min(workHeight - PAD, viewportHeight - workTop - PAD);
+  const viewBottom = viewportHeight - workTop - PAD;
+  const maxHeight = Math.max(320, viewBottom - viewTop);
 
-  let width = Math.min(MAX_WIDTH, Math.max(420, workWidth * 0.42));
-  let left = side === "left" ? pinRight + GAP : pinLeft - GAP - width;
-  if (side === "left") {
-    const room = workWidth - PAD - left;
-    if (room < width && room >= MIN_WIDTH) width = room;
-  } else {
-    const room = pinLeft - GAP - PAD;
-    if (left < PAD && room >= MIN_WIDTH) {
-      width = Math.min(width, room);
+  const inner = workWidth * 0.55;
+  let width;
+  let left;
+  if (side === "right") {
+    const limit = pinLeft - PIN_CLEARANCE;
+    const room = Math.max(0, limit - PAD);
+    width = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, inner), room);
+    if (width < 280) width = Math.max(240, room);
+    left = limit - width;
+    if (left < PAD) {
       left = PAD;
+      width = Math.max(240, limit - left);
+    }
+  } else {
+    const origin = pinRight + PIN_CLEARANCE;
+    const room = Math.max(0, workWidth - PAD - origin);
+    width = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, inner), room);
+    if (width < 280) width = Math.max(240, room);
+    left = origin;
+    if (left + width > workWidth - PAD) {
+      width = Math.max(240, workWidth - PAD - left);
     }
   }
-  left = clamp(left, PAD, workWidth - width - PAD);
 
-  const estimated = Number.isFinite(cardHeight) && cardHeight > 0
-    ? cardHeight
-    : Math.min(MAX_HEIGHT, Math.max(MIN_HEIGHT, viewBottom - viewTop));
-  const height = clamp(estimated, MIN_HEIGHT, Math.min(MAX_HEIGHT, Math.max(MIN_HEIGHT, viewBottom - viewTop)));
-
-  let top = pinTop - 12;
-  if (top + height > viewBottom) top = viewBottom - height;
-  top = clamp(top, viewTop, Math.max(viewTop, viewBottom - height));
+  left = clamp(left, PAD, Math.max(PAD, workWidth - width - PAD));
+  if (side === "right") {
+    const limit = pinLeft - PIN_CLEARANCE;
+    left = Math.min(left, limit - width);
+    left = Math.max(PAD, left);
+    if (left + width > limit) width = Math.max(240, limit - left);
+  } else {
+    const origin = pinRight + PIN_CLEARANCE;
+    left = Math.max(left, origin);
+    if (left + width > workWidth - PAD) width = Math.max(240, workWidth - PAD - left);
+  }
 
   return {
-    top: Math.round(top),
+    top: Math.round(viewTop),
     left: Math.round(left),
-    width: Math.round(width),
-    maxHeight: Math.round(Math.max(MIN_HEIGHT, viewBottom - top)),
+    width: Math.round(Math.max(240, width)),
+    maxHeight: Math.round(maxHeight),
   };
 }
