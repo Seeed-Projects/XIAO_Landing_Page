@@ -1,5 +1,5 @@
 import { SiteHeader } from "../../components";
-import { Pinout } from "../../products/pinout";
+import { PinoutView } from "./PinoutView";
 
 export default function PinoutPage() {
   return (
@@ -7,7 +7,7 @@ export default function PinoutPage() {
       <SiteHeader />
       <main className="flex w-full flex-1 flex-col">
         <div className="mt-16">
-          <Pinout />
+          <PinoutView />
         </div>
       </main>
     </>

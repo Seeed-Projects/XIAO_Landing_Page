@@ -1,0 +1,445 @@
+{
+  "boards": [
+    "samd21plus",
+    "samd21",
+    "s3sense",
+    "s3plus",
+    "s3",
+    "c6",
+    "c5",
+    "c3",
+    "nrf52840senseplus",
+    "nrf52840sense",
+    "nrf52840plus",
+    "nrf52",
+    "nrf54l15sense",
+    "nrf54l15",
+    "nrf54lm20asense",
+    "nrf54lm20a",
+    "rp2040plus",
+    "rp2040",
+    "rp2350",
+    "mg24sense",
+    "mg24",
+    "ra4",
+    "stm32c5"
+  ],
+  "assets": {
+    "c3-front": "/xiao-products/pinout/c3-front.svg",
+    "c3-back": "/xiao-products/pinout/c3-back.svg",
+    "c5-front": "/xiao-products/pinout/c5-front.svg",
+    "c5-back": "/xiao-products/pinout/c5-back.svg",
+    "c6-front": "/xiao-products/pinout/c6-front.svg",
+    "c6-back": "/xiao-products/pinout/c6-back.svg",
+    "s3plus-front": "/xiao-products/pinout/s3plus-front.svg",
+    "s3plus-back": "/xiao-products/pinout/s3plus-back.svg",
+    "s3sense-front": "/xiao-products/pinout/s3sense-front.svg",
+    "s3sense-back": "/xiao-products/pinout/s3sense-back.svg",
+    "s3-front": "/xiao-products/pinout/s3-front.svg",
+    "s3-back": "/xiao-products/pinout/s3-back.svg",
+    "mg24sense-front": "/xiao-products/pinout/mg24sense-front.svg",
+    "mg24sense-back": "/xiao-products/pinout/mg24sense-back.svg",
+    "mg24-front": "/xiao-products/pinout/mg24-front.svg",
+    "mg24-back": "/xiao-products/pinout/mg24-back.svg",
+    "ra4-front": "/xiao-products/pinout/ra4-front.svg",
+    "ra4-back": "/xiao-products/pinout/ra4-back.svg",
+    "rp2040plus-front": "/xiao-products/pinout/rp2040plus-front.svg",
+    "rp2040plus-back": "/xiao-products/pinout/rp2040plus-back.svg",
+    "rp2040-front": "/xiao-products/pinout/rp2040-front.svg",
+    "rp2040-back": "/xiao-products/pinout/rp2040-back.svg",
+    "rp2350-front": "/xiao-products/pinout/rp2350-front.svg",
+    "rp2350-back": "/xiao-products/pinout/rp2350-back.svg",
+    "samd21plus-front": "/xiao-products/pinout/samd21plus-front.svg",
+    "samd21plus-back": "/xiao-products/pinout/samd21plus-back.svg",
+    "samd21-back": "/xiao-products/pinout/samd21-back.svg",
+    "stm32c5-front": "/xiao-products/pinout/stm32c5-front.svg",
+    "stm32c5-back": "/xiao-products/pinout/stm32c5-back.svg",
+    "nrf52840plus-front": "/xiao-products/pinout/nrf52840plus-front.svg",
+    "nrf52840plus-back": "/xiao-products/pinout/nrf52840plus-back.svg",
+    "nrf52840senseplus-front": "/xiao-products/pinout/nrf52840senseplus-front.svg",
+    "nrf52840senseplus-back": "/xiao-products/pinout/nrf52840senseplus-back.svg",
+    "nrf52840sense-front": "/xiao-products/pinout/nrf52840sense-front.svg",
+    "nrf52840sense-back": "/xiao-products/pinout/nrf52840sense-back.svg",
+    "nrf52-front": "/xiao-products/pinout/nrf52-front.svg",
+    "nrf52-back": "/xiao-products/pinout/nrf52-back.svg",
+    "nrf54l15sense-front": "/xiao-products/pinout/nrf54l15sense-front.svg",
+    "nrf54l15sense-back": "/xiao-products/pinout/nrf54l15sense-back.svg",
+    "nrf54l15-front": "/xiao-products/pinout/nrf54l15-front.svg",
+    "nrf54l15-back": "/xiao-products/pinout/nrf54l15-back.svg",
+    "nrf54lm20asense-front": "/xiao-products/pinout/nrf54lm20asense-front.svg",
+    "nrf54lm20asense-back": "/xiao-products/pinout/nrf54lm20asense-back.svg",
+    "nrf54lm20a-front": "/xiao-products/pinout/nrf54lm20a-front.svg",
+    "nrf54lm20a-back": "/xiao-products/pinout/nrf54lm20a-back.svg",
+    "samd21-front": "/xiao-products/pinout/samd21-front.svg"
+  },
+  "scan": [
+    {
+      "boardId": "c3",
+      "face": "front",
+      "rows": 18,
+      "rects": 55,
+      "mb": "0.43",
+      "beforeMb": "4.50"
+    },
+    {
+      "boardId": "c3",
+      "face": "back",
+      "rows": 8,
+      "rects": 13,
+      "mb": "0.18",
+      "beforeMb": "5.56"
+    },
+    {
+      "boardId": "c5",
+      "face": "front",
+      "rows": 19,
+      "rects": 55,
+      "mb": "0.46",
+      "beforeMb": "4.66"
+    },
+    {
+      "boardId": "c5",
+      "face": "back",
+      "rows": 9,
+      "rects": 15,
+      "mb": "0.30",
+      "beforeMb": "5.82"
+    },
+    {
+      "boardId": "c6",
+      "face": "front",
+      "rows": 20,
+      "rects": 59,
+      "mb": "0.54",
+      "beforeMb": "7.08"
+    },
+    {
+      "boardId": "c6",
+      "face": "back",
+      "rows": 9,
+      "rects": 15,
+      "mb": "0.20",
+      "beforeMb": "5.88"
+    },
+    {
+      "boardId": "s3plus",
+      "face": "front",
+      "rows": 19,
+      "rects": 71,
+      "mb": "0.54",
+      "beforeMb": "3.59"
+    },
+    {
+      "boardId": "s3plus",
+      "face": "back",
+      "rows": 14,
+      "rects": 59,
+      "mb": "0.48",
+      "beforeMb": "5.03"
+    },
+    {
+      "boardId": "s3sense",
+      "face": "front",
+      "rows": 23,
+      "rects": 113,
+      "mb": "5.77",
+      "beforeMb": "11.01"
+    },
+    {
+      "boardId": "s3sense",
+      "face": "back",
+      "rows": 10,
+      "rects": 15,
+      "mb": "0.18",
+      "beforeMb": "4.95"
+    },
+    {
+      "boardId": "s3",
+      "face": "front",
+      "rows": 19,
+      "rects": 71,
+      "mb": "0.54",
+      "beforeMb": "5.29"
+    },
+    {
+      "boardId": "s3",
+      "face": "back",
+      "rows": 10,
+      "rects": 15,
+      "mb": "0.18",
+      "beforeMb": "4.95"
+    },
+    {
+      "boardId": "mg24sense",
+      "face": "front",
+      "rows": 24,
+      "rects": 90,
+      "mb": "0.60",
+      "beforeMb": "3.17"
+    },
+    {
+      "boardId": "mg24sense",
+      "face": "back",
+      "rows": 11,
+      "rects": 60,
+      "mb": "0.54",
+      "beforeMb": "1.62"
+    },
+    {
+      "boardId": "mg24",
+      "face": "front",
+      "rows": 19,
+      "rects": 75,
+      "mb": "0.48",
+      "beforeMb": "4.97"
+    },
+    {
+      "boardId": "mg24",
+      "face": "back",
+      "rows": 11,
+      "rects": 60,
+      "mb": "0.54",
+      "beforeMb": "1.62"
+    },
+    {
+      "boardId": "ra4",
+      "face": "front",
+      "rows": 20,
+      "rects": 74,
+      "mb": "0.49",
+      "beforeMb": "5.00"
+    },
+    {
+      "boardId": "ra4",
+      "face": "back",
+      "rows": 15,
+      "rects": 58,
+      "mb": "0.54",
+      "beforeMb": "5.99"
+    },
+    {
+      "boardId": "rp2040plus",
+      "face": "front",
+      "rows": 20,
+      "rects": 59,
+      "mb": "0.49",
+      "beforeMb": "1.17"
+    },
+    {
+      "boardId": "rp2040plus",
+      "face": "back",
+      "rows": 26,
+      "rects": 53,
+      "mb": "0.53",
+      "beforeMb": "1.32"
+    },
+    {
+      "boardId": "rp2040",
+      "face": "front",
+      "rows": 21,
+      "rects": 61,
+      "mb": "0.50",
+      "beforeMb": "5.27"
+    },
+    {
+      "boardId": "rp2040",
+      "face": "back",
+      "rows": 6,
+      "rects": 11,
+      "mb": "0.17",
+      "beforeMb": "5.59"
+    },
+    {
+      "boardId": "rp2350",
+      "face": "front",
+      "rows": 19,
+      "rects": 55,
+      "mb": "0.44",
+      "beforeMb": "5.72"
+    },
+    {
+      "boardId": "rp2350",
+      "face": "back",
+      "rows": 12,
+      "rects": 41,
+      "mb": "0.50",
+      "beforeMb": "1.67"
+    },
+    {
+      "boardId": "samd21plus",
+      "face": "front",
+      "rows": 18,
+      "rects": 81,
+      "mb": "0.50",
+      "beforeMb": "0.94"
+    },
+    {
+      "boardId": "samd21plus",
+      "face": "back",
+      "rows": 25,
+      "rects": 73,
+      "mb": "0.62",
+      "beforeMb": "1.37"
+    },
+    {
+      "boardId": "samd21",
+      "face": "back",
+      "rows": 6,
+      "rects": 11,
+      "mb": "0.15",
+      "beforeMb": "5.07"
+    },
+    {
+      "boardId": "stm32c5",
+      "face": "front",
+      "rows": 23,
+      "rects": 62,
+      "mb": "0.43",
+      "beforeMb": "2.02"
+    },
+    {
+      "boardId": "stm32c5",
+      "face": "back",
+      "rows": 19,
+      "rects": 44,
+      "mb": "0.42",
+      "beforeMb": "1.92"
+    },
+    {
+      "boardId": "nrf52840plus",
+      "face": "front",
+      "rows": 19,
+      "rects": 75,
+      "mb": "0.54",
+      "beforeMb": "3.90"
+    },
+    {
+      "boardId": "nrf52840plus",
+      "face": "back",
+      "rows": 14,
+      "rects": 57,
+      "mb": "0.51",
+      "beforeMb": "4.57"
+    },
+    {
+      "boardId": "nrf52840senseplus",
+      "face": "front",
+      "rows": 25,
+      "rects": 93,
+      "mb": "0.69",
+      "beforeMb": "5.73"
+    },
+    {
+      "boardId": "nrf52840senseplus",
+      "face": "back",
+      "rows": 14,
+      "rects": 57,
+      "mb": "0.51",
+      "beforeMb": "4.57"
+    },
+    {
+      "boardId": "nrf52840sense",
+      "face": "front",
+      "rows": 25,
+      "rects": 93,
+      "mb": "0.69",
+      "beforeMb": "4.84"
+    },
+    {
+      "boardId": "nrf52840sense",
+      "face": "back",
+      "rows": 8,
+      "rects": 17,
+      "mb": "0.34",
+      "beforeMb": "6.07"
+    },
+    {
+      "boardId": "nrf52",
+      "face": "front",
+      "rows": 19,
+      "rects": 75,
+      "mb": "0.58",
+      "beforeMb": "5.99"
+    },
+    {
+      "boardId": "nrf52",
+      "face": "back",
+      "rows": 8,
+      "rects": 17,
+      "mb": "0.34",
+      "beforeMb": "6.07"
+    },
+    {
+      "boardId": "nrf54l15sense",
+      "face": "front",
+      "rows": 26,
+      "rects": 58,
+      "mb": "5.26",
+      "beforeMb": "9.90"
+    },
+    {
+      "boardId": "nrf54l15sense",
+      "face": "back",
+      "rows": 13,
+      "rects": 28,
+      "mb": "0.45",
+      "beforeMb": "1.49"
+    },
+    {
+      "boardId": "nrf54l15",
+      "face": "front",
+      "rows": 20,
+      "rects": 45,
+      "mb": "0.46",
+      "beforeMb": "6.60"
+    },
+    {
+      "boardId": "nrf54l15",
+      "face": "back",
+      "rows": 13,
+      "rects": 28,
+      "mb": "0.45",
+      "beforeMb": "1.49"
+    },
+    {
+      "boardId": "nrf54lm20asense",
+      "face": "front",
+      "rows": 25,
+      "rects": 57,
+      "mb": "0.52",
+      "beforeMb": "3.26"
+    },
+    {
+      "boardId": "nrf54lm20asense",
+      "face": "back",
+      "rows": 27,
+      "rects": 42,
+      "mb": "0.67",
+      "beforeMb": "2.81"
+    },
+    {
+      "boardId": "nrf54lm20a",
+      "face": "front",
+      "rows": 19,
+      "rects": 45,
+      "mb": "0.44",
+      "beforeMb": "1.25"
+    },
+    {
+      "boardId": "nrf54lm20a",
+      "face": "back",
+      "rows": 27,
+      "rects": 42,
+      "mb": "0.67",
+      "beforeMb": "2.80"
+    },
+    {
+      "boardId": "samd21",
+      "face": "front",
+      "rows": 19,
+      "rects": 88,
+      "mb": "0.51",
+      "beforeMb": "0.51"
+    }
+  ]
+}

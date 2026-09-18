@@ -1,10 +1,14 @@
+/*
+ * LEGACY REFERENCE — list-and-side-column pinout before the pad-anchored rebuild.
+ * Not imported by the application. Original active path: ../pinout.js
+ */
 "use client";
 
 import { useState, useRef, useCallback, useEffect, useLayoutEffect } from "react";
 import { useLang } from "../i18n";
 import { ToolPageIntro } from "../tool-page-intro";
 import { withBase } from "../../lib/basePath";
-import styles from "./pinout.module.css";
+import styles from "./pinout.legacy.module.css";
 
 /* 功能色 */
 const FN_COLOR = {

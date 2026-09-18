@@ -11,9 +11,8 @@ test("development board catalog uses the concise category title", () => {
 });
 
 test("pinout model labels use the complete nRF54LM20A name", () => {
-  const source = readSource("./products/pinout.js");
-  assert.equal((source.match(/name: "XIAO nRF54LM20A"/g) || []).length, 2);
-  assert.match(source, /figureLabel: \["XIAO", "nRF54LM20A"\]/);
+  const source = readSource("./playground/pinout/data/catalog.js");
+  assert.match(source, /name: "XIAO nRF54LM20A"/);
 });
 
 test("roadmap invitation invites developers to shape the next XIAO", () => {
