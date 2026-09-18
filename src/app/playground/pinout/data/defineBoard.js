@@ -58,8 +58,24 @@ export function defineBoard(spec) {
   };
 }
 
-/** Padding around the label boxes when cropping, as a share of image width. 裁切时标签框外的边距，按图宽比例。 */
+/** Padding around pin labels when trimming empty side/top margins. 裁左右和上方空白时，引脚标签外再留的边距。 */
 const DIAGRAM_CROP_PAD = 0.012;
+
+/**
+ * Crop empty canvas around the artwork, keeping every colour block.
+ * 只裁掉画布空白，引脚色块和底部图例都留下。
+ */
+function cropArt(size, rows) {
+  const pad = Math.round(size.width * DIAGRAM_CROP_PAD);
+  const minY = Math.min(...rows.flatMap((row) => row.boxes.map((box) => box.y)));
+  const y = Math.max(0, Math.round(minY - pad));
+  return {
+    x: 0,
+    y,
+    w: size.width,
+    h: size.height - y,
+  };
+}
 
 /**
  * Pair scanned label rows with pin ids for each diagram face.
@@ -82,18 +98,12 @@ export function buildDiagram(diagram, boardId) {
       }
       scanned.forEach((row, index) => rows.push({ id: wanted[index], side, y: row.y, boxes: row.boxes }));
     }
-    const { content, size } = layout;
-    const pad = Math.round(size.width * DIAGRAM_CROP_PAD);
+    const { size } = layout;
     out[face] = {
       src: spec.src,
       width: size.width,
       height: size.height,
-      crop: {
-        x: Math.max(0, content.x - pad),
-        y: Math.max(0, content.y - pad),
-        w: Math.min(size.width, content.w + pad * 2),
-        h: Math.min(size.height, content.h + pad * 2),
-      },
+      crop: cropArt(size, rows),
       rows,
     };
   }
@@ -107,12 +117,20 @@ export function buildDiagram(diagram, boardId) {
  * 把正反面裁切扩成同一像素尺寸，两张图在同样大的框里、同一比例显示。
  */
 function fitCrop(crop, width, height, imageWidth, imageHeight) {
-  const nextW = Math.min(width, imageWidth);
-  const nextH = Math.min(height, imageHeight);
+  const nextW = Math.min(Math.max(width, crop.w), imageWidth);
+  const nextH = Math.min(Math.max(height, crop.h), imageHeight);
   const cx = crop.x + crop.w / 2;
   const cy = crop.y + crop.h / 2;
-  const x = Math.max(0, Math.min(Math.round(cx - nextW / 2), imageWidth - nextW));
-  const y = Math.max(0, Math.min(Math.round(cy - nextH / 2), imageHeight - nextH));
+  let x = Math.round(cx - nextW / 2);
+  let y = Math.round(cy - nextH / 2);
+  x = Math.max(0, Math.min(x, imageWidth - nextW));
+  y = Math.max(0, Math.min(y, imageHeight - nextH));
+  if (x > crop.x) x = crop.x;
+  if (x + nextW < crop.x + crop.w) x = crop.x + crop.w - nextW;
+  if (y > crop.y) y = crop.y;
+  if (y + nextH < crop.y + crop.h) y = crop.y + crop.h - nextH;
+  x = Math.max(0, Math.min(x, imageWidth - nextW));
+  y = Math.max(0, Math.min(y, imageHeight - nextH));
   return { x, y, w: nextW, h: nextH };
 }
 

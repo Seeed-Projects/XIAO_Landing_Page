@@ -14,13 +14,13 @@
  * 优先读取 `public/xiao-products/pinout/<id>-<face>.svg` 并直接解析其中的 `<rect>`；
  * 没有 SVG 时改用无头 Chrome 按颜色识别 `<id>-<face>.png`。输出单位为图片 / viewBox 像素：
  *   size            image width / height
- *   content         bounding box of every label box, for cropping
+ *   content         bounding box of pin labels and the colour key, for cropping
  *   legend          bottom legend swatches with their colours
  *   rows.left/right label rows on each side of the board, top to bottom;
  *                   each row lists its boxes from the board outward with a
  *                   colour category guessed from the legend palette
  * 读取 `public/xiao-products/pinout/<id>-<face>.png`，输出（单位均为图片像素）：
- * size 图片尺寸；content 所有标签框的外接矩形，用于裁切；legend 底部图例色块；
+ * size 图片尺寸；content 引脚色块与底部图例外接矩形，用于裁切；legend 底部图例色块；
  * rows.left/right 板子两侧的标签行（自上而下），每行从靠板一侧向外列出框及其颜色分类。
  */
 
@@ -207,7 +207,7 @@ export function groupBoxes({ W, H, blobs }) {
         .map(({ x, y, w, h, cat }) => ({ x, y, w, h, cat })),
     }));
   };
-  const all = body.length ? body : boxes;
+  const all = body.length || legend.length ? [...body, ...legend] : boxes;
   const content = {
     x: Math.min(...all.map((box) => box.x)),
     y: Math.min(...all.map((box) => box.y)),

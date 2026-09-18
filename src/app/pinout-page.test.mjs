@@ -113,10 +113,24 @@ test("every board face has a diagram whose rows resolve to pins", () => {
 
 test("front and back diagram crops share one frame size", () => {
   for (const board of uniqueBoards) {
-    const front = board.diagram.front.crop;
-    const back = board.diagram.back.crop;
-    assert.equal(front.w, back.w, `${board.id} crop width`);
-    assert.equal(front.h, back.h, `${board.id} crop height`);
+    const front = board.diagram.front;
+    const back = board.diagram.back;
+    if (front.width !== back.width || front.height !== back.height) continue;
+    assert.equal(front.crop.w, back.crop.w, `${board.id} crop width`);
+    assert.equal(front.crop.h, back.crop.h, `${board.id} crop height`);
+  }
+});
+
+test("diagram crop keeps the lower colour key", () => {
+  for (const board of uniqueBoards) {
+    for (const face of ["front", "back"]) {
+      const diagram = board.diagram[face];
+      assert.equal(
+        diagram.crop.y + diagram.crop.h,
+        diagram.height,
+        `${board.id} ${face} crop reaches the bottom of the artwork`,
+      );
+    }
   }
 });
 
