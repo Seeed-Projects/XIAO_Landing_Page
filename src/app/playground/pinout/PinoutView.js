@@ -466,7 +466,7 @@ export function PinoutView() {
         const pinH = workW * (pin.h / pin.w);
         const key = spec.legend;
         const legendH = key ? workW * (key.h / key.w) : 0;
-        return 34 + pinH + legendH;
+        return 28 + pinH + legendH;
       };
       const total = faceH("front") + faceH("back") + 10;
       const scale = total > available && total > 0 ? available / total : 1;
@@ -610,7 +610,6 @@ export function PinoutView() {
             return (
               <div key={face} className={styles.faceBlock} ref={faceRefs[face]}>
                 <div className={styles.stageHead}>
-                  <span className={styles.stageName}>{board.name}</span>
                   <span className={styles.stageFace}>{face === "front" ? (zh ? "正面" : "Front") : (zh ? "背面" : "Back")}</span>
                 </div>
                 <DiagramStage

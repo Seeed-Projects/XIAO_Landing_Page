@@ -247,6 +247,8 @@ test("Pinout view stacks both faces, floats a pin card and drops the flip/side U
   assert.match(view, /legendStrip/);
   assert.match(css, /diagram-max-w/);
   assert.match(view, /diagramMaxW/);
+  assert.doesNotMatch(view, /stageName/);
+  assert.match(css, /letter-spacing:\s*0\.18em/);
   assert.match(css, /mix-blend-mode:\s*multiply/);
   assert.doesNotMatch(css, /\.padRight/);
   assert.doesNotMatch(view, /padRight/);

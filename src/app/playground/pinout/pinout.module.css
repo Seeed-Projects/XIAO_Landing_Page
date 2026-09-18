@@ -196,24 +196,15 @@
 .stageHead {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: center;
   width: 100%;
-  margin-bottom: 4px;
-}
-.stageName {
-  color: var(--ink-strong);
-  font-size: 14px;
-  font-weight: 700;
+  margin-bottom: 6px;
 }
 .stageFace {
-  padding: 3px 10px;
-  clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
-  background: var(--surface-tint);
   color: var(--brand-green-deep);
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
