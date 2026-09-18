@@ -403,12 +403,12 @@ export function PinoutView() {
       const frameEl = faceEl.querySelector("[data-diagram-frame]");
       const frameBox = (frameEl || faceEl).getBoundingClientRect();
       const yRatio = (row.y - diagram.crop.y) / diagram.crop.h;
-      const width = Math.min(340, Math.max(260, workBox.width * 0.28));
+      const width = Math.min(560, Math.max(420, workBox.width * 0.42));
       let top = frameBox.top - workBox.top + yRatio * frameBox.height;
       let left = selection.side === "left"
         ? faceBox.left - workBox.left + faceBox.width + 12
         : faceBox.left - workBox.left - width - 12;
-      top = Math.max(8, Math.min(top, workBox.height - 120));
+      top = Math.max(8, Math.min(top, workBox.height - 240));
       left = Math.max(8, Math.min(left, workBox.width - width - 8));
       setCardPos({ top, left, width });
     };

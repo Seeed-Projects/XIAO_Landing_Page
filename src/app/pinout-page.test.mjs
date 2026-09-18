@@ -179,6 +179,8 @@ test("Pinout view stacks both faces, floats a pin card and drops the flip/side U
   assert.doesNotMatch(view, /function Strip/);
   assert.match(css, /cardFloat/);
   assert.match(css, /cardSheet/);
+  assert.match(css, /min\(84vh, 780px\)/);
+  assert.match(view, /Math\.min\(560, Math\.max\(420, workBox\.width \* 0\.42\)\)/);
   assert.match(css, /5cm/);
   assert.match(css, /diagramFrame/);
   assert.doesNotMatch(css, /\.padRight/);
