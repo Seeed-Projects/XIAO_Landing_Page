@@ -338,6 +338,71 @@ Run `node --test src/app/pinout-page.test.mjs` to check all twenty-three
 boards, both diagram faces, primers, notes, alt keys and the two-face view.
 
 
+## Playground Web Flasher
+
+`/playground/esp-flasher/` is a two-column workbench sized to the viewport: the
+four numbered steps run top to bottom in the wide left column, and a serial
+monitor keeps the narrower right column for the whole session. Each step is a
+band with its explanation on the left and its controls on the right, so all four
+fit on a 900px-tall screen. Each column scrolls on its own, so the monitor never
+leaves the fold. Below 1080px the columns stack and the monitor keeps a fixed
+height; below 860px each step folds into a single column; on short desktop
+screens the page lead and monitor caption fold away to give the steps more room.
+
+The four steps are connect, choose board, choose firmware, flash:
+
+1. **Connect** opens the browser serial picker, detects the chip through
+   esptool-js and shows chip description, MAC and port state. A collapsible
+   "Trouble connecting?" block carries the cable, BOOT-button and USB-port tips.
+2. **Choose board** offers the four ESP boards as tiles; connecting selects the
+   tile that matches the detected chip.
+3. **Choose firmware** lists the official images for that board and accepts a
+   local `.bin` by drop or file picker. Local images carry a hex flash address
+   (`0x10000` for Arduino / PlatformIO application images, `0x0` for merged
+   images that include the bootloader); an invalid address blocks the write.
+4. **Flash** writes the image with a progress bar, an optional full-chip erase,
+   and reports elapsed time, average speed and size.
+
+The monitor owns the serial port whenever the flasher does not. After chip
+detection and after a successful write the board is hard-reset, the loader
+releases the port, and the monitor reopens it at the selected baud rate — so the
+new firmware's first boot lines appear on their own. When a USB-CDC board
+re-enumerates after reset, the port is resolved again by USB vendor and product
+id. Starting a flash pauses the monitor and re-attaches the loader
+automatically.
+
+Every line is timestamped and tagged as page event, flasher output, device
+output, success or error. The header carries the baud selector and the listen,
+copy, download and clear buttons; the footer shows chip, flash time, speed,
+size, line count and the auto-scroll switch. Copied and downloaded transcripts start with a
+header holding the browser user agent, selected board, detected chip and MAC,
+firmware and monitor baud, which is what support needs to read a session.
+
+Firmware images live in `firmware/<board>/` with a serving copy in
+`public/firmware/<board>/`. Register a new image in the `FIRMWARES` table in
+`src/app/products/esp-flasher.js` with its board ids, name, description, version,
+url and flash address.
+
+### Verification
+
+Web Serial needs desktop Chrome or Edge over HTTPS or `localhost`. With the
+preview running, open `http://localhost:3000/XIAO_Landing_Page/playground/esp-flasher/`:
+
+1. Without a board attached, check that all four steps are visible beside the
+   monitor at 1440x900, that the page itself does not scroll at 1440x900 or
+   1280x720, and that the columns stack at 390px.
+2. Drop a `.bin` on the local firmware area: the radio moves to the local file,
+   the address field appears, and a timestamped line records the file and size.
+   Typing a non-hex address shows the address hint in red and blocks flashing.
+3. With a XIAO ESP board attached, press Connect: the log records chip
+   detection, the facts list fills with chip and MAC, and the monitor switches
+   to Listening within a couple of seconds.
+4. Flash the sample image: the progress bar runs to 100%, the footer fills with
+   time, speed and size, and the board's own boot output continues in the same
+   log.
+5. Press Copy and Download and confirm the transcript header carries
+   browser, board, chip, firmware and baud.
+
 ## Project Hub Featured Projects
 
 The Featured Projects section randomly selects **7** builds from the same Home

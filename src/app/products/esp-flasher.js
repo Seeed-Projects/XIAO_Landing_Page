@@ -1,9 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLang } from "../i18n";
-import { Glow } from "../Glow";
-import { ToolPageIntro } from "../tool-page-intro";
 import { withBase } from "../../lib/basePath";
 import styles from "./esp-flasher.module.css";
 
@@ -52,402 +50,815 @@ const FIRMWARES = [
 
 /* 可选板型（ESP 系列）；4 款均有 Blink 示例固件 */
 const ESP_BOARDS = [
-  { id: "s3", name: "XIAO ESP32-S3", chip: "ESP32-S3", hint: "Dual Core · Wi-Fi + BLE", hasFw: true },
-  { id: "c3", name: "XIAO ESP32-C3", chip: "ESP32-C3", hint: "RISC-V · Wi-Fi 4 + BLE 5", hasFw: true },
-  { id: "c6", name: "XIAO ESP32-C6", chip: "ESP32-C6", hint: "RISC-V · Wi-Fi 6 + Thread", hasFw: true },
-  { id: "c5", name: "XIAO ESP32-C5", chip: "ESP32-C5", hint: "RISC-V · Wi-Fi 6 + BLE 5", hasFw: true },
+  { id: "s3", name: "XIAO ESP32-S3", short: "ESP32-S3", chip: "ESP32-S3", hint: "Dual Core · Wi-Fi + BLE" },
+  { id: "c3", name: "XIAO ESP32-C3", short: "ESP32-C3", chip: "ESP32-C3", hint: "RISC-V · Wi-Fi 4 + BLE 5" },
+  { id: "c6", name: "XIAO ESP32-C6", short: "ESP32-C6", chip: "ESP32-C6", hint: "RISC-V · Wi-Fi 6 + Thread" },
+  { id: "c5", name: "XIAO ESP32-C5", short: "ESP32-C5", chip: "ESP32-C5", hint: "RISC-V · Wi-Fi 6 + BLE 5" },
 ];
 
 const HA_FLASHER_URL = "https://seeed-projects.github.io/Seeed-Homeassistant-Discovery/flasher/";
+const BAUD_RATES = ["9600", "74880", "115200", "230400", "460800", "921600"];
+const CUSTOM_ID = "custom";
+const DEFAULT_ADDRESS = "0x10000";
+const MAX_LOG_LINES = 1500;
 
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const pad = (value, size = 2) => String(value).padStart(size, "0");
+
+/**
+ * Format a timestamp for the log gutter as HH:MM:SS.mmm.
+ * 把时间格式化成日志左侧的 时:分:秒.毫秒 时间戳。
+ */
+function formatTime(date) {
+  return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}.${pad(date.getMilliseconds(), 3)}`;
+}
+
+/** Format a timestamp as HH:MM:SS for the narrow log gutter. 日志栏内显示的紧凑时间戳。 */
+function formatClock(date) {
+  return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+}
+
+/**
+ * Parse a flash address written as hex ("0x10000" or "10000").
+ * 解析十六进制烧录地址，非法输入返回 null。
+ * @returns {number|null}
+ */
+function parseAddress(input) {
+  const text = String(input ?? "").trim();
+  if (!/^(0x)?[0-9a-f]+$/i.test(text)) return null;
+  const value = Number.parseInt(text.replace(/^0x/i, ""), 16);
+  return Number.isFinite(value) && value >= 0 ? value : null;
+}
+
+const formatKB = (bytes) => `${(bytes / 1024).toFixed(1)} KB`;
 
 export function ESPFlasher() {
   const { lang } = useLang();
+  const zh = lang === "zh";
 
-  const [supported, setSupported] = useState(false); // SSR 与首屏一致 false，挂载后再探测，避免 hydration mismatch
-  const [connected, setConnected] = useState(false);
-  const [busy, setBusy] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [chip, setChip] = useState("—");
-  const [stats, setStats] = useState({ time: "—", speed: "—", size: "—" });
+  // SSR 与首屏一致 false，挂载后再探测 Web Serial，避免 hydration mismatch
+  const [supported, setSupported] = useState(false);
+  // idle 未授权端口 / connecting 连接中 / monitoring 监视设备输出 / flashing 烧录中 / paused 已连接但暂停读取
+  const [phase, setPhase] = useState("idle");
+  const [device, setDevice] = useState(null);
   const [boardId, setBoardId] = useState("s3");
   const [firmwareId, setFirmwareId] = useState("s3-blink");
-  const [logLines, setLogLines] = useState([]);
-  const [monOn, setMonOn] = useState(false);
-  const [baud, setBaud] = useState("115200");
+  const [localFile, setLocalFile] = useState(null);
+  const [localAddress, setLocalAddress] = useState(DEFAULT_ADDRESS);
+  const [dragOver, setDragOver] = useState(false);
+  const [eraseAll, setEraseAll] = useState(false);
+  const [progress, setProgress] = useState(null);
+  const [result, setResult] = useState(null);
   const [error, setError] = useState("");
-  const [flashed, setFlashed] = useState(false);
+  const [baud, setBaud] = useState("115200");
+  const [autoScroll, setAutoScroll] = useState(true);
+  const [logLines, setLogLines] = useState([]);
+  const [copied, setCopied] = useState(false);
 
-  const portRef = useRef(null);     // Web Serial 端口
-  const espRef = useRef(null);      // ESPLoader 实例
-  const readerRef = useRef(null);    // 裸串口 reader（监视设备输出）
-  const logBufRef = useRef([]);
+  const transportRef = useRef(null);   // esptool-js Transport，包装 Web Serial 端口
+  const loaderRef = useRef(null);      // ESPLoader 实例，只在烧录/识别芯片期间挂载
+  const monitorClosedRef = useRef(true);
+  const monitorSessionRef = useRef(0);
+  const fileInputRef = useRef(null);
+  const bodyRef = useRef(null);
+  const linesRef = useRef([]);         // 已成行的日志
+  const tailRef = useRef(null);        // 尚未遇到换行的半行
+  const seqRef = useRef(0);
   const flushRef = useRef(null);
 
-  const board = ESP_BOARDS.find((b) => b.id === boardId) ?? ESP_BOARDS[0];
-  const fwList = FIRMWARES.filter((f) => f.boards.includes(boardId));
-  const sel = fwList.find((f) => f.id === firmwareId) ?? fwList[0];
-
-  /* 日志收集：esptool terminal 与裸串口输出都写到同一缓冲，节流后 flush 到 state */
-  const appendLog = useCallback((text) => {
-    if (!text) return;
-    logBufRef.current.push(text);
-    if (logBufRef.current.length > 800) logBufRef.current = logBufRef.current.slice(-800);
-    if (!flushRef.current) {
-      flushRef.current = setTimeout(() => {
-        flushRef.current = null;
-        setLogLines([...logBufRef.current]);
-      }, 80);
-    }
-  }, []);
-  const clearLog = useCallback(() => { logBufRef.current = []; setLogLines([]); }, []);
-
-  // 卸载时关掉端口/reader
-  useEffect(() => {
-    const supportTimer = setTimeout(() => {
-      setSupported(typeof navigator !== "undefined" && "serial" in navigator);
-    }, 0);
-    return () => {
-      clearTimeout(supportTimer);
-      if (flushRef.current) clearTimeout(flushRef.current);
-      try { readerRef.current?.cancel(); } catch {}
-    };
-  }, []);
-
-  /* esptool-js 的 terminal 对象：clean/write/writeLine，把日志喂给上面缓冲 */
-  const makeTerminal = () => ({
-    clean() {},
-    write(s) { appendLog(s); },
-    writeLine(s) { appendLog(s + "\n"); },
-  });
+  const board = ESP_BOARDS.find((item) => item.id === boardId) ?? ESP_BOARDS[0];
+  const boardFirmwares = useMemo(() => FIRMWARES.filter((item) => item.boards.includes(boardId)), [boardId]);
+  const builtIn = boardFirmwares.find((item) => item.id === firmwareId) ?? null;
+  const usingLocal = firmwareId === CUSTOM_ID && Boolean(localFile);
+  const connected = phase !== "idle";
+  const busy = phase === "connecting" || phase === "flashing";
+  const localAddressValue = parseAddress(localAddress);
 
   const pick = (field) => (field && field[lang]) || (field && field.en) || "";
 
   const T = {
-    eyebrow: lang === "zh" ? "ESP 在线烧录" : "ESP Flasher",
-    h2: lang === "zh" ? "在线烧录" : "Flash",
-    p: lang === "zh"
-      ? "选择烧录方式，然后按三个步骤完成固件写入。"
-      : "Choose a flashing path, then install firmware in three clear steps.",
-    espEntry: lang === "zh" ? "ESP 在线烧录" : "Web Flasher",
-    espEntryHint: lang === "zh" ? "在浏览器中连接并烧录 XIAO ESP 系列" : "Connect and flash XIAO ESP boards in the browser",
-    haEntry: lang === "zh" ? "HA 固件烧录" : "HA Firmware Flasher",
-    haEntryHint: lang === "zh" ? "跳转到 Home Assistant 烧录工具" : "Open the Home Assistant flashing tool",
-    openExternal: lang === "zh" ? "打开外部烧录页 ↗" : "Open external flasher ↗",
-    quickTitle: lang === "zh" ? "三步完成烧录" : "Flash in three steps",
-    stepOne: lang === "zh" ? "用 USB 连接设备" : "Connect the board over USB",
-    stepOneHint: lang === "zh" ? "使用支持数据传输的 USB 线，并允许浏览器访问串口。" : "Use a data-capable USB cable and allow browser serial access.",
-    stepTwo: lang === "zh" ? "选择开发板和固件" : "Choose board and firmware",
-    stepTwoHint: lang === "zh" ? "确认你的 XIAO 型号，再选择与它匹配的固件。" : "Match the XIAO model, then choose compatible firmware.",
-    stepThree: lang === "zh" ? "开始烧录" : "Flash the firmware",
-    stepThreeHint: lang === "zh" ? "确认选择后开始写入，完成前不要拔出设备。" : "Start writing and keep the board connected until it finishes.",
-    actionTitle: lang === "zh" ? "准备设备" : "Prepare your board",
-    firmwareLabel: lang === "zh" ? "固件" : "Firmware",
-    advancedTitle: lang === "zh" ? "烧录详情与串口工具" : "Flash details and serial tools",
-    advancedHint: lang === "zh" ? "需要排查问题或查看输出时，再使用这里的信息。" : "Use these details only when you need diagnostics or device output.",
-    connect: lang === "zh" ? "连接设备" : "Connect",
-    disconnect: lang === "zh" ? "断开" : "Disconnect",
-    flash: lang === "zh" ? "烧录" : "Flash",
-    flashing: lang === "zh" ? "烧录中…" : "Flashing…",
-    writing: lang === "zh" ? "烧录中" : "Writing",
-    finished: lang === "zh" ? "完成" : "Finished",
-    connected: lang === "zh" ? "已连接" : "Connected",
-    disconnected: lang === "zh" ? "未连接" : "Disconnected",
-    statTime: lang === "zh" ? "烧录耗时" : "Flash Time",
-    statSpeed: lang === "zh" ? "平均速率" : "Avg Speed",
-    statChip: lang === "zh" ? "检测芯片" : "Chip",
-    statSize: lang === "zh" ? "固件大小" : "Size",
-    notFlashed: lang === "zh" ? "尚未烧录" : "Not flashed yet",
-    thisRun: lang === "zh" ? "本次" : "This run",
-    fwHead: lang === "zh" ? "固件" : "Firmware",
-    fwVer: lang === "zh" ? "版本" : "Version",
-    fwSize: lang === "zh" ? "大小" : "Size",
-    fwAction: lang === "zh" ? "操作" : "Action",
-    flashingRow: lang === "zh" ? "烧录中" : "Flashing",
-    boardLabel: lang === "zh" ? "板型" : "Board",
-    monTitle: lang === "zh" ? "日志 / 串口" : "Log / Serial",
-    monHint: lang === "zh" ? "连接后此处实时显示烧录日志；烧完可读取设备串口输出" : "Live flash log here; read device serial output after flashing",
-    baud: lang === "zh" ? "波特率" : "Baud",
-    monStart: lang === "zh" ? "读取设备输出" : "Read Output",
-    monPause: lang === "zh" ? "停止" : "Stop",
-    monClear: lang === "zh" ? "清屏" : "Clear",
-    monEmpty: lang === "zh" ? "连接设备后查看实时日志" : "Connect a device to see the live log",
-    noFw: lang === "zh" ? "固件准备中（PoC 暂仅 ESP32-S3）" : "Firmware coming soon (PoC: ESP32-S3 only)",
-    unsupported: lang === "zh"
-      ? "当前浏览器不支持 Web Serial。请用桌面版 Chrome 或 Edge（需 HTTPS 或 localhost 访问）。"
-      : "Web Serial is not supported in this browser. Use desktop Chrome or Edge over HTTPS or localhost.",
-    connectFirst: lang === "zh" ? "请先连接设备" : "Connect a device first",
-    readOutput: lang === "zh" ? "读取设备输出" : "Read Device Output",
-    success: lang === "zh" ? "烧录成功，设备已复位并运行新固件" : "Flashed successfully — board reset and running new firmware",
+    eyebrow: zh ? "XIAO PLAYGROUND · 网页烧录" : "XIAO PLAYGROUND · WEB FLASHER",
+    title: zh ? "XIAO 网页烧录器" : "XIAO Web Flasher",
+    lead: zh
+      ? "四步完成固件写入，串口监视器全程记录烧录过程与设备输出。"
+      : "Four steps to write firmware, with a serial monitor recording the whole flash and everything the board prints.",
+    envOk: zh ? "浏览器已支持 Web Serial" : "Web Serial ready",
+    envWarn: zh ? "当前浏览器不支持 Web Serial" : "Web Serial unavailable",
+    envHint: zh
+      ? "请使用桌面版 Chrome 或 Edge，并通过 HTTPS 或 localhost 打开本页。"
+      : "Use desktop Chrome or Edge and open this page over HTTPS or localhost.",
+    haEntry: zh ? "Home Assistant 固件烧录" : "Home Assistant flasher",
+
+    step1: zh ? "连接设备" : "Connect the board",
+    step1Hint: zh
+      ? "用数据线连接 XIAO 并在浏览器弹窗中选择串口，随后自动识别芯片并开始监听。"
+      : "Connect the XIAO with a data cable and pick its port in the browser dialog. The chip is detected automatically and the monitor starts.",
+    step1TroubleTitle: zh ? "连接不上？" : "Trouble connecting?",
+    step1Trouble: zh
+      ? "1. 换一条支持数据传输的 USB-C 线（部分线材只能充电）。\n2. 按住板子上的 BOOT 键再插入 USB，或按住 BOOT 点一下 RESET，进入下载模式后重试。\n3. macOS 与 Windows 都无需额外驱动；若仍看不到串口，换一个 USB 口或直连电脑而不经扩展坞。"
+      : "1. Try another data-capable USB-C cable — some cables only carry power.\n2. Hold BOOT while plugging in USB, or hold BOOT and tap RESET, to enter download mode and retry.\n3. No driver is needed on macOS or Windows; if no port shows up, try another USB port or plug straight into the computer instead of a hub.",
+    connect: zh ? "连接设备" : "Connect",
+    connecting: zh ? "连接中…" : "Connecting…",
+    disconnect: zh ? "断开连接" : "Disconnect",
+    factChip: zh ? "芯片" : "Chip",
+    factMac: "MAC",
+    factPort: zh ? "串口" : "Port",
+
+    step2: zh ? "选择开发板" : "Choose your board",
+    step2Hint: zh
+      ? "选择手上的型号；连接后会按识别到的芯片自动选中。"
+      : "Pick the model you are holding; connecting selects the detected chip for you.",
+
+    step3: zh ? "选择固件" : "Choose firmware",
+    step3Hint: zh
+      ? "使用官方编译的示例固件，或上传自己的 .bin 并填写地址。"
+      : "Use an official sample image, or upload your own .bin with its address.",
+    localTitle: zh ? "本地固件 .bin" : "Local .bin file",
+    localHint: zh ? "把 .bin 拖到这里，或点击选择文件" : "Drop a .bin here, or click to browse",
+    localPick: zh ? "选择文件" : "Browse",
+    localReplace: zh ? "更换文件" : "Replace",
+    localRemove: zh ? "移除" : "Remove",
+    localAddress: zh ? "烧录地址" : "Flash address",
+    localAddressHint: zh
+      ? "Arduino / PlatformIO 导出的应用固件填 0x10000；含 bootloader 的整合固件填 0x0。"
+      : "Application images from Arduino or PlatformIO go to 0x10000; merged images that include the bootloader go to 0x0.",
+    localAddressBad: zh ? "地址需为十六进制，例如 0x10000" : "Address must be hex, for example 0x10000",
+
+    step4: zh ? "开始烧录" : "Flash the firmware",
+    step4Hint: zh
+      ? "写入完成前保持连接，完成后设备会自动复位。"
+      : "Keep the board plugged in until writing finishes; it resets on its own.",
+    eraseAll: zh
+      ? "烧录前擦除整片 Flash（清空 NVS 与 Wi-Fi 配置，耗时更长）"
+      : "Erase the whole flash first (clears NVS and saved Wi-Fi, takes longer)",
+    flash: zh ? "烧录固件" : "Flash firmware",
+    flashing: zh ? "烧录中…" : "Flashing…",
+    writing: zh ? "正在写入" : "Writing",
+    needConnect: zh ? "请先完成第 1 步连接设备" : "Complete step 1 and connect a board first",
+    needFirmware: zh ? "请先选择固件" : "Choose a firmware first",
+    success: zh ? "烧录完成，设备已复位并运行新固件。" : "Flash complete — the board reset into the new firmware.",
+
+    monitorTitle: zh ? "串口监视器" : "Serial Monitor",
+    monitorLead: zh
+      ? "烧录日志与设备输出都带时间戳记录在这里，复制或下载后即可发给技术支持。"
+      : "Flash logs and device output are timestamped here — copy or download them to share with support.",
+    phaseIdle: zh ? "未连接" : "Not connected",
+    phaseConnecting: zh ? "连接中" : "Connecting",
+    phaseMonitoring: zh ? "监听中" : "Listening",
+    phaseFlashing: zh ? "烧录中" : "Flashing",
+    phasePaused: zh ? "已暂停" : "Paused",
+    baud: zh ? "波特率" : "Baud",
+    reopening: zh ? "设备复位后串口重新枚举，正在重新打开…" : "The port re-enumerated after reset — reopening…",
+    startMonitor: zh ? "开始监听" : "Start listening",
+    pauseMonitor: zh ? "暂停监听" : "Pause",
+    copy: zh ? "复制" : "Copy",
+    copied: zh ? "已复制" : "Copied",
+    download: zh ? "下载" : "Download",
+    clear: zh ? "清空" : "Clear",
+    autoScroll: zh ? "自动滚动" : "Auto-scroll",
+    lineCount: zh ? "行" : "lines",
+    emptyTitle: zh ? "等待设备输出" : "Waiting for device output",
+    emptyBody: zh
+      ? "连接设备后，这里会依次记录芯片识别、固件下载与写入进度、复位结果，以及设备通过串口打印的运行日志。"
+      : "Once a board is connected this panel records chip detection, download and write progress, the reset result, and everything the board prints over serial.",
+    statChip: zh ? "芯片" : "Chip",
+    statTime: zh ? "耗时" : "Time",
+    statSpeed: zh ? "速率" : "Speed",
+    statSize: zh ? "大小" : "Size",
   };
 
-  async function safeClosePort() {
-    try { if (portRef.current && portRef.current.readable) await portRef.current.close(); } catch {}
-  }
-  async function stopReader() {
-    try { await readerRef.current?.cancel(); } catch {}
-    try { readerRef.current?.releaseLock(); } catch {}
-    readerRef.current = null;
-  }
+  /* 日志：按行存储，60ms 节流后整体刷新到 state，避免高频串口输出压垮渲染 */
+  const scheduleFlush = useCallback(() => {
+    if (flushRef.current) return;
+    flushRef.current = setTimeout(() => {
+      flushRef.current = null;
+      setLogLines(tailRef.current ? [...linesRef.current, tailRef.current] : [...linesRef.current]);
+    }, 60);
+  }, []);
 
-  /* 连接：requestPort（需用户手势）→ Transport → ESPLoader.main() 同步检测芯片 */
-  async function handleConnect() {
-    setError("");
-    if (connected) { await disconnect(); return; }
-    setBusy(true);
-    try {
-      const port = await navigator.serial.requestPort();
-      portRef.current = port;
-      const { ESPLoader, Transport } = await import("esptool-js");
-      const transport = new Transport(port);
-      const esp = new ESPLoader({
-        transport,
-        baudrate: 460800,
-        romBaudrate: 115200,
-        terminal: makeTerminal(),
-      });
-      espRef.current = esp;
-      await esp.main(); // 自动 connect + detectChip + runStub + changeBaud + readFlashId
-      setChip(esp.chip.CHIP_NAME);
-      setConnected(true);
-      setFlashed(false);
-      setProgress(0);
-      setStats({ time: "—", speed: "—", size: "—" });
-      if (esp.chip.CHIP_NAME !== board.chip) {
-        appendLog(`⚠ 检测到 ${esp.chip.CHIP_NAME}，所选板型 ${board.chip}，固件可能不兼容\n`);
+  const appendLog = useCallback((kind, chunk) => {
+    const text = String(chunk ?? "").replace(/\r/g, "");
+    if (!text) return;
+    if (tailRef.current && tailRef.current.kind !== kind) {
+      linesRef.current.push(tailRef.current);
+      tailRef.current = null;
+    }
+    const segments = text.split("\n");
+    let carry = tailRef.current;
+    segments.forEach((segment, index) => {
+      const isLast = index === segments.length - 1;
+      if (carry) {
+        carry = { ...carry, text: carry.text + segment };
+        if (!isLast) {
+          linesRef.current.push(carry);
+          carry = null;
+        }
+        return;
       }
-    } catch (e) {
-      const msg = e?.message || String(e);
-      setError(msg);
-      appendLog("✗ " + msg + "\n");
-      try { await espRef.current?.transport?.disconnect(); } catch {}
-      await safeClosePort();
-      espRef.current = null; portRef.current = null;
-    } finally {
-      setBusy(false);
-    }
-  }
+      if (!isLast) {
+        if (segment.trim()) linesRef.current.push({ id: ++seqRef.current, at: new Date(), kind, text: segment });
+        return;
+      }
+      if (segment) carry = { id: ++seqRef.current, at: new Date(), kind, text: segment };
+    });
+    tailRef.current = carry;
+    if (linesRef.current.length > MAX_LOG_LINES) linesRef.current = linesRef.current.slice(-MAX_LOG_LINES);
+    scheduleFlush();
+  }, [scheduleFlush]);
 
-  async function disconnect() {
-    setMonOn(false);
-    await stopReader();
-    try { await espRef.current?.transport?.disconnect(); } catch {}
-    await safeClosePort();
-    espRef.current = null; portRef.current = null;
-    setConnected(false);
-    setChip("—");
-    setProgress(0);
-    setStats({ time: "—", speed: "—", size: "—" });
-    setFlashed(false);
-  }
+  const clearLog = useCallback(() => {
+    linesRef.current = [];
+    tailRef.current = null;
+    setLogLines([]);
+  }, []);
 
-  /* 烧录：fetch 固件 → writeFlash(进度回调) → after(hard_reset) */
-  async function handleFlash(fw) {
-    if (!connected || busy) return;
-    const target = fw ?? sel;
-    if (!target) return;
-    setError("");
-    setBusy(true);
-    setProgress(0);
-    setFlashed(false);
-    setStats({ time: "…", speed: "…", size: "…" });
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSupported(typeof navigator !== "undefined" && "serial" in navigator);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => () => {
+    if (flushRef.current) clearTimeout(flushRef.current);
+    monitorClosedRef.current = true;
+    const transport = transportRef.current;
+    if (transport) transport.disconnect().catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (!autoScroll || !bodyRef.current) return;
+    bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
+  }, [logLines, autoScroll]);
+
+  /* esptool-js 的 terminal 接口：clean / write / writeLine */
+  const makeTerminal = useCallback(() => ({
+    clean() {},
+    write(text) { appendLog("flash", text); },
+    writeLine(text) { appendLog("flash", `${text}\n`); },
+  }), [appendLog]);
+
+  /**
+   * Attach an ESPLoader to the transport and detect the chip.
+   * 挂载 ESPLoader 并识别芯片；返回芯片描述字符串。
+   */
+  const attachLoader = useCallback(async () => {
+    const { ESPLoader } = await import("esptool-js");
+    const loader = new ESPLoader({
+      transport: transportRef.current,
+      baudrate: 460800,
+      romBaudrate: 115200,
+      terminal: makeTerminal(),
+    });
+    const description = await loader.main();
+    loaderRef.current = loader;
+    const mac = await loader.chip.readMac(loader);
+    const info = { chip: loader.chip.CHIP_NAME, description, mac };
+    setDevice(info);
+    return info;
+  }, [makeTerminal]);
+
+  /** Release the loader so the raw serial stream is free. 释放烧录器，让串口回到普通读取模式。 */
+  const detachLoader = useCallback(async () => {
+    try { await transportRef.current?.disconnect(); } catch {}
+    try { await transportRef.current?.waitForUnlock(200); } catch {}
+    loaderRef.current = null;
+  }, []);
+
+  /**
+   * Open the port at the monitor baud rate, re-resolving the device once
+   * when a USB-CDC board re-enumerates after reset.
+   * 以监视波特率打开串口；USB-CDC 板复位后端口会重新枚举，此处重试一次并换用同一 VID/PID 的新端口。
+   */
+  const openPortForMonitor = useCallback(async (baudRate) => {
+    const transport = transportRef.current;
+    if (!transport) throw new Error("No serial port");
     try {
-      appendLog(`↓ 下载固件 ${target.url}\n`);
-      const res = await fetch(withBase(target.url));
-      if (!res.ok) throw new Error(`固件下载失败 (HTTP ${res.status})`);
-      const data = new Uint8Array(await res.arrayBuffer());
-      appendLog(`固件 ${data.length} 字节 → 0x${target.address.toString(16)}\n`);
-      // Browser operation timing is intentionally sampled inside this user action.
-      // eslint-disable-next-line react-hooks/purity
-      const t0 = performance.now();
-      await espRef.current.writeFlash({
-        fileArray: [{ data, address: target.address }],
-        compress: true,
-        flashSize: "keep",
-        reportProgress: (_i, written, total) => {
-          setProgress(total ? Math.round((written / total) * 100) : 0);
-        },
+      await transport.connect(baudRate);
+      return;
+    } catch (firstError) {
+      appendLog("system", `${T.reopening} (${firstError?.message || firstError})\n`);
+      await sleep(1200);
+      const wanted = transport.device?.getInfo?.() ?? {};
+      const ports = await navigator.serial.getPorts();
+      const match = ports.find((port) => {
+        const info = port.getInfo?.() ?? {};
+        return info.usbVendorId === wanted.usbVendorId && info.usbProductId === wanted.usbProductId;
       });
-      await espRef.current.after("hard_reset");
-      // eslint-disable-next-line react-hooks/purity
-      const dt = (performance.now() - t0) / 1000;
-      const kbps = Math.round(data.length / dt / 1024);
-      setStats({ time: dt.toFixed(1), speed: kbps, size: (data.length / 1024).toFixed(0) + " KB" });
-      setProgress(100);
-      setFlashed(true);
-      appendLog("✓ 烧录完成，已硬复位，设备开始运行新固件\n");
-    } catch (e) {
-      const msg = e?.message || String(e);
-      setError(msg);
-      appendLog("✗ " + msg + "\n");
-    } finally {
-      setBusy(false);
+      if (match) transport.updateDevice(match);
+      await transport.connect(baudRate);
     }
-  }
+  }, [appendLog, T.reopening]);
 
-  /* 读取设备串口输出：先断开 esptool（释放端口），再以裸 reader 流式读 */
-  async function startMonitor() {
-    if (!portRef.current) return;
-    setMonOn(false);
-    await stopReader();
-    try { await espRef.current?.transport?.disconnect(); } catch {}
-    espRef.current = null;
-    setConnected(false);
-    await sleep(150);
+  const stopMonitor = useCallback(async () => {
+    monitorClosedRef.current = true;
+    monitorSessionRef.current += 1;
+    try { await transportRef.current?.disconnect(); } catch {}
+  }, []);
+
+  /** Stream raw serial output into the log until stopped. 持续把串口原始输出写入日志。 */
+  const startMonitor = useCallback(async (baudRate) => {
+    const transport = transportRef.current;
+    if (!transport) return;
+    await stopMonitor();
+    await sleep(120);
     try {
-      await portRef.current.open({ baudRate: Number(baud) });
+      await openPortForMonitor(baudRate);
     } catch (e) {
-      appendLog("✗ 打开串口失败：" + (e?.message || e) + "\n");
+      setPhase("paused");
+      appendLog("error", `${e?.message || e}\n`);
       return;
     }
-    const reader = portRef.current.readable.getReader();
-    readerRef.current = reader;
-    setMonOn(true);
-    appendLog(`— 读取设备输出 @ ${baud} baud —\n`);
-    const dec = new TextDecoder();
+    const session = monitorSessionRef.current;
+    monitorClosedRef.current = false;
+    setPhase("monitoring");
+    appendLog("system", `— ${T.monitorTitle} @ ${baudRate} baud —\n`);
+    const decoder = new TextDecoder();
+    await transport.rawRead(
+      (data) => appendLog("device", decoder.decode(data, { stream: true })),
+      () => monitorClosedRef.current || monitorSessionRef.current !== session,
+    );
+    if (monitorSessionRef.current !== session) return;
+    monitorClosedRef.current = true;
+    setPhase((current) => (current === "monitoring" ? "paused" : current));
+  }, [appendLog, openPortForMonitor, stopMonitor, T.monitorTitle]);
+
+  async function handleConnect() {
+    if (connected) {
+      await handleDisconnect();
+      return;
+    }
+    setError("");
+    setPhase("connecting");
     try {
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        appendLog(dec.decode(value));
+      const port = await navigator.serial.requestPort();
+      const { Transport } = await import("esptool-js");
+      const transport = new Transport(port, false);
+      transport.setDeviceLostCallback(() => {
+        monitorClosedRef.current = true;
+        loaderRef.current = null;
+        transportRef.current = null;
+        setPhase("idle");
+        setDevice(null);
+        appendLog("error", `${zh ? "设备已断开" : "Device disconnected"}\n`);
+      });
+      transportRef.current = transport;
+      appendLog("system", `${zh ? "正在识别芯片…" : "Detecting chip…"}\n`);
+      const info = await attachLoader();
+      const matched = ESP_BOARDS.find((item) => item.chip === info.chip);
+      if (matched) {
+        setBoardId(matched.id);
+        setFirmwareId((current) => (current === CUSTOM_ID ? current : FIRMWARES.find((fw) => fw.boards.includes(matched.id))?.id ?? current));
       }
-    } catch {}
-    setMonOn(false);
-    readerRef.current = null;
-    try { await portRef.current?.close(); } catch {}
+      appendLog("success", `${zh ? "已连接" : "Connected"} · ${info.description} · MAC ${info.mac}\n`);
+      await loaderRef.current.after("hard_reset");
+      await detachLoader();
+      await startMonitor(Number(baud));
+    } catch (e) {
+      const message = e?.message || String(e);
+      // 用户在浏览器串口弹窗点了取消：不算错误，静默回到未连接状态
+      const cancelled = e?.name === "NotFoundError";
+      if (!cancelled) {
+        setError(message);
+        appendLog("error", `${message}\n`);
+      }
+      await detachLoader();
+      transportRef.current = null;
+      setDevice(null);
+      setPhase("idle");
+    }
   }
 
-  function toggleMonitor() {
-    if (monOn) { stopReader().then(() => setMonOn(false)); }
-    else { startMonitor(); }
+  async function handleDisconnect() {
+    await stopMonitor();
+    await detachLoader();
+    transportRef.current = null;
+    setDevice(null);
+    setPhase("idle");
+    setProgress(null);
+    appendLog("system", `${zh ? "已断开连接" : "Disconnected"}\n`);
   }
 
-  const showProgress = busy || progress > 0;
-  const canFlash = connected && sel && !busy;
+  /** Resolve the bytes to write for the current selection. 取出当前选择要写入的固件数据。 */
+  async function resolveImage() {
+    if (firmwareId === CUSTOM_ID) {
+      if (!localFile) throw new Error(T.needFirmware);
+      if (localAddressValue === null) throw new Error(T.localAddressBad);
+      return { data: localFile.data, address: localAddressValue, label: localFile.name };
+    }
+    if (!builtIn) throw new Error(T.needFirmware);
+    appendLog("system", `${zh ? "下载固件" : "Downloading"} ${builtIn.url}\n`);
+    const response = await fetch(withBase(builtIn.url));
+    if (!response.ok) throw new Error(`${zh ? "固件下载失败" : "Firmware download failed"} (HTTP ${response.status})`);
+    return {
+      data: new Uint8Array(await response.arrayBuffer()),
+      address: builtIn.address,
+      label: `${pick(builtIn.name)} ${builtIn.ver}`,
+    };
+  }
+
+  async function handleFlash() {
+    if (!connected || busy) return;
+    setError("");
+    setResult(null);
+    setPhase("flashing");
+    setProgress({ percent: 0, written: 0, total: 0 });
+    try {
+      const image = await resolveImage();
+      await stopMonitor();
+      await detachLoader();
+      await sleep(120);
+      await attachLoader();
+      appendLog("system", `${zh ? "写入" : "Writing"} ${image.label} · ${formatKB(image.data.length)} → 0x${image.address.toString(16)}\n`);
+      const startedAt = performance.now();
+      await loaderRef.current.writeFlash({
+        fileArray: [{ data: image.data, address: image.address }],
+        flashSize: "keep",
+        eraseAll,
+        compress: true,
+        reportProgress: (_index, written, total) => {
+          setProgress({ percent: total ? Math.round((written / total) * 100) : 0, written, total });
+        },
+      });
+      await loaderRef.current.after("hard_reset");
+      const seconds = (performance.now() - startedAt) / 1000;
+      setResult({
+        seconds: seconds.toFixed(1),
+        kbps: Math.round(image.data.length / seconds / 1024),
+        size: formatKB(image.data.length),
+      });
+      setProgress({ percent: 100, written: image.data.length, total: image.data.length });
+      appendLog("success", `${T.success}\n`);
+      await detachLoader();
+      await startMonitor(Number(baud));
+    } catch (e) {
+      const message = e?.message || String(e);
+      setError(message);
+      appendLog("error", `${message}\n`);
+      setPhase(transportRef.current ? "paused" : "idle");
+    }
+  }
+
+  async function toggleMonitor() {
+    if (busy) return;
+    if (phase === "monitoring") {
+      await stopMonitor();
+      setPhase("paused");
+      return;
+    }
+    if (!transportRef.current) return;
+    await startMonitor(Number(baud));
+  }
+
+  async function handleBaudChange(value) {
+    setBaud(value);
+    if (phase === "monitoring") {
+      await stopMonitor();
+      await sleep(120);
+      await startMonitor(Number(value));
+    }
+  }
+
+  function selectBoard(nextId) {
+    setBoardId(nextId);
+    if (firmwareId === CUSTOM_ID) return;
+    setFirmwareId(FIRMWARES.find((fw) => fw.boards.includes(nextId))?.id ?? "");
+  }
+
+  async function acceptFile(file) {
+    if (!file) return;
+    const data = new Uint8Array(await file.arrayBuffer());
+    setLocalFile({ name: file.name, size: file.size, data });
+    setFirmwareId(CUSTOM_ID);
+    setError("");
+    appendLog("system", `${zh ? "已载入本地固件" : "Loaded local firmware"} ${file.name} · ${formatKB(data.length)}\n`);
+  }
+
+  /** Build a support-ready transcript with environment details. 生成带环境信息的日志文本，便于发给技术支持。 */
+  function buildTranscript() {
+    const head = [
+      "XIAO Web Flasher log",
+      `generated: ${new Date().toISOString()}`,
+      `browser: ${typeof navigator === "undefined" ? "unknown" : navigator.userAgent}`,
+      `selected board: ${board.name}`,
+      `detected chip: ${device ? `${device.description} (MAC ${device.mac})` : "—"}`,
+      `firmware: ${usingLocal ? `${localFile.name} @ ${localAddress}` : builtIn ? `${pick(builtIn.name)} ${builtIn.ver} (${builtIn.url})` : "—"}`,
+      `monitor baud: ${baud}`,
+      "----",
+    ].join("\n");
+    const body = logLines.map((line) => `[${formatTime(line.at)}] ${line.text}`).join("\n");
+    return `${head}\n${body}\n`;
+  }
+
+  async function copyLog() {
+    try {
+      await navigator.clipboard.writeText(buildTranscript());
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1600);
+    } catch (e) {
+      setError(e?.message || String(e));
+    }
+  }
+
+  function downloadLog() {
+    const blob = new Blob([buildTranscript()], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `xiao-flasher-${Date.now()}.log`;
+    anchor.click();
+    URL.revokeObjectURL(url);
+  }
+
+  const phaseLabel = {
+    idle: T.phaseIdle,
+    connecting: T.phaseConnecting,
+    monitoring: T.phaseMonitoring,
+    flashing: T.phaseFlashing,
+    paused: T.phasePaused,
+  }[phase];
+
+  const canFlash = connected && !busy && (usingLocal ? localAddressValue !== null : Boolean(builtIn));
 
   return (
-    <div className={`${styles.flasher} scroll-mt-28`} id="esp-flasher">
-      <ToolPageIntro title={T.h2} description={T.p} />
-      <div className={styles.wrap}>
-        <nav className={styles.flashEntries} aria-label={lang === "zh" ? "选择烧录方式" : "Choose flashing method"}>
-          <a className={`${styles.flashEntry} ${styles.active}`} href="#esp-workflow">
-            <span>ESP</span>
-            <strong>{T.espEntry}</strong>
-            <small>{T.espEntryHint}</small>
+    <div className={styles.shell} id="esp-flasher">
+      <header className={styles.topbar}>
+        <div className={styles.topbarCopy}>
+          <span className={styles.eyebrow}>{T.eyebrow}</span>
+          <h1 className={`${styles.pageTitle} home-type-title`}>{T.title}</h1>
+          <p className={`${styles.pageLead} home-type-body`}>{T.lead}</p>
+        </div>
+        <div className={styles.topbarSide}>
+          <span className={`${styles.envBadge} ${supported ? styles.envOk : styles.envWarn}`}>
+            {supported ? T.envOk : T.envWarn}
+          </span>
+          <a className={`${styles.haLink} home-type-action`} href={HA_FLASHER_URL} target="_blank" rel="noopener noreferrer">
+            {T.haEntry} ↗
           </a>
-          <a className={styles.flashEntry} href={HA_FLASHER_URL} target="_blank" rel="noopener noreferrer">
-            <span>HA</span>
-            <strong>{T.haEntry}</strong>
-            <small>{T.haEntryHint} · {T.openExternal}</small>
-          </a>
-        </nav>
+        </div>
+      </header>
 
-        <section className={styles.quickWorkspace} id="esp-workflow">
-          <div className={styles.actionPanel}>
-            <div className={styles.actionHead}>
-              <div><Glow as="h3">{T.quickTitle}</Glow></div>
-              <span className={`${styles.connectionState} ${connected ? styles.on : ""}`}>
-                {connected ? T.connected : T.disconnected}
-              </span>
-            </div>
-
-            <div className={styles.workflowStep}>
-              <div className={styles.stepIntro}>
-                <b>01</b>
-                <div><strong>{T.stepOne}</strong><p>{T.stepOneHint}</p></div>
+      <div className={styles.workbench}>
+        <section className={styles.steps} aria-label={T.title}>
+          <article className={styles.step} data-done={connected ? "1" : "0"}>
+            <div className={styles.stepHead}>
+              <span className={styles.stepIndex}>01</span>
+              <div>
+                <h2 className={`${styles.stepTitle} home-type-subtitle`}>{T.step1}</h2>
+                <p className={`${styles.stepHint} home-type-body`}>{T.step1Hint}</p>
               </div>
+            </div>
+            <div className={styles.stepBody}>
               <button
                 type="button"
-                className={`${styles.connectBtn} ${connected ? styles.connected : ""}`}
+                className={`${styles.primaryBtn} ${connected ? styles.dangerBtn : ""} home-type-action`}
                 onClick={handleConnect}
-                disabled={busy || !supported}
+                disabled={!supported || busy}
               >
-                {connected ? T.disconnect : T.connect}
+                {phase === "connecting" ? T.connecting : connected ? T.disconnect : T.connect}
               </button>
-              {!supported && <div className={styles.inlineMessage}>{T.unsupported}</div>}
+              {!supported && <p className={`${styles.note} ${styles.noteWarn}`}>{T.envHint}</p>}
+              {device && (
+                <dl className={styles.facts}>
+                  <div><dt>{T.factChip}</dt><dd>{device.description}</dd></div>
+                  <div><dt>{T.factMac}</dt><dd>{device.mac}</dd></div>
+                  <div><dt>{T.factPort}</dt><dd>{phaseLabel}</dd></div>
+                </dl>
+              )}
+              <details className={styles.trouble}>
+                <summary>{T.step1TroubleTitle}</summary>
+                <p>{T.step1Trouble}</p>
+              </details>
             </div>
+          </article>
 
-            <div className={styles.workflowStep}>
-              <div className={styles.stepIntro}>
-                <b>02</b>
-                <div><strong>{T.stepTwo}</strong><p>{T.stepTwoHint}</p></div>
+          <article className={styles.step}>
+            <div className={styles.stepHead}>
+              <span className={styles.stepIndex}>02</span>
+              <div>
+                <h2 className={`${styles.stepTitle} home-type-subtitle`}>{T.step2}</h2>
+                <p className={`${styles.stepHint} home-type-body`}>{T.step2Hint}</p>
               </div>
-              <div className={styles.selectionGrid}>
-                <label className={styles.simpleField}>
-                  <span>{T.boardLabel}</span>
-                  <select
-                    value={boardId}
-                    onChange={(e) => {
-                      const next = e.target.value;
-                      setBoardId(next);
-                      setFirmwareId(FIRMWARES.find((f) => f.boards.includes(next))?.id ?? "");
-                    }}
+            </div>
+            <div className={styles.stepBody}>
+              <div className={styles.boardGrid} role="radiogroup" aria-label={T.step2}>
+                {ESP_BOARDS.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    role="radio"
+                    aria-checked={item.id === boardId}
+                    className={styles.boardTile}
+                    data-on={item.id === boardId ? "1" : "0"}
+                    onClick={() => selectBoard(item.id)}
                     disabled={busy}
                   >
-                    {ESP_BOARDS.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
-                  </select>
-                  <small>{board.hint}</small>
-                </label>
-
-                <label className={styles.simpleField}>
-                  <span>{T.firmwareLabel}</span>
-                  <select value={sel?.id ?? ""} onChange={(e) => setFirmwareId(e.target.value)} disabled={!fwList.length || busy}>
-                    {fwList.length
-                      ? fwList.map((f) => <option key={f.id} value={f.id}>{pick(f.name)} · {f.ver}</option>)
-                      : <option value="">{T.noFw}</option>}
-                  </select>
-                  <small>{sel ? pick(sel.desc) : T.noFw}</small>
-                </label>
+                    <strong>{item.short}</strong>
+                    <small>{item.hint}</small>
+                  </button>
+                ))}
               </div>
             </div>
+          </article>
 
-            <div className={styles.workflowStep}>
-              <div className={styles.stepIntro}>
-                <b>03</b>
-                <div><strong>{T.stepThree}</strong><p>{T.stepThreeHint}</p></div>
+          <article className={styles.step}>
+            <div className={styles.stepHead}>
+              <span className={styles.stepIndex}>03</span>
+              <div>
+                <h2 className={`${styles.stepTitle} home-type-subtitle`}>{T.step3}</h2>
+                <p className={`${styles.stepHint} home-type-body`}>{T.step3Hint}</p>
               </div>
-              <button type="button" className={styles.flashBtn} onClick={() => handleFlash()} disabled={!canFlash}>
-                {busy ? T.flashing : T.flash}
+            </div>
+            <div className={styles.stepBody}>
+              <div className={styles.fwList}>
+                {boardFirmwares.map((fw) => (
+                  <label key={fw.id} className={styles.fwItem} data-on={fw.id === firmwareId ? "1" : "0"}>
+                    <input
+                      type="radio"
+                      name="xiao-firmware"
+                      checked={fw.id === firmwareId}
+                      onChange={() => setFirmwareId(fw.id)}
+                      disabled={busy}
+                    />
+                    <span className={styles.fwCopy}>
+                      <strong>{pick(fw.name)}<em>{fw.ver}</em></strong>
+                      <small>{pick(fw.desc)}</small>
+                    </span>
+                    <code>0x{fw.address.toString(16)}</code>
+                  </label>
+                ))}
+              </div>
+
+              <div
+                className={styles.dropZone}
+                data-on={firmwareId === CUSTOM_ID ? "1" : "0"}
+                data-drag={dragOver ? "1" : "0"}
+                onDragOver={(event) => { event.preventDefault(); setDragOver(true); }}
+                onDragLeave={() => setDragOver(false)}
+                onDrop={(event) => {
+                  event.preventDefault();
+                  setDragOver(false);
+                  acceptFile(event.dataTransfer.files?.[0]);
+                }}
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".bin"
+                  className={styles.fileInput}
+                  onChange={(event) => acceptFile(event.target.files?.[0])}
+                />
+                <div className={styles.dropHead}>
+                  <label className={styles.dropCopy}>
+                    <input
+                      type="radio"
+                      name="xiao-firmware"
+                      checked={firmwareId === CUSTOM_ID}
+                      onChange={() => setFirmwareId(CUSTOM_ID)}
+                      disabled={!localFile || busy}
+                    />
+                    <span>
+                      <strong>{T.localTitle}</strong>
+                      <small>{localFile ? `${localFile.name} · ${formatKB(localFile.size)}` : T.localHint}</small>
+                    </span>
+                  </label>
+                  <button type="button" className={styles.ghostBtn} onClick={() => fileInputRef.current?.click()} disabled={busy}>
+                    {localFile ? T.localReplace : T.localPick}
+                  </button>
+                </div>
+                {localFile && (
+                  <div className={styles.addressRow}>
+                    <label className={styles.addressField}>
+                      <span>{T.localAddress}</span>
+                      <input
+                        value={localAddress}
+                        onChange={(event) => setLocalAddress(event.target.value)}
+                        spellCheck={false}
+                        disabled={busy}
+                        data-bad={localAddressValue === null ? "1" : "0"}
+                      />
+                    </label>
+                    <button
+                      type="button"
+                      className={styles.ghostBtn}
+                      onClick={() => {
+                        setLocalFile(null);
+                        if (firmwareId === CUSTOM_ID) setFirmwareId(boardFirmwares[0]?.id ?? "");
+                      }}
+                      disabled={busy}
+                    >
+                      {T.localRemove}
+                    </button>
+                  </div>
+                )}
+                {localFile && (
+                  <p className={styles.dropHint} data-bad={localAddressValue === null ? "1" : "0"}>
+                    {localAddressValue === null ? T.localAddressBad : T.localAddressHint}
+                  </p>
+                )}
+              </div>
+            </div>
+          </article>
+
+          <article className={styles.step}>
+            <div className={styles.stepHead}>
+              <span className={styles.stepIndex}>04</span>
+              <div>
+                <h2 className={`${styles.stepTitle} home-type-subtitle`}>{T.step4}</h2>
+                <p className={`${styles.stepHint} home-type-body`}>{T.step4Hint}</p>
+              </div>
+            </div>
+            <div className={styles.stepBody}>
+              <label className={styles.checkField}>
+                <input type="checkbox" checked={eraseAll} onChange={(event) => setEraseAll(event.target.checked)} disabled={busy} />
+                <span>{T.eraseAll}</span>
+              </label>
+              <button
+                type="button"
+                className={`${styles.primaryBtn} ${styles.flashBtn} home-type-action`}
+                onClick={handleFlash}
+                disabled={!canFlash}
+                title={connected ? undefined : T.needConnect}
+              >
+                {phase === "flashing" ? T.flashing : T.flash}
               </button>
-              {error && <div className={`${styles.inlineMessage} ${styles.error}`}>✗ {error}</div>}
-              {flashed && !busy && <div className={`${styles.inlineMessage} ${styles.success}`}>✓ {T.success}</div>}
-              {showProgress && (
+              {progress && (
                 <div className={styles.progress}>
-                  <div className={styles.progressTrack}><div className={styles.progressFill} style={{ width: `${progress}%` }} /></div>
-                  <div className={styles.progressMeta}><span>{busy ? T.writing : T.finished}</span><span>{progress}%</span></div>
+                  <div className={styles.progressTrack}>
+                    <div className={styles.progressFill} style={{ width: `${progress.percent}%` }} />
+                  </div>
+                  <div className={styles.progressMeta}>
+                    <span>{phase === "flashing" ? T.writing : T.success}</span>
+                    <span>{progress.percent}%{progress.total ? ` · ${formatKB(progress.written)} / ${formatKB(progress.total)}` : ""}</span>
+                  </div>
                 </div>
               )}
+              {error && <p className={`${styles.note} ${styles.noteError}`}>{error}</p>}
             </div>
-          </div>
+          </article>
         </section>
 
-        <section className={styles.advancedSection}>
-          <div className={styles.advancedHead}>
-            <div><h3>{T.advancedTitle}</h3></div>
-            <p>{T.advancedHint}</p>
-          </div>
-
-          <div className={styles.statsRow}>
-            <div className={styles.stat}><span className={styles.statLabel}>{T.statTime}</span><span className={styles.statValue}>{stats.time}{stats.time !== "—" && stats.time !== "…" ? <small>s</small> : null}</span></div>
-            <div className={styles.stat}><span className={styles.statLabel}>{T.statSpeed}</span><span className={styles.statValue}>{stats.speed}{stats.speed !== "—" && stats.speed !== "…" ? <small>KB/s</small> : null}</span></div>
-            <div className={styles.stat}><span className={styles.statLabel}>{T.statChip}</span><span className={styles.statValue}>{connected ? chip : "—"}</span></div>
-            <div className={styles.stat}><span className={styles.statLabel}>{T.statSize}</span><span className={styles.statValue}>{stats.size}</span></div>
-          </div>
-
-          <div className={styles.monitor}>
-            <div className={styles.monBar}>
-              <div className={styles.monBarLeft}><span className={styles.monDot} data-on={monOn ? "1" : "0"} /><strong>{T.monTitle}</strong></div>
-              <div className={styles.monBarRight}>
-                <label className={styles.baudPicker}><span>{T.baud}</span><select value={baud} onChange={(e) => setBaud(e.target.value)} disabled={!supported}>{["9600", "115200", "230400", "460800"].map((b) => <option key={b} value={b}>{b}</option>)}</select></label>
-                <button type="button" className={styles.monBtn} onClick={toggleMonitor} disabled={!supported || (!connected && !monOn)}>{monOn ? T.monPause : T.readOutput}</button>
-                <button type="button" className={`${styles.monBtn} ${styles.monBtnGhost}`} onClick={clearLog} disabled={!logLines.length}>{T.monClear}</button>
+        <section className={styles.console} aria-label={T.monitorTitle}>
+          <header className={styles.consoleHead}>
+            <div className={styles.consoleTitle}>
+              <span className={styles.statusDot} data-phase={phase} />
+              <strong>{T.monitorTitle}</strong>
+              <span className={styles.phaseTag}>{phaseLabel}</span>
+              <label className={styles.baudField}>
+                <span>{T.baud}</span>
+                <select value={baud} onChange={(event) => handleBaudChange(event.target.value)} disabled={busy}>
+                  {BAUD_RATES.map((rate) => <option key={rate} value={rate}>{rate}</option>)}
+                </select>
+              </label>
+            </div>
+            <div className={styles.consoleTools}>
+              <button type="button" className={styles.toolBtn} onClick={toggleMonitor} disabled={!connected || busy}>
+                {phase === "monitoring" ? T.pauseMonitor : T.startMonitor}
+              </button>
+              <button type="button" className={styles.toolBtn} onClick={copyLog} disabled={!logLines.length}>
+                {copied ? T.copied : T.copy}
+              </button>
+              <button type="button" className={styles.toolBtn} onClick={downloadLog} disabled={!logLines.length}>
+                {T.download}
+              </button>
+              <button type="button" className={styles.toolBtn} onClick={clearLog} disabled={!logLines.length}>
+                {T.clear}
+              </button>
+            </div>
+          </header>
+          <p className={styles.consoleLead}>{T.monitorLead}</p>
+          <div className={styles.consoleBody} ref={bodyRef}>
+            {logLines.length ? (
+              logLines.map((line) => (
+                <div key={line.id} className={styles.logLine} data-kind={line.kind}>
+                  <time title={formatTime(line.at)}>{formatClock(line.at)}</time>
+                  <span>{line.text}</span>
+                </div>
+              ))
+            ) : (
+              <div className={styles.consoleEmpty}>
+                <strong>{T.emptyTitle}</strong>
+                <p>{T.emptyBody}</p>
               </div>
-            </div>
-            <div className={styles.monScreen}>
-              {logLines.length ? logLines.map((ln, i) => <pre key={i} className={styles.monLine}>{ln}</pre>) : <div className={styles.monEmpty}>{supported ? T.monHint : T.unsupported}</div>}
-            </div>
+            )}
           </div>
+          <footer className={styles.consoleFoot}>
+            <div className={styles.consoleStats}>
+              <div><span>{T.statChip}</span><strong>{device?.chip ?? "—"}</strong></div>
+              <div><span>{T.statTime}</span><strong>{result ? `${result.seconds} s` : "—"}</strong></div>
+              <div><span>{T.statSpeed}</span><strong>{result ? `${result.kbps} KB/s` : "—"}</strong></div>
+              <div><span>{T.statSize}</span><strong>{result ? result.size : "—"}</strong></div>
+            </div>
+            <div className={styles.consoleFootRight}>
+              <span className={styles.lineCount}>
+                {logLines.length} {zh ? T.lineCount : logLines.length === 1 ? "line" : T.lineCount}
+              </span>
+              <label className={styles.checkInline}>
+                <input type="checkbox" checked={autoScroll} onChange={(event) => setAutoScroll(event.target.checked)} />
+                {T.autoScroll}
+              </label>
+            </div>
+          </footer>
         </section>
       </div>
     </div>
