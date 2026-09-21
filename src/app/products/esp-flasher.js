@@ -101,8 +101,8 @@ export function ESPFlasher() {
   // idle 未授权端口 / connecting 连接中 / monitoring 监视设备输出 / flashing 烧录中 / paused 已连接但暂停读取
   const [phase, setPhase] = useState("idle");
   const [device, setDevice] = useState(null);
-  const [boardId, setBoardId] = useState("s3");
-  const [firmwareId, setFirmwareId] = useState("s3-blink");
+  const [boardId, setBoardId] = useState("");
+  const [firmwareId, setFirmwareId] = useState("");
   const [localFile, setLocalFile] = useState(null);
   const [localAddress, setLocalAddress] = useState(DEFAULT_ADDRESS);
   const [dragOver, setDragOver] = useState(false);
@@ -125,12 +125,17 @@ export function ESPFlasher() {
   const seqRef = useRef(0);
   const flushRef = useRef(null);
 
-  const board = ESP_BOARDS.find((item) => item.id === boardId) ?? ESP_BOARDS[0];
-  const boardFirmwares = useMemo(() => FIRMWARES.filter((item) => item.boards.includes(boardId)), [boardId]);
+  const board = ESP_BOARDS.find((item) => item.id === boardId) ?? null;
+  const boardFirmwares = useMemo(
+    () => (boardId ? FIRMWARES.filter((item) => item.boards.includes(boardId)) : []),
+    [boardId],
+  );
   const builtIn = boardFirmwares.find((item) => item.id === firmwareId) ?? null;
   const usingLocal = firmwareId === CUSTOM_ID && Boolean(localFile);
-  const connected = phase !== "idle";
+  const connected = Boolean(device) && phase !== "idle";
   const busy = phase === "connecting" || phase === "flashing";
+  const flashStarted = Boolean(progress);
+  const flashComplete = progress?.percent === 100;
   const localAddressValue = parseAddress(localAddress);
 
   const pick = (field) => (field && field[lang]) || (field && field.en) || "";
@@ -152,8 +157,8 @@ export function ESPFlasher() {
 
     step1: zh ? "连接设备" : "Connect the board",
     step1Hint: zh
-      ? "用数据线连接 XIAO 并在浏览器弹窗中选择串口，随后自动识别芯片并开始监听。"
-      : "Connect the XIAO with a data cable and pick its port in the browser dialog. The chip is detected automatically and the monitor starts.",
+      ? "连接 XIAO 并选择串口；页面会自动识别型号并开始监听。"
+      : "Connect XIAO and choose its port; the page detects the model and starts monitoring automatically.",
     step1TroubleTitle: zh ? "连接不上？" : "Trouble connecting?",
     step1Trouble: zh
       ? "1. 换一条支持数据传输的 USB-C 线（部分线材只能充电）。\n2. 按住板子上的 BOOT 键再插入 USB，或按住 BOOT 点一下 RESET，进入下载模式后重试。\n3. macOS 与 Windows 都无需额外驱动；若仍看不到串口，换一个 USB 口或直连电脑而不经扩展坞。"
@@ -161,19 +166,19 @@ export function ESPFlasher() {
     connect: zh ? "连接设备" : "Connect",
     connecting: zh ? "连接中…" : "Connecting…",
     disconnect: zh ? "断开连接" : "Disconnect",
+    factBoard: zh ? "型号" : "Board",
     factChip: zh ? "芯片" : "Chip",
     factMac: "MAC",
     factPort: zh ? "串口" : "Port",
+    unsupportedChip: zh ? "暂不支持这个芯片" : "This chip is not supported yet",
 
-    step2: zh ? "选择开发板" : "Choose your board",
+    step2: zh ? "选择固件" : "Choose firmware",
     step2Hint: zh
-      ? "选择手上的型号；连接后会按识别到的芯片自动选中。"
-      : "Pick the model you are holding; connecting selects the detected chip for you.",
-
-    step3: zh ? "选择固件" : "Choose firmware",
-    step3Hint: zh
-      ? "使用官方编译的示例固件，或上传自己的 .bin 并填写地址。"
-      : "Use an official sample image, or upload your own .bin with its address.",
+      ? "选用示例固件，或上传自己的 .bin 文件。"
+      : "Choose a sample firmware or upload your own .bin file.",
+    firmwareWaiting: zh
+      ? "连接设备后会自动加载与型号匹配的示例固件。"
+      : "Connect a board to load the matching sample firmware.",
     localTitle: zh ? "本地固件 .bin" : "Local .bin file",
     localHint: zh ? "把 .bin 拖到这里，或点击选择文件" : "Drop a .bin here, or click to browse",
     localPick: zh ? "选择文件" : "Browse",
@@ -185,10 +190,10 @@ export function ESPFlasher() {
       : "Application images from Arduino or PlatformIO go to 0x10000; merged images that include the bootloader go to 0x0.",
     localAddressBad: zh ? "地址需为十六进制，例如 0x10000" : "Address must be hex, for example 0x10000",
 
-    step4: zh ? "开始烧录" : "Flash the firmware",
-    step4Hint: zh
-      ? "直接写入，或先擦除整片 Flash 再写入；完成后设备会自动复位。"
-      : "Write the image, or erase the chip first and then write. The board resets when it finishes.",
+    step3: zh ? "开始烧录" : "Flash the firmware",
+    step3Hint: zh
+      ? "写入固件；需要时可先擦除 Flash。"
+      : "Write the firmware, with an optional Flash erase first.",
     flash: zh ? "烧录固件" : "Flash firmware",
     eraseFlash: zh ? "擦除并烧录" : "Erase & flash",
     flashing: zh ? "烧录中…" : "Flashing…",
@@ -397,16 +402,26 @@ export function ESPFlasher() {
         transportRef.current = null;
         setPhase("idle");
         setDevice(null);
+        setBoardId("");
+        setFirmwareId((current) => (current === CUSTOM_ID ? current : ""));
+        setProgress(null);
         appendLog("error", `${zh ? "设备已断开" : "Device disconnected"}\n`);
       });
       transportRef.current = transport;
       appendLog("system", `${zh ? "正在识别芯片…" : "Detecting chip…"}\n`);
       const info = await attachLoader();
       const matched = ESP_BOARDS.find((item) => item.chip === info.chip);
-      if (matched) {
-        setBoardId(matched.id);
-        setFirmwareId((current) => (current === CUSTOM_ID ? current : FIRMWARES.find((fw) => fw.boards.includes(matched.id))?.id ?? current));
+      if (!matched) {
+        setBoardId("");
+        setFirmwareId((current) => (current === CUSTOM_ID ? current : ""));
+        throw new Error(`${T.unsupportedChip}: ${info.chip || info.description}`);
       }
+      setBoardId(matched.id);
+      setFirmwareId((current) => (
+        current === CUSTOM_ID
+          ? current
+          : FIRMWARES.find((fw) => fw.boards.includes(matched.id))?.id ?? ""
+      ));
       appendLog("success", `${zh ? "已连接" : "Connected"} · ${info.description} · MAC ${info.mac}\n`);
       await loaderRef.current.after("hard_reset");
       await detachLoader();
@@ -422,6 +437,9 @@ export function ESPFlasher() {
       await detachLoader();
       transportRef.current = null;
       setDevice(null);
+      setBoardId("");
+      setFirmwareId((current) => (current === CUSTOM_ID ? current : ""));
+      setProgress(null);
       setPhase("idle");
     }
   }
@@ -431,6 +449,8 @@ export function ESPFlasher() {
     await detachLoader();
     transportRef.current = null;
     setDevice(null);
+    setBoardId("");
+    setFirmwareId((current) => (current === CUSTOM_ID ? current : ""));
     setPhase("idle");
     setProgress(null);
     appendLog("system", `${zh ? "已断开连接" : "Disconnected"}\n`);
@@ -515,12 +535,6 @@ export function ESPFlasher() {
     }
   }
 
-  function selectBoard(nextId) {
-    setBoardId(nextId);
-    if (firmwareId === CUSTOM_ID) return;
-    setFirmwareId(FIRMWARES.find((fw) => fw.boards.includes(nextId))?.id ?? "");
-  }
-
   async function acceptFile(file) {
     if (!file) return;
     const data = new Uint8Array(await file.arrayBuffer());
@@ -536,7 +550,7 @@ export function ESPFlasher() {
       "XIAO ESP32 Series Web Flasher log",
       `generated: ${new Date().toISOString()}`,
       `browser: ${typeof navigator === "undefined" ? "unknown" : navigator.userAgent}`,
-      `selected board: ${board.name}`,
+      `detected board: ${board?.name || "—"}`,
       `detected chip: ${device ? `${device.description} (MAC ${device.mac})` : "—"}`,
       `firmware: ${usingLocal ? `${localFile.name} @ ${localAddress}` : builtIn ? `${pick(builtIn.name)} ${builtIn.ver} (${builtIn.url})` : "—"}`,
       `monitor baud: ${baud}`,
@@ -598,7 +612,11 @@ export function ESPFlasher() {
 
       <div className={styles.workbench}>
         <section className={styles.steps} aria-label={T.title}>
-          <article className={styles.step} data-done={connected ? "1" : "0"}>
+          <article
+            className={styles.step}
+            data-current={connected ? "0" : "1"}
+            data-done={connected ? "1" : "0"}
+          >
             <div className={styles.stepHead}>
               <span className={styles.stepIndex}>01</span>
               <div>
@@ -618,11 +636,13 @@ export function ESPFlasher() {
               {!supported && <p className={`${styles.note} ${styles.noteWarn}`}>{T.envHint}</p>}
               {device && (
                 <dl className={styles.facts}>
+                  {board && <div><dt>{T.factBoard}</dt><dd>{board.name}</dd></div>}
                   <div><dt>{T.factChip}</dt><dd>{device.description}</dd></div>
                   <div><dt>{T.factMac}</dt><dd>{device.mac}</dd></div>
                   <div><dt>{T.factPort}</dt><dd>{phaseLabel}</dd></div>
                 </dl>
               )}
+              {error && !connected && <p className={`${styles.note} ${styles.noteError}`}>{error}</p>}
               <details className={styles.trouble}>
                 <summary>{T.step1TroubleTitle}</summary>
                 <p>{T.step1Trouble}</p>
@@ -630,7 +650,11 @@ export function ESPFlasher() {
             </div>
           </article>
 
-          <article className={styles.step}>
+          <article
+            className={styles.step}
+            data-current={connected && !flashStarted ? "1" : "0"}
+            data-done={connected && flashStarted ? "1" : "0"}
+          >
             <div className={styles.stepHead}>
               <span className={styles.stepIndex}>02</span>
               <div>
@@ -639,53 +663,28 @@ export function ESPFlasher() {
               </div>
             </div>
             <div className={styles.stepBody}>
-              <div className={styles.boardGrid} role="radiogroup" aria-label={T.step2}>
-                {ESP_BOARDS.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    role="radio"
-                    aria-checked={item.id === boardId}
-                    className={styles.boardTile}
-                    data-on={item.id === boardId ? "1" : "0"}
-                    onClick={() => selectBoard(item.id)}
-                    disabled={busy}
-                  >
-                    <strong>{item.name}</strong>
-                    <small>{item.hint}</small>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </article>
-
-          <article className={styles.step}>
-            <div className={styles.stepHead}>
-              <span className={styles.stepIndex}>03</span>
-              <div>
-                <h2 className={`${styles.stepTitle} home-type-subtitle`}>{T.step3}</h2>
-                <p className={`${styles.stepHint} home-type-body`}>{T.step3Hint}</p>
-              </div>
-            </div>
-            <div className={styles.stepBody}>
-              <div className={styles.fwList}>
-                {boardFirmwares.map((fw) => (
-                  <label key={fw.id} className={styles.fwItem} data-on={fw.id === firmwareId ? "1" : "0"}>
-                    <input
-                      type="radio"
-                      name="xiao-firmware"
-                      checked={fw.id === firmwareId}
-                      onChange={() => setFirmwareId(fw.id)}
-                      disabled={busy}
-                    />
-                    <span className={styles.fwCopy}>
-                      <strong>{pick(fw.name)}<em>{fw.ver}</em></strong>
-                      <small>{pick(fw.desc)}</small>
-                    </span>
-                    <code>0x{fw.address.toString(16)}</code>
-                  </label>
-                ))}
-              </div>
+              {boardFirmwares.length > 0 ? (
+                <div className={styles.fwList}>
+                  {boardFirmwares.map((fw) => (
+                    <label key={fw.id} className={styles.fwItem} data-on={fw.id === firmwareId ? "1" : "0"}>
+                      <input
+                        type="radio"
+                        name="xiao-firmware"
+                        checked={fw.id === firmwareId}
+                        onChange={() => setFirmwareId(fw.id)}
+                        disabled={busy}
+                      />
+                      <span className={styles.fwCopy}>
+                        <strong>{pick(fw.name)}<em>{fw.ver}</em></strong>
+                        <small>{pick(fw.desc)}</small>
+                      </span>
+                      <code>0x{fw.address.toString(16)}</code>
+                    </label>
+                  ))}
+                </div>
+              ) : (
+                <p className={styles.stepWaiting}>{T.firmwareWaiting}</p>
+              )}
 
               <div
                 className={styles.dropZone}
@@ -758,12 +757,16 @@ export function ESPFlasher() {
             </div>
           </article>
 
-          <article className={styles.step}>
+          <article
+            className={styles.step}
+            data-current={connected && flashStarted && !flashComplete ? "1" : "0"}
+            data-done={flashComplete ? "1" : "0"}
+          >
             <div className={styles.stepHead}>
-              <span className={styles.stepIndex}>04</span>
+              <span className={styles.stepIndex}>03</span>
               <div>
-                <h2 className={`${styles.stepTitle} home-type-subtitle`}>{T.step4}</h2>
-                <p className={`${styles.stepHint} home-type-body`}>{T.step4Hint}</p>
+                <h2 className={`${styles.stepTitle} home-type-subtitle`}>{T.step3}</h2>
+                <p className={`${styles.stepHint} home-type-body`}>{T.step3Hint}</p>
               </div>
             </div>
             <div className={styles.stepBody}>
@@ -798,7 +801,7 @@ export function ESPFlasher() {
                   </div>
                 </div>
               )}
-              {error && <p className={`${styles.note} ${styles.noteError}`}>{error}</p>}
+              {error && connected && <p className={`${styles.note} ${styles.noteError}`}>{error}</p>}
             </div>
           </article>
         </section>

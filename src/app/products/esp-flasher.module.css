@@ -1,4 +1,4 @@
-/* ESP Flasher —— 左侧四步烧录 + 右侧常驻串口监视器的工作台布局 */
+/* ESP Flasher —— 左侧三步烧录 + 右侧常驻串口监视器的工作台布局 */
 .shell {
   display: flex;
   flex-direction: column;
@@ -80,15 +80,15 @@
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) clamp(640px, 49vw, 750px);
+  grid-template-columns: minmax(560px, 1.08fr) minmax(500px, 0.92fr);
   gap: 18px;
 }
 
-/* 左侧步骤面板：四步自上而下，说明在左、操作在右 */
+/* 左侧步骤面板：步骤轴串联三步，标题、说明和操作共享完整内容宽度 */
 .steps {
   min-height: 0;
   overflow-y: auto;
-  padding: 4px 26px 0;
+  padding: 4px 24px 0;
   border: 1px solid var(--line-soft);
   border-radius: var(--r-card);
   background: var(--surface-strong);
@@ -99,23 +99,87 @@
 .steps::-webkit-scrollbar { width: 8px; }
 .steps::-webkit-scrollbar-thumb { background: #d7e0da; border-radius: 4px; }
 .step {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(210px, 250px) minmax(0, 1fr);
-  gap: 26px;
-  padding: 17px 0;
-  border-top: 1px solid var(--line-soft);
+  grid-template-columns: 42px minmax(0, 1fr);
+  column-gap: 16px;
+  row-gap: 13px;
+  padding: 20px 0 22px;
 }
-.step:first-child { border-top: none; }
-.step:last-child { padding-bottom: 18px; }
-.stepHead { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; align-content: start; }
+.step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 52px;
+  bottom: -10px;
+  left: 17px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, rgba(0, 73, 102, 0.14) 0%, rgba(22, 182, 106, 0.48) 50%, rgba(0, 73, 102, 0.14) 100%);
+  background-size: 100% 220%;
+  animation: step-flow 4.8s linear infinite;
+}
+.step[data-done="1"]::after {
+  background: linear-gradient(180deg, var(--brand-green) 0%, rgba(22, 182, 106, 0.32) 100%);
+  animation: none;
+}
+.stepHead { display: contents; }
+.stepHead > div { grid-column: 2; min-width: 0; align-self: center; }
 .stepIndex {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid rgba(0, 73, 102, 0.2);
+  border-radius: 50%;
+  background: #fff;
   color: var(--brand-blue);
-  font: 700 12px/1.6 ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: var(--font-display), sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
-.step[data-done="1"] .stepIndex { color: var(--brand-green-deep); }
+.step[data-current="1"] .stepIndex,
+.step:hover .stepIndex,
+.step:focus-within .stepIndex {
+  border-color: rgba(0, 73, 102, 0.48);
+  background: #f2f8fa;
+  box-shadow: 0 0 0 5px rgba(0, 73, 102, 0.07);
+  transform: scale(1.04);
+}
+.step[data-current="1"] .stepIndex { animation: step-node-pulse 3.2s ease-in-out infinite; }
+.step[data-done="1"] .stepIndex {
+  border-color: var(--brand-green);
+  background: var(--surface-tint);
+  color: var(--brand-green-deep);
+  box-shadow: 0 0 0 5px rgba(22, 182, 106, 0.08);
+  animation: none;
+}
 .stepTitle { margin: 0; color: var(--ink-strong); }
-.stepHint { margin: 6px 0 0; color: var(--ink-muted); }
-.stepBody { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.stepHint { max-width: 50rem; margin: 4px 0 0; color: var(--ink-muted); }
+.stepBody {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+@keyframes step-flow {
+  from { background-position: 0 100%; }
+  to { background-position: 0 -120%; }
+}
+
+@keyframes step-node-pulse {
+  0%, 100% { box-shadow: 0 0 0 5px rgba(0, 73, 102, 0.06); }
+  50% { box-shadow: 0 0 0 8px rgba(0, 73, 102, 0.11); }
+}
 
 .trouble { border-top: 1px dashed var(--line-soft); padding-top: 8px; }
 .trouble summary {
@@ -211,26 +275,17 @@
   overflow-wrap: anywhere;
 }
 
-/* 板型选择 */
-.boardGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.boardTile {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 10px 13px;
-  border: 1px solid var(--line-soft);
-  border-radius: var(--r-inner);
-  background: #fff;
-  text-align: left;
-  transition: border-color 0.18s ease, background-color 0.18s ease, transform 0.18s ease;
-}
-.boardTile strong { color: var(--ink-strong); font-size: 13px; font-weight: 700; white-space: nowrap; }
-.boardTile small { color: var(--ink-muted); font-size: 10.5px; line-height: 1.4; }
-.boardTile:hover:not(:disabled) { transform: translateY(-1px); border-color: rgba(22, 182, 106, 0.45); }
-.boardTile[data-on="1"] { border-color: var(--brand-green); background: var(--surface-tint); }
-.boardTile:disabled { opacity: 0.55; }
-
 /* 固件选择 */
+.stepWaiting {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px dashed rgba(0, 73, 102, 0.2);
+  border-radius: var(--r-inner);
+  background: #fbfdfb;
+  color: var(--ink-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
 .fwList { display: flex; flex-direction: column; gap: 8px; }
 .fwItem {
   display: grid;
@@ -433,15 +488,15 @@
   .haBanner { padding: 8px 14px; }
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1160px) {
   .shell { height: auto; min-height: 0; }
   .workbench { grid-template-columns: 1fr; }
   .steps { overflow: visible; }
   .console { height: min(560px, 70dvh); }
 }
 @media (max-width: 860px) {
-  .step { grid-template-columns: minmax(0, 1fr); gap: 14px; }
-  .stepBody { margin-left: 40px; }
+  .step { grid-template-columns: 40px minmax(0, 1fr); column-gap: 14px; }
+  .step:not(:last-child)::after { left: 17px; }
 }
 @media (max-width: 640px) {
   .shell { gap: 14px; padding: 16px 14px 24px; }
@@ -449,13 +504,14 @@
   .haLink { text-align: center; }
   .topbar { align-items: flex-start; flex-direction: column; gap: 14px; }
   .steps { padding: 4px 16px 0; }
-  .stepBody { margin-left: 0; }
-  .stepHead { grid-template-columns: 28px minmax(0, 1fr); gap: 8px; }
-  .boardGrid { grid-template-columns: 1fr 1fr; }
+  .step { grid-template-columns: 36px minmax(0, 1fr); column-gap: 12px; padding: 18px 0 20px; }
+  .stepIndex { width: 32px; height: 32px; font-size: 12px; }
+  .step:not(:last-child)::after { top: 48px; bottom: -9px; left: 15px; }
   .console { height: min(520px, 70dvh); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .shell * { transition: none !important; }
-  .shell .primaryBtn:hover, .shell .secondaryBtn:hover, .shell .boardTile:hover, .shell .haLink:hover { transform: none; }
+  .step::after, .stepIndex { animation: none !important; }
+  .shell .primaryBtn:hover, .shell .secondaryBtn:hover, .shell .haLink:hover { transform: none; }
 }

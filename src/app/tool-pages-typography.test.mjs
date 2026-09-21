@@ -33,6 +33,31 @@ test("the flasher preserves shared title, description and action roles", () => {
   assert.match(flasherCss, /\.haLink\s*{[^}]*min-height:\s*48px/s);
 });
 
+test("the flasher presents its actions as one connected readable flow", () => {
+  assert.match(flasher, /data-current={connected \? "0" : "1"}/);
+  assert.match(flasher, /data-current={connected && flashStarted && !flashComplete \? "1" : "0"}/);
+  assert.match(flasherCss, /grid-template-columns:\s*minmax\(560px, 1\.08fr\) minmax\(500px, 0\.92fr\)/);
+  assert.match(flasherCss, /\.step:not\(:last-child\)::after/);
+  assert.match(flasherCss, /animation:\s*step-flow 4\.8s linear infinite/);
+  assert.match(flasherCss, /\.stepHead\s*{\s*display:\s*contents/);
+  assert.match(flasherCss, /\.stepBody\s*{[^}]*grid-column:\s*2/s);
+  assert.match(flasherCss, /\.stepIndex\s*{[^}]*font-family:\s*var\(--font-display\)/s);
+  assert.doesNotMatch(flasherCss, /\.stepIndex\s*{[^}]*ui-monospace/s);
+  assert.match(flasherCss, /prefers-reduced-motion:[\s\S]*\.step::after, \.stepIndex\s*{\s*animation:\s*none !important/);
+});
+
+test("the flasher derives the board from the detected chip and advances a three-step flow", () => {
+  assert.match(flasher, /const \[boardId, setBoardId\] = useState\(""\)/);
+  assert.match(flasher, /const connected = Boolean\(device\) && phase !== "idle"/);
+  assert.match(flasher, /ESP_BOARDS\.find\(\(item\) => item\.chip === info\.chip\)/);
+  assert.match(flasher, /factBoard:[\s\S]*board\.name/);
+  assert.doesNotMatch(flasher, /function selectBoard/);
+  assert.doesNotMatch(flasher, /className={styles\.boardGrid}/);
+  assert.equal((flasher.match(/<article[\s\S]*?className={styles\.step}/g) || []).length, 3);
+  assert.match(flasher, /data-current={connected && !flashStarted \? "1" : "0"}/);
+  assert.match(flasher, /data-done={flashComplete \? "1" : "0"}/);
+});
+
 test("software center uses one shared hierarchy for sections and cards", () => {
   assert.equal((software.match(/home-type-title/g) || []).length, 2);
   assert.equal((software.match(/home-type-subtitle/g) || []).length, 2);
