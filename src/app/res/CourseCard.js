@@ -48,11 +48,11 @@ export default function CourseCard({ item }) {
             <span key={tag}>{tag}</span>
           ))}
         </div>
-        <div className={styles.courseTitle} title={item.title}>
+        <div className={`${styles.courseTitle} home-type-subtitle`} title={item.title}>
           {item.title}
         </div>
-        <p className={styles.courseIntro}>{item.intro}</p>
-        <span className={styles.courseLink}>打开 ↗</span>
+        <p className={`${styles.courseIntro} home-type-body`}>{item.intro}</p>
+        <span className={`${styles.courseLink} home-type-action home-text-action`}>打开 ↗</span>
       </div>
     </a>
   );

@@ -581,7 +581,7 @@ export function ESPFlasher() {
       <header className={styles.topbar}>
         <div className={styles.topbarCopy}>
           <span className={styles.eyebrow}>{T.eyebrow}</span>
-          <h1 className={`${styles.pageTitle} home-type-title`}>{T.title}</h1>
+          <h1 className={`${styles.pageTitle} home-type-hero-title`}>{T.title}</h1>
           <p className={`${styles.pageLead} home-type-body`}>{T.lead}</p>
         </div>
         {!supported && (

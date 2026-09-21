@@ -14,8 +14,6 @@
 }
 .page :global(#pinout p) {
   margin-top: 8px;
-  font-size: 15px;
-  line-height: 1.55;
 }
 
 .wrap {

@@ -764,7 +764,7 @@ export function ResHub() {
               {filteredGroups.map((g, gi) => (
                 <div key={gi} className={styles.resGroup}>
                   <div className={styles.resGroupHead}>
-                    <h3>{pick(g.label)}</h3>
+                    <h3 className="home-type-subtitle">{pick(g.label)}</h3>
                     <span>{T.countFiles(g.items.length)}</span>
                   </div>
                   <div className={styles.resList}>
@@ -810,11 +810,11 @@ export function ResHub() {
           {!query.trim() && (
           <div className={styles.extras}>
             <div className={styles.extrasHead}>
-              <h3>{pick(EXTRAS.title)}</h3>
-              <p>{pick(EXTRAS.intro)}</p>
+              <h3 className="home-type-title">{pick(EXTRAS.title)}</h3>
+              <p className="home-type-body">{pick(EXTRAS.intro)}</p>
             </div>
             <div className={styles.courseGroup}>
-              <div className={styles.courseGroupHead}><h4>{T.generalCourses}</h4></div>
+              <div className={styles.courseGroupHead}><h4 className="home-type-subtitle">{T.generalCourses}</h4></div>
               <div className={styles.courseGrid}>
                 {generalCourses.map((it) => (
                   <CourseCard key={it.title} item={{ ...it, intro: pick(it.intro), tags: [T.universalTag] }} />
@@ -823,7 +823,7 @@ export function ResHub() {
             </div>
             {boardCourses.length > 0 && (
               <div className={styles.courseGroup}>
-                <div className={styles.courseGroupHead}><h4>{T.boardCourses}</h4></div>
+                <div className={styles.courseGroupHead}><h4 className="home-type-subtitle">{T.boardCourses}</h4></div>
                 <div className={styles.courseGrid}>
                   {boardCourses.map((it) => (
                     <CourseCard key={it.title} item={{ ...it, intro: pick(it.intro), tags: [T.boardTag] }} />
@@ -833,7 +833,7 @@ export function ResHub() {
             )}
             {contentGroups.map((group) => (
               <div className={styles.courseGroup} key={group.title}>
-                <div className={styles.courseGroupHead}><h4>{group.title}</h4></div>
+                <div className={styles.courseGroupHead}><h4 className="home-type-subtitle">{group.title}</h4></div>
                 <div className={styles.courseGrid}>
                   {group.items.map((it) => (
                     <CourseCard
@@ -864,7 +864,7 @@ export function ResHub() {
           <div className={styles.modalHead}>
             <div>
               <div className={styles.questionKicker}>{T.modalKicker}</div>
-              <h3>{modal.title || "Preview"}</h3>
+              <h3 className="home-type-subtitle">{modal.title || "Preview"}</h3>
             </div>
             <button className={styles.closeBtn} onClick={() => setModal((m) => ({ ...m, open: false }))}>×</button>
           </div>

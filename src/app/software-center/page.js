@@ -121,7 +121,7 @@ export default function SoftwareCenterPage() {
             <div className="mx-auto w-full max-w-[1440px]">
               <Reveal>
                 <div className="mb-7 text-center">
-                  <h2 className="font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-[var(--ink-strong)] sm:text-4xl">
+                  <h2 className="home-type-title text-[var(--ink-strong)]">
                     {pick(OFFICIAL.title, lang)}
                   </h2>
                 </div>
@@ -142,14 +142,14 @@ export default function SoftwareCenterPage() {
                           <div className="min-w-0 flex-1">
                             <div className="flex items-start justify-between gap-3">
                               <div>
-                                <h3 className="text-xl font-bold leading-snug text-[var(--ink-strong)] sm:text-2xl">
+                                <h3 className="home-type-subtitle text-[var(--ink-strong)]">
                                   {pick(item.name, lang)}
                                 </h3>
                               </div>
                               <span className="shrink-0 text-lg text-[var(--brand-blue-soft)] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
                             </div>
                             {item.desc && (
-                              <p className="mt-4 max-w-4xl text-base leading-[1.7] text-[var(--ink-body)] sm:text-lg">
+                              <p className="home-type-body mt-4 max-w-4xl text-[var(--ink-body)]">
                                 {pick(item.desc, lang)}
                               </p>
                             )}
@@ -169,7 +169,7 @@ export default function SoftwareCenterPage() {
           <div className="mx-auto w-full max-w-[1440px]">
             <Reveal>
               <div className="mb-6 text-center">
-                <h2 className="font-display text-2xl font-semibold tracking-tight text-[var(--ink-strong)] sm:text-3xl">
+                <h2 className="home-type-title text-[var(--ink-strong)]">
                   {lang === "zh" ? "其他软件" : "More Software"}
                 </h2>
               </div>
@@ -219,7 +219,7 @@ export default function SoftwareCenterPage() {
                         <SoftwareLogo item={item} lang={lang} />
                         <div className="flex min-w-0 flex-1 flex-col">
                           <div className="flex items-center justify-between gap-2">
-                            <h3 className="truncate text-base font-bold leading-snug text-[var(--ink-strong)]">
+                            <h3 className="home-type-subtitle truncate text-[var(--ink-strong)]">
                               {pick(item.name, lang)}
                             </h3>
                             <svg
@@ -238,7 +238,7 @@ export default function SoftwareCenterPage() {
                             </svg>
                           </div>
                           {item.desc && (
-                            <p className="mt-1 line-clamp-3 text-sm leading-relaxed text-[var(--ink-body)]">
+                            <p className="home-type-body mt-1 line-clamp-3 text-[var(--ink-body)]">
                               {pick(item.desc, lang)}
                             </p>
                           )}
