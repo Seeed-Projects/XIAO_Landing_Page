@@ -152,9 +152,15 @@ test("published manifests match the firmware binaries stored in public", async (
     const manifestDir = path.dirname(manifestPath);
 
     for (const build of manifest.builds) {
-      assert.equal(build.completeImage, false);
-      assert.equal(build.erasePolicy, "application-only");
+      assert.equal(build.completeImage, true);
+      assert.equal(build.erasePolicy, "full");
+      assert.equal(build.flashSize, "keep");
+      assert.equal(build.flashMode, "keep");
+      assert.equal(build.flashFreq, "keep");
+      assert.equal(build.parts.length, 1);
       for (const part of build.parts) {
+        assert.equal(part.offset, 0);
+        assert.match(part.path, /-merged\.bin$/);
         const bytes = await readFile(path.join(manifestDir, part.path));
         assert.equal(bytes.length, part.size);
         assert.equal(createHash("sha256").update(bytes).digest("hex"), part.sha256);

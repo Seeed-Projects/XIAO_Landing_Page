@@ -383,11 +383,12 @@ An optional `globalThis.XiaoFirmwareInstallStats` adapter can provide
 it only for a successful built-in package flow, and analytics failures stay
 independent from device flashing.
 
-The built-in Blink files are application images at `0x10000`. Their manifests
-use the `application-only` erase policy, so the page writes the application
-region while preserving the bootloader and partition table. A package can
-enable whole-flash erase by declaring a complete merged image or a complete set
-of bootloader, partition and application parts with the `full` erase policy.
+The built-in Blink packages are complete merged images written from `0x0`.
+Each package contains the bootloader, partition table, boot app and application
+from one Arduino build. Their manifests use the `full` erase policy, so both
+the standard flash action and the whole-flash **Erase & flash** recovery action
+are available. The original application image is kept beside each merged image
+as a development artifact at its `0x10000` application offset.
 
 The monitor owns the serial port whenever the flasher does not. After chip
 detection and after a successful write the board is hard-reset. Restart and
@@ -404,8 +405,9 @@ header holding the browser user agent, selected board, detected chip and MAC,
 firmware and monitor baud, which is what support needs to read a session.
 
 Firmware images live in `firmware/<board>/` with a serving copy in
-`public/firmware/<board>/`. Add a manifest beside the serving copy, calculate its
-size, SHA-256 and MD5, then add a `published` catalog entry. Run
+`public/firmware/<board>/`. The current official packages were generated with
+Arduino CLI 1.4.1 and ESP32 core 3.3.11. Add a manifest beside the serving copy,
+calculate its size, SHA-256 and MD5, then add a `published` catalog entry. Run
 `npm run test:flasher` to verify the catalog, manifests and binary hashes.
 
 ### Verification
@@ -424,11 +426,11 @@ preview running, open `http://localhost:3000/XIAO_Landing_Page/playground/esp-fl
 3. With a XIAO ESP board attached, press Connect: the log records chip
    detection, the matching official firmware appears, the facts list fills with
    board, chip and MAC, and the monitor switches to Listening.
-4. Select the built-in application image: Erase & flash remains unavailable and
-   explains that the package preserves the bootloader and partition table.
-5. Press Flash firmware: the log reports download verification, device write
-   verification, restart and reconnect; the progress bar reaches 100% and the
-   board's boot output continues in the same log.
+4. Select the built-in complete image: its address reads `0x0`, and both Flash
+   firmware and Erase & flash are available.
+5. Press Erase & flash: the log reports download verification, whole-flash
+   erase, device write verification, restart and reconnect; the progress bar
+   reaches 100% and the board's boot output continues in the same log.
 6. Press Reset device and confirm the state moves through Restarting and
    Reconnecting before returning to Listening.
 7. Press Copy and Download and confirm the transcript header carries

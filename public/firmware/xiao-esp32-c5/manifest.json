@@ -3,7 +3,7 @@
   "id": "xiao-esp32-c5-blink",
   "group": "official",
   "reviewStatus": "published",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Seeed Studio",
   "name": { "en": "Blink Demo", "zh": "Blink 闪烁示例" },
   "summary": {
@@ -14,18 +14,18 @@
     {
       "boardId": "c5",
       "chipFamily": "ESP32-C5",
-      "completeImage": false,
-      "erasePolicy": "application-only",
+      "completeImage": true,
+      "erasePolicy": "full",
       "flashSize": "keep",
-      "flashMode": "dio",
-      "flashFreq": "80m",
+      "flashMode": "keep",
+      "flashFreq": "keep",
       "parts": [
         {
-          "path": "xiao-esp32-c5-blink.bin",
-          "offset": 65536,
-          "size": 297984,
-          "sha256": "b96e56c7cc76bac370fe675b01adf12e605119c697ba84a1cb6699407c36f4a9",
-          "md5": "daf4923ba8b73677dd3ea1aa41cb16ef"
+          "path": "xiao-esp32-c5-blink-merged.bin",
+          "offset": 0,
+          "size": 8388608,
+          "sha256": "f25fd13c1aa6beebe1defc5d873aae9a8dc761be5c4f171c2fbe1594674dc9a0",
+          "md5": "f448c8bb9c9ac7e8e13856ca05ebd94a"
         }
       ]
     }

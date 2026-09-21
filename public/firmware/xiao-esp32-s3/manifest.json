@@ -3,7 +3,7 @@
   "id": "xiao-esp32-s3-blink",
   "group": "official",
   "reviewStatus": "published",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Seeed Studio",
   "name": { "en": "Blink Demo", "zh": "Blink 闪烁示例" },
   "summary": {
@@ -14,18 +14,18 @@
     {
       "boardId": "s3",
       "chipFamily": "ESP32-S3",
-      "completeImage": false,
-      "erasePolicy": "application-only",
+      "completeImage": true,
+      "erasePolicy": "full",
       "flashSize": "keep",
-      "flashMode": "dio",
-      "flashFreq": "80m",
+      "flashMode": "keep",
+      "flashFreq": "keep",
       "parts": [
         {
-          "path": "xiao-esp32-s3-blink.bin",
-          "offset": 65536,
-          "size": 253968,
-          "sha256": "bdc0da44e4a6e17c86ff1ae284a2b845ecc173e79859972303a14110c94655de",
-          "md5": "455bd3e55112927ec89fcb68abc1f00e"
+          "path": "xiao-esp32-s3-blink-merged.bin",
+          "offset": 0,
+          "size": 8388608,
+          "sha256": "7f9b49cff566c3d1897d176e56294b4878f40cd9ea5296ec0ed42885b0d30801",
+          "md5": "0145daf1703ae8b2d0dcb96b6c43be81"
         }
       ]
     }
