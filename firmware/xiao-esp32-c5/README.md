@@ -4,4 +4,5 @@
 - `xiao-esp32-c5-blink.bin` —— 已用 PlatformIO + SeeedStudio 平台（arduino-esp32 3.3.7、riscv32 工具链 14.2.0、esptoolpy v5.1.2）编译，烧录地址 `0x10000`。
 
 服务副本：`code/frontend/public/firmware/xiao-esp32-c5/`，前端经 esptool-js 烧到 `0x10000`。
-已在 `src/app/products/esp-flasher.js` 的 `FIRMWARES` 注册（`c5-blink`）。
+网页烧录信息由 `public/firmware/xiao-esp32-c5/manifest.json` 描述，并在
+`public/firmware/catalog.json` 注册为已发布官方固件。

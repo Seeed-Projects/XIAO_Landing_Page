@@ -7,6 +7,7 @@
     "dev": "next dev",
     "sync:home-content": "node scripts/sync-home-content.mjs",
     "test:home-content": "node --test scripts/sync-home-content.test.mjs",
+    "test:flasher": "node --test src/lib/xiao-firmware.test.mjs src/app/tool-pages-typography.test.mjs",
     "bake:hub": "node scripts/bake-project-hub-embed.js",
     "prebuild": "npm run sync:home-content && node scripts/bake-project-hub-embed.js && node scripts/bake-discussions.js",
     "build": "next build",

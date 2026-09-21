@@ -341,7 +341,8 @@
 .addressRow { display: flex; align-items: flex-end; gap: 10px; }
 .addressField { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 0; }
 .addressField > span { color: var(--ink-body); font-size: 12px; font-weight: 700; }
-.addressField input {
+.addressField input,
+.addressField select {
   min-height: 38px;
   padding: 0 12px;
   border: 1px solid var(--line-soft);
@@ -351,7 +352,9 @@
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
   font-size: 13px;
 }
-.addressField input:focus { outline: 3px solid rgba(22, 182, 106, 0.14); border-color: var(--brand-green); }
+.addressField select { font-family: var(--font-display), sans-serif; }
+.addressField input:focus,
+.addressField select:focus { outline: 3px solid rgba(22, 182, 106, 0.14); border-color: var(--brand-green); }
 .addressField input[data-bad="1"] { border-color: #d4544a; }
 
 .progress { display: flex; flex-direction: column; gap: 6px; }
@@ -397,6 +400,9 @@
 .statusDot[data-phase="monitoring"] { background: var(--brand-green); box-shadow: 0 0 0 3px rgba(22, 182, 106, 0.26), 0 0 10px rgba(22, 182, 106, 0.55); }
 .statusDot[data-phase="flashing"] { background: #f0b429; box-shadow: 0 0 0 3px rgba(240, 180, 41, 0.24); }
 .statusDot[data-phase="connecting"] { background: #4aa3df; box-shadow: 0 0 0 3px rgba(74, 163, 223, 0.24); }
+.statusDot[data-phase="restarting"],
+.statusDot[data-phase="reconnecting"] { background: #68b7e8; box-shadow: 0 0 0 3px rgba(104, 183, 232, 0.24); }
+.statusDot[data-phase="error"] { background: #ff8f7d; box-shadow: 0 0 0 3px rgba(255, 143, 125, 0.2); }
 .phaseTag {
   padding: 3px 9px;
   border-radius: var(--r-pill);
@@ -507,6 +513,7 @@
   .step { grid-template-columns: 36px minmax(0, 1fr); column-gap: 12px; padding: 18px 0 20px; }
   .stepIndex { width: 32px; height: 32px; font-size: 12px; }
   .step:not(:last-child)::after { top: 48px; bottom: -9px; left: 15px; }
+  .addressRow { align-items: stretch; flex-direction: column; }
   .console { height: min(520px, 70dvh); }
 }
 

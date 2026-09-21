@@ -4,4 +4,5 @@
 - `xiao-esp32-s3-blink.bin` —— 已用 PlatformIO + arduino-esp32 3.2.0 编译（`board = seeed_xiao_esp32s3`），烧录地址 `0x10000`。
 
 服务副本：`code/frontend/public/firmware/xiao-esp32-s3/`，前端经 esptool-js 烧到 `0x10000`。
-已在 `src/app/products/esp-flasher.js` 的 `FIRMWARES` 注册（`s3-blink`）。
+网页烧录信息由 `public/firmware/xiao-esp32-s3/manifest.json` 描述，并在
+`public/firmware/catalog.json` 注册为已发布官方固件。

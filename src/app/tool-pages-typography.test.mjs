@@ -48,7 +48,7 @@ test("the flasher presents its actions as one connected readable flow", () => {
 
 test("the flasher derives the board from the detected chip and advances a three-step flow", () => {
   assert.match(flasher, /const \[boardId, setBoardId\] = useState\(""\)/);
-  assert.match(flasher, /const connected = Boolean\(device\) && phase !== "idle"/);
+  assert.match(flasher, /const connected = Boolean\(device\) && !\["idle", "error"\]\.includes\(phase\)/);
   assert.match(flasher, /ESP_BOARDS\.find\(\(item\) => item\.chip === info\.chip\)/);
   assert.match(flasher, /factBoard:[\s\S]*board\.name/);
   assert.doesNotMatch(flasher, /function selectBoard/);

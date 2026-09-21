@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "xiao-esp32-c3-blink",
+  "group": "official",
+  "reviewStatus": "published",
+  "version": "1.0.0",
+  "author": "Seeed Studio",
+  "name": { "en": "Blink Demo", "zh": "Blink 闪烁示例" },
+  "summary": {
+    "en": "Blinks D0 on GPIO2 with an external LED and prints status over serial.",
+    "zh": "D0（GPIO2）闪烁，需外接 LED，并通过串口输出运行状态。"
+  },
+  "builds": [
+    {
+      "boardId": "c3",
+      "chipFamily": "ESP32-C3",
+      "completeImage": false,
+      "erasePolicy": "application-only",
+      "flashSize": "keep",
+      "flashMode": "dio",
+      "flashFreq": "80m",
+      "parts": [
+        {
+          "path": "xiao-esp32-c3-blink.bin",
+          "offset": 65536,
+          "size": 245648,
+          "sha256": "9d7bbc352b4dc1622febe033ba7e06a55090ab67f264a39ede9bc1609d2fe32a",
+          "md5": "31bcf6623b21e0f5d008cc61e911633c"
+        }
+      ]
+    }
+  ]
+}

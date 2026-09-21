@@ -344,71 +344,94 @@ boards, both diagram faces, primers, notes, alt keys and the two-face view.
 ## Playground ESP32 Web Flasher
 
 `/playground/esp-flasher/` is the XIAO ESP32 Series Web Flasher: a two-column
-workbench sized to the viewport. The four numbered steps run top to bottom in
+workbench sized to the viewport. Three connected steps run top to bottom in
 the left column, and a serial monitor keeps the right column for the whole
-session. Each step is a band with its explanation on the left and its controls
-on the right. Each column scrolls on its own, so the monitor never leaves the
-fold. Below 1080px the columns stack and the monitor keeps a fixed height;
-below 860px each step folds into a single column; on short desktop screens the
-page lead and monitor caption fold away to give the steps more room.
+session. A vertical progress rail shows which step is current and which steps
+are complete. Each column scrolls on its own, so the monitor remains available.
+Below 1160px the columns stack and the monitor keeps a fixed height; on short
+desktop screens the page lead and monitor caption fold away to give the steps
+more room.
 
 A banner above the workbench points Home Assistant users to the Seeed Home
 Assistant flasher. Connection state lives only in the serial monitor; the page
 shows a browser warning only when Web Serial is unavailable.
 
-The four steps are connect, choose board, choose firmware, flash:
+The three steps are connect, choose firmware and flash:
 
 1. **Connect** opens the browser serial picker, detects the chip through
-   esptool-js and shows chip description, MAC and port state. A collapsible
-   "Trouble connecting?" block carries the cable, BOOT-button and USB-port tips.
-2. **Choose board** offers the four XIAO ESP32 boards as tiles; connecting
-   selects the tile that matches the detected chip.
-3. **Choose firmware** lists the official images for that board and accepts a
+   esptool-js, selects the matching XIAO model and shows its chip description,
+   MAC and port state. A collapsible "Trouble connecting?" block carries the
+   cable, BOOT-button and USB-port tips.
+2. **Choose firmware** lists the verified official images for the detected
+   board and accepts a
    local `.bin` by drop or file picker. Local images carry a hex flash address
-   (`0x10000` for Arduino / PlatformIO application images, `0x0` for merged
-   images that include the bootloader); an invalid address blocks the write.
-4. **Flash** offers two actions: write the image, or erase the whole flash and
-   then write. A progress bar reports the write.
+   and an explicit image type: application images use their application offset,
+   while complete merged images use `0x0`.
+3. **Flash** downloads and verifies the selected package before changing the
+   device, writes each declared region, verifies the device contents, resets
+   the board and restores the serial monitor. The progress bar names each stage.
+
+The official firmware catalog lives at `public/firmware/catalog.json`. Each
+published entry points to a versioned manifest beside its binary. A manifest
+declares the board and chip family, image parts and offsets, size, SHA-256, MD5,
+flash settings, image completeness and erase policy. The loader displays only
+`published` entries; the same contract already accepts `official`, `partner`
+and `community` groups plus `draft`, `approved` and `published` review states.
+This is the integration boundary for a future reviewed community catalog.
+An optional `globalThis.XiaoFirmwareInstallStats` adapter can provide
+`beginInstall(metadata)` and `completeInstall(token)` methods; the flasher calls
+it only for a successful built-in package flow, and analytics failures stay
+independent from device flashing.
+
+The built-in Blink files are application images at `0x10000`. Their manifests
+use the `application-only` erase policy, so the page writes the application
+region while preserving the bootloader and partition table. A package can
+enable whole-flash erase by declaring a complete merged image or a complete set
+of bootloader, partition and application parts with the `full` erase policy.
 
 The monitor owns the serial port whenever the flasher does not. After chip
-detection and after a successful write the board is hard-reset, the loader
-releases the port, and the monitor reopens it at the selected baud rate — so the
-new firmware's first boot lines appear on their own. When a USB-CDC board
-re-enumerates after reset, the port is resolved again by USB vendor and product
-id. Starting a flash pauses the monitor and re-attaches the loader
-automatically.
+detection and after a successful write the board is hard-reset. Restart and
+reconnect are first-class states rather than disconnect errors. The page waits
+up to ten seconds for USB re-enumeration, resolves the authorized port again by
+USB vendor and product id, and reopens the monitor at the selected baud rate.
+The Reset device action sends an RTS reset and uses the same reconnect path.
 
 Every line is timestamped and tagged as page event, flasher output, device
 output, success or error. The header carries connection state, the baud selector
-and the listen, copy, download and clear buttons; the footer keeps line count
-and the auto-scroll switch. Copied and downloaded transcripts start with a
+and the listen, reset, copy, download and clear buttons; the footer keeps line
+count and the auto-scroll switch. Copied and downloaded transcripts start with a
 header holding the browser user agent, selected board, detected chip and MAC,
 firmware and monitor baud, which is what support needs to read a session.
 
 Firmware images live in `firmware/<board>/` with a serving copy in
-`public/firmware/<board>/`. Register a new image in the `FIRMWARES` table in
-`src/app/products/esp-flasher.js` with its board ids, name, description, version,
-url and flash address.
+`public/firmware/<board>/`. Add a manifest beside the serving copy, calculate its
+size, SHA-256 and MD5, then add a `published` catalog entry. Run
+`npm run test:flasher` to verify the catalog, manifests and binary hashes.
 
 ### Verification
 
 Web Serial needs desktop Chrome or Edge over HTTPS or `localhost`. With the
 preview running, open `http://localhost:3000/XIAO_Landing_Page/playground/esp-flasher/`:
 
-1. Check the page title reads XIAO ESP32 Series Web Flasher, the four board
-   tiles start with XIAO, Connect and the two flash actions are compact, and
+1. Check the page title reads XIAO ESP32 Series Web Flasher, Connect and the
+   flash actions are compact, and
    the Home Assistant banner is visible. The serial monitor shows Not
    connected; there is no Web Serial ready badge in the top-right.
 2. Drop a `.bin` on the local firmware area: the radio moves to the local file,
-   the address field appears, and a timestamped line records the file and size.
-   Typing a non-hex address shows the address hint in red and blocks flashing.
+   image-type and address fields appear, and a timestamped line records the file
+   and size. Typing a non-hex address shows the address hint in red and blocks
+   flashing.
 3. With a XIAO ESP board attached, press Connect: the log records chip
-   detection, the facts list fills with chip and MAC, and the monitor switches
-   to Listening within a couple of seconds.
-4. Flash the sample image with Flash firmware: the progress bar runs to 100%
-   and the board's own boot output continues in the same log. Erase & flash
-   writes after a full-chip erase.
-5. Press Copy and Download and confirm the transcript header carries
+   detection, the matching official firmware appears, the facts list fills with
+   board, chip and MAC, and the monitor switches to Listening.
+4. Select the built-in application image: Erase & flash remains unavailable and
+   explains that the package preserves the bootloader and partition table.
+5. Press Flash firmware: the log reports download verification, device write
+   verification, restart and reconnect; the progress bar reaches 100% and the
+   board's boot output continues in the same log.
+6. Press Reset device and confirm the state moves through Restarting and
+   Reconnecting before returning to Listening.
+7. Press Copy and Download and confirm the transcript header carries
    browser, board, chip, firmware and baud.
 
 ## Project Hub Featured Projects
