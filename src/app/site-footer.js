@@ -41,8 +41,8 @@ export function SiteFooter() {
           href: "/res",
         },
         { label: tr("Compatible Software", "兼容软件"), href: "/software-center" },
-        { label: tr("Pin Out", "引脚图"), href: "/products#pinout" },
-        { label: tr("XIAO Flasher", "XIAO 烧录器"), href: "/products#esp-flasher" },
+        { label: tr("Pin Out", "引脚图"), href: "/playground/pinout" },
+        { label: tr("XIAO Flasher", "XIAO 烧录器"), href: "/playground/esp-flasher" },
       ],
     },
     {

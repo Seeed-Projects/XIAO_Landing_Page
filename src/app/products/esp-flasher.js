@@ -50,10 +50,10 @@ const FIRMWARES = [
 
 /* 可选板型（ESP 系列）；4 款均有 Blink 示例固件 */
 const ESP_BOARDS = [
-  { id: "s3", name: "XIAO ESP32-S3", short: "ESP32-S3", chip: "ESP32-S3", hint: "Dual Core · Wi-Fi + BLE" },
-  { id: "c3", name: "XIAO ESP32-C3", short: "ESP32-C3", chip: "ESP32-C3", hint: "RISC-V · Wi-Fi 4 + BLE 5" },
-  { id: "c6", name: "XIAO ESP32-C6", short: "ESP32-C6", chip: "ESP32-C6", hint: "RISC-V · Wi-Fi 6 + Thread" },
-  { id: "c5", name: "XIAO ESP32-C5", short: "ESP32-C5", chip: "ESP32-C5", hint: "RISC-V · Wi-Fi 6 + BLE 5" },
+  { id: "s3", name: "XIAO ESP32-S3", chip: "ESP32-S3", hint: "Dual Core · Wi-Fi + BLE" },
+  { id: "c3", name: "XIAO ESP32-C3", chip: "ESP32-C3", hint: "RISC-V · Wi-Fi 4 + BLE 5" },
+  { id: "c6", name: "XIAO ESP32-C6", chip: "ESP32-C6", hint: "RISC-V · Wi-Fi 6 + Thread" },
+  { id: "c5", name: "XIAO ESP32-C5", chip: "ESP32-C5", hint: "RISC-V · Wi-Fi 6 + BLE 5" },
 ];
 
 const HA_FLASHER_URL = "https://seeed-projects.github.io/Seeed-Homeassistant-Discovery/flasher/";
@@ -106,9 +106,8 @@ export function ESPFlasher() {
   const [localFile, setLocalFile] = useState(null);
   const [localAddress, setLocalAddress] = useState(DEFAULT_ADDRESS);
   const [dragOver, setDragOver] = useState(false);
-  const [eraseAll, setEraseAll] = useState(false);
   const [progress, setProgress] = useState(null);
-  const [result, setResult] = useState(null);
+  const [flashErase, setFlashErase] = useState(false);
   const [error, setError] = useState("");
   const [baud, setBaud] = useState("115200");
   const [autoScroll, setAutoScroll] = useState(true);
@@ -137,17 +136,19 @@ export function ESPFlasher() {
   const pick = (field) => (field && field[lang]) || (field && field.en) || "";
 
   const T = {
-    eyebrow: zh ? "XIAO PLAYGROUND · 网页烧录" : "XIAO PLAYGROUND · WEB FLASHER",
-    title: zh ? "XIAO 网页烧录器" : "XIAO Web Flasher",
+    eyebrow: zh ? "XIAO PLAYGROUND · ESP32 网页烧录" : "XIAO PLAYGROUND · ESP32 WEB FLASHER",
+    title: zh ? "XIAO ESP32 系列网页烧录器" : "XIAO ESP32 Series Web Flasher",
     lead: zh
-      ? "四步完成固件写入，串口监视器全程记录烧录过程与设备输出。"
-      : "Four steps to write firmware, with a serial monitor recording the whole flash and everything the board prints.",
-    envOk: zh ? "浏览器已支持 Web Serial" : "Web Serial ready",
+      ? "面向 XIAO ESP32 系列：连接开发板、选择固件并写入，串口监视器全程记录过程与设备输出。"
+      : "For the XIAO ESP32 series: connect a board, choose firmware and write it, with a serial monitor recording the flash and everything the board prints.",
     envWarn: zh ? "当前浏览器不支持 Web Serial" : "Web Serial unavailable",
     envHint: zh
       ? "请使用桌面版 Chrome 或 Edge，并通过 HTTPS 或 localhost 打开本页。"
       : "Use desktop Chrome or Edge and open this page over HTTPS or localhost.",
-    haEntry: zh ? "Home Assistant 固件烧录" : "Home Assistant flasher",
+    haLead: zh
+      ? "要把 XIAO 用作 Home Assistant 设备？请到 Home Assistant 固件烧录页操作。"
+      : "Want to use a XIAO as a Home Assistant device? Flash it on the Home Assistant flasher.",
+    haAction: zh ? "打开 Home Assistant 烧录页" : "Open Home Assistant flasher",
 
     step1: zh ? "连接设备" : "Connect the board",
     step1Hint: zh
@@ -186,14 +187,14 @@ export function ESPFlasher() {
 
     step4: zh ? "开始烧录" : "Flash the firmware",
     step4Hint: zh
-      ? "写入完成前保持连接，完成后设备会自动复位。"
-      : "Keep the board plugged in until writing finishes; it resets on its own.",
-    eraseAll: zh
-      ? "烧录前擦除整片 Flash（清空 NVS 与 Wi-Fi 配置，耗时更长）"
-      : "Erase the whole flash first (clears NVS and saved Wi-Fi, takes longer)",
+      ? "直接写入，或先擦除整片 Flash 再写入；完成后设备会自动复位。"
+      : "Write the image, or erase the chip first and then write. The board resets when it finishes.",
     flash: zh ? "烧录固件" : "Flash firmware",
+    eraseFlash: zh ? "擦除并烧录" : "Erase & flash",
     flashing: zh ? "烧录中…" : "Flashing…",
+    erasing: zh ? "擦除并烧录中…" : "Erasing & flashing…",
     writing: zh ? "正在写入" : "Writing",
+    eraseWriting: zh ? "正在擦除并写入" : "Erasing and writing",
     needConnect: zh ? "请先完成第 1 步连接设备" : "Complete step 1 and connect a board first",
     needFirmware: zh ? "请先选择固件" : "Choose a firmware first",
     success: zh ? "烧录完成，设备已复位并运行新固件。" : "Flash complete — the board reset into the new firmware.",
@@ -221,10 +222,6 @@ export function ESPFlasher() {
     emptyBody: zh
       ? "连接设备后，这里会依次记录芯片识别、固件下载与写入进度、复位结果，以及设备通过串口打印的运行日志。"
       : "Once a board is connected this panel records chip detection, download and write progress, the reset result, and everything the board prints over serial.",
-    statChip: zh ? "芯片" : "Chip",
-    statTime: zh ? "耗时" : "Time",
-    statSpeed: zh ? "速率" : "Speed",
-    statSize: zh ? "大小" : "Size",
   };
 
   /* 日志：按行存储，60ms 节流后整体刷新到 state，避免高频串口输出压垮渲染 */
@@ -457,10 +454,10 @@ export function ESPFlasher() {
     };
   }
 
-  async function handleFlash() {
+  async function handleFlash(eraseAll) {
     if (!connected || busy) return;
     setError("");
-    setResult(null);
+    setFlashErase(eraseAll);
     setPhase("flashing");
     setProgress({ percent: 0, written: 0, total: 0 });
     try {
@@ -469,7 +466,10 @@ export function ESPFlasher() {
       await detachLoader();
       await sleep(120);
       await attachLoader();
-      appendLog("system", `${zh ? "写入" : "Writing"} ${image.label} · ${formatKB(image.data.length)} → 0x${image.address.toString(16)}\n`);
+      appendLog(
+        "system",
+        `${eraseAll ? (zh ? "先擦除整片 Flash，再写入" : "Erasing the whole flash, then writing") : (zh ? "写入" : "Writing")} ${image.label} · ${formatKB(image.data.length)} → 0x${image.address.toString(16)}\n`,
+      );
       const startedAt = performance.now();
       await loaderRef.current.writeFlash({
         fileArray: [{ data: image.data, address: image.address }],
@@ -482,13 +482,9 @@ export function ESPFlasher() {
       });
       await loaderRef.current.after("hard_reset");
       const seconds = (performance.now() - startedAt) / 1000;
-      setResult({
-        seconds: seconds.toFixed(1),
-        kbps: Math.round(image.data.length / seconds / 1024),
-        size: formatKB(image.data.length),
-      });
+      const kbps = Math.round(image.data.length / seconds / 1024);
       setProgress({ percent: 100, written: image.data.length, total: image.data.length });
-      appendLog("success", `${T.success}\n`);
+      appendLog("success", `${T.success} ${seconds.toFixed(1)}s · ${kbps} KB/s\n`);
       await detachLoader();
       await startMonitor(Number(baud));
     } catch (e) {
@@ -537,7 +533,7 @@ export function ESPFlasher() {
   /** Build a support-ready transcript with environment details. 生成带环境信息的日志文本，便于发给技术支持。 */
   function buildTranscript() {
     const head = [
-      "XIAO Web Flasher log",
+      "XIAO ESP32 Series Web Flasher log",
       `generated: ${new Date().toISOString()}`,
       `browser: ${typeof navigator === "undefined" ? "unknown" : navigator.userAgent}`,
       `selected board: ${board.name}`,
@@ -588,15 +584,17 @@ export function ESPFlasher() {
           <h1 className={`${styles.pageTitle} home-type-title`}>{T.title}</h1>
           <p className={`${styles.pageLead} home-type-body`}>{T.lead}</p>
         </div>
-        <div className={styles.topbarSide}>
-          <span className={`${styles.envBadge} ${supported ? styles.envOk : styles.envWarn}`}>
-            {supported ? T.envOk : T.envWarn}
-          </span>
-          <a className={`${styles.haLink} home-type-action`} href={HA_FLASHER_URL} target="_blank" rel="noopener noreferrer">
-            {T.haEntry} ↗
-          </a>
-        </div>
+        {!supported && (
+          <span className={`${styles.envBadge} ${styles.envWarn}`}>{T.envWarn}</span>
+        )}
       </header>
+
+      <aside className={styles.haBanner} aria-label={T.haAction}>
+        <p className={`${styles.haLead} home-type-body`}>{T.haLead}</p>
+        <a className={`${styles.haLink} home-type-action`} href={HA_FLASHER_URL} target="_blank" rel="noopener noreferrer">
+          {T.haAction} ↗
+        </a>
+      </aside>
 
       <div className={styles.workbench}>
         <section className={styles.steps} aria-label={T.title}>
@@ -653,7 +651,7 @@ export function ESPFlasher() {
                     onClick={() => selectBoard(item.id)}
                     disabled={busy}
                   >
-                    <strong>{item.short}</strong>
+                    <strong>{item.name}</strong>
                     <small>{item.hint}</small>
                   </button>
                 ))}
@@ -769,26 +767,33 @@ export function ESPFlasher() {
               </div>
             </div>
             <div className={styles.stepBody}>
-              <label className={styles.checkField}>
-                <input type="checkbox" checked={eraseAll} onChange={(event) => setEraseAll(event.target.checked)} disabled={busy} />
-                <span>{T.eraseAll}</span>
-              </label>
-              <button
-                type="button"
-                className={`${styles.primaryBtn} ${styles.flashBtn} home-type-action`}
-                onClick={handleFlash}
-                disabled={!canFlash}
-                title={connected ? undefined : T.needConnect}
-              >
-                {phase === "flashing" ? T.flashing : T.flash}
-              </button>
+              <div className={styles.flashActions}>
+                <button
+                  type="button"
+                  className={`${styles.primaryBtn} home-type-action`}
+                  onClick={() => handleFlash(false)}
+                  disabled={!canFlash}
+                  title={connected ? undefined : T.needConnect}
+                >
+                  {phase === "flashing" && !flashErase ? T.flashing : T.flash}
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.secondaryBtn} home-type-action`}
+                  onClick={() => handleFlash(true)}
+                  disabled={!canFlash}
+                  title={connected ? undefined : T.needConnect}
+                >
+                  {phase === "flashing" && flashErase ? T.erasing : T.eraseFlash}
+                </button>
+              </div>
               {progress && (
                 <div className={styles.progress}>
                   <div className={styles.progressTrack}>
                     <div className={styles.progressFill} style={{ width: `${progress.percent}%` }} />
                   </div>
                   <div className={styles.progressMeta}>
-                    <span>{phase === "flashing" ? T.writing : T.success}</span>
+                    <span>{phase === "flashing" ? (flashErase ? T.eraseWriting : T.writing) : T.success}</span>
                     <span>{progress.percent}%{progress.total ? ` · ${formatKB(progress.written)} / ${formatKB(progress.total)}` : ""}</span>
                   </div>
                 </div>
@@ -843,21 +848,13 @@ export function ESPFlasher() {
             )}
           </div>
           <footer className={styles.consoleFoot}>
-            <div className={styles.consoleStats}>
-              <div><span>{T.statChip}</span><strong>{device?.chip ?? "—"}</strong></div>
-              <div><span>{T.statTime}</span><strong>{result ? `${result.seconds} s` : "—"}</strong></div>
-              <div><span>{T.statSpeed}</span><strong>{result ? `${result.kbps} KB/s` : "—"}</strong></div>
-              <div><span>{T.statSize}</span><strong>{result ? result.size : "—"}</strong></div>
-            </div>
-            <div className={styles.consoleFootRight}>
-              <span className={styles.lineCount}>
-                {logLines.length} {zh ? T.lineCount : logLines.length === 1 ? "line" : T.lineCount}
-              </span>
-              <label className={styles.checkInline}>
-                <input type="checkbox" checked={autoScroll} onChange={(event) => setAutoScroll(event.target.checked)} />
-                {T.autoScroll}
-              </label>
-            </div>
+            <span className={styles.lineCount}>
+              {logLines.length} {zh ? T.lineCount : logLines.length === 1 ? "line" : T.lineCount}
+            </span>
+            <label className={styles.checkInline}>
+              <input type="checkbox" checked={autoScroll} onChange={(event) => setAutoScroll(event.target.checked)} />
+              {T.autoScroll}
+            </label>
           </footer>
         </section>
       </div>

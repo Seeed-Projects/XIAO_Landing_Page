@@ -89,7 +89,7 @@ const PLAYGROUND_TOOLS = [
   { key: "pinout", icon: "pin", href: "/playground/pinout", en: ["Pinout", "Interactive XIAO GPIO pinout reference"], zh: ["Pinout", "\u4ea4\u4e92\u5f0f XIAO GPIO \u5f15\u811a\u56fe"] },
   { key: "resources", icon: "files", href: "/res", en: ["Resources", "Specs, datasheets, schematics and KiCad files"], zh: ["\u8d44\u6599", "\u89c4\u683c\u3001\u6570\u636e\u624b\u518c\u3001\u539f\u7406\u56fe\u4e0e KiCad \u6587\u4ef6"] },
   { key: "software", icon: "code", href: "/software-center", en: ["Software Guide", "Find official and community software for XIAO"], zh: ["\u8f6f\u4ef6\u6307\u5357", "\u63a2\u7d22\u9002\u7528\u4e8e XIAO \u7684\u5b98\u65b9\u4e0e\u793e\u533a\u8f6f\u4ef6"] },
-  { key: "flasher", icon: "flash", href: "/playground/esp-flasher", en: ["Web Flasher", "Flash tested firmware from your browser"], zh: ["\u7f51\u9875\u70e7\u5f55\u5668", "\u5728\u6d4f\u89c8\u5668\u4e2d\u70e7\u5f55\u5df2\u6d4b\u8bd5\u56fa\u4ef6"] },
+  { key: "flasher", icon: "flash", href: "/playground/esp-flasher", en: ["ESP32 Web Flasher", "Flash XIAO ESP32 boards from your browser"], zh: ["ESP32 \u7f51\u9875\u70e7\u5f55\u5668", "\u5728\u6d4f\u89c8\u5668\u4e2d\u4e3a XIAO ESP32 \u7cfb\u5217\u70e7\u5f55\u56fa\u4ef6"] },
 ];
 
 export function PlaygroundSection() {
