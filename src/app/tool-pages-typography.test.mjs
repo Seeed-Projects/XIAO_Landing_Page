@@ -58,6 +58,14 @@ test("the flasher derives the board from the detected chip and advances a three-
   assert.match(flasher, /data-done={flashComplete \? "1" : "0"}/);
 });
 
+test("the flasher refreshes firmware metadata and applies C5/C6 compatibility on connect", () => {
+  assert.match(flasher, /createCompatibleEspLoader\(ESPLoader/);
+  assert.match(
+    flasher,
+    /setBoardId\(matched\.id\);[\s\S]*currentFirmwares = await loadCurrentFirmwareCatalog\(\);[\s\S]*setFirmwareId/,
+  );
+});
+
 test("software center uses one shared hierarchy for sections and cards", () => {
   assert.equal((software.match(/home-type-title/g) || []).length, 2);
   assert.equal((software.match(/home-type-subtitle/g) || []).length, 2);

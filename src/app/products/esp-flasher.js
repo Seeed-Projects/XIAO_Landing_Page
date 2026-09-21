@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLang } from "../i18n";
 import { withBase } from "../../lib/basePath";
 import { downloadFirmwareBinary, formatDownloadBytes } from "../../lib/firmware-download.mjs";
+import { createCompatibleEspLoader } from "../../lib/xiao-esptool-compat.mjs";
 import {
   buildFlashPlan,
   canEraseWholeFlash,
@@ -32,6 +33,14 @@ const RECONNECT_DELAY_MS = 500;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const pad = (value, size = 2) => String(value).padStart(size, "0");
+
+/** Load the current published catalog without reusing an open tab's old metadata. 读取当前发布清单，不复用已打开页面中的旧元数据。 */
+function loadCurrentFirmwareCatalog() {
+  return loadPublishedFirmwareCatalog({
+    catalogUrl: withBase(CATALOG_URL),
+    resolveUrl: withBase,
+  });
+}
 
 /**
  * Format a timestamp for the log gutter as HH:MM:SS.mmm.
@@ -289,10 +298,7 @@ export function ESPFlasher() {
 
   useEffect(() => {
     let active = true;
-    loadPublishedFirmwareCatalog({
-      catalogUrl: withBase(CATALOG_URL),
-      resolveUrl: withBase,
-    }).then((items) => {
+    loadCurrentFirmwareCatalog().then((items) => {
       if (!active) return;
       setFirmwares(items);
       const detectedBoardId = boardIdRef.current;
@@ -338,7 +344,7 @@ export function ESPFlasher() {
    */
   const attachLoader = useCallback(async () => {
     const { ESPLoader } = await import("esptool-js");
-    const loader = new ESPLoader({
+    const loader = createCompatibleEspLoader(ESPLoader, {
       transport: transportRef.current,
       baudrate: 460800,
       romBaudrate: 115200,
@@ -481,10 +487,21 @@ export function ESPFlasher() {
       }
       setBoardId(matched.id);
       boardIdRef.current = matched.id;
+      let currentFirmwares = [];
+      try {
+        setCatalogState("loading");
+        currentFirmwares = await loadCurrentFirmwareCatalog();
+        setFirmwares(currentFirmwares);
+        setCatalogState("ready");
+      } catch (catalogError) {
+        setFirmwares([]);
+        setCatalogState("error");
+        appendLog("error", `Firmware catalog: ${catalogError?.message || catalogError}\n`);
+      }
       setFirmwareId((current) => (
         current === CUSTOM_ID
           ? current
-          : firmwares.find((fw) => fw.builds.some((build) => build.boardId === matched.id))?.id ?? ""
+          : currentFirmwares.find((fw) => fw.builds.some((build) => build.boardId === matched.id))?.id ?? ""
       ));
       appendLog("success", `${zh ? "已连接" : "Connected"} · ${info.description} · MAC ${info.mac}\n`);
       expectedDisconnectRef.current = true;

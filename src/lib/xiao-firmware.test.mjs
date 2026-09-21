@@ -5,10 +5,12 @@ import path from "node:path";
 import test from "node:test";
 
 import { downloadFirmwareBinary } from "./firmware-download.mjs";
+import { createCompatibleEspLoader } from "./xiao-esptool-compat.mjs";
 import {
   buildFlashPlan,
   getCompatibleBuild,
   getPublishedFirmwareEntries,
+  loadPublishedFirmwareCatalog,
   sha256Hex,
   validateFirmwareManifest,
 } from "./xiao-firmware-catalog.mjs";
@@ -59,6 +61,68 @@ test("catalog exposes only approved published firmware", () => {
   });
 
   assert.deepEqual(entries.map((entry) => entry.id), ["official"]);
+});
+
+test("catalog refresh bypasses stale browser metadata", async () => {
+  let version = "1.0.0";
+  const requests = [];
+  const fetchImpl = async (url, options) => {
+    requests.push({ url, options });
+    const body = url.endsWith("catalog.json")
+      ? {
+          schemaVersion: 1,
+          firmwares: [
+            {
+              id: "xiao-esp32-s3-blink",
+              group: "official",
+              reviewStatus: "published",
+              manifest: "/manifest.json",
+            },
+          ],
+        }
+      : fixtureManifest({ version });
+    return new Response(JSON.stringify(body), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  };
+
+  const first = await loadPublishedFirmwareCatalog({
+    catalogUrl: "/catalog.json",
+    fetchImpl,
+  });
+  version = "1.1.0";
+  const refreshed = await loadPublishedFirmwareCatalog({
+    catalogUrl: "/catalog.json",
+    fetchImpl,
+  });
+
+  assert.equal(first[0].version, "1.0.0");
+  assert.equal(refreshed[0].version, "1.1.0");
+  assert.ok(requests.every(({ options }) => options.cache === "no-store"));
+});
+
+test("C5 and C6 use Espressif's corrected SPI register base", async () => {
+  class FakeEspLoader {
+    constructor(options) {
+      this.options = options;
+      this.chip = null;
+    }
+
+    async runSpiflashCommand() {
+      return this.chip.SPI_REG_BASE;
+    }
+  }
+
+  for (const chipName of ["ESP32-C5", "ESP32-C6"]) {
+    const loader = createCompatibleEspLoader(FakeEspLoader, {});
+    loader.chip = { CHIP_NAME: chipName, SPI_REG_BASE: 0x60002000 };
+    assert.equal(await loader.runSpiflashCommand(), 0x60003000);
+  }
+
+  const c3Loader = createCompatibleEspLoader(FakeEspLoader, {});
+  c3Loader.chip = { CHIP_NAME: "ESP32-C3", SPI_REG_BASE: 0x60002000 };
+  assert.equal(await c3Loader.runSpiflashCommand(), 0x60002000);
 });
 
 test("application-only firmware rejects whole-flash erase", () => {

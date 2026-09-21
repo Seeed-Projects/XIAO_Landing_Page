@@ -397,6 +397,11 @@ up to ten seconds for USB re-enumeration, resolves the authorized port again by
 USB vendor and product id, and reopens the monitor at the selected baud rate.
 The Reset device action sends an RTS reset and uses the same reconnect path.
 
+Every device connection refreshes the published catalog and manifests, so an
+already-open browser tab moves to the current firmware version before flashing.
+The browser loader also applies Espressif's corrected SPI register base for
+ESP32-C5 and ESP32-C6 while that upstream fix is awaiting a packaged release.
+
 Every line is timestamped and tagged as page event, flasher output, device
 output, success or error. The header carries connection state, the baud selector
 and the listen, reset, copy, download and clear buttons; the footer keeps line
