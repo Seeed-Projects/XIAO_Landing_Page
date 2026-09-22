@@ -67,6 +67,16 @@ test("the flasher refreshes firmware metadata and applies C5/C6 compatibility on
   );
 });
 
+test("the flasher accepts multiple BIN files with suggested editable addresses", () => {
+  assert.match(flasher, /type="file"[\s\S]*?multiple/);
+  assert.match(flasher, /localParts\.map\(\(part\)/);
+  assert.match(flasher, /updateLocalPartAddress\(part\.id, event\.target\.value\)/);
+  assert.match(flasher, /inferLocalFlashAddress\(\{ name: file\.name, data \}\)/);
+  assert.match(flasher, /onClick={importXiaoBootloader}/);
+  assert.doesNotMatch(flasher, /localImageKind/);
+  assert.match(flasher, /localPartsIssue === "overlap"/);
+});
+
 test("software center uses one shared hierarchy for sections and cards", () => {
   assert.equal((software.match(/home-type-title/g) || []).length, 2);
   assert.equal((software.match(/home-type-subtitle/g) || []).length, 2);

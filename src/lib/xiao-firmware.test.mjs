@@ -6,6 +6,14 @@ import test from "node:test";
 
 import { downloadFirmwareBinary } from "./firmware-download.mjs";
 import { createCompatibleEspLoader } from "./xiao-esptool-compat.mjs";
+import {
+  createLocalFirmwareSelection,
+  createXiaoStartupParts,
+  getLocalFlashPartsIssue,
+  inferLocalFlashAddress,
+  isCompleteLocalPackage,
+  parseFlashAddress,
+} from "./xiao-local-firmware.mjs";
 import { pulseTransportReset } from "./xiao-serial-reset.mjs";
 import {
   buildFlashPlan,
@@ -181,6 +189,75 @@ test("complete firmware packages can opt into whole-flash erase", () => {
 
   assert.equal(plan.eraseAll, true);
   assert.equal(plan.parts[0].offset, 0);
+});
+
+test("local firmware keeps each BIN and its selected address", () => {
+  const parts = [
+    { name: "bootloader.bin", address: "0x0", data: Uint8Array.from([1, 2]) },
+    { name: "partitions.bin", address: "0x8000", data: Uint8Array.from([3, 4, 5]) },
+    { name: "application.bin", address: "0x10000", data: Uint8Array.from([6, 7, 8, 9]) },
+  ];
+  const selection = createLocalFirmwareSelection(parts);
+
+  assert.deepEqual(selection.fileArray.map(({ address }) => address), [0, 0x8000, 0x10000]);
+  assert.deepEqual(selection.build.parts.map(({ path, offset }) => [path, offset]), [
+    ["bootloader.bin", 0],
+    ["partitions.bin", 0x8000],
+    ["application.bin", 0x10000],
+  ]);
+  assert.equal(selection.totalSize, 9);
+  assert.equal(selection.build.erasePolicy, "application-only");
+});
+
+test("local BIN addresses are suggested without asking for an image type", () => {
+  assert.equal(inferLocalFlashAddress({ name: "bootloader.bin", size: 32000 }), "0x0");
+  assert.equal(inferLocalFlashAddress({ name: "partitions.bin", size: 4096 }), "0x8000");
+  assert.equal(inferLocalFlashAddress({ name: "boot_app0.bin", size: 8192 }), "0xe000");
+  assert.equal(inferLocalFlashAddress({ name: "application.bin", size: 280000 }), "0x10000");
+  assert.equal(inferLocalFlashAddress({ name: "large-application.bin", size: 4194304 }), "0x10000");
+  assert.equal(inferLocalFlashAddress({ name: "firmware-merged.bin", size: 4194304 }), "0x0");
+  const mergedData = new Uint8Array(0x10001);
+  mergedData[0x8000] = 0xaa;
+  mergedData[0x8001] = 0x50;
+  mergedData[0x10000] = 0xe9;
+  assert.equal(inferLocalFlashAddress({ name: "firmware.bin", size: mergedData.length, data: mergedData }), "0x0");
+});
+
+test("startup files plus an application form a complete erasable package", () => {
+  const parts = [
+    { address: "0x0", data: new Uint8Array(0x8000) },
+    { address: "0x8000", data: new Uint8Array(0x1000) },
+    { address: "0xe000", data: new Uint8Array(0x2000) },
+    { address: "0x10000", data: new Uint8Array(4) },
+  ];
+  assert.equal(isCompleteLocalPackage(parts), true);
+  assert.equal(createLocalFirmwareSelection(parts).build.erasePolicy, "full");
+});
+
+test("XIAO startup import extracts fixed boot regions from a verified merged image", () => {
+  const source = new Uint8Array(0x10000);
+  source[0] = 0xe9;
+  source[0x8000] = 0xaa;
+  source[0xe000] = 0x01;
+  const parts = createXiaoStartupParts(source, "s3");
+
+  assert.deepEqual(parts.map((part) => [part.name, part.address, part.size]), [
+    ["s3-bootloader.bin", "0x0", 0x8000],
+    ["s3-partitions.bin", "0x8000", 0x1000],
+    ["s3-boot_app0.bin", "0xe000", 0x2000],
+  ]);
+  assert.equal(parts[0].data[0], 0xe9);
+  assert.equal(parts[1].data[0], 0xaa);
+  assert.equal(parts[2].data[0], 0x01);
+});
+
+test("custom local firmware rejects invalid and overlapping address ranges", () => {
+  assert.equal(parseFlashAddress("0x10000"), 0x10000);
+  assert.equal(parseFlashAddress("not-an-address"), null);
+  assert.equal(getLocalFlashPartsIssue([
+    { address: "0x1000", data: new Uint8Array(0x200) },
+    { address: "0x1100", data: new Uint8Array(0x200) },
+  ]), "overlap");
 });
 
 test("firmware downloader validates the expected size", async () => {

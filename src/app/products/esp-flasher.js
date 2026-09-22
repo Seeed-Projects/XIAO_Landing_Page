@@ -5,6 +5,15 @@ import { useLang } from "../i18n";
 import { withBase } from "../../lib/basePath";
 import { downloadFirmwareBinary, formatDownloadBytes } from "../../lib/firmware-download.mjs";
 import { createCompatibleEspLoader } from "../../lib/xiao-esptool-compat.mjs";
+import {
+  createLocalFirmwareSelection,
+  createXiaoStartupParts,
+  getLocalFlashPartsIssue,
+  inferLocalFlashAddress,
+  isCompleteFirmwareBinary,
+  isCompleteLocalPackage,
+  parseFlashAddress,
+} from "../../lib/xiao-local-firmware.mjs";
 import { pulseTransportReset } from "../../lib/xiao-serial-reset.mjs";
 import {
   buildFlashPlan,
@@ -26,7 +35,6 @@ const ESP_BOARDS = [
 const HA_FLASHER_URL = "https://seeed-projects.github.io/Seeed-Homeassistant-Discovery/flasher/";
 const BAUD_RATES = ["9600", "74880", "115200", "230400", "460800", "921600"];
 const CUSTOM_ID = "custom";
-const DEFAULT_ADDRESS = "0x10000";
 const MAX_LOG_LINES = 1500;
 const CATALOG_URL = "/firmware/catalog.json";
 const RECONNECT_ATTEMPTS = 20;
@@ -56,18 +64,6 @@ function formatClock(date) {
   return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
 }
 
-/**
- * Parse a flash address written as hex ("0x10000" or "10000").
- * 解析十六进制烧录地址，非法输入返回 null。
- * @returns {number|null}
- */
-function parseAddress(input) {
-  const text = String(input ?? "").trim();
-  if (!/^(0x)?[0-9a-f]+$/i.test(text)) return null;
-  const value = Number.parseInt(text.replace(/^0x/i, ""), 16);
-  return Number.isFinite(value) && value >= 0 ? value : null;
-}
-
 const formatKB = (bytes) => `${(bytes / 1024).toFixed(1)} KB`;
 
 export function ESPFlasher() {
@@ -84,9 +80,8 @@ export function ESPFlasher() {
   const [catalogState, setCatalogState] = useState("loading");
   const [boardId, setBoardId] = useState("");
   const [firmwareId, setFirmwareId] = useState("");
-  const [localFile, setLocalFile] = useState(null);
-  const [localImageKind, setLocalImageKind] = useState("application");
-  const [localAddress, setLocalAddress] = useState(DEFAULT_ADDRESS);
+  const [localParts, setLocalParts] = useState([]);
+  const [importingBootloader, setImportingBootloader] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [progress, setProgress] = useState(null);
   const [flashErase, setFlashErase] = useState(false);
@@ -119,13 +114,16 @@ export function ESPFlasher() {
   );
   const builtIn = boardFirmwares.find((item) => item.id === firmwareId) ?? null;
   const builtInBuild = builtIn && device ? getCompatibleBuild(builtIn, device.chip) : null;
-  const usingLocal = firmwareId === CUSTOM_ID && Boolean(localFile);
+  const bootloaderSource = boardFirmwares
+    .map((firmware) => ({ firmware, build: getCompatibleBuild(firmware, device?.chip) }))
+    .find(({ build }) => build?.completeImage && build.parts?.length === 1 && build.parts[0].offset === 0) ?? null;
+  const usingLocal = firmwareId === CUSTOM_ID && localParts.length > 0;
   const connected = Boolean(device) && !["idle", "error"].includes(phase);
   const busy = ["connecting", "flashing", "restarting", "reconnecting"].includes(phase);
   const flashStarted = Boolean(progress);
   const flashComplete = progress?.status === "complete";
-  const localAddressValue = parseAddress(localAddress);
-  const localIsComplete = usingLocal && localImageKind === "merged" && localAddressValue === 0;
+  const localPartsIssue = getLocalFlashPartsIssue(localParts);
+  const localIsComplete = usingLocal && isCompleteLocalPackage(localParts);
   const canEraseSelected = usingLocal ? localIsComplete : canEraseWholeFlash(builtInBuild);
 
   const pick = (field) => (field && field[lang]) || (field && field.en) || "";
@@ -171,22 +169,19 @@ export function ESPFlasher() {
       : "Connect a board to load the matching sample firmware.",
     catalogLoading: zh ? "正在加载官方固件清单…" : "Loading the official firmware catalog…",
     catalogError: zh ? "官方固件清单加载失败，请刷新页面重试。" : "The official firmware catalog could not load. Refresh and try again.",
-    localTitle: zh ? "本地固件 .bin" : "Local .bin file",
-    localHint: zh ? "把 .bin 拖到这里，或点击选择文件" : "Drop a .bin here, or click to browse",
-    localPick: zh ? "选择文件" : "Browse",
-    localReplace: zh ? "更换文件" : "Replace",
+    localTitle: zh ? "本地固件文件" : "Local firmware files",
+    localHint: zh ? "添加一个或多个 .bin 文件，页面会自动建议烧录地址" : "Add one or more .bin files; the page suggests their flash addresses",
+    localPick: zh ? "添加 BIN 文件" : "Add BIN files",
     localRemove: zh ? "移除" : "Remove",
+    localClear: zh ? "清空全部" : "Clear all",
     localAddress: zh ? "烧录地址" : "Flash address",
-    localImageKind: zh ? "固件类型" : "Image type",
-    localApplication: zh ? "应用程序镜像" : "Application image",
-    localMerged: zh ? "完整合并镜像" : "Complete merged image",
-    localAddressHint: zh
-      ? "Arduino / PlatformIO 导出的应用固件填 0x10000；含 bootloader 的整合固件填 0x0。"
-      : "Application images from Arduino or PlatformIO go to 0x10000; merged images that include the bootloader go to 0x0.",
-    localMergedHint: zh
-      ? "完整合并镜像从 0x0 写入，并可安全使用整片擦除。"
-      : "A complete merged image writes from 0x0 and can safely use whole-flash erase.",
+    localAddressHint: zh ? "页面已填写建议地址；需要时可以直接修改。" : "Suggested addresses are filled in automatically and remain editable.",
+    importBootloader: zh ? "导入 XIAO Bootloader" : "Import XIAO bootloader",
+    importingBootloader: zh ? "正在导入…" : "Importing…",
+    importBootloaderHint: zh ? "请先连接 XIAO，页面会导入对应型号的启动文件。" : "Connect XIAO first to import the matching startup files.",
+    importedBootloader: zh ? "已导入 XIAO 启动文件" : "Imported XIAO startup files",
     localAddressBad: zh ? "地址需为十六进制，例如 0x10000" : "Address must be hex, for example 0x10000",
+    localOverlap: zh ? "烧录地址范围相互重叠，请调整地址" : "Flash address ranges overlap; adjust the addresses",
 
     step3: zh ? "开始烧录" : "Flash the firmware",
     step3Hint: zh
@@ -550,24 +545,19 @@ export function ESPFlasher() {
   /** Resolve, download and verify every part before the device is modified. 在改动设备前准备并校验全部固件。 */
   async function resolveFirmwarePackage(eraseAll) {
     if (firmwareId === CUSTOM_ID) {
-      if (!localFile) throw new Error(T.needFirmware);
-      if (localAddressValue === null) throw new Error(T.localAddressBad);
-      const build = {
-        completeImage: localImageKind === "merged" && localAddressValue === 0,
-        erasePolicy: localImageKind === "merged" && localAddressValue === 0 ? "full" : "application-only",
-        flashSize: "keep",
-        flashMode: "dio",
-        flashFreq: "80m",
-        parts: [{ path: localFile.name, offset: localAddressValue, size: localFile.data.length }],
-      };
+      if (localParts.length === 0) throw new Error(T.needFirmware);
+      if (localPartsIssue === "overlap") throw new Error(T.localOverlap);
+      if (localPartsIssue) throw new Error(T.localAddressBad);
+      const selection = createLocalFirmwareSelection(localParts);
+      const { build } = selection;
       const plan = buildFlashPlan(build, { eraseAll });
       return {
-        label: localFile.name,
+        label: `${localParts.length} local BIN ${localParts.length === 1 ? "file" : "files"}`,
         chipFamily: device?.chip,
         plan,
-        fileArray: [{ data: localFile.data, address: localAddressValue }],
+        fileArray: selection.fileArray,
         verifyParts: [],
-        totalSize: localFile.data.length,
+        totalSize: selection.totalSize,
       };
     }
     if (!builtIn) throw new Error(T.needFirmware);
@@ -766,13 +756,71 @@ export function ESPFlasher() {
     }
   }
 
-  async function acceptFile(file) {
-    if (!file) return;
-    const data = new Uint8Array(await file.arrayBuffer());
-    setLocalFile({ name: file.name, size: file.size, data });
+  async function acceptFiles(fileList) {
+    const files = Array.from(fileList ?? []).filter((file) => file.name.toLowerCase().endsWith(".bin"));
+    if (files.length === 0) return;
+    const parts = await Promise.all(files.map(async (file, index) => {
+      const data = new Uint8Array(await file.arrayBuffer());
+      const address = inferLocalFlashAddress({ name: file.name, data });
+      return {
+        id: `${file.name}-${file.lastModified}-${Date.now()}-${index}`,
+        name: file.name,
+        size: file.size,
+        data,
+        address,
+        completeImage: parseFlashAddress(address) === 0
+          && (/(merged|factory|complete|full[-_ ]?flash)/i.test(file.name)
+            || isCompleteFirmwareBinary(data)),
+      };
+    }));
+    setLocalParts((current) => [...current, ...parts]);
     setFirmwareId(CUSTOM_ID);
     setError("");
-    appendLog("system", `${zh ? "已载入本地固件" : "Loaded local firmware"} ${file.name} · ${formatKB(data.length)}\n`);
+    for (const part of parts) {
+      appendLog("system", `${zh ? "已载入本地固件" : "Loaded local firmware"} ${part.name} · ${formatKB(part.data.length)}\n`);
+    }
+  }
+
+  /** Import startup regions from the official merged image for the detected XIAO. 从当前型号的官方完整镜像导入启动区域。 */
+  async function importXiaoBootloader() {
+    if (!bootloaderSource || busy || importingBootloader) return;
+    setImportingBootloader(true);
+    setError("");
+    try {
+      const sourcePart = bootloaderSource.build.parts[0];
+      const manifestHref = new URL(bootloaderSource.firmware.manifestUrl, window.location.href).href;
+      const baseUrl = manifestHref.substring(0, manifestHref.lastIndexOf("/") + 1);
+      const data = await downloadFirmwareBinary(new URL(sourcePart.path, baseUrl).href, { size: sourcePart.size });
+      const actualSha256 = await sha256Hex(data);
+      if (actualSha256.toLowerCase() !== sourcePart.sha256.toLowerCase()) {
+        throw new Error(`${sourcePart.path} SHA-256 verification failed`);
+      }
+      const startupParts = createXiaoStartupParts(data, boardId);
+      setLocalParts((current) => [
+        ...startupParts,
+        ...current.filter((part) => part.source !== "xiao-startup"),
+      ]);
+      setFirmwareId(CUSTOM_ID);
+      appendLog("success", `${T.importedBootloader} · ${board?.name}\n`);
+    } catch (importError) {
+      const message = importError?.message || String(importError);
+      setError(message);
+      appendLog("error", `${message}\n`);
+    } finally {
+      setImportingBootloader(false);
+    }
+  }
+
+  function updateLocalPartAddress(id, address) {
+    setLocalParts((current) => current.map((part) => (part.id === id ? { ...part, address } : part)));
+  }
+
+  function removeLocalPart(id) {
+    setLocalParts((current) => {
+      const next = current.filter((part) => part.id !== id);
+      if (next.length === 0 && firmwareId === CUSTOM_ID) setFirmwareId(boardFirmwares[0]?.id ?? "");
+      return next;
+    });
   }
 
   /** Build a support-ready transcript with environment details. 生成带环境信息的日志文本，便于发给技术支持。 */
@@ -783,7 +831,7 @@ export function ESPFlasher() {
       `browser: ${typeof navigator === "undefined" ? "unknown" : navigator.userAgent}`,
       `detected board: ${board?.name || "—"}`,
       `detected chip: ${device ? `${device.description} (MAC ${device.mac})` : "—"}`,
-      `firmware: ${usingLocal ? `${localFile.name} (${localImageKind}) @ ${localAddress}` : builtIn ? `${pick(builtIn.name)} v${builtIn.version} (${builtIn.id})` : "—"}`,
+      `firmware: ${usingLocal ? localParts.map((part) => `${part.name} @ ${part.address}`).join(", ") : builtIn ? `${pick(builtIn.name)} v${builtIn.version} (${builtIn.id})` : "—"}`,
       `monitor baud: ${baud}`,
       "----",
     ].join("\n");
@@ -822,7 +870,7 @@ export function ESPFlasher() {
     error: T.phaseError,
   }[phase];
 
-  const canFlash = connected && !busy && (usingLocal ? localAddressValue !== null : Boolean(builtIn));
+  const canFlash = connected && !busy && (usingLocal ? localPartsIssue === null : Boolean(builtIn));
 
   return (
     <div className={styles.shell} id="esp-flasher">
@@ -935,15 +983,19 @@ export function ESPFlasher() {
                 onDrop={(event) => {
                   event.preventDefault();
                   setDragOver(false);
-                  acceptFile(event.dataTransfer.files?.[0]);
+                  acceptFiles(event.dataTransfer.files);
                 }}
               >
                 <input
                   ref={fileInputRef}
                   type="file"
                   accept=".bin"
+                  multiple
                   className={styles.fileInput}
-                  onChange={(event) => acceptFile(event.target.files?.[0])}
+                  onChange={(event) => {
+                    acceptFiles(event.target.files);
+                    event.target.value = "";
+                  }}
                 />
                 <div className={styles.dropHead}>
                   <label className={styles.dropCopy}>
@@ -952,63 +1004,85 @@ export function ESPFlasher() {
                       name="xiao-firmware"
                       checked={firmwareId === CUSTOM_ID}
                       onChange={() => setFirmwareId(CUSTOM_ID)}
-                      disabled={!localFile || busy}
+                      disabled={localParts.length === 0 || busy}
                     />
                     <span>
                       <strong>{T.localTitle}</strong>
-                      <small>{localFile ? `${localFile.name} · ${formatKB(localFile.size)}` : T.localHint}</small>
+                      <small>
+                        {localParts.length > 0
+                          ? `${localParts.length} BIN ${localParts.length === 1 ? "file" : "files"} · ${formatKB(localParts.reduce((sum, part) => sum + part.size, 0))}`
+                          : T.localHint}
+                      </small>
                     </span>
                   </label>
-                  <button type="button" className={styles.ghostBtn} onClick={() => fileInputRef.current?.click()} disabled={busy}>
-                    {localFile ? T.localReplace : T.localPick}
-                  </button>
-                </div>
-                {localFile && (
-                  <div className={styles.addressRow}>
-                    <label className={styles.addressField}>
-                      <span>{T.localImageKind}</span>
-                      <select
-                        value={localImageKind}
-                        onChange={(event) => {
-                          const nextKind = event.target.value;
-                          setLocalImageKind(nextKind);
-                          setLocalAddress(nextKind === "merged" ? "0x0" : DEFAULT_ADDRESS);
-                        }}
-                        disabled={busy}
-                      >
-                        <option value="application">{T.localApplication}</option>
-                        <option value="merged">{T.localMerged}</option>
-                      </select>
-                    </label>
-                    <label className={styles.addressField}>
-                      <span>{T.localAddress}</span>
-                      <input
-                        value={localAddress}
-                        onChange={(event) => setLocalAddress(event.target.value)}
-                        spellCheck={false}
-                        disabled={busy}
-                        data-bad={localAddressValue === null ? "1" : "0"}
-                      />
-                    </label>
+                  <div className={styles.localActions}>
+                    <button type="button" className={styles.ghostBtn} onClick={() => fileInputRef.current?.click()} disabled={busy}>
+                      {T.localPick}
+                    </button>
                     <button
                       type="button"
                       className={styles.ghostBtn}
-                      onClick={() => {
-                        setLocalFile(null);
-                        if (firmwareId === CUSTOM_ID) setFirmwareId(boardFirmwares[0]?.id ?? "");
-                      }}
-                      disabled={busy}
+                      onClick={importXiaoBootloader}
+                      disabled={!bootloaderSource || busy || importingBootloader}
+                      title={bootloaderSource ? undefined : T.importBootloaderHint}
                     >
-                      {T.localRemove}
+                      {importingBootloader ? T.importingBootloader : T.importBootloader}
                     </button>
+                    {localParts.length > 0 && (
+                      <button
+                        type="button"
+                        className={styles.ghostBtn}
+                        onClick={() => {
+                          setLocalParts([]);
+                          if (firmwareId === CUSTOM_ID) setFirmwareId(boardFirmwares[0]?.id ?? "");
+                        }}
+                        disabled={busy}
+                      >
+                        {T.localClear}
+                      </button>
+                    )}
+                  </div>
+                </div>
+                {localParts.length > 0 && (
+                  <div className={styles.customParts}>
+                    {localParts.map((part) => {
+                      const addressValue = parseFlashAddress(part.address);
+                      return (
+                        <div key={part.id} className={styles.customPart}>
+                          <span className={styles.customPartName}>
+                            <strong>{part.name}</strong>
+                            <small>{formatKB(part.size)}</small>
+                          </span>
+                          <label className={styles.addressField}>
+                            <span>{T.localAddress}</span>
+                            <input
+                              value={part.address}
+                              onChange={(event) => updateLocalPartAddress(part.id, event.target.value)}
+                              placeholder="0x10000"
+                              spellCheck={false}
+                              disabled={busy}
+                              data-bad={addressValue === null ? "1" : "0"}
+                            />
+                          </label>
+                          <button
+                            type="button"
+                            className={styles.ghostBtn}
+                            onClick={() => removeLocalPart(part.id)}
+                            disabled={busy}
+                          >
+                            {T.localRemove}
+                          </button>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
-                {localFile && (
-                  <p className={styles.dropHint} data-bad={localAddressValue === null ? "1" : "0"}>
-                    {localAddressValue === null
-                      ? T.localAddressBad
-                      : localImageKind === "merged"
-                        ? T.localMergedHint
+                {localParts.length > 0 && (
+                  <p className={styles.dropHint} data-bad={localPartsIssue ? "1" : "0"}>
+                    {localPartsIssue === "overlap"
+                      ? T.localOverlap
+                      : localPartsIssue
+                        ? T.localAddressBad
                         : T.localAddressHint}
                   </p>
                 )}

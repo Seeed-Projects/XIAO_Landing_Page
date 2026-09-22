@@ -328,7 +328,8 @@
 }
 .dropZone[data-on="1"] { border-style: solid; border-color: var(--brand-green); background: var(--surface-tint); }
 .dropZone[data-drag="1"] { border-color: var(--brand-green); background: #eefaf2; }
-.dropHead { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.dropHead { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.localActions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
 .dropCopy { display: grid; grid-template-columns: 18px minmax(0, 1fr); align-items: center; gap: 10px; min-width: 0; cursor: pointer; }
 .dropCopy input { width: 16px; height: 16px; accent-color: var(--brand-green); }
 .dropCopy span { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
@@ -338,11 +339,9 @@
 .dropHint { margin: 0; color: var(--ink-muted); font-size: 11px; line-height: 1.5; }
 .dropHint[data-bad="1"] { color: #b53b32; }
 .fileInput { display: none; }
-.addressRow { display: flex; align-items: flex-end; gap: 10px; }
 .addressField { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 0; }
 .addressField > span { color: var(--ink-body); font-size: 12px; font-weight: 700; }
-.addressField input,
-.addressField select {
+.addressField input {
   min-height: 38px;
   padding: 0 12px;
   border: 1px solid var(--line-soft);
@@ -352,10 +351,22 @@
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
   font-size: 13px;
 }
-.addressField select { font-family: var(--font-display), sans-serif; }
-.addressField input:focus,
-.addressField select:focus { outline: 3px solid rgba(22, 182, 106, 0.14); border-color: var(--brand-green); }
+.addressField input:focus { outline: 3px solid rgba(22, 182, 106, 0.14); border-color: var(--brand-green); }
 .addressField input[data-bad="1"] { border-color: #d4544a; }
+.customParts { display: flex; flex-direction: column; gap: 8px; }
+.customPart {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.4fr) minmax(160px, 0.8fr) auto;
+  align-items: end;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-control);
+  background: rgba(255, 255, 255, 0.76);
+}
+.customPartName { display: flex; flex-direction: column; align-self: center; gap: 3px; min-width: 0; }
+.customPartName strong { color: var(--ink-strong); font-size: 12px; overflow-wrap: anywhere; }
+.customPartName small { color: var(--ink-muted); font-size: 11px; }
 
 .progress { display: flex; flex-direction: column; gap: 6px; }
 .progressTrack { height: 8px; border-radius: var(--r-pill); background: rgba(0, 73, 102, 0.1); overflow: hidden; }
@@ -513,7 +524,9 @@
   .step { grid-template-columns: 36px minmax(0, 1fr); column-gap: 12px; padding: 18px 0 20px; }
   .stepIndex { width: 32px; height: 32px; font-size: 12px; }
   .step:not(:last-child)::after { top: 48px; bottom: -9px; left: 15px; }
-  .addressRow { align-items: stretch; flex-direction: column; }
+  .localActions { align-items: stretch; width: 100%; }
+  .localActions .ghostBtn { flex: 1; }
+  .customPart { grid-template-columns: 1fr; align-items: stretch; }
   .console { height: min(520px, 70dvh); }
 }
 

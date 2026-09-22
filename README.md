@@ -363,10 +363,11 @@ The three steps are connect, choose firmware and flash:
    MAC and port state. A collapsible "Trouble connecting?" block carries the
    cable, BOOT-button and USB-port tips.
 2. **Choose firmware** lists the verified official images for the detected
-   board and accepts a
-   local `.bin` by drop or file picker. Local images carry a hex flash address
-   and an explicit image type: application images use their application offset,
-   while complete merged images use `0x0`.
+   board and accepts one or more local `.bin` files by drop or file picker.
+   Every local file has one editable hexadecimal flash address. The page
+   suggests `0x0` for complete merged images and bootloaders, `0x8000` for
+   partition tables, `0xe000` for `boot_app0`, and `0x10000` for application
+   images.
 3. **Flash** downloads and verifies the selected package before changing the
    device, writes each declared region, verifies the device contents, resets
    the board and restores the serial monitor. The progress bar names each stage.
@@ -389,6 +390,20 @@ from one Arduino build. Their manifests use the `full` erase policy, so both
 the standard flash action and the whole-flash **Erase & flash** recovery action
 are available. The original application image is kept beside each merged image
 as a development artifact at its `0x10000` application offset.
+
+Local firmware uses one file-and-address workflow without asking the user to
+classify the image. Multiple `.bin` files can be added in one or several picks,
+and every suggested address remains editable. After a board is connected,
+**Import XIAO bootloader** downloads the verified official merged image for that
+exact XIAO model and extracts its bootloader, partition table and `boot_app0`
+startup regions into the local package. Existing user-added files remain in
+place. Importing again replaces only the earlier imported startup regions.
+
+The page rejects missing, invalid or overlapping address ranges before opening
+the serial port for flashing. Local packages preserve the rest of the flash.
+Whole-flash erase is available for either one recognized complete merged image
+at `0x0`, or a complete multi-file package containing regions at `0x0`,
+`0x8000`, `0xe000` and `0x10000`.
 
 The monitor owns the serial port whenever the flasher does not. After chip
 detection and after a successful write the page releases DTR, pulses RTS and
@@ -426,15 +441,18 @@ preview running, open `http://localhost:3000/XIAO_Landing_Page/playground/esp-fl
    flash actions are compact, and
    the Home Assistant banner is visible. The serial monitor shows Not
    connected; there is no Web Serial ready badge in the top-right.
-2. Drop a `.bin` on the local firmware area: the radio moves to the local file,
-   image-type and address fields appear, and a timestamped line records the file
-   and size. Typing a non-hex address shows the address hint in red and blocks
-   flashing.
+2. Drop or add one or more `.bin` files in the local firmware area: the local
+   package becomes active, one editable address appears after every file, and
+   timestamped lines record every filename and size. Confirm a complete merged
+   image starts at `0x0`, a normal application image starts at `0x10000`, and
+   invalid or overlapping address ranges appear in red and block flashing.
 3. With a XIAO ESP board attached, press Connect: the log records chip
    detection, the matching official firmware appears, the facts list fills with
    board, chip and MAC, and the monitor switches to Listening.
-4. Select the built-in complete image: its address reads `0x0`, and both Flash
-   firmware and Erase & flash are available.
+4. Add an application BIN, then select **Import XIAO bootloader**. Confirm the
+   detected model's bootloader, partition table and `boot_app0` appear at
+   `0x0`, `0x8000` and `0xe000`, while the application remains at `0x10000`.
+   Both Flash firmware and Erase & flash are now available.
 5. Press Erase & flash: the log reports download verification, whole-flash
    erase, device write verification, restart and reconnect; the progress bar
    reaches 100% and the board's boot output continues in the same log.
