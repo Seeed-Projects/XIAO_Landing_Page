@@ -21,6 +21,7 @@ import {
   fileCount,
   fuzzyScore,
 } from "./resources-data.mjs";
+import { resourceArtFor } from "./resource-art.mjs";
 
 const root = fileURLToPath(new URL("../../..", import.meta.url));
 
@@ -69,6 +70,17 @@ test("resource rows are complete, unique per board, and previewable only in know
     }
     assert.equal(new Set(urls).size, urls.length, `${board.id} duplicate url`);
   }
+});
+
+test("every resource kind has a reusable fallback visual", () => {
+  const sources = new Set();
+  for (const kind of RESOURCE_KINDS) {
+    const art = resourceArtFor(kind);
+    assert.ok(art.group && art.src, kind);
+    assert.ok(existsSync(path.join(root, "public", art.src.replace(/^\//, ""))), `${kind} missing ${art.src}`);
+    sources.add(art.src);
+  }
+  assert.equal(sources.size, 4);
 });
 
 test("bake jobs cover drawings and PDFs once per URL with unique file names", () => {

@@ -279,8 +279,19 @@
   inset: 0;
   display: grid;
   place-items: center;
+  overflow: hidden;
 }
-.art svg { width: 70%; height: 70%; }
+.artImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.025);
+  will-change: transform, filter;
+}
+.art[data-art-kind="design"] .artImage { animation: art-breathe 7s ease-in-out infinite; }
+.art[data-art-kind="mechanical"] .artImage { animation: art-float 6s ease-in-out infinite; }
+.art[data-art-kind="firmware"] .artImage { animation: art-pulse 3.6s ease-in-out infinite; }
+.art[data-art-kind="guide"] .artImage { animation: art-drift 7.5s ease-in-out infinite; }
 .artFormat {
   position: absolute;
   right: 10px;
@@ -779,6 +790,22 @@
   to { opacity: 1; transform: none; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+@keyframes art-breathe {
+  0%, 100% { transform: scale(1.025); }
+  50% { transform: scale(1.055); }
+}
+@keyframes art-float {
+  0%, 100% { transform: translateY(0) scale(1.035); }
+  50% { transform: translateY(-4px) scale(1.035); }
+}
+@keyframes art-pulse {
+  0%, 100% { transform: scale(1.025); filter: brightness(0.96) saturate(0.94); }
+  50% { transform: scale(1.045); filter: brightness(1.08) saturate(1.08); }
+}
+@keyframes art-drift {
+  0%, 100% { transform: translateX(-2px) scale(1.035); }
+  50% { transform: translateX(3px) scale(1.035); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .groups,
@@ -791,6 +818,7 @@
   .thumbHint,
   .iconBtn,
   .navItem { transition: none; }
+  .artImage { animation: none !important; }
 }
 
 @media (max-width: 1100px) {
@@ -818,7 +846,6 @@
   .card:hover { transform: none; }
   .thumb { aspect-ratio: auto; height: 100%; min-height: 112px; border-bottom: 0; border-right: 1px solid var(--res-line); }
   .thumbHint { display: none; }
-  .art svg { width: 76%; height: 76%; }
   .artFormat { display: none; }
   .cardBody { padding: 12px 12px 12px 14px; gap: 8px; }
   .learnBand { margin-top: 56px; padding: 48px 0 64px; }

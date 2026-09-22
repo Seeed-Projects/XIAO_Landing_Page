@@ -364,9 +364,10 @@ sideways.
 
 Every card carries a real thumbnail when one can be produced: PDF first pages
 (WebP), DXF and KiCad drawings (SVG), the first rows of a pinout spreadsheet
-(SVG), or the 3D render images. Files that have no visual, such as firmware,
-guides and external links, use a kind-specific illustration from
-`src/app/res/KindArt.js`. Clicking the thumbnail runs the card's primary
+(SVG), or the 3D render images. Files that have no visual use one of four
+shared category covers for design files, mechanical files, firmware and
+developer guides. Each cover uses a subtle looped motion and becomes static
+when the system requests reduced motion. Clicking the thumbnail runs the card's primary
 action; the two small round buttons at the bottom are preview (eye) and
 download, or open for external links. The interactive pinout is reached from
 the board profile.
