@@ -9,6 +9,8 @@ const pinoutCss = read("./playground/pinout/pinout.module.css");
 const flasher = read("./products/esp-flasher.js");
 const flasherCss = read("./products/esp-flasher.module.css");
 const resources = read("./res/resHub.js");
+const boardPicker = read("./res/BoardPicker.js");
+const resourceCard = read("./res/ResourceCard.js");
 const courseCard = read("./res/CourseCard.js");
 const resourcesCss = read("./res/res.module.css");
 const software = read("./software-center/page.js");
@@ -87,13 +89,25 @@ test("software center uses one shared hierarchy for sections and cards", () => {
 });
 
 test("resource headings and course cards use the shared hierarchy", () => {
-  assert.match(resources, /resGroupHead[\s\S]*home-type-subtitle/);
-  assert.match(resources, /extrasHead[\s\S]*home-type-title/);
-  assert.match(resources, /extrasHead[\s\S]*home-type-body/);
+  assert.match(boardPicker, /profileName[\s\S]*home-type-subtitle/);
+  assert.match(boardPicker, /profileIntro[\s\S]*home-type-body/);
+  assert.match(resources, /groupHead[\s\S]*home-type-subtitle/);
+  assert.match(resources, /learnHead[\s\S]*home-type-title/);
+  assert.match(resources, /learnHead[\s\S]*home-type-body/);
+  assert.match(read("./res/DesignKit.js"), /kitTitle} home-type-title/);
+  assert.match(read("./res/DesignKit.js"), /kitIntro} home-type-body/);
+  assert.doesNotMatch(resourcesCss, /\.kitTitle\s*{[^}]*font-size:/s);
+  assert.doesNotMatch(resourcesCss, /\.kitIntro\s*{[^}]*font-size:/s);
+  assert.match(resourceCard, /cardName[\s\S]*home-type-subtitle/);
+  assert.match(boardPicker, /home-type-action home-filled-action/);
   assert.match(courseCard, /courseTitle} home-type-subtitle/);
   assert.match(courseCard, /courseIntro} home-type-body/);
-  assert.match(courseCard, /courseLink} home-type-action home-text-action/);
+  assert.match(courseCard, /courseLink} home-type-action \$\{featured \? "home-filled-action" : "home-text-action"\}/);
   assert.doesNotMatch(resourcesCss, /\.courseTitle\s*{[^}]*font-size:/s);
   assert.doesNotMatch(resourcesCss, /\.courseIntro\s*{[^}]*font-size:/s);
   assert.doesNotMatch(resourcesCss, /\.courseLink\s*{[^}]*font-size:/s);
+  assert.doesNotMatch(resourcesCss, /\.profileName\s*{[^}]*font-size:/s);
+  assert.doesNotMatch(resourcesCss, /\.profileIntro\s*{[^}]*font-size:/s);
+  assert.doesNotMatch(resourcesCss, /\.cardName\s*{[^}]*font-size:/s);
+  assert.doesNotMatch(resourcesCss, /\.groupTitle\s*{[^}]*font-size:/s);
 });

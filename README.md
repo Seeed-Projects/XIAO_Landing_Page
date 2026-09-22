@@ -341,6 +341,65 @@ Run `node --test src/app/pinout-page.test.mjs` to check all twenty-three
 boards, both diagram faces, primers, notes, alt keys and the two-face view.
 
 
+## Hardware Resources
+
+`/res/` is the hardware file shelf. The page opens on one navy hero: the title
+and its intro sit on top, then a thin rule and a glass panel hold the XIAO
+Design Kit (`DesignKit.js`), the two series-wide KiCad libraries, footprints
+and schematic symbols, side by side under a one-line heading. The hero ends
+in rounded bottom corners, and below it the files are
+laid out like a file browser across the full page width (up to 1800px). A sticky board list on the left groups every
+XIAO board by chip family with its product photo and file count. The main
+column opens with the selected board's profile (photo, intro, badges, search
+across every board, and links to the interactive pinout, Wiki and store), then
+lists its files under Hardware Design, Mechanical Design, Software & Tools and
+Others. A separate full-width Learn & Build band closes the page: a featured ebook card, then a
+grid of courses, community projects and the official YouTube channel. Every
+cover is shown whole at its own aspect ratio on a 4:3 stage, with a blurred
+copy of the same image filling the background; each card's tag names the
+boards it covers, and PDF-based items use a baked first page as their cover. The right-hand rail items are Top, Resources and Learn.
+Below 1100px the board list becomes family tabs plus a row of board chips; on
+phones each file card turns into a compact row and the learn cards scroll
+sideways.
+
+Every card carries a real thumbnail when one can be produced: PDF first pages
+(WebP), DXF and KiCad drawings (SVG), the first rows of a pinout spreadsheet
+(SVG), or the 3D render images. Files that have no visual, such as firmware,
+guides and external links, use a kind-specific illustration from
+`src/app/res/KindArt.js`. Clicking the thumbnail runs the card's primary
+action; the two small round buttons at the bottom are preview (eye) and
+download, or open for external links. The interactive pinout is reached from
+the board profile.
+
+Preview opens a near-fullscreen dialog. PDFs use the browser's own viewer.
+DXF and KiCad projects download that one file and draw it in the page with a
+Fit / 2x zoom toggle. Pinout spreadsheets are parsed in the browser by
+`src/lib/parseXlsx.js` (shared strings, inline text, numbers and merged cells)
+and shown as a table with a sticky header and first column, one tab per sheet.
+STEP enclosures ask before loading the 3D viewer (about 8 MB). Nothing heavy
+loads until a preview is opened.
+
+Thumbnails are generated ahead of time into `public/res-thumb/` and listed in
+`src/app/res/res-thumbs.generated.mjs`, so the page never requests a missing
+image. Refresh them after resource URLs change:
+
+```bash
+npm run bake:res-thumbs
+```
+
+Drawings and spreadsheets are rendered by the in-repo DXF, KiCad and XLSX
+parsers. PDF first pages are
+rendered by pdf.js inside a locally installed Chrome; set `CHROME_PATH` to point
+at a different browser, or use `BAKE_ONLY=pdf` / `BAKE_ONLY=drawings` to
+refresh one kind. PDFs hosted on sites that block cross-origin reads are
+skipped and keep their illustration. The command is not part of
+`npm run build`; the production build does not download files. Run
+`node --test src/app/res/resources-data.test.mjs src/lib/parseDxf.test.mjs
+src/lib/parseXlsx.test.mjs src/app/tool-pages-typography.test.mjs` to check
+the catalog, thumbnail naming, the drawing frame, the spreadsheet reader and
+the shared type roles.
+
+
 ## Playground ESP32 Web Flasher
 
 `/playground/esp-flasher/` is the XIAO ESP32 Series Web Flasher: a two-column

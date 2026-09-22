@@ -146,7 +146,6 @@ export function renderDxfSvg(src) {
   let rArcs = cap(arcs, 500);
 
   if (!bounds) return null;
-  // 离群点会撑爆边界（标题栏/远端尺寸线）。用"包含 80% 点的最小区间"找主簇。
   const pxs = [];
   const pys = [];
   for (const s of segs) { pxs.push(s.x1, s.x2); pys.push(s.y1, s.y2); }
@@ -154,26 +153,15 @@ export function renderDxfSvg(src) {
   for (const a of arcs) { pxs.push(a.cx - a.r, a.cx + a.r); pys.push(a.cy - a.r, a.cy + a.r); }
   for (const t of texts) { pxs.push(t.x); pys.push(t.y); }
   if (!pxs.length) return null;
-  // 排序后滑动窗口，找包含 80% 点的最窄区间
-  const dense = (arr) => {
+  // Frame the sheet from the outer points, dropping a thin outlier fringe.
+  // 用外围点框住整张图纸，只丢掉最边缘的少量离群点。
+  const limits = (arr) => {
     const a = arr.slice().sort((m, n) => m - n);
-    const n = a.length;
-    const win = Math.max(2, Math.floor(n * 0.6));
-    let bestLo = a[0],
-      bestHi = a[n - 1],
-      bestRange = bestHi - bestLo;
-    for (let i = 0; i + win < n; i++) {
-      const rng = a[i + win] - a[i];
-      if (rng < bestRange) {
-        bestRange = rng;
-        bestLo = a[i];
-        bestHi = a[i + win];
-      }
-    }
-    return [bestLo, bestHi];
+    const at = (p) => a[Math.min(a.length - 1, Math.max(0, Math.round(p * (a.length - 1))))];
+    return [at(0.01), at(0.99)];
   };
-  const [minx0, maxx0] = dense(pxs);
-  const [miny0, maxy0] = dense(pys);
+  const [minx0, maxx0] = limits(pxs);
+  const [miny0, maxy0] = limits(pys);
   const spanX = Math.max(maxx0 - minx0, 1);
   const spanY = Math.max(maxy0 - miny0, 1);
   const m = Math.max(spanX, spanY) * 0.06;

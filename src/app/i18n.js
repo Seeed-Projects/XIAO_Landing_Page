@@ -258,6 +258,7 @@ const zh = {
     res: [
       { id: "top", label: "Top" },
       { id: "resources", label: "资源" },
+      { id: "learn", label: "延伸学习" },
     ],
     projectHub: [
       { id: "top", label: "Top" },
@@ -529,6 +530,7 @@ const en = {
     res: [
       { id: "top", label: "Top" },
       { id: "resources", label: "Resources" },
+      { id: "learn", label: "Learn" },
     ],
     projectHub: [
       { id: "top", label: "Top" },
