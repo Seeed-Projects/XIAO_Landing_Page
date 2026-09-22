@@ -5,6 +5,7 @@ import { useLang } from "../i18n";
 import { withBase } from "../../lib/basePath";
 import { downloadFirmwareBinary, formatDownloadBytes } from "../../lib/firmware-download.mjs";
 import { createCompatibleEspLoader } from "../../lib/xiao-esptool-compat.mjs";
+import { pulseTransportReset } from "../../lib/xiao-serial-reset.mjs";
 import {
   buildFlashPlan,
   canEraseWholeFlash,
@@ -506,7 +507,7 @@ export function ESPFlasher() {
       appendLog("success", `${zh ? "已连接" : "Connected"} · ${info.description} · MAC ${info.mac}\n`);
       expectedDisconnectRef.current = true;
       setPhase("restarting");
-      await loaderRef.current.after("hard_reset");
+      await pulseTransportReset(transport);
       await detachLoader();
       setPhase("reconnecting");
       await startMonitor(Number(baud));
@@ -692,8 +693,7 @@ export function ESPFlasher() {
       expectedDisconnectRef.current = true;
       setPhase("restarting");
       setProgress((current) => ({ ...current, stage: T.stageRestarting, percent: 96 }));
-      const loader = loaderRef.current;
-      await loader.after("hard_reset");
+      await pulseTransportReset(transportRef.current);
       await detachLoader();
       setPhase("reconnecting");
       setProgress((current) => ({ ...current, stage: T.stageReconnecting, percent: 98 }));
@@ -733,11 +733,7 @@ export function ESPFlasher() {
       await stopMonitor();
       const port = transport.device;
       if (!port.readable && !port.writable) await port.open({ baudRate: Number(baud) });
-      await port.setSignals({ dataTerminalReady: false, requestToSend: false });
-      await sleep(50);
-      await port.setSignals({ dataTerminalReady: false, requestToSend: true });
-      await sleep(100);
-      await port.setSignals({ dataTerminalReady: false, requestToSend: false });
+      await pulseTransportReset(transport);
       await port.close();
       setPhase("reconnecting");
       await startMonitor(Number(baud));

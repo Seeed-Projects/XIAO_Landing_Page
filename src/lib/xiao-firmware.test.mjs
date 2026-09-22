@@ -6,6 +6,7 @@ import test from "node:test";
 
 import { downloadFirmwareBinary } from "./firmware-download.mjs";
 import { createCompatibleEspLoader } from "./xiao-esptool-compat.mjs";
+import { pulseTransportReset } from "./xiao-serial-reset.mjs";
 import {
   buildFlashPlan,
   getCompatibleBuild,
@@ -123,6 +124,29 @@ test("C5 and C6 use Espressif's corrected SPI register base", async () => {
   const c3Loader = createCompatibleEspLoader(FakeEspLoader, {});
   c3Loader.chip = { CHIP_NAME: "ESP32-C3", SPI_REG_BASE: 0x60002000 };
   assert.equal(await c3Loader.runSpiflashCommand(), 0x60002000);
+});
+
+test("post-flash reset drives RTS low and high before monitoring", async () => {
+  const events = [];
+  const transport = {
+    device: {
+      async setSignals(value) {
+        events.push(["signals", value]);
+      },
+    },
+  };
+
+  await pulseTransportReset(transport, async (duration) => {
+    events.push(["wait", duration]);
+  });
+
+  assert.deepEqual(events, [
+    ["signals", { dataTerminalReady: false, requestToSend: false }],
+    ["wait", 50],
+    ["signals", { dataTerminalReady: false, requestToSend: true }],
+    ["wait", 100],
+    ["signals", { dataTerminalReady: false, requestToSend: false }],
+  ]);
 });
 
 test("application-only firmware rejects whole-flash erase", () => {

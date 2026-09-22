@@ -60,6 +60,7 @@ test("the flasher derives the board from the detected chip and advances a three-
 
 test("the flasher refreshes firmware metadata and applies C5/C6 compatibility on connect", () => {
   assert.match(flasher, /createCompatibleEspLoader\(ESPLoader/);
+  assert.equal((flasher.match(/pulseTransportReset\(/g) || []).length, 3);
   assert.match(
     flasher,
     /setBoardId\(matched\.id\);[\s\S]*currentFirmwares = await loadCurrentFirmwareCatalog\(\);[\s\S]*setFirmwareId/,

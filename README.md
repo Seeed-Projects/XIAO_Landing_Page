@@ -391,11 +391,13 @@ are available. The original application image is kept beside each merged image
 as a development artifact at its `0x10000` application offset.
 
 The monitor owns the serial port whenever the flasher does not. After chip
-detection and after a successful write the board is hard-reset. Restart and
-reconnect are first-class states rather than disconnect errors. The page waits
-up to ten seconds for USB re-enumeration, resolves the authorized port again by
-USB vendor and product id, and reopens the monitor at the selected baud rate.
-The Reset device action sends an RTS reset and uses the same reconnect path.
+detection and after a successful write the page releases DTR, pulses RTS and
+returns both control lines to their idle state so the board boots its
+application. Restart and reconnect are first-class states rather than
+disconnect errors. The page waits up to ten seconds for USB re-enumeration,
+resolves the authorized port again by USB vendor and product id, and reopens
+the monitor at the selected baud rate. The Reset device action sends the same
+RTS reset and uses the same reconnect path.
 
 Every device connection refreshes the published catalog and manifests, so an
 already-open browser tab moves to the current firmware version before flashing.
