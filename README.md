@@ -409,12 +409,15 @@ community categories, all computed from the data. Act one is six numbered
 chapter panels — Home Assistant Discovery, XIAO Zephyr Assistant, Seeed GFX2,
 XIAO ESPHome Projects, MicroPython for XIAO, and SenseCraft AI. Each panel
 explains the intended use, the problem it addresses and the value it brings,
-paired with a dark diagram screen whose footer
+paired with a light, illustrated animation whose footer
 carries the project's status badges; below them three step cards, capability
-chips, a boards line and the action buttons span the panel. The diagram plays
-when it enters the viewport, returns to the start when it leaves, and plays
-again on the next visit. Reduced motion shows the finished frame with no
-animation. Act two
+chips, a boards line and the action buttons span the panel. Each ten-second
+loop uses real XIAO artwork to show a software action and its hardware result.
+The MP4 loads on viewport entry, loops silently, resets on exit and replays
+on return. A small pause control preserves the reader's choice across scrolling.
+Hidden browser tabs pause playback; reduced motion or a media error shows a
+static WebP poster. Media lives in `public/software-animations/`, with editable
+sources and export instructions in `design/software-loops/`. Act two
 is the community wall: a full-width logo marquee of non-official platforms,
 category chips with counts, and cards that show how many boards each entry
 covers. Detail pages stay at `/software-center/[slug]/`.
@@ -428,7 +431,7 @@ Story copy lives in `src/app/software-center/official-stories.mjs`. Check it
 with:
 
 ```bash
-node --test src/app/software-center/official-stories.test.mjs src/app/tool-pages-typography.test.mjs
+node --test src/app/software-center/official-stories.test.mjs src/app/software-center/story-playback.test.mjs src/app/tool-pages-typography.test.mjs
 ```
 
 ## Playground ESP32 Web Flasher
