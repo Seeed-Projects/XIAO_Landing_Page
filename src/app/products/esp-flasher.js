@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLang } from "../i18n";
+import { ToolPageIntro } from "../tool-page-intro";
 import { withBase } from "../../lib/basePath";
 import { downloadFirmwareBinary, formatDownloadBytes } from "../../lib/firmware-download.mjs";
 import { createCompatibleEspLoader } from "../../lib/xiao-esptool-compat.mjs";
@@ -874,16 +875,12 @@ export function ESPFlasher() {
 
   return (
     <div className={styles.shell} id="esp-flasher">
-      <header className={styles.topbar}>
-        <div className={styles.topbarCopy}>
-          <span className={styles.eyebrow}>{T.eyebrow}</span>
-          <h1 className={`${styles.pageTitle} home-type-hero-title`}>{T.title}</h1>
-          <p className={`${styles.pageLead} home-type-body`}>{T.lead}</p>
-        </div>
+      <div className={styles.topbar}>
+        <ToolPageIntro title={T.title} description={T.lead} />
         {!supported && (
           <span className={`${styles.envBadge} ${styles.envWarn}`}>{T.envWarn}</span>
         )}
-      </header>
+      </div>
 
       <aside className={styles.haBanner} aria-label={T.haAction}>
         <p className={`${styles.haLead} home-type-body`}>{T.haLead}</p>

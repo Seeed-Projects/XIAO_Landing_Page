@@ -2,7 +2,7 @@
 
 import { useLang } from "../i18n";
 import { pick } from "./software-data";
-import { FLAGSHIP_STORIES, MORE_OFFICIAL } from "./official-stories.mjs";
+import { FLAGSHIP_STORIES } from "./official-stories.mjs";
 import { StoryDiagram } from "./StoryDiagram";
 import styles from "./software-center.module.css";
 
@@ -10,32 +10,28 @@ const LABELS = {
   en: {
     act: "Act one",
     title: "Official software",
-    intro: "Seeed designs these tools for the XIAO ecosystem and keeps them up to date. Each one removes a specific obstacle.",
-    problem: "The obstacle",
-    what: "What it is",
+    intro: "Connect devices, reuse your development workflow and turn prototypes into working products with software built for XIAO.",
+    problem: "Why it matters",
+    what: "What it brings",
     steps: "How to use it",
     can: "What it can do",
     boards: "Boards",
-    moreTitle: "More official repositories",
-    moreIntro: "The same maintenance continues in smaller repositories: a module, a display library, a link, a kit.",
   },
   zh: {
     act: "第一幕",
     title: "官方软件",
-    intro: "这些是 Seeed 为 XIAO 生态设计并持续维护的工具。每一个都对着一个具体的障碍。",
-    problem: "卡在哪里",
-    what: "它是什么",
+    intro: "让设备融入生活，让开发经验跨板卡复用，让原型成为可用的产品。这些是 XIAO 官方软件要解决的事。",
+    problem: "解决什么问题",
+    what: "带来什么价值",
     steps: "怎么用",
     can: "能做什么",
     boards: "支持的板卡",
-    moreTitle: "更多官方仓库",
-    moreIntro: "同样的维护还落在更小的仓库里：一个模块、一个显示库、一种连接、一套套件。",
   },
 };
 
 /**
- * Flagship stories as chapter panels, then the compact list of other official repositories.
- * 旗舰故事以章节面板呈现，其后是其余官方仓库的紧凑列表。
+ * Official software panels combine purpose, supported hardware and getting-started links.
+ * 官方软件章节展示用途、支持硬件和上手入口。
  */
 export function OfficialSection() {
   const { lang } = useLang();
@@ -126,35 +122,6 @@ export function OfficialSection() {
           ))}
         </div>
 
-        <div className={styles.more}>
-          <h3 className={`${styles.moreTitle} home-type-subtitle`}>{copy.moreTitle}</h3>
-          <p className={`${styles.moreIntro} home-type-body`}>{copy.moreIntro}</p>
-          <ul className={styles.repoList}>
-            {MORE_OFFICIAL.map((item) => (
-              <li key={item.id} className={styles.repo}>
-                <div className={styles.repoHead}>
-                  <h4 className={`${styles.repoName} home-type-subtitle`}>{pick(item.name, lang)}</h4>
-                  <p className={styles.repoBoards}>{item.boards.join(" · ")}</p>
-                </div>
-                <p className={`${styles.repoSummary} home-type-body`}>{pick(item.summary, lang)}</p>
-                <div className={styles.repoLinks}>
-                  {item.links.map((link) => (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`${styles.repoLink} home-type-action`}
-                    >
-                      {pick(link.label, lang)}
-                      <span aria-hidden="true">↗</span>
-                    </a>
-                  ))}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
     </section>
   );

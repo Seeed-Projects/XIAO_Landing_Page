@@ -4,7 +4,6 @@ import test from "node:test";
 import {
   DIAGRAM_IDS,
   FLAGSHIP_STORIES,
-  MORE_OFFICIAL,
   officialRepoUrls,
 } from "./official-stories.mjs";
 
@@ -17,8 +16,8 @@ function bilingual(value, path) {
   assert.ok(value.zh.trim(), `${path}.zh empty`);
 }
 
-test("four flagship stories carry a complete bilingual narrative", () => {
-  assert.equal(FLAGSHIP_STORIES.length, 4);
+test("six flagship stories carry a complete bilingual narrative", () => {
+  assert.equal(FLAGSHIP_STORIES.length, 6);
   const ids = new Set();
   const diagrams = new Set();
   for (const story of FLAGSHIP_STORIES) {
@@ -48,19 +47,12 @@ test("four flagship stories carry a complete bilingual narrative", () => {
   assert.equal(diagrams.size, DIAGRAM_IDS.length);
 });
 
-test("five more official rows cover nine GitHub repositories in total", () => {
-  assert.equal(MORE_OFFICIAL.length, 5);
-  for (const item of MORE_OFFICIAL) {
-    bilingual(item.name, item.id);
-    bilingual(item.summary, item.id);
-    assert.ok(item.boards.length >= 1, item.id);
-    assert.ok(item.links.length >= 1, item.id);
-    for (const link of item.links) {
-      bilingual(link.label, `${item.id}.link`);
-      assert.match(link.href, /^https:\/\/github\.com\//, link.href);
-    }
+test("official software covers five source repositories", () => {
+  const urls = officialRepoUrls();
+  assert.equal(urls.length, 5);
+  for (const repository of ["Seeed_GFX2", "xiao-esphome-projects", "micropython-seeed-boards"]) {
+    assert.ok(urls.includes(`https://github.com/Seeed-Studio/${repository}`));
   }
-  assert.equal(officialRepoUrls().length, 9);
 });
 
 test("the community wall drops official logos and counts boards", () => {

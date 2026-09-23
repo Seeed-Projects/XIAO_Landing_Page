@@ -372,6 +372,9 @@
 .sensor { fill: rgba(22, 182, 106, 0.16); stroke: #16b66a; stroke-width: 2.5; }
 .sensorMark { fill: none; stroke: #16b66a; stroke-width: 2.5; stroke-linecap: round; }
 .wave { fill: none; stroke: #7fd3f0; stroke-width: 3; stroke-linecap: round; }
+.connection { fill: none; stroke: #7fd3f0; stroke-width: 2; stroke-linecap: round; }
+.stage [data-part="progress"] { transform: scaleX(0.08); transform-box: fill-box; transform-origin: left; }
+.stage[data-play="1"] [data-part="progress"] { animation: grow 1.4s 0.5s ease forwards; }
 .packet { fill: #16b66a; }
 .row { fill: #e9f0ea; }
 .rail { fill: #d9e4db; }
@@ -775,7 +778,8 @@
     opacity: 0;
   }
 
-  .stage [data-part="bar"] {
+  .stage [data-part="bar"],
+  .stage [data-part="progress"] {
     animation: none !important;
     transform: scaleX(1);
   }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import styles from "./software-center.module.css";
 
 /**
@@ -44,15 +44,16 @@ function words(lang) {
 }
 
 function Paper({ children }) {
+  const gridId = useId();
   return (
     <svg viewBox="0 0 720 440" className={styles.art} aria-hidden="true">
       <defs>
-        <pattern id="sw-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+        <pattern id={gridId} width="24" height="24" patternUnits="userSpaceOnUse">
           <path d="M24 0H0v24" className={styles.grid} />
         </pattern>
       </defs>
       <rect width="720" height="440" className={styles.paper} />
-      <rect width="720" height="440" fill="url(#sw-grid)" />
+      <rect width="720" height="440" fill={`url(#${gridId})`} />
       {children}
     </svg>
   );
@@ -101,100 +102,76 @@ function HaDiagram({ lang }) {
   );
 }
 
-const ZEPHYR_BOARDS = [
-  ["SAMD21", true],
-  ["52840", true],
-  ["nRF54", true],
-  ["MG24", true],
-  ["2040", true],
-  ["2350", true],
-  ["C3", true],
-  ["S3", true],
-  ["C6", true],
-  ["RA4", true],
-  ["C5", false],
-];
-
-function ZephyrDiagram() {
-  const cmd = "seeed-zephyr flash xiao_esp32c6";
+/** Draws a shared software workspace connected to three hardware outcomes. 软件工作区连接三类硬件用途。 */
+function PlatformDiagram({ title, lines, targets, footer, display = false }) {
   return (
     <Paper>
-      <rect x="32" y="40" width="396" height="196" rx="18" className={styles.terminal} />
-      <circle cx="56" cy="64" r="5" className={styles.termDot} />
-      <circle cx="74" cy="64" r="5" className={styles.termDot} />
-      <circle cx="92" cy="64" r="5" className={styles.termDot} />
-      <text x="52" y="112" className={styles.cmd}>
-        <tspan className={styles.prompt}>$ </tspan>
-        {cmd.split("").map((ch, index) => (
-          <tspan
-            key={`${ch}-${index}`}
-            data-part="char"
-            style={{ animationDelay: `${0.08 + index * 0.045}s` }}
-          >
-            {ch === " " ? "\u00a0" : ch}
-          </tspan>
-        ))}
-        <tspan data-part="cursor">▍</tspan>
-      </text>
-      <rect x="52" y="172" width="300" height="12" rx="6" className={styles.trackDark} />
-      <rect x="52" y="172" width="300" height="12" rx="6" data-part="bar" className={styles.bar} />
-
-      <rect x="32" y="272" width="168" height="132" rx="18" className={styles.device} />
-      <text x="52" y="312" className={styles.deviceTitle}>XIAO</text>
-      <circle cx="74" cy="356" r="16" data-part="led" className={styles.led} />
-      <text x="100" y="362" className={styles.deviceLabel}>C6</text>
-
-      {ZEPHYR_BOARDS.map(([label, tested], index) => {
-        const col = index % 4;
-        const row = Math.floor(index / 4);
-        const x = 456 + col * 62;
-        const y = 40 + row * 96;
-        return (
-          <g key={label} transform={`translate(${x} ${y})`}>
-            <rect width="54" height="78" rx="10" className={tested ? styles.mini : styles.miniWait} />
-            <text x="27" y="46" textAnchor="middle" className={styles.miniLabel}>{label}</text>
-            {tested ? (
-              <path
-                d="M18 62l6 6 12-14"
-                data-part="mark"
-                style={{ animationDelay: `${2.5 + index * 0.12}s` }}
-                className={styles.mark}
-              />
-            ) : (
-              <text x="27" y="68" textAnchor="middle" className={styles.waitMark}>–</text>
-            )}
-          </g>
-        );
-      })}
+      <rect x="36" y="88" width="320" height="250" rx="18" className={styles.terminal} />
+      <circle cx="60" cy="112" r="5" className={styles.termDot} />
+      <circle cx="78" cy="112" r="5" className={styles.termDot} />
+      <circle cx="96" cy="112" r="5" className={styles.termDot} />
+      <text x="58" y="156" className={styles.deviceTitle}>{title}</text>
+      {lines.map((line, index) => (
+        <text key={line} x="58" y={194 + index * 30} className={styles.cmd}
+          data-part="char" style={{ animationDelay: `${index * 0.35}s` }}>{line}</text>
+      ))}
+      <rect x="58" y="304" width="270" height="8" rx="4" className={styles.trackDark} />
+      <rect x="58" y="304" width="270" height="8" rx="4" data-part="progress" className={styles.bar} />
+      <path d="M356 212H410M410 100V324M410 100H468M410 212H468M410 324H468"
+        className={styles.connection} />
+      {targets.map(([name, detail], index) => (
+        <g key={name} transform={`translate(468 ${56 + index * 112})`}>
+          <rect width="214" height="88" rx="14" className={styles.device} />
+          {display ? (
+            <>
+              <rect x="14" y="17" width="54" height="50" rx="5" className={styles.screenCard} />
+              <rect x="21" y="25" width="40" height="6" rx="2" className={styles.bar} />
+              <path d="M22 52l9-10 9 7 15-13" data-part="mark"
+                style={{ animationDelay: `${1 + index * 0.3}s` }} className={styles.mark} />
+            </>
+          ) : (
+            <>
+              <rect x="20" y="22" width="38" height="42" rx="5" className={styles.mini} />
+              <path d="M14 28h6m-6 12h6m-6 12h6m38-24h6m-6 12h6m-6 12h6" className={styles.sensorMark} />
+              <path d="M29 43l6 6 12-14" data-part="mark"
+                style={{ animationDelay: `${1 + index * 0.3}s` }} className={styles.mark} />
+            </>
+          )}
+          <text x="80" y="38" className={styles.onHead}>{name}</text>
+          <text x="80" y="61" className={styles.deviceLabel}>{detail}</text>
+        </g>
+      ))}
+      <text x="360" y="407" textAnchor="middle" className={styles.deviceLabel}>{footer}</text>
     </Paper>
   );
 }
 
-function EspHomeDiagram({ lang }) {
-  const text = words(lang);
-  return (
-    <Paper>
-      <path d="M78 150c-28 28-28 92 0 120" data-part="mic" data-order="2" className={styles.wave} />
-      <path d="M98 168c-18 18-18 64 0 84" data-part="mic" data-order="1" className={styles.wave} />
-      <rect x="112" y="176" width="52" height="88" rx="26" className={styles.device} />
-      <text x="112" y="292" className={styles.deviceLabel}>{text.mic}</text>
+function ZephyrDiagram() {
+  return <PlatformDiagram title="VS Code + Zephyr"
+    lines={["Select XIAO", "Create from example", "Build  /  Flash  /  Monitor"]}
+    targets={[["XIAO nRF", "Nordic"], ["XIAO ESP32", "Espressif"], ["XIAO RP", "Raspberry Pi"]]}
+    footer="One development platform. Different chip families." />;
+}
 
-      <rect x="220" y="150" width="170" height="140" rx="20" className={styles.device} />
-      <text x="262" y="230" className={styles.deviceTitle}>XIAO</text>
-      <circle cx="305" cy="210" r="8" data-part="packet" className={styles.packet} />
+function GfxDiagram() {
+  return <PlatformDiagram title="Seeed GFX2"
+    lines={["Text + images", "Graphics + sprites", "Seeed_GFX API"]}
+    targets={[["LCD", "Color UI"], ["OLED", "Compact UI"], ["E-paper", "Low power"]]}
+    footer="One graphics interface across Seeed display products." display />;
+}
 
-      <g data-part="bubble">
-        <rect x="430" y="78" width="250" height="100" rx="22" className={styles.screenCard} />
-        <path d="M500 178 l16 24 10-24" className={styles.bubbleTail} />
-        <text x="458" y="136" className={styles.screenTitle}>{text.assist}</text>
-      </g>
+function EspHomeDiagram() {
+  return <PlatformDiagram title="XIAO + ESPHome"
+    lines={["Product configuration", "Drivers + components", "Firmware installation"]}
+    targets={[["Soil monitor", "Plant care"], ["IoT button", "Home controls"], ["Energy meter", "Power monitoring"]]}
+    footer="Product firmware that brings gadgets into Home Assistant." />;
+}
 
-      <rect x="470" y="250" width="42" height="78" rx="8" className={styles.device} />
-      <path d="M512 258 v62" className={styles.speakerPost} />
-      <path d="M530 262c18 16 18 48 0 64" data-part="speak" data-order="1" className={styles.wave} />
-      <path d="M552 246c30 24 30 80 0 104" data-part="speak" data-order="2" className={styles.wave} />
-    </Paper>
-  );
+function MicroPythonDiagram() {
+  return <PlatformDiagram title="MicroPython / REPL"
+    lines={[">>> from machine import Pin", ">>> led = Pin(1, Pin.OUT)", ">>> led.value(1)"]}
+    targets={[["XIAO", "Board firmware"], ["Sensors", "Drivers + examples"], ["Prototype", "Test + iterate"]]}
+    footer="Write Python. Try it on hardware. Refine your idea." />;
 }
 
 function SenseCraftDiagram({ lang }) {
@@ -224,6 +201,8 @@ function SenseCraftDiagram({ lang }) {
 const DIAGRAMS = {
   ha: HaDiagram,
   zephyr: ZephyrDiagram,
+  gfx2: GfxDiagram,
   esphome: EspHomeDiagram,
+  micropython: MicroPythonDiagram,
   sensecraft: SenseCraftDiagram,
 };

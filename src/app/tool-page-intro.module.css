@@ -1,5 +1,5 @@
 .intro {
-  width: min(100% - 40px, 900px);
+  width: min(100% - 40px, 1280px);
   margin: 0 auto;
   padding: clamp(54px, 7vw, 88px) 0 clamp(38px, 5vw, 62px);
   text-align: center;

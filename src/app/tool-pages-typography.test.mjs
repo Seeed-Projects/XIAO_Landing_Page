@@ -24,7 +24,7 @@ test("tool page introductions use the shared page typography", () => {
 });
 
 test("the flasher preserves shared title, description and action roles", () => {
-  assert.match(flasher, /pageTitle} home-type-hero-title/);
+  assert.match(flasher, /<ToolPageIntro title={T.title} description={T.lead}/);
   assert.match(flasher, /stepTitle} home-type-subtitle/);
   assert.match(flasher, /stepHint} home-type-body/);
   assert.match(flasher, /primaryBtn}[^`]*home-type-action/);
@@ -85,13 +85,10 @@ test("software center uses one shared hierarchy for sections and cards", () => {
   const css = read("./software-center/software-center.module.css");
   assert.match(official, /sectionTitle\} home-type-title/);
   assert.match(official, /storyName\} home-type-title/);
-  assert.match(official, /moreTitle\} home-type-subtitle/);
-  assert.match(official, /repoName\} home-type-subtitle/);
   assert.match(official, /sectionIntro\} home-type-body/);
   assert.match(official, /lede\} home-type-body/);
   assert.match(official, /blockText\} home-type-body/);
   assert.match(official, /stepText\} home-type-body/);
-  assert.match(official, /repoSummary\} home-type-body/);
   assert.match(official, /home-type-action home-filled-action/);
   assert.match(official, /secondary\} home-type-action/);
   assert.match(community, /bandTitle\} home-type-title/);

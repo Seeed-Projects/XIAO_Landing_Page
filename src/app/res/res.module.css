@@ -353,7 +353,7 @@
   -webkit-mask-image: radial-gradient(60% 70% at 88% 60%, #000 0%, rgba(0, 0, 0, 0.6) 45%, transparent 100%);
   pointer-events: none;
 }
-.hero :global(header) { position: relative; z-index: 1; padding-bottom: clamp(40px, 4.5vw, 64px); }
+.hero :global(header) { position: relative; z-index: 1; }
 .hero :global(header) h1 { color: #fff; }
 .hero :global(header) p { color: rgba(238, 244, 248, 0.78); }
 

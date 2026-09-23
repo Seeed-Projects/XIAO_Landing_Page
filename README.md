@@ -405,18 +405,24 @@ the shared type roles.
 
 `/software-center/` is two acts. The hero ends in a navy stat band with the
 count of flagship projects, official repositories, community platforms and
-community categories, all computed from the data. Act one is four numbered
-chapter panels — Home Assistant Discovery, Seeed Zephyr Base, the ESPHome
-component for XIAO ESP32-S3, and SenseCraft AI. Each panel pairs the copy
-(the obstacle, what the project is) with a dark diagram screen whose footer
+community categories, all computed from the data. Act one is six numbered
+chapter panels — Home Assistant Discovery, XIAO Zephyr Assistant, Seeed GFX2,
+XIAO ESPHome Projects, MicroPython for XIAO, and SenseCraft AI. Each panel
+explains the intended use, the problem it addresses and the value it brings,
+paired with a dark diagram screen whose footer
 carries the project's status badges; below them three step cards, capability
 chips, a boards line and the action buttons span the panel. The diagram plays
 when it enters the viewport, returns to the start when it leaves, and plays
 again on the next visit. Reduced motion shows the finished frame with no
-animation. Five compact cards list the other official repositories. Act two
+animation. Act two
 is the community wall: a full-width logo marquee of non-official platforms,
 category chips with counts, and cards that show how many boards each entry
 covers. Detail pages stay at `/software-center/[slug]/`.
+
+The Pinout, Web Flasher, Hardware Resources and Software Ecosystem pages share
+`ToolPageIntro`: a centered title with the same responsive top spacing and
+64px clearance for the fixed navigation. The title container accommodates
+the Web Flasher name on one line on desktop screens.
 
 Story copy lives in `src/app/software-center/official-stories.mjs`. Check it
 with:
@@ -433,8 +439,9 @@ the left column, and a serial monitor keeps the right column for the whole
 session. A vertical progress rail shows which step is current and which steps
 are complete. Each column scrolls on its own, so the monitor remains available.
 Below 1160px the columns stack and the monitor keeps a fixed height; on short
-desktop screens the page lead and monitor caption fold away to give the steps
-more room.
+desktop screens the monitor caption folds away to give the steps more room.
+The shared centered introduction keeps the same title position as the other
+Playground tools, with a minimum workbench height for comfortable operation.
 
 A banner above the workbench points Home Assistant users to the Seeed Home
 Assistant flasher. Connection state lives only in the serial monitor; the page

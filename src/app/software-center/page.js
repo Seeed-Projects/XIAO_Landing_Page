@@ -10,8 +10,8 @@ import { CommunitySection } from "./CommunitySection";
 import styles from "./software-center.module.css";
 
 const INTRO = {
-  en: "Official software designed and kept up for the XIAO ecosystem, and the wall of tools built by the community.",
-  zh: "为 XIAO 生态系统化设计、持续维护的官方软件，以及社区铸造的生态墙。",
+  en: "Build with XIAO: connect a smart home, develop across chips, create a display or run AI — with official software and community tools.",
+  zh: "从智能家居、跨芯片开发到屏幕界面与边缘 AI，借助官方软件和社区工具，把 XIAO 变成真正可用的产品。",
 };
 
 const STATS = {
@@ -33,8 +33,8 @@ export default function SoftwareCenterPage() {
   return (
     <>
       <SiteHeader />
-      <main className={styles.page}>
-        <header className={styles.hero}>
+      <main className={`${styles.page} pt-16`}>
+        <div className={styles.hero}>
           <ToolPageIntro
             id="top"
             title={lang === "zh" ? "软件生态" : "Software Ecosystem"}
@@ -50,7 +50,7 @@ export default function SoftwareCenterPage() {
               ))}
             </dl>
           </div>
-        </header>
+        </div>
         <OfficialSection />
         <CommunitySection />
       </main>

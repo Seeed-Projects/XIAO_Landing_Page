@@ -48,6 +48,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
      `home-type-body` 和 `home-type-action` 五类语义字阶。
    - 首图展示标题使用 `home-type-hero-title`，首图解释文案归入子标题；导航、页脚、
      数据数字、标签、眉标、表单提示等辅助信息使用各自的紧凑字阶。
+   - Playground 工具子页统一使用 `ToolPageIntro`，为固定导航预留 64px，
+     共用居中对齐、标题顶部间距和说明间距；桌面端标题容器容纳完整单行名称。
 
 2. **章节大标题**:
    - 以 `XIAO Playground` 为基准，使用 Montserrat、700 字重、1.12 行高、

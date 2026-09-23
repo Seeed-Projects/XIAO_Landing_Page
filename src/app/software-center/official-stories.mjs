@@ -1,110 +1,156 @@
-/**
- * Flagship stories and the shorter list of other official repositories.
- * 旗舰故事，以及其余官方仓库的短列表。
- *
- * Copy follows the public README or product page for each project.
- * 文案依据各项目公开的 README 或产品页。
- */
-
-/** Diagram ids StoryDiagram knows how to draw. StoryDiagram 会绘制的示意图编号。 */
-export const DIAGRAM_IDS = ["ha", "zephyr", "esphome", "sensecraft"];
+/** Official software use cases, supported hardware and entry points. 官方软件用途、支持硬件与入口。 */
+export const DIAGRAM_IDS = ["ha","zephyr","gfx2","esphome","micropython","sensecraft"];
 
 export const FLAGSHIP_STORIES = [
   {
     id: "ha",
     diagram: "ha",
-    eyebrow: { en: "Smart home", zh: "智能家居接入" },
-    name: { en: "Home Assistant Discovery", zh: "Home Assistant Discovery" },
+    eyebrow: {
+      en: "Smart home integration",
+      zh: "智能家居接入"
+    },
+    name: {
+      en: "Home Assistant Discovery",
+      zh: "Home Assistant Discovery"
+    },
     lede: {
-      en: "Readings leave a XIAO board, land on a Home Assistant dashboard, and a switch there lights the board.",
-      zh: "读数从 XIAO 送到 Home Assistant 面板，面板上的开关再把板上的灯点亮。",
+      en: "Turn a XIAO into a smart sensor or a home-control terminal, using the Arduino or PlatformIO workflow you already know.",
+      zh: "沿用熟悉的 Arduino 或 PlatformIO 开发方式，把 XIAO 变成智能传感器，或控制家中设备的小终端。"
     },
     problem: {
-      en: "Putting a board on a Home Assistant dashboard usually means standing up an MQTT broker first, or sending the data through a cloud service.",
-      zh: "要把一块板子接到 Home Assistant 面板上，通常得先搭一个 MQTT 代理，或者把数据交到云服务。",
+      en: "A custom device needs to expose its readings and controls to Home Assistant before it can take part in your home's automations.",
+      zh: "自制设备不仅要能联网，还要让 Home Assistant 读懂传感器数据、识别控制功能，才能参与家中的自动化。"
     },
     what: {
-      en: "Seeed HA Discovery is a maintained Home Assistant integration plus Arduino libraries for XIAO. A short sketch on an ESP32 or nRF52840 board talks over Wi-Fi or BLE, and Home Assistant discovers the device on the local network. No MQTT broker, and no cloud service.",
-      zh: "Seeed HA Discovery 是 Seeed 维护的 Home Assistant 集成，加上给 XIAO 用的 Arduino 库。在 ESP32 或 nRF52840 上写一段短程序，通过 Wi-Fi 或蓝牙通信，Home Assistant 会在局域网里自动发现这块设备。不用搭 MQTT，也不用云服务。",
+      en: "A Home Assistant integration paired with Arduino libraries handles discovery and two-way communication. Supported XIAO boards can report sensors, receive commands and read existing smart-device states over Wi-Fi or Bluetooth.",
+      zh: "这套 Home Assistant 插件与 Arduino 库负责设备发现和双向通信。受支持的 XIAO 可通过 Wi-Fi 或蓝牙上报传感器、接收控制指令，也能读取已有智能设备的状态。"
     },
     steps: [
       {
-        en: "Install the integration from HACS, the Home Assistant Community Store.",
-        zh: "在 HACS（Home Assistant 社区商店）里安装这个集成。",
+        en: "Install the integration through HACS in Home Assistant.",
+        zh: "通过 HACS 在 Home Assistant 中安装插件。"
       },
       {
-        en: "Add the Arduino library and publish a sensor with a few lines of code, in the Arduino IDE or PlatformIO.",
-        zh: "在 Arduino IDE 或 PlatformIO 里装上 Arduino 库，用几行代码上报一个传感器。",
+        en: "Add the library in Arduino IDE or PlatformIO and adapt a sensor or control example.",
+        zh: "在 Arduino IDE 或 PlatformIO 中添加库，按需求修改传感器或控制示例。"
       },
       {
-        en: "Or skip the IDE. The Web Flasher writes a ready-made example from Chrome or Edge, and Home Assistant discovers the device when it comes online.",
-        zh: "也可以不装 IDE。浏览器烧录器用 Chrome 或 Edge 写入现成示例，设备上线后 Home Assistant 会自己发现它。",
-      },
+        en: "Connect the board and use its entities in dashboards and automations; ready-made examples also have a web flasher.",
+        zh: "连接开发板，把设备实体加入面板与自动化；现成示例也可使用网页烧录。"
+      }
     ],
     capabilities: [
-      { en: "No MQTT", zh: "不用 MQTT" },
-      { en: "No cloud", zh: "不用云" },
-      { en: "Auto discovery", zh: "自动发现" },
-      { en: "Wi-Fi and BLE", zh: "Wi-Fi 与蓝牙" },
-      { en: "Sensor upload", zh: "传感器上报" },
-      { en: "Control back to the board", zh: "开关回控到板子" },
-      { en: "Camera on ESP32-S3", zh: "ESP32-S3 摄像头" },
+      {
+        en: "Sensor reporting",
+        zh: "传感器上报"
+      },
+      {
+        en: "Two-way control",
+        zh: "双向控制"
+      },
+      {
+        en: "Device state access",
+        zh: "读取设备状态"
+      },
+      {
+        en: "Automatic discovery",
+        zh: "自动发现"
+      }
     ],
-    boards: ["XIAO ESP32-C3", "XIAO ESP32-C5", "XIAO ESP32-C6", "XIAO ESP32-S3", "XIAO nRF52840"],
+    boards: [
+      "XIAO ESP32-C3",
+      "XIAO ESP32-C5",
+      "XIAO ESP32-C6",
+      "XIAO ESP32-S3",
+      "XIAO nRF52840"
+    ],
     badges: [
-      { en: "HACS one-click install", zh: "HACS 一键安装" },
-      { en: "Web Flasher", zh: "浏览器烧录" },
-      { en: "Local network only", zh: "只走局域网" },
+      {
+        en: "Home Assistant integration",
+        zh: "Home Assistant 插件"
+      },
+      {
+        en: "Arduino / PlatformIO",
+        zh: "Arduino / PlatformIO"
+      },
+      {
+        en: "Wi-Fi / Bluetooth",
+        zh: "Wi-Fi / 蓝牙"
+      }
     ],
     links: [
       {
         kind: "github",
-        label: { en: "GitHub", zh: "GitHub" },
-        href: "https://github.com/Seeed-Projects/Seeed-Homeassistant-Discovery",
+        label: {
+          en: "View project",
+          zh: "查看项目"
+        },
+        href: "https://github.com/Seeed-Projects/Seeed-Homeassistant-Discovery"
       },
       {
         kind: "flasher",
-        label: { en: "Web Flasher", zh: "浏览器烧录" },
-        href: "https://seeed-projects.github.io/Seeed-Homeassistant-Discovery/flasher/",
-      },
-    ],
+        label: {
+          en: "Try web flasher",
+          zh: "打开网页烧录"
+        },
+        href: "https://seeed-projects.github.io/Seeed-Homeassistant-Discovery/flasher/"
+      }
+    ]
   },
   {
     id: "zephyr",
     diagram: "zephyr",
-    eyebrow: { en: "One workflow, every chip", zh: "跨芯片统一开发" },
-    name: { en: "Seeed Zephyr Base", zh: "Seeed Zephyr Base" },
+    eyebrow: {
+      en: "One platform across chips",
+      zh: "跨芯片统一开发"
+    },
+    name: {
+      en: "XIAO Zephyr Assistant",
+      zh: "XIAO Zephyr Assistant"
+    },
     lede: {
-      en: "One command builds and flashes XIAO boards from six chip vendors on Zephyr RTOS.",
-      zh: "一条命令，在 Zephyr RTOS 上编译并烧录来自 6 家芯片厂的 XIAO。",
+      en: "Develop XIAO boards from different chip families on one software platform, with a shared workflow inside VS Code.",
+      zh: "让不同芯片系列的 XIAO 拥有统一的软件开发平台，在 VS Code 中使用一致的开发流程。"
     },
     problem: {
-      en: "XIAO boards do not share a chip vendor. Each one brings its own SDK, flash tool and setup, so a Grove example that works on one board is a new project on the next.",
-      zh: "XIAO 的芯片并不来自同一家。每块板有自己的 SDK、烧录工具和上手步骤，所以一份能在这块板上跑的 Grove 示例，换一块板往往得重做。",
+      en: "Switching chip vendors often means learning another SDK and rebuilding the same peripheral setup. That work slows down hardware choices and project reuse.",
+      zh: "更换芯片平台往往意味着重新熟悉开发工具、配置外设和整理示例，让选型与项目复用都变得费力。"
     },
     what: {
-      en: "Seeed Zephyr Base is the XIAO and Grove example library, capability catalog and seeed-zephyr command line on top of Zephyr. It picks the board target, then hands build and flash to Zephyr's own tools. Boards from Microchip, Nordic, Silicon Labs, Raspberry Pi, Espressif and Renesas share one Grove example. XIAO ESP32-C5 is listed, and Zephyr v4.4.0 does not ship a board target for it yet.",
-      zh: "Seeed Zephyr Base 是放在 Zephyr 之上的 XIAO 与 Grove 示例库、能力目录，以及 seeed-zephyr 命令行。它选好板卡目标，再把编译和烧录交给 Zephyr 自己的工具。Microchip、Nordic、Silicon Labs、Raspberry Pi、Espressif 和 Renesas 的板子共用同一份 Grove 示例。XIAO ESP32-C5 已列入，Zephyr v4.4.0 还没有它的板级目标。",
+      en: "The VS Code extension brings XIAO boards, Grove examples and support status into a Zephyr-based workspace. Browse hardware, create a project, then build, flash and monitor it through one interface. Available features follow each board's support status.",
+      zh: "这个 VS Code 插件把 XIAO 板卡、Grove 示例和支持状态整合到基于 Zephyr 的开发环境中。选择硬件、创建项目、编译、烧录和查看串口，都有统一入口；具体能力以各板卡的支持状态为准。"
     },
     steps: [
       {
-        en: "Install the seeed-zephyr command and the Zephyr toolchain with the one-line installer.",
-        zh: "用一行安装脚本装上 seeed-zephyr 命令和 Zephyr 工具链。",
+        en: "Follow the repository setup for the VS Code extension and Zephyr tools.",
+        zh: "按仓库说明安装 VS Code 插件和 Zephyr 开发工具。"
       },
       {
-        en: "From any directory, flash a tracked board. The documented form is seeed-zephyr flash xiao_esp32c6.",
-        zh: "在任意目录烧录一块已登记的板。文档里的写法是 seeed-zephyr flash xiao_esp32c6。",
+        en: "Select a XIAO and a supported example, then create your project.",
+        zh: "选择 XIAO 与受支持的示例，创建项目。"
       },
       {
-        en: "Build the same Grove example for another board. The source tree stays the same.",
-        zh: "把同一份 Grove 示例换一块板再编译。源码目录不用改。",
-      },
+        en: "Build, flash and monitor in VS Code; reuse the workflow when changing boards.",
+        zh: "在 VS Code 中编译、烧录和查看串口，换板后继续沿用这套流程。"
+      }
     ],
     capabilities: [
-      { en: "One flash command", zh: "一条命令烧录" },
-      { en: "One Grove example, every board", zh: "一份 Grove 示例，全板通用" },
-      { en: "Six chip vendors", zh: "6 家芯片厂" },
-      { en: "Hardware-tested marks", zh: "硬件实测标记" },
+      {
+        en: "Shared development workflow",
+        zh: "统一开发流程"
+      },
+      {
+        en: "Grove examples",
+        zh: "Grove 示例"
+      },
+      {
+        en: "Board support status",
+        zh: "板卡支持状态"
+      },
+      {
+        en: "Project reuse",
+        zh: "项目复用"
+      }
     ],
     boards: [
       "XIAO SAMD21",
@@ -116,228 +162,390 @@ export const FLAGSHIP_STORIES = [
       "XIAO ESP32-C3",
       "XIAO ESP32-S3",
       "XIAO ESP32-C6",
-      "XIAO RA4M1",
-      "XIAO ESP32-C5",
+      "XIAO RA4M1"
     ],
     badges: [
-      { en: "Zephyr v4.4.0", zh: "Zephyr v4.4.0" },
-      { en: "11 boards tracked", zh: "11 块板在册" },
-      { en: "10 hardware-tested", zh: "10 块硬件实测" },
+      {
+        en: "VS Code extension",
+        zh: "VS Code 插件"
+      },
+      {
+        en: "Zephyr RTOS",
+        zh: "Zephyr RTOS"
+      },
+      {
+        en: "Cross-chip development",
+        zh: "跨芯片开发"
+      }
     ],
     links: [
       {
         kind: "github",
-        label: { en: "GitHub", zh: "GitHub" },
-        href: "https://github.com/limengdu/Seeed-Zephyr-Project",
+        label: {
+          en: "Explore XIAO Zephyr",
+          zh: "查看 XIAO Zephyr"
+        },
+        href: "https://github.com/limengdu/Seeed-Zephyr-Project"
+      }
+    ]
+  },
+  {
+    id: "gfx2",
+    diagram: "gfx2",
+    eyebrow: {
+      en: "One graphics library",
+      zh: "统一图形驱动"
+    },
+    name: {
+      en: "Seeed GFX2",
+      zh: "Seeed GFX2"
+    },
+    lede: {
+      en: "Build interfaces for Seeed MCU display products with a common graphics library, from color screens to e-paper.",
+      zh: "为 Seeed 的 MCU 屏幕产品提供统一图形驱动，从彩色屏幕到电子纸，用同一套绘图方式构建界面。"
+    },
+    problem: {
+      en: "Different display controllers and board wiring can turn a simple interface into a hardware-porting task.",
+      zh: "屏幕控制器、通信方式和板卡接线各不相同，一个简单界面也可能需要大量底层适配。"
+    },
+    what: {
+      en: "Seeed GFX2 provides product configurations and display drivers behind the Seeed_GFX API. Arduino and PlatformIO projects can draw text, images and controls while the library handles the supported display hardware.",
+      zh: "Seeed GFX2 将产品配置与显示驱动整合到 Seeed_GFX 接口中。在 Arduino 或 PlatformIO 里绘制文字、图片和控件，由库处理受支持屏幕的底层差异。"
+    },
+    steps: [
+      {
+        en: "Install Seeed GFX2 and select your supported product configuration.",
+        zh: "安装 Seeed GFX2，选择对应产品配置。"
       },
+      {
+        en: "Start with a graphics, image or e-paper example.",
+        zh: "打开基础图形、图片显示或电子纸示例。"
+      },
+      {
+        en: "Build your display interface using the shared drawing API.",
+        zh: "使用统一绘图接口，搭建自己的产品界面。"
+      }
     ],
+    capabilities: [
+      {
+        en: "Text and graphics",
+        zh: "文字与图形"
+      },
+      {
+        en: "Bitmap images",
+        zh: "图片显示"
+      },
+      {
+        en: "Sprites",
+        zh: "离屏绘图"
+      },
+      {
+        en: "E-paper refresh",
+        zh: "电子纸刷新"
+      }
+    ],
+    boards: [
+      "XIAO display add-ons",
+      "Wio Terminal",
+      "reTerminal E Series",
+      "SenseCAP display products"
+    ],
+    badges: [
+      {
+        en: "Arduino / PlatformIO",
+        zh: "Arduino / PlatformIO"
+      },
+      {
+        en: "LCD / OLED / E-paper",
+        zh: "LCD / OLED / 电子纸"
+      }
+    ],
+    links: [
+      {
+        kind: "github",
+        label: {
+          en: "Explore Seeed GFX2",
+          zh: "查看 Seeed GFX2"
+        },
+        href: "https://github.com/Seeed-Studio/Seeed_GFX2"
+      }
+    ]
   },
   {
     id: "esphome",
     diagram: "esphome",
-    eyebrow: { en: "Voice assistant", zh: "语音助手" },
-    name: { en: "ESPHome for XIAO ESP32S3", zh: "ESPHome for XIAO ESP32S3" },
+    eyebrow: {
+      en: "Ready-to-use smart-home gadgets",
+      zh: "智能家居产品固件"
+    },
+    name: {
+      en: "XIAO ESPHome Projects",
+      zh: "XIAO ESPHome Projects"
+    },
     lede: {
-      en: "The I2S microphone and speaker support XIAO ESP32-S3 needs before Home Assistant Assist can listen and speak.",
-      zh: "补上 XIAO ESP32-S3 的 I2S 麦克风和扬声器，Home Assistant Assist 才能听和说。",
+      en: "Bring XIAO-based smart-home gadgets to life with product drivers, example configurations and firmware.",
+      zh: "把 XIAO 智能家居小设备用起来：在一个地方找到产品驱动、配置示例和固件。"
     },
     problem: {
-      en: "ESPHome's usual I2S audio setup does not match the microphone and speaker on XIAO ESP32-S3, so a voice assistant stops before the first word.",
-      zh: "ESPHome 常见的 I2S 音频配置对不上 XIAO ESP32-S3 的麦克风和扬声器，语音助手在第一句话之前就接不上。",
+      en: "A finished gadget needs matching drivers, pin settings and device behavior before it becomes useful in Home Assistant.",
+      zh: "一款成品小设备需要配套驱动、引脚配置和功能设置，才能真正接入 Home Assistant 并发挥作用。"
     },
     what: {
-      en: "This official component adds an i2s_audio_xiao platform to ESPHome, with a microphone and a speaker for XIAO ESP32-S3. The repository example wires both into Home Assistant's voice assistant, including wake word, and drives a listening light on the board.",
-      zh: "这个官方组件给 ESPHome 加了 i2s_audio_xiao 平台，为 XIAO ESP32-S3 提供麦克风和扬声器。仓库里的示例把两者接到 Home Assistant 的语音助手，包含唤醒词，并在聆听时点亮板上的灯。",
+      en: "This repository collects ESPHome configurations and components for XIAO-based products, including soil monitors, IoT buttons, energy meters, radar sensors and relays. Start with the product's maintained configuration or install available firmware through the gadget installer.",
+      zh: "这个仓库汇集 XIAO 产品的 ESPHome 配置与组件，覆盖土壤监测、IoT 按钮、电能计、雷达传感器和继电器等设备。可直接从对应产品配置开始，也可通过配套网页安装可用固件。"
     },
     steps: [
       {
-        en: "Point external_components at github://Seeed-Projects/ESPHome_XIAO-ESP32S3.",
-        zh: "把 external_components 指向 github://Seeed-Projects/ESPHome_XIAO-ESP32S3。",
+        en: "Find the configuration that matches your gadget and hardware revision.",
+        zh: "找到与设备及硬件版本对应的产品配置。"
       },
       {
-        en: "Declare i2s_audio_xiao with the clock pins, then attach the microphone and the speaker.",
-        zh: "声明 i2s_audio_xiao 并填上时钟引脚，再挂上麦克风和扬声器。",
+        en: "Use the web installer where available, or build the ESPHome configuration.",
+        zh: "使用对应的网页固件，或自行编译 ESPHome 配置。"
       },
       {
-        en: "Turn on voice_assistant. Home Assistant Assist listens through the microphone and answers through the speaker.",
-        zh: "打开 voice_assistant。Home Assistant Assist 用麦克风听，用扬声器回答。",
-      },
+        en: "Connect the device to Home Assistant and tailor its automations.",
+        zh: "将设备接入 Home Assistant，设置适合自己的自动化。"
+      }
     ],
     capabilities: [
-      { en: "i2s_audio_xiao", zh: "i2s_audio_xiao" },
-      { en: "Microphone", zh: "麦克风" },
-      { en: "Speaker", zh: "扬声器" },
-      { en: "Wake word", zh: "唤醒词" },
-      { en: "Home Assistant Assist", zh: "Home Assistant Assist" },
+      {
+        en: "Product drivers",
+        zh: "产品驱动"
+      },
+      {
+        en: "Example configurations",
+        zh: "配置示例"
+      },
+      {
+        en: "Firmware installation",
+        zh: "固件安装"
+      },
+      {
+        en: "Home automations",
+        zh: "家居自动化"
+      }
     ],
-    boards: ["XIAO ESP32-S3"],
+    boards: [
+      "XIAO ESP32-based gadgets"
+    ],
     badges: [
-      { en: "Official ESPHome component", zh: "ESPHome 官方组件" },
+      {
+        en: "ESPHome",
+        zh: "ESPHome"
+      },
+      {
+        en: "Product firmware",
+        zh: "产品固件"
+      },
+      {
+        en: "Home Assistant",
+        zh: "Home Assistant"
+      }
     ],
     links: [
       {
         kind: "github",
-        label: { en: "GitHub", zh: "GitHub" },
-        href: "https://github.com/Seeed-Projects/ESPHome_XIAO-ESP32S3",
+        label: {
+          en: "Browse firmware projects",
+          zh: "查看固件项目"
+        },
+        href: "https://github.com/Seeed-Studio/xiao-esphome-projects"
       },
+      {
+        kind: "flasher",
+        label: {
+          en: "Open gadget installer",
+          zh: "打开产品烧录页"
+        },
+        href: "https://gadgets.seeed.cc"
+      }
+    ]
+  },
+  {
+    id: "micropython",
+    diagram: "micropython",
+    eyebrow: {
+      en: "Python on XIAO",
+      zh: "用 Python 开发 XIAO"
+    },
+    name: {
+      en: "MicroPython for XIAO",
+      zh: "MicroPython for XIAO"
+    },
+    lede: {
+      en: "Explore hardware with Python: try a command, read a sensor and change your program without rebuilding a C++ application.",
+      zh: "用 Python 探索硬件：输入命令、读取传感器、修改程序，让学习与原型验证更直接。"
+    },
+    problem: {
+      en: "Python hardware projects need firmware and examples that match the board, not just a generic interpreter.",
+      zh: "在开发板上运行 Python，不仅需要解释器，还需要匹配板卡的固件、驱动和上手示例。"
+    },
+    what: {
+      en: "Seeed's MicroPython board repository brings together firmware, drivers and examples for supported XIAO families. Its board helpers and interactive Python workflow make it easier to test peripherals and develop small connected projects. Support varies by board and firmware build.",
+      zh: "这个仓库集中提供受支持 XIAO 系列的 MicroPython 固件、驱动和示例。配合板卡辅助库与交互式 Python，可以逐步验证外设、开发小型连接项目；具体功能取决于板卡及固件版本。"
+    },
+    steps: [
+      {
+        en: "Download the firmware for your exact board from the releases.",
+        zh: "在发布页下载与开发板型号对应的固件。"
+      },
+      {
+        en: "Flash it using the board's instructions and connect through Thonny.",
+        zh: "按对应板卡说明烧录，通过 Thonny 连接。"
+      },
+      {
+        en: "Try the Python console, then adapt a driver or example for your project.",
+        zh: "先在 Python 控制台测试，再修改驱动或示例完成项目。"
+      }
     ],
+    capabilities: [
+      {
+        en: "Interactive Python",
+        zh: "交互式 Python"
+      },
+      {
+        en: "Board firmware",
+        zh: "板卡固件"
+      },
+      {
+        en: "Drivers and examples",
+        zh: "驱动与示例"
+      },
+      {
+        en: "Rapid prototyping",
+        zh: "快速原型验证"
+      }
+    ],
+    boards: [
+      "XIAO ESP32 Series",
+      "XIAO nRF52840",
+      "XIAO nRF54L15",
+      "XIAO nRF54LM20A",
+      "XIAO MG24",
+      "XIAO RA4M1"
+    ],
+    badges: [
+      {
+        en: "MicroPython",
+        zh: "MicroPython"
+      },
+      {
+        en: "Thonny / REPL",
+        zh: "Thonny / 交互控制台"
+      }
+    ],
+    links: [
+      {
+        kind: "github",
+        label: {
+          en: "Explore MicroPython",
+          zh: "查看 MicroPython"
+        },
+        href: "https://github.com/Seeed-Studio/micropython-seeed-boards"
+      },
+      {
+        kind: "download",
+        label: {
+          en: "Download firmware",
+          zh: "下载固件"
+        },
+        href: "https://github.com/Seeed-Studio/micropython-seeed-boards/releases"
+      }
+    ]
   },
   {
     id: "sensecraft",
     diagram: "sensecraft",
-    eyebrow: { en: "No-code edge AI", zh: "无代码边缘 AI" },
-    name: { en: "SenseCraft AI", zh: "SenseCraft AI" },
+    eyebrow: {
+      en: "No-code edge AI",
+      zh: "无代码边缘 AI"
+    },
+    name: {
+      en: "SenseCraft AI",
+      zh: "SenseCraft AI"
+    },
     lede: {
-      en: "Train a vision model, deploy it, and preview the live camera, without writing firmware.",
-      zh: "训练视觉模型、部署到板子、看实况画面，不用写固件。",
+      en: "Turn a XIAO camera into an AI-powered device that recognizes objects locally, without building the entire AI toolchain yourself.",
+      zh: "让 XIAO 摄像头成为能在本地识别物体的 AI 设备，无需从头搭建完整的 AI 开发工具链。"
     },
     problem: {
-      en: "Running a vision model on a small board usually means building a dataset pipeline, a training toolchain and board-specific firmware yourself.",
-      zh: "要在一块小板上跑视觉模型，通常得自己做数据集、训练工具链，以及这块板专用的固件。",
+      en: "Moving from an idea to on-device recognition requires a suitable model, deployment tools and a way to inspect results.",
+      zh: "从一个识别想法到板上运行，需要合适的模型、部署工具，以及查看实际识别结果的方式。"
     },
     what: {
-      en: "SenseCraft AI is Seeed's no-code platform for edge AI. It trains object detection and classification without code, deploys a model to a device in one click, and previews the result. The device workspace includes XIAO ESP32S3 Sense.",
-      zh: "SenseCraft AI 是 Seeed 的无代码边缘 AI 平台。它零代码训练目标检测和分类模型，一键把模型部署到设备上，并预览结果。设备工作区包含 XIAO ESP32S3 Sense。",
+      en: "SenseCraft AI combines model selection, no-code training and device deployment in one platform. Use a ready-made model or train your own, deploy it to XIAO ESP32-S3 Sense and inspect live recognition results.",
+      zh: "SenseCraft AI 将模型选择、无代码训练与设备部署整合到一个平台。选择现成模型或训练自己的模型，部署到 XIAO ESP32-S3 Sense，再查看实时识别结果。"
     },
     steps: [
       {
-        en: "Open SenseCraft AI and pick a model, or train a detection or classification model with no code.",
-        zh: "打开 SenseCraft AI，选一个现成模型，或零代码训练一个检测或分类模型。",
+        en: "Choose a model, or train one for your detection or classification task.",
+        zh: "选择现成模型，或为目标检测、分类任务训练模型。"
       },
       {
-        en: "Deploy that model to XIAO ESP32S3 Sense in one click.",
-        zh: "把模型一键部署到 XIAO ESP32S3 Sense。",
+        en: "Deploy the model to XIAO ESP32-S3 Sense.",
+        zh: "将模型部署到 XIAO ESP32-S3 Sense。"
       },
       {
-        en: "Watch the live recognition preview from the board in the device workspace.",
-        zh: "在设备工作区里看这块板传回的实况识别画面。",
-      },
+        en: "Preview recognition results and refine your application.",
+        zh: "预览识别结果，逐步完善应用。"
+      }
     ],
     capabilities: [
-      { en: "No-code training", zh: "零代码训练" },
-      { en: "Object detection", zh: "目标检测" },
-      { en: "Image classification", zh: "图像分类" },
-      { en: "One-click deploy", zh: "一键部署" },
-      { en: "Live preview", zh: "实况预览" },
+      {
+        en: "Object detection",
+        zh: "目标检测"
+      },
+      {
+        en: "Image classification",
+        zh: "图像分类"
+      },
+      {
+        en: "No-code training",
+        zh: "无代码训练"
+      },
+      {
+        en: "Live preview",
+        zh: "实时预览"
+      }
     ],
-    boards: ["XIAO ESP32S3 Sense"],
+    boards: [
+      "XIAO ESP32-S3 Sense"
+    ],
     badges: [
-      { en: "No-code platform", zh: "无代码平台" },
-      { en: "One-click deploy", zh: "一键部署" },
+      {
+        en: "Edge AI",
+        zh: "边缘 AI"
+      },
+      {
+        en: "No-code platform",
+        zh: "无代码平台"
+      }
     ],
     links: [
       {
         kind: "app",
-        label: { en: "Open SenseCraft", zh: "打开 SenseCraft" },
-        href: "https://sensecraft.seeed.cc/ai/#/home",
+        label: {
+          en: "Open SenseCraft AI",
+          zh: "打开 SenseCraft AI"
+        },
+        href: "https://sensecraft.seeed.cc/ai/#/home"
       },
       {
         kind: "wiki",
-        label: { en: "Wiki", zh: "Wiki" },
-        href: "https://wiki.seeedstudio.com/xiao_esp32s3_edgelab/",
-      },
-    ],
-  },
+        label: {
+          en: "Getting started",
+          zh: "上手指南"
+        },
+        href: "https://wiki.seeedstudio.com/xiao_esp32s3_edgelab/"
+      }
+    ]
+  }
 ];
 
-/** Official repositories that stay as a compact list under the flagship stories. 放在旗舰故事下面的其余官方仓库。 */
-export const MORE_OFFICIAL = [
-  {
-    id: "l76k",
-    name: { en: "L76K GNSS for XIAO", zh: "L76K GNSS for XIAO" },
-    summary: {
-      en: "Arduino examples for the L76K GNSS module: GPS, BeiDou, GLONASS and QZSS.",
-      zh: "L76K GNSS 模块的 Arduino 示例，支持 GPS、北斗、GLONASS 和 QZSS。",
-    },
-    boards: ["XIAO SAMD21", "XIAO RP2040", "XIAO nRF52840", "XIAO ESP32-C3", "XIAO ESP32-S3"],
-    links: [
-      {
-        label: { en: "GitHub", zh: "GitHub" },
-        href: "https://github.com/Seeed-Projects/Seeed_L76K-GNSS_for_XIAO",
-      },
-    ],
-  },
-  {
-    id: "tft",
-    name: { en: "Seeed TFT_eSPI", zh: "Seeed TFT_eSPI" },
-    summary: {
-      en: "Seeed's fork of TFT_eSPI, revised for Seeed displays, including updated XIAO ESP32-C6 support.",
-      zh: "Seeed 维护的 TFT_eSPI 分支，面向 Seeed 的屏幕，并更新了对 XIAO ESP32-C6 的支持。",
-    },
-    boards: ["XIAO series"],
-    links: [
-      {
-        label: { en: "GitHub", zh: "GitHub" },
-        href: "https://github.com/Seeed-Projects/SeeedStudio_TFT_eSPI",
-      },
-    ],
-  },
-  {
-    id: "w5500",
-    name: { en: "W5500 Ethernet examples", zh: "W5500 以太网示例" },
-    summary: {
-      en: "Examples that connect XIAO to a W5500 Ethernet module: a link test, a web server and a camera stream.",
-      zh: "把 XIAO 接到 W5500 以太网模块的示例：链路测试、网页服务器和摄像头串流。",
-    },
-    boards: ["XIAO series"],
-    links: [
-      {
-        label: { en: "GitHub", zh: "GitHub" },
-        href: "https://github.com/Seeed-Projects/XIAO_W5500_Ehernet_Adapter_Example",
-      },
-    ],
-  },
-  {
-    id: "fly",
-    name: { en: "ESP-FLY quadcopter kit", zh: "ESP-FLY 四旋翼套件" },
-    summary: {
-      en: "Kit software for the XIAO ESP32-S3 micro drone. Fly from a phone over Wi-Fi, or from a radio over ESP-NOW.",
-      zh: "XIAO ESP32-S3 微型无人机的套件软件。可以用手机经 Wi-Fi 飞，也可以用遥控经 ESP-NOW 飞。",
-    },
-    boards: ["XIAO ESP32-S3"],
-    links: [
-      {
-        label: { en: "GitHub", zh: "GitHub" },
-        href: "https://github.com/Seeed-Projects/Co-Create_ESP-FLY",
-      },
-    ],
-  },
-  {
-    id: "meter-relay",
-    name: { en: "Energy meter and relay firmware", zh: "电能计与继电器固件" },
-    summary: {
-      en: "Firmware repositories for two XIAO ESP32-C6 products: a dual-channel AC energy meter and a 6-channel relay.",
-      zh: "两款 XIAO ESP32-C6 产品的固件仓库：双通道交流电能计，以及 6 通道继电器。",
-    },
-    boards: ["XIAO ESP32-C6"],
-    links: [
-      {
-        label: { en: "Energy meter", zh: "电能计" },
-        href: "https://github.com/Seeed-Projects/2-Channel_Energy_Meter_based_on_XIAO_ESP32C6",
-      },
-      {
-        label: { en: "Relay", zh: "继电器" },
-        href: "https://github.com/Seeed-Projects/6-Channel_Relay_based_on_XIAO_ESP32C6",
-      },
-    ],
-  },
-];
-
-/**
- * GitHub repository URLs referenced by the flagship stories and the compact list.
- * 旗舰故事和短列表引用到的 GitHub 仓库地址。
- */
+/** Unique source repositories used by the official software count. 官方软件计数使用的唯一源码仓库。 */
 export function officialRepoUrls() {
-  const urls = [];
-  for (const story of FLAGSHIP_STORIES) {
-    for (const link of story.links) {
-      if (link.href.includes("://github.com/")) urls.push(link.href);
-    }
-  }
-  for (const item of MORE_OFFICIAL) {
-    for (const link of item.links) {
-      if (link.href.includes("://github.com/")) urls.push(link.href);
-    }
-  }
-  return [...new Set(urls)];
+  return [...new Set(FLAGSHIP_STORIES.flatMap((story) =>
+    story.links.filter((link) => link.kind === "github").map((link) => link.href)
+  ))];
 }

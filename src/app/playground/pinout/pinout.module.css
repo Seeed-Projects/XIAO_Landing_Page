@@ -8,13 +8,6 @@
 }
 .page * { box-sizing: border-box; }
 .page button { font-family: inherit; cursor: pointer; }
-.page :global(#pinout) {
-  padding-top: 18px;
-  padding-bottom: 12px;
-}
-.page :global(#pinout p) {
-  margin-top: 8px;
-}
 
 .wrap {
   width: 100%;
