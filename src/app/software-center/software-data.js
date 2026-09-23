@@ -42,10 +42,43 @@ export function logoSrc(url) {
   return url;
 }
 
-// 社区分类：语言、系统、协议等，不含官方仓库和产品指南。
-// Community categories: languages, systems and protocols, without official repos or product guides.
+const COMMUNITY_GROUPS = [
+  {
+    id: "development",
+    title: { en: "Code & Prototype", zh: "开发与原型" },
+    desc: {
+      en: "Choose a language, development environment or operating system, then design and simulate your hardware.",
+      zh: "选择编程语言、开发环境和操作系统，完成硬件设计与仿真。",
+    },
+    categories: ["languages", "rtos", "tools"],
+  },
+  {
+    id: "connectivity",
+    title: { en: "Connect & Cloud", zh: "连接与云端" },
+    desc: {
+      en: "Connect devices, build wireless networks and bring sensor data into cloud dashboards.",
+      zh: "连接设备、组建无线网络，将传感器数据接入云端与可视化面板。",
+    },
+    categories: ["comms", "iotcloud"],
+  },
+  {
+    id: "applications",
+    title: { en: "Apps & AI", zh: "应用与 AI" },
+    desc: {
+      en: "Build smart-home devices, keyboards, lighting and robotics, or add machine learning to XIAO.",
+      zh: "打造智能家居、键盘、灯光与机器人应用，或为 XIAO 加入机器学习能力。",
+    },
+    categories: ["smarthome", "keyboard", "applications", "tinyml"],
+  },
+];
+
+// Group existing catalog entries by development task, preserving detail routes.
+// 按开发任务归并已有目录条目，保留详情页地址。
 export function communityGroups() {
-  return SOFTWARE_CATEGORIES.filter((category) => category.id !== "guides" && category.id !== "official");
+  return COMMUNITY_GROUPS.map(({ categories, ...group }) => ({
+    ...group,
+    items: categories.flatMap((id) => SOFTWARE_CATEGORIES.find((category) => category.id === id)?.items ?? []),
+  }));
 }
 
 // 所有带 logo 的软件项（去重），用于 logo 墙。

@@ -4,9 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { useLang } from "../i18n";
 import SoftwareLogo from "./SoftwareLogo";
+import { LogoMarquee } from "./LogoMarquee";
 import {
   communityGroups,
-  logoSrc,
   logoWallItems,
   pick,
   slugify,
@@ -17,13 +17,13 @@ const COPY = {
   en: {
     act: "Act two",
     title: "Built by the community",
-    intro: "People who use XIAO have filled in languages, real-time systems, protocols and tools. This wall is theirs. It is not a catalog Seeed ships. It is a stack the community keeps extending.",
+    intro: "Find community-supported tools for your next XIAO project — from writing code and connecting devices to building applications.",
     boards: (count) => (count === 1 ? "1 board" : `${count} boards`),
   },
   zh: {
     act: "第二幕",
     title: "社区共建的生态墙",
-    intro: "使用 XIAO 的人补上了语言、实时操作系统、协议和工具。这面墙是他们铸的。它不是 Seeed 的出货清单，而是社区一直在加长的生态。",
+    intro: "从编写代码、连接设备到实现应用，按你的开发目标找到社区支持的工具与平台。",
     boards: (count) => `${count} 块板`,
   },
 };
@@ -54,49 +54,33 @@ export function CommunitySection() {
 
       <div className={styles.marquee}>
         {rows.map((row, rowIndex) => (
-          <div key={rowIndex} className={rowIndex === 1 ? styles.rowSecond : undefined}>
-            <div className={`${styles.track} ${rowIndex === 1 ? styles.trackReverse : ""}`}>
-              {[0, 1].map((copyIndex) => (
-                row.map((item) => (
-                  <Link
-                    key={`${item.slug}-${copyIndex}`}
-                    href={`/software-center/${item.slug}`}
-                    data-clone={copyIndex === 1 ? "1" : "0"}
-                    title={pick(item.name, lang)}
-                    className={styles.logoTile}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={logoSrc(item.logo)} alt="" />
-                  </Link>
-                ))
-              ))}
-            </div>
-          </div>
+          <LogoMarquee key={rowIndex} items={row} lang={lang} reverse={rowIndex === 1} />
         ))}
       </div>
 
       <div className={styles.wrap}>
-        <div className={styles.chips} role="tablist" aria-label={copy.title}>
+        <div className={styles.chips} role="group" aria-label={copy.title}>
           {groups.map((group) => {
             const selected = group.id === active?.id;
             return (
               <button
                 key={group.id}
                 type="button"
-                role="tab"
-                aria-selected={selected}
+                aria-pressed={selected}
+                aria-controls="community-tools"
                 onClick={() => setActiveId(group.id)}
-                className={selected ? styles.chipOn : styles.chip}
+                className={`${selected ? styles.chipOn : styles.chip} home-type-action`}
               >
                 {pick(group.title, lang)}
-                <span className={styles.chipCount}>{group.items.length}</span>
               </button>
             );
           })}
         </div>
 
+        <p className={`${styles.groupIntro} home-type-body`}>{pick(active?.desc, lang)}</p>
+
         {active && (
-          <div className={styles.cardGrid} key={active.id}>
+          <div id="community-tools" className={styles.cardGrid} key={active.id}>
             {active.items.map((item) => {
               const slug = slugify(item.name);
               const count = item.boards.length;

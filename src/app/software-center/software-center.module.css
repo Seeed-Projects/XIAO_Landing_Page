@@ -5,51 +5,9 @@
   margin-inline: auto;
 }
 
-/* Hero and stat band. 首屏与数据条。 */
+/* Shared tool-page introduction. 工具页共用的介绍区域。 */
 .hero {
   background: radial-gradient(120% 90% at 50% 0%, rgba(22, 182, 106, 0.14), transparent 64%);
-  padding-bottom: clamp(20px, 3vw, 44px);
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  width: min(100%, 1080px);
-  margin: 0 auto;
-  padding: clamp(18px, 2vw, 26px) clamp(8px, 1.5vw, 20px);
-  border-radius: 28px;
-  background:
-    radial-gradient(90% 120% at 100% 0%, rgba(22, 182, 106, 0.24), transparent 55%),
-    var(--surface-deep);
-  box-shadow: 0 30px 60px rgba(13, 34, 48, 0.22);
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 6px 18px;
-  text-align: center;
-}
-
-.stat + .stat { border-left: 1px solid rgba(255, 255, 255, 0.12); }
-
-.statLabel {
-  margin: 0;
-  color: #9fb8c4;
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.statValue {
-  order: -1;
-  margin: 0 0 6px;
-  color: #fff;
-  font-family: var(--font-display), sans-serif;
-  font-size: clamp(34px, 3.2vw, 48px);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1;
 }
 
 /* Shared section heads. 两幕共用的段首。 */
@@ -430,20 +388,29 @@
 
 .marquee {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 14px;
   margin-top: clamp(32px, 4vw, 48px);
   overflow: hidden;
   mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
 }
 
+.logoRow { min-width: 0; overflow: hidden; padding-block: 4px; }
+
 .track {
   display: flex;
   width: max-content;
-  animation: wall 60s linear infinite;
+  animation: wall var(--wall-duration, 60s) linear infinite;
 }
 
-.trackReverse { animation-duration: 70s; animation-direction: reverse; }
-.marquee:hover .track { animation-play-state: paused; }
+.trackReverse { animation-direction: reverse; }
+.track[data-ready="0"] { animation: none; }
+.marquee:hover .track,
+.marquee:focus-within .track { animation-play-state: paused; }
+
+.loopHalf,
+.logoSequence { display: flex; flex: none; width: max-content; }
+.logoSequence { gap: 14px; padding-right: 14px; }
 
 .logoTile {
   display: flex;
@@ -452,7 +419,6 @@
   flex: none;
   align-items: center;
   justify-content: center;
-  margin-right: 14px;
   padding: 18px;
   border: 1px solid rgba(0, 73, 102, 0.08);
   border-radius: 24px;
@@ -467,50 +433,34 @@
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: clamp(20px, 3vw, 40px);
   margin-top: clamp(32px, 4vw, 48px);
+  border-bottom: 1px solid rgba(0, 73, 102, 0.12);
 }
 
 .chip,
 .chipOn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  min-height: 40px;
-  padding: 0 8px 0 16px;
-  border-radius: 999px;
-  font-family: var(--font-body), sans-serif;
-  font-size: 14px;
-  font-weight: 700;
+  min-height: 48px;
+  margin-bottom: -1px;
+  padding: 10px 0 14px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: transparent;
   cursor: pointer;
 }
 
-.chip {
-  border: 1px solid rgba(0, 73, 102, 0.16);
-  background: #fff;
-  color: var(--brand-blue);
-}
+.chip { color: var(--ink-muted); }
 
-.chip:hover { border-color: var(--brand-blue); }
+.chip:hover { color: var(--brand-blue); }
 
 .chipOn {
-  border: 1px solid var(--ink-strong);
-  background: var(--ink-strong);
-  color: #fff;
+  border-bottom-color: var(--brand-green);
+  color: var(--ink-strong);
 }
 
-.chipCount {
-  display: inline-grid;
-  place-items: center;
-  min-width: 24px;
-  height: 24px;
-  padding: 0 6px;
-  border-radius: 999px;
-  background: rgba(0, 73, 102, 0.08);
-  font-size: 12px;
-}
-
-.chipOn .chipCount { background: rgba(255, 255, 255, 0.16); }
+.groupIntro { margin: 18px 0 0; color: var(--ink-muted); }
 
 .cardGrid {
   display: grid;
@@ -603,25 +553,26 @@
 }
 
 @media (max-width: 720px) {
-  .stats { grid-template-columns: 1fr 1fr; row-gap: 14px; }
-  .stat:nth-child(3) { border-left: 0; }
   .story { border-radius: 28px; }
   .steps,
   .cardGrid { grid-template-columns: 1fr; }
-  .rowSecond { display: none; }
+  .chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .chip,
+  .chipOn { justify-content: center; text-align: center; }
   .logoTile { width: 76px; height: 76px; padding: 14px; border-radius: 20px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .marquee { mask-image: none; }
   .track,
-  .trackReverse {
+  .loopHalf,
+  .logoSequence {
     width: 100%;
     flex-wrap: wrap;
     justify-content: center;
-    row-gap: 14px;
-    padding-inline: clamp(16px, 3vw, 56px);
     animation: none;
   }
+  .logoSequence { gap: 14px; padding-inline: clamp(16px, 3vw, 56px); }
   .track [data-clone="1"] { display: none; }
   .cardLink,
   .logoTile,

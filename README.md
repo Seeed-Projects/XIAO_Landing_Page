@@ -403,9 +403,8 @@ the shared type roles.
 
 ## Software Ecosystem
 
-`/software-center/` is two acts. The hero ends in a navy stat band with the
-count of flagship projects, official repositories, community platforms and
-community categories, all computed from the data. Act one is six numbered
+`/software-center/` opens with the shared tool-page introduction, followed by
+two sections. Act one is six numbered
 chapter panels — Home Assistant Discovery, XIAO Zephyr Assistant, Seeed GFX2,
 XIAO ESPHome Projects, MicroPython for XIAO, and SenseCraft AI. Each panel
 explains the intended use, the problem it addresses and the value it brings,
@@ -418,9 +417,18 @@ on return. A small pause control preserves the reader's choice across scrolling.
 Hidden browser tabs pause playback; reduced motion or a media error shows a
 static WebP poster. Media lives in `public/software-animations/`, with editable
 sources and export instructions in `design/software-loops/`. Act two
-is the community wall: a full-width logo marquee of non-official platforms,
-category chips with counts, and cards that show how many boards each entry
-covers. Detail pages stay at `/software-center/[slug]/`.
+is the community wall: two continuous logo rows and three task-oriented filters —
+Code & Prototype, Connect & Cloud, and Apps & AI. These combine the original
+nine categories while preserving every platform and its supported-board links.
+Each filter includes a short guide to the tools it contains. Detail pages stay
+at `/software-center/[slug]/`.
+
+The logo rows measure their visible width and repeat the logo sequence until
+each loop half fills that width. Two identical halves join with equal spacing,
+at a constant speed of 28 and 25 pixels per second. Hover or keyboard focus
+pauses the rows; reduced motion displays a static, deduplicated logo grid.
+Run `node --test src/app/software-center/community-wall.test.mjs` to verify
+category coverage and continuous loop coverage from phone to ultrawide screens.
 
 The Pinout, Web Flasher, Hardware Resources and Software Ecosystem pages share
 `ToolPageIntro`: a centered title with the same responsive top spacing and
