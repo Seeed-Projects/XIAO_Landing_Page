@@ -42,11 +42,20 @@ export function logoSrc(url) {
   return url;
 }
 
-// 所有带 logo 的软件项（去重），用于 logo 墙
-export function logoWallItems() {
+// 社区分类：语言、系统、协议等，不含官方仓库和产品指南。
+// Community categories: languages, systems and protocols, without official repos or product guides.
+export function communityGroups() {
+  return SOFTWARE_CATEGORIES.filter((category) => category.id !== "guides" && category.id !== "official");
+}
+
+// 所有带 logo 的软件项（去重），用于 logo 墙。
+// excludeCategory 去掉某一分类，例如官方仓库不进社区墙。
+// Logo items for the wall, de-duplicated. excludeCategory drops one category.
+export function logoWallItems({ excludeCategory } = {}) {
   const seen = new Set();
   const out = [];
   for (const flat of flattenSoftware()) {
+    if (excludeCategory && flat.category?.id === excludeCategory) continue;
     if (flat.logo && !seen.has(flat.logo)) {
       seen.add(flat.logo);
       out.push(flat);

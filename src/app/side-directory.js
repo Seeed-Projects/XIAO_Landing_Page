@@ -20,8 +20,8 @@ function routeKey(pathname) {
     case "/software-center":
       return "softwareCenter";
     default:
-      // Unmatched routes (software detail, official subpages) hide the rail.
-      // 未匹配路由（软件详情、official 子页）不渲染侧栏。
+      // Unmatched routes (software detail pages) hide the rail.
+      // 未匹配路由（软件详情页）不渲染侧栏。
       return null;
   }
 }

@@ -1107,6 +1107,15 @@
   ],
   "news": [
     {
+      "title": "XIAO MG24 (Sense) Expanded Matter and Zigbee Supports with Silicon Labs Arduino Core 5.0",
+      "excerpt": "Building connected devices often means choosing a wireless protocol before you even start developing. Matter,",
+      "date": "2026-09-20",
+      "url": "https://www.seeedstudio.com/blog/2026/09/20/xiao-mg24-sense-expanded-matter-and-zigbee-supports-with-silicon-labs-arduino-core-5-0/",
+      "media_url": "https://www.seeedstudio.com/blog/wp-content/uploads/2026/09/20260920-152148.jpg",
+      "source": "Ellie Cai",
+      "tag": "Seeed Blog"
+    },
+    {
       "title": "XIAO IPS Display Series Now Has Wi-Fi: Meet the XIAO IPS Display (ESP32S3) Series",
       "excerpt": "Last week we launched the XIAO IPS Display Series on the XIAO nRF52840 Plus —",
       "date": "2026-09-15",
@@ -1202,15 +1211,6 @@
       "date": "2026-06-09",
       "url": "https://www.seeedstudio.com/blog/2026/06/09/xiao-project-hub/",
       "media_url": "https://www.seeedstudio.com/blog/wp-content/uploads/2026/06/Multicolored-Aesthetic-Photo-Collage-Vision-Board-Poster-YouTube-Thumbnail.png",
-      "source": "Kezang Loday",
-      "tag": "Seeed Blog"
-    },
-    {
-      "title": "Keymera: Build Your Own 3D-Printed Keychain Camera with XIAO ESP32S3 Sense",
-      "excerpt": "In a world where smartphones handle nearly all of our photography, maker and designer Matej",
-      "date": "2026-06-01",
-      "url": "https://www.seeedstudio.com/blog/2026/06/01/keymera-diy-3d-printed-keychain-camera-xiao-esp32s3-sense/",
-      "media_url": "https://www.seeedstudio.com/blog/wp-content/uploads/2026/06/cover4.jpg",
       "source": "Kezang Loday",
       "tag": "Seeed Blog"
     }

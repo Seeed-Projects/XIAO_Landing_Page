@@ -401,6 +401,30 @@ the catalog, thumbnail naming, the drawing frame, the spreadsheet reader and
 the shared type roles.
 
 
+## Software Ecosystem
+
+`/software-center/` is two acts. The hero ends in a navy stat band with the
+count of flagship projects, official repositories, community platforms and
+community categories, all computed from the data. Act one is four numbered
+chapter panels — Home Assistant Discovery, Seeed Zephyr Base, the ESPHome
+component for XIAO ESP32-S3, and SenseCraft AI. Each panel pairs the copy
+(the obstacle, what the project is) with a dark diagram screen whose footer
+carries the project's status badges; below them three step cards, capability
+chips, a boards line and the action buttons span the panel. The diagram plays
+when it enters the viewport, returns to the start when it leaves, and plays
+again on the next visit. Reduced motion shows the finished frame with no
+animation. Five compact cards list the other official repositories. Act two
+is the community wall: a full-width logo marquee of non-official platforms,
+category chips with counts, and cards that show how many boards each entry
+covers. Detail pages stay at `/software-center/[slug]/`.
+
+Story copy lives in `src/app/software-center/official-stories.mjs`. Check it
+with:
+
+```bash
+node --test src/app/software-center/official-stories.test.mjs src/app/tool-pages-typography.test.mjs
+```
+
 ## Playground ESP32 Web Flasher
 
 `/playground/esp-flasher/` is the XIAO ESP32 Series Web Flasher: a two-column

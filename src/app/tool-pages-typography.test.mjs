@@ -80,12 +80,29 @@ test("the flasher accepts multiple BIN files with suggested editable addresses",
 });
 
 test("software center uses one shared hierarchy for sections and cards", () => {
-  assert.equal((software.match(/home-type-title/g) || []).length, 2);
-  assert.equal((software.match(/home-type-subtitle/g) || []).length, 2);
-  assert.equal((software.match(/home-type-body/g) || []).length, 2);
+  const official = read("./software-center/OfficialStory.js");
+  const community = read("./software-center/CommunitySection.js");
+  const css = read("./software-center/software-center.module.css");
+  assert.match(official, /sectionTitle\} home-type-title/);
+  assert.match(official, /storyName\} home-type-title/);
+  assert.match(official, /moreTitle\} home-type-subtitle/);
+  assert.match(official, /repoName\} home-type-subtitle/);
+  assert.match(official, /sectionIntro\} home-type-body/);
+  assert.match(official, /lede\} home-type-body/);
+  assert.match(official, /blockText\} home-type-body/);
+  assert.match(official, /stepText\} home-type-body/);
+  assert.match(official, /repoSummary\} home-type-body/);
+  assert.match(official, /home-type-action home-filled-action/);
+  assert.match(official, /secondary\} home-type-action/);
+  assert.match(community, /bandTitle\} home-type-title/);
+  assert.match(community, /bandIntro\} home-type-body/);
+  assert.match(community, /cardName\} home-type-subtitle/);
+  assert.match(community, /cardDesc\} home-type-body/);
   assert.doesNotMatch(software, /text-3xl font-bold/);
   assert.doesNotMatch(software, /text-xl font-bold/);
-  assert.doesNotMatch(software, /line-clamp-3 text-sm/);
+  for (const name of ["storyName", "sectionTitle", "cardName", "cardDesc", "bandTitle", "lede", "blockText", "sectionIntro", "repoSummary"]) {
+    assert.doesNotMatch(css, new RegExp(`\\.${name}\\b[^}]*font-size:`), name);
+  }
 });
 
 test("resource headings and course cards use the shared hierarchy", () => {
