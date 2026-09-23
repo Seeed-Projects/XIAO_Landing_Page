@@ -310,6 +310,7 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  font-weight: 700;
 }
 .cardFoot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; }
 .iconRow { display: inline-flex; gap: 6px; }

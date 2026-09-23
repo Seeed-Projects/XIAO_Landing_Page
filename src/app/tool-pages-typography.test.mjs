@@ -98,7 +98,7 @@ test("resource headings and course cards use the shared hierarchy", () => {
   assert.match(read("./res/DesignKit.js"), /kitIntro} home-type-body/);
   assert.doesNotMatch(resourcesCss, /\.kitTitle\s*{[^}]*font-size:/s);
   assert.doesNotMatch(resourcesCss, /\.kitIntro\s*{[^}]*font-size:/s);
-  assert.match(resourceCard, /cardName[\s\S]*home-type-subtitle/);
+  assert.match(resourceCard, /cardName[\s\S]*home-type-body/);
   assert.match(boardPicker, /home-type-action home-filled-action/);
   assert.match(courseCard, /courseTitle} home-type-subtitle/);
   assert.match(courseCard, /courseIntro} home-type-body/);

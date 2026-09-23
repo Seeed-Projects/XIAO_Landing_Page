@@ -54,7 +54,7 @@ export function ResourceCard({ item, onPreview }) {
         </a>
       )}
       <div className={styles.cardBody}>
-        <h3 className={`${styles.cardName} home-type-subtitle`} title={item.name}>{item.name}</h3>
+        <h3 className={`${styles.cardName} home-type-body`} title={item.name}>{item.name}</h3>
         <div className={styles.cardFoot}>
           <span className={styles.format}>{item.format}</span>
           <span className={styles.iconRow}>
