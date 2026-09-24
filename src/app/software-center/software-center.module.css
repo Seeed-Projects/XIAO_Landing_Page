@@ -24,6 +24,8 @@
   padding-top: clamp(56px, 7vw, 96px);
 }
 
+.official .sectionHead { padding-top: clamp(8px, 1vw, 16px); }
+
 .act {
   display: inline-flex;
   align-items: center;
