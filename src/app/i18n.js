@@ -237,45 +237,6 @@ const zh = {
   },
   stats: { title: "数据展示" },
   contact: { label: "联系方式" },
-  side: {
-    home: [
-      { id: "hero", label: "Top" },
-      { id: "intro", label: "认识 XIAO" },
-      { id: "features", label: "核心特性" },
-      { id: "glimpse", label: "XIAO 一览" },
-      { id: "roadmap", label: "开放路线图" },
-      { id: "projects", label: "基于 XIAO 构建的项目" },
-      { id: "playground", label: "XIAO Playground" },
-      { id: "cocreate", label: "生态共创" },
-      { id: "news", label: "XIAO 新闻" },
-      { id: "edm", label: "XIAO 电子报" },
-    ],
-    products: [
-      { id: "top", label: "Top" },
-      { id: "products-catalog", label: "产品目录" },
-      { id: "smart-selector", label: "智能选型" },
-    ],
-    res: [
-      { id: "top", label: "Top" },
-      { id: "resources", label: "资源" },
-      { id: "learn", label: "延伸学习" },
-    ],
-    projectHub: [
-      { id: "top", label: "Top" },
-      { id: "featured-projects", label: "精选项目" },
-      { id: "collection", label: "浏览全部项目" },
-    ],
-    openRoadmap: [
-      { id: "top", label: "Top" },
-      { id: "ideas", label: "创意投票" },
-      { id: "success", label: "成功案例" },
-    ],
-    softwareCenter: [
-      { id: "top", label: "Top" },
-      { id: "official", label: "官方软件" },
-      { id: "community", label: "社区软件" },
-    ],
-  },
 };
 
 const en = {
@@ -509,45 +470,6 @@ const en = {
   },
   stats: { title: "Data Showcase" },
   contact: { label: "contact" },
-  side: {
-    home: [
-      { id: "hero", label: "Top" },
-      { id: "intro", label: "Meet XIAO" },
-      { id: "features", label: "Core Features" },
-      { id: "glimpse", label: "XIAO at a Glance" },
-      { id: "roadmap", label: "Open Roadmap" },
-      { id: "projects", label: "Projects Built on XIAO" },
-      { id: "playground", label: "XIAO Playground" },
-      { id: "cocreate", label: "Co-Create" },
-      { id: "news", label: "XIAO News" },
-      { id: "edm", label: "NEWSLETTER" },
-    ],
-    products: [
-      { id: "top", label: "Top" },
-      { id: "products-catalog", label: "Catalog" },
-      { id: "smart-selector", label: "XIAO Selector" },
-    ],
-    res: [
-      { id: "top", label: "Top" },
-      { id: "resources", label: "Resources" },
-      { id: "learn", label: "Learn" },
-    ],
-    projectHub: [
-      { id: "top", label: "Top" },
-      { id: "featured-projects", label: "Featured Projects" },
-      { id: "collection", label: "Explore every project" },
-    ],
-    openRoadmap: [
-      { id: "top", label: "Top" },
-      { id: "ideas", label: "Ideas" },
-      { id: "success", label: "Success Cases" },
-    ],
-    softwareCenter: [
-      { id: "top", label: "Top" },
-      { id: "official", label: "Official" },
-      { id: "community", label: "Community" },
-    ],
-  },
 };
 
 export const dictionaries = { zh, en };

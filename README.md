@@ -357,7 +357,9 @@ Others. A separate full-width Learn & Build band closes the page: a featured ebo
 grid of courses, community projects and the official YouTube channel. Every
 cover is shown whole at its own aspect ratio on a 4:3 stage, with a blurred
 copy of the same image filling the background; each card's tag names the
-boards it covers, and PDF-based items use a baked first page as their cover. The right-hand rail items are Top, Resources and Learn.
+boards it covers, and PDF-based items use a baked first page as their cover. The
+right-hand rail follows the page introduction, shared design kit, selected board
+and learning section, using each section's current heading.
 Below 1100px the board list becomes family tabs plus a row of board chips; on
 phones each file card turns into a compact row and the learn cards scroll
 sideways.
@@ -400,6 +402,14 @@ src/lib/parseXlsx.test.mjs src/app/tool-pages-typography.test.mjs` to check
 the catalog, thumbnail naming, the drawing frame, the spreadsheet reader and
 the shared type roles.
 
+
+## Section Navigation
+
+The shared right-hand section navigation uses the rendered headings as its label
+source, including hero artwork's accessible title. Language changes and board
+selection update the labels automatically. `src/app/section-directory.mjs`
+defines the ordered anchors for pages with a rail; only existing anchors with
+headings are displayed. Full titles appear on hover or keyboard focus.
 
 ## Software Ecosystem
 

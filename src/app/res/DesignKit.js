@@ -42,7 +42,7 @@ export function DesignKit() {
       <div className={styles.kitInner}>
         <div className={styles.kitCopy}>
           <p className={styles.kitEyebrow}>{pickText(DESIGN_KIT.eyebrow, lang)}</p>
-          <h2 id="design-kit-title" className={`${styles.kitTitle} home-type-title`}>{pickText(DESIGN_KIT.title, lang)}</h2>
+          <h2 id="design-kit-title" className={`${styles.kitTitle} home-type-title scroll-mt-24`}>{pickText(DESIGN_KIT.title, lang)}</h2>
           <p className={`${styles.kitIntro} home-type-body`}>{pickText(DESIGN_KIT.intro, lang)}</p>
         </div>
         <div className={styles.kitFiles}>

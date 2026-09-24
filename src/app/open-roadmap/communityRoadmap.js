@@ -263,7 +263,7 @@ function StageHeader({ stage, count, lang, step, total, stepLabel }) {
               {stepLabel} {String(step).padStart(2, "0")}
             </span>
           ) : null}
-          <h2 id={`stage-${stage.id}`} className={styles.columnTitle}>
+          <h2 id={`stage-${stage.id}`} className={`${styles.columnTitle} scroll-mt-24`}>
             {label}
           </h2>
         </div>
@@ -343,7 +343,7 @@ export function CommunityRoadmap() {
 
   return (
     <div className={styles.roadmap}>
-      <Reveal as="section" className={styles.roadmapHero}>
+      <Reveal as="section" id="top" className={styles.roadmapHero}>
         <Image
           src={withBase("/openroadmap-hero.webp")}
           alt=""

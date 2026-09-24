@@ -5,8 +5,8 @@ import test from "node:test";
 const read = (name) => readFileSync(new URL(name, import.meta.url), "utf8");
 const page = read("./project-hub/page.js");
 const hub = read("./project-hub/projectHub.js");
-const i18n = read("./i18n.js");
 const side = read("./side-directory.js");
+const directory = read("./section-directory.mjs");
 const bake = readFileSync(new URL("../../scripts/bake-project-hub-embed.js", import.meta.url), "utf8");
 
 test("Project Hub top anchor sits on the hero, not a page-wide wrapper", () => {
@@ -16,19 +16,14 @@ test("Project Hub top anchor sits on the hero, not a page-wide wrapper", () => {
   assert.match(hub, /id="collection"/);
 });
 
-test("Every page side rail starts with the Top label", () => {
-  const firstLabels = [...i18n.matchAll(/^\s{4}(home|products|res|projectHub|openRoadmap|softwareCenter): \[\n\s+\{ id: "[^"]+", label: "([^"]+)"/gm)];
-  assert.equal(firstLabels.length, 12);
-  for (const match of firstLabels) {
-    assert.equal(match[2], "Top", `${match[1]} first rail label`);
-  }
+test("Side rail reads current section headings from the rendered page", () => {
+  assert.match(side, /readSectionDirectory\(pathname, document\)/);
+  assert.match(directory, /heading\?\.textContent/);
+  assert.match(directory, /getAttribute\("aria-label"\)/);
 });
 
 test("Side rail labels match the Project Hub section titles", () => {
-  assert.match(i18n, /id: "featured-projects", label: "精选项目"/);
-  assert.match(i18n, /id: "collection", label: "浏览全部项目"/);
-  assert.match(i18n, /id: "featured-projects", label: "Featured Projects"/);
-  assert.match(i18n, /id: "collection", label: "Explore every project"/);
+  assert.match(directory, /"\/project-hub": \["top", "featured-projects", "collection"\]/);
   assert.match(hub, /featuredTitle: "Featured Projects"/);
   assert.match(hub, /collectionTitle: "Explore every project"/);
   assert.match(hub, /featuredTitle: "精选项目"/);
