@@ -1,104 +1,78 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { homepageSections } from "./site-data";
 import { useLang } from "./i18n";
+import { partnerLogoSizes, partnerLoop } from "./partner-marquee-layout.mjs";
 
-// 取品牌名首字母作为 logo 占位
-function initialsOf(name) {
-  const cleaned = name.replace(/[^A-Za-z0-9]/g, "");
-  return cleaned.slice(0, 2).toUpperCase();
+function PartnerLogo({ partner }) {
+  const [failed, setFailed] = useState(false);
+  const src = partner.logo || `https://favicon.yandex.net/favicon/${new URL(partner.url).host}`;
+  const [width, height] = partnerLogoSizes[partner.name] || [34, 34];
+
+  return (
+    <span className="partner-brand" data-long-name={partner.name.length > 15}>
+      {!failed && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={src}
+          alt=""
+          loading="eager"
+          decoding="async"
+          onError={() => setFailed(true)}
+          style={{ width, height }}
+          className="partner-logo"
+        />
+      )}
+      {(!partner.wordmark || failed) && <span className="partner-name">{partner.name}</span>}
+    </span>
+  );
 }
 
-// 从 partner.url 取主机名，用 Yandex favicon 服务兜底取官网 logo
-function faviconOf(url) {
-  try {
-    return `https://favicon.yandex.net/favicon/${new URL(url).host}`;
-  } catch {
-    return "";
-  }
+// Each half contains the same full cycles, including the trailing spacing.
+// 两段轨道包含相同的完整循环及尾部间距。
+function PartnerRow({ group, label, index }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  const duration = group.partners.length * partnerLoop.copiesPerHalf * partnerLoop.slotWidth / partnerLoop.pixelsPerSecond;
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting));
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className="partner-row" data-visible={visible}>
+      <h3 id={`partner-category-${index}`} className="home-type-subtitle partner-category">{label}</h3>
+      <div className="partner-window" role="group" aria-labelledby={`partner-category-${index}`}>
+        <div className="partner-track" style={{ animationDuration: `${duration}s` }}>
+          {[0, 1].map((half) => (
+            <div key={half} className="partner-half">
+              {Array.from({ length: partnerLoop.copiesPerHalf }, (_, copy) => (
+                <div key={copy} className="partner-cycle" data-copy={half !== 0 || copy !== 0} aria-hidden={half !== 0 || copy !== 0 ? true : undefined}>
+                  {group.partners.map((partner) => (
+                    <a key={partner.name} className="partner-slot" href={partner.url} target="_blank" rel="noopener noreferrer" aria-label={partner.name} tabIndex={half !== 0 || copy !== 0 ? -1 : undefined}>
+                      <PartnerLogo partner={partner} />
+                    </a>
+                  ))}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export function PartnerMarquee() {
   const { t } = useLang();
-  const groups = homepageSections.partnerGroups;
 
   return (
-    <div className="space-y-8">
-      {groups.map((group, gi) => (
-        <div key={group.label}>
-          <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.15em] text-[var(--ink-muted)]">
-            {t.developer.groupLabels[gi] ?? group.label}
-          </h3>
-          <div className="group relative overflow-hidden">
-            {/* 滚动轨道：复制足够多份(6×)保证轨道宽于视口，铺满无空白；hover 暂停 */}
-            <div
-              className="flex w-max gap-3 marquee-track will-change-transform group-hover:[animation-play-state:paused]"
-              style={{ animationDuration: "80s" }}
-            >
-              {/* 复制 6 份实现无缝滚动（两半各 3 份，内容一致，translateX -50% 严丝合缝） */}
-              {Array.from({ length: 6 }, () => group.partners).flat().map((partner, index) => (
-                <a
-                  key={`${partner.name}-${index}`}
-                  href={partner.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`flex h-14 shrink-0 items-center rounded-full border border-[var(--line-soft)] bg-white/80 backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[var(--brand-blue)]/30 hover:shadow-md ${
-                    partner.wordmark
-                      ? "min-w-[150px] justify-center px-5"
-                      : "gap-2.5 py-2 pl-3 pr-5"
-                  }`}
-                >
-                  {/* logo：专用图优先，否则按官网域名取 favicon 兜底，再失败回退品牌色方块 + 首字母 */}
-                  {(() => {
-                    const src = partner.logo || faviconOf(partner.url);
-                    if (!src) {
-                      return (
-                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[linear-gradient(135deg,rgba(0,73,102,0.96),rgba(8,102,126,0.92),rgba(143,195,31,0.88))] text-xs font-bold tracking-wide text-white">
-                          {initialsOf(partner.name)}
-                        </span>
-                      );
-                    }
-                    return (
-                      <>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={src}
-                          alt={partner.name}
-                          loading="lazy"
-                          onError={(e) => {
-                            const img = e.currentTarget;
-                            img.style.display = "none";
-                            img.parentElement
-                              .querySelector("[data-fallback]")
-                              ?.removeAttribute("hidden");
-                          }}
-                          className={
-                            (partner.wordmark
-                              ? "h-9 w-auto max-w-40 shrink-0 object-contain"
-                              : "h-8 w-8 shrink-0 object-contain")
-                          }
-                        />
-                        <span
-                          data-fallback
-                          hidden
-                          className="flex h-9 shrink-0 items-center justify-center rounded-lg bg-[var(--brand-blue)] px-3 text-xs font-bold tracking-wide text-white"
-                        >
-                          {partner.wordmark ? partner.name : initialsOf(partner.name)}
-                        </span>
-                      </>
-                    );
-                  })()}
-                  {/* 文字：wordmark 图已含品牌名，不再重复加文字标 */}
-                  {!partner.wordmark && (
-                    <span className="text-sm font-semibold text-[var(--ink-strong)]">
-                      {partner.name}
-                    </span>
-                  )}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
+    <div className="partner-network" style={{ "--partner-slot-width": `${partnerLoop.slotWidth}px` }}>
+      {homepageSections.partnerGroups.map((group, index) => (
+        <PartnerRow key={group.label} group={group} label={t.developer.groupLabels[index] ?? group.label} index={index} />
       ))}
     </div>
   );

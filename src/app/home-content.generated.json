@@ -2,29 +2,6 @@
   "projects": [
     {
       "title": {
-        "en": "ble-leveler",
-        "zh": "ble-leveler 蓝牙水平仪"
-      },
-      "excerpt": {
-        "en": "A wireless dual-axis leveling tool built with XIAO nRF52840 Sense, its LSM6DS3 IMU, Rust, and Bluetooth Low Energy. It sends a self-contained interactive crosshair interface to the Phyphox mobile app, supports 24 mounting orientations, and stores calibration references and tolerance limits in non-volatile memory.",
-        "zh": "一款使用 XIAO nRF52840 Sense、板载 LSM6DS3 IMU、Rust 和蓝牙低功耗技术构建的无线双轴水平仪。设备会向 Phyphox 手机应用发送自包含的交互式十字准星界面，支持 24 种安装方向，并在非易失存储器中保存校准基准和容差范围。"
-      },
-      "author": {
-        "en": "Jan Češpivo",
-        "zh": "Jan Češpivo"
-      },
-      "tag": {
-        "en": "Tools & Accessories",
-        "zh": "工具配件"
-      },
-      "board": "XIAO nRF52840 Sense (XIAO BLE Sense)",
-      "url": "https://github.com/jancespivo/ble-leveler",
-      "media_url": "https://raw.githubusercontent.com/jancespivo/ble-leveler/main/screenshot.png",
-      "date": "2026-09-01",
-      "featured": false
-    },
-    {
-      "title": {
         "en": "TRMNL 7.5-inch DIY Weather Dashboard",
         "zh": "TRMNL 7.5 英寸 DIY 天气仪表盘"
       },
@@ -67,75 +44,6 @@
       "url": "https://github.com/espee77/Genius-GM6000-BLE-Mouse-Revival",
       "media_url": "https://raw.githubusercontent.com/espee77/Genius-GM6000-BLE-Mouse-Revival/main/V1.0/Pictures%20with%20assembly%20notes/IMG_8706.JPG",
       "date": "2026-07-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "Gesture Detection Wearable Jewelry Bracelet Xerces Aurora",
-        "zh": "Gesture Detection Wearable Jewelry Bracelet Xerces Aurora"
-      },
-      "excerpt": {
-        "en": "PlatformIO firmware for Seeed Studio XIAO nRF52840 Sense. Implements gesture recognition via LSM6DS3TR-C IMU double-tap detection, pose gating, and BLE data transfer to a companion React Native app for gesture-password training and detection.",
-        "zh": "Seeed Studio XIAO nRF52840 Sense 的 PlatformIO 固件。通过 LSM6DS3TR-C IMU 双击检测、姿态门控和 BLE 数据传输实现手势识别，配合 React Native 应用进行手势密码训练和检测。"
-      },
-      "author": {
-        "en": "Xerces Aurora",
-        "zh": "Xerces Aurora"
-      },
-      "tag": {
-        "en": "Wearables",
-        "zh": "可穿戴"
-      },
-      "board": "XIAO nRF52840 Sense (XIAO BLE Sense)",
-      "url": "https://github.com/hybrisCole/abracadabra-platformio",
-      "media_url": "https://opengraph.githubassets.com/38442e6cfccd98d0829b14e3db1f6ce937cf51955b1f0f0ff0555b9d150cb62c/hybrisCole/abracadabra-platformio",
-      "date": "2026-07-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "ESP-32 C3 SEN MQTT",
-        "zh": "ESP-32 C3 SEN MQTT"
-      },
-      "excerpt": {
-        "en": "A XIAO ESP32-C3 based sensor hub that measures temperature, humidity, and a growing number of other sensors via I2C and SPI. Results are transferred via MQTT. Configurable through credentials.h to define sensor types, addresses, and network/MQTT parameters. Can read all sensors simultaneously.",
-        "zh": "一款基于 XIAO ESP32-C3 的传感器中枢，测量温度、湿度以及通过 I2C 和 SPI 连接的多种其他传感器。数据通过 MQTT 传输。通过 credentials.h 配置传感器类型、地址和网络/MQTT 参数。可同时读取所有传感器。"
-      },
-      "author": {
-        "en": "MikeEitel",
-        "zh": "MikeEitel"
-      },
-      "tag": {
-        "en": "Smart Home",
-        "zh": "智能家居"
-      },
-      "board": "XIAO ESP32-C3",
-      "url": "https://github.com/MikeEitel/ESP-32_C3_SEN_MQTT",
-      "media_url": "https://opengraph.githubassets.com/bce293bdec75fd4cbbf5fdf336272dae1c5370b0a6e28f39eb36162ab70806d0/MikeEitel/ESP-32_C3_SEN_MQTT",
-      "date": "2026-06-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "Cobalt Voice Band - AI Assistant Wearable DevKit",
-        "zh": "Cobalt Voice Band - AI 助手可穿戴开发套件"
-      },
-      "excerpt": {
-        "en": "A push-to-talk voice wearable built on the Seeed XIAO nRF52840 Sense with open-source firmware.",
-        "zh": "一款基于 Seeed XIAO nRF52840 Sense 的按键通话语音可穿戴设备，采用开源固件。"
-      },
-      "author": {
-        "en": "Jean de Bailliencourt",
-        "zh": "Jean de Bailliencourt"
-      },
-      "tag": {
-        "en": "Wearables",
-        "zh": "可穿戴"
-      },
-      "board": "XIAO nRF52840 Sense (XIAO BLE Sense)",
-      "url": "https://github.com/Cobalt-Watch/Voice-Band",
-      "media_url": "https://opengraph.githubassets.com/662d37d4e75e8bd7cdcecd538659ea178fc5b31ab72e70922b5ff01e8ef80a94/Cobalt-Watch/Voice-Band",
-      "date": "2026-06-01",
       "featured": false
     },
     {
@@ -232,29 +140,6 @@
     },
     {
       "title": {
-        "en": "How I Built a Wireless Walkie Talkie with Two ESP32 | Arduino Project with code",
-        "zh": "用两个 ESP32 制作无线对讲机 | Arduino 项目含代码"
-      },
-      "excerpt": {
-        "en": "A wireless walkie talkie built with two XIAO ESP32-S3 Sense boards using ESP-NOW wireless communication. Audio captured from the onboard microphone on one XIAO is transmitted wirelessly via ESP-NOW and played back through a speaker connected to another XIAO. Features real-time audio transmission, I2S audio output, and no Wi-Fi router required. Full Arduino code, schematic, and project details on GitHub.",
-        "zh": "一款基于两个 XIAO ESP32-S3 Sense 的无线对讲机，利用 ESP-NOW 无线协议通信。一个 XIAO 的内置麦克风采集音频，通过 ESP-NOW 无线传输到另一个 XIAO 驱动扬声器播放。支持实时音频传输、I2S 音频输出，无需 Wi-Fi 路由器。提供完整的 Arduino 代码、原理图和项目详情。"
-      },
-      "author": {
-        "en": "Tech Talkies",
-        "zh": "Tech Talkies"
-      },
-      "tag": {
-        "en": "Telecommunication",
-        "zh": "通信"
-      },
-      "board": "XIAO ESP32-S3 Sense",
-      "url": "https://www.youtube.com/watch?v=u1eQ4RQV828",
-      "media_url": "https://i.ytimg.com/vi/u1eQ4RQV828/maxresdefault.jpg",
-      "date": "2026-06-01",
-      "featured": false
-    },
-    {
-      "title": {
         "en": "Build A Stealth MeshCore Repeater: Harbor Freight Hack!",
         "zh": "隐身 MeshCore 中继器：利用 Harbor Freight 太阳能灯改造"
       },
@@ -319,75 +204,6 @@
       "board": "XIAO ESP32-S3 Sense",
       "url": "https://www.youtube.com/watch?v=0UTXGptOVkc",
       "media_url": "https://i.ytimg.com/vi/0UTXGptOVkc/maxresdefault.jpg",
-      "date": "2026-06-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "Giant XIAO — 15x Scale Fully Functional XIAO ESP32-C3 Replica",
-        "zh": "巨型 XIAO — 15 倍大全功能 XIAO ESP32-C3 复制品"
-      },
-      "excerpt": {
-        "en": "A fully functional 15× scale replica of the Seeed Studio XIAO ESP32-C3, built with 3D-printed PLA and copper tape wiring. Every pin is wired through to a real XIAO hidden inside the giant USB-C port, making the giant board electrically functional. Features swappable chip housing and magnetic interior tray. Created by the TinyGo team and presented at GopherCon EU 2026.",
-        "zh": "3D 打印的全功能 15 倍大 XIAO ESP32-C3 复制品。每个引脚通过铜箔胶带连接到藏在巨型 USB-C 接口内的真实 XIAO，使巨型开发板具备完整电气功能。配备可更换芯片外壳和磁吸内部收纳托盘。由 TinyGo 团队制作，在 GopherCon EU 2026 展示。"
-      },
-      "author": {
-        "en": "Daniel Esteban (TinyGo Team)",
-        "zh": "Daniel Esteban (TinyGo 团队)"
-      },
-      "tag": {
-        "en": "Tools & Accessories",
-        "zh": "工具配件"
-      },
-      "board": "XIAO ESP32-C3",
-      "url": "https://madriguera.me/building-a-giant-xiao-a-fully-functional-15x-scale-seeed-studio-xiao-esp32-c3/",
-      "media_url": "https://madriguera.me/content/images/2026/06/02-size-comparison-real-vs-giant.jpg",
-      "date": "2026-06-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "WeatherPaper V2 — 500-Day Battery E-Paper Weather Display",
-        "zh": "WeatherPaper V2 — 500 天续航电子墨水屏天气显示"
-      },
-      "excerpt": {
-        "en": "An ultra-low-power e-paper weather display engineered for up to 500 days of battery life on a single charge. Built around the XIAO ESP32-C3 with custom PCB (EasyEDA) and 3D-printed resin enclosure. Features deep sleep optimization (44µA), downclocking to 80MHz, WiFiManager captive portal with QR pairing, and OpenWeatherMap integration.",
-        "zh": "一款超低功耗电子墨水屏天气显示器，单次充电续航长达 500 天。基于 XIAO ESP32-C3 构建，配以 EasyEDA 定制 PCB 和 3D 打印树脂外壳。采用深度睡眠优化（44µA）、CPU 降频至 80MHz、WiFiManager 二维码配对和 OpenWeatherMap 数据集成。"
-      },
-      "author": {
-        "en": "Jeremy Ngai (ngai-jeremy)",
-        "zh": "Jeremy Ngai (ngai-jeremy)"
-      },
-      "tag": {
-        "en": "Smart Home",
-        "zh": "智能家居"
-      },
-      "board": "XIAO ESP32-C3",
-      "url": "https://www.instructables.com/WeatherPaper-Squeezing-500-Days-of-Battery-Life-Ou/",
-      "media_url": "https://content.instructables.com/F5R/SM2S/MPX8P861/F5RSM2SMPX8P861.jpg?auto=webp&frame=1&width=2100",
-      "date": "2026-06-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "Veltoc Model 01 — Retro E-Ink Environmental Monitor",
-        "zh": "Veltoc Model 01 — 复古 E-Ink 环境监测器"
-      },
-      "excerpt": {
-        "en": "A retro-inspired environmental monitor with a 2.9\" E-Ink display, built around the XIAO ESP32-C6. Monitors temperature, humidity, and air pressure via a BME280 sensor with WiFi time sync. Features a rotary encoder for navigating views, deep sleep wake-on-press, and a 1400mAh LiPo battery for extended use. The ePaper Driver Board for XIAO handles display control.",
-        "zh": "一款复古风格的环境监测器，配备 2.9\" E-Ink 显示屏，基于 XIAO ESP32-C6 构建。通过 BME280 传感器监测温度、湿度和气压，支持 WiFi 时间同步。具有旋转编码器导航、按压唤醒深度睡眠、1400mAh 锂电池等特性。使用 ePaper Driver Board for XIAO 驱动屏幕。"
-      },
-      "author": {
-        "en": "danking6",
-        "zh": "danking6"
-      },
-      "tag": {
-        "en": "Tools & Accessories",
-        "zh": "工具配件"
-      },
-      "board": "XIAO ESP32-C6",
-      "url": "https://github.com/danking6/veltoc",
-      "media_url": "https://private-user-images.githubusercontent.com/35265770/605069097-abb05084-31d4-4e59-87b8-da9ddf925d28.jpg",
       "date": "2026-06-01",
       "featured": false
     },
@@ -462,29 +278,6 @@
     },
     {
       "title": {
-        "en": "Tonalli",
-        "zh": "Tonalli"
-      },
-      "excerpt": {
-        "en": "A collaborative fashion capsule inspired by Quetzalcoatl that connects Mexican heritage, handcraft, and digital fabrication. The garments combine embroidery, recycled textiles, biomaterial scales, 3D-made feathers, and responsive LED or NeoPixel circuits powered by XIAO ESP32-C3 and XIAO RP2040 boards.",
-        "zh": "一个以羽蛇神为灵感、连接墨西哥文化传统、手工艺与数字制造的合作式时装系列。服装融合刺绣、再生纺织品、生物材料鳞片、3D 制作羽毛，以及由 XIAO ESP32-C3 和 XIAO RP2040 驱动的响应式 LED 或 NeoPixel 电路。"
-      },
-      "author": {
-        "en": "Patricia Pérez Vizcaya",
-        "zh": "Patricia Pérez Vizcaya"
-      },
-      "tag": {
-        "en": "Wearables",
-        "zh": "可穿戴"
-      },
-      "board": "XIAO ESP32-C3, XIAO RP2040",
-      "url": "https://class.textile-academy.org/2026/patricia-vizcaya/project/",
-      "media_url": "https://class.textile-academy.org/2026/patricia-vizcaya/images/Pictures/Together_1.jpg",
-      "date": "2026-05-01",
-      "featured": false
-    },
-    {
-      "title": {
         "en": "Mood Paint",
         "zh": "Mood Paint 情绪绘画"
       },
@@ -508,75 +301,6 @@
     },
     {
       "title": {
-        "en": "E61 Gauge — Analog Temperature Gauge for E61 Espresso Machines",
-        "zh": "E61 模拟温度表 — 适用于 E61 咖啡机"
-      },
-      "excerpt": {
-        "en": "An analog temperature gauge for E61 espresso machines. Custom PCB drives a VID6606 stepper motor gauge needle, reading temperature from an NTC thermistor. Connects via BLE to a web app for calibration and real-time monitoring. Features a non-linear dial scale (0–150°C) with expanded green zone at 92–97°C, SLM 3D-printed metal enclosure, and open-source KiCad/Arduino design.",
-        "zh": "一款 E61 咖啡机模拟温度表。定制 PCB 驱动 VID6606 步进电机表针，NTC 热敏电阻测温。通过 BLE 蓝牙连接网页应用进行校准和实时监测。非线性表盘刻度（0–150°C），92–97°C 绿色区间放大便于精确观察。SLM 3D 打印金属外壳，KiCad 源文件和 Arduino 固件全部开源。"
-      },
-      "author": {
-        "en": "gidim",
-        "zh": "gidim"
-      },
-      "tag": {
-        "en": "Tools & Accessories",
-        "zh": "工具配件"
-      },
-      "board": "XIAO nRF52840 (XIAO BLE)",
-      "url": "https://github.com/gidim/e61-gauge",
-      "media_url": "https://raw.githubusercontent.com/gidim/e61-gauge/main/media/hero.jpg",
-      "date": "2026-05-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "eFortune Cookie — a Tiny ESP32 Fortune Teller",
-        "zh": "eFortune Cookie ESP32 幸运饼干签语器"
-      },
-      "excerpt": {
-        "en": "A tiny interactive fortune cookie gadget housed in a 3D-printed cookie enclosure. Built with the XIAO EPaper Display Board EE05 (powered by XIAO ESP32-S3 Plus), a 1.54\" monochrome ePaper display, and MPU-6050 accelerometer for shake detection. Shake to receive random fortunes, roll dice, or flip a coin. Programmed via Arduino IDE with no-code Sensecraft HMI support for the ePaper interface. Powered by a 150mAh LiPo battery with built-in charging.",
-        "zh": "一个装在 3D 打印幸运饼干外壳里的 ESP32 互动小工具。基于 XIAO EPaper Display Board EE05（XIAO ESP32-S3 Plus），配 1.54\" 电子墨水屏和 MPU-6050 加速度传感器。摇晃即可获取随机签语、掷骰子或抛硬币。支持 Arduino IDE 编程和 Sensecraft HMI 无代码界面配置。150mAh 锂电池供电，内置充电电路。"
-      },
-      "author": {
-        "en": "gokux",
-        "zh": "gokux"
-      },
-      "tag": {
-        "en": "AI Gadget",
-        "zh": "AI Gadget"
-      },
-      "board": "XIAO ESP32-S3",
-      "url": "https://www.instructables.com/EFortune-Cookie-a-Tiny-ESP32-Fortune-Teller/",
-      "media_url": "https://content.instructables.com/F6G/WPQT/MOKK3HWT/F6GWPQTMOKK3HWT.jpg",
-      "date": "2026-05-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "Creating 4 Zigbee Devices on ESP32 in Home Assistant (Without Code)",
-        "zh": "在 Home Assistant 中创建 4 个 ESP32 Zigbee 设备（无需编程）"
-      },
-      "excerpt": {
-        "en": "A comprehensive tutorial (Russian) on building 4 Zigbee smart home devices using ESP32 boards featuring Seeed Studio XIAO. Covers Zigbee device creation, Home Assistant integration, and ESP32 Zigbee firmware flashing — all without writing code. Includes affiliate links for XIAO ESP32 boards and related smart home hardware.",
-        "zh": "俄语综合教程，使用 ESP32 开发板（含 Seeed Studio XIAO）制作 4 个 Zigbee 智能家居设备。涵盖 Zigbee 设备创建、Home Assistant 集成和 ESP32 Zigbee 固件刷写，全部无需编写代码。包含 XIAO ESP32 开发板及相关智能家居硬件的购买链接。"
-      },
-      "author": {
-        "en": "Китай Г. (Kitay G.)",
-        "zh": "Китай Г."
-      },
-      "tag": {
-        "en": "Smart Home",
-        "zh": "智能家居"
-      },
-      "board": "XIAO ESP32-C6",
-      "url": "https://www.youtube.com/watch?v=OfGnYurjj8Y",
-      "media_url": "https://i.ytimg.com/vi/OfGnYurjj8Y/maxresdefault.jpg",
-      "date": "2026-05-01",
-      "featured": false
-    },
-    {
-      "title": {
         "en": "Bit:busy — LED Bar That Indicates Your Work Status",
         "zh": "Bit:busy LED 工作状态指示条"
       },
@@ -595,52 +319,6 @@
       "board": "XIAO ESP32-C3",
       "url": "https://www.hackster.io/glutesha/bit-busy-led-bar-that-indicates-your-work-status-0fd501",
       "media_url": "https://hackster.imgix.net/uploads/attachments/1895412/_WzzfZpP47a.blob?auto=compress&w=1600&h=1200&fit=min&fm=jpg",
-      "date": "2026-05-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "AI Meeting Recorder using XIAO ESP32 S3 Sense",
-        "zh": "AI 会议记录器 — 基于 XIAO ESP32-S3 Sense"
-      },
-      "excerpt": {
-        "en": "A pocket-sized AI meeting recorder built with the Seeed Studio XIAO ESP32-S3 Sense. Records conversations and automatically generates detailed summaries using Elevenlabs and OpenAI APIs. Leverages the dual-core processor to chunk audio into 15-second segments for seamless real-time transcription without hitting memory limits. Inspired by the Neo Sapiens pitch on Shark Tank India.",
-        "zh": "一款口袋大小的 AI 会议记录器，基于 Seeed Studio XIAO ESP32-S3 Sense。录制对话内容，通过 Elevenlabs 和 OpenAI API 自动生成详细摘要。利用双核处理器将音频分块为 15 秒片段，实现无缝实时转录。灵感来自 Shark Tank India 的 Neo Sapiens 演示。"
-      },
-      "author": {
-        "en": "techiesms",
-        "zh": "techiesms"
-      },
-      "tag": {
-        "en": "AI Gadget",
-        "zh": "AI Gadget"
-      },
-      "board": "XIAO ESP32-S3 Sense",
-      "url": "https://www.youtube.com/watch?v=FhV9c0Vv3Ng",
-      "media_url": "https://i.ytimg.com/vi/FhV9c0Vv3Ng/maxresdefault.jpg",
-      "date": "2026-05-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "Getting Started with XIAO MG24 / XIAO MG24 Sense (Arduino)",
-        "zh": "XIAO MG24 / XIAO MG24 Sense Arduino 入门指南"
-      },
-      "excerpt": {
-        "en": "A comprehensive Japanese tutorial blog post on using the Seeed Studio XIAO MG24 and XIAO MG24 Sense in the Arduino environment. Covers basic GPIO, I2C (Wire/Wire1 troubleshooting), WS2812 LED control, DAC output, 6-axis IMU, PDM microphone, and BLE UART communication with practical troubleshooting advice.",
-        "zh": "一篇详细的日文博客教程，介绍如何在 Arduino 环境中使用 Seeed Studio XIAO MG24 和 XIAO MG24 Sense。涵盖 GPIO 基础、I2C（Wire/Wire1 问题排查）、WS2812 LED 控制、DAC 输出、6 轴 IMU、PDM 麦克风和 BLE UART 通信，附有实用的故障排除建议。"
-      },
-      "author": {
-        "en": "tamanegi",
-        "zh": "tamanegi"
-      },
-      "tag": {
-        "en": "Tools & Accessories",
-        "zh": "工具配件"
-      },
-      "board": "XIAO MG24, XIAO MG24 Sense",
-      "url": "https://tamanegi-digick.com/it/xiaomg24/",
-      "media_url": "https://tamanegi-digick.com/wp-content/uploads/2026/04/ec-xiaomg24.jpg",
       "date": "2026-05-01",
       "featured": false
     },
@@ -802,29 +480,6 @@
       "board": "XIAO RP2040",
       "url": "https://class.textile-academy.org/2026/pattaraporn-kittisapkajon/Gratitude%20Loom/",
       "media_url": "https://class.textile-academy.org/2026/pattaraporn-kittisapkajon/images/Development/A-Ritual-Instrument-for-Weaving-Presence.jpg",
-      "date": "2026-04-01",
-      "featured": false
-    },
-    {
-      "title": {
-        "en": "Biofeedback Device for Nerve Injury Exercises",
-        "zh": "神经损伤训练生物反馈设备"
-      },
-      "excerpt": {
-        "en": "A thin silicone facial wearable that uses embedded LEDs to provide visual cues for therapeutic muscle exercises after a facial nerve injury. The prototype uses a FabriXIAO breakout board with XIAO ESP32-C3 and supports button-controlled alternating light sequences.",
-        "zh": "一款薄型硅胶面部可穿戴设备，通过嵌入式 LED 为面部神经损伤后的肌肉训练提供视觉提示。原型使用搭载 XIAO ESP32-C3 的 FabriXIAO 扩展板，并支持按钮控制的交替灯光序列。"
-      },
-      "author": {
-        "en": "Maddie Olsen",
-        "zh": "Maddie Olsen"
-      },
-      "tag": {
-        "en": "Wearables",
-        "zh": "可穿戴"
-      },
-      "board": "XIAO ESP32-C3",
-      "url": "https://class.textile-academy.org/2026/madeleine-olsen/assignments/week12/",
-      "media_url": "https://class.textile-academy.org/2026/madeleine-olsen/images/week12/week12-schematic.png",
       "date": "2026-04-01",
       "featured": false
     },
@@ -1060,52 +715,415 @@
     },
     {
       "title": {
-        "en": "Build a Speaking Alarm Clock Using XIAO ESP32-S3",
-        "zh": "用 XIAO ESP32-S3 制作语音报时闹钟"
+        "en": "Open source ESP32 AI Chatbot - DIY",
+        "zh": "开源 ESP32 AI 聊天机器人 DIY"
       },
       "excerpt": {
-        "en": "DIY speaking alarm clock using XIAO ESP32-S3 with real voice output.",
-        "zh": "使用 XIAO ESP32-S3 制作带语音播报功能的闹钟。"
+        "en": "DIY AI assistant using XIAO ESP32-S3 with I2S audio modules for voice interaction.",
+        "zh": "用 XIAO ESP32-S3 加 I2S 音频模块 DIY AI 助手，支持语音交互。"
       },
       "author": {
-        "en": "Circuit Digest",
-        "zh": "Circuit Digest"
+        "en": "EDISON SCIENCE CORNER",
+        "zh": "EDISON SCIENCE CORNER"
+      },
+      "tag": {
+        "en": "AI Gadget",
+        "zh": "AI Gadget"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://www.youtube.com/watch?v=B7jzMLpdjqo",
+      "media_url": "https://i.ytimg.com/vi/B7jzMLpdjqo/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "I Built an AI Desk Assistant That Can Rewrite it's Own Code!",
+        "zh": "我会自己写代码的 AI 桌面助手"
+      },
+      "excerpt": {
+        "en": "AI desk assistant that can rewrite its own code, built with XIAO ESP32-S3 Sense featuring touch display.",
+        "zh": "用 XIAO ESP32-S3 Sense 制作的桌面 AI 助手，能自己改写代码，带触摸屏。"
+      },
+      "author": {
+        "en": "Naz Louis",
+        "zh": "Naz Louis"
+      },
+      "tag": {
+        "en": "AI Gadget",
+        "zh": "AI Gadget"
+      },
+      "board": "XIAO ESP32-S3 Sense",
+      "url": "https://www.youtube.com/watch?v=NAz847JrGU4",
+      "media_url": "https://i.ytimg.com/vi/NAz847JrGU4/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "Running AI Agent on ESP32 S3 Board",
+        "zh": "在 ESP32 S3 开发板上运行 AI Agent"
+      },
+      "excerpt": {
+        "en": "Run the ESP Claw AI agent on an ESP32-S3 development board.",
+        "zh": "在XIAO ESP32-S3上跑ESP Claw。"
+      },
+      "author": {
+        "en": "techiesms",
+        "zh": "techiesms"
+      },
+      "tag": {
+        "en": "AI Gadget",
+        "zh": "AI Gadget"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://www.youtube.com/watch?v=S0czt7Ld5fw",
+      "media_url": "https://i.ytimg.com/vi/S0czt7Ld5fw/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "Make Your Own Fallout Smart Watch",
+        "zh": "自制 Fallout 风格智能手表"
+      },
+      "excerpt": {
+        "en": "DIY Fallout-style smart watch powered by XIAO ESP32-S3 with custom retro post-apocalyptic UI.",
+        "zh": "用 XIAO ESP32-S3 制作的 Fallout 风格智能手表，带复古末日主题 UI。"
+      },
+      "author": {
+        "en": "Huy Vector",
+        "zh": "Huy Vector"
+      },
+      "tag": {
+        "en": "Wearables",
+        "zh": "可穿戴"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://www.youtube.com/watch?v=wQn11GyUdrk",
+      "media_url": "https://i.ytimg.com/vi/wQn11GyUdrk/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "DIY Zigbee Temperature Sensor with XIAO ESP32C6",
+        "zh": "DIY XIAO ESP32C6 Zigbee 温湿度传感器"
+      },
+      "excerpt": {
+        "en": "Build your own Zigbee temperature sensor with XIAO ESP32C6 using PlatformIO and Home Assistant.",
+        "zh": "用 XIAO ESP32C6 配合 PlatformIO 和 Home Assistant 搭建自己的 Zigbee 温湿度传感器。"
+      },
+      "author": {
+        "en": "pixeledi Tech Hub",
+        "zh": "pixeledi Tech Hub"
+      },
+      "tag": {
+        "en": "Smart Home",
+        "zh": "智能家居"
+      },
+      "board": "XIAO ESP32-C6",
+      "url": "https://www.youtube.com/watch?v=BghjrjYVG8Y",
+      "media_url": "https://i.ytimg.com/vi/BghjrjYVG8Y/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "Meshtastic with XIAO nRF52840",
+        "zh": "Meshtastic XIAO nRF52840 mesh 网络"
+      },
+      "excerpt": {
+        "en": "Mesh networking solution using XIAO nRF52840 with Meshtastic firmware for long-range off-grid communication.",
+        "zh": "用 XIAO nRF52840 加 Meshtastic 固件实现远距离离线 mesh 网络通信。"
+      },
+      "author": {
+        "en": "Ham Radio DX",
+        "zh": "Ham Radio DX"
+      },
+      "tag": {
+        "en": "Telecommunication",
+        "zh": "通信"
+      },
+      "board": "XIAO nRF52840 (XIAO BLE)",
+      "url": "https://www.youtube.com/watch?v=7CpB9z0BtgM",
+      "media_url": "https://i.ytimg.com/vi/7CpB9z0BtgM/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "pico-cec",
+        "zh": "pico-cec HDMI 适配器"
+      },
+      "excerpt": {
+        "en": "HDMI CEC to USB HID keyboard adapter. Supports XIAO RP2350 and Raspberry Pi Pico boards.",
+        "zh": "HDMI CEC 转 USB HID 键盘适配器"
+      },
+      "author": {
+        "en": "gkoh",
+        "zh": "gkoh"
+      },
+      "tag": {
+        "en": "Tools & Accessories",
+        "zh": "工具配件"
+      },
+      "board": "XIAO RP2040, XIAO RP2350",
+      "url": "https://github.com/gkoh/pico-cec",
+      "media_url": "https://github.com/user-attachments/assets/7b971a8d-e5fd-4bc1-8ff5-a342004288a5",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "Smart Matter Button using XIAO ESP32 C6",
+        "zh": "智能 Matter 按钮"
+      },
+      "excerpt": {
+        "en": "Tutorial on building a smart Matter button using Seeed XIAO ESP32 C6 with Arduino.",
+        "zh": "使用 Seeed XIAO ESP32 C6 构建智能 Matter 按钮的教程"
+      },
+      "author": {
+        "en": "techiesms",
+        "zh": "techiesms"
+      },
+      "tag": {
+        "en": "Smart Home",
+        "zh": "智能家居"
+      },
+      "board": "XIAO ESP32-C6",
+      "url": "https://www.youtube.com/watch?v=wokw847hjKM",
+      "media_url": "https://i.ytimg.com/vi/wokw847hjKM/maxresdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "VFD Display with XIAO ESP32S3 NTP Clock",
+        "zh": "VFD 显示 NTP 时钟"
+      },
+      "excerpt": {
+        "en": "Build a VFD display clock with animations using Seeed XIAO ESP32S3 and NTP time sync.",
+        "zh": "使用 XIAO ESP32S3 构建 VFD 显示时钟"
+      },
+      "author": {
+        "en": "iHayri1",
+        "zh": "iHayri1"
       },
       "tag": {
         "en": "Smart Home",
         "zh": "智能家居"
       },
       "board": "XIAO ESP32-S3",
-      "url": "https://www.youtube.com/shorts/BvSES4DGh6c",
-      "media_url": "https://i.ytimg.com/vi/BvSES4DGh6c/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=ToGKmtNXNh8",
+      "media_url": "https://i.ytimg.com/vi/ToGKmtNXNh8/maxresdefault.jpg",
       "date": "2026-04-01",
       "featured": false
     },
     {
       "title": {
-        "en": "ESP32-Bus-Pirate",
-        "zh": "ESP32-Bus-Pirate"
+        "en": "Solar Powered Water Tank Level Sensor V2",
+        "zh": "太阳能水位传感器"
       },
       "excerpt": {
-        "en": "A Hardware Hacking Tool with Web-Based CLI That Speaks Every Protocol. Supports I2C, SPI, UART, 1-Wire, JTAG, BLE, Wi-Fi, Sub-GHz, RFID via web terminal.",
-        "zh": "Web CLI 硬件黑客工具，支持 I2C、SPI、UART、1-Wire、JTAG、BLE、Wi-Fi、Sub-GHz、RFID 等多种协议。"
+        "en": "Build a solar powered wireless water tank level sensor using Xiao ESP32C3 with BLE.",
+        "zh": "使用 Xiao ESP32C3 和 BLE 构建太阳能无线水位传感器"
       },
       "author": {
-        "en": "geo-tp",
-        "zh": "geo-tp"
+        "en": "Electronic Clinic",
+        "zh": "Electronic Clinic"
+      },
+      "tag": {
+        "en": "Smart Home",
+        "zh": "智能家居"
+      },
+      "board": "XIAO ESP32-C3",
+      "url": "https://www.youtube.com/watch?v=J7URXH6Qo6Q",
+      "media_url": "https://i.ytimg.com/vi/J7URXH6Qo6Q/maxresdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "Voice-Controlled Robot Dog",
+        "zh": "语音控制机器狗"
+      },
+      "excerpt": {
+        "en": "Build a voice-controlled quadruped robot dog using Seeed XIAO ESP32S3.",
+        "zh": "使用 Seeed XIAO ESP32S3 构建语音控制四足机器狗"
+      },
+      "author": {
+        "en": "Tech Talkies",
+        "zh": "Tech Talkies"
+      },
+      "tag": {
+        "en": "Robotics",
+        "zh": "机器人"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://www.youtube.com/watch?v=QQHyo7KlaQk",
+      "media_url": "https://i.ytimg.com/vi/QQHyo7KlaQk/maxresdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "Embassy Rust + XIAO BLE - Digital Input",
+        "zh": "Embassy Rust XIAO BLE 数字输入"
+      },
+      "excerpt": {
+        "en": "Tutorial on using Embassy Rust framework with Seeed XIAO BLE for digital input.",
+        "zh": "使用 Embassy Rust 框架和 XIAO BLE 的数字输入教程"
+      },
+      "author": {
+        "en": "Sarmad Gulzar",
+        "zh": "Sarmad Gulzar"
+      },
+      "tag": {
+        "en": "Robotics",
+        "zh": "机器人"
+      },
+      "board": "XIAO nRF52840 (XIAO BLE)",
+      "url": "https://www.youtube.com/watch?v=Rmd7PqXNT28",
+      "media_url": "https://i.ytimg.com/vi/Rmd7PqXNT28/maxresdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "DIY Zigbee Smart Home with ESP32-C6",
+        "zh": "DIY Zigbee 智能家居"
+      },
+      "excerpt": {
+        "en": "DIY Zigbee Smart Home with ESP32-C6: Door Sensor, Lights & Temperature.",
+        "zh": "使用 ESP32-C6 构建 DIY Zigbee 智能家居：门传感器、灯光和温度。"
+      },
+      "author": {
+        "en": "BMonster Laboratory",
+        "zh": "BMonster Laboratory"
+      },
+      "tag": {
+        "en": "Smart Home",
+        "zh": "智能家居"
+      },
+      "board": "XIAO ESP32-C6",
+      "url": "https://www.youtube.com/watch?v=HzwI6xXlNrE",
+      "media_url": "https://i.ytimg.com/vi/HzwI6xXlNrE/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "Smart Air Quality Sensor for Home Assistant",
+        "zh": "Home Assistant 智能空气质量传感器"
+      },
+      "excerpt": {
+        "en": "I Built a Smart Air Quality Sensor for Home Assistant using ESP32-C5.",
+        "zh": "使用 ESP32-C5 为 Home Assistant 构建智能空气质量传感器。"
+      },
+      "author": {
+        "en": "J-Rat Techworks",
+        "zh": "J-Rat Techworks"
+      },
+      "tag": {
+        "en": "Smart Home",
+        "zh": "智能家居"
+      },
+      "board": "XIAO ESP32-C5",
+      "url": "https://www.youtube.com/watch?v=AuWQobj5qaU",
+      "media_url": "https://i.ytimg.com/vi/AuWQobj5qaU/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "DIY AI Desk Buddy",
+        "zh": "DIY AI 桌面助手"
+      },
+      "excerpt": {
+        "en": "This DIY AI Desk Buddy built with XIAO ESP32-S3 that can understand voice commands and respond like a real assistant.",
+        "zh": "这个 DIY AI 桌面助手基于 XIAO ESP32-S3，能理解语音命令并像真正的助手一样回应。"
+      },
+      "author": {
+        "en": "Pro maker 101",
+        "zh": "Pro maker 101"
+      },
+      "tag": {
+        "en": "AI Gadget",
+        "zh": "AI Gadget"
+      },
+      "board": "XIAO ESP32-S3",
+      "url": "https://www.youtube.com/watch?v=WIUowv3Huhk",
+      "media_url": "https://i.ytimg.com/vi/WIUowv3Huhk/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "ESP32 WiFiManager Tutorial",
+        "zh": "ESP32 WiFiManager 教程"
+      },
+      "excerpt": {
+        "en": "Setup ESP32 WiFi From Your Phone! Ultimate WiFiManager Tutorial featuring XIAO ESP32-C3.",
+        "zh": "用手机设置 ESP32 WiFi！终极 WiFiManager 教程，介绍 XIAO ESP32-C3。"
+      },
+      "author": {
+        "en": "BJD Solutions",
+        "zh": "BJD Solutions"
       },
       "tag": {
         "en": "Tools & Accessories",
         "zh": "工具配件"
       },
+      "board": "XIAO ESP32-C3",
+      "url": "https://www.youtube.com/watch?v=5HjYeiXsTLg",
+      "media_url": "https://i.ytimg.com/vi/5HjYeiXsTLg/hqdefault.jpg",
+      "date": "2026-04-01",
+      "featured": false
+    },
+    {
+      "title": {
+        "en": "WIFI Controlled Car with GYROSCOPE",
+        "zh": "WiFi 控制陀螺仪小车"
+      },
+      "excerpt": {
+        "en": "How to make WIFI Controlled Car with GYROSCOPE and Normal Control using XIAO ESP32-S3, L298N Motor Driver, BO Motor.",
+        "zh": "如何使用 XIAO ESP32-S3、L298N 电机驱动、BO 电机制作 WiFi 控制陀螺仪小车。"
+      },
+      "author": {
+        "en": "roboattic Lab",
+        "zh": "roboattic Lab"
+      },
+      "tag": {
+        "en": "Robotics",
+        "zh": "机器人"
+      },
       "board": "XIAO ESP32-S3",
-      "url": "https://github.com/geo-tp/ESP32-Bus-Pirate",
-      "media_url": "https://avatars.githubusercontent.com/u/72315006?v=4",
+      "url": "https://www.youtube.com/watch?v=QAcoPOQ87BI",
+      "media_url": "https://i.ytimg.com/vi/QAcoPOQ87BI/hqdefault.jpg",
       "date": "2026-04-01",
       "featured": false
     }
   ],
   "news": [
+    {
+      "title": "XIAO MG24 (Sense) Expanded Matter and Zigbee Supports with Silicon Labs Arduino Core 5.0",
+      "excerpt": "Building connected devices often means choosing a wireless protocol before you even start developing. Matter,",
+      "date": "2026-09-20",
+      "url": "https://www.seeedstudio.com/blog/2026/09/20/xiao-mg24-sense-expanded-matter-and-zigbee-supports-with-silicon-labs-arduino-core-5-0/",
+      "media_url": "https://www.seeedstudio.com/blog/wp-content/uploads/2026/09/20260920-152148.jpg",
+      "source": "Ellie Cai",
+      "tag": "Seeed Blog"
+    },
+    {
+      "title": "XIAO IPS Display Series Now Has Wi-Fi: Meet the XIAO IPS Display (ESP32S3) Series",
+      "excerpt": "Last week we launched the XIAO IPS Display Series on the XIAO nRF52840 Plus —",
+      "date": "2026-09-15",
+      "url": "https://www.seeedstudio.com/blog/2026/09/15/xiao-ips-display-series-now-has-wi-fi-meet-the-xiao-ips-display-esp32s3-series/",
+      "media_url": "https://www.seeedstudio.com/blog/wp-content/uploads/2026/09/1-_ESP32S3-SNS.jpg",
+      "source": "Ellie Cai",
+      "tag": "Seeed Blog"
+    },
     {
       "title": "Meet the XIAO IPS Display (nRF52840) Series: Display, Motion, Sound, and BLE in One Tiny Board",
       "excerpt": "The XIAO IPS Display (nRF52840) Series is a family of ready-to-use smart device boards, available in three sizes — 1.47″, 1.14″, and 0.96″. Each board pairs a color IPS display with a 6-axis IMU, a PDM digital microphone, and Bluetooth Low Energy via the pre-soldered XIAO nRF52840 Plus, plus onboard LiPo battery management — all pre-wired on a single board.",
@@ -1194,24 +1212,6 @@
       "url": "https://www.seeedstudio.com/blog/2026/06/09/xiao-project-hub/",
       "media_url": "https://www.seeedstudio.com/blog/wp-content/uploads/2026/06/Multicolored-Aesthetic-Photo-Collage-Vision-Board-Poster-YouTube-Thumbnail.png",
       "source": "Kezang Loday",
-      "tag": "Seeed Blog"
-    },
-    {
-      "title": "Keymera: Build Your Own 3D-Printed Keychain Camera with XIAO ESP32S3 Sense",
-      "excerpt": "In a world where smartphones handle nearly all of our photography, maker and designer Matej",
-      "date": "2026-06-01",
-      "url": "https://www.seeedstudio.com/blog/2026/06/01/keymera-diy-3d-printed-keychain-camera-xiao-esp32s3-sense/",
-      "media_url": "https://www.seeedstudio.com/blog/wp-content/uploads/2026/06/cover4.jpg",
-      "source": "Kezang Loday",
-      "tag": "Seeed Blog"
-    },
-    {
-      "title": "Wireless Security Testing with XIAO ESP32-C5: A Guide to Dual-Band Wi-Fi 6 & IoT Auditing",
-      "excerpt": "Explore real-world wireless security case studies using the XIAO ESP32-C5. See how researchers deploy this dual-band Wi-Fi 6 chip for wardriving and audits.",
-      "date": "2026-05-21",
-      "url": "https://www.seeedstudio.com/blog/2026/05/21/wireless-security-testing-with-xiao-esp32-c5-a-guide-to-dual-band-wi-fi-6-iot-auditing/",
-      "media_url": "https://www.seeedstudio.com/blog/wp-content/uploads/2026/05/容器-128.jpg",
-      "source": "Josie",
       "tag": "Seeed Blog"
     }
   ]

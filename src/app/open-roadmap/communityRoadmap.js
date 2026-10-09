@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useLang } from "../i18n";
 import { Reveal } from "../reveal";
 import { Glow } from "../Glow";
@@ -9,26 +9,63 @@ import { withBase } from "../../lib/basePath";
 import discussionData from "../../../public/open-roadmap/discussions.json";
 import styles from "./community-roadmap.module.css";
 
-const STATUS_CLASS = {
-  idea: styles.sIdea,
-  review: styles.sReview,
-  vote: styles.sVote,
-  planned: styles.sPlanned,
-  dev: styles.sDev,
-  done: styles.sDone,
-  nope: styles.sNope,
-};
+const GITHUB_DISCUSSIONS = "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions";
+const HOW_IT_WORKS_URL = "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/1";
 
-const TAB_DEFS = [
-  { id: "all", label: { en: "All", zh: "全部" }, filter: () => true },
-  { id: "vote", label: { en: "Open for Vote", zh: "公开投票" }, filter: (i) => i.status === "vote" },
-  { id: "planned", label: { en: "Planned", zh: "已规划" }, filter: (i) => i.status === "planned" },
-  { id: "dev", label: { en: "In Development", zh: "开发中" }, filter: (i) => i.status === "dev" },
-  { id: "done", label: { en: "Completed", zh: "已完成" }, filter: (i) => i.status === "done" },
-  { id: "help", label: { en: "Help Needed", zh: "需要帮助" }, filter: (i) => i.helpNeeded || i.status === "review" },
+/** Board columns in lifecycle order (Help Needed is a separate rail). */
+const STAGES = [
+  {
+    id: "wish",
+    label: { en: "Wish List", zh: "愿望清单" },
+    blurb: {
+      en: "Fresh ideas from the community",
+      zh: "社区提出的新想法",
+    },
+  },
+  {
+    id: "vote",
+    label: { en: "Open for Vote", zh: "公开投票" },
+    blurb: {
+      en: "Cast your vote on GitHub",
+      zh: "去 GitHub 投下你的一票",
+    },
+  },
+  {
+    id: "dev",
+    label: { en: "In Development", zh: "开发中" },
+    blurb: {
+      en: "Seeed is building these now",
+      zh: "Seeed 正在推进开发",
+    },
+  },
+  {
+    id: "done",
+    label: { en: "Accomplished", zh: "已完成" },
+    blurb: {
+      en: "Shipped from community ideas",
+      zh: "已从社区想法落地",
+    },
+  },
 ];
 
-const GITHUB_DISCUSSIONS = "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions";
+const HELP_STAGE = {
+  id: "help",
+  label: { en: "Help Needed", zh: "需要帮助" },
+  blurb: {
+    en: "Discussions looking for community input",
+    zh: "需要社区一起推进的讨论",
+  },
+};
+
+const REACTION_META = [
+  { key: "thumbsUp", emoji: "👍" },
+  { key: "hooray", emoji: "🎉" },
+  { key: "heart", emoji: "❤️" },
+  { key: "rocket", emoji: "🚀" },
+  { key: "eyes", emoji: "👀" },
+];
+
+const AVATAR_VISIBLE = 5;
 
 function relativeDate(iso, lang) {
   if (!iso) return "";
@@ -44,57 +81,269 @@ function relativeDate(iso, lang) {
   if (months === 1) return lang === "zh" ? "1 个月前" : "1 month ago";
   if (months < 12) return lang === "zh" ? `${months} 个月前` : `${months} months ago`;
   const years = Math.floor(months / 12);
-  return lang === "zh" ? (years === 1 ? "1 年前" : `${years} 年前`) : years === 1 ? "1 year ago" : `${years} years ago`;
+  return lang === "zh"
+    ? years === 1
+      ? "1 年前"
+      : `${years} 年前`
+    : years === 1
+      ? "1 year ago"
+      : `${years} years ago`;
+}
+
+function pickReactions(reactions) {
+  const list = REACTION_META.map((meta) => ({
+    ...meta,
+    count: (reactions && reactions[meta.key]) || 0,
+  })).filter((r) => r.count > 0);
+  if (list.length === 0) {
+    return [{ key: "thumbsUp", emoji: "👍", count: 0 }];
+  }
+  return list.slice(0, 3);
+}
+
+function IdeaCard({ item, lang, labels }) {
+  const title = (item.title && (item.title[lang] || item.title.en)) || "";
+  const excerpt = (item.excerpt && (item.excerpt[lang] || item.excerpt.en)) || "";
+  const topics = item.topics || [];
+  const participants = item.participants || [];
+  const participantCount = item.participantCount || participants.length;
+  const visibleAvatars = participants.slice(0, AVATAR_VISIBLE);
+  const overflow = Math.max(0, participantCount - visibleAvatars.length);
+  const reactions = pickReactions(item.reactions);
+  const activityIso = item.lastActivityAt || item.updatedAt || item.createdAt;
+  const badges = [];
+  if (item.seeedReplied) badges.push({ key: "seeed", className: styles.badgeSeeed, text: labels.seeed });
+  if (item.answered) badges.push({ key: "answered", className: styles.badgeAnswered, text: labels.answered });
+  if (item.closed) badges.push({ key: "closed", className: styles.badgeClosed, text: labels.closed });
+
+  return (
+    <div className={styles.ideaSlot}>
+      <a
+        className={styles.ideaCard}
+        href={item.url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <div className={styles.ideaBody}>
+          <div className={styles.ideaHead}>
+            <div className={styles.ideaHeadText}>
+              <h3 className={styles.ideaTitle}>{title}</h3>
+              {excerpt ? <p className={styles.ideaExcerpt}>{excerpt}</p> : null}
+            </div>
+            {item.image ? (
+              <div className={`${styles.ideaThumb} ${styles.ideaThumbHot}`}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={item.image} alt="" loading="lazy" />
+              </div>
+            ) : null}
+          </div>
+
+          {topics.length > 0 ? (
+            <div className={styles.topicRow}>
+              {topics.map((topic) => (
+                <span key={topic} className={styles.topicChip}>
+                  {topic}
+                </span>
+              ))}
+            </div>
+          ) : null}
+
+          {badges.length > 0 ? (
+            <div className={styles.badgeRow}>
+              {badges.map((badge) => (
+                <span key={badge.key} className={`${styles.badge} ${badge.className}`}>
+                  {badge.text}
+                </span>
+              ))}
+            </div>
+          ) : null}
+
+          <div className={styles.signalRow}>
+            <div className={styles.participantBlock}>
+              {visibleAvatars.length > 0 ? (
+                <div className={styles.avatarStack} aria-hidden="true">
+                  {visibleAvatars.map((person) =>
+                    person.avatar ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        key={person.login}
+                        src={person.avatar}
+                        alt=""
+                        title={person.login}
+                        loading="lazy"
+                        width={24}
+                        height={24}
+                      />
+                    ) : (
+                      <span key={person.login} className={styles.avatarFallback} title={person.login}>
+                        {(person.login || "?").slice(0, 1).toUpperCase()}
+                      </span>
+                    )
+                  )}
+                  {overflow > 0 ? <span className={styles.avatarMore}>+{overflow}</span> : null}
+                </div>
+              ) : null}
+              <span className={styles.participantLabel}>
+                {participantCount}{" "}
+                {participantCount === 1 ? labels.participant : labels.participants}
+              </span>
+            </div>
+            <div className={styles.reactionRow}>
+              {reactions.map((reaction) => (
+                <span key={reaction.key} className={styles.reaction}>
+                  <span aria-hidden="true">{reaction.emoji}</span>
+                  {reaction.count}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.ideaFoot}>
+            <span className={styles.statMuted}>
+              {labels.active} {relativeDate(activityIso, lang)}
+            </span>
+            <span className={styles.stat} title="Comments">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v6A2.5 2.5 0 0 1 16.5 15H11l-4 3.5V15H7.5A2.5 2.5 0 0 1 5 12.5v-6Z"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              {item.comments}
+            </span>
+          </div>
+        </div>
+      </a>
+      {item.image ? (
+        <div className={styles.ideaZoom} aria-hidden="true">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={item.image} alt="" loading="lazy" />
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+/**
+ * Column header: numbered stage node on a left-to-right flow rail,
+ * followed by the stage title, count and blurb.
+ * 列头：流程线上的编号节点，下方是阶段名称、数量与说明。
+ */
+function StageHeader({ stage, count, lang, step, total, stepLabel }) {
+  const label = stage.label[lang] || stage.label.en;
+  const blurb = stage.blurb[lang] || stage.blurb.en;
+  const isFirst = step === 1;
+  const isLast = step === total;
+  const railClass = [
+    styles.stageRail,
+    isFirst ? styles.stageRailFirst : "",
+    isLast ? styles.stageRailLast : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return (
+    <header className={styles.stageHead}>
+      {step ? (
+        <div className={railClass} aria-hidden="true">
+          <span className={styles.stageNode}>{step}</span>
+          {!isLast ? (
+            <svg className={styles.stageArrow} viewBox="0 0 10 12" fill="currentColor">
+              <path d="M1.4 1.55c0-1.03 1.14-1.65 2-1.1l6.1 3.9a1.35 1.35 0 0 1 0 2.3l-6.1 3.9c-.86.55-2-.07-2-1.1V1.55Z" />
+            </svg>
+          ) : null}
+        </div>
+      ) : null}
+      <div className={styles.stageTitleRow}>
+        <div className={styles.stageTitleText}>
+          {step ? (
+            <span className={styles.stageEyebrow}>
+              {stepLabel} {String(step).padStart(2, "0")}
+            </span>
+          ) : null}
+          <h2 id={`stage-${stage.id}`} className={`${styles.columnTitle} scroll-mt-24`}>
+            {label}
+          </h2>
+        </div>
+        <span className={styles.columnCount}>{count}</span>
+      </div>
+      <p className={styles.columnBlurb}>{blurb}</p>
+    </header>
+  );
+}
+
+function StageColumn({ stage, items, lang, emptyLabel, labels, step, total, stepLabel }) {
+  const toneClass = styles[`tone_${stage.id}`] || "";
+  return (
+    <section
+      className={`${styles.column} ${toneClass}`}
+      aria-labelledby={`stage-${stage.id}`}
+    >
+      <StageHeader
+        stage={stage}
+        count={items.length}
+        lang={lang}
+        step={step}
+        total={total}
+        stepLabel={stepLabel}
+      />
+      <div className={styles.columnBody}>
+        {items.length === 0 ? (
+          <p className={`home-type-body ${styles.columnEmpty}`}>{emptyLabel}</p>
+        ) : (
+          items.map((item) => (
+            <IdeaCard key={item.id} item={item} lang={lang} labels={labels} />
+          ))
+        )}
+      </div>
+    </section>
+  );
 }
 
 export function CommunityRoadmap() {
   const { lang } = useLang();
-  const items = discussionData;
-  const [tabId, setTabId] = useState("all");
-  const [active, setActive] = useState(null);
 
   const T = {
     h1: lang === "zh" ? "XIAO 开放路线图" : "XIAO Open Roadmap",
-    sub: lang === "zh"
-      ? "下一步做什么，由你决定"
-      : "You decide what we build next",
-    btnAll: lang === "zh" ? "查看全部想法" : "View all ideas",
-    btnSubmit: lang === "zh" ? "在 GitHub 提交想法 ↗" : "Submit an idea on GitHub ↗",
-    count: (n) => lang === "zh" ? `${n} 条想法` : `${n} ${n === 1 ? "idea" : "ideas"}`,
-    empty: lang === "zh" ? "该分类下暂无想法。" : "No ideas in this category yet.",
-    votes: lang === "zh" ? "票" : "votes",
-    comments: (n) => lang === "zh" ? `${n} 条评论` : `${n} comments`,
-    updated: (s) => lang === "zh" ? `更新于 ${s}` : `updated ${s}`,
-    voteGithub: lang === "zh" ? "去 GitHub 投票 ↗" : "Vote on GitHub ↗",
-    drawerKicker: lang === "zh" ? "想法详情" : "Idea detail",
-    support: lang === "zh" ? "社区支持" : "Community support",
-    ghComments: lang === "zh" ? "GitHub 评论" : "GitHub comments",
-    proposed: lang === "zh" ? "提案内容" : "What is being proposed",
-    why: lang === "zh" ? "为何重要" : "Why it matters",
-    update: lang === "zh" ? "Seeed 最新进展" : "Latest update from Seeed",
-    fullDiscussion: lang === "zh" ? "在 GitHub 查看完整讨论 ↗" : "View full discussion on GitHub ↗",
+    sub:
+      lang === "zh"
+        ? "下一步做什么，由你决定"
+        : "You decide what we build next",
+    btnSubmit: lang === "zh" ? "在 GitHub 提交想法" : "Submit an idea on GitHub",
+    howItWorks: lang === "zh" ? "路线图如何运作" : "How the roadmap works",
+    empty: lang === "zh" ? "这一阶段暂无条目。" : "No ideas in this stage yet.",
+    seeed: lang === "zh" ? "Seeed 已回复" : "Seeed replied",
+    answered: lang === "zh" ? "已解答" : "Answered",
+    closed: lang === "zh" ? "已关闭" : "Closed",
+    participant: lang === "zh" ? "位参与者" : "participant",
+    participants: lang === "zh" ? "位参与者" : "participants",
+    active: lang === "zh" ? "活跃" : "Active",
+    step: lang === "zh" ? "阶段" : "Stage",
   };
 
-  useEffect(() => {
-    if (!active) return;
-    const onKey = (e) => { if (e.key === "Escape") setActive(null); };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [active]);
+  const cardLabels = {
+    seeed: T.seeed,
+    answered: T.answered,
+    closed: T.closed,
+    participant: T.participant,
+    participants: T.participants,
+    active: T.active,
+  };
 
-  const pick = (field) => (field && field[lang]) || (field && field.en) || "";
-
-  const tab = TAB_DEFS.find((t) => t.id === tabId) ?? TAB_DEFS[0];
-  const visible = useMemo(() => items.filter((item) => tab.filter(item)), [items, tab]);
-  const tabCounts = useMemo(() => {
-    const m = { all: items.length };
-    TAB_DEFS.forEach((t) => { m[t.id] = items.filter(t.filter).length; });
-    return m;
-  }, [items]);
+  const byStage = useMemo(() => {
+    const map = { wish: [], vote: [], dev: [], done: [], help: [] };
+    for (const item of discussionData) {
+      const key = map[item.stage] ? item.stage : "wish";
+      map[key].push(item);
+    }
+    return map;
+  }, []);
 
   return (
     <div className={styles.roadmap}>
-      <Reveal as="section" className={styles.roadmapHero}>
+      <Reveal as="section" id="top" className={styles.roadmapHero}>
         <Image
           src={withBase("/openroadmap-hero.webp")}
           alt=""
@@ -103,130 +352,82 @@ export function CommunityRoadmap() {
           priority
         />
         <div className={styles.heroShade} />
-        <div className={styles.heroCopy}>
-          <Glow as="h1">{T.h1}</Glow>
-          <p>{T.sub}</p>
+        <div className={`page-hero-copy ${styles.heroCopy}`}>
+          <Glow
+            as="h1"
+            className="home-type-hero-title text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]"
+          >
+            {T.h1}
+          </Glow>
+          <p className="page-hero-description home-type-body text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]">
+            {T.sub}
+          </p>
           <div className={styles.headActions}>
-            <a className={`${styles.btn} ${styles.btnPrimary}`} href="#ideas">{T.btnAll}</a>
-            <a className={`${styles.btn} ${styles.btnSecondary}`} href={GITHUB_DISCUSSIONS} target="_blank" rel="noopener">
+            <a
+              className="home-type-action home-filled-action home-primary-cta"
+              href={GITHUB_DISCUSSIONS}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "#fff" }}
+            >
               {T.btnSubmit}
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </a>
+            <a
+              className={`home-type-action home-text-action ${styles.howLink}`}
+              href={HOW_IT_WORKS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {T.howItWorks} ↗
             </a>
           </div>
         </div>
       </Reveal>
 
       <div className={styles.wrap}>
-        <div className={styles.filters} id="ideas">
-          <div className={styles.filterRow} aria-label={lang === "zh" ? "按状态筛选" : "Filter by status"}>
-            <span className={styles.filterLabel}>{lang === "zh" ? "状态" : "Status"}</span>
-            {TAB_DEFS.map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                className={`${styles.tab} ${t.id === tabId ? styles.active : ""}`}
-                onClick={() => setTabId(t.id)}
-              >
-                {pick(t.label)}<span className={styles.tabCount}>{tabCounts[t.id]}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className={styles.listMeta}>
-          {T.count(visible.length)}
-        </div>
-
-        <div className={styles.list}>
-          {visible.length === 0 && (
-            <div className={styles.empty}>{T.empty}</div>
-          )}
-          {visible.map((it) => (
-            <article key={it.id} className={styles.card} onClick={() => setActive(it)}>
-              <div className={styles.cardTop}>
-                <div className={styles.vote}>
-                  <b>▲ {it.votes}</b>
-                  <small>{T.votes}</small>
-                </div>
-                <div className={styles.cardMain}>
-                  <span className={`${styles.status} ${STATUS_CLASS[it.status] || styles.sIdea}`}>{pick(it.statusLabel)}</span>
-                  <h3 className={styles.cardTitle}>{pick(it.title)}</h3>
-                  <p className={styles.cardSummary}>{pick(it.summary)}</p>
-                  <div className={styles.cardMeta}>
-                    <span>💬 {T.comments(it.comments)}</span>
-                    <span className={styles.metaDot} />
-                    <span>{T.updated(relativeDate(it.updated, lang))}</span>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.cardFoot}>
-                <a
-                  className={styles.voteLink}
-                  href={it.githubUrl}
-                  target="_blank"
-                  rel="noopener"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {T.voteGithub}
-                </a>
-              </div>
-            </article>
+        <div className={styles.board}>
+          {STAGES.map((stage, index) => (
+            <StageColumn
+              key={stage.id}
+              stage={stage}
+              items={byStage[stage.id]}
+              lang={lang}
+              emptyLabel={T.empty}
+              labels={cardLabels}
+              step={index + 1}
+              total={STAGES.length}
+              stepLabel={T.step}
+            />
           ))}
         </div>
+
+        <section className={`${styles.helpRail} ${styles.tone_help}`} aria-labelledby="stage-help">
+          <StageHeader stage={HELP_STAGE} count={byStage.help.length} lang={lang} />
+          <div className={styles.helpBody}>
+            {byStage.help.length === 0 ? (
+              <p className={`home-type-body ${styles.columnEmpty}`}>{T.empty}</p>
+            ) : (
+              byStage.help.map((item) => (
+                <IdeaCard key={item.id} item={item} lang={lang} labels={cardLabels} />
+              ))
+            )}
+          </div>
+        </section>
       </div>
-
-      <div className={`${styles.backdrop} ${active ? styles.open : ""}`} onClick={() => setActive(null)} />
-      {active && (
-        <aside className={`${styles.drawer} ${styles.open}`} role="dialog" aria-modal="true">
-          <div className={styles.drawerHead}>
-            <div className={styles.drawerHeadLeft}>
-              <span className={styles.drawerKicker}>{T.drawerKicker}</span>
-              <h2 className={styles.drawerTitle}>{pick(active.title)}</h2>
-              <span className={`${styles.status} ${STATUS_CLASS[active.status] || styles.sIdea}`}>{pick(active.statusLabel)}</span>
-            </div>
-            <button type="button" className={styles.closeBtn} onClick={() => setActive(null)}>×</button>
-          </div>
-          <div className={styles.drawerBody}>
-            <div className={styles.supportRow}>
-              <div className={styles.supportTile}>
-                <b>▲ {active.votes}</b>
-                <span>{T.support}</span>
-              </div>
-              <div className={styles.supportTile}>
-                <b>💬 {active.comments}</b>
-                <span>{T.ghComments}</span>
-              </div>
-            </div>
-
-            {pick(active.proposed) && (
-            <div className={styles.section}>
-              <h4>{T.proposed}</h4>
-              <p>{pick(active.proposed)}</p>
-            </div>
-            )}
-            {pick(active.why) && (
-            <div className={styles.section}>
-              <h4>{T.why}</h4>
-              <p>{pick(active.why)}</p>
-            </div>
-            )}
-            {pick(active.update) && (
-            <div className={styles.section}>
-              <h4>{T.update}</h4>
-              <p>{pick(active.update)}</p>
-            </div>
-            )}
-
-            <div className={styles.drawerActions}>
-              <a className={`${styles.btn} ${styles.btnLight}`} href={active.githubUrl} target="_blank" rel="noopener">
-                {T.fullDiscussion}
-              </a>
-              <a className={`${styles.btn} ${styles.btnGreen}`} href={active.githubUrl} target="_blank" rel="noopener">
-                {T.voteGithub}
-              </a>
-            </div>
-          </div>
-        </aside>
-      )}
     </div>
   );
 }

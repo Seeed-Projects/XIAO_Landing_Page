@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "firmwares": [
+    {
+      "id": "xiao-esp32-s3-blink",
+      "group": "official",
+      "reviewStatus": "published",
+      "manifest": "/firmware/xiao-esp32-s3/manifest.json"
+    },
+    {
+      "id": "xiao-esp32-c3-blink",
+      "group": "official",
+      "reviewStatus": "published",
+      "manifest": "/firmware/xiao-esp32-c3/manifest.json"
+    },
+    {
+      "id": "xiao-esp32-c6-blink",
+      "group": "official",
+      "reviewStatus": "published",
+      "manifest": "/firmware/xiao-esp32-c6/manifest.json"
+    },
+    {
+      "id": "xiao-esp32-c5-blink",
+      "group": "official",
+      "reviewStatus": "published",
+      "manifest": "/firmware/xiao-esp32-c5/manifest.json"
+    }
+  ]
+}

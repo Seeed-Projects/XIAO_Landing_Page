@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "xiao-esp32-c6-blink",
+  "group": "official",
+  "reviewStatus": "published",
+  "version": "1.1.0",
+  "author": "Seeed Studio",
+  "name": { "en": "Blink Demo", "zh": "Blink 闪烁示例" },
+  "summary": {
+    "en": "Blinks the onboard user LED on GPIO15 and prints status over serial.",
+    "zh": "板载用户 LED（GPIO15）闪烁，并通过串口输出运行状态。"
+  },
+  "builds": [
+    {
+      "boardId": "c6",
+      "chipFamily": "ESP32-C6",
+      "completeImage": true,
+      "erasePolicy": "full",
+      "flashSize": "keep",
+      "flashMode": "keep",
+      "flashFreq": "keep",
+      "parts": [
+        {
+          "path": "xiao-esp32-c6-blink-merged.bin",
+          "offset": 0,
+          "size": 4194304,
+          "sha256": "3fe30c1e00d671eb690f90d1f82b78fec4e9efa1c7fbe7ee33a0c059bd3a5678",
+          "md5": "56ddddceb8cae23dc829143649eec065"
+        }
+      ]
+    }
+  ]
+}

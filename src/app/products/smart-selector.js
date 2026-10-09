@@ -384,8 +384,8 @@ export function SmartSelector() {
     <div className={styles.xiaoSelector} id="smart-selector">
       <div className={styles.wrap}>
         <div className={styles.introBlock}>
-          <Glow as="h2">{T.h2}</Glow>
-          <p className="text-center">{T.p}</p>
+          <Glow as="h2" className="home-type-title">{T.h2}</Glow>
+          <p className="home-type-body text-center">{T.p}</p>
         </div>
 
         <section className={styles.workspace} id="selector-workspace">
@@ -523,8 +523,8 @@ export function SmartSelector() {
             {/* —— 以下为"按参数筛选"视图，保留 —— */}
             <section className={styles.filterView}>
                 <div className={styles.filterHead}>
-                  <div><h2>{lang === "zh" ? "按参数筛选" : "Filter by specs"}</h2><p>{lang === "zh" ? "适合已经明确无线协议、芯片平台或功耗方向的用户。" : "For users who already know the wireless protocol, chip family or power tier."}</p></div>
-                  <button className={styles.secondaryBtn} type="button" onClick={() => setFilter({ wireless: [], family: "all", power: "all" })}>{lang === "zh" ? "重置筛选" : "Reset"}</button>
+                  <div><h2 className="home-type-subtitle">{lang === "zh" ? "按参数筛选" : "Filter by specs"}</h2><p className="home-type-body">{lang === "zh" ? "适合已经明确无线协议、芯片平台或功耗方向的用户。" : "For users who already know the wireless protocol, chip family or power tier."}</p></div>
+                  <button className={`${styles.secondaryBtn} home-type-action home-filled-action`} type="button" onClick={() => setFilter({ wireless: [], family: "all", power: "all" })}>{lang === "zh" ? "重置筛选" : "Reset"}</button>
                 </div>
                 <div className={styles.filterToolbar}>
                   {[
@@ -566,11 +566,11 @@ export function SmartSelector() {
                   {filteredProducts.map((p) => (
                     <article key={p.id} className={styles.catalogCard}>
                       <div className={styles.catalogVisual}><div className={styles.productImg} style={{ backgroundImage: `url("${p.img}")` }} role="img" aria-label={p.name} /></div>
-                      <h3>{p.name}</h3>
-                      <p>{pick(p.tagline)}</p>
+                      <h3 className="home-type-subtitle">{p.name}</h3>
+                      <p className="home-type-body">{pick(p.tagline)}</p>
                       <div className={styles.tagRow}>{[...p.wireless, ...p.features.map(pick)].slice(0, 4).map((t, i) => <span key={i} className={styles.tag}>{t}</span>)}</div>
                       <div className={styles.productFooter}>
-                        <a className={`${styles.miniBtn} ${styles.emphasis}`} href={p.link} target="_blank" rel="noopener noreferrer">{lang === "zh" ? "查看产品" : "View product"}</a>
+                        <a className={`${styles.miniBtn} ${styles.emphasis} home-type-action home-filled-action`} href={p.link} target="_blank" rel="noopener noreferrer">{lang === "zh" ? "查看产品" : "View product"}</a>
                         <button className={`${styles.miniBtn} ${styles.compareBtn}`} type="button" onClick={() => toggleCompare(p.id)}>{lang === "zh" ? "对比" : "Compare"}</button>
                       </div>
                     </article>

@@ -4,13 +4,12 @@ import { useLang } from "./i18n";
 import { SectionHeader, SiteHeader } from "./components";
 import { HomeCarousel } from "./home-carousel";
 import { VideoIntroSection } from "./video-intro-section";
-import { PartnerMarquee } from "./partner-marquee";
 import { NewsCarousel } from "./news-carousel";
 import { ProjectsCarousel } from "./projects-carousel";
 import { CoCreateSection } from "./co-create-section";
 import { EdmSubscribe } from "./edm-subscribe";
 import { Reveal } from "./reveal";
-import { FeaturesSection, GlimpseSection, PlaygroundSection, RoadmapCallout } from "./home-ppt-sections";
+import { GlimpseSection, PlaygroundSection, RoadmapCallout } from "./home-ppt-sections";
 
 export default function Home() {
   const { t, lang } = useLang();
@@ -25,35 +24,17 @@ export default function Home() {
       <main className="flex w-full flex-1 flex-col">
         {/* 视频解说 + 文字 */}
         <VideoIntroSection />
-        <FeaturesSection />
         <GlimpseSection />
-
-        {/* 开发者区 - 全屏满宽，跑马灯带铺满 */}
-        <section
-          id="developer"
-          className="bg-mod-green relative flex w-full scroll-mt-24 items-center overflow-hidden py-14"
-        >
-          <div className="w-full">
-            <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
-              <Reveal>
-                <SectionHeader kicker={t.developer.title} title={t.developer.title} description="" />
-              </Reveal>
-            </div>
-            <div className="mx-auto mt-10 w-full max-w-[1720px] px-8 sm:px-10 lg:px-12">
-              <PartnerMarquee />
-            </div>
-          </div>
-        </section>
 
         <RoadmapCallout />
 
         {/* 热门项目 - 全屏满宽，跑马灯带铺满 */}
         <section
           id="projects"
-          className="bg-mod-green relative flex min-h-[100dvh] w-full scroll-mt-24 items-center py-20 overflow-hidden"
+          className="home-section bg-mod-green relative flex w-full scroll-mt-24 items-center overflow-hidden"
         >
           <div className="w-full">
-            <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
+            <div className="mx-auto w-full max-w-[1808px] px-6 sm:px-10 lg:px-16">
               <Reveal>
                 <SectionHeader
                   kicker={t.projects.title}
@@ -62,17 +43,17 @@ export default function Home() {
                 />
               </Reveal>
             </div>
-            <div className="mt-8 w-full">
+            <div className="mt-7 w-full">
               <ProjectsCarousel />
             </div>
             {/* Explore More —— 进入 OSHW XIAO Series 开源硬件合集，看更多共创项目 */}
-            <div className="mx-auto mt-8 w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
+            <div className="mx-auto mt-7 w-full max-w-[1808px] px-6 sm:px-10 lg:px-16">
               <div className="flex justify-center">
                 <a
                   href={OSHW_HUB_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 rounded-full border border-[var(--button-bg)] bg-[var(--button-bg)] px-6 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(143,195,31,0.22)] transition hover:-translate-y-0.5 hover:border-[var(--button-bg-hover)] hover:bg-[var(--button-bg-hover)]"
+                  className="home-type-action home-filled-action group inline-flex items-center gap-2 rounded-full border border-[var(--button-bg)] bg-[var(--button-bg)] px-6 py-3 text-white shadow-[0_8px_24px_rgba(143,195,31,0.22)] transition hover:-translate-y-0.5 hover:border-[var(--button-bg-hover)] hover:bg-[var(--button-bg-hover)]"
                   style={{ color: "#fff" }}
                 >
                   {isEn ? "Explore more" : "探索更多"}
@@ -101,9 +82,9 @@ export default function Home() {
         {/* 生态共创 - 全屏满宽，置于用户评价下方；原版文案直接放 banner，不再加重复标题 */}
         <section
           id="cocreate"
-          className="bg-[#f4f6f7] relative flex min-h-[100dvh] w-full scroll-mt-24 items-center px-6 py-20 sm:px-10 lg:px-16"
+          className="home-section bg-[#f4f6f7] relative flex w-full scroll-mt-24 items-center px-6 sm:px-10 lg:px-16"
         >
-          <div className="mx-auto w-full max-w-[1440px]">
+          <div className="home-content">
             <CoCreateSection />
           </div>
         </section>
@@ -111,22 +92,22 @@ export default function Home() {
         {/* XIAO in the News —— 置于 Co-Create 之后 */}
         <section
           id="news"
-          className="relative flex w-full scroll-mt-24 items-center overflow-hidden bg-white py-20"
+          className="home-section relative flex w-full scroll-mt-24 items-center overflow-hidden bg-white"
         >
           <div className="w-full">
-            <div className="mx-auto w-full max-w-[1440px] px-6 text-center sm:px-10 lg:px-16">
+            <div className="mx-auto w-full max-w-[1808px] px-6 text-center sm:px-10 lg:px-16">
               <Reveal>
-                <h2 className="text-4xl font-bold leading-[1.12] tracking-[-0.035em] text-[#18224f] sm:text-5xl lg:text-[3.5rem]">
+                <h2 className="home-type-title text-[#18224f]">
                   {isEn ? "XIAO in the News" : "XIAO 新闻动态"}
                 </h2>
-                <p className="mx-auto mt-4 max-w-3xl text-base leading-[1.65] text-[#526b91] sm:text-lg">
+                <p className="home-type-body mx-auto mt-4 max-w-3xl text-[#526b91]">
                   {isEn
                     ? "Discover the latest news on XIAO, updates from Seeed and from our community all over the world"
                     : "了解 XIAO 最新资讯，以及来自 Seeed 和全球社区的动态。"}
                 </p>
               </Reveal>
             </div>
-            <div className="mt-10 w-full">
+            <div className="mt-8 w-full">
               <NewsCarousel />
             </div>
           </div>

@@ -1,0 +1,41 @@
+import { alt, PWM_NRF } from "./util.js";
+
+const gpio = (adc, extra = {}) => alt({
+  adc,
+  i2c: "any GPIO",
+  spi: "any GPIO",
+  uart: "any GPIO",
+  pwm: PWM_NRF,
+  other: extra.other,
+});
+
+export default {
+  "P1.04": gpio("", { other: ["L15 D0"] }),
+  "P1.05": gpio("", { other: ["L15 D1 / LM20A MISO"] }),
+  "P1.06": gpio("", { other: ["L15 D2 / LM20A MOSI"] }),
+  "P1.07": gpio("", { other: ["L15 D3 / LM20A SCL"] }),
+  "P1.10": gpio("", { other: ["L15 D4 SDA"] }),
+  "P1.11": gpio("", { other: ["L15 D5 SCL"] }),
+  "P2.08": gpio("", { other: ["L15 TX"] }),
+  "P2.07": gpio("", { other: ["L15 RX"] }),
+  "P1.02": gpio("", { other: ["NFC1"] }),
+  "P1.03": gpio("", { other: ["NFC2 on L15 / SDA on LM20A"] }),
+  "P1.01": gpio("", { other: ["NFC2 on LM20A"] }),
+  "P1.00": gpio("AIN0"),
+  "AIN0 / P1.00": gpio("AIN0"),
+  "AIN1 / P1.31": gpio("AIN1"),
+  "AIN2 / P1.30": gpio("AIN2"),
+  "AIN3 / P1.29": gpio("AIN3"),
+  "P3.00": gpio("", { other: ["LM20A extra"] }),
+  "P3.01": gpio("", { other: ["LM20A extra"] }),
+  "P3.02": gpio("", { other: ["LM20A extra"] }),
+  "P3.03": gpio("", { other: ["LM20A extra"] }),
+  "P3.04": gpio("", { other: ["LM20A extra"] }),
+  "P3.05": gpio("", { other: ["LM20A extra"] }),
+  "P3.06": gpio("", { other: ["LM20A extra"] }),
+  "P3.07": gpio("", { other: ["LM20A extra"] }),
+  "P0.00": gpio("", { other: ["key / extra"] }),
+  SHPHLD: alt({ other: ["nPM1300 ship"] }),
+  SWDCLK: alt({ other: ["nRF54 SWD CLK"] }),
+  SWDIO: alt({ other: ["nRF54 SWD DIO"] }),
+};

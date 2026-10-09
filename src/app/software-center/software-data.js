@@ -42,11 +42,53 @@ export function logoSrc(url) {
   return url;
 }
 
-// 所有带 logo 的软件项（去重），用于 logo 墙
-export function logoWallItems() {
+const COMMUNITY_GROUPS = [
+  {
+    id: "development",
+    title: { en: "Code & Prototype", zh: "开发与原型" },
+    desc: {
+      en: "Choose a language, development environment or operating system, then design and simulate your hardware.",
+      zh: "选择编程语言、开发环境和操作系统，完成硬件设计与仿真。",
+    },
+    categories: ["languages", "rtos", "tools"],
+  },
+  {
+    id: "connectivity",
+    title: { en: "Connect & Cloud", zh: "连接与云端" },
+    desc: {
+      en: "Connect devices, build wireless networks and bring sensor data into cloud dashboards.",
+      zh: "连接设备、组建无线网络，将传感器数据接入云端与可视化面板。",
+    },
+    categories: ["comms", "iotcloud"],
+  },
+  {
+    id: "applications",
+    title: { en: "Apps & AI", zh: "应用与 AI" },
+    desc: {
+      en: "Build smart-home devices, keyboards, lighting and robotics, or add machine learning to XIAO.",
+      zh: "打造智能家居、键盘、灯光与机器人应用，或为 XIAO 加入机器学习能力。",
+    },
+    categories: ["smarthome", "keyboard", "applications", "tinyml"],
+  },
+];
+
+// Group existing catalog entries by development task, preserving detail routes.
+// 按开发任务归并已有目录条目，保留详情页地址。
+export function communityGroups() {
+  return COMMUNITY_GROUPS.map(({ categories, ...group }) => ({
+    ...group,
+    items: categories.flatMap((id) => SOFTWARE_CATEGORIES.find((category) => category.id === id)?.items ?? []),
+  }));
+}
+
+// 所有带 logo 的软件项（去重），用于 logo 墙。
+// excludeCategory 去掉某一分类，例如官方仓库不进社区墙。
+// Logo items for the wall, de-duplicated. excludeCategory drops one category.
+export function logoWallItems({ excludeCategory } = {}) {
   const seen = new Set();
   const out = [];
   for (const flat of flattenSoftware()) {
+    if (excludeCategory && flat.category?.id === excludeCategory) continue;
     if (flat.logo && !seen.has(flat.logo)) {
       seen.add(flat.logo);
       out.push(flat);

@@ -72,7 +72,7 @@
 .footerActions { display: flex; gap: 10px; }
 
 /* Buttons */
-.ghostBtn, .primaryBtn, .secondaryBtn { border: 0; border-radius: var(--r-control); padding: 11px 16px; font-weight: 600; transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
+.ghostBtn, .primaryBtn, .secondaryBtn { border: 0; border-radius: var(--r-control); padding: 11px 16px; font-size: var(--home-body-size); font-weight: var(--home-action-weight); line-height: var(--home-body-leading); transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
 .ghostBtn, .primaryBtn, .secondaryBtn { background: var(--button-bg); color: #fff; border: 0; box-shadow: 0 12px 28px rgba(143,195,31,.22); }
 .ghostBtn:hover, .primaryBtn:hover, .secondaryBtn:hover { background: var(--button-bg-hover); transform: translateY(-1px); }
 .btnWide { min-width: 150px; }
@@ -114,7 +114,7 @@
 .cautionBox { background: var(--warning-bg); color: var(--warning); }
 .whyBox strong, .cautionBox strong { display: block; margin-bottom: 3px; color: inherit; }
 .productFooter { margin-top: auto; padding-top: 10px; display: flex; gap: 6px; }
-.miniBtn { border: 1px solid var(--line-soft); border-radius: var(--r-control); background: var(--surface-strong); padding: 7px 10px; font-size: 11px; font-weight: 700; color: var(--ink-strong); transition: background-color 180ms ease, border-color 180ms ease; }
+.miniBtn { border: 1px solid var(--line-soft); border-radius: var(--r-control); background: var(--surface-strong); padding: 7px 10px; font-size: var(--home-body-size); font-weight: var(--home-action-weight); line-height: var(--home-body-leading); color: var(--ink-strong); transition: background-color 180ms ease, border-color 180ms ease; }
 .miniBtn.emphasis { border-color: transparent; border-radius: var(--r-pill); background: var(--button-bg); color: #fff; }
 .miniBtn.emphasis:hover { background: var(--button-bg-hover); }
 
@@ -128,8 +128,8 @@
 /* Filter mode —— 不再套白底卡片，直接铺在区块背景上；两侧细缝由 .wrap 提供 */
 .filterView { padding: 28px 0 48px; background: transparent; height: auto; min-height: 0; overflow: visible; box-sizing: border-box; }
 .filterHead { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; }
-.filterHead h2 { margin: 0 0 6px; font-family: var(--font-display), sans-serif; font-size: clamp(24px, 2.6vw, 32px); font-weight: 600; letter-spacing: -0.02em; color: var(--ink-strong); }
-.filterHead p { margin: 0; color: var(--ink-body); font-size: 14px; line-height: 1.6; }
+.filterHead h2 { margin: 0 0 6px; font-family: var(--font-display), sans-serif; font-size: var(--home-subtitle-size); font-weight: var(--home-subtitle-weight); line-height: var(--home-subtitle-leading); letter-spacing: normal; color: var(--ink-strong); }
+.filterHead p { margin: 0; color: var(--ink-body); font-size: var(--home-body-size); font-weight: var(--home-body-weight); line-height: var(--home-body-leading); }
 .filterToolbar { margin-top: 18px; padding: 16px 18px; border-radius: var(--r-inner); background: var(--surface-tint); border: 1px solid var(--line-soft); }
 .filterRow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .filterRow + .filterRow { margin-top: 10px; }
@@ -146,8 +146,8 @@
 .catalogCard { border: 1px solid var(--line-soft); border-radius: 12px; padding: 14px; background: rgba(255,255,255,0.9); display: flex; flex-direction: column; transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease; }
 .catalogCard:hover { transform: translateY(-2px); border-color: rgba(22,182,106,0.4); box-shadow: 0 10px 24px rgba(0,73,102,0.08); background-color: rgba(255,255,255,0.95); }
 .catalogVisual { aspect-ratio: 4 / 3; border-radius: 10px; background: #fff; display: grid; place-items: center; margin-bottom: 10px; overflow: hidden; }
-.catalogCard h3 { margin: 0; font-size: 15px; line-height: 1.35; font-weight: 700; color: var(--ink-strong); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.catalogCard p { margin: 6px 0 8px; color: var(--ink-body); font-size: 13px; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.catalogCard h3 { margin: 0; font-size: var(--home-subtitle-size); line-height: var(--home-subtitle-leading); font-weight: var(--home-subtitle-weight); color: var(--ink-strong); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.catalogCard p { margin: 6px 0 8px; color: var(--ink-body); font-size: var(--home-body-size); line-height: var(--home-body-leading); font-weight: var(--home-body-weight); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
 /* Compare drawer */
 .compareBar { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); width: min(760px, calc(100vw - 32px)); padding: 12px 14px; border-radius: var(--r-inner); background: radial-gradient(circle at 50% 40%, rgba(22,182,106,0.18), transparent 60%), linear-gradient(180deg, #0d2230 0%, #13324a 100%); border: 1px solid rgba(255,255,255,0.08); color: #fff; box-shadow: 0 18px 40px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between; gap: 12px; z-index: 30; }
@@ -225,8 +225,8 @@
 
 /* 选型 小节标题（对齐首页 SectionHeader） */
 .introBlock { max-width: 960px; margin: 0 auto; padding: 8px 0 32px; text-align: center; }
-.introBlock h2 { margin: 0; font-family: var(--font-display), sans-serif; font-size: var(--type-section-title); line-height: 1.12; letter-spacing: -.035em; font-weight: 700; color: var(--ink-strong); }
-.introBlock p { max-width: 820px; margin: 14px auto 0; color: var(--ink-body); font-size: 18px; line-height: 1.65; font-weight: 400; }
+.introBlock h2 { margin: 0; font-family: var(--font-display), sans-serif; font-size: var(--home-title-size); line-height: var(--home-title-leading); letter-spacing: var(--home-title-tracking); font-weight: var(--home-title-weight); color: var(--ink-strong); }
+.introBlock p { max-width: 820px; margin: 14px auto 0; color: var(--ink-body); font-size: var(--home-body-size); line-height: var(--home-body-leading); font-weight: var(--home-body-weight); }
 
 @media (prefers-reduced-motion: reduce) {
   .xiaoSelector * { transition: none !important; }

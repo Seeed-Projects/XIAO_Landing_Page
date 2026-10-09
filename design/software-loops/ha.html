@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=1200, height=720"/>
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:"Xiao Montserrat";src:url("fonts/montserrat-regular.ttf");font-weight:400}
+@font-face{font-family:"Xiao Montserrat";src:url("fonts/montserrat-bold.otf");font-weight:700}
+*{box-sizing:border-box}
+html,body{width:1200px;height:720px;margin:0;overflow:hidden;background:#f7faf7}
+#root{position:relative;width:1200px;height:720px;overflow:hidden;color:#18224f;font-family:"Xiao Montserrat",sans-serif}
+.scene-content{display:flex;flex-direction:column;width:100%;height:100%;padding:48px 58px;gap:26px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.label{font-size:20px;letter-spacing:0.06em;font-weight:700}
+.online{font-size:16px;color:#004966;display:flex;align-items:center;gap:10px}
+.online i{width:8px;height:8px;background:#16b66a;border-radius:50%}
+.stage{position:relative;width:1084px;height:525px;flex:none}
+.art{position:absolute;inset:0;width:1084px;height:525px;overflow:visible}
+.product{position:absolute;left:143px;top:127px;width:151px;height:195px;transform:rotate(-9deg);filter:drop-shadow(12px 19px 12px #00496630)}
+.readout{position:absolute;left:294px;top:103px;padding:13px 20px;border-radius:14px;background:#ffffff;border:1px solid #00496618;box-shadow:0 10px 25px #0049660d;font-size:27px;font-weight:700}
+.readout small{font-size:14px;color:#526b91;display:block;font-weight:400;margin-bottom:3px}
+.dashboard{position:absolute;left:530px;top:42px;width:506px;height:344px;border-radius:26px;background:#ffffff;box-shadow:0 22px 54px #00496615;border:1px solid #00496616;padding:28px}
+.dash-head{display:flex;align-items:center;gap:12px;margin-bottom:26px}
+.ha-logo{width:36px;height:36px}
+.dash-head strong{font-size:22px}.dash-head span{margin-left:auto;font-size:14px;color:#004966}
+.dash-main{display:grid;grid-template-columns:1.05fr 1fr;gap:17px}
+.tile{height:164px;padding:18px;border-radius:17px;background:#f7faf7;border:1px solid #00496610;position:relative}
+.tile-title{font-size:15px;color:#526b91}
+.value{position:absolute;top:43px;left:18px;font-size:39px;font-weight:700;letter-spacing:-.04em}
+.new-value,.lamp-on,.active-word{opacity:0}.unit{font-size:20px;font-weight:400}
+.chart{position:absolute;bottom:17px;left:18px;width:159px;height:40px}
+.switch{position:absolute;left:18px;top:58px;width:80px;height:40px;border-radius:22px;background:#00496620}
+.switch-on{position:absolute;inset:0;border-radius:inherit;background:#16b66a;opacity:0}
+.knob{position:absolute;left:5px;top:5px;width:30px;height:30px;background:#ffffff;border-radius:50%;box-shadow:0 2px 5px #00496624}
+.state{position:absolute;left:111px;top:68px;font-size:16px;font-weight:700;color:#004966}
+.lamp-label{position:absolute;left:18px;bottom:19px;font-size:13px;color:#526b91}
+.dash-foot{margin-top:20px;font-size:13px;color:#526b91;display:flex;align-items:center;gap:8px}
+.dash-foot i{width:6px;height:6px;border-radius:50%;background:#16b66a}
+.caption{font-size:19px;color:#526b91;text-align:center;letter-spacing:-.015em}.caption strong{color:#004966}
+.cursor{position:absolute;left:1000px;top:300px;width:36px;height:40px;opacity:0;filter:drop-shadow(1px 3px 4px #00496630)}
+.packet{opacity:0}.breath{transform-origin:218px 300px}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="10" data-width="1200" data-height="720">
+<div class="scene-content">
+<div class="top"><div class="label">XIAO × HOME ASSISTANT</div><div class="online"><i></i>LOCAL CONNECTION</div></div>
+<div class="stage">
+<svg class="art" viewBox="0 0 1084 525" aria-hidden="true">
+<defs>
+<radialGradient id="halo"><stop stop-color="#16b66a" stop-opacity=".15"/><stop offset="1" stop-color="#16b66a" stop-opacity="0"/></radialGradient>
+<radialGradient id="light"><stop stop-color="#8fc31f" stop-opacity=".32"/><stop offset="1" stop-color="#8fc31f" stop-opacity="0"/></radialGradient>
+<linearGradient id="base" x2="0" y2="1"><stop stop-color="#ffffff"/><stop offset="1" stop-color="#eef6e6"/></linearGradient>
+<filter id="shadow" x="-40%" y="-80%" width="180%" height="260%"><feGaussianBlur stdDeviation="13"/></filter>
+<pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" fill="#004966" opacity=".12"/></pattern>
+</defs>
+<rect x="4" y="8" width="482" height="426" fill="url(#dots)"/>
+<ellipse class="breath" cx="220" cy="264" rx="214" ry="199" fill="url(#halo)"/>
+<ellipse cx="225" cy="374" rx="143" ry="24" fill="#004966" opacity=".11" filter="url(#shadow)"/>
+<path d="M54 307Q220 220 383 308V337Q220 427 54 337Z" fill="#eef6e6" stroke="#004966" stroke-opacity=".14"/>
+<ellipse cx="218" cy="307" rx="164" ry="61" fill="url(#base)" stroke="#004966" stroke-opacity=".16"/>
+<ellipse cx="218" cy="307" rx="130" ry="44" fill="none" stroke="#16b66a" stroke-opacity=".22"/>
+<path d="M316 264H378Q416 264 416 226V192Q416 172 440 172H530" fill="none" stroke="#16b66a" stroke-width="2.5" opacity=".35"/>
+<path d="M530 317H464Q438 317 438 344V363Q438 393 406 393H314" fill="none" stroke="#004966" stroke-width="2.5" opacity=".25"/>
+<circle class="packet sensor-packet" cx="316" cy="264" r="7" fill="#16b66a"/>
+<circle class="packet command-packet" cx="530" cy="317" r="7" fill="#004966"/>
+<circle class="device-led" cx="234" cy="303" r="8" fill="#16b66a" opacity="0"/>
+<g class="lamp" transform="translate(752 413)">
+<ellipse class="lamp-on" cx="102" cy="65" rx="109" ry="67" fill="url(#light)"/>
+<path d="M3 85H253" stroke="#004966" stroke-width="2" opacity=".15"/>
+<path d="M111 40V83M87 83H135" fill="none" stroke="#004966" stroke-width="4" stroke-linecap="round"/>
+<path d="M87 4H133L152 42H69Z" fill="#ffffff" stroke="#004966" stroke-width="2.5"/>
+<path class="lamp-on" d="M87 4H133L152 42H69Z" fill="#8fc31f"/>
+<path d="M187 85V53M187 62c-21 0-31-10-28-22 18 0 29 7 28 22M187 72c19 0 29-9 28-21-18-1-28 6-28 21" fill="#16b66a" fill-opacity=".16" stroke="#16b66a" stroke-width="2"/>
+<path d="M174 71H201L197 85H178Z" fill="#004966" fill-opacity=".12"/>
+</g>
+<text x="218" y="456" text-anchor="middle" fill="#004966" font-family="Xiao Montserrat" font-size="26" font-weight="700">XIAO ESP32-C6</text>
+<text x="218" y="487" text-anchor="middle" fill="#526b91" font-family="Xiao Montserrat" font-size="17">Arduino / PlatformIO</text>
+</svg>
+<img class="product" src="xiao-esp32-c6.webp" alt="XIAO ESP32-C6"/>
+<div class="readout"><small>Sensor reading</small>23.4<span class="unit"> °C</span></div>
+<div class="dashboard">
+<div class="dash-head">
+<svg class="ha-logo" viewBox="0 0 40 40" aria-hidden="true"><path d="M3 19L20 4l17 15v17H3Z" fill="#004966"/><path d="M20 30V15m0 10l-7-5m7 1l6-6" stroke="#ffffff" stroke-width="2" fill="none"/><g fill="#ffffff"><circle cx="13" cy="20" r="3"/><circle cx="20" cy="15" r="3"/><circle cx="26" cy="15" r="3"/></g></svg>
+<strong>Home Assistant</strong><span>My home</span>
+</div>
+<div class="dash-main">
+<div class="tile"><div class="tile-title">Temperature</div><div class="value old-value">21.6<span class="unit"> °C</span></div><div class="value new-value">23.4<span class="unit"> °C</span></div>
+<svg class="chart" viewBox="0 0 160 40" aria-hidden="true"><path d="M0 37H160" stroke="#004966" opacity=".12"/><path class="graph" d="M0 33L20 29 40 31 60 21 80 24 100 14 120 17 140 7 160 9" fill="none" stroke="#16b66a" stroke-width="3" stroke-linejoin="round"/></svg></div>
+<div class="tile"><div class="tile-title">Living room</div><div class="switch"><div class="switch-on"></div><div class="knob"></div></div><div class="state inactive-word">OFF</div><div class="state active-word">ON</div><div class="lamp-label">Desk lamp</div></div>
+</div>
+<div class="dash-foot"><i></i>XIAO connected · Wi-Fi</div>
+</div>
+<svg class="cursor" viewBox="0 0 36 40" aria-hidden="true"><path d="M4 2L29 23 18 25 13 36Z" fill="#004966" stroke="#ffffff" stroke-width="2" stroke-linejoin="round"/></svg>
+</div>
+<div class="caption"><strong>Read your sensors.</strong> Control your home.</div>
+</div></div>
+<script>
+window.__timelines=window.__timelines||{};
+const tl=gsap.timeline({paused:true});
+tl.to('.product',{y:-9,rotation:-6,duration:5,repeat:1,yoyo:true,ease:'sine.inOut'},0);
+tl.to('.breath',{scale:1.08,duration:5,repeat:1,yoyo:true,ease:'sine.inOut'},0);
+tl.fromTo('.readout',{y:4,scale:0.97},{y:0,scale:1,duration:0.5,ease:'back.out(1.3)'},0.2);
+tl.to('.sensor-packet',{opacity:1,duration:0.18},1.1);
+tl.to('.sensor-packet',{x:95,y:0,duration:0.45,ease:'power1.in'},1.2);
+tl.to('.sensor-packet',{x:100,y:-71,duration:0.4,ease:'none'},1.65);
+tl.to('.sensor-packet',{x:214,y:-92,duration:0.5,ease:'power2.out'},2.05);
+tl.to('.sensor-packet',{opacity:0,duration:0.18},2.5);
+tl.to('.old-value',{opacity:0,y:-5,duration:0.28,ease:'power1.in'},2.6);
+tl.fromTo('.new-value',{opacity:0,y:7},{opacity:1,y:0,duration:0.38,ease:'power3.out'},2.7);
+tl.fromTo('.graph',{clipPath:'inset(0 90% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:0.7,ease:'power1.out'},2.7);
+tl.to('.cursor',{opacity:1,x:-165,y:-101,duration:0.7,ease:'power3.inOut'},4);
+tl.to('.cursor',{scale:0.83,duration:0.12,ease:'power1.in'},4.72);
+tl.to('.cursor',{scale:1,duration:0.22,ease:'back.out(1.3)'},4.84);
+tl.to('.switch-on',{opacity:1,duration:0.2},4.78);
+tl.to('.knob',{x:40,duration:0.28,ease:'power2.inOut'},4.78);
+tl.to('.inactive-word',{opacity:0,duration:0.18},4.78);
+tl.to('.active-word',{opacity:1,duration:0.18},4.85);
+tl.to('.cursor',{opacity:0,duration:0.35},5.15);
+tl.to('.command-packet',{opacity:1,duration:0.15},4.95);
+tl.to('.command-packet',{x:-80,y:0,duration:0.4,ease:'power1.in'},5.05);
+tl.to('.command-packet',{x:-92,y:60,duration:0.35,ease:'none'},5.45);
+tl.to('.command-packet',{x:-216,y:76,duration:0.45,ease:'power2.out'},5.8);
+tl.to('.command-packet',{opacity:0,duration:0.15},6.15);
+tl.to('.device-led',{opacity:1,duration:0.28},6.2);
+tl.to('.lamp-on',{opacity:1,duration:0.55,ease:'sine.out'},6.25);
+tl.to('.lamp-on,.device-led,.switch-on,.active-word',{opacity:0,duration:0.65,ease:'sine.inOut'},8.4);
+tl.to('.knob',{x:0,duration:0.48,ease:'power2.inOut'},8.5);
+tl.to('.inactive-word',{opacity:1,duration:0.3},8.65);
+tl.to('.new-value',{opacity:0,duration:0.45},8.6);
+tl.to('.old-value',{opacity:1,y:0,duration:0.45},8.7);
+tl.to('.graph',{clipPath:'inset(0 90% 0 0)',duration:0.5},8.7);
+tl.to('.readout',{y:4,scale:0.97,duration:0.45,ease:'sine.inOut'},9.5);
+window.__timelines.main=tl;
+</script>
+</body></html>

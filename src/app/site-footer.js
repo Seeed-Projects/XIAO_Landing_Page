@@ -41,8 +41,8 @@ export function SiteFooter() {
           href: "/res",
         },
         { label: tr("Compatible Software", "兼容软件"), href: "/software-center" },
-        { label: tr("Pin Out", "引脚图"), href: "/products#pinout" },
-        { label: tr("XIAO Flasher", "XIAO 烧录器"), href: "/products#esp-flasher" },
+        { label: tr("Pin Out", "引脚图"), href: "/playground/pinout" },
+        { label: tr("XIAO Flasher", "XIAO 烧录器"), href: "/playground/esp-flasher" },
       ],
     },
     {
@@ -91,7 +91,7 @@ export function SiteFooter() {
 
   return (
     <footer className="mt-auto w-full bg-[var(--surface-deep)] text-white">
-      <div className="mx-auto w-full max-w-[1440px] px-6 py-14 sm:px-10 lg:px-16">
+      <div className="site-footer-content mx-auto w-full py-16 lg:py-20">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_0.7fr_1.3fr]">
           {/* 品牌列 */}
           <div className="sm:col-span-2 lg:col-span-1">

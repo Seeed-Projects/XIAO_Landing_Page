@@ -161,7 +161,7 @@ const zh = {
   },
   developer: {
     title: "开发者生态",
-    groupLabels: ["芯片/硬件伙伴", "软件/框架伙伴", "内容/社区伙伴"],
+    groupLabels: ["硬件合作伙伴", "软件合作伙伴", "社区合作伙伴"],
   },
   news: {
     title: "XIAO 新闻",
@@ -237,46 +237,6 @@ const zh = {
   },
   stats: { title: "数据展示" },
   contact: { label: "联系方式" },
-  side: {
-    home: [
-      { id: "hero", label: "主视觉" },
-      { id: "intro", label: "认识 XIAO" },
-      { id: "features", label: "核心特性" },
-      { id: "glimpse", label: "XIAO 一览" },
-      { id: "developer", label: "开发者生态" },
-      { id: "roadmap", label: "开放路线图" },
-      { id: "projects", label: "基于 XIAO 构建的项目" },
-      { id: "playground", label: "XIAO Playground" },
-      { id: "cocreate", label: "生态共创" },
-      { id: "news", label: "XIAO 新闻" },
-      { id: "edm", label: "XIAO 电子报" },
-    ],
-    products: [
-      { id: "top", label: "概览" },
-      { id: "products-catalog", label: "产品目录" },
-      { id: "smart-selector", label: "智能选型" },
-      { id: "pinout", label: "引脚定义" },
-      { id: "esp-flasher", label: "在线烧录" },
-    ],
-    res: [
-      { id: "top", label: "顶部" },
-      { id: "resources", label: "资源" },
-    ],
-    projectHub: [
-      { id: "top", label: "顶部" },
-      { id: "archive", label: "应用归档" },
-    ],
-    openRoadmap: [
-      { id: "top", label: "顶部" },
-      { id: "ideas", label: "创意投票" },
-      { id: "success", label: "成功案例" },
-    ],
-    softwareCenter: [
-      { id: "top", label: "概览" },
-      { id: "official", label: "官方软件" },
-      { id: "community", label: "社区软件" },
-    ],
-  },
 };
 
 const en = {
@@ -430,7 +390,7 @@ const en = {
   },
   developer: {
     title: "Developer Ecosystem",
-    groupLabels: ["Chip / Hardware Partners", "Software / Framework Partners", "Content / Community Partners"],
+    groupLabels: ["Hardware Partners", "Software Partners", "Community Partners"],
   },
   news: {
     title: "XIAO in the News",
@@ -510,46 +470,6 @@ const en = {
   },
   stats: { title: "Data Showcase" },
   contact: { label: "contact" },
-  side: {
-    home: [
-      { id: "hero", label: "Hero" },
-      { id: "intro", label: "Meet XIAO" },
-      { id: "features", label: "Core Features" },
-      { id: "glimpse", label: "XIAO at a Glance" },
-      { id: "developer", label: "Developer Ecosystem" },
-      { id: "roadmap", label: "Open Roadmap" },
-      { id: "projects", label: "Projects Built on XIAO" },
-      { id: "playground", label: "XIAO Playground" },
-      { id: "cocreate", label: "Co-Create" },
-      { id: "news", label: "XIAO News" },
-      { id: "edm", label: "NEWSLETTER" },
-    ],
-    products: [
-      { id: "top", label: "Overview" },
-      { id: "products-catalog", label: "Catalog" },
-      { id: "smart-selector", label: "Smart Selector" },
-      { id: "pinout", label: "Pinout" },
-      { id: "esp-flasher", label: "ESP Flasher" },
-    ],
-    res: [
-      { id: "top", label: "Top" },
-      { id: "resources", label: "Resources" },
-    ],
-    projectHub: [
-      { id: "top", label: "Top" },
-      { id: "archive", label: "Archive" },
-    ],
-    openRoadmap: [
-      { id: "top", label: "Top" },
-      { id: "ideas", label: "Ideas" },
-      { id: "success", label: "Success Cases" },
-    ],
-    softwareCenter: [
-      { id: "top", label: "Overview" },
-      { id: "official", label: "Official" },
-      { id: "community", label: "Community" },
-    ],
-  },
 };
 
 export const dictionaries = { zh, en };

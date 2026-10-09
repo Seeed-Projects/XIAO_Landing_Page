@@ -3,11 +3,21 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Reveal —— 滚动进入视口时，内容逐项淡入上浮。
- * 用 IntersectionObserver 触发，仅触发一次（unobserve）。
- * delay 控制同一段内多项的错开节奏（stagger）。
+ * Reveal fades and lifts content as soon as it enters the viewport.
+ * Reveal 在内容进入视口时立即淡入上浮，并在再次进入时重新播放。
+ * delay staggers nearby items while once keeps opt-in one-time reveals available.
+ * delay 用于错开同组内容，once 保留明确的一次性播放能力。
  */
-export function Reveal({ children, as: Tag = "div", delay = 0, className = "", once = true, threshold = 0.15, ...rest }) {
+export function Reveal({
+  children,
+  as: Tag = "div",
+  delay = 0,
+  className = "",
+  once = false,
+  threshold = 0.01,
+  rootMargin = "0px",
+  ...rest
+}) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
@@ -25,16 +35,16 @@ export function Reveal({ children, as: Tag = "div", delay = 0, className = "", o
           }
         });
       },
-      { threshold, rootMargin: "0px 0px -8% 0px" }
+      { threshold, rootMargin }
     );
     io.observe(el);
     return () => io.disconnect();
-  }, [once, threshold]);
+  }, [once, rootMargin, threshold]);
 
   return (
     <Tag
       ref={ref}
-      className={`transition-all duration-700 ease-out will-change-transform motion-reduce:transition-none ${className} ${
+      className={`transition-all duration-700 ease-out will-change-transform motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none ${className} ${
         visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
       }`}
       style={{ transitionDelay: `${delay}ms` }}

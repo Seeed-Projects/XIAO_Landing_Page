@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "xiao-esp32-s3-blink",
+  "group": "official",
+  "reviewStatus": "published",
+  "version": "1.1.0",
+  "author": "Seeed Studio",
+  "name": { "en": "Blink Demo", "zh": "Blink 闪烁示例" },
+  "summary": {
+    "en": "Blinks the user LED on GPIO21 and prints status over serial.",
+    "zh": "用户 LED（GPIO21）闪烁，并通过串口输出运行状态。"
+  },
+  "builds": [
+    {
+      "boardId": "s3",
+      "chipFamily": "ESP32-S3",
+      "completeImage": true,
+      "erasePolicy": "full",
+      "flashSize": "keep",
+      "flashMode": "keep",
+      "flashFreq": "keep",
+      "parts": [
+        {
+          "path": "xiao-esp32-s3-blink-merged.bin",
+          "offset": 0,
+          "size": 8388608,
+          "sha256": "7f9b49cff566c3d1897d176e56294b4878f40cd9ea5296ec0ed42885b0d30801",
+          "md5": "0145daf1703ae8b2d0dcb96b6c43be81"
+        }
+      ]
+    }
+  ]
+}

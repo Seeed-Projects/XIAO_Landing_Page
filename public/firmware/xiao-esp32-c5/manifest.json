@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "xiao-esp32-c5-blink",
+  "group": "official",
+  "reviewStatus": "published",
+  "version": "1.1.0",
+  "author": "Seeed Studio",
+  "name": { "en": "Blink Demo", "zh": "Blink 闪烁示例" },
+  "summary": {
+    "en": "Blinks the onboard yellow user LED on GPIO27 and prints status over serial.",
+    "zh": "板载黄色用户 LED（GPIO27）闪烁，并通过串口输出运行状态。"
+  },
+  "builds": [
+    {
+      "boardId": "c5",
+      "chipFamily": "ESP32-C5",
+      "completeImage": true,
+      "erasePolicy": "full",
+      "flashSize": "keep",
+      "flashMode": "keep",
+      "flashFreq": "keep",
+      "parts": [
+        {
+          "path": "xiao-esp32-c5-blink-merged.bin",
+          "offset": 0,
+          "size": 8388608,
+          "sha256": "f25fd13c1aa6beebe1defc5d873aae9a8dc761be5c4f171c2fbe1594674dc9a0",
+          "md5": "f448c8bb9c9ac7e8e13856ca05ebd94a"
+        }
+      ]
+    }
+  ]
+}

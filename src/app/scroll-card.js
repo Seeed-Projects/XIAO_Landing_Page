@@ -1,5 +1,7 @@
 "use client";
 
+import { shouldReleaseHoverWheel } from "./hover-card-scroll.mjs";
+
 /**
  * ScrollCard —— 通用滚动卡片，供 News / Projects / Trusted 三个跑马灯共用。
  * variant="compact"（默认，用于 rows=2 两行带，紧凑）
@@ -7,7 +9,31 @@
  *   让单张卡片更高，去匹配两行块的高度；字号不变）。
  * 结构：封面图(16/9) → 标签 pill + 次要 meta → 标题(2行) → 摘要。
  */
-export function ScrollCard({ image, tag, meta, title, excerpt, alt = "", variant = "compact" }) {
+function handleHoverWheel(event) {
+  const element = event.currentTarget;
+  if (!shouldReleaseHoverWheel(
+    event.deltaY,
+    element.scrollTop,
+    element.clientHeight,
+    element.scrollHeight,
+  )) return;
+
+  event.preventDefault();
+  window.scrollBy({ top: event.deltaY, left: 0, behavior: "auto" });
+}
+
+export function HoverCardCopy({ title, description }) {
+  return (
+    <div className="hover-card-copy" aria-hidden="true" onWheel={handleHoverWheel}>
+      <h3 className="home-type-subtitle text-[var(--ink-strong)]">{title}</h3>
+      {description && (
+        <p className="home-type-body mt-3 text-[var(--ink-body)]">{description}</p>
+      )}
+    </div>
+  );
+}
+
+export function ScrollCard({ image, tag, meta, title, excerpt, alt = "", variant = "compact", showHoverCopy = false }) {
   const comfy = variant === "comfortable";
   const imgGap = comfy ? "mt-6" : "mt-3";
   const titleGap = comfy ? "mt-4" : "mt-2";
@@ -49,15 +75,16 @@ export function ScrollCard({ image, tag, meta, title, excerpt, alt = "", variant
             <span className="truncate text-[11px] text-[var(--ink-muted)]">{meta}</span>
           )}
         </div>
-        <h3 className={`${titleGap} line-clamp-2 text-sm font-bold leading-snug text-[var(--ink-strong)] sm:text-[15px]`}>
+        <h3 className={`home-type-subtitle ${titleGap} line-clamp-2 text-[var(--ink-strong)]`}>
           {title}
         </h3>
         {excerpt && (
-          <p className={`${excerptCls} text-xs leading-relaxed text-[var(--ink-body)] sm:text-[13px]`}>
+          <p className={`home-type-body ${excerptCls} text-[var(--ink-body)]`}>
             {excerpt}
           </p>
         )}
       </div>
+      {showHoverCopy && <HoverCardCopy title={title} description={excerpt} />}
     </>
   );
 }

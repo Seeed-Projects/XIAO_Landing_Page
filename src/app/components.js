@@ -41,11 +41,11 @@ export function SectionHeader({ kicker, title, description, align = "center" }) 
     <div
       className={`${align === "center" ? "mx-auto max-w-[820px] text-center" : "max-w-2xl"}`}
     >
-      <Glow as="h2" className="mb-5 font-display text-4xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-5xl lg:text-[3.5rem]">
+      <Glow as="h2" className="home-type-title">
         {title}
       </Glow>
       {description ? (
-        <p className={`mb-14 max-w-[820px] text-[18px] font-normal leading-[1.65] text-[var(--ink-body)] ${align === "center" ? "mx-auto" : ""}`}>
+        <p className={`home-type-body mt-4 max-w-[820px] text-[var(--ink-body)] ${align === "center" ? "mx-auto" : ""}`}>
           {description}
         </p>
       ) : null}

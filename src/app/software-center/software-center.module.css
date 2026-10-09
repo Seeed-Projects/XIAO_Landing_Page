@@ -1,0 +1,583 @@
+.page { background: var(--page-bg); }
+
+.wrap {
+  width: min(100% - clamp(32px, 6vw, 112px), 1800px);
+  margin-inline: auto;
+}
+
+/* Shared tool-page introduction. 工具页共用的介绍区域。 */
+.hero {
+  background: radial-gradient(120% 90% at 50% 0%, rgba(22, 182, 106, 0.14), transparent 64%);
+}
+
+/* Shared section heads. 两幕共用的段首。 */
+.official,
+.community { scroll-margin-top: 112px; }
+
+.official {
+  padding-bottom: clamp(56px, 7vw, 96px);
+  background: linear-gradient(180deg, var(--page-bg), #eef4ec 18%, #eef4ec);
+}
+
+.sectionHead {
+  max-width: 820px;
+  padding-top: clamp(56px, 7vw, 96px);
+}
+
+.official .sectionHead { padding-top: clamp(8px, 1vw, 16px); }
+
+.act {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  color: var(--brand-green-deep);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.act::before {
+  content: "";
+  width: 28px;
+  height: 2px;
+  background: var(--brand-green);
+}
+
+.sectionTitle,
+.bandTitle,
+.storyName,
+.moreTitle,
+.repoName,
+.cardName { margin: 0; color: var(--ink-strong); }
+
+.sectionIntro,
+.bandIntro,
+.lede,
+.blockText,
+.moreIntro,
+.repoSummary,
+.stepText,
+.cardDesc { color: var(--ink-body); }
+
+.sectionIntro,
+.bandIntro,
+.moreIntro { margin: 14px 0 0; }
+
+/* Story panels. 故事面板。 */
+.stories {
+  display: grid;
+  gap: clamp(24px, 3vw, 40px);
+  margin-top: clamp(28px, 4vw, 52px);
+}
+
+.story {
+  position: relative;
+  padding: clamp(24px, 3vw, 44px);
+  border: 1px solid rgba(0, 73, 102, 0.08);
+  border-radius: 36px;
+  background: #fff;
+  box-shadow: 0 30px 70px rgba(0, 73, 102, 0.08);
+}
+
+.storyTop {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.95fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: start;
+}
+
+.story[data-flip="1"] .copy { order: 2; }
+
+.copy,
+.cardBody { min-width: 0; }
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 12px;
+  color: var(--brand-green-deep);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.index {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--ink-strong);
+  color: #fff;
+  font-family: var(--font-display), sans-serif;
+  font-size: 15px;
+  letter-spacing: 0;
+}
+
+.lede {
+  margin: 14px 0 0;
+  color: var(--ink-strong);
+  font-weight: 700;
+}
+
+.problem {
+  margin-top: 26px;
+  padding: 18px 20px;
+  border-left: 3px solid var(--brand-green);
+  border-radius: 0 18px 18px 0;
+  background: #f3f8f2;
+}
+
+.problem .blockLabel { margin-top: 0; }
+
+.block { margin-top: 22px; }
+
+.blockLabel {
+  margin: 0 0 8px;
+  color: var(--brand-blue-soft);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.blockText,
+.stepText { margin: 0; }
+
+.stepText { overflow-wrap: break-word; }
+
+/* Diagram screen with badges. 示意图屏幕与徽章。 */
+.screen {
+  position: sticky;
+  top: 104px;
+  overflow: hidden;
+  border-radius: 28px;
+  background: #f7faf7;
+  border: 1px solid rgba(0, 73, 102, 0.1);
+  box-shadow: 0 16px 36px rgba(0, 73, 102, 0.09);
+}
+
+.stage {
+  position: relative;
+  aspect-ratio: 5 / 3;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.storyVideo { display: block; width: 100%; height: 100%; object-fit: contain; }
+.stage[data-still="1"] .storyVideo { opacity: 0; }
+.motionControl {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid rgba(0, 73, 102, 0.16);
+  border-radius: 50%;
+  color: #004966;
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+}
+.motionControl:hover { background: #eef6e6; }
+.motionControl:focus-visible { outline: 2px solid #004966; outline-offset: 3px; }
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 14px 18px 16px;
+  border-top: 1px solid rgba(0, 73, 102, 0.08);
+  list-style: none;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: #eef6e6;
+  color: #004966;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand-green);
+}
+
+/* Steps and footer. 步骤与页脚。 */
+.storyBottom {
+  margin-top: clamp(28px, 3vw, 40px);
+  padding-top: clamp(24px, 3vw, 32px);
+  border-top: 1px solid var(--line-soft);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.step {
+  position: relative;
+  padding: 58px 20px 20px;
+  border-radius: 22px;
+  background: #f3f8f2;
+  counter-increment: step;
+}
+
+.step::before {
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  color: var(--brand-green-deep);
+  font-family: var(--font-display), sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.storyFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px 32px;
+  margin-top: 26px;
+}
+
+.facts { min-width: 0; flex: 1 1 420px; }
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag {
+  padding: 6px 11px;
+  border: 1px solid rgba(0, 73, 102, 0.14);
+  border-radius: 999px;
+  color: var(--ink-strong);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.boardsLine {
+  margin: 14px 0 0;
+  color: var(--ink-body);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.boardsLabel {
+  margin-right: 10px;
+  color: var(--brand-blue-soft);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 999px;
+  text-decoration: none;
+}
+
+.primary { background: var(--button-bg); }
+.primary:hover { background: var(--button-bg-hover); }
+
+.secondary {
+  border: 1px solid rgba(0, 73, 102, 0.2);
+  background: #fff;
+  color: var(--brand-blue);
+}
+
+.secondary:hover { border-color: var(--brand-blue); }
+
+/* More official repositories. 更多官方仓库。 */
+.more { margin-top: clamp(48px, 6vw, 80px); }
+.moreTitle { margin-top: 8px; }
+
+.repoList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(236px, 1fr));
+  gap: 14px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.repo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px 24px;
+  border: 1px solid rgba(0, 73, 102, 0.08);
+  border-radius: 24px;
+  background: #fff;
+}
+
+.repoBoards {
+  margin: 4px 0 0;
+  color: var(--brand-blue-soft);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.repoSummary { margin: 0; }
+
+.repoLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.repoLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--brand-blue);
+  text-decoration: none;
+}
+
+.repoLink:hover { color: var(--brand-green-deep); }
+
+/* Community wall. 社区墙。 */
+.community {
+  padding-bottom: clamp(72px, 9vw, 120px);
+  background:
+    radial-gradient(70% 60% at 100% 0%, rgba(22, 182, 106, 0.12), transparent 60%),
+    linear-gradient(180deg, #e6efe6, var(--page-bg) 70%);
+}
+
+.marquee {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  margin-top: clamp(32px, 4vw, 48px);
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+}
+
+.logoRow { min-width: 0; overflow: hidden; padding-block: 4px; }
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: wall var(--wall-duration, 60s) linear infinite;
+}
+
+.trackReverse { animation-direction: reverse; }
+.track[data-ready="0"] { animation: none; }
+.marquee:hover .track,
+.marquee:focus-within .track { animation-play-state: paused; }
+
+.loopHalf,
+.logoSequence { display: flex; flex: none; width: max-content; }
+.logoSequence { gap: 14px; padding-right: 14px; }
+
+.logoTile {
+  display: flex;
+  width: 96px;
+  height: 96px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  border: 1px solid rgba(0, 73, 102, 0.08);
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(0, 73, 102, 0.06);
+  transition: transform 0.2s ease;
+}
+
+.logoTile:hover { transform: translateY(-3px); }
+.logoTile img { width: 100%; height: 100%; object-fit: contain; }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(20px, 3vw, 40px);
+  margin-top: clamp(32px, 4vw, 48px);
+  border-bottom: 1px solid rgba(0, 73, 102, 0.12);
+}
+
+.chip,
+.chipOn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  margin-bottom: -1px;
+  padding: 10px 0 14px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  cursor: pointer;
+}
+
+.chip { color: var(--ink-muted); }
+
+.chip:hover { color: var(--brand-blue); }
+
+.chipOn {
+  border-bottom-color: var(--brand-green);
+  color: var(--ink-strong);
+}
+
+.groupIntro { margin: 18px 0 0; color: var(--ink-muted); }
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.cardLink {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid rgba(0, 73, 102, 0.08);
+  border-radius: 26px;
+  background: #fff;
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 12px 30px rgba(0, 73, 102, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cardLink:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 44px rgba(0, 73, 102, 0.12);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cardTop .boardCount { margin-left: auto; }
+
+.boardCount {
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: rgba(22, 182, 106, 0.12);
+  color: var(--brand-green-deep);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cardDesc {
+  display: -webkit-box;
+  margin: 6px 0 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.cardArrow {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(0, 73, 102, 0.14);
+  border-radius: 50%;
+  color: var(--brand-blue-soft);
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+.cardLink:hover .cardArrow { transform: translateX(4px); }
+
+.primary:focus-visible,
+.secondary:focus-visible,
+.repoLink:focus-visible,
+.chip:focus-visible,
+.chipOn:focus-visible,
+.cardLink:focus-visible,
+.logoTile:focus-visible {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 3px;
+}
+
+@keyframes wall {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (max-width: 1100px) {
+  .storyTop { grid-template-columns: 1fr; }
+  .story[data-flip="1"] .copy { order: 0; }
+  .screen { position: static; }
+  .cardGrid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 720px) {
+  .story { border-radius: 28px; }
+  .steps,
+  .cardGrid { grid-template-columns: 1fr; }
+  .chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .chip,
+  .chipOn { justify-content: center; text-align: center; }
+  .logoTile { width: 76px; height: 76px; padding: 14px; border-radius: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee { mask-image: none; }
+  .track,
+  .loopHalf,
+  .logoSequence {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: none;
+  }
+  .logoSequence { gap: 14px; padding-inline: clamp(16px, 3vw, 56px); }
+  .track [data-clone="1"] { display: none; }
+  .cardLink,
+  .logoTile,
+  .cardArrow { transition: none; }
+
+}

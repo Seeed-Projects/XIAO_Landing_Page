@@ -2,7 +2,7 @@
 
 import { SiteHeader } from "../components";
 import { ProductPanel } from "../product-panel";
-import { SmartSelector } from "./smart-selector";
+import { XiaoSelector } from "./xiao-selector";
 import { HeroSection } from "../hero-section";
 import { useLang } from "../i18n";
 
@@ -19,7 +19,7 @@ export function ProductsHero() {
           ? "Seeed Studio XIAO is a full ecosystem that offers compact, Arduino-compatible development boards with expandable accessories for sensors, actuators, and connectivity."
           : "Seeed Studio XIAO 是一个完整的生态系统，提供紧凑的 Arduino 兼容开发板，并配有可扩展的传感器、执行器与连接配件。"
       }
-      titleClassName="font-display text-5xl font-semibold leading-[1.05] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] sm:text-6xl lg:text-7xl"
+      titleClassName="products-hero-title home-type-hero-title text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]"
       image="/products-hero.webp"
     />
   );
@@ -35,17 +35,17 @@ export default function ProductsPage() {
       <SiteHeader />
       <main className="flex w-full flex-1 flex-col">
         {/* 广告 Hero：mt-16 顶住页眉，无顶部白边 */}
-        <div className="mt-16">
+        <div id="top" className="mt-16">
           <ProductsHero />
         </div>
 
-        {/* 产品目录 */}
-        <div id="products-catalog" className="w-full scroll-mt-24 px-4 pb-24 sm:px-6 sm:pb-28 lg:px-8 lg:pb-32">
+        {/* 产品目录：与首图拉开间距，避免标题贴在大图下沿 */}
+        <div id="products-catalog" className="w-full scroll-mt-24 px-4 pb-24 pt-20 sm:px-6 sm:pb-28 sm:pt-24 lg:px-8 lg:pb-32 lg:pt-28">
           <ProductPanel />
         </div>
 
         {/* 选型器 */}
-        <SmartSelector />
+        <XiaoSelector />
 
         {/* Pinout 与 ESP Flasher 暂从 products 页下线（注释保留），
             由顶部 Playground 下拉进入对应入口。
