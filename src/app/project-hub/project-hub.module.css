@@ -183,12 +183,10 @@
   --line: #dce8e4;
   --acid: #8fc31f;
   --orange: #0b7285;
+  --hub-section-bg: #f4f6f7;
   --shadow: 0 20px 54px rgba(0, 73, 102, 0.12);
   min-height: 100%;
-  background:
-    radial-gradient(circle at 8% 0%, rgba(143, 195, 31, 0.18), transparent 28%),
-    radial-gradient(circle at 92% 14%, rgba(8, 102, 126, 0.12), transparent 30%),
-    linear-gradient(180deg, #f8fbef 0%, #f6faf9 42%, #ffffff 100%);
+  background: var(--hub-section-bg);
   color: var(--ink);
 }
 
@@ -1097,8 +1095,7 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0;
   border-top: 1px solid rgba(255,255,255,.52);
-  background: rgba(255,255,255,.9);
-  backdrop-filter: blur(14px);
+  background: var(--hub-section-bg);
 }
 .introMetrics > div {
   min-width: 0;

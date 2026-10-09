@@ -15,8 +15,8 @@ const group = (id, labelEn, items) => ({ id, label: labelEn, labelEn, items });
 export const PRODUCT_CATALOG = [
   {
     id: "dev-boards",
-    label: "XIAO Dev Boards in a Glimpse",
-    labelEn: "XIAO Dev Boards in a Glimpse",
+    label: "XIAO Dev Boards",
+    labelEn: "XIAO Dev Boards",
     subcategories: [
       group("esp32", "Espressif ESP32 Series", [
         product("XIAO ESP32-C3", "https://www.seeedstudio.com/Seeed-XIAO-ESP32C3-p-5431.html", "dev_boards/XIAO落地页素材-19-1536x1257.jpg", "Cost effective with Wi-Fi and BLE on board"),

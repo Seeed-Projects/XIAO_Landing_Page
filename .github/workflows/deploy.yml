@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  repository_dispatch:
+    types: [projects-updated]
+  schedule:
+    - cron: "17 */6 * * *"
 
 permissions:
   contents: read
@@ -33,6 +37,8 @@ jobs:
       - name: Build static export
         env:
           NEXT_PUBLIC_BASE_PATH: /XIAO_Landing_Page
+          NEXT_PUBLIC_GTM_ID: ${{ vars.NEXT_PUBLIC_GTM_ID }}
+          NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ vars.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
           GH_TOKEN: ${{ secrets.GH_ROADMAP_TOKEN }}
         run: npm run build
 
