@@ -35,6 +35,7 @@
     "s3plus-back": "/xiao-products/pinout/s3plus-back.svg",
     "s3sense-front": "/xiao-products/pinout/s3sense-front.svg",
     "s3sense-back": "/xiao-products/pinout/s3sense-back.svg",
+    "s3sense-module": "/xiao-products/pinout/s3sense-module.svg",
     "s3-front": "/xiao-products/pinout/s3-front.svg",
     "s3-back": "/xiao-products/pinout/s3-back.svg",
     "mg24sense-front": "/xiao-products/pinout/mg24sense-front.svg",
@@ -140,10 +141,10 @@
     {
       "boardId": "s3sense",
       "face": "front",
-      "rows": 23,
-      "rects": 113,
-      "mb": "5.77",
-      "beforeMb": "11.01"
+      "rows": 19,
+      "rects": 71,
+      "mb": "0.54",
+      "beforeMb": "5.29"
     },
     {
       "boardId": "s3sense",
@@ -221,17 +222,17 @@
       "boardId": "rp2040plus",
       "face": "front",
       "rows": 20,
-      "rects": 59,
-      "mb": "0.49",
-      "beforeMb": "1.17"
+      "rects": 58,
+      "mb": "0.50",
+      "beforeMb": "1.18"
     },
     {
       "boardId": "rp2040plus",
       "face": "back",
-      "rows": 26,
-      "rects": 53,
-      "mb": "0.53",
-      "beforeMb": "1.32"
+      "rows": 25,
+      "rects": 50,
+      "mb": "0.62",
+      "beforeMb": "1.41"
     },
     {
       "boardId": "rp2040",
@@ -270,16 +271,16 @@
       "face": "front",
       "rows": 18,
       "rects": 81,
-      "mb": "0.50",
+      "mb": "0.49",
       "beforeMb": "0.94"
     },
     {
       "boardId": "samd21plus",
       "face": "back",
-      "rows": 25,
-      "rects": 73,
-      "mb": "0.62",
-      "beforeMb": "1.37"
+      "rows": 23,
+      "rects": 68,
+      "mb": "0.68",
+      "beforeMb": "1.43"
     },
     {
       "boardId": "samd21",
@@ -293,17 +294,17 @@
       "boardId": "stm32c5",
       "face": "front",
       "rows": 23,
-      "rects": 62,
-      "mb": "0.43",
-      "beforeMb": "2.02"
+      "rects": 63,
+      "mb": "0.42",
+      "beforeMb": "1.43"
     },
     {
       "boardId": "stm32c5",
       "face": "back",
-      "rows": 19,
-      "rects": 44,
-      "mb": "0.42",
-      "beforeMb": "1.92"
+      "rows": 17,
+      "rects": 35,
+      "mb": "0.43",
+      "beforeMb": "1.77"
     },
     {
       "boardId": "nrf52840plus",

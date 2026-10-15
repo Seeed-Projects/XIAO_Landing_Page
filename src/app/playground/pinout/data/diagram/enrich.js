@@ -1,5 +1,6 @@
 import { buildDiagram } from "../defineBoard.js";
 import { BOARD_DIAGRAMS } from "./boardDiagrams.js";
+import { BOARD_FIGURES } from "./boardFigures.js";
 import { regroupDiagramLayout } from "./inferRows.js";
 import { FAMILY_NOTES } from "../notes/index.js";
 import { FAMILY_ALT } from "../alt/index.js";
@@ -39,6 +40,9 @@ function altFromCaps(pin) {
   if (pin.caps?.spi) out.spi = pin.caps.spi === true ? "SPI" : pin.caps.spi;
   if (pin.caps?.uart) out.uart = pin.caps.uart === true ? "UART" : pin.caps.uart;
   if (pin.caps?.pwm) out.pwm = pin.caps.pwm === true ? "PWM" : pin.caps.pwm;
+  if (pin.caps?.ptc) out.ptc = pin.caps.ptc === true ? "PTC" : pin.caps.ptc;
+  if (pin.caps?.can) out.can = pin.caps.can === true ? "CAN" : pin.caps.can;
+  if (pin.caps?.i2s) out.i2s = pin.caps.i2s === true ? "I²S" : pin.caps.i2s;
   if (pin.caps?.dac) out.other = [pin.caps.dac === true ? "DAC" : pin.caps.dac];
   return out;
 }
@@ -85,12 +89,26 @@ export function enrichBoard(board) {
   const spec = BOARD_DIAGRAMS[board.id];
   if (!spec) return { ...board, pins: decoratePins(board, board.diagram || null) };
   const grouped = {};
-  for (const face of ["front", "back"]) {
+  // "module" is s3sense-only today: the Sense expansion board (camera / mic /
+  // SD) face; boards without a module asset simply skip it.
+  // 目前 module 面仅 s3sense 有：Sense 扩展板（摄像头/麦克风/SD）；无该资产的板自动跳过。
+  for (const face of ["front", "back", "module"]) {
     if (!spec[face]) continue;
-    grouped[face] = { ...spec[face], layout: regroupDiagramLayout(spec[face].layout) };
+    // The scanned rows alone would trim the board photo out of the crop, so
+    // the measured photo bounds join the layout before regrouping.
+    // 仅按标签行裁剪会把板身照片裁掉，先并入量得的板身边界再重分组。
+    const figure = BOARD_FIGURES[board.id]?.[face];
+    const layout = figure
+      ? { ...spec[face].layout, board: { x: figure.x, y: figure.y, w: figure.w, h: figure.h } }
+      : spec[face].layout;
+    grouped[face] = { ...spec[face], layout: regroupDiagramLayout(layout), figure: figure || null };
   }
   const diagram = buildDiagram(grouped, board.id);
   if (!diagram) return { ...board, pins: decoratePins(board, null) };
+  for (const face of Object.keys(diagram)) {
+    const figure = grouped[face]?.figure;
+    if (figure) diagram[face].figure = { ...figure };
+  }
   const images = { ...board.images };
   if (spec.front?.src) {
     const size = grouped.front.layout.size;

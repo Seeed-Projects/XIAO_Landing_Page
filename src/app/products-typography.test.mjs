@@ -45,6 +45,27 @@ test("Product catalog presents three series as the primary stage", () => {
   assert.match(panel, /styles\.preview/);
 });
 
+test("Dev Boards use the supplied front-view assets and include STM32C5", () => {
+  const catalog = read("./products/catalog.js");
+  const boardSpecs = read("./products/board-specs.mjs");
+  assert.match(catalog, /dev_boards\/front\/XIAO-ESP32-C3-front\.webp/);
+  assert.match(catalog, /dev_boards\/front\/XIAO-ESP32-C6-front\.webp/);
+  assert.match(catalog, /dev_boards\/front\/XIAO-nRF54LM20A-Sense-front\.webp/);
+  assert.match(catalog, /group\("stm32", "STMicroelectronics STM32 Series"/);
+  assert.match(catalog, /product\("XIAO STM32C5"[\s\S]*XIAO-STM32C5-front\.webp/);
+  assert.match(boardSpecs, /"XIAO STM32C5"/);
+  assert.match(boardSpecs, /id: "st"[\s\S]*STMicroelectronics/);
+});
+
+test("XIAO Selector uses its dedicated SVG artwork without changing Product cards", () => {
+  const catalog = read("./products/catalog.js");
+  assert.match(catalog, /export const SELECTOR_IMAGES/);
+  assert.match(catalog, /"XIAO STM32C5": selectorImage\("XIAO-STM32C5"\)/);
+  assert.match(catalog, /"XIAO ESP32-C6": selectorImage\("XIAO-ESP32-C6"\)/);
+  assert.match(selector, /SELECTOR_IMAGES\[item\.title\] \?\? item\.img/);
+  assert.match(panel, /withBase\(item\.img\)/);
+});
+
 test("Products component CSS points to the shared typography tokens", () => {
   assert.match(selectorCss, /\.intro h2[^}]*font-size: var\(--home-title-size\)/s);
   assert.match(selectorCss, /\.intro p[^}]*font-size: var\(--home-body-size\)/s);

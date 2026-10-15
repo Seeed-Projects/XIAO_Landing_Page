@@ -15,53 +15,7 @@
   padding: 28px clamp(12px, 7cm, 20vw) 88px;
 }
 
-/* Full-bleed hero — same inset as Products / Project Hub */
-.roadmapHero {
-  position: relative;
-  isolation: isolate;
-  aspect-ratio: 1695 / 632;
-  min-height: 420px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  background: #102d38;
-}
-.roadmapHero > img {
-  z-index: -3;
-  object-fit: cover;
-  object-position: center;
-}
-.heroShade {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background:
-    linear-gradient(90deg, rgba(0,25,37,.86) 0%, rgba(0,31,44,.64) 43%, rgba(0,31,44,.1) 76%, rgba(0,20,30,.05) 100%),
-    linear-gradient(0deg, rgba(0,20,30,.42), transparent 58%);
-}
-.heroCopy {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  max-width: none;
-  margin: 0;
-  padding-block: 4rem;
-  transform: translateY(-1.25rem);
-}
-.roadmapHero .headActions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 18px;
-  margin: 28px 0 0;
-}
-.howLink {
-  text-decoration: none;
-  color: #c9dfad !important;
-}
-.howLink:hover {
-  color: #fff !important;
-}
+/* Hero now uses the shared ToolPageIntro (centered, ink-strong, no background image) */
 
 /* Board */
 .board {
@@ -73,8 +27,7 @@
 }
 
 /* Stage lanes: each column is a tinted bucket with its own accent colour */
-.column,
-.helpRail {
+.column {
   --stage-accent: #8b5cf6;
   --stage-soft: rgba(139, 92, 246, 0.16);
   --stage-tint: color-mix(in srgb, var(--stage-accent) 8%, #fff);
@@ -105,13 +58,8 @@
   --stage-soft: rgba(34, 197, 94, 0.16);
   --stage-next: #22c55e;
 }
-.tone_help {
-  --stage-accent: #ef7d3b;
-  --stage-soft: rgba(239, 125, 59, 0.16);
-}
 
-.column,
-.helpRail {
+.column {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -239,6 +187,22 @@
   flex-direction: column;
   gap: 12px;
   overflow: visible;
+}
+/* Partial collapse: wish/vote columns show only as many whole cards as the
+   taller of dev/done (see clampCount in communityRoadmap.js). No overflow
+   clipping — the original ideaCard tilt/thumbnail styling stays untouched. */
+.clampToggle {
+  align-self: center;
+  margin-top: 6px;
+  color: var(--stage-accent);
+}
+.clampToggle:hover {
+  opacity: 0.8;
+}
+.clampToggle:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--stage-accent) 45%, transparent);
+  outline-offset: 3px;
+  border-radius: 8px;
 }
 .columnEmpty {
   margin: 0;
@@ -541,72 +505,7 @@
   font-size: 11px;
 }
 
-/* Help Needed rail */
-.helpRail {
-  margin-top: 22px;
-}
-.helpBody {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-  overflow: visible;
-}
-
-/* Hero CTA reinforcement — match Project Hub */
-.headActions :global(.home-primary-cta),
-.headActions :global(.home-type-action.home-filled-action) {
-  display: inline-flex;
-  width: auto;
-  min-height: 48px;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border: 0;
-  border-radius: 9999px;
-  font-size: var(--home-body-size);
-  font-weight: var(--home-action-weight);
-  line-height: var(--home-body-leading);
-  letter-spacing: normal;
-  text-decoration: none;
-  background: var(--button-bg) !important;
-  color: #fff !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-}
-.headActions :global(.home-primary-cta):hover,
-.headActions :global(.home-type-action.home-filled-action):hover {
-  transform: translateY(-2px);
-  background: var(--button-bg-hover) !important;
-  color: #fff !important;
-}
-.headActions :global(.home-primary-cta):focus-visible {
-  outline: 3px solid rgba(0, 73, 102, 0.3);
-  outline-offset: 3px;
-}
-
-.heroCopy :global(.home-type-hero-title) {
-  max-width: 1180px;
-  margin: 0;
-  color: #fff;
-  font-family: var(--font-display), sans-serif;
-  font-size: var(--home-hero-title-size);
-  font-weight: var(--home-title-weight);
-  line-height: var(--home-title-leading);
-  letter-spacing: var(--home-title-tracking);
-  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-}
-.heroCopy :global(.page-hero-description) {
-  max-width: 660px;
-  margin: 24px 0 0;
-  color: rgba(255, 255, 255, 0.9);
-  font-family: var(--font-body), sans-serif;
-  font-size: var(--home-body-size);
-  font-weight: var(--home-body-weight);
-  line-height: var(--home-body-leading);
-  letter-spacing: normal;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.42);
-}
+/* Hero CTAs now use shared global classes via ToolPageIntro actions */
 .columnEmpty:global(.home-type-body) {
   font-family: var(--font-body), sans-serif;
   font-size: 13px;
@@ -614,27 +513,8 @@
   line-height: var(--home-body-leading);
 }
 
-@media (min-width: 640px) {
-  .heroCopy {
-    transform: translateY(-1.75rem);
-  }
-  .heroCopy :global(.page-hero-description),
-  .headActions :global(.home-type-action.home-filled-action) {
-    font-size: 16px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .heroCopy {
-    transform: translateY(-2rem);
-  }
-}
-
 @media (max-width: 1023px) {
   .board {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .helpBody {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .stageRail::after,
@@ -645,23 +525,7 @@
 
 @media (max-width: 760px) {
   .wrap { padding: 22px 16px 72px; }
-  .roadmapHero { aspect-ratio: auto; min-height: 620px; }
-  .roadmapHero > img { object-position: 58% center; }
-  .heroShade {
-    background: linear-gradient(0deg, rgba(0,25,37,.94) 0%, rgba(0,31,44,.68) 60%, rgba(0,31,44,.08) 100%);
-  }
-  .heroCopy {
-    padding-block: 4rem;
-    transform: translateY(-1.25rem);
-  }
-  .roadmapHero .headActions {
-    align-items: flex-start;
-    flex-direction: column;
-  }
   .board {
-    grid-template-columns: 1fr;
-  }
-  .helpBody {
     grid-template-columns: 1fr;
   }
   .ideaThumb {

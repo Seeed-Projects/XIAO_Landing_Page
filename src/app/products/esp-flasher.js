@@ -146,8 +146,8 @@ export function ESPFlasher() {
 
     step1: zh ? "连接设备" : "Connect the board",
     step1Hint: zh
-      ? "连接 XIAO 并选择串口；页面会自动识别型号并开始监听。"
-      : "Connect XIAO and choose its port; the page detects the model and starts monitoring automatically.",
+      ? "连接 XIAO ESP32 系列开发板并选择串口；页面会自动识别型号并开始监听。"
+      : "Connect an ESP32 series XIAO and choose its port; the page detects the model and starts monitoring automatically.",
     step1TroubleTitle: zh ? "连接不上？" : "Trouble connecting?",
     step1Trouble: zh
       ? "1. 换一条支持数据传输的 USB-C 线（部分线材只能充电）。\n2. 按住板子上的 BOOT 键再插入 USB，或按住 BOOT 点一下 RESET，进入下载模式后重试。\n3. macOS 与 Windows 都无需额外驱动；若仍看不到串口，换一个 USB 口或直连电脑而不经扩展坞。"
@@ -184,19 +184,19 @@ export function ESPFlasher() {
     localAddressBad: zh ? "地址需为十六进制，例如 0x10000" : "Address must be hex, for example 0x10000",
     localOverlap: zh ? "烧录地址范围相互重叠，请调整地址" : "Flash address ranges overlap; adjust the addresses",
 
-    step3: zh ? "开始烧录" : "Flash the firmware",
+    step3: zh ? "开始 ESP 烧录" : "ESP flash the firmware",
     step3Hint: zh
       ? "页面会在写入前校验文件，并在写入后核对设备中的内容。"
       : "The file is checked before writing and verified on the device afterward.",
-    flash: zh ? "烧录固件" : "Flash firmware",
-    eraseFlash: zh ? "擦除并烧录" : "Erase & flash",
-    flashing: zh ? "烧录中…" : "Flashing…",
-    erasing: zh ? "擦除并烧录中…" : "Erasing & flashing…",
+    flash: zh ? "ESP 烧录固件" : "ESP Flash firmware",
+    eraseFlash: zh ? "擦除并 ESP 烧录" : "Erase & ESP flash",
+    flashing: zh ? "ESP 烧录中…" : "ESP Flashing…",
+    erasing: zh ? "擦除并 ESP 烧录中…" : "Erasing & ESP flashing…",
     writing: zh ? "正在写入" : "Writing",
     eraseWriting: zh ? "正在擦除并写入" : "Erasing and writing",
     needConnect: zh ? "请先完成第 1 步连接设备" : "Complete step 1 and connect a board first",
     needFirmware: zh ? "请先选择固件" : "Choose a firmware first",
-    success: zh ? "烧录完成，设备已复位并运行新固件。" : "Flash complete — the board reset into the new firmware.",
+    success: zh ? "ESP 烧录完成，设备已复位并运行新固件。" : "ESP flash complete — the board reset into the new firmware.",
     eraseUnavailable: zh
       ? "当前固件只是应用程序镜像，不包含启动文件和分区表，因此不会提供整片擦除。"
       : "This is an application image without the bootloader and partition table, so whole-flash erase is unavailable.",
@@ -209,17 +209,17 @@ export function ESPFlasher() {
     stageVerifying: zh ? "校验设备内容" : "Verifying device contents",
     stageRestarting: zh ? "重启设备" : "Restarting device",
     stageReconnecting: zh ? "恢复串口连接" : "Restoring serial connection",
-    stageComplete: zh ? "烧录与校验完成" : "Flash and verification complete",
+    stageComplete: zh ? "ESP 烧录与校验完成" : "ESP flash and verification complete",
     reconnectManual: zh ? "固件已写入，请点击“开始监听”重新连接串口。" : "Firmware was written. Select Start listening to reconnect the serial port.",
 
     monitorTitle: zh ? "串口监视器" : "Serial Monitor",
     monitorLead: zh
-      ? "烧录日志与设备输出都带时间戳记录在这里，复制或下载后即可发给技术支持。"
-      : "Flash logs and device output are timestamped here — copy or download them to share with support.",
+      ? "ESP 烧录日志与设备输出都带时间戳记录在这里，复制或下载后即可发给技术支持。"
+      : "ESP flash logs and device output are timestamped here — copy or download them to share with support.",
     phaseIdle: zh ? "未连接" : "Not connected",
     phaseConnecting: zh ? "连接中" : "Connecting",
     phaseMonitoring: zh ? "监听中" : "Listening",
-    phaseFlashing: zh ? "烧录中" : "Flashing",
+    phaseFlashing: zh ? "ESP 烧录中" : "ESP Flashing",
     phaseRestarting: zh ? "重启中" : "Restarting",
     phaseReconnecting: zh ? "重连中" : "Reconnecting",
     phasePaused: zh ? "已暂停" : "Paused",

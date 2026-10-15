@@ -1,11 +1,9 @@
 "use client";
 
-import Image from "next/image";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useLang } from "../i18n";
 import { Reveal } from "../reveal";
-import { Glow } from "../Glow";
-import { withBase } from "../../lib/basePath";
+import { ToolPageIntro } from "../tool-page-intro";
 import discussionData from "../../../public/open-roadmap/discussions.json";
 import styles from "./community-roadmap.module.css";
 
@@ -47,15 +45,6 @@ const STAGES = [
     },
   },
 ];
-
-const HELP_STAGE = {
-  id: "help",
-  label: { en: "Help Needed", zh: "需要帮助" },
-  blurb: {
-    en: "Discussions looking for community input",
-    zh: "需要社区一起推进的讨论",
-  },
-};
 
 const REACTION_META = [
   { key: "thumbsUp", emoji: "👍" },
@@ -274,8 +263,14 @@ function StageHeader({ stage, count, lang, step, total, stepLabel }) {
   );
 }
 
-function StageColumn({ stage, items, lang, emptyLabel, labels, step, total, stepLabel }) {
+function StageColumn({ stage, items, lang, emptyLabel, labels, step, total, stepLabel, clampCount, expandLabel, collapseLabel }) {
   const toneClass = styles[`tone_${stage.id}`] || "";
+  const collapsible = stage.id === "wish" || stage.id === "vote";
+  const [expanded, setExpanded] = useState(false);
+  const overflows = collapsible && clampCount > 0 && items.length > clampCount;
+  const visible = collapsible && !expanded && clampCount > 0 ? Math.min(items.length, clampCount) : items.length;
+  const hiddenCount = items.length - visible;
+
   return (
     <section
       className={`${styles.column} ${toneClass}`}
@@ -293,11 +288,23 @@ function StageColumn({ stage, items, lang, emptyLabel, labels, step, total, step
         {items.length === 0 ? (
           <p className={`home-type-body ${styles.columnEmpty}`}>{emptyLabel}</p>
         ) : (
-          items.map((item) => (
-            <IdeaCard key={item.id} item={item} lang={lang} labels={labels} />
-          ))
+          items
+            .slice(0, visible)
+            .map((item) => (
+              <IdeaCard key={item.id} item={item} lang={lang} labels={labels} />
+            ))
         )}
       </div>
+      {overflows ? (
+        <button
+          type="button"
+          className={`home-type-action home-text-action ${styles.clampToggle}`}
+          onClick={() => setExpanded((e) => !e)}
+          aria-expanded={expanded}
+        >
+          {expanded ? collapseLabel : `${expandLabel} (${hiddenCount})`}
+        </button>
+      ) : null}
     </section>
   );
 }
@@ -321,6 +328,8 @@ export function CommunityRoadmap() {
     participants: lang === "zh" ? "位参与者" : "participants",
     active: lang === "zh" ? "活跃" : "Active",
     step: lang === "zh" ? "阶段" : "Stage",
+    expandLabel: lang === "zh" ? "展开更多" : "Show more",
+    collapseLabel: lang === "zh" ? "收起" : "Collapse",
   };
 
   const cardLabels = {
@@ -341,61 +350,43 @@ export function CommunityRoadmap() {
     return map;
   }, []);
 
+  // Fold wish/vote to the taller of the dev/done columns so the four columns
+  // line up. Cards are sliced whole (no overflow clipping), so the original
+  // tilt/thumbnail styling stays untouched.
+  const clampCount = Math.max(byStage.dev.length, byStage.done.length);
+
   return (
     <div className={styles.roadmap}>
-      <Reveal as="section" id="top" className={styles.roadmapHero}>
-        <Image
-          src={withBase("/openroadmap-hero.webp")}
-          alt=""
-          fill
-          sizes="100vw"
-          priority
-        />
-        <div className={styles.heroShade} />
-        <div className={`page-hero-copy ${styles.heroCopy}`}>
-          <Glow
-            as="h1"
-            className="home-type-hero-title text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]"
-          >
-            {T.h1}
-          </Glow>
-          <p className="page-hero-description home-type-body text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]">
-            {T.sub}
-          </p>
-          <div className={styles.headActions}>
-            <a
-              className="home-type-action home-filled-action home-primary-cta"
-              href={GITHUB_DISCUSSIONS}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "#fff" }}
-            >
-              {T.btnSubmit}
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
+      <Reveal as="section" id="top" className="scroll-mt-24">
+        <ToolPageIntro
+          title={T.h1}
+          description={T.sub}
+          actions={
+            <>
+              <a
+                className="home-type-action home-filled-action home-primary-cta"
+                href={GITHUB_DISCUSSIONS}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "#fff" }}
               >
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </a>
-            <a
-              className={`home-type-action home-text-action ${styles.howLink}`}
-              href={HOW_IT_WORKS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {T.howItWorks} ↗
-            </a>
-          </div>
-        </div>
+                {T.btnSubmit}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+              <a
+                className="home-type-action home-text-action"
+                href={HOW_IT_WORKS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {T.howItWorks} ↗
+              </a>
+            </>
+          }
+        />
       </Reveal>
 
       <div className={styles.wrap}>
@@ -411,22 +402,12 @@ export function CommunityRoadmap() {
               step={index + 1}
               total={STAGES.length}
               stepLabel={T.step}
+              clampCount={clampCount}
+              expandLabel={T.expandLabel}
+              collapseLabel={T.collapseLabel}
             />
           ))}
         </div>
-
-        <section className={`${styles.helpRail} ${styles.tone_help}`} aria-labelledby="stage-help">
-          <StageHeader stage={HELP_STAGE} count={byStage.help.length} lang={lang} />
-          <div className={styles.helpBody}>
-            {byStage.help.length === 0 ? (
-              <p className={`home-type-body ${styles.columnEmpty}`}>{T.empty}</p>
-            ) : (
-              byStage.help.map((item) => (
-                <IdeaCard key={item.id} item={item} lang={lang} labels={cardLabels} />
-              ))
-            )}
-          </div>
-        </section>
       </div>
     </div>
   );

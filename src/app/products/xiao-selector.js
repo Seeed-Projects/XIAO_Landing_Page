@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useLang } from "../i18n";
 import { Glow } from "../Glow";
 import { withBase } from "../../lib/basePath";
-import { PRODUCT_CATALOG } from "./catalog";
+import { PRODUCT_CATALOG, SELECTOR_IMAGES } from "./catalog";
 import { BOARD_HARDWARE, BOARD_SPECS, FILTER_GROUPS, HARDWARE_FIELDS, emptySelection } from "./board-specs.mjs";
 import {
   activeFilters,
@@ -17,7 +17,7 @@ import {
 import styles from "./xiao-selector.module.css";
 
 const MAX_COMPARE = 4;
-const DEFAULT_OPEN_GROUPS = ["connectivity", "variant", "platform", "sensors", "power", "pinHeader", "format"];
+const DEFAULT_OPEN_GROUPS = ["platform", "connectivity", "sensors", "antenna", "power", "packaging"];
 
 /**
  * Board list built from the shared catalog plus the spec / hardware matrices.
@@ -27,7 +27,7 @@ const BOARDS = PRODUCT_CATALOG.find((c) => c.id === "dev-boards").subcategories.
   sub.items.map((item) => ({
     id: item.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
     name: item.title,
-    img: withBase(item.img),
+    img: withBase(SELECTOR_IMAGES[item.title] ?? item.img),
     link: item.link,
     desc: item.descEn || item.desc || "",
     specs: BOARD_SPECS[item.title] ?? {},
@@ -65,8 +65,8 @@ const TEXT = {
     removeFor: (label, n) => `Remove ${label} → ${n} boards`,
     buy: "Buy",
     wiki: "Wiki",
-    addCompare: "Add to compare",
-    inCompare: "In compare",
+    addCompare: "Compare",
+    inCompare: "Added",
     compareTitle: "Compare boards",
     diffOnly: "Only show differences",
     clear: "Clear",
@@ -76,8 +76,8 @@ const TEXT = {
     board: "Board",
     wireless: "Wireless",
     sensors: "Sensors",
-    power: "Power",
-    io: "I/O",
+    power: "Power Supply",
+    io: "Highlighted IOs",
     dev: "Dev Platform",
     purchaseCol: "Purchase",
     actions: "Actions",
@@ -109,7 +109,7 @@ const TEXT = {
     removeFor: (label, n) => `移除 ${label} → ${n} 款`,
     buy: "购买",
     wiki: "Wiki",
-    addCompare: "加入对比",
+    addCompare: "对比",
     inCompare: "已加入",
     compareTitle: "产品对比",
     diffOnly: "只看差异",
@@ -120,8 +120,8 @@ const TEXT = {
     board: "板子",
     wireless: "无线",
     sensors: "传感器",
-    power: "供电",
-    io: "接口",
+    power: "供电方式",
+    io: "重点接口",
     dev: "开发平台",
     purchaseCol: "采购",
     actions: "操作",
@@ -206,7 +206,8 @@ export function XiaoSelector() {
   const compareBoards = compare.map((id) => BOARDS.find((b) => b.id === id)).filter(Boolean);
 
   const labelsFor = (board, groupId) =>
-    (board.specs[groupId] ?? []).map((id) => L(OPTION_LABEL[`${groupId}:${id}`]) || id);
+    (board.specs[groupId] ?? [])
+      .map((id) => L(OPTION_LABEL[`${groupId}:${id}`]) || id);
 
   const isHit = (groupId, optionId) => (selection[groupId] ?? []).includes(optionId);
 
@@ -320,7 +321,7 @@ export function XiaoSelector() {
 
   const renderCard = (board) => {
     const inCompare = compare.includes(board.id);
-    const isPlus = board.specs.variant?.includes("plus");
+    const isPlus = board.specs.packaging?.includes("plus");
     return (
       <article key={board.id} className={`${styles.card} ${inCompare ? styles.cardSelected : ""}`}>
         <div className={styles.cardVisual}>
@@ -342,12 +343,15 @@ export function XiaoSelector() {
           </dl>
         </div>
         <div className={styles.cardFooter}>
-          <a className={`${styles.primaryBtn} home-type-action home-filled-action home-primary-cta`} href={board.link} target="_blank" rel="noopener noreferrer">{t.buy}</a>
-          <a className={styles.ghostBtn} href={board.hardware.wiki} target="_blank" rel="noopener noreferrer">{t.wiki}</a>
+          {/* Compare toggle sits bottom-left so it reads as its own action,
+              with Buy / Wiki pushed to the right. 对比开关放左下角，购买与
+              Wiki 按钮靠右，让「加入对比」一眼可见。 */}
           <label className={`${styles.compareToggle} ${inCompare ? styles.compareToggleOn : ""}`}>
             <input type="checkbox" checked={inCompare} onChange={() => toggleCompare(board.id)} />
-            <span>{inCompare ? t.inCompare : t.addCompare}</span>
+            <span>{inCompare ? `✓ ${t.inCompare}` : `＋ ${t.addCompare}`}</span>
           </label>
+          <a className={`${styles.primaryBtn} home-type-action home-filled-action home-primary-cta`} href={board.link} target="_blank" rel="noopener noreferrer">{t.buy}</a>
+          <a className={styles.ghostBtn} href={board.hardware.wiki} target="_blank" rel="noopener noreferrer">{t.wiki}</a>
         </div>
       </article>
     );
@@ -387,7 +391,7 @@ export function XiaoSelector() {
                     <img src={board.img} alt="" loading="lazy" decoding="async" />
                     <div>
                       <strong>{board.name}</strong>
-                      {board.specs.variant?.includes("plus") && <span className={styles.plusBadgeInline}>Plus</span>}
+                      {board.specs.packaging?.includes("plus") && <span className={styles.plusBadgeInline}>Plus</span>}
                     </div>
                   </div>
                 </td>
@@ -401,10 +405,7 @@ export function XiaoSelector() {
                 <td>{renderTags(board, "io")}</td>
                 <td>{renderTags(board, "dev")}</td>
                 <td>
-                  <span className={styles.stack}>
-                    {renderTags(board, "pinHeader")}
-                    {renderTags(board, "format")}
-                  </span>
+                  {renderTags(board, "packaging")}
                 </td>
                 <td>
                   <span className={styles.tableActions}>

@@ -52,7 +52,7 @@ function StepCanvas({ url }) {
         const { OrbitControls } = await import("three/examples/jsm/controls/OrbitControls.js");
         const occtimportjs = (await import("occt-import-js")).default;
         const occt = await occtimportjs({ locateFile: (file) => withBase(`/external/${file}`) });
-        const response = await fetch(url);
+        const response = await fetch(withBase(url));
         if (!response.ok) throw new Error(String(response.status));
         const result = occt.ReadStepFile(new Uint8Array(await response.arrayBuffer()), null);
         if (!result?.success || !result.meshes?.length) throw new Error("empty");

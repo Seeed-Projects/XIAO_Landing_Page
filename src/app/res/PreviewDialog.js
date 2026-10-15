@@ -80,7 +80,7 @@ export function PreviewDialog({ item, onClose }) {
           ))}
           {drawing && <VectorPreview item={item} zh={zh} />}
           {item.preview === "xlsx" && <SheetPreview item={item} zh={zh} />}
-          {item.preview === "step" && <StepViewer url={item.url} />}
+          {item.preview === "step" && <StepViewer url={item.previewUrl || item.url} />}
         </div>
       </div>
     </div>

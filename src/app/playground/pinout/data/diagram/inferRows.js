@@ -27,9 +27,13 @@ export function regroupDiagramLayout(layout) {
     }
   }
   const center = (leftMean + rightMean) / 2;
+  // Interleaved sub-columns (e.g. nRF54 LM20A back) sit ~20px apart, tighter
+  // than the default threshold; opt-in smaller band gap per layout.
+  // 交错子列（如 nRF54 LM20A 背面）间距约 20px，小于默认阈值；按布局可选更小的合并间距。
   const bands = [];
   for (const box of [...all].sort((a, b) => a.cy - b.cy)) {
-    const band = bands.find((item) => Math.abs(item.cy - box.cy) < Math.max(box.h, 20) * 0.7);
+    const bandGap = layout.bandGap ?? Math.max(box.h, 20) * 0.7;
+    const band = bands.find((item) => Math.abs(item.cy - box.cy) < bandGap);
     if (band) {
       band.boxes.push(box);
       band.cy = (band.cy * (band.boxes.length - 1) + box.cy) / band.boxes.length;
@@ -49,7 +53,12 @@ export function regroupDiagramLayout(layout) {
     if (leftBoxes.length) left.push(toRow(leftBoxes));
     if (rightBoxes.length) right.push(toRow(rightBoxes));
   }
-  const used = [...left, ...right].flatMap((row) => row.boxes);
+  // Hand-annotated extras (board artwork, baked-in colour key) stay inside the
+  // crop: the rows alone would trim the board photo and the published key.
+  // 手工标注的板身图与内置图例计入裁剪范围，仅按行裁会把板子照片和图例裁掉。
+  const extras = [...(layout.legend || []), ...(layout.board ? [layout.board] : [])]
+    .map((l) => ({ x: l.x, y: l.y, w: l.w, h: l.h }));
+  const used = [...left, ...right].flatMap((row) => row.boxes).concat(extras);
   const content = used.length ? {
     x: Math.min(...used.map((box) => box.x)),
     y: Math.min(...used.map((box) => box.y)),

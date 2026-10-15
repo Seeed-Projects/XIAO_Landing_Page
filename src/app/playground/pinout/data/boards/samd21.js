@@ -34,11 +34,11 @@ const analog = (id, chip, { caps, ...extra } = {}) => header(id, {
   ...extra,
 });
 
-const bus = (id, alias, fn, chip, spec) => header(id, {
+const bus = (id, alias, fn, chip, { caps, ...spec } = {}) => header(id, {
   arduino: alias,
   chip,
   fn,
-  caps: { adc: id.replace("D", "A"), [fn]: alias, pwm: true },
+  caps: { adc: id.replace("D", "A"), [fn]: alias, pwm: true, ...caps },
   ...spec,
 });
 
@@ -83,12 +83,15 @@ const samd21 = defineBoard({
       desc: { en: "3.3V regulated output", zh: "3.3V 稳压输出" },
       warning: { en: "Max output ~200mA; use a separate supply beyond that.", zh: "最大输出约 200mA，超出请独立供电。" },
     }),
+    // PTC Y-line numbers follow the official pin map (PTC-Y0 on D0 etc.);
+    // only these pads have touch channels on the SAMD21.
+    // PTC Y 线编号按官方引脚图（D0 为 PTC-Y0 等）；SAMD21 只有这些焊盘有触摸通道。
     analog("D0", "PA02", {
-      caps: { dac: "DAC0", pwm: false },
+      caps: { dac: "DAC0", pwm: false, ptc: "Y0" },
       desc: { en: "Digital 0 / Analog 0 — the only DAC output", zh: "数字 0 / 模拟 0 —— 唯一的 DAC 输出" },
       code: "analogWriteResolution(10);\nanalogWrite(A0, 512);",
     }),
-    analog("D1", "PA04"),
+    analog("D1", "PA04", { caps: { ptc: "Y2" } }),
     analog("D2", "PA10"),
     analog("D3", "PA11"),
     bus("D4", "SDA", "i2c", "PA08", {
@@ -102,23 +105,28 @@ const samd21 = defineBoard({
       code: "Wire.begin();\nWire.setClock(400000);",
     }),
     bus("D6", "TX", "uart", "PB08", {
+      caps: { ptc: "Y14" },
       desc: { en: "Digital 6 / Analog 6 / UART transmit", zh: "数字 6 / 模拟 6 / UART 发送" },
       warning: { en: "3.3V logic; level-shift before connecting 5V devices.", zh: "逻辑电平 3.3V，接 5V 设备先电平转换。" },
       code: "Serial1.begin(115200);\nSerial1.println(\"hi\");",
     }),
     bus("D7", "RX", "uart", "PB09", {
+      caps: { ptc: "Y15" },
       desc: { en: "Digital 7 / Analog 7 / UART receive", zh: "数字 7 / 模拟 7 / UART 接收" },
       code: "Serial1.begin(115200);",
     }),
     bus("D8", "SCK", "spi", "PA07", {
+      caps: { ptc: "Y5" },
       desc: { en: "Digital 8 / Analog 8 / SPI clock", zh: "数字 8 / 模拟 8 / SPI 时钟" },
       code: "SPI.begin();",
     }),
     bus("D9", "MISO", "spi", "PA05", {
+      caps: { ptc: "Y3" },
       desc: { en: "Digital 9 / Analog 9 / SPI MISO", zh: "数字 9 / 模拟 9 / SPI 主入从出" },
       code: "SPI.begin();",
     }),
     bus("D10", "MOSI", "spi", "PA06", {
+      caps: { ptc: "Y4" },
       desc: { en: "Digital 10 / Analog 10 / SPI MOSI", zh: "数字 10 / 模拟 10 / SPI 主出从入" },
       code: "SPI.begin();",
     }),

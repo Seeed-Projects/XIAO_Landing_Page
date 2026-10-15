@@ -29,7 +29,7 @@ i2c_param_config(I2C_NUM_0, &cfg);
 i2c_driver_install(I2C_NUM_0, cfg.mode, 0, 0, 0);`;
 
 export const FUNCTION_KEYS = [
-  "i2c", "spi", "uart", "adc", "pwm", "dac", "power", "gnd", "rst", "debug", "battery", "wireless", "touch",
+  "i2c", "spi", "uart", "adc", "pwm", "dac", "power", "gnd", "rst", "debug", "battery", "wireless", "touch", "ptc", "can", "i2s",
 ];
 
 export const FUNCTIONS = {
@@ -270,7 +270,7 @@ machine.reset()`,
     code: {
       arduino: `int raw = analogRead(A0); // only if the board documents a VBAT ADC pin`,
       micropython: `# Read the documented VBAT ADC GPIO, after enabling the measure FET.`,
-      zephyr: `/* nPM1300 boards report charge over I2C, not a divider. */`,
+      zephyr: `/* Some boards gauge the cell with a fuel-gauge IC, not a divider. */`,
       espidf: `adc_oneshot_read(adc1, ADC_CHANNEL_0, &raw);`,
     },
     pitfalls: [
@@ -322,6 +322,90 @@ print(t.read())`,
     },
     pitfalls: [
       T("Water and thick paint ruin the threshold. Recalibrate on the real enclosure.", "水和厚漆会毁掉阈值。要在真实外壳上重新标定。"),
+    ],
+    links: [],
+  }),
+  ptc: primer({
+    title: T("PTC touch", "PTC 电容触摸"),
+    intro: T(
+      "SAMD21 has a dedicated PTC (Peripheral Touch Controller) that measures capacitance on fixed Y channels — no external parts, a pad or foil wired straight to the pin reads as a touch button. On the XIAO SAMD21 the Y lines sit on D0/D1, D6–D7 and D8–D10; each channel is also a normal GPIO/ADC pin, so pick one job per pin.",
+      "SAMD21 内置 PTC（外设触摸控制器），能在固定的 Y 通道上测电容——不需要外围器件，焊盘或铜箔直接接脚即可当触摸按键。XIAO SAMD21 的 Y 线分布在 D0/D1、D6–D7 和 D8–D10；每个通道同时也是普通 GPIO/ADC，一只脚一次只做一件事。",
+    ),
+    wiring: T(
+      "Bare pad, copper tape or ITO glass on the pin; keep the trace short and away from switching noise. Tune the threshold on the assembled enclosure, not on the bare board.",
+      "引脚上接裸焊盘、铜箔或 ITO 玻璃；走线尽量短，远离开关噪声。阈值要在装好的外壳上标定，不要用裸板标定。",
+    ),
+    code: {
+      arduino: `#include <Adafruit_FreeTouch.h>
+Adafruit_FreeTouch pad(A0, OVERCOMPENSATE);
+void setup() { pad.begin(); }
+void loop() {
+  if (pad.measure() > 600) digitalWrite(LED_BUILTIN, HIGH);
+}`,
+      micropython: `# SAMD21 MicroPython builds do not expose the PTC.`,
+      zephyr: `/* SAMD21 PTC is not in mainline Zephyr; use Adafruit_FreeTouch. */`,
+      espidf: `/* PTC is a SAMD21 peripheral; ESP32 uses its own touch engine. */`,
+    },
+    pitfalls: [
+      T("A touch channel in use is no longer a GPIO — plan the pin budget first.", "触摸通道占用后就不再是 GPIO——先规划引脚预算。"),
+      T("GND pour under the foil raises noise immunity but also the base capacitance; re-baseline after layout changes.", "箔下的铺地能抗干扰，但也会抬高基础电容；改版后要重新做基线。"),
+    ],
+    links: [],
+  }),
+  can: primer({
+    title: T("CAN / CAN FD", "CAN / CAN FD 总线"),
+    intro: T(
+      "CAN is a differential two-wire bus built for cars and factories: CAN_H and CAN_L carry the signal, arbitration is collision-free, and every node hears every frame. CAN FD (flexible data-rate) keeps the same wires but allows 64-byte payloads and a faster data phase. The XIAO STM32C5 brings two FDCAN controllers to D11–D14, a CAN_STB standby pin on D15, and the CAN_H/CAN_L pads plus a TERM jumper on the back.",
+      "CAN 是为汽车和工厂设计的差分双线总线：CAN_H 与 CAN_L 传输信号，仲裁无冲突，所有节点都能听到每一帧。CAN FD（可变速率）沿用同样的线，但支持 64 字节数据和更快的数据段。XIAO STM32C5 把两路 FDCAN 引到 D11–D14，D15 是 CAN_STB 待机脚，背面还有 CAN_H/CAN_L 焊盘和 TERM 端接跳线。",
+    ),
+    wiring: T(
+      "Twist CAN_H/CAN_L, keep stubs short, and terminate both physical ends with 120 Ω — the TERM jumper on the back switches this board's transceiver termination in. CAN_STB high parks the transceiver in standby: drive it low (D15) before talking.",
+      "CAN_H/CAN_L 双绞，支线尽量短，物理两端各接 120 Ω 端接——背面的 TERM 跳线控制本板收发器的端接。CAN_STB 为高时收发器进入待机：通信前先把 D15 拉低。",
+    ),
+    code: {
+      arduino: `STM32_CAN CAN(STM32_CAN_FD1); // D11 RX / D12 TX
+CAN.begin();
+CanMsg frame = { .id = 0x123, .len = 8 };
+CAN.write(frame);`,
+      micropython: `# Use the pyb.CAN module on boards that expose it.`,
+      zephyr: `const struct device *can = DEVICE_DT_GET(DT_NODELABEL(fdcan1));
+struct can_frame frame = { .id = 0x123, .dlc = 8 };
+can_send(can, &frame, K_FOREVER, NULL, NULL);`,
+      espidf: `twai_general_config_t g = TWAI_GENERAL_CONFIG_DEFAULT(TX_GPIO, RX_GPIO, TWAI_MODE_NORMAL);
+twai_driver_install(&g, NULL, 0);`,
+    },
+    pitfalls: [
+      T("All nodes on the bus must agree on FD vs classic frames — one classic node rejects FD payloads.", "总线上所有节点要统一 FD 与经典帧——一个经典节点就会拒收 FD 长帧。"),
+      T("Bit rate is set per node; one node at 500 k while the rest run 250 k jams the bus.", "波特率逐节点配置；一个 500k 的节点混进 250k 总线会阻塞整条总线。"),
+    ],
+    links: [{ label: "CAN bus intro", href: "https://www.ti.com/lit/an/sloa101b/sloa101b.pdf" }],
+  }),
+  i2s: primer({
+    title: T("I²S digital audio", "I²S 数字音频"),
+    intro: T(
+      "I²S moves stereo PCM audio between chips: SCK is the bit clock, WS picks left or right channel, and SD carries the samples. The SAMD21 Plus breaks its I2S out on D19–D21 (SD/SCK/WS); the nRF52840 Plus defaults D11–D13 to I2S. Microphones and DACs both speak it.",
+      "I²S 在芯片之间传输立体声 PCM 音频：SCK 是位时钟，WS 选择左右声道，SD 传采样数据。SAMD21 Plus 把 I2S 引到 D19–D21（SD/SCK/WS）；nRF52840 Plus 的 D11–D13 默认就是 I2S。麦克风和 DAC 都用这条总线。",
+    ),
+    wiring: T(
+      "One side must be the clock master — the XIAO or the codec, never both. Match bit depth and sample rate (16-bit / 48 kHz is a safe start) and keep the three lines short; long breadboard leads smear the bit clock into garbage.",
+      "必须有一侧做时钟主设备——XIAO 或编解码器，不能都是主。位深与采样率要一致（16 位 / 48kHz 起步稳妥），三根线尽量短；面包板长线会让位时钟糊掉。",
+    ),
+    code: {
+      arduino: `#include <I2S.h>
+I2S.begin(16000); // SAMD21 Plus: D19=SD, D20=SCK, D21=WS`,
+      micropython: `from machine import I2S
+i2s = I2S(0, sck=Pin(20), ws=Pin(21), sd=Pin(19),
+          bits=16, format=I2S.MONO, rate=16000)`,
+      zephyr: `const struct device *i2s = DEVICE_DT_GET(DT_NODELABEL(i2s0));
+struct i2s_config cfg = { .word_size = 16, .channels = 2, .sample_rate = 16000 };
+i2s_configure(i2s, I2S_DIR_TX, &cfg);`,
+      espidf: `i2s_chan_config_t cfg = I2S_CHANNEL_DEFAULT_CONFIG(I2S_NUM_0, I2S_ROLE_MASTER);
+i2s_chan_handle_t tx;
+i2s_new_channel(&cfg, &tx, NULL);`,
+    },
+    pitfalls: [
+      T("WS flipped means the channels swap, not silence — stereo pings sound in the wrong ear.", "WS 接反表现为左右声道互换而不是无声——单边声音会跑到另一只耳朵。"),
+      T("A sample-rate mismatch plays at the wrong speed; re-check the codec datasheet, not the sketch.", "采样率不匹配会变速播放；先查编解码器手册，再查代码。"),
     ],
     links: [],
   }),
@@ -378,7 +462,7 @@ export const BOARD_FUNCTION_NOTES = {
     wireless: note("Same NFC and RF switch as nRF54L15, plus Sense sensors.", "NFC 和射频开关与 nRF54L15 相同，外加 Sense 传感器。"),
   },
   nrf54lm20a: {
-    battery: note("nPM1300 watches the cell over I²C. SHPHLD can ship-mode the board.", "nPM1300 经 I²C 看电池。SHPHLD 可以让板子进入 ship 模式。"),
+    battery: note("The nPM1300 handles charging; SHPHLD can ship-mode the board.", "nPM1300 负责充电管理；SHPHLD 可以让板子进入 ship 模式。"),
     debug: note("SWCLK/SWDIO talk to the nRF54; SWCLK2/SWDIO2/RST2 talk to SAMD11.", "SWCLK/SWDIO 连 nRF54；SWCLK2/SWDIO2/RST2 连 SAMD11。"),
   },
   nrf54lm20asense: {
@@ -387,9 +471,12 @@ export const BOARD_FUNCTION_NOTES = {
   samd21: {
     dac: note("Only A0/PA02 has a DAC.", "只有 A0/PA02 有 DAC。"),
     uart: note("Serial is USB CDC. Serial1 is D6/D7 SERCOM4.", "Serial 是 USB 虚拟串口。Serial1 才是 D6/D7 的 SERCOM4。"),
+    ptc: note("PTC Y lines: D0=Y0, D1=Y2, D6=Y14, D7=Y15, D8=Y5, D9=Y3, D10=Y4.", "PTC Y 线：D0=Y0、D1=Y2、D6=Y14、D7=Y15、D8=Y5、D9=Y3、D10=Y4。"),
   },
   samd21plus: {
     i2c: note("Front D4/D5 are I²C0. Back D14/D13 are I²C1 (SDA1/SCL1).", "正面 D4/D5 是 I²C0。背面 D14/D13 是 I²C1（SDA1/SCL1）。"),
+    ptc: note("Same PTC Y lines as the plain SAMD21 on D0/D1/D6-D10.", "PTC Y 线与普通 SAMD21 相同，在 D0/D1/D6-D10。"),
+    i2s: note("I2S sits on the back: D19=SD, D20=SCK, D21=WS.", "I2S 在背面：D19=SD、D20=SCK、D21=WS。"),
   },
   rp2040: {
     adc: note("ADC is GPIO26–29 only (D0–D3).", "ADC 只有 GPIO26–29（D0–D3）。"),
@@ -414,6 +501,7 @@ export const BOARD_FUNCTION_NOTES = {
   },
   stm32c5: {
     debug: note("SWCLK/SWDIO/NRST are on the back.", "背面是 SWCLK/SWDIO/NRST。"),
+    can: note("D11/D12 are FDCAN1, D13/D14 are FDCAN2, D15 is CAN_STB standby.", "D11/D12 是 FDCAN1，D13/D14 是 FDCAN2，D15 是 CAN_STB 待机脚。"),
   },
 };
 
@@ -517,6 +605,7 @@ const FN_TO_GUIDE = {
   i2c: "i2c",
   spi: "spi",
   uart: "uart",
+  can: "can",
   power: "power",
   gnd: "gnd",
   rst: "rst",
@@ -536,6 +625,9 @@ export function functionKeysForPin(pin) {
   if (pin.caps?.uart) add("uart");
   if (pin.caps?.pwm) add("pwm");
   if (pin.caps?.touch) add("touch");
+  if (pin.caps?.ptc) add("ptc");
+  if (pin.caps?.can) add("can");
+  if (pin.caps?.i2s) add("i2s");
   const blob = `${pin.id} ${pin.names?.chip || ""} ${pin.names?.silk || ""}`;
   if (/BAT/i.test(blob)) add("battery");
   if (/SWD|SWCLK|SWDIO|MTD|MTCK|MTMS|JTAG|SAMD11|M_CLK|M_DIO|S_CLK|S_DIO/i.test(blob)) add("debug");
