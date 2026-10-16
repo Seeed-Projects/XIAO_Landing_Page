@@ -29,6 +29,7 @@ export const CHIP_FAMILIES = [
   { id: "mg24", label: { en: "MG24", zh: "MG24" }, chips: ["mg24"] },
   { id: "samd21", label: { en: "SAMD21", zh: "SAMD21" }, chips: ["samd21"] },
   { id: "ra4m1", label: { en: "RA4M1", zh: "RA4M1" }, chips: ["ra4m1"] },
+  { id: "stm32", label: { en: "STM32", zh: "STM32" }, chips: ["stm32c5"] },
 ];
 
 const GROUPS = {
@@ -255,6 +256,7 @@ export const RESOURCE_PRODUCTS = [
         res("OV3660 Camera Module Specification", "PDF", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/new-res/OV3660_Camera_Module_Specification.pdf", "datasheet"),
         res("OV3660 CMOS Sensor Datasheet", "PDF", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/OV3660_datasheet.pdf", "datasheet"),
         res("OV5640 Camera Module Specification", "PDF", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/new-res/OV5640_Camera_Module_Specification.pdf", "datasheet"),
+        res("New OV5640 Camera Module Specification", "PDF", "https://files.seeedstudio.com/wiki/xiaos3-sscma/OV5640-8225N-120.pdf", "datasheet"),
         res("OV5640 CMOS Sensor Datasheet", "PDF", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/OV5640_datasheet.pdf", "datasheet"),
         res("OV2640 CMOS Sensor Datasheet", "PDF", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/OV2640_datasheet.pdf", "datasheet"),
       ],
@@ -773,6 +775,30 @@ export const RESOURCE_PRODUCTS = [
       ],
       software: [
         res("XIAO RA4M1 Getting Started", "Guide", "https://wiki.seeedstudio.com/getting_started_xiao_ra4m1/", "guide"),
+      ],
+    }),
+  }),
+  board({
+    id: "stm32c5",
+    chip: "stm32c5",
+    name: "XIAO STM32C5",
+    pinoutId: "stm32c5",
+    image: "/xiao-products/dev_boards/front/XIAO-STM32C5-front.webp",
+    shop: "https://www.seeedstudio.com/XIAO-STM32C5-p-7011.html",
+    wiki: "https://wiki.seeedstudio.com/xiao_stm32c5_getting_started/",
+    intro: { en: "STMicroelectronics STM32C5 board with CAN bus, onboard IMU and external flash.", zh: "带 CAN 总线、板载 IMU 与外置 Flash 的 STMicroelectronics STM32C5 开发板。" },
+    badges: ["STM32C5", "CAN", "IMU"],
+    groups: resourceGroups({
+      hardware: [
+        res("STMicroelectronics STM32C5A3CG Datasheet", "PDF", "https://www.st.com/resource/en/datasheet/stm32c5a3cg.pdf", "datasheet"),
+        res("IMU LSM6DS3TR-C Datasheet", "PDF", "https://www.st.com.cn/resource/en/datasheet/lsm6ds3tr-c.pdf", "datasheet"),
+        res("CAN Transceiver TCAN3403-Q1 Datasheet", "PDF", "https://files.seeedstudio.com/wiki/XIAO_STM32C5/res/tcan3403-q1.pdf", "datasheet"),
+        res("XIAO STM32C5 Schematic", "PDF", "https://files.seeedstudio.com/wiki/XIAO_STM32C5/res/Seeed-Studio-XIAO-STM32C5-v1.0.pdf", "schematic"),
+        res("XIAO STM32C5 KiCad Project", "ZIP", "https://files.seeedstudio.com/wiki/XIAO_STM32C5/res/XIAO_STM32C5_v1.0_SCH&PCB.zip", "kicad"),
+        res("XIAO STM32C5 Pinout Sheet", "XLSX", "https://files.seeedstudio.com/wiki/XIAO_STM32C5/res/XIAO-STM32C5-pinout_sheet.xlsx", "pinout"),
+      ],
+      software: [
+        res("XIAO STM32C5 Getting Started", "Guide", "https://wiki.seeedstudio.com/xiao_stm32c5_getting_started/", "guide"),
       ],
     }),
   }),
