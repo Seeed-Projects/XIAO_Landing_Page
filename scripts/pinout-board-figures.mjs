@@ -86,7 +86,7 @@ const PHOTO_BOARD_W = {
   s3sense: { front: 278.9, back: 269.2, module: 225.6 },
   samd21: { front: 250.3, back: 250.9 },
   samd21plus: { front: 240.4, back: 269.0 },
-  stm32c5: { front: 275.1, back: 291.3 },
+  stm32c5: { front: 275.1, back: 286.6 },
 };
 
 const figures = {};

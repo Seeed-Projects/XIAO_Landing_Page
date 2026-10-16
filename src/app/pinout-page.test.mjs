@@ -473,12 +473,13 @@ test("desktop frame widths render every board photo at one shared size", () => {
   // clusters at ~250-300 user units: most faces use the full width and render
   // their board at that width; wider photos get narrowed frames.
   assert.equal(boardFrameWidth({ workWidth: workW, figureWidth: 279.7 }), null, "c6 front uses the full width");
-  // The fix_1013 transparent stm32c5 diagrams are 1920-wide canvases: the
-  // front (275.1) fits the shared board size and keeps the full width, while
-  // the slightly wider back (291.3) is narrowed to the shared board size.
+  // The fix_1013 transparent stm32c5 front (275.1) fits the shared board size
+  // and keeps the full width, while the wider re-laid-out back (327.3, with
+  // tighter photo margins on the 1681-wide canvas) is narrowed to the shared
+  // board size.
   assert.equal(boardFrameWidth({ workWidth: workW, figureWidth: 275.1 }), null, "stm32c5 front uses the full width");
-  const stm = boardFrameWidth({ workWidth: workW, figureWidth: 291.3 });
-  assert.ok(Math.abs(stm - BOARD_FRACTION * workW * 1920 / 291.3) <= 1, "stm32c5 back is narrowed by its board width");
+  const stm = boardFrameWidth({ workWidth: workW, figureWidth: 327.3 });
+  assert.ok(Math.abs(stm - BOARD_FRACTION * workW * 1920 / 327.3) <= 1, "stm32c5 back is narrowed by its board width");
   assert.ok(stm < workW);
   // Photos with the same visible board (tight c6 crop vs margined c5 photo,
   // plus vs sense plus) must render at one shared size.
