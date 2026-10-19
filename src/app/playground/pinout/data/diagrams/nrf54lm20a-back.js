@@ -4,6 +4,7 @@ const layout = {
     "width": 1920,
     "height": 1080
   },
+  "bandGap": 14,
   "content": {
     "x": 429,
     "y": 199,

@@ -3,7 +3,7 @@ export const DIAGRAM_ROWS = {
   "samd21plus": {
     "front": {
       "left": [
-        "RGB_LED",
+        "CHARGE_LED",
         "D0",
         "D1",
         "D2",
@@ -11,8 +11,8 @@ export const DIAGRAM_ROWS = {
         "D4",
         "D5",
         "D6",
-        "USER_BUTTON",
-        "VBAT_EN"
+        "RST",
+        "RGB_LED"
       ],
       "right": [
         "5V",
@@ -22,7 +22,7 @@ export const DIAGRAM_ROWS = {
         "D9",
         "D8",
         "D7",
-        "CHARGE_LED"
+        "Boot"
       ]
     },
     "back": {
@@ -30,30 +30,28 @@ export const DIAGRAM_ROWS = {
         "SWCLK",
         "GND",
         "3V3",
-        "D18",
         "D12",
         "D13",
         "D14",
-        "D19",
-        "D20",
+        "D25",
+        "D26",
+        "D27",
         "BAT-"
       ],
       "right": [
         "SWDIO",
         "RST",
+        "D18",
         "D17",
         "D16",
         "D15",
-        "D24",
-        "D25",
-        "D26",
-        "D27",
+        "D19",
+        "D20",
         "D21",
         "D22",
         "D23",
-        "BAT+",
-        "AIN11_VBAT",
-        "5V"
+        "D24",
+        "BAT+"
       ]
     }
   },
@@ -99,9 +97,8 @@ export const DIAGRAM_ROWS = {
   "s3sense": {
     "front": {
       "left": [
-        "USER_LED",
-        "Boot",
-        "UFL_ANT",
+        "RST",
+        "CHARGE_LED",
         "D0",
         "D1",
         "D2",
@@ -109,27 +106,18 @@ export const DIAGRAM_ROWS = {
         "D4",
         "D5",
         "D6",
-        "CHARGE_LED"
+        "UFL_ANT"
       ],
       "right": [
-        "USER_LED",
         "Boot",
+        "USER_LED",
         "5V",
         "GND",
         "3V3",
         "D10",
         "D9",
         "D8",
-        "D7",
-        "D6",
-        "D5",
-        "D4",
-        "D3",
-        "D2",
-        "D1",
-        "D0",
-        "UFL_ANT",
-        "CHARGE_LED"
+        "D7"
       ]
     },
     "back": {
@@ -147,13 +135,48 @@ export const DIAGRAM_ROWS = {
         "BAT-",
         "BAT+"
       ]
+    },
+    "module": {
+      "left": [
+        "MTMS",
+        "SHIELD",
+        "USER_LED",
+        "DVP_Y9",
+        "DVP_HREF",
+        "DVP_VSYNC",
+        "CAM_SCL",
+        "CAM_SDA",
+        "PDM_DATA",
+        "PDM_CLK",
+        "SHIELD"
+      ],
+      "right": [
+        "MTDI",
+        "SHIELD",
+        "VIN",
+        "DVP_Y4",
+        "DVP_Y3",
+        "DVP_Y5",
+        "DVP_Y2",
+        "DVP_Y6",
+        "DVP_PCLK",
+        "DVP_Y7",
+        "DVP_Y8",
+        "XMCLK",
+        "SD_MOSI",
+        "SD_MISO",
+        "SD_SCK",
+        "SD_CS",
+        "VIN",
+        "SHIELD"
+      ]
     }
   },
   "s3plus": {
     "front": {
       "left": [
-        "USER_LED",
-        "Boot",
+        "RST",
+        "CHARGE_LED",
         "D0",
         "D1",
         "D2",
@@ -161,11 +184,11 @@ export const DIAGRAM_ROWS = {
         "D4",
         "D5",
         "D6",
-        "CHARGE_LED"
+        "UFL_ANT"
       ],
       "right": [
-        "ADC_BAT",
-        "UFL_ANT",
+        "Boot",
+        "USER_LED",
         "5V",
         "GND",
         "3V3",
@@ -204,8 +227,8 @@ export const DIAGRAM_ROWS = {
   "s3": {
     "front": {
       "left": [
-        "USER_LED",
-        "Boot",
+        "RST",
+        "CHARGE_LED",
         "D0",
         "D1",
         "D2",
@@ -216,8 +239,8 @@ export const DIAGRAM_ROWS = {
         "UFL_ANT"
       ],
       "right": [
-        "CHARGE_LED",
-        "D11",
+        "Boot",
+        "USER_LED",
         "5V",
         "GND",
         "3V3",
@@ -247,7 +270,8 @@ export const DIAGRAM_ROWS = {
   "c6": {
     "front": {
       "left": [
-        "USER_LED",
+        "RST",
+        "CHARGE_LED",
         "D0",
         "D1",
         "D2",
@@ -255,11 +279,11 @@ export const DIAGRAM_ROWS = {
         "D4",
         "D5",
         "D6",
-        "Boot",
         "RF_SW_PORT"
       ],
       "right": [
-        "RF_SW_PWR",
+        "Boot",
+        "USER_LED",
         "5V",
         "GND",
         "3V3",
@@ -267,8 +291,7 @@ export const DIAGRAM_ROWS = {
         "D9",
         "D8",
         "D7",
-        "Boot",
-        "USER_LED"
+        "RF_SW_PWR"
       ]
     },
     "back": {
@@ -291,7 +314,7 @@ export const DIAGRAM_ROWS = {
   "c5": {
     "front": {
       "left": [
-        "USER_LED",
+        "CHARGE_LED",
         "D0",
         "D1",
         "D2",
@@ -299,11 +322,11 @@ export const DIAGRAM_ROWS = {
         "D4",
         "D5",
         "D6",
-        "Boot",
-        "CHARGE_LED"
+        "RST",
+        "UFL_ANT"
       ],
       "right": [
-        "ADC_BAT",
+        "USER_LED",
         "5V",
         "GND",
         "3V3",
@@ -311,7 +334,7 @@ export const DIAGRAM_ROWS = {
         "D9",
         "D8",
         "D7",
-        "ADC_CRL"
+        "Boot"
       ]
     },
     "back": {
@@ -352,8 +375,7 @@ export const DIAGRAM_ROWS = {
         "D10",
         "D9",
         "D8",
-        "D7",
-        "RST"
+        "D7"
       ]
     },
     "back": {
@@ -374,7 +396,7 @@ export const DIAGRAM_ROWS = {
   "nrf52840senseplus": {
     "front": {
       "left": [
-        "USER_LED_R",
+        "RST",
         "D0",
         "D1",
         "D2",
@@ -382,15 +404,15 @@ export const DIAGRAM_ROWS = {
         "D4",
         "D5",
         "D6",
-        "IMU_INT1",
-        "MIC_DATA",
-        "MIC_CLK"
+        "IMU_SDA",
+        "IMU_SCL",
+        "IMU"
       ],
       "right": [
-        "USER_LED_G",
-        "USER_LED_B",
         "CHARGE_LED",
-        "ADC_BAT",
+        "USER_LED_B",
+        "USER_LED_G",
+        "USER_LED_R",
         "5V",
         "GND",
         "3V3",
@@ -398,9 +420,9 @@ export const DIAGRAM_ROWS = {
         "D9",
         "D8",
         "D7",
-        "IMU_PWR",
-        "RF_SW_PORT",
-        "RF_SW_PWR"
+        "MIC_PWR",
+        "MIC_CLK",
+        "MIC_DATA"
       ]
     },
     "back": {
@@ -428,7 +450,7 @@ export const DIAGRAM_ROWS = {
   "nrf52840sense": {
     "front": {
       "left": [
-        "USER_LED_R",
+        "RST",
         "D0",
         "D1",
         "D2",
@@ -436,15 +458,15 @@ export const DIAGRAM_ROWS = {
         "D4",
         "D5",
         "D6",
-        "IMU_INT1",
-        "MIC_DATA",
-        "MIC_CLK"
+        "IMU_SDA",
+        "IMU_SCL",
+        "IMU"
       ],
       "right": [
-        "USER_LED_G",
-        "USER_LED_B",
         "CHARGE_LED",
-        "ADC_BAT",
+        "USER_LED_B",
+        "USER_LED_G",
+        "USER_LED_R",
         "5V",
         "GND",
         "3V3",
@@ -452,9 +474,9 @@ export const DIAGRAM_ROWS = {
         "D9",
         "D8",
         "D7",
-        "RF_SW_PORT",
-        "RF_SW_PWR",
-        "NFC1"
+        "MIC_PWR",
+        "MIC_CLK",
+        "MIC_DATA"
       ]
     },
     "back": {
@@ -475,7 +497,7 @@ export const DIAGRAM_ROWS = {
   "nrf52840plus": {
     "front": {
       "left": [
-        "USER_LED_R",
+        "RST",
         "D0",
         "D1",
         "D2",
@@ -485,10 +507,10 @@ export const DIAGRAM_ROWS = {
         "D6"
       ],
       "right": [
-        "USER_LED_G",
-        "USER_LED_B",
         "CHARGE_LED",
-        "ADC_BAT",
+        "USER_LED_B",
+        "USER_LED_G",
+        "USER_LED_R",
         "5V",
         "GND",
         "3V3",
@@ -523,7 +545,7 @@ export const DIAGRAM_ROWS = {
   "nrf52": {
     "front": {
       "left": [
-        "USER_LED_R",
+        "RST",
         "D0",
         "D1",
         "D2",
@@ -533,10 +555,10 @@ export const DIAGRAM_ROWS = {
         "D6"
       ],
       "right": [
-        "USER_LED_G",
-        "USER_LED_B",
         "CHARGE_LED",
-        "ADC_BAT",
+        "USER_LED_B",
+        "USER_LED_G",
+        "USER_LED_R",
         "5V",
         "GND",
         "3V3",
@@ -564,7 +586,7 @@ export const DIAGRAM_ROWS = {
   "nrf54l15sense": {
     "front": {
       "left": [
-        "USER_LED",
+        "CHARGE_LED",
         "D0",
         "D1",
         "D2",
@@ -572,15 +594,15 @@ export const DIAGRAM_ROWS = {
         "D4",
         "D5",
         "D6",
-        "USER_KEY",
-        "NFC1",
-        "NFC2",
-        "AIN7_VBAT",
+        "RST",
         "RF_SW_PORT",
-        "RF_SW_PWR"
+        "D12",
+        "D11",
+        "IMU_INT1",
+        "IMU"
       ],
       "right": [
-        "CHARGE_LED",
+        "USER_LED",
         "5V",
         "GND",
         "3V3",
@@ -588,10 +610,10 @@ export const DIAGRAM_ROWS = {
         "D9",
         "D8",
         "D7",
-        "AIN7_VBAT",
-        "RF_SW_PORT",
+        "USER_KEY",
         "RF_SW_PWR",
-        "CHARGE_LED"
+        "MIC_CLK",
+        "MIC_DAT"
       ]
     },
     "back": {
@@ -624,7 +646,7 @@ export const DIAGRAM_ROWS = {
   "nrf54l15": {
     "front": {
       "left": [
-        "USER_LED",
+        "CHARGE_LED",
         "D0",
         "D1",
         "D2",
@@ -632,11 +654,11 @@ export const DIAGRAM_ROWS = {
         "D4",
         "D5",
         "D6",
-        "USER_KEY",
-        "NFC1"
+        "RST",
+        "RF_SW_PORT"
       ],
       "right": [
-        "NFC2",
+        "USER_LED",
         "5V",
         "GND",
         "3V3",
@@ -644,8 +666,8 @@ export const DIAGRAM_ROWS = {
         "D9",
         "D8",
         "D7",
-        "AIN7_VBAT",
-        "RF_SW_PORT"
+        "USER_KEY",
+        "RF_SW_PWR"
       ]
     },
     "back": {
@@ -678,7 +700,7 @@ export const DIAGRAM_ROWS = {
   "nrf54lm20asense": {
     "front": {
       "left": [
-        "USER_BUTTON",
+        "RESET",
         "A0",
         "A1",
         "A2",
@@ -690,10 +712,10 @@ export const DIAGRAM_ROWS = {
         "MIC_CLK"
       ],
       "right": [
-        "RGB_R",
-        "RGB_G",
+        "USER_BUTTON",
         "RGB_B",
-        "IMU_SDA",
+        "RGB_G",
+        "RGB_R",
         "VBUS",
         "GND",
         "3V3",
@@ -701,10 +723,10 @@ export const DIAGRAM_ROWS = {
         "MISO",
         "SCK",
         "RX",
+        "IMU_SDA",
         "IMU_SCL",
         "IMU_CS",
-        "IMU_INT1",
-        "CHARGE_LED"
+        "IMU_INT1"
       ]
     },
     "back": {
@@ -720,28 +742,34 @@ export const DIAGRAM_ROWS = {
         "P3.11",
         "P3.10",
         "P3.09",
-        "SHPHLD"
+        "SHPHLD",
+        "BAT-"
       ],
       "right": [
         "SWDIO",
         "RESET",
         "SWDIO2",
         "RST2",
+        "P3.07",
         "P0.00",
+        "P3.06",
         "P0.01",
+        "P3.05",
         "P0.02",
+        "P3.04",
         "P0.03",
         "P0.04",
         "P0.05",
         "NFC1",
-        "NFC2"
+        "NFC2",
+        "BAT+"
       ]
     }
   },
   "nrf54lm20a": {
     "front": {
       "left": [
-        "USER_BUTTON",
+        "RESET",
         "A0",
         "A1",
         "A2",
@@ -751,10 +779,10 @@ export const DIAGRAM_ROWS = {
         "TX"
       ],
       "right": [
-        "RGB_R",
-        "RGB_G",
+        "USER_BUTTON",
         "RGB_B",
-        "CHARGE_LED",
+        "RGB_G",
+        "RGB_R",
         "VBUS",
         "GND",
         "3V3",
@@ -777,28 +805,34 @@ export const DIAGRAM_ROWS = {
         "P3.11",
         "P3.10",
         "P3.09",
-        "SHPHLD"
+        "SHPHLD",
+        "BAT-"
       ],
       "right": [
         "SWDIO",
         "RESET",
         "SWDIO2",
         "RST2",
+        "P3.07",
         "P0.00",
+        "P3.06",
         "P0.01",
+        "P3.05",
         "P0.02",
+        "P3.04",
         "P0.03",
         "P0.04",
         "P0.05",
         "NFC1",
-        "NFC2"
+        "NFC2",
+        "BAT+"
       ]
     }
   },
   "rp2040plus": {
     "front": {
       "left": [
-        "Boot",
+        "CHARGE_LED",
         "D0",
         "D1",
         "D2",
@@ -806,7 +840,7 @@ export const DIAGRAM_ROWS = {
         "D4",
         "D5",
         "D6",
-        "BAT_EN",
+        "RST",
         "RGB_LED",
         "RGB_EN"
       ],
@@ -819,7 +853,7 @@ export const DIAGRAM_ROWS = {
         "D9",
         "D8",
         "D7",
-        "CHARGE_LED"
+        "Boot"
       ]
     },
     "back": {
@@ -827,13 +861,13 @@ export const DIAGRAM_ROWS = {
         "SWCLK",
         "GND",
         "USB_D+",
-        "5V",
+        "3V3",
         "D12",
         "D13",
         "D14",
-        "D19",
-        "D20",
-        "D21",
+        "D25",
+        "D26",
+        "D27",
         "BAT-"
       ],
       "right": [
@@ -844,21 +878,20 @@ export const DIAGRAM_ROWS = {
         "D17",
         "D16",
         "D15",
+        "D19",
+        "D20",
+        "D21",
         "D22",
         "D23",
         "D24",
-        "D25",
-        "D26",
-        "D27",
-        "BAT+",
-        "CHARGE_LED"
+        "BAT+"
       ]
     }
   },
   "rp2040": {
     "front": {
       "left": [
-        "USER_LED_R",
+        "POWER_LED",
         "D0",
         "D1",
         "D2",
@@ -866,13 +899,13 @@ export const DIAGRAM_ROWS = {
         "D4",
         "D5",
         "D6",
-        "Boot",
-        "USER_LED_G"
+        "RST",
+        "RGB_LED"
       ],
       "right": [
-        "USER_LED_B",
-        "Boot",
         "USER_LED_R",
+        "USER_LED_G",
+        "USER_LED_B",
         "5V",
         "GND",
         "3V3",
@@ -880,7 +913,7 @@ export const DIAGRAM_ROWS = {
         "D9",
         "D8",
         "D7",
-        "USER_LED_G"
+        "Boot"
       ]
     },
     "back": {
@@ -899,8 +932,8 @@ export const DIAGRAM_ROWS = {
   "rp2350": {
     "front": {
       "left": [
-        "Boot",
-        "RGB_LED",
+        "CHARGE_LED",
+        "USER_LED",
         "D0",
         "D1",
         "D2",
@@ -908,10 +941,10 @@ export const DIAGRAM_ROWS = {
         "D4",
         "D5",
         "D6",
-        "USER_LED"
+        "RST"
       ],
       "right": [
-        "ADC_BAT",
+        "RGB_LED",
         "5V",
         "GND",
         "3V3",
@@ -919,7 +952,7 @@ export const DIAGRAM_ROWS = {
         "D9",
         "D8",
         "D7",
-        "ADC_BAT_EN"
+        "Boot"
       ]
     },
     "back": {
@@ -948,7 +981,7 @@ export const DIAGRAM_ROWS = {
   "mg24sense": {
     "front": {
       "left": [
-        "USER_LED",
+        "RST",
         "D0",
         "D1",
         "D2",
@@ -956,14 +989,14 @@ export const DIAGRAM_ROWS = {
         "D4",
         "D5",
         "D6",
-        "CHARGE_LED",
-        "ADC_BAT",
-        "RF_SW",
-        "RF_SW_PWR"
+        "D14",
+        "D13",
+        "IMU",
+        "RF_SW"
       ],
       "right": [
+        "CHARGE_LED",
         "USER_LED",
-        "ADC_BAT",
         "5V",
         "GND",
         "3V3",
@@ -971,9 +1004,9 @@ export const DIAGRAM_ROWS = {
         "D9",
         "D8",
         "D7",
-        "RF_SW",
-        "RF_SW_PWR",
-        "CHARGE_LED"
+        "MIC_EN",
+        "MIC_ADC",
+        "RF_SW_PWR"
       ]
     },
     "back": {
@@ -1004,7 +1037,7 @@ export const DIAGRAM_ROWS = {
   "mg24": {
     "front": {
       "left": [
-        "USER_LED",
+        "RST",
         "D0",
         "D1",
         "D2",
@@ -1012,11 +1045,11 @@ export const DIAGRAM_ROWS = {
         "D4",
         "D5",
         "D6",
-        "CHARGE_LED"
+        "RF_SW"
       ],
       "right": [
-        "ADC_BAT",
-        "RF_SW",
+        "CHARGE_LED",
+        "USER_LED",
         "5V",
         "GND",
         "3V3",
@@ -1055,7 +1088,7 @@ export const DIAGRAM_ROWS = {
   "ra4": {
     "front": {
       "left": [
-        "USER_LED",
+        "POWER_LED",
         "D0",
         "D1",
         "D2",
@@ -1063,11 +1096,11 @@ export const DIAGRAM_ROWS = {
         "D4",
         "D5",
         "D6",
-        "RGB_LED",
-        "Boot"
+        "RST",
+        "RGB_LED_EN"
       ],
       "right": [
-        "CHARGE_LED",
+        "USER_LED",
         "5V",
         "GND",
         "3V3",
@@ -1075,8 +1108,8 @@ export const DIAGRAM_ROWS = {
         "D9",
         "D8",
         "D7",
-        "RGB_LED_EN",
-        "ADC_BAT"
+        "Boot",
+        "RGB_LED"
       ]
     },
     "back": {
@@ -1104,8 +1137,8 @@ export const DIAGRAM_ROWS = {
   "stm32c5": {
     "front": {
       "left": [
-        "USER_LED",
-        "Boot",
+        "RST",
+        "CHARGE_LED",
         "D0",
         "D1",
         "D2",
@@ -1115,8 +1148,8 @@ export const DIAGRAM_ROWS = {
         "D6"
       ],
       "right": [
-        "CHARGE_LED",
         "Boot",
+        "USER_LED",
         "5V",
         "GND",
         "3V3",
@@ -1124,36 +1157,34 @@ export const DIAGRAM_ROWS = {
         "D9",
         "D8",
         "D7",
-        "D6",
-        "D5",
-        "D4",
-        "D3",
-        "D2"
+        "IMU",
+        "IMU_SDA",
+        "IMU_SCL",
+        "IMU_INT",
+        "IMU_PWM"
       ]
     },
     "back": {
       "left": [
         "SWCLK",
         "GND",
+        "USB_D+",
         "3V3",
-        "5V",
-        "D0",
-        "D1",
-        "D2",
-        "D3",
-        "BAT-"
+        "D11",
+        "D12",
+        "D13",
+        "D14",
+        "BAT-",
+        "CAN_H"
       ],
       "right": [
         "SWDIO",
         "RST",
+        "USB_D-",
         "Boot",
+        "D15",
         "BAT+",
-        "D7",
-        "D8",
-        "D9",
-        "D10",
-        "D4",
-        "D5"
+        "CAN_L"
       ]
     }
   }

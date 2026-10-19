@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { useLang } from "../i18n";
+import { withBase } from "../../lib/basePath";
 import styles from "./res.module.css";
 import { SheetPreview } from "./SheetPreview";
 import { StepViewer } from "./StepViewer";
@@ -80,7 +81,12 @@ export function PreviewDialog({ item, onClose }) {
           ))}
           {drawing && <VectorPreview item={item} zh={zh} />}
           {item.preview === "xlsx" && <SheetPreview item={item} zh={zh} />}
-          {item.preview === "step" && <StepViewer url={item.url} />}
+          {item.preview === "step" && <StepViewer url={item.previewUrl || item.url} />}
+          {item.preview === "image" && (
+            <div className={styles.vectorPreview}>
+              <img className={styles.imagePreview} src={withBase(item.previewUrl || item.url)} alt={item.name} />
+            </div>
+          )}
         </div>
       </div>
     </div>

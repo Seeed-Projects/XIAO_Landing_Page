@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { SiteHeader } from "../components";
-import { Glow } from "../Glow";
+import { ToolPageIntro } from "../tool-page-intro";
 import { useLang } from "../i18n";
 import { withBase } from "../../lib/basePath";
 import styles from "./playground.module.css";
@@ -103,32 +103,25 @@ export default function PlaygroundPage() {
     <>
       <SiteHeader />
       <main className={styles.page}>
-        <section className={styles.hero}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={withBase("/playground-bg.webp")} alt="" aria-hidden="true" className={styles.heroBg} />
-          <div className={styles.heroShade} aria-hidden="true" />
-          <div className={styles.grid} aria-hidden="true" />
-          <div className={`page-hero-copy ${styles.copy}`}>
-            <Glow
-              as="h1"
-              className="products-hero-title home-type-hero-title text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]"
-            >
-              XIAO Playground
-            </Glow>
-            <p className="page-hero-description home-type-body text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]">
-              {zh
+        <section className="scroll-mt-24" id="top">
+          <ToolPageIntro
+            title="XIAO Playground"
+            description={
+              zh
                 ? "从接线到运行，按眼前的任务找到合适的 XIAO 工具。"
-                : "From first wiring to working firmware, find the XIAO tool for your next step."}
-            </p>
-            <nav className={styles.taskNav} aria-label={zh ? "按任务选择工具" : "Choose a tool by task"}>
-              {TOOLS.map((tool) => (
-                <a key={tool.key} href={`#tool-${tool.key}`} className={`${styles.taskLink} home-type-action home-filled-action`}>
-                  <span>{(zh ? tool.zh : tool.en).task}</span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-              ))}
-            </nav>
-          </div>
+                : "From first wiring to working firmware, find the XIAO tool for your next step."
+            }
+            actions={
+              <nav style={{ display: "contents" }} aria-label={zh ? "按任务选择工具" : "Choose a tool by task"}>
+                {TOOLS.map((tool) => (
+                  <a key={tool.key} href={`#tool-${tool.key}`} className="home-type-action home-filled-action home-primary-cta" style={{ color: "#fff" }}>
+                    <span>{(zh ? tool.zh : tool.en).task}</span>
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                ))}
+              </nav>
+            }
+          />
         </section>
 
         <section className={styles.toolSection}>

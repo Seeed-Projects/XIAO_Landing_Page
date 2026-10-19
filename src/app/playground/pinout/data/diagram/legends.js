@@ -3,14 +3,14 @@ export const DIAGRAM_LEGENDS = {
   "samd21plus": {
     "front": {
       "x": 285.5,
-      "y": 825,
+      "y": 824,
       "w": 1486.5,
       "h": 29.16
     },
     "back": {
-      "x": 422,
-      "y": 839,
-      "w": 1077,
+      "x": 395,
+      "y": 903,
+      "w": 940.5,
       "h": 29.16
     }
   },
@@ -29,16 +29,26 @@ export const DIAGRAM_LEGENDS = {
     }
   },
   "s3sense": {
+    // Front reuses the s3 main-board diagram (the official s3sense front is
+    // the expansion board), so its legend follows the s3 front strip.
     "front": {
-      "x": 593,
-      "y": 1016,
-      "w": 885,
+      "x": 218,
+      "y": 767,
+      "w": 1485,
       "h": 32.4
     },
     "back": {
       "x": 739,
       "y": 817,
       "w": 438.33,
+      "h": 32.4
+    },
+    // The Sense expansion-board face keeps its own baked-in key position
+    // for sizing (the interactive crop stops above it, like every board).
+    "module": {
+      "x": 593,
+      "y": 1016,
+      "w": 885,
       "h": 32.4
     }
   },
@@ -232,9 +242,9 @@ export const DIAGRAM_LEGENDS = {
       "h": 32.4
     },
     "back": {
-      "x": 586,
-      "y": 778,
-      "w": 885,
+      "x": 668,
+      "y": 915,
+      "w": 735,
       "h": 32.4
     }
   },
@@ -310,15 +320,15 @@ export const DIAGRAM_LEGENDS = {
   },
   "stm32c5": {
     "front": {
-      "x": 150,
-      "y": 690,
+      "x": 368,
+      "y": 866,
       "w": 1335,
       "h": 32.4
     },
     "back": {
-      "x": 757,
-      "y": 914,
-      "w": 1035,
+      "x": 354,
+      "y": 686,
+      "w": 885,
       "h": 32.4
     }
   }

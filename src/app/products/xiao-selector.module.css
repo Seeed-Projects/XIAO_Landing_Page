@@ -86,7 +86,7 @@
 .chipX { color: var(--ink-muted); font-size: 14px; line-height: 1; }
 
 /* Cards */
-.cardGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+.cardGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); gap: 14px; }
 .card { display: flex; flex-direction: column; border: 1px solid var(--line-soft); border-radius: 14px; background: var(--surface-strong); overflow: hidden; transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease; }
 .card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,73,102,0.08); border-color: rgba(22,182,106,0.4); }
 .cardSelected { border-color: var(--brand-green); box-shadow: 0 0 0 2px rgba(22,182,106,0.18); }
@@ -102,14 +102,19 @@
 .specRow div { display: grid; gap: 2px; min-width: 0; }
 .specRow dt { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); }
 .specRow dd { margin: 0; font-size: 12px; color: var(--ink-strong); overflow-wrap: anywhere; }
-.cardFooter { margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 14px 14px; }
+.cardFooter { margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 7px; padding: 10px 12px 14px; }
+/* Buy / Wiki travel together: the group keeps to the right and wraps as one
+   piece when the card gets narrow, so no button is ever crushed. 购买与 Wiki
+   成组靠右，窄卡片时整组换行，按钮不会被压扁。 */
+.footerActions { margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+.cardFooter .primaryBtn { min-height: 40px; padding: 0 16px; }
+.cardFooter .ghostBtn { padding: 7px 12px; }
 
 .tagRow { display: inline-flex; flex-wrap: wrap; gap: 4px; }
 .tag { padding: 3px 7px; border-radius: 6px; background: var(--page-bg); border: 1px solid var(--line-soft); color: var(--ink-body); font-size: 11px; font-weight: 600; white-space: nowrap; }
 .tagHit { background: var(--surface-tint); border-color: rgba(22,182,106,0.45); color: var(--brand-green-deep); }
 .muted { color: var(--ink-muted); font-size: 12px; }
 .nowrap { white-space: nowrap; }
-.stack { display: grid; gap: 4px; }
 
 /* Buttons — match shared home-primary-cta */
 .primaryBtn {
@@ -137,9 +142,10 @@
 }
 .ghostBtn { display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--line-soft); border-radius: 999px; background: var(--surface-strong); color: var(--ink-strong); padding: 8px 14px; font-size: 14px; font-weight: 700; text-decoration: none; }
 .ghostBtn:hover { border-color: var(--brand-green); color: var(--brand-green-deep); }
-.compareToggle { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--ink-muted); cursor: pointer; }
-.compareToggle input { accent-color: var(--brand-green); }
-.compareToggleOn { color: var(--brand-green-deep); }
+.compareToggle { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; color: var(--ink-strong); cursor: pointer; border: 1.5px solid var(--line-soft); border-radius: 999px; background: var(--surface-strong); padding: 7px 11px; white-space: nowrap; transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease; }
+.compareToggle:hover { border-color: var(--brand-green); color: var(--brand-green-deep); }
+.compareToggle input { accent-color: var(--brand-green); width: 15px; height: 15px; margin: 0; flex: none; }
+.compareToggleOn { color: var(--brand-green-deep); border-color: var(--brand-green); background: rgba(22, 182, 106, 0.08); }
 
 /* Table view */
 .tableWrap { overflow-x: auto; border: 1px solid var(--line-soft); border-radius: 14px; background: var(--surface-strong); }

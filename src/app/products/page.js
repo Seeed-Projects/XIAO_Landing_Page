@@ -3,24 +3,47 @@
 import { SiteHeader } from "../components";
 import { ProductPanel } from "../product-panel";
 import { XiaoSelector } from "./xiao-selector";
-import { HeroSection } from "../hero-section";
+import { ToolPageIntro } from "../tool-page-intro";
 import { useLang } from "../i18n";
 
 export function ProductsHero() {
   const { lang } = useLang();
   const isEn = lang === "en";
+  const actions = (
+    <>
+      <a
+        href="https://www.seeedstudio.com/xiao-selector"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="home-type-action home-filled-action home-primary-cta"
+        style={{ color: "#fff" }}
+      >
+        {isEn ? "Shop Now" : "立即购买"}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </a>
+      <a
+        href="https://wiki.seeedstudio.com/xiao_topic_page/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="home-type-action home-filled-action home-primary-cta"
+        style={{ color: "#fff" }}
+      >
+        {isEn ? "Get Started" : "快速开始"}
+      </a>
+    </>
+  );
   return (
-    <HeroSection
-      kicker=""
-      brand=""
+    <ToolPageIntro
       title={isEn ? "Seeed Studio XIAO Ecosystem" : "Seeed Studio XIAO 生态系统"}
-      subtitle={
+      description={
         isEn
           ? "Seeed Studio XIAO is a full ecosystem that offers compact, Arduino-compatible development boards with expandable accessories for sensors, actuators, and connectivity."
           : "Seeed Studio XIAO 是一个完整的生态系统，提供紧凑的 Arduino 兼容开发板，并配有可扩展的传感器、执行器与连接配件。"
       }
-      titleClassName="products-hero-title home-type-hero-title text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]"
-      image="/products-hero.webp"
+      actions={actions}
     />
   );
 }

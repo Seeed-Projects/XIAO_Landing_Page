@@ -8,11 +8,12 @@ export const BOARD_LIST = RAW_BOARD_LIST.map(enrichBoard);
 export const BOARDS = Object.fromEntries(BOARD_LIST.map((board) => [board.id, board]));
 BOARDS.nrf54 = BOARDS.nrf54lm20asense;
 
-export { BOARD_CATEGORIES, FN_COLOR, FN_LABEL, LEGEND_ORDER, STRIP_COLUMNS, STRIP_TITLE, STRIP_WIDTH } from "./footprint.js";
+export { BOARD_CATEGORIES, FN_COLOR, FN_LABEL, LEGEND_ORDER, NEW_LEGEND_BOARDS, NEW_LEGEND_ORDER, PTC_LEGEND_BOARDS, CAN_LEGEND_BOARDS, STRIP_COLUMNS, STRIP_TITLE, STRIP_WIDTH } from "./footprint.js";
 export {
   localize,
   pinMatchesQuery,
   pinHasFilter,
+  diagramBoxMatchesFilter,
   visibleOnSide,
   padOnSide,
   laneOnSide,

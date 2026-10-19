@@ -7,7 +7,7 @@ const TEXT = (en, zh) => ({ en, zh: zh || en });
 const EMPTY_TEXT = { en: "", zh: "" };
 
 export const PIN_STATUS = ["free", "conditional", "occupied"];
-export const PIN_FN = ["power", "gnd", "rst", "digital", "analog", "i2c", "spi", "uart"];
+export const PIN_FN = ["power", "gnd", "rst", "digital", "analog", "i2c", "spi", "uart", "peripheral", "ptc", "can"];
 /**
  * header: castellated edge pad with a label strip.
  * pad: extra pad on the photo (SWD, VIN, RST) labelled by a small tag.
@@ -17,7 +17,7 @@ export const PIN_FN = ["power", "gnd", "rst", "digital", "analog", "i2c", "spi",
  */
 export const PIN_KIND = ["header", "pad", "onboard"];
 export const NOTE_LEVELS = ["danger", "caution", "info"];
-export const ALT_KEYS = ["adc", "i2c", "spi", "uart", "pwm", "other"];
+export const ALT_KEYS = ["adc", "i2c", "spi", "uart", "pwm", "ptc", "can", "i2s", "other"];
 
 function gpioNumber(chip) {
   const match = String(chip || "").match(/GPIO\s*(\d+)/i);
@@ -126,6 +126,16 @@ export function pinHasFilter(pin, filter) {
   if (filter === "uart" && pin.caps.uart) return true;
   if (filter === "power" && (pin.fn === "power" || pin.fn === "gnd")) return true;
   return false;
+}
+
+/** Match an official diagram label colour to the interactive legend filter. */
+export function diagramBoxMatchesFilter(category, filter) {
+  if (!filter) return true;
+  if (category === "system") return filter === "rst";
+  // The scanner names the #5c6bc0 colour "ptc" after the SAMD21 touch channels;
+  // on stm32c5 the same colour marks the CAN bus pins, so the CAN key matches it.
+  if (filter === "can") return category === "ptc";
+  return category === filter;
 }
 
 export function visibleOnSide(pin, side) {

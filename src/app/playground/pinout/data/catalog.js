@@ -107,16 +107,16 @@ const s3 = stdBoard({
 }, [
   analogHeader("D11", "A11", "GPIO42", "esp32"),
   analogHeader("D12", "A12", "GPIO41", "esp32"),
-  onboard("USER_LED", "GPIO21", "digital", "User Light LED", "用户指示灯", "esp32"),
+  onboard("USER_LED", "GPIO21", "peripheral", "User Light LED", "用户指示灯", "esp32"),
   onboard("Boot", "GPIO0", "rst", "Boot Button", "Boot 按键", "esp32", { status: "conditional", silk: "BOOT", warning: note("Strapping pin. Held low at reset enters download mode.", "启动脚，复位时拉低会进入下载模式。") }),
   onboard("UFL_ANT", "LNA_IN", "digital", "U.FL Antenna", "U.FL 天线", "esp32"),
   onboard("CHARGE_LED", "VCC_3V3", "power", "Charging Indicator LED", "充电指示灯", "esp32"),
-  pad("MTDO", "MTDO", "digital", "GPIO40", "JTAG TDO", "JTAG TDO", "esp32"),
-  pad("MTDI", "MTDI", "digital", "GPIO41", "JTAG TDI (shares D12/GPIO41)", "JTAG TDI（与 D12/GPIO41 共用）", "esp32", { status: "conditional" }),
-  pad("MTCK", "MTCK", "digital", "GPIO39", "JTAG TCK", "JTAG TCK", "esp32"),
-  pad("MTMS", "MTMS", "digital", "GPIO42", "JTAG TMS (shares D11/GPIO42)", "JTAG TMS（与 D11/GPIO42 共用）", "esp32", { status: "conditional" }),
-  pad("USB_D+", "D+", "digital", "USB_DP", "USB data positive", "USB 数据正", "esp32"),
-  pad("USB_D-", "D-", "digital", "USB_DM", "USB data negative", "USB 数据负", "esp32"),
+  pad("MTDO", "MTDO", "rst", "GPIO40", "JTAG TDO", "JTAG TDO", "esp32"),
+  pad("MTDI", "MTDI", "rst", "GPIO41", "JTAG TDI (shares D12/GPIO41)", "JTAG TDI（与 D12/GPIO41 共用）", "esp32", { status: "conditional" }),
+  pad("MTCK", "MTCK", "rst", "GPIO39", "JTAG TCK", "JTAG TCK", "esp32"),
+  pad("MTMS", "MTMS", "rst", "GPIO42", "JTAG TMS (shares D11/GPIO42)", "JTAG TMS（与 D11/GPIO42 共用）", "esp32", { status: "conditional" }),
+  pad("USB_D+", "D+", "rst", "USB_DP", "USB data positive", "USB 数据正", "esp32"),
+  pad("USB_D-", "D-", "rst", "USB_DM", "USB data negative", "USB 数据负", "esp32"),
   ...batPair("esp32"),
 ]);
 
@@ -143,13 +143,13 @@ const s3plus = stdBoard({
   onboard("ADC_BAT", "GPIO10", "analog", "Battery Voltage ADC", "电池电压 ADC", "esp32", { caps: { adc: "VBAT" } }),
   onboard("UFL_ANT", "LNA_IN", "digital", "U.FL Antenna", "U.FL 天线", "esp32"),
   onboard("CHARGE_LED", "VCC_3V3", "power", "Charging Indicator LED", "充电指示灯", "esp32"),
-  onboard("USER_LED", "GPIO21", "digital", "User Light", "用户指示灯", "esp32"),
-  pad("MTDO", "MTDO", "digital", "GPIO40", "JTAG TDO", "JTAG TDO", "esp32"),
-  pad("MTDI", "MTDI", "digital", "GPIO41", "JTAG TDI / ADC", "JTAG TDI / ADC", "esp32"),
-  pad("MTCK", "MTCK", "digital", "GPIO39", "JTAG TCK / ADC", "JTAG TCK / ADC", "esp32"),
-  pad("MTMS", "MTMS", "digital", "GPIO42", "JTAG TMS / ADC", "JTAG TMS / ADC", "esp32"),
-  pad("USB_D+", "D+", "digital", "USB_DP", "USB data positive", "USB 数据正", "esp32"),
-  pad("USB_D-", "D-", "digital", "USB_DM", "USB data negative", "USB 数据负", "esp32"),
+  onboard("USER_LED", "GPIO21", "peripheral", "User Light", "用户指示灯", "esp32"),
+  pad("MTDO", "MTDO", "rst", "GPIO40", "JTAG TDO", "JTAG TDO", "esp32"),
+  pad("MTDI", "MTDI", "rst", "GPIO41", "JTAG TDI / ADC", "JTAG TDI / ADC", "esp32"),
+  pad("MTCK", "MTCK", "rst", "GPIO39", "JTAG TCK / ADC", "JTAG TCK / ADC", "esp32"),
+  pad("MTMS", "MTMS", "rst", "GPIO42", "JTAG TMS / ADC", "JTAG TMS / ADC", "esp32"),
+  pad("USB_D+", "D+", "rst", "USB_DP", "USB data positive", "USB 数据正", "esp32"),
+  pad("USB_D-", "D-", "rst", "USB_DM", "USB data negative", "USB 数据负", "esp32"),
   ...batPair("esp32"),
 ]);
 
@@ -188,6 +188,7 @@ const c6 = stdBoard({
   onboard("Boot", "GPIO9", "rst", "Boot Button", "Boot 按键", "esp32", { status: "conditional", silk: "BOOT" }),
   onboard("RF_SW_PORT", "GPIO14", "digital", "RF Switch Port Select (onboard/UFL)", "射频开关端口选择（板载/UFL）", "esp32"),
   onboard("RF_SW_PWR", "GPIO3", "digital", "RF Switch Power", "射频开关电源", "esp32"),
+  onboard("CHARGE_LED", "VCC_3V3", "power", "Charging Indicator LED", "充电指示灯", "esp32"),
   pad("MTDO", "MTDO", "digital", "GPIO7", "JTAG TDO", "JTAG TDO", "esp32"),
   pad("MTDI", "MTDI", "digital", "GPIO5", "JTAG TDI", "JTAG TDI", "esp32"),
   pad("MTCK", "MTCK", "digital", "GPIO6", "JTAG TCK", "JTAG TCK", "esp32"),
@@ -231,9 +232,9 @@ const nrf52 = stdBoard({
   rst: "P0.18", sda: "P0.04", scl: "P0.05", tx: "P1.11", rx: "P1.12",
   sck: "P1.13", miso: "P1.14", mosi: "P1.15", i2cAdc: true,
 }, [
-  onboard("USER_LED_R", "P0.26", "digital", "RGB LED Red", "RGB LED 红", "nrf52"),
-  onboard("USER_LED_G", "P0.30", "digital", "RGB LED Green", "RGB LED 绿", "nrf52"),
-  onboard("USER_LED_B", "P0.06", "digital", "RGB LED Blue", "RGB LED 蓝", "nrf52"),
+  onboard("USER_LED_R", "P0.26", "digital", "RGB LED Red", "RGB LED 红", "nrf52", { silk: "RGB-R" }),
+  onboard("USER_LED_G", "P0.30", "digital", "RGB LED Green", "RGB LED 绿", "nrf52", { silk: "RGB-G" }),
+  onboard("USER_LED_B", "P0.06", "digital", "RGB LED Blue", "RGB LED 蓝", "nrf52", { silk: "RGB-B" }),
   pad("NFC1", "NFC1", "digital", "P0.09", "NFC Antenna 1", "NFC 天线 1", "nrf52"),
   pad("NFC2", "NFC2", "digital", "P0.10", "NFC Antenna 2", "NFC 天线 2", "nrf52"),
   pad("SWCLK", "SWCLK", "digital", "SWCLK", "SWD debug clock", "SWD 调试时钟", "nrf52"),
@@ -255,9 +256,9 @@ const nrf52840plus = stdBoard({
   rst: "P0.18", sda: "P0.04", scl: "P0.05", tx: "P1.11", rx: "P1.12",
   sck: "P1.13", miso: "P1.14", mosi: "P1.15", i2cAdc: true,
 }, [
-  headerPin("D11", { silk: "I2S_SD", chip: "P0.15", fn: "digital", caps: { adc: "AIN" }, desc: "I2S data / ADC", descZh: "I2S 数据 / ADC", side: "back" }, "nrf52"),
-  headerPin("D12", { silk: "I2S_SCK", chip: "P0.19", fn: "digital", caps: { adc: "AIN" }, desc: "I2S clock / ADC", descZh: "I2S 时钟 / ADC", side: "back" }, "nrf52"),
-  headerPin("D13", { silk: "I2S_WS", chip: "P1.01", fn: "digital", caps: { adc: "AIN" }, desc: "I2S word select / ADC", descZh: "I2S 字选择 / ADC", side: "back" }, "nrf52"),
+  headerPin("D11", { silk: "I2S_SD", chip: "P0.15", fn: "digital", caps: { adc: "AIN", i2s: "I2S SD" }, desc: "I2S data / ADC", descZh: "I2S 数据 / ADC", side: "back" }, "nrf52"),
+  headerPin("D12", { silk: "I2S_SCK", chip: "P0.19", fn: "digital", caps: { adc: "AIN", i2s: "I2S SCK" }, desc: "I2S clock / ADC", descZh: "I2S 时钟 / ADC", side: "back" }, "nrf52"),
+  headerPin("D13", { silk: "I2S_WS", chip: "P1.01", fn: "digital", caps: { adc: "AIN", i2s: "I2S WS" }, desc: "I2S word select / ADC", descZh: "I2S 字选择 / ADC", side: "back" }, "nrf52"),
   headerPin("D14", { silk: "RX1", chip: "P0.09", fn: "uart", caps: { uart: "RX1", adc: "AIN" }, desc: "UART1 receive / NFC1 / ADC", descZh: "UART1 接收 / NFC1 / ADC", side: "back" }, "nrf52"),
   headerPin("D15", { silk: "TX1", chip: "P0.10", fn: "uart", caps: { uart: "TX1", adc: "AIN" }, desc: "UART1 transmit / NFC2 / ADC", descZh: "UART1 发送 / NFC2 / ADC", side: "back" }, "nrf52"),
   headerPin("D16", { silk: "AIN7_BAT", chip: "P0.31", fn: "analog", caps: { adc: "AIN7" }, desc: "Battery Voltage ADC", descZh: "电池电压 ADC", side: "back" }, "nrf52"),
@@ -272,9 +273,9 @@ const nrf52840plus = stdBoard({
   onboard("RF_SW_PORT", "P2.05", "digital", "RF Switch Port Select", "射频开关端口选择", "nrf52"),
   onboard("RF_SW_PWR", "P2.03", "digital", "RF Switch Power", "射频开关电源", "nrf52"),
   onboard("CHARGE_LED", "P0.17", "power", "Charging Indicator LED", "充电指示灯", "nrf52"),
-  onboard("USER_LED_R", "P0.26", "digital", "User RGB LED Red", "用户 RGB LED 红", "nrf52"),
-  onboard("USER_LED_B", "P0.06", "digital", "User RGB LED Blue", "用户 RGB LED 蓝", "nrf52"),
-  onboard("USER_LED_G", "P0.30", "digital", "User RGB LED Green", "用户 RGB LED 绿", "nrf52"),
+  onboard("USER_LED_R", "P0.26", "digital", "User RGB LED Red", "用户 RGB LED 红", "nrf52", { silk: "RGB-R" }),
+  onboard("USER_LED_B", "P0.06", "digital", "User RGB LED Blue", "用户 RGB LED 蓝", "nrf52", { silk: "RGB-B" }),
+  onboard("USER_LED_G", "P0.30", "digital", "User RGB LED Green", "用户 RGB LED 绿", "nrf52", { silk: "RGB-G" }),
   pad("SWDIO", "SWDIO", "digital", "SWDIO", "SWD Debug Data", "SWD 调试数据", "nrf52"),
   pad("SWCLK", "SWCLK", "digital", "SWCLK", "SWD Debug Clock", "SWD 调试时钟", "nrf52"),
   ...batPair("nrf52"),
@@ -316,7 +317,7 @@ const nrf54Pins = [
   powerPin("VBUS", "VBUS", "—", "5V Power Input/Output", "5V 电源输入/输出", vbusWarn.en, vbusWarn.zh, { series: "nrf54" }),
   powerPin("GND", "GND", "—", "Ground", "地", gndWarn.en, gndWarn.zh, { series: "nrf54", fn: "gnd" }),
   powerPin("3V3", "3V3", "3V3-OUT", "3.3V Power Output", "3.3V 电源输出", v33Warn(300).en, v33Warn(300).zh, { series: "nrf54" }),
-  powerPin("BAT+", "BAT+", "BAT+", "Battery Input (monitored by nPM1300 via I²C)", "电池输入（由 nPM1300 经 I²C 监测）", "Connect to LiPo positive; charge level monitored by nPM1300.", "接锂电池正极，电量由 nPM1300 监测。", { series: "nrf54", side: "back" }),
+  powerPin("BAT+", "BAT+", "BAT+", "Battery Input (managed by the nPM1300)", "电池输入（由 nPM1300 管理）", "Connect to LiPo positive; charging is handled by the nPM1300.", "接锂电池正极，充电由 nPM1300 管理。", { series: "nrf54", side: "back" }),
   powerPin("BAT-", "BAT-", "BAT-", "Battery Negative Terminal", "电池负极", "Connect to battery negative; common with GND.", "接电池负极，与 GND 共地。", { series: "nrf54", fn: "gnd", side: "back" }),
   headerPin("SHPHLD", { silk: "SHPHLD", chip: "SHPHLD", fn: "rst", status: "conditional", desc: "PMIC Ship/Hibernate Mode Control", descZh: "PMIC Ship/Hibernate 模式控制", warning: note("Pull low to enter ship mode.", "拉低进入 ship 模式。"), side: "back" }, "nrf54"),
   rstPin("—", "nrf54", "RESET"),
@@ -325,10 +326,10 @@ const nrf54Pins = [
   headerPin("SWCLK2", { silk: "SWCLK2", chip: "SAMD11 SWCLK", fn: "digital", desc: "SAMD11 debug clock", descZh: "SAMD11 调试时钟", side: "back" }, "nrf54"),
   headerPin("SWDIO2", { silk: "SWDIO2", chip: "SAMD11 SWDIO", fn: "digital", desc: "SAMD11 debug data", descZh: "SAMD11 调试数据", side: "back" }, "nrf54"),
   headerPin("RST2", { silk: "RST2", chip: "SAMD11 RESET", fn: "rst", status: "conditional", desc: "SAMD11 reset", descZh: "SAMD11 复位", side: "back" }, "nrf54"),
-  analogHeader("A0", "A0", "AIN0 / P1.00", "nrf54"),
-  analogHeader("A1", "A1", "AIN1 / P1.31", "nrf54"),
-  analogHeader("A2", "A2", "AIN2 / P1.30", "nrf54"),
-  analogHeader("A3", "A3", "AIN3 / P1.29", "nrf54"),
+  analogHeader("A0", "A0", "P1.00", "nrf54", { desc: "Digital / analog A0 (ADC channel AIN0)", descZh: "数字 / 模拟 A0（ADC 通道 AIN0）" }),
+  analogHeader("A1", "A1", "P1.31", "nrf54", { desc: "Digital / analog A1 (ADC channel AIN1)", descZh: "数字 / 模拟 A1（ADC 通道 AIN1）" }),
+  analogHeader("A2", "A2", "P1.30", "nrf54", { desc: "Digital / analog A2 (ADC channel AIN2)", descZh: "数字 / 模拟 A2（ADC 通道 AIN2）" }),
+  analogHeader("A3", "A3", "P1.29", "nrf54", { desc: "Digital / analog A3 (ADC channel AIN3)", descZh: "数字 / 模拟 A3（ADC 通道 AIN3）" }),
   busPin("SDA", "SDA", "i2c", "i2c", "P1.03", "nrf54", { warning: sdaWarn, desc: "I2C Data Line (IMU & Peripheral)", descZh: "I2C 数据线（IMU 与外设）", code: "Wire.begin(SDA, SCL);" }),
   busPin("SCL", "SCL", "i2c", "i2c", "P1.07", "nrf54", { warning: sclWarn, desc: "I2C Clock Line (IMU & Peripheral)", descZh: "I2C 时钟线（IMU 与外设）", code: "Wire.begin(SDA, SCL);" }),
   busPin("TX", "TX", "uart", "uart", "P1.08", "nrf54", { warning: txWarn, desc: "UART Transmit", descZh: "UART 发送", code: "Serial1.begin(115200);" }),
@@ -379,10 +380,12 @@ const rp2040 = stdBoard({
   rst: "RUN", sda: "GPIO6", scl: "GPIO7", tx: "GPIO0", rx: "GPIO1",
   sck: "GPIO2", miso: "GPIO4", mosi: "GPIO3",
 }, [
-  onboard("USER_LED_R", "GPIO17", "digital", "RGB LED Red", "RGB LED 红", "rp"),
-  onboard("USER_LED_G", "GPIO16", "digital", "RGB LED Green", "RGB LED 绿", "rp"),
-  onboard("USER_LED_B", "GPIO25", "digital", "RGB LED Blue", "RGB LED 蓝", "rp"),
-  onboard("Boot", "RP2040_BOOT", "rst", "Boot Button", "Boot 按键", "rp", { status: "conditional", silk: "BOOT" }),
+  onboard("USER_LED_R", "GPIO17", "digital", "RGB LED Red", "RGB LED 红", "rp", { silk: "RGB-R" }),
+  onboard("USER_LED_G", "GPIO16", "digital", "RGB LED Green", "RGB LED 绿", "rp", { silk: "RGB-G" }),
+  onboard("USER_LED_B", "GPIO25", "digital", "RGB LED Blue", "RGB LED 蓝", "rp", { silk: "RGB-B" }),
+  onboard("POWER_LED", "—", "power", "Power Indicator LED", "电源指示灯", "rp"),
+  onboard("RGB_LED", "GPIO12", "digital", "WS2812B RGB LED data", "WS2812B RGB LED 数据", "rp"),
+  onboard("Boot", "QSPI_CSN", "rst", "Boot Button", "Boot 按键", "rp", { status: "conditional", silk: "BOOT" }),
   pad("SWDIO", "SWDIO", "digital", "SWDIO", "SWD Debug Data", "SWD 调试数据", "rp"),
   pad("SWCLK", "SWCLK", "digital", "SWCLK", "SWD Debug Clock", "SWD 调试时钟", "rp"),
 ]);
@@ -436,11 +439,11 @@ const rp2350 = stdBoard({
   headerPin("D16", { silk: "D16", chip: "GPIO12", fn: "spi", caps: { spi: "MISO1" }, desc: "Digital 16 (SPI1 MISO)", descZh: "数字 16（SPI1 主入从出）", side: "back" }, "rp"),
   headerPin("D17", { silk: "D17", chip: "GPIO10", fn: "spi", caps: { spi: "SCK1" }, desc: "Digital 17 (SPI1 SCK)", descZh: "数字 17（SPI1 时钟）", side: "back" }, "rp"),
   headerPin("D18", { silk: "D18", chip: "GPIO9", fn: "spi", caps: { spi: "CS1" }, desc: "Digital 18 (SPI1 CS)", descZh: "数字 18（SPI1 片选）", side: "back" }, "rp"),
-  onboard("RGB_LED", "GPIO22", "digital", "Onboard RGB LED (WS2812)", "板载 RGB LED（WS2812）", "rp"),
-  onboard("USER_LED", "GPIO25", "digital", "User LED (Yellow)", "用户 LED（黄）", "rp"),
+  onboard("RGB_LED", "GPIO22", "digital", "Onboard RGB LED (WS2812)", "板载 RGB LED（WS2812）", "rp", { silk: "RGB_NEOPIX" }),
+  onboard("USER_LED", "GPIO25", "digital", "User LED (Yellow)", "用户 LED（黄）", "rp", { silk: "YELLOW_LED" }),
   onboard("ADC_BAT", "GPIO29", "analog", "Battery Voltage ADC", "电池电压 ADC", "rp", { caps: { adc: "VBAT" } }),
   onboard("ADC_BAT_EN", "GPIO19", "analog", "Battery Voltage Measure Enable", "电池电压检测使能", "rp"),
-  onboard("Boot", "RP2350_BOOT", "rst", "Boot Button", "Boot 按键", "rp", { status: "conditional", silk: "BOOT" }),
+  onboard("Boot", "QSPI_SS", "rst", "Boot Button", "Boot 按键", "rp", { status: "conditional", silk: "BOOT" }),
   onboard("CHARGE_LED", "NCHG", "power", "Charging Indicator LED (Red)", "充电指示灯（红色）", "rp"),
   pad("SWCLK", "SWCLK", "digital", "SWCLK", "SWD debug clock", "SWD 调试时钟", "rp"),
   pad("SWDIO", "SWDIO", "digital", "SWDIO", "SWD debug data", "SWD 调试数据", "rp"),
@@ -466,8 +469,9 @@ const ra4 = stdBoard({
   headerPin("D17", { silk: "D17", chip: "P102", fn: "spi", caps: { spi: "SCK0" }, desc: "Digital 17 (UART / SPI0 SCK)", descZh: "数字 17（UART / SPI0 SCK）", side: "back" }, "ra"),
   headerPin("D18", { silk: "D18", chip: "P103", fn: "spi", caps: { adc: "AIN" }, desc: "Digital 18 (SPI / ADC)", descZh: "数字 18（SPI / ADC）", side: "back" }, "ra"),
   onboard("USER_LED", "P011", "digital", "User LED (Yellow)", "用户 LED（黄）", "ra"),
-  onboard("RGB_LED", "P112", "digital", "Onboard RGB LED", "板载 RGB LED", "ra"),
-  onboard("RGB_LED_EN", "P500", "digital", "RGB LED Enable", "RGB LED 使能", "ra"),
+  onboard("POWER_LED", "—", "power", "Power Indicator LED", "电源指示灯", "ra"),
+  onboard("RGB_LED", "P112", "digital", "Onboard RGB LED (WS2812)", "板载 RGB LED（WS2812）", "ra", { silk: "WS2812 RGB" }),
+  onboard("RGB_LED_EN", "P500", "digital", "RGB LED Enable", "RGB LED 使能", "ra", { silk: "RGB ENABLE" }),
   onboard("ADC_BAT", "P015", "analog", "Battery Voltage ADC", "电池电压 ADC", "ra", { caps: { adc: "VBAT" } }),
   onboard("Boot", "P201", "rst", "Boot Button", "Boot 按键", "ra", { status: "conditional", silk: "BOOT" }),
   onboard("CHARGE_LED", "VBUS", "power", "Charging Indicator LED (Red)", "充电指示灯（红色）", "ra"),
@@ -476,12 +480,20 @@ const ra4 = stdBoard({
   ...batPair("ra"),
 ]);
 
+// D19–D21 double as the default I2S port (silk on the back diagram).
+// D19–D21 默认复用为 I2S 端口（见背面图丝印）。
+const PLUS_I2S = {
+  D19: { cap: "I2S SD", en: "I2S data", zh: "I2S 数据" },
+  D20: { cap: "I2S SCK", en: "I2S clock", zh: "I2S 时钟" },
+  D21: { cap: "I2S WS", en: "I2S word select", zh: "I2S 字选择" },
+};
+
 const samd21plus = stdBoard({
   id: "samd21plus", name: "XIAO SAMD21 Plus", series: "samd", img: "samd21plus",
   frameworks: arduinoFw,
   tagline: { en: "SAMD21 Plus — the original XIAO architecture with expanded GPIO, RGB and battery sensing.", zh: "SAMD21 Plus — 初代 XIAO 架构，增加扩展 GPIO、RGB 与电池检测。" },
   back: { left: ["SWCLK", "D18", "D12", "D13", "D14", "D19", "D20", "D21", "D22"], right: ["SWDIO", "RST", "D17", "D16", "D15", "D23", "D24", "D25", "D26", "D27", "BAT-", "BAT+"], padY: { left: [7, 18, 30, 39, 48, 57, 65, 73, 81], right: [7, 15, 25, 34, 43, 52, 60, 68, 76, 84, 91, 97] } },
-  markerIds: ["RGB_LED", "USER_BUTTON", "CHARGE_LED"],
+  markerIds: ["RGB_LED", "USER_BUTTON", "Boot", "CHARGE_LED"],
 }, ["PA02", "PA04", "PA10", "PA11"], {
   rst: "RESETN", sda: "PA08", scl: "PA09", tx: "PB08", rx: "PB09",
   sck: "PA07", miso: "PA05", mosi: "PA06", i2cAdc: true, uartAdc: true, spiAdc: true,
@@ -492,9 +504,19 @@ const samd21plus = stdBoard({
   ...[["D15", "PA15"], ["D16", "PA14"], ["D17", "PA13"], ["D18", "PA12"],
     ["D19", "PA19"], ["D20", "PA20"], ["D21", "PA21"], ["D22", "PB10"],
     ["D23", "PB11"], ["D24", "PB23"], ["D25", "PA23"], ["D26", "PB2"], ["D27", "PA18"]]
-    .map(([id, chip]) => headerPin(id, { silk: id, chip, fn: "digital", desc: "Plus expansion GPIO", descZh: "Plus 扩展 GPIO", side: "back" }, "samd")),
+    .map(([id, chip]) => {
+      const i2s = PLUS_I2S[id];
+      return headerPin(id, {
+        silk: id, chip, fn: "digital",
+        caps: i2s ? { i2s: i2s.cap } : {},
+        desc: i2s ? `Plus expansion GPIO / ${i2s.en}` : "Plus expansion GPIO",
+        descZh: i2s ? `Plus 扩展 GPIO / ${i2s.zh}` : "Plus 扩展 GPIO",
+        side: "back",
+      }, "samd");
+    }),
   onboard("RGB_LED", "PA27", "digital", "WS2812B RGB LED data", "WS2812B RGB LED 数据", "samd"),
   onboard("USER_BUTTON", "PB22", "rst", "User Button (active low)", "用户按键（低电平有效）", "samd"),
+  onboard("Boot", "—", "rst", "Boot Button (double-tap RESET also enters bootloader)", "Boot 按键（双击 RESET 也可进入 bootloader）", "samd", { status: "conditional", silk: "BOOT" }),
   onboard("VBAT_EN", "PB02", "digital", "Battery ADC Enable", "电池 ADC 使能", "samd"),
   onboard("AIN11_VBAT", "PB03 / AIN11", "analog", "Battery Voltage ADC", "电池电压 ADC", "samd", { caps: { adc: "AIN11" } }),
   onboard("CHARGE_LED", "—", "power", "Hardware Charging Indicator", "硬件充电指示灯", "samd"),
@@ -502,6 +524,16 @@ const samd21plus = stdBoard({
   pad("SWCLK", "SWCLK", "digital", "PA30", "SWD Debug Clock", "SWD 调试时钟", "samd"),
   ...batPair("samd"),
 ]);
+// Same SAMD21 PTC touch channels on the front header (see the samd21 board);
+// the stdBoard builder has no per-pin caps hook, so patch them in afterwards.
+// 前排的 PTC 触摸通道与 samd21 相同（见 samd21 板）；stdBoard 不支持逐脚
+// caps，这里事后补上。
+samd21plus.pins = (() => {
+  const ptcY = { D0: "Y0", D1: "Y2", D6: "Y14", D7: "Y15", D8: "Y5", D9: "Y3", D10: "Y4" };
+  return samd21plus.pins.map((pin) => (ptcY[pin.id]
+    ? { ...pin, caps: { ...pin.caps, ptc: ptcY[pin.id] } }
+    : pin));
+})();
 
 const mg24 = stdBoard({
   id: "mg24", name: "XIAO MG24", series: "mg", img: "mg24",

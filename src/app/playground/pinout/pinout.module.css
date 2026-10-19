@@ -17,9 +17,13 @@
 }
 
 /* One rounded control bar: board picker, framework, search, colour key.
-   一个圆角控制条，集中放板型选择、框架切换、搜索与颜色图例。 */
+   Sticks below the fixed site header (h-16 = 64px) so it stays in view
+   while scrolling the front/back diagrams.
+   一个圆角控制条，集中放板型选择、框架切换、搜索与颜色图例。
+   悬浮吸附在固定导航（64px）下方，浏览正反面引脚图时始终可见。 */
 .controls {
-  position: relative;
+  position: sticky;
+  top: 64px;
   z-index: 30;
   display: flex;
   flex-direction: column;
@@ -270,13 +274,6 @@
 .diagramFrame {
   width: 100%;
 }
-.legendStrip {
-  display: block;
-  width: 100%;
-  height: auto;
-  overflow: hidden;
-  background: transparent;
-}
 .diagram {
   display: block;
   width: 100%;
@@ -285,8 +282,7 @@
   border: 0;
   background: transparent;
 }
-.diagram image,
-.legendStrip image {
+.diagram image {
   mix-blend-mode: multiply;
 }
 .diagramRow { cursor: pointer; outline: none; }
@@ -307,7 +303,7 @@
   stroke-width: 1.75;
 }
 .diagramRowActive .diagramMark { fill: var(--pin-color); }
-.diagramRowDim .diagramBox { fill: rgba(255, 255, 255, 0.72); }
+.diagramBoxDim { fill: rgba(255, 255, 255, 0.72); }
 
 .card {
   border: 1px solid var(--line-soft);
@@ -322,6 +318,13 @@
   z-index: 8;
   overflow: auto;
   padding: 28px 34px 36px;
+}
+/* A dragged card pins to the viewport so it can park in the blank page
+   margins beside the diagram column and stay put while scrolling.
+   拖动后的卡片固定于视口：可停靠在图列两侧的页面留白处，滚动时保持原位。 */
+.cardPinned {
+  position: fixed;
+  z-index: 40;
 }
 .cardSheet {
   position: fixed;
@@ -343,7 +346,18 @@
   z-index: 55;
   background: rgba(8, 28, 34, 0.28);
 }
-.cardHead { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+/* The card header is the drag handle for the floating pin card.
+   标题栏即浮动引脚卡的拖动手柄。 */
+.cardHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+.cardHead:active { cursor: grabbing; }
 .cardMeta { margin: 8px 0 0; color: var(--ink-muted); font-size: 14px; font-weight: 600; }
 .cardDesc { margin-top: 12px; color: var(--ink-body); }
 .close {

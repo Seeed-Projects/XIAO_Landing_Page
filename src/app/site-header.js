@@ -43,13 +43,13 @@ function LangToggle() {
 const PLAYGROUND_ITEMS = {
   zh: [
     { label: "引脚图", hint: "Pinout 定义与规格", href: "/playground/pinout", id: "top" },
-    { label: "烧录", hint: "一键固件烧录", href: "/playground/esp-flasher", id: "top" },
+    { label: "烧录", hint: "一键 ESP 固件烧录", href: "/playground/esp-flasher", id: "top" },
     { label: "硬件资源", hint: "数据手册 / 原理图 / CAD", href: "/res", id: "top" },
     { label: "软件生态", hint: "官方与社区软件", href: "/software-center", id: "top" },
   ],
   en: [
     { label: "Pin Out", hint: "Pinouts & specs", href: "/playground/pinout", id: "top" },
-    { label: "Flash", hint: "One-click firmware flasher", href: "/playground/esp-flasher", id: "top" },
+    { label: "ESP Flash", hint: "One-click ESP firmware flasher", href: "/playground/esp-flasher", id: "top" },
     { label: "Hardware Resources", hint: "Datasheets · schematics · CAD", href: "/res", id: "top" },
     { label: "Software Ecosystem", hint: "Official & community software", href: "/software-center", id: "top" },
   ],
@@ -66,8 +66,12 @@ const Chevron = ({ open }) => (
   </svg>
 );
 
+/* 桌面一级导航项：文字色用 ink-strong。globals.css 的 `a { color: inherit }` 会让 <a>
+   直接继承父级计算色，普通导航项的 <a> 因此继承到 body 的 ink-strong；而 Playground 的
+   <a> 被外层带颜色的 <div> 包裹，会继承到 div 的色——故此处统一声明 ink-strong，
+   使 Playground 文字与其余项一致（不再偏浅）。 */
 const DESKTOP_NAV_ITEM_CLASS =
-  "relative flex h-10 shrink-0 items-center justify-center whitespace-nowrap text-xs font-medium text-[var(--ink-body)] transition-colors duration-200 hover:text-[var(--brand-blue)] lg:text-[13px] xl:text-sm";
+  "relative flex h-10 shrink-0 items-center justify-center whitespace-nowrap text-xs font-medium text-[var(--ink-strong)] transition-colors duration-200 hover:text-[var(--brand-blue)] lg:text-[13px] xl:text-sm";
 const DESKTOP_NAV_ACTIVE_CLASS =
   "text-[var(--brand-blue)] after:absolute after:bottom-0.5 after:left-1/2 after:h-0.5 after:w-7 after:-translate-x-1/2 after:rounded-full after:bg-[var(--button-bg)] after:content-['']";
 

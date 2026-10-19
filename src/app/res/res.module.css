@@ -625,6 +625,16 @@
 }
 .modalBody[data-zoom="1"] .vectorPreview { display: block; }
 .modalBody[data-zoom="1"] .vectorPreview :global(svg) { width: 200%; height: auto; max-width: none; }
+/* Photo preview: same framing as the vector drawings, but sized by the image itself. */
+.imagePreview {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(100dvh - 150px);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
 /* Spreadsheet preview */
 .sheet { flex: 1; min-width: 0; display: flex; flex-direction: column; background: #fff; }
 .sheetTabs {

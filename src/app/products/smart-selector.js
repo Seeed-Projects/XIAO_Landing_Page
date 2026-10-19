@@ -4,14 +4,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useLang } from "../i18n";
 import { Glow } from "../Glow";
 import { withBase } from "../../lib/basePath";
-import { PRODUCT_CATALOG } from "./catalog";
+import { PRODUCT_CATALOG, SELECTOR_IMAGES } from "./catalog";
 import styles from "./smart-selector.module.css";
 
 /* 产品清单 —— 直接取自 dev_boards 产品目录（与产品页一致），按子分类映射无线能力/功耗定位。
    向导（wizard）已下线，但 scoreProducts 等仍会引用以下字段，故保留默认空值避免运行时报错。 */
 const FAMILY_BY_SUB = {
   esp32: "ESP32", nrf52: "Nordic", nrf54: "Nordic",
-  rp: "Raspberry Pi", mg: "Silicon Labs", samd: "Microchip", ra: "Renesas",
+  rp: "Raspberry Pi", mg: "Silicon Labs", samd: "Microchip", ra: "Renesas", stm32: "STMicroelectronics",
 };
 const BOARD_META = {
   "XIAO ESP32-C3": { wireless: ["Wi-Fi", "BLE"], power: "standard" },
@@ -19,18 +19,22 @@ const BOARD_META = {
   "XIAO ESP32-S3 Sense": { wireless: ["Wi-Fi", "BLE"], power: "standard" },
   "XIAO ESP32-C6": { wireless: ["Wi-Fi", "BLE", "Matter", "Thread", "Zigbee"], power: "standard" },
   "XIAO ESP32-C5": { wireless: ["Wi-Fi", "BLE", "Matter", "Thread", "Zigbee"], power: "standard" },
-  "XIAO nRF52840": { wireless: ["BLE", "NFC"], power: "low" },
-  "XIAO nRF52840 Sense": { wireless: ["BLE", "NFC"], power: "low" },
-  "XIAO nRF54L15": { wireless: ["BLE", "Matter", "Thread", "Zigbee"], power: "ultra-low" },
-  "XIAO nRF54L15 Sense": { wireless: ["BLE", "Matter", "Thread", "Zigbee"], power: "ultra-low" },
-  "XIAO nRF54LM20A": { wireless: ["BLE", "Matter", "Thread", "Zigbee"], power: "ultra-low" },
-  "XIAO nRF54LM20A Sense": { wireless: ["BLE", "Matter", "Thread", "Zigbee"], power: "ultra-low" },
+  "XIAO nRF52840": { wireless: ["BLE", "NFC"], power: "ultra-low" },
+  "XIAO nRF52840 Sense": { wireless: ["BLE", "NFC"], power: "ultra-low" },
+  "XIAO nRF52840 Plus": { wireless: ["BLE", "NFC"], power: "ultra-low" },
+  "XIAO nRF52840 Sense Plus": { wireless: ["BLE", "NFC"], power: "ultra-low" },
+  "XIAO nRF54L15": { wireless: ["BLE", "NFC", "Matter", "Thread", "Zigbee"], power: "ultra-low" },
+  "XIAO nRF54L15 Sense": { wireless: ["BLE", "NFC", "Matter", "Thread", "Zigbee"], power: "ultra-low" },
+  "XIAO nRF54LM20A": { wireless: ["BLE", "NFC", "Matter", "Thread", "Zigbee"], power: "ultra-low" },
+  "XIAO nRF54LM20A Sense": { wireless: ["BLE", "NFC", "Matter", "Thread", "Zigbee"], power: "ultra-low" },
   "XIAO RP2040": { wireless: [], power: "standard" },
   "XIAO RP2350": { wireless: [], power: "standard" },
   "XIAO MG24": { wireless: ["BLE", "Matter", "Thread", "Zigbee"], power: "ultra-low" },
   "XIAO MG24 Sense": { wireless: ["BLE", "Matter", "Thread", "Zigbee"], power: "ultra-low" },
-  "XIAO SAMD21": { wireless: [], power: "low" },
+  "XIAO SAMD21": { wireless: [], power: "standard" },
+  "XIAO SAMD21 Plus": { wireless: [], power: "low" },
   "XIAO RA4M1": { wireless: [], power: "low" },
+  "XIAO STM32C5": { wireless: [], power: "low" },
 };
 const slug = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 /* 向导用字段的默认空值（向导已下线，仅占位防崩；features 留空，筛选只展示无线标签） */
@@ -42,7 +46,7 @@ const products = devBoardsCatalog.subcategories.flatMap((sub) =>
     const tag = item.descEn || item.desc || "";
     return {
       id: slug(item.title), name: item.title, family: FAMILY_BY_SUB[sub.id] ?? "Other",
-      img: withBase(item.img), link: item.link,
+      img: withBase(SELECTOR_IMAGES[item.title] ?? item.img), link: item.link,
       wireless: m.wireless, power: m.power, tagline: { en: tag, zh: tag },
       ...WIZ_DEFAULTS,
     };

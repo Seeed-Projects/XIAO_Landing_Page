@@ -14,6 +14,12 @@ export const FN_COLOR = {
   i2c: "#29b6f6",
   spi: "#ab47bc",
   uart: "#26a69a",
+  peripheral: "#004966",
+  ptc: "#5c6bc0",
+  can: "#5c6bc0",
+  seeed: "#8fc31f",
+  signal: "#0091ea",
+  nc: "#bdbdbd",
 };
 
 /** Chip wording copied from the official colour key; identical in both languages.
@@ -27,9 +33,33 @@ export const FN_LABEL = {
   uart: "UART",
   digital: "DIGITAL GPIO",
   rst: "SYSTEM",
+  peripheral: "PERIPHERAL",
+  ptc: "PTC",
+  can: "CAN",
+  seeed: "SEEED USAGE",
+  signal: "SIGNAL PIN",
+  nc: "NC / SHIELD",
 };
 
-export const LEGEND_ORDER = ["power", "gnd", "digital", "analog", "i2c", "spi", "uart", "rst"];
+export const LEGEND_ORDER = ["power", "gnd", "digital", "analog", "i2c", "spi", "uart", "rst", "peripheral"];
+
+/** Boards carrying the PTC / CAN legend key. 画布上出现 #5c6bc0 色块的板：
+ *  samd21 系列该色块是 PTC 触摸通道，stm32c5 上同一颜色是 CAN 总线引脚，
+ *  其余板没有该色块，图例不出现这一项。 */
+export const PTC_LEGEND_BOARDS = ["samd21", "samd21plus"];
+export const CAN_LEGEND_BOARDS = ["stm32c5"];
+
+/**
+ * Boards whose official diagram uses the 2025 colour key: seven pills
+ * (POWER / GND / SEEED USAGE / SIGNAL PIN / PERIPHERAL / SYSTEM / NC-SHIELD).
+ * s3sense used to be here for its expansion-board front diagram; since the
+ * front now reuses the s3 main-board diagram (classic key), the list is empty
+ * and the seven-pill order is kept for reference.
+ * 官方图使用 2025 版色标的板子：七枚药丸标签。s3sense 正面原为扩展板图（2025 色标），
+ * 现复用 s3 主板图（经典色标）后本列表为空，七色顺序仅留作参考。
+ */
+export const NEW_LEGEND_BOARDS = [];
+export const NEW_LEGEND_ORDER = ["power", "gnd", "seeed", "signal", "peripheral", "rst", "nc"];
 
 /** Label-strip columns from the board outward. 标签带列顺序：靠近板子一侧向外。 */
 export const STRIP_COLUMNS = ["silk", "code", "chip", "adc", "i2c", "spi", "uart", "pwm"];

@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { useLang } from "../i18n";
 import { Reveal } from "../reveal";
+import { ToolPageIntro } from "../tool-page-intro";
 import { Glow } from "../Glow";
 import { withBase } from "../../lib/basePath";
 import { PROJECTS } from "../projects-data";
@@ -198,28 +198,11 @@ export function ProjectHub() {
     <div className={styles.hub}>
       <div className={styles.noise} />
 
-      <Reveal as="header" className={`${styles.projectIntro} scroll-mt-24`} id="top">
-        <div className={styles.introVisual}>
-          <Image
-            src={withBase("/projecthub-hero.webp")}
-            alt=""
-            fill
-            sizes="100vw"
-            priority
-          />
-        </div>
-        <div className={styles.introShade} />
-        <div className={`page-hero-copy ${styles.introCopy}`}>
-          <Glow
-            as="h1"
-            className="home-type-hero-title text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]"
-          >
-            XIAO Project Hub
-          </Glow>
-          <p className="page-hero-description home-type-body text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]">
-            {t.introTagline}
-          </p>
-          <div className={styles.introAction}>
+      <Reveal as="section" className="scroll-mt-24" id="top">
+        <ToolPageIntro
+          title="XIAO Project Hub"
+          description={t.introTagline}
+          actions={
             <a
               href={CONTRIBUTE_LINK}
               target="_blank"
@@ -233,8 +216,8 @@ export function ProjectHub() {
                 <path d="m12 5 7 7-7 7" />
               </svg>
             </a>
-          </div>
-        </div>
+          }
+        />
       </Reveal>
 
       <main>

@@ -29,18 +29,18 @@ const MANUAL = {
   },
   samd21plus: {
     front: {
-      left: ["RGB_LED", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "USER_BUTTON", "VBAT_EN"],
-      right: ["5V", "GND", "3V3", "D10", "D9", "D8", "D7", "CHARGE_LED"],
+      left: ["CHARGE_LED", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "RST", "RGB_LED"],
+      right: ["5V", "GND", "3V3", "D10", "D9", "D8", "D7", "Boot"],
     },
     back: {
-      left: ["SWCLK", "GND", "3V3", "D18", "D12", "D13", "D14", "D19", "D20", "BAT-"],
-      right: ["SWDIO", "RST", "D17", "D16", "D15", "D24", "D25", "D26", "D27", "D21", "D22", "D23", "BAT+", "AIN11_VBAT", "5V"],
+      left: ["SWCLK", "GND", "3V3", "D12", "D13", "D14", "D25", "D26", "D27", "BAT-"],
+      right: ["SWDIO", "RST", "D18", "D17", "D16", "D15", "D19", "D20", "D21", "D22", "D23", "D24", "BAT+"],
     },
   },
   c3: {
     front: {
       left: ["D0", "D1", "D2", "D3", "D4", "D5", "D6", "Boot", "UFL_ANT"],
-      right: ["CHARGE_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "RST"],
+      right: ["CHARGE_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7"],
     },
     back: {
       left: ["MTDO", "GND", "MTCK"],
@@ -49,8 +49,8 @@ const MANUAL = {
   },
   c5: {
     front: {
-      left: ["USER_LED", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "Boot", "CHARGE_LED"],
-      right: ["ADC_BAT", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "ADC_CRL"],
+      left: ["CHARGE_LED", ...["D0","D1","D2","D3","D4","D5","D6"], "RST", "UFL_ANT"],
+      right: ["USER_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "Boot"],
     },
     back: {
       left: ["MTDO", "GND", "MTCK", "3V3", "BAT-"],
@@ -59,8 +59,8 @@ const MANUAL = {
   },
   c6: {
     front: {
-      left: ["USER_LED", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "Boot", "RF_SW_PORT"],
-      right: ["RF_SW_PWR", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "Boot", "USER_LED"],
+      left: ["RST", "CHARGE_LED", ...["D0","D1","D2","D3","D4","D5","D6"], "RF_SW_PORT"],
+      right: ["Boot", "USER_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "RF_SW_PWR"],
     },
     back: {
       left: ["MTDO", "GND", "MTCK", "3V3", "BAT-"],
@@ -69,8 +69,8 @@ const MANUAL = {
   },
   s3: {
     front: {
-      left: ["USER_LED", "Boot", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "UFL_ANT"],
-      right: ["CHARGE_LED", "D11", "5V", "GND", "3V3", "D10", "D9", "D8", "D7"],
+      left: ["RST", "CHARGE_LED", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "UFL_ANT"],
+      right: ["Boot", "USER_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7"],
     },
     back: {
       left: ["MTDO", "GND", "MTCK", "USB_D+"],
@@ -79,8 +79,8 @@ const MANUAL = {
   },
   s3plus: {
     front: {
-      left: ["USER_LED", "Boot", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "CHARGE_LED"],
-      right: ["ADC_BAT", "UFL_ANT", "5V", "GND", "3V3", "D10", "D9", "D8", "D7"],
+      left: ["RST", "CHARGE_LED", ...["D0","D1","D2","D3","D4","D5","D6"], "UFL_ANT"],
+      right: ["Boot", "USER_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7"],
     },
     back: {
       left: ["MTDO", "GND", "MTCK", "USB_D+", "D17", "D18", "D19", "BAT-"],
@@ -88,19 +88,41 @@ const MANUAL = {
     },
   },
   s3sense: {
+    // The official s3sense front diagram is the Sense expansion board
+    // (camera / mic / SD card) — its rows carry expansion-board labels, not
+    // the main header. The s3sense front now reuses the s3 main-board front
+    // diagram, so its rows follow the verified s3 mapping.
+    // s3sense 官方正面图是 Sense 扩展板（摄像头/麦克风/SD），行标签并非主板引脚；
+    // 现在正面复用 s3 主板图，行映射与 s3 保持一致。
     front: {
-      left: ["USER_LED", "Boot", "UFL_ANT", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "CHARGE_LED"],
-      right: ["USER_LED", "Boot", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "D6", "D5", "D4", "D3", "D2", "D1", "D0", "UFL_ANT", "CHARGE_LED"],
+      left: ["RST", "CHARGE_LED", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "UFL_ANT"],
+      right: ["Boot", "USER_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7"],
     },
     back: {
       left: ["MTDO", "GND", "MTCK", "USB_D+"],
       right: ["MTDI", "RST", "MTMS", "USB_D-", "BAT-", "BAT+"],
     },
+    // The expansion board's own pinout (s3sense-module.svg): the board-to-board
+    // connector table. Each band holds one left-column and one right-column
+    // pin; regroup splits them into left / right rows, which map to the Sense
+    // signals they label. The top banner rows (JTAG_MTMS/GPIO42/D11 —
+    // D12/GPIO41/JTAG_MTDI) map to the main-board JTAG pins MTMS / MTDI, and
+    // the connector's VIN rows map to the VIN pin, so every card title matches
+    // the label the user clicked. PDM_CLK / PDM_DATA / SHIELD appear twice
+    // (banner JTAG pins and the PDM labels below describe the same GPIOs).
+    // 扩展板自身引脚图（s3sense-module.svg）的板对板连接器表：每个水平带含左右
+    // 两列引脚，regroup 拆成左右行后按其所指的 Sense 信号命名，保证卡片标题与
+    // 点击的图上文字一致。顶部横幅两行是主板 JTAG 引脚 MTMS/MTDI；连接器两端
+    // 的 VIN 行对应 VIN 引脚；PDM_CLK / PDM_DATA / SHIELD 重复出现。
+    module: {
+      left: ["MTMS", "SHIELD", "USER_LED", "DVP_Y9", "DVP_HREF", "DVP_VSYNC", "CAM_SCL", "CAM_SDA", "PDM_DATA", "PDM_CLK", "SHIELD"],
+      right: ["MTDI", "SHIELD", "VIN", "DVP_Y4", "DVP_Y3", "DVP_Y5", "DVP_Y2", "DVP_Y6", "DVP_PCLK", "DVP_Y7", "DVP_Y8", "XMCLK", "SD_MOSI", "SD_MISO", "SD_SCK", "SD_CS", "VIN", "SHIELD"],
+    },
   },
   nrf52: {
     front: {
-      left: ["USER_LED_R", "D0", "D1", "D2", "D3", "D4", "D5", "D6"],
-      right: ["USER_LED_G", "USER_LED_B", "CHARGE_LED", "ADC_BAT", "5V", "GND", "3V3", "D10", "D9", "D8", "D7"],
+      left: ["RST", ...["D0","D1","D2","D3","D4","D5","D6"]],
+      right: ["CHARGE_LED", "USER_LED_B", "USER_LED_G", "USER_LED_R", "5V", "GND", "3V3", "D10", "D9", "D8", "D7"],
     },
     back: {
       left: ["SWCLK", "GND"],
@@ -109,8 +131,8 @@ const MANUAL = {
   },
   nrf52840sense: {
     front: {
-      left: ["USER_LED_R", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "IMU_INT1", "MIC_DATA", "MIC_CLK"],
-      right: ["USER_LED_G", "USER_LED_B", "CHARGE_LED", "ADC_BAT", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "RF_SW_PORT", "RF_SW_PWR", "NFC1"],
+      left: ["RST", ...["D0","D1","D2","D3","D4","D5","D6"], "IMU_SDA", "IMU_SCL", "IMU"],
+      right: ["CHARGE_LED", "USER_LED_B", "USER_LED_G", "USER_LED_R", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "MIC_PWR", "MIC_CLK", "MIC_DATA"],
     },
     back: {
       left: ["SWCLK", "GND"],
@@ -119,8 +141,8 @@ const MANUAL = {
   },
   nrf52840plus: {
     front: {
-      left: ["USER_LED_R", "D0", "D1", "D2", "D3", "D4", "D5", "D6"],
-      right: ["USER_LED_G", "USER_LED_B", "CHARGE_LED", "ADC_BAT", "5V", "GND", "3V3", "D10", "D9", "D8", "D7"],
+      left: ["RST", ...["D0","D1","D2","D3","D4","D5","D6"]],
+      right: ["CHARGE_LED", "USER_LED_B", "USER_LED_G", "USER_LED_R", "5V", "GND", "3V3", "D10", "D9", "D8", "D7"],
     },
     back: {
       left: ["SWCLK", "GND", "D19", "D18", "D17", "BAT-"],
@@ -129,8 +151,8 @@ const MANUAL = {
   },
   nrf52840senseplus: {
     front: {
-      left: ["USER_LED_R", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "IMU_INT1", "MIC_DATA", "MIC_CLK"],
-      right: ["USER_LED_G", "USER_LED_B", "CHARGE_LED", "ADC_BAT", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "IMU_PWR", "RF_SW_PORT", "RF_SW_PWR"],
+      left: ["RST", ...["D0","D1","D2","D3","D4","D5","D6"], "IMU_SDA", "IMU_SCL", "IMU"],
+      right: ["CHARGE_LED", "USER_LED_B", "USER_LED_G", "USER_LED_R", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "MIC_PWR", "MIC_CLK", "MIC_DATA"],
     },
     back: {
       left: ["SWCLK", "GND", "D19", "D18", "D17", "BAT-"],
@@ -139,8 +161,8 @@ const MANUAL = {
   },
   nrf54l15: {
     front: {
-      left: ["USER_LED", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "USER_KEY", "NFC1"],
-      right: ["NFC2", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "AIN7_VBAT", "RF_SW_PORT"],
+      left: ["CHARGE_LED", ...["D0","D1","D2","D3","D4","D5","D6"], "RST", "RF_SW_PORT"],
+      right: ["USER_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "USER_KEY", "RF_SW_PWR"],
     },
     back: {
       left: ["SWCLK", "GND", "3V3", "SAMD11_SWCLK", "GND", "GND", "D11", "D12", "BAT-"],
@@ -149,8 +171,8 @@ const MANUAL = {
   },
   nrf54l15sense: {
     front: {
-      left: ["USER_LED", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "USER_KEY", "NFC1", "NFC2", "AIN7_VBAT", "RF_SW_PORT", "RF_SW_PWR"],
-      right: ["CHARGE_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "AIN7_VBAT", "RF_SW_PORT", "RF_SW_PWR", "CHARGE_LED"],
+      left: ["CHARGE_LED", ...["D0","D1","D2","D3","D4","D5","D6"], "RST", "RF_SW_PORT", "D12", "D11", "IMU_INT1", "IMU"],
+      right: ["USER_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "USER_KEY", "RF_SW_PWR", "MIC_CLK", "MIC_DAT"],
     },
     back: {
       left: ["SWCLK", "GND", "3V3", "SAMD11_SWCLK", "GND", "GND", "D11", "D12", "BAT-"],
@@ -159,28 +181,28 @@ const MANUAL = {
   },
   nrf54lm20a: {
     front: {
-      left: ["USER_BUTTON", "A0", "A1", "A2", "A3", "SDA", "SCL", "TX"],
-      right: ["RGB_R", "RGB_G", "RGB_B", "CHARGE_LED", "VBUS", "GND", "3V3", "MOSI", "MISO", "SCK", "RX"],
+      left: ["RESET", "A0", "A1", "A2", "A3", "SDA", "SCL", "TX"],
+      right: ["USER_BUTTON", "RGB_B", "RGB_G", "RGB_R", "VBUS", "GND", "3V3", "MOSI", "MISO", "SCK", "RX"],
     },
     back: {
-      left: ["SWCLK", "GND", "SWCLK2", "3V3", "P3.00", "P3.01", "P3.02", "P3.03", "P3.11", "P3.10", "P3.09", "SHPHLD"],
-      right: ["SWDIO", "RESET", "SWDIO2", "RST2", "P0.00", "P0.01", "P0.02", "P0.03", "P0.04", "P0.05", "NFC1", "NFC2"],
+      left: ["SWCLK", "GND", "SWCLK2", "3V3", "P3.00", "P3.01", "P3.02", "P3.03", "P3.11", "P3.10", "P3.09", "SHPHLD", "BAT-"],
+      right: ["SWDIO", "RESET", "SWDIO2", "RST2", "P3.07", "P0.00", "P3.06", "P0.01", "P3.05", "P0.02", "P3.04", "P0.03", "P0.04", "P0.05", "NFC1", "NFC2", "BAT+"],
     },
   },
   nrf54lm20asense: {
     front: {
-      left: ["USER_BUTTON", "A0", "A1", "A2", "A3", "SDA", "SCL", "TX", "MIC_DAT", "MIC_CLK"],
-      right: ["RGB_R", "RGB_G", "RGB_B", "IMU_SDA", "VBUS", "GND", "3V3", "MOSI", "MISO", "SCK", "RX", "IMU_SCL", "IMU_CS", "IMU_INT1", "CHARGE_LED"],
+      left: ["RESET", "A0", "A1", "A2", "A3", "SDA", "SCL", "TX", "MIC_DAT", "MIC_CLK"],
+      right: ["USER_BUTTON", "RGB_B", "RGB_G", "RGB_R", "VBUS", "GND", "3V3", "MOSI", "MISO", "SCK", "RX", "IMU_SDA", "IMU_SCL", "IMU_CS", "IMU_INT1"],
     },
     back: {
-      left: ["SWCLK", "GND", "SWCLK2", "3V3", "P3.00", "P3.01", "P3.02", "P3.03", "P3.11", "P3.10", "P3.09", "SHPHLD"],
-      right: ["SWDIO", "RESET", "SWDIO2", "RST2", "P0.00", "P0.01", "P0.02", "P0.03", "P0.04", "P0.05", "NFC1", "NFC2"],
+      left: ["SWCLK", "GND", "SWCLK2", "3V3", "P3.00", "P3.01", "P3.02", "P3.03", "P3.11", "P3.10", "P3.09", "SHPHLD", "BAT-"],
+      right: ["SWDIO", "RESET", "SWDIO2", "RST2", "P3.07", "P0.00", "P3.06", "P0.01", "P3.05", "P0.02", "P3.04", "P0.03", "P0.04", "P0.05", "NFC1", "NFC2", "BAT+"],
     },
   },
   rp2040: {
     front: {
-      left: ["USER_LED_R", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "Boot", "USER_LED_G"],
-      right: ["USER_LED_B", "Boot", "USER_LED_R", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "USER_LED_G"],
+      left: ["POWER_LED", ...["D0","D1","D2","D3","D4","D5","D6"], "RST", "RGB_LED"],
+      right: ["USER_LED_R", "USER_LED_G", "USER_LED_B", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "Boot"],
     },
     back: {
       left: ["SWCLK", "GND", "5V"],
@@ -189,18 +211,18 @@ const MANUAL = {
   },
   rp2040plus: {
     front: {
-      left: ["Boot", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "BAT_EN", "RGB_LED", "RGB_EN"],
-      right: ["USER_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "CHARGE_LED"],
+      left: ["CHARGE_LED", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "RST", "RGB_LED", "RGB_EN"],
+      right: ["USER_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "Boot"],
     },
     back: {
-      left: ["SWCLK", "GND", "USB_D+", "5V", "D12", "D13", "D14", "D19", "D20", "D21", "BAT-"],
-      right: ["SWDIO", "RST", "USB_D-", "Boot", "D17", "D16", "D15", "D22", "D23", "D24", "D25", "D26", "D27", "BAT+", "CHARGE_LED"],
+      left: ["SWCLK", "GND", "USB_D+", "3V3", "D12", "D13", "D14", "D25", "D26", "D27", "BAT-"],
+      right: ["SWDIO", "RST", "USB_D-", "Boot", "D17", "D16", "D15", "D19", "D20", "D21", "D22", "D23", "D24", "BAT+"],
     },
   },
   rp2350: {
     front: {
-      left: ["Boot", "RGB_LED", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "USER_LED"],
-      right: ["ADC_BAT", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "ADC_BAT_EN"],
+      left: ["CHARGE_LED", "USER_LED", ...["D0","D1","D2","D3","D4","D5","D6"], "RST"],
+      right: ["RGB_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "Boot"],
     },
     back: {
       left: ["SWCLK", "GND", "3V3", "D11", "D12", "D13", "D14", "BAT-"],
@@ -209,8 +231,8 @@ const MANUAL = {
   },
   mg24: {
     front: {
-      left: ["USER_LED", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "CHARGE_LED"],
-      right: ["ADC_BAT", "RF_SW", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "RF_SW_PWR"],
+      left: ["RST", ...["D0","D1","D2","D3","D4","D5","D6"], "RF_SW"],
+      right: ["CHARGE_LED", "USER_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "RF_SW_PWR"],
     },
     back: {
       left: ["M_CLK", "GND", "3V3", "S_CLK", "D11", "D12", "D13", "D14", "BAT-"],
@@ -219,8 +241,8 @@ const MANUAL = {
   },
   mg24sense: {
     front: {
-      left: ["USER_LED", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "CHARGE_LED", "ADC_BAT", "RF_SW", "RF_SW_PWR"],
-      right: ["USER_LED", "ADC_BAT", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "RF_SW", "RF_SW_PWR", "CHARGE_LED"],
+      left: ["RST", ...["D0","D1","D2","D3","D4","D5","D6"], "D14", "D13", "IMU", "RF_SW"],
+      right: ["CHARGE_LED", "USER_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "MIC_EN", "MIC_ADC", "RF_SW_PWR"],
     },
     back: {
       left: ["M_CLK", "GND", "3V3", "S_CLK", "D11", "D12", "D13", "D14", "BAT-"],
@@ -229,8 +251,8 @@ const MANUAL = {
   },
   ra4: {
     front: {
-      left: ["USER_LED", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "RGB_LED", "Boot"],
-      right: ["CHARGE_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "RGB_LED_EN", "ADC_BAT"],
+      left: ["POWER_LED", ...["D0","D1","D2","D3","D4","D5","D6"], "RST", "RGB_LED_EN"],
+      right: ["USER_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "Boot", "RGB_LED"],
     },
     back: {
       left: ["SWCLK", "GND", "3V3", "D11", "D12", "D13", "D14", "BAT-"],
@@ -239,12 +261,12 @@ const MANUAL = {
   },
   stm32c5: {
     front: {
-      left: ["USER_LED", "Boot", "D0", "D1", "D2", "D3", "D4", "D5", "D6"],
-      right: ["CHARGE_LED", "Boot", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "D6", "D5", "D4", "D3", "D2"],
+      left: ["RST", "CHARGE_LED", "D0", "D1", "D2", "D3", "D4", "D5", "D6"],
+      right: ["Boot", "USER_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "IMU", "IMU_SDA", "IMU_SCL", "IMU_INT", "IMU_PWM"],
     },
     back: {
-      left: ["SWCLK", "GND", "3V3", "5V", "D0", "D1", "D2", "D3", "BAT-"],
-      right: ["SWDIO", "RST", "Boot", "BAT+", "D7", "D8", "D9", "D10", "D4", "D5"],
+      left: ["SWCLK", "GND", "USB_D+", "3V3", "D11", "D12", "D13", "D14", "BAT-", "CAN_H"],
+      right: ["SWDIO", "RST", "USB_D-", "Boot", "D15", "BAT+", "CAN_L"],
     },
   },
 };
@@ -262,7 +284,7 @@ for (const boardId of manifest.boards) {
   out[boardId] = {};
   const meta = BOARD_DIAGRAM_META[boardId] || {};
 
-  for (const face of ["front", "back"]) {
+  for (const face of ["front", "back", "module"]) {
     const key = `${boardId}-${face}`;
     if (!manifest.assets[key]) continue;
     const layoutMod = await import(pathToFileURL(path.join(ROOT, `src/app/playground/pinout/data/diagrams/${boardId}-${face}.js`)).href);
@@ -310,7 +332,7 @@ const bundle = [
 for (const boardId of manifest.boards) {
   if (!out[boardId] || (!out[boardId].front && !out[boardId].back)) continue;
   bundle.push(`  ${JSON.stringify(boardId)}: {`);
-  for (const face of ["front", "back"]) {
+  for (const face of ["front", "back", "module"]) {
     if (!out[boardId][face]) continue;
     const key = `${boardId}-${face}`;
     const layoutVar = key.replace(/-/g, "_");

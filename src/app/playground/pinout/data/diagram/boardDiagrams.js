@@ -39,6 +39,7 @@ import s3plus_back from "../diagrams/s3plus-back.js";
 import s3plus_front from "../diagrams/s3plus-front.js";
 import s3sense_back from "../diagrams/s3sense-back.js";
 import s3sense_front from "../diagrams/s3sense-front.js";
+import s3sense_module from "../diagrams/s3sense-module.js";
 import samd21_back from "../diagrams/samd21-back.js";
 import samd21_front from "../diagrams/samd21-front.js";
 import samd21plus_back from "../diagrams/samd21plus-back.js";
@@ -48,95 +49,96 @@ import stm32c5_front from "../diagrams/stm32c5-front.js";
 
 export const BOARD_DIAGRAMS = {
   "samd21plus": {
-    front: { src: "/xiao-products/pinout/samd21plus-front.svg", layout: samd21plus_front, rows: {"left":["RGB_LED","D0","D1","D2","D3","D4","D5","D6","USER_BUTTON","VBAT_EN"],"right":["5V","GND","3V3","D10","D9","D8","D7","CHARGE_LED"]} },
-    back: { src: "/xiao-products/pinout/samd21plus-back.svg", layout: samd21plus_back, rows: {"left":["SWCLK","GND","3V3","D18","D12","D13","D14","D19","D20","BAT-"],"right":["SWDIO","RST","D17","D16","D15","D24","D25","D26","D27","D21","D22","D23","BAT+","AIN11_VBAT","5V"]} },
+    front: { src: "/xiao-products/pinout/samd21plus-front.svg", layout: samd21plus_front, rows: {"left":["CHARGE_LED","D0","D1","D2","D3","D4","D5","D6","RST","RGB_LED"],"right":["5V","GND","3V3","D10","D9","D8","D7","Boot"]} },
+    back: { src: "/xiao-products/pinout/samd21plus-back.svg", layout: samd21plus_back, rows: {"left":["SWCLK","GND","3V3","D12","D13","D14","D25","D26","D27","BAT-"],"right":["SWDIO","RST","D18","D17","D16","D15","D19","D20","D21","D22","D23","D24","BAT+"]} },
   },
   "samd21": {
     front: { src: "/xiao-products/pinout/samd21-front.svg", layout: samd21_front, rows: {"left":["USER_LED","POWER_LED","RST","D0","D1","D2","D3","D4","D5","D6"],"right":["TX_LED","RX_LED","5V","GND","3V3","D10","D9","D8","D7"]} },
     back: { src: "/xiao-products/pinout/samd21-back.svg", layout: samd21_back, rows: {"left":["SWCLK","GND_SWD","GND_VIN"],"right":["SWDIO","RST","VIN"]} },
   },
   "s3sense": {
-    front: { src: "/xiao-products/pinout/s3sense-front.svg", layout: s3sense_front, rows: {"left":["USER_LED","Boot","UFL_ANT","D0","D1","D2","D3","D4","D5","D6","CHARGE_LED"],"right":["USER_LED","Boot","5V","GND","3V3","D10","D9","D8","D7","D6","D5","D4","D3","D2","D1","D0","UFL_ANT","CHARGE_LED"]} },
+    front: { src: "/xiao-products/pinout/s3sense-front.svg", layout: s3sense_front, rows: {"left":["RST","CHARGE_LED","D0","D1","D2","D3","D4","D5","D6","UFL_ANT"],"right":["Boot","USER_LED","5V","GND","3V3","D10","D9","D8","D7"]} },
     back: { src: "/xiao-products/pinout/s3sense-back.svg", layout: s3sense_back, rows: {"left":["MTDO","GND","MTCK","USB_D+"],"right":["MTDI","RST","MTMS","USB_D-","BAT-","BAT+"]} },
+    module: { src: "/xiao-products/pinout/s3sense-module.svg", layout: s3sense_module, rows: {"left":["MTMS","SHIELD","USER_LED","DVP_Y9","DVP_HREF","DVP_VSYNC","CAM_SCL","CAM_SDA","PDM_DATA","PDM_CLK","SHIELD"],"right":["MTDI","SHIELD","VIN","DVP_Y4","DVP_Y3","DVP_Y5","DVP_Y2","DVP_Y6","DVP_PCLK","DVP_Y7","DVP_Y8","XMCLK","SD_MOSI","SD_MISO","SD_SCK","SD_CS","VIN","SHIELD"]} },
   },
   "s3plus": {
-    front: { src: "/xiao-products/pinout/s3plus-front.svg", layout: s3plus_front, rows: {"left":["USER_LED","Boot","D0","D1","D2","D3","D4","D5","D6","CHARGE_LED"],"right":["ADC_BAT","UFL_ANT","5V","GND","3V3","D10","D9","D8","D7"]} },
+    front: { src: "/xiao-products/pinout/s3plus-front.svg", layout: s3plus_front, rows: {"left":["RST","CHARGE_LED","D0","D1","D2","D3","D4","D5","D6","UFL_ANT"],"right":["Boot","USER_LED","5V","GND","3V3","D10","D9","D8","D7"]} },
     back: { src: "/xiao-products/pinout/s3plus-back.svg", layout: s3plus_back, rows: {"left":["MTDO","GND","MTCK","USB_D+","D17","D18","D19","BAT-"],"right":["MTDI","RST","MTMS","USB_D-","D11","D12","D13","D14","D15","D16","BAT+"]} },
   },
   "s3": {
-    front: { src: "/xiao-products/pinout/s3-front.svg", layout: s3_front, rows: {"left":["USER_LED","Boot","D0","D1","D2","D3","D4","D5","D6","UFL_ANT"],"right":["CHARGE_LED","D11","5V","GND","3V3","D10","D9","D8","D7"]} },
+    front: { src: "/xiao-products/pinout/s3-front.svg", layout: s3_front, rows: {"left":["RST","CHARGE_LED","D0","D1","D2","D3","D4","D5","D6","UFL_ANT"],"right":["Boot","USER_LED","5V","GND","3V3","D10","D9","D8","D7"]} },
     back: { src: "/xiao-products/pinout/s3-back.svg", layout: s3_back, rows: {"left":["MTDO","GND","MTCK","USB_D+"],"right":["MTDI","RST","MTMS","USB_D-","BAT-","BAT+"]} },
   },
   "c6": {
-    front: { src: "/xiao-products/pinout/c6-front.svg", layout: c6_front, rows: {"left":["USER_LED","D0","D1","D2","D3","D4","D5","D6","Boot","RF_SW_PORT"],"right":["RF_SW_PWR","5V","GND","3V3","D10","D9","D8","D7","Boot","USER_LED"]} },
+    front: { src: "/xiao-products/pinout/c6-front.svg", layout: c6_front, rows: {"left":["RST","CHARGE_LED","D0","D1","D2","D3","D4","D5","D6","RF_SW_PORT"],"right":["Boot","USER_LED","5V","GND","3V3","D10","D9","D8","D7","RF_SW_PWR"]} },
     back: { src: "/xiao-products/pinout/c6-back.svg", layout: c6_back, rows: {"left":["MTDO","GND","MTCK","3V3","BAT-"],"right":["MTDI","RST","MTMS","Boot","BAT+"]} },
   },
   "c5": {
-    front: { src: "/xiao-products/pinout/c5-front.svg", layout: c5_front, rows: {"left":["USER_LED","D0","D1","D2","D3","D4","D5","D6","Boot","CHARGE_LED"],"right":["ADC_BAT","5V","GND","3V3","D10","D9","D8","D7","ADC_CRL"]} },
+    front: { src: "/xiao-products/pinout/c5-front.svg", layout: c5_front, rows: {"left":["CHARGE_LED","D0","D1","D2","D3","D4","D5","D6","RST","UFL_ANT"],"right":["USER_LED","5V","GND","3V3","D10","D9","D8","D7","Boot"]} },
     back: { src: "/xiao-products/pinout/c5-back.svg", layout: c5_back, rows: {"left":["MTDO","GND","MTCK","3V3","BAT-"],"right":["MTDI","RST","MTMS","Boot","BAT+"]} },
   },
   "c3": {
-    front: { src: "/xiao-products/pinout/c3-front.svg", layout: c3_front, rows: {"left":["D0","D1","D2","D3","D4","D5","D6","Boot","UFL_ANT"],"right":["CHARGE_LED","5V","GND","3V3","D10","D9","D8","D7","RST"]} },
+    front: { src: "/xiao-products/pinout/c3-front.svg", layout: c3_front, rows: {"left":["D0","D1","D2","D3","D4","D5","D6","Boot","UFL_ANT"],"right":["CHARGE_LED","5V","GND","3V3","D10","D9","D8","D7"]} },
     back: { src: "/xiao-products/pinout/c3-back.svg", layout: c3_back, rows: {"left":["MTDO","GND","MTCK"],"right":["MTDI","RST","MTMS","BAT-","BAT+"]} },
   },
   "nrf52840senseplus": {
-    front: { src: "/xiao-products/pinout/nrf52840senseplus-front.svg", layout: nrf52840senseplus_front, rows: {"left":["USER_LED_R","D0","D1","D2","D3","D4","D5","D6","IMU_INT1","MIC_DATA","MIC_CLK"],"right":["USER_LED_G","USER_LED_B","CHARGE_LED","ADC_BAT","5V","GND","3V3","D10","D9","D8","D7","IMU_PWR","RF_SW_PORT","RF_SW_PWR"]} },
+    front: { src: "/xiao-products/pinout/nrf52840senseplus-front.svg", layout: nrf52840senseplus_front, rows: {"left":["RST","D0","D1","D2","D3","D4","D5","D6","IMU_SDA","IMU_SCL","IMU"],"right":["CHARGE_LED","USER_LED_B","USER_LED_G","USER_LED_R","5V","GND","3V3","D10","D9","D8","D7","MIC_PWR","MIC_CLK","MIC_DATA"]} },
     back: { src: "/xiao-products/pinout/nrf52840senseplus-back.svg", layout: nrf52840senseplus_back, rows: {"left":["SWCLK","GND","D19","D18","D17","BAT-"],"right":["SWDIO","RST","D11","D12","D13","D14","D15","D16","BAT+"]} },
   },
   "nrf52840sense": {
-    front: { src: "/xiao-products/pinout/nrf52840sense-front.svg", layout: nrf52840sense_front, rows: {"left":["USER_LED_R","D0","D1","D2","D3","D4","D5","D6","IMU_INT1","MIC_DATA","MIC_CLK"],"right":["USER_LED_G","USER_LED_B","CHARGE_LED","ADC_BAT","5V","GND","3V3","D10","D9","D8","D7","RF_SW_PORT","RF_SW_PWR","NFC1"]} },
+    front: { src: "/xiao-products/pinout/nrf52840sense-front.svg", layout: nrf52840sense_front, rows: {"left":["RST","D0","D1","D2","D3","D4","D5","D6","IMU_SDA","IMU_SCL","IMU"],"right":["CHARGE_LED","USER_LED_B","USER_LED_G","USER_LED_R","5V","GND","3V3","D10","D9","D8","D7","MIC_PWR","MIC_CLK","MIC_DATA"]} },
     back: { src: "/xiao-products/pinout/nrf52840sense-back.svg", layout: nrf52840sense_back, rows: {"left":["SWCLK","GND"],"right":["SWDIO","RST","BAT-","BAT+","NFC1","NFC2"]} },
   },
   "nrf52840plus": {
-    front: { src: "/xiao-products/pinout/nrf52840plus-front.svg", layout: nrf52840plus_front, rows: {"left":["USER_LED_R","D0","D1","D2","D3","D4","D5","D6"],"right":["USER_LED_G","USER_LED_B","CHARGE_LED","ADC_BAT","5V","GND","3V3","D10","D9","D8","D7"]} },
+    front: { src: "/xiao-products/pinout/nrf52840plus-front.svg", layout: nrf52840plus_front, rows: {"left":["RST","D0","D1","D2","D3","D4","D5","D6"],"right":["CHARGE_LED","USER_LED_B","USER_LED_G","USER_LED_R","5V","GND","3V3","D10","D9","D8","D7"]} },
     back: { src: "/xiao-products/pinout/nrf52840plus-back.svg", layout: nrf52840plus_back, rows: {"left":["SWCLK","GND","D19","D18","D17","BAT-"],"right":["SWDIO","RST","D11","D12","D13","D14","D15","D16","BAT+"]} },
   },
   "nrf52": {
-    front: { src: "/xiao-products/pinout/nrf52-front.svg", layout: nrf52_front, rows: {"left":["USER_LED_R","D0","D1","D2","D3","D4","D5","D6"],"right":["USER_LED_G","USER_LED_B","CHARGE_LED","ADC_BAT","5V","GND","3V3","D10","D9","D8","D7"]} },
+    front: { src: "/xiao-products/pinout/nrf52-front.svg", layout: nrf52_front, rows: {"left":["RST","D0","D1","D2","D3","D4","D5","D6"],"right":["CHARGE_LED","USER_LED_B","USER_LED_G","USER_LED_R","5V","GND","3V3","D10","D9","D8","D7"]} },
     back: { src: "/xiao-products/pinout/nrf52-back.svg", layout: nrf52_back, rows: {"left":["SWCLK","GND"],"right":["SWDIO","RST","BAT-","BAT+","NFC1","NFC2"]} },
   },
   "nrf54l15sense": {
-    front: { src: "/xiao-products/pinout/nrf54l15sense-front.svg", layout: nrf54l15sense_front, rows: {"left":["USER_LED","D0","D1","D2","D3","D4","D5","D6","USER_KEY","NFC1","NFC2","AIN7_VBAT","RF_SW_PORT","RF_SW_PWR"],"right":["CHARGE_LED","5V","GND","3V3","D10","D9","D8","D7","AIN7_VBAT","RF_SW_PORT","RF_SW_PWR","CHARGE_LED"]} },
+    front: { src: "/xiao-products/pinout/nrf54l15sense-front.svg", layout: nrf54l15sense_front, rows: {"left":["CHARGE_LED","D0","D1","D2","D3","D4","D5","D6","RST","RF_SW_PORT","D12","D11","IMU_INT1","IMU"],"right":["USER_LED","5V","GND","3V3","D10","D9","D8","D7","USER_KEY","RF_SW_PWR","MIC_CLK","MIC_DAT"]} },
     back: { src: "/xiao-products/pinout/nrf54l15sense-back.svg", layout: nrf54l15sense_back, rows: {"left":["SWCLK","GND","3V3","SAMD11_SWCLK","GND","GND","D11","D12","BAT-"],"right":["SWDIO","nRST","SAMD11_RST","SAMD11_SWDIO","GND","D15","D14","D13","NFC2","NFC1","BAT+"]} },
   },
   "nrf54l15": {
-    front: { src: "/xiao-products/pinout/nrf54l15-front.svg", layout: nrf54l15_front, rows: {"left":["USER_LED","D0","D1","D2","D3","D4","D5","D6","USER_KEY","NFC1"],"right":["NFC2","5V","GND","3V3","D10","D9","D8","D7","AIN7_VBAT","RF_SW_PORT"]} },
+    front: { src: "/xiao-products/pinout/nrf54l15-front.svg", layout: nrf54l15_front, rows: {"left":["CHARGE_LED","D0","D1","D2","D3","D4","D5","D6","RST","RF_SW_PORT"],"right":["USER_LED","5V","GND","3V3","D10","D9","D8","D7","USER_KEY","RF_SW_PWR"]} },
     back: { src: "/xiao-products/pinout/nrf54l15-back.svg", layout: nrf54l15_back, rows: {"left":["SWCLK","GND","3V3","SAMD11_SWCLK","GND","GND","D11","D12","BAT-"],"right":["SWDIO","nRST","SAMD11_RST","SAMD11_SWDIO","GND","D15","D14","D13","NFC2","NFC1","BAT+"]} },
   },
   "nrf54lm20asense": {
-    front: { src: "/xiao-products/pinout/nrf54lm20asense-front.svg", layout: nrf54lm20asense_front, rows: {"left":["USER_BUTTON","A0","A1","A2","A3","SDA","SCL","TX","MIC_DAT","MIC_CLK"],"right":["RGB_R","RGB_G","RGB_B","IMU_SDA","VBUS","GND","3V3","MOSI","MISO","SCK","RX","IMU_SCL","IMU_CS","IMU_INT1","CHARGE_LED"]} },
-    back: { src: "/xiao-products/pinout/nrf54lm20asense-back.svg", layout: nrf54lm20asense_back, rows: {"left":["SWCLK","GND","SWCLK2","3V3","P3.00","P3.01","P3.02","P3.03","P3.11","P3.10","P3.09","SHPHLD"],"right":["SWDIO","RESET","SWDIO2","RST2","P0.00","P0.01","P0.02","P0.03","P0.04","P0.05","NFC1","NFC2"]} },
+    front: { src: "/xiao-products/pinout/nrf54lm20asense-front.svg", layout: nrf54lm20asense_front, rows: {"left":["RESET","A0","A1","A2","A3","SDA","SCL","TX","MIC_DAT","MIC_CLK"],"right":["USER_BUTTON","RGB_B","RGB_G","RGB_R","VBUS","GND","3V3","MOSI","MISO","SCK","RX","IMU_SDA","IMU_SCL","IMU_CS","IMU_INT1"]} },
+    back: { src: "/xiao-products/pinout/nrf54lm20asense-back.svg", layout: nrf54lm20asense_back, rows: {"left":["SWCLK","GND","SWCLK2","3V3","P3.00","P3.01","P3.02","P3.03","P3.11","P3.10","P3.09","SHPHLD","BAT-"],"right":["SWDIO","RESET","SWDIO2","RST2","P3.07","P0.00","P3.06","P0.01","P3.05","P0.02","P3.04","P0.03","P0.04","P0.05","NFC1","NFC2","BAT+"]} },
   },
   "nrf54lm20a": {
-    front: { src: "/xiao-products/pinout/nrf54lm20a-front.svg", layout: nrf54lm20a_front, rows: {"left":["USER_BUTTON","A0","A1","A2","A3","SDA","SCL","TX"],"right":["RGB_R","RGB_G","RGB_B","CHARGE_LED","VBUS","GND","3V3","MOSI","MISO","SCK","RX"]} },
-    back: { src: "/xiao-products/pinout/nrf54lm20a-back.svg", layout: nrf54lm20a_back, rows: {"left":["SWCLK","GND","SWCLK2","3V3","P3.00","P3.01","P3.02","P3.03","P3.11","P3.10","P3.09","SHPHLD"],"right":["SWDIO","RESET","SWDIO2","RST2","P0.00","P0.01","P0.02","P0.03","P0.04","P0.05","NFC1","NFC2"]} },
+    front: { src: "/xiao-products/pinout/nrf54lm20a-front.svg", layout: nrf54lm20a_front, rows: {"left":["RESET","A0","A1","A2","A3","SDA","SCL","TX"],"right":["USER_BUTTON","RGB_B","RGB_G","RGB_R","VBUS","GND","3V3","MOSI","MISO","SCK","RX"]} },
+    back: { src: "/xiao-products/pinout/nrf54lm20a-back.svg", layout: nrf54lm20a_back, rows: {"left":["SWCLK","GND","SWCLK2","3V3","P3.00","P3.01","P3.02","P3.03","P3.11","P3.10","P3.09","SHPHLD","BAT-"],"right":["SWDIO","RESET","SWDIO2","RST2","P3.07","P0.00","P3.06","P0.01","P3.05","P0.02","P3.04","P0.03","P0.04","P0.05","NFC1","NFC2","BAT+"]} },
   },
   "rp2040plus": {
-    front: { src: "/xiao-products/pinout/rp2040plus-front.svg", layout: rp2040plus_front, rows: {"left":["Boot","D0","D1","D2","D3","D4","D5","D6","BAT_EN","RGB_LED","RGB_EN"],"right":["USER_LED","5V","GND","3V3","D10","D9","D8","D7","CHARGE_LED"]} },
-    back: { src: "/xiao-products/pinout/rp2040plus-back.svg", layout: rp2040plus_back, rows: {"left":["SWCLK","GND","USB_D+","5V","D12","D13","D14","D19","D20","D21","BAT-"],"right":["SWDIO","RST","USB_D-","Boot","D17","D16","D15","D22","D23","D24","D25","D26","D27","BAT+","CHARGE_LED"]} },
+    front: { src: "/xiao-products/pinout/rp2040plus-front.svg", layout: rp2040plus_front, rows: {"left":["CHARGE_LED","D0","D1","D2","D3","D4","D5","D6","RST","RGB_LED","RGB_EN"],"right":["USER_LED","5V","GND","3V3","D10","D9","D8","D7","Boot"]} },
+    back: { src: "/xiao-products/pinout/rp2040plus-back.svg", layout: rp2040plus_back, rows: {"left":["SWCLK","GND","USB_D+","3V3","D12","D13","D14","D25","D26","D27","BAT-"],"right":["SWDIO","RST","USB_D-","Boot","D17","D16","D15","D19","D20","D21","D22","D23","D24","BAT+"]} },
   },
   "rp2040": {
-    front: { src: "/xiao-products/pinout/rp2040-front.svg", layout: rp2040_front, rows: {"left":["USER_LED_R","D0","D1","D2","D3","D4","D5","D6","Boot","USER_LED_G"],"right":["USER_LED_B","Boot","USER_LED_R","5V","GND","3V3","D10","D9","D8","D7","USER_LED_G"]} },
+    front: { src: "/xiao-products/pinout/rp2040-front.svg", layout: rp2040_front, rows: {"left":["POWER_LED","D0","D1","D2","D3","D4","D5","D6","RST","RGB_LED"],"right":["USER_LED_R","USER_LED_G","USER_LED_B","5V","GND","3V3","D10","D9","D8","D7","Boot"]} },
     back: { src: "/xiao-products/pinout/rp2040-back.svg", layout: rp2040_back, rows: {"left":["SWCLK","GND","5V"],"right":["SWDIO","RST","GND"]} },
   },
   "rp2350": {
-    front: { src: "/xiao-products/pinout/rp2350-front.svg", layout: rp2350_front, rows: {"left":["Boot","RGB_LED","D0","D1","D2","D3","D4","D5","D6","USER_LED"],"right":["ADC_BAT","5V","GND","3V3","D10","D9","D8","D7","ADC_BAT_EN"]} },
+    front: { src: "/xiao-products/pinout/rp2350-front.svg", layout: rp2350_front, rows: {"left":["CHARGE_LED","USER_LED","D0","D1","D2","D3","D4","D5","D6","RST"],"right":["RGB_LED","5V","GND","3V3","D10","D9","D8","D7","Boot"]} },
     back: { src: "/xiao-products/pinout/rp2350-back.svg", layout: rp2350_back, rows: {"left":["SWCLK","GND","3V3","D11","D12","D13","D14","BAT-"],"right":["SWDIO","RST","Boot","D18","D17","D16","D15","BAT+"]} },
   },
   "mg24sense": {
-    front: { src: "/xiao-products/pinout/mg24sense-front.svg", layout: mg24sense_front, rows: {"left":["USER_LED","D0","D1","D2","D3","D4","D5","D6","CHARGE_LED","ADC_BAT","RF_SW","RF_SW_PWR"],"right":["USER_LED","ADC_BAT","5V","GND","3V3","D10","D9","D8","D7","RF_SW","RF_SW_PWR","CHARGE_LED"]} },
+    front: { src: "/xiao-products/pinout/mg24sense-front.svg", layout: mg24sense_front, rows: {"left":["RST","D0","D1","D2","D3","D4","D5","D6","D14","D13","IMU","RF_SW"],"right":["CHARGE_LED","USER_LED","5V","GND","3V3","D10","D9","D8","D7","MIC_EN","MIC_ADC","RF_SW_PWR"]} },
     back: { src: "/xiao-products/pinout/mg24sense-back.svg", layout: mg24sense_back, rows: {"left":["M_CLK","GND","3V3","S_CLK","D11","D12","D13","D14","BAT-"],"right":["M_DIO","M_RST","S_RST","S_DIO","D18","D17","D16","D15","BAT+"]} },
   },
   "mg24": {
-    front: { src: "/xiao-products/pinout/mg24-front.svg", layout: mg24_front, rows: {"left":["USER_LED","D0","D1","D2","D3","D4","D5","D6","CHARGE_LED"],"right":["ADC_BAT","RF_SW","5V","GND","3V3","D10","D9","D8","D7","RF_SW_PWR"]} },
+    front: { src: "/xiao-products/pinout/mg24-front.svg", layout: mg24_front, rows: {"left":["RST","D0","D1","D2","D3","D4","D5","D6","RF_SW"],"right":["CHARGE_LED","USER_LED","5V","GND","3V3","D10","D9","D8","D7","RF_SW_PWR"]} },
     back: { src: "/xiao-products/pinout/mg24-back.svg", layout: mg24_back, rows: {"left":["M_CLK","GND","3V3","S_CLK","D11","D12","D13","D14","BAT-"],"right":["M_DIO","M_RST","S_RST","S_DIO","D18","D17","D16","D15","BAT+"]} },
   },
   "ra4": {
-    front: { src: "/xiao-products/pinout/ra4-front.svg", layout: ra4_front, rows: {"left":["USER_LED","D0","D1","D2","D3","D4","D5","D6","RGB_LED","Boot"],"right":["CHARGE_LED","5V","GND","3V3","D10","D9","D8","D7","RGB_LED_EN","ADC_BAT"]} },
+    front: { src: "/xiao-products/pinout/ra4-front.svg", layout: ra4_front, rows: {"left":["POWER_LED","D0","D1","D2","D3","D4","D5","D6","RST","RGB_LED_EN"],"right":["USER_LED","5V","GND","3V3","D10","D9","D8","D7","Boot","RGB_LED"]} },
     back: { src: "/xiao-products/pinout/ra4-back.svg", layout: ra4_back, rows: {"left":["SWCLK","GND","3V3","D11","D12","D13","D14","BAT-"],"right":["SWDIO","RST","Boot","D18","D17","D16","D15"]} },
   },
   "stm32c5": {
-    front: { src: "/xiao-products/pinout/stm32c5-front.svg", layout: stm32c5_front, rows: {"left":["USER_LED","Boot","D0","D1","D2","D3","D4","D5","D6"],"right":["CHARGE_LED","Boot","5V","GND","3V3","D10","D9","D8","D7","D6","D5","D4","D3","D2"]} },
-    back: { src: "/xiao-products/pinout/stm32c5-back.svg", layout: stm32c5_back, rows: {"left":["SWCLK","GND","3V3","5V","D0","D1","D2","D3","BAT-"],"right":["SWDIO","RST","Boot","BAT+","D7","D8","D9","D10","D4","D5"]} },
+    front: { src: "/xiao-products/pinout/stm32c5-front.svg", layout: stm32c5_front, rows: {"left":["RST","CHARGE_LED","D0","D1","D2","D3","D4","D5","D6"],"right":["Boot","USER_LED","5V","GND","3V3","D10","D9","D8","D7","IMU","IMU_SDA","IMU_SCL","IMU_INT","IMU_PWM"]} },
+    back: { src: "/xiao-products/pinout/stm32c5-back.svg", layout: stm32c5_back, rows: {"left":["SWCLK","GND","USB_D+","3V3","D11","D12","D13","D14","BAT-","CAN_H"],"right":["SWDIO","RST","USB_D-","Boot","D15","BAT+","CAN_L"]} },
   },
 };

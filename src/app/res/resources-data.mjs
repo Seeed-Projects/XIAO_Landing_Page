@@ -18,7 +18,7 @@ const RESOURCE_KINDS = [
   "other",
 ];
 
-const PREVIEW_MODES = ["pdf", "dxf", "dxf-zip", "kicad", "step", "xlsx"];
+const PREVIEW_MODES = ["pdf", "dxf", "dxf-zip", "kicad", "step", "xlsx", "image"];
 
 export { PREVIEW_MODES, RESOURCE_KINDS };
 
@@ -29,6 +29,7 @@ export const CHIP_FAMILIES = [
   { id: "mg24", label: { en: "MG24", zh: "MG24" }, chips: ["mg24"] },
   { id: "samd21", label: { en: "SAMD21", zh: "SAMD21" }, chips: ["samd21"] },
   { id: "ra4m1", label: { en: "RA4M1", zh: "RA4M1" }, chips: ["ra4m1"] },
+  { id: "stm32", label: { en: "STM32", zh: "STM32" }, chips: ["stm32c5"] },
 ];
 
 const GROUPS = {
@@ -43,10 +44,11 @@ const GROUPS = {
  * 生成一条可下载资源，并按格式决定默认预览方式。
  */
 function res(name, format, url, kind, extra = {}) {
+  const { preview: extraPreview, thumb, ...rest } = extra;
   const preview = Object.prototype.hasOwnProperty.call(extra, "preview")
-    ? extra.preview
+    ? extraPreview
     : defaultPreview(kind, format);
-  return { name, format, url, kind, preview, thumb: extra.thumb || null };
+  return { name, format, url, kind, preview, thumb: thumb || null, ...rest };
 }
 
 function defaultPreview(kind, format) {
@@ -157,7 +159,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "esp32-s3",
     name: "XIAO ESP32-S3",
     pinoutId: "s3",
-    image: "/xiao-products/dev_boards/s3-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-ESP32-S3-front.webp",
     shop: "https://www.seeedstudio.com/XIAO-ESP32S3-p-5627.html",
     wiki: "https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/",
     intro: { en: "The Wi-Fi + BLE workhorse of the XIAO lineup.", zh: "XIAO 系列里 Wi-Fi + BLE 的主力通用板。" },
@@ -171,9 +173,10 @@ export const RESOURCE_PRODUCTS = [
       ],
       mechanical: [
         res("XIAO ESP32-S3 Dimension (DXF)", "DXF", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/XIAO_ESP32S3_v1.1_Dimensioning.dxf", "dimension"),
-        res("XIAO ESP32-S3 3D Model", "ZIP", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/seeed-studio-xiao-esp32s3-3d_model.zip", "model3d", { thumb: "/res-thumb/s3-3d.png" }),
+        res("XIAO ESP32-S3 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-esp32s3-1", "model3d", { thumb: "/res-thumb/s3-3d.png", preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/XIAO-ESP32S3-v2.step" }),
       ],
       software: [
+        res("XIAO ESP32-S3 Getting Started", "Guide", "https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/", "guide"),
         res("XIAO ESP32-S3 Factory Firmware", "ZIP", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/XIAO-ESP32S3-firmware-20240814.zip", "firmware"),
       ],
     }),
@@ -183,7 +186,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "esp32-s3",
     name: "XIAO ESP32-S3 Sense",
     pinoutId: "s3sense",
-    image: "/xiao-products/dev_boards/XIAO落地页素材-21-1536x1257.jpg",
+    image: "/xiao-products/dev_boards/front/XIAO-ESP32-S3-Sense-front.webp",
     shop: "https://www.seeedstudio.com/XIAO-ESP32S3-Sense-p-5639.html",
     wiki: "https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/",
     intro: { en: "Adds an onboard camera and microphone for vision and voice.", zh: "板载摄像头与麦克风，面向视觉与语音。" },
@@ -199,11 +202,12 @@ export const RESOURCE_PRODUCTS = [
       mechanical: [
         res("Sense Dimension (DXF, Top)", "DXF", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/XIAO_ESP32S3_ExpBoard_v1.0_top.dxf", "dimension"),
         res("Sense Dimension (DXF, Bottom)", "DXF", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/XIAO_ESP32S3_ExpBoard_v1.0_bot.dxf", "dimension"),
-        res("Sense 3D Model", "ZIP", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/seeed-studio-xiao-esp32s3-sense-3d_model.zip", "model3d", { thumb: "/res-thumb/s3sense-3d.png" }),
+        res("Sense 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-esp32s3-sense-2", "model3d", { thumb: "/res-thumb/s3sense-3d.png", preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/Seeed_Studio_XIAO-ESP32-S3-Sense.step" }),
         res("Sense Purple Enclosure (Top)", "STP", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/XIAO-ESP32S3-Sense-housing-design(top).stp", "step"),
         res("Sense Purple Enclosure (Bottom)", "STP", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/XIAO-ESP32S3-Sense-housing-design(bottom).stp", "step"),
       ],
       software: [
+        res("XIAO ESP32-S3 Sense Getting Started", "Guide", "https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/", "guide"),
         res("Sense Factory Firmware", "ZIP", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/XIAO-ESP32S3-Sense-firmware-20240814.zip", "firmware"),
       ],
     }),
@@ -213,7 +217,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "esp32-s3",
     name: "XIAO ESP32-S3 Plus",
     pinoutId: "s3plus",
-    image: "/xiao-products/dev_boards/s3plus-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-ESP32-S3-Plus-front.webp",
     shop: "https://www.seeedstudio.com/Seeed-Studio-XIAO-ESP32S3-Plus-p-6361.html",
     wiki: "https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/",
     intro: { en: "Larger GPIO count and PSRAM for heavier connected projects.", zh: "更多 GPIO 与 PSRAM，适合更重的联网项目。" },
@@ -230,7 +234,10 @@ export const RESOURCE_PRODUCTS = [
       mechanical: [
         res("Plus Dimension (DXF, Top)", "DXF", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/TOP.dxf", "dimension"),
         res("Plus Dimension (DXF, Bottom)", "DXF", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/BOTTOM.dxf", "dimension"),
-        res("Plus 3D Model (GrabCAD)", "Link", "https://grabcad.com/library/seeed-studio-xiao-esp32s3-plus-1/files", "model3d"),
+        res("Plus 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-esp32s3-plus-1/files", "model3d", { preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/XIAO-ESP32S3-PLUS_.step" }),
+      ],
+      software: [
+        res("XIAO ESP32-S3 Plus Getting Started", "Guide", "https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/", "guide"),
       ],
     }),
   }),
@@ -239,7 +246,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "esp32-s3",
     name: "XIAO ESP32-S3 Sense Camera",
     pinoutId: null,
-    image: "/xiao-products/dev_boards/XIAO落地页素材-21-1536x1257.jpg",
+    image: "/xiao-products/addons/accessories/1-114993115-ov5640-camera-for-xiao-esp32s3-sense-_with-heat-sink_-45font.jpg",
     shop: null,
     wiki: "https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/",
     intro: { en: "Camera module datasheets for the Sense camera attachments.", zh: "Sense 摄像头模组的摄像头规格书与传感器手册。" },
@@ -249,8 +256,15 @@ export const RESOURCE_PRODUCTS = [
         res("OV3660 Camera Module Specification", "PDF", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/new-res/OV3660_Camera_Module_Specification.pdf", "datasheet"),
         res("OV3660 CMOS Sensor Datasheet", "PDF", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/OV3660_datasheet.pdf", "datasheet"),
         res("OV5640 Camera Module Specification", "PDF", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/new-res/OV5640_Camera_Module_Specification.pdf", "datasheet"),
+        res("New OV5640 Camera Module Specification", "PDF", "https://files.seeedstudio.com/wiki/xiaos3-sscma/OV5640-8225N-120.pdf", "datasheet"),
         res("OV5640 CMOS Sensor Datasheet", "PDF", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/OV5640_datasheet.pdf", "datasheet"),
         res("OV2640 CMOS Sensor Datasheet", "PDF", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/OV2640_datasheet.pdf", "datasheet"),
+      ],
+      mechanical: [
+        res("XIAO ESP32-S3 Sense Camera 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-esp32s3-sense-2", "model3d", { thumb: "/res-thumb/s3sense-3d.png", preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/Seeed_Studio_XIAO-ESP32-S3-Sense.step" }),
+      ],
+      software: [
+        res("XIAO ESP32-S3 Sense Camera Getting Started", "Guide", "https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/", "guide"),
       ],
     }),
   }),
@@ -259,7 +273,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "esp32-c3",
     name: "XIAO ESP32-C3",
     pinoutId: "c3",
-    image: "/xiao-products/dev_boards/c3-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-ESP32-C3-front.webp",
     shop: "https://www.seeedstudio.com/Seeed-XIAO-ESP32C3-p-5431.html",
     wiki: "https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/",
     intro: { en: "Compact Wi-Fi and Bluetooth LE board based on ESP32-C3.", zh: "基于 ESP32-C3 的紧凑型 Wi-Fi 与蓝牙开发板。" },
@@ -274,9 +288,10 @@ export const RESOURCE_PRODUCTS = [
       mechanical: [
         res("XIAO ESP32-C3 Dimension", "ZIP", "https://files.seeedstudio.com/wiki/XIAO_WiFi/Resources/XIAO-ESP32C3-DXF.zip", "dimension"),
         res("XIAO ESP32-C3 Bottom Pad Data", "ZIP", "https://files.seeedstudio.com/wiki/Seeed-Studio-XIAO-ESP32/XIAO_ESP32C3_v1.2_Dimensioning.zip", "dimension"),
-        res("XIAO ESP32-C3 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-esp32-c3-1", "model3d"),
+        res("XIAO ESP32-C3 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-esp32c3-2", "model3d", { preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/Seeed-Studio-XIAO-ESP32-C3.step" }),
       ],
       software: [
+        res("XIAO ESP32-C3 Getting Started", "Guide", "https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/", "guide"),
         res("XIAO ESP32-C3 Factory Firmware", "BIN", "https://files.seeedstudio.com/wiki/XIAO_WiFi/Resources/ESP32-C3_RFTest_108_2b9b157_20211014.bin", "firmware"),
         res("XIAO ESP32-C3 MicroPython Library", "Link", "https://github.com/IcingTomato/micropython_xiao_esp32c3", "link"),
         res("PlatformIO for XIAO ESP32-C3", "Link", "https://docs.platformio.org/en/latest/boards/espressif32/seeed_xiao_esp32c3.html", "link"),
@@ -292,7 +307,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "esp32-c6",
     name: "XIAO ESP32-C6",
     pinoutId: "c6",
-    image: "/xiao-products/dev_boards/c6-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-ESP32-C6-front.webp",
     shop: "https://www.seeedstudio.com/Seeed-Studio-XIAO-ESP32C6-p-5884.html",
     wiki: "https://wiki.seeedstudio.com/xiao_esp32c6_getting_started/",
     intro: { en: "ESP32-C6 wireless board with Wi-Fi 6, Bluetooth LE and Zigbee support.", zh: "支持 Wi-Fi 6、蓝牙与 Zigbee 的 ESP32-C6 无线开发板。" },
@@ -305,7 +320,7 @@ export const RESOURCE_PRODUCTS = [
         res("XIAO ESP32-C6 Pinout Sheet", "XLSX", "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32C6/res/XIAO_ESP32C6_Pinout.xlsx", "pinout"),
       ],
       mechanical: [
-        res("XIAO ESP32-C6 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-esp32-c6-1", "model3d"),
+        res("XIAO ESP32-C6 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-esp32c6-1", "model3d", { preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/Seeed-Studio-XIAO-ESP32C6-v2.step" }),
       ],
       software: [
         res("XIAO ESP32-C6 Getting Started", "Guide", "https://wiki.seeedstudio.com/xiao_esp32c6_getting_started/", "guide"),
@@ -317,7 +332,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "esp32-c5",
     name: "XIAO ESP32-C5",
     pinoutId: "c5",
-    image: "/xiao-products/dev_boards/c5-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-ESP32-C5-front.webp",
     shop: "https://www.seeedstudio.com/Seeed-Studio-XIAO-ESP32C5-p-6609.html",
     wiki: "https://wiki.seeedstudio.com/xiao_esp32c5_getting_started/",
     intro: { en: "ESP32-C5 wireless board for next-generation connected projects.", zh: "面向新一代联网项目的 ESP32-C5 无线开发板。" },
@@ -330,7 +345,7 @@ export const RESOURCE_PRODUCTS = [
         res("XIAO ESP32-C5 Pinout Sheet", "XLSX", "https://files.seeedstudio.com/wiki/XIAO_ESP32C5/res/XIAO_ESP32C5_Pinout.xlsx", "pinout"),
       ],
       mechanical: [
-        res("XIAO ESP32-C5 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-esp32-c5-1", "model3d"),
+        res("XIAO ESP32-C5 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-esp32-c5-1", "model3d", { preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/Seeed_Studio_XIAO_ESP32-C5.step" }),
       ],
       software: [
         res("XIAO ESP32-C5 Getting Started", "Guide", "https://wiki.seeedstudio.com/xiao_esp32c5_getting_started/", "guide"),
@@ -342,7 +357,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "nrf52840",
     name: "XIAO nRF52840",
     pinoutId: "nrf52",
-    image: "/xiao-products/dev_boards/nrf52-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-nRF52840-front.webp",
     shop: "https://www.seeedstudio.com/Seeed-XIAO-BLE-nRF52840-p-5201.html",
     wiki: "https://wiki.seeedstudio.com/XIAO_BLE/",
     intro: { en: "Nordic nRF52840 board for Bluetooth and low-power wireless projects.", zh: "面向蓝牙与低功耗无线项目的 Nordic nRF52840 开发板。" },
@@ -358,6 +373,7 @@ export const RESOURCE_PRODUCTS = [
       mechanical: [
         res("XIAO nRF52840 Dimension", "ZIP", "https://files.seeedstudio.com/wiki/XIAO-BLE/XIAO-nRF52840-DXF.zip", "dimension"),
         res("XIAO nRF52840 Bottom Pad Data", "ZIP", "https://files.seeedstudio.com/wiki/XIAO-BLE/Bottom-pad-positioning.zip", "dimension"),
+        res("XIAO nRF52840 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-nrf52840-1", "model3d", { preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/XIAO-nRF52840-v15.step" }),
       ],
       software: [
         res("XIAO nRF52840 Getting Started", "Guide", "https://wiki.seeedstudio.com/XIAO_BLE/", "guide"),
@@ -369,7 +385,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "nrf52840",
     name: "XIAO nRF52840 Sense",
     pinoutId: "nrf52840sense",
-    image: "/xiao-products/dev_boards/XIAO落地页素材-04-1536x1257.jpg",
+    image: "/xiao-products/dev_boards/front/XIAO-nRF52840-Sense-front.webp",
     shop: "https://www.seeedstudio.com/Seeed-XIAO-BLE-Sense-nRF52840-p-5253.html",
     wiki: "https://wiki.seeedstudio.com/XIAO_BLE/",
     intro: { en: "nRF52840 with an onboard IMU and microphone for TinyML sensing.", zh: "集成 IMU 与麦克风的 nRF52840 TinyML 感知开发板。" },
@@ -380,7 +396,7 @@ export const RESOURCE_PRODUCTS = [
         FLASH_DATASHEET,
         res("Charger BQ25101 Datasheet", "PDF", "https://files.seeedstudio.com/wiki/XIAO-BLE/BQ25101.pdf", "datasheet"),
         res("IMU LSM6DS3TR Datasheet", "PDF", "https://files.seeedstudio.com/wiki/XIAO-BLE/ST_LSM6DS3TR_Datasheet.pdf", "datasheet"),
-        res("Microphone MSM261D3526H1CPM Datasheet", "PDF", "https://files.seeedstudio.com/wiki/XIAO-BLE/mic-MSM261D3526H1CPM-ENG.pdf", "datasheet"),
+        res("Microphone WMM7035DTTJ0 Datasheet", "PDF", "https://files.seeedstudio.com/wiki/XIAO-BLE/mic_WMM7035DTTJ0_Datasheet.pdf.pdf", "datasheet"),
         res("XIAO nRF52840 Sense Schematic", "PDF", "https://files.seeedstudio.com/wiki/XIAO-BLE/Seeed_Studio_XIAO_nRF52840_PDF.pdf", "schematic"),
         res("XIAO nRF52840 Sense KiCad Project", "ZIP", "https://files.seeedstudio.com/wiki/XIAO-BLE/Seeed-Studio-XIAO-nRF52840V1.1-KiCad-Project-260105.zip", "kicad"),
         res("XIAO nRF52840 Sense Pinout Sheet", "XLSX", "https://files.seeedstudio.com/wiki/XIAO-BLE/XIAO-nRF52840-Senese-pinout_sheet.xlsx", "pinout"),
@@ -388,10 +404,13 @@ export const RESOURCE_PRODUCTS = [
       mechanical: [
         res("XIAO nRF52840 Sense Dimension", "ZIP", "https://files.seeedstudio.com/wiki/XIAO-BLE/XIAO-nRF52840-Sense-DXF.zip", "dimension"),
         res("XIAO nRF52840 Bottom Pad Data", "ZIP", "https://files.seeedstudio.com/wiki/XIAO-BLE/Bottom-pad-positioning.zip", "dimension"),
-        res("XIAO nRF52840 Sense 3D Model", "ZIP", "https://files.seeedstudio.com/wiki/XIAO-BLE/seeed-studio-xiao-nrf52840-3d-model.zip", "model3d"),
+        res("XIAO nRF52840 Sense 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-nrf52840-sense-1", "model3d", { preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/XIAO-nRF52840-v15.step" }),
       ],
       others: [
         res("XIAO nRF52840 Sense BLE Distance Test Report", "PDF", "https://files.seeedstudio.com/wiki/XIAO-BLE/Seeed_XIAO_BLE_nRF52840_BLE_Communication_Distance_Test_Report.pdf", "other"),
+      ],
+      software: [
+        res("XIAO nRF52840 Sense Getting Started", "Guide", "https://wiki.seeedstudio.com/XIAO_BLE/", "guide"),
       ],
     }),
   }),
@@ -400,7 +419,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "nrf52840",
     name: "XIAO nRF52840 Plus",
     pinoutId: "nrf52840plus",
-    image: "/xiao-products/dev_boards/nrf52840plus-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-nRF52840-Plus-front.webp",
     shop: "https://www.seeedstudio.com/Seeed-Studio-XIAO-nRF52840-Plus-p-6359.html",
     wiki: "https://wiki.seeedstudio.com/XIAO_BLE/",
     intro: { en: "Expanded nRF52840 board for wireless development.", zh: "面向无线开发的扩展型 nRF52840 开发板。" },
@@ -415,6 +434,10 @@ export const RESOURCE_PRODUCTS = [
       ],
       mechanical: [
         res("XIAO nRF52840 Sense Dimension", "ZIP", "https://files.seeedstudio.com/wiki/XIAO-BLE/XIAO-nRF52840-Sense-DXF.zip", "dimension"),
+        res("XIAO nRF52840 Plus 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-nrf52840-plus-2", "model3d", { preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/XIAO-nRF52840-Plus-v2.step" }),
+      ],
+      software: [
+        res("XIAO nRF52840 Plus Getting Started", "Guide", "https://wiki.seeedstudio.com/XIAO_BLE/", "guide"),
       ],
     }),
   }),
@@ -423,7 +446,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "nrf52840",
     name: "XIAO nRF52840 Sense Plus",
     pinoutId: "nrf52840senseplus",
-    image: "/xiao-products/dev_boards/nrf52840plus-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-nRF52840-Sense-Plus-front.webp",
     shop: "https://www.seeedstudio.com/Seeed-Studio-XIAO-nRF52840-Sense-Plus-p-6360.html",
     wiki: "https://wiki.seeedstudio.com/XIAO_BLE/",
     intro: { en: "Expanded nRF52840 Sense board for wireless sensing projects.", zh: "面向无线感知项目的扩展型 nRF52840 Sense 开发板。" },
@@ -433,9 +456,15 @@ export const RESOURCE_PRODUCTS = [
         NRF_DATASHEET,
         res("XIAO nRF52840 Sense Plus Schematic", "ZIP", "https://files.seeedstudio.com/wiki/XIAO-BLE/Seeed_Studio_XIAO_nRF52840_Plus_SCH_PCB_v1.1.zip", "schematic"),
         res("XIAO nRF52840 Sense Plus KiCad Project", "ZIP", "https://files.seeedstudio.com/wiki/XIAO-BLE/Seeed_Studio_XIAO_nRF52840_Plus.zip", "kicad"),
+        PLUS_BASE_WITH,
+        PLUS_BASE_WITHOUT,
       ],
       mechanical: [
         res("XIAO nRF52840 Sense Dimension", "ZIP", "https://files.seeedstudio.com/wiki/XIAO-BLE/XIAO-nRF52840-Sense-DXF.zip", "dimension"),
+        res("XIAO nRF52840 Sense Plus 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-nrf52840-sense-plus-2", "model3d", { preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/XIAO-nRF52840-Sense-Plus-v3.step" }),
+      ],
+      software: [
+        res("XIAO nRF52840 Sense Plus Getting Started", "Guide", "https://wiki.seeedstudio.com/XIAO_BLE/", "guide"),
       ],
     }),
   }),
@@ -444,7 +473,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "nrf54x",
     name: "XIAO nRF54L15",
     pinoutId: "nrf54l15",
-    image: "/xiao-products/dev_boards/nrf54l15-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-nRF54L15-front.webp",
     shop: "https://www.seeedstudio.com/XIAO-nRF54L15-p-6493.html",
     wiki: "https://wiki.seeedstudio.com/xiao_nrf54l15_sense_getting_started/",
     intro: { en: "Ultra-low-power Nordic wireless board for secure connected devices.", zh: "基于 Nordic nRF54L15 的超低功耗无线开发板。" },
@@ -453,6 +482,17 @@ export const RESOURCE_PRODUCTS = [
       software: [
         res("XIAO nRF54L15 Getting Started", "Guide", "https://wiki.seeedstudio.com/xiao_nrf54l15_sense_getting_started/", "guide"),
       ],
+      hardware: [
+        res("Nordic nRF54L15 Datasheet", "PDF", "https://files.seeedstudio.com/wiki/XIAO_nRF54L15/Getting_Start/Nordic_nRF54L15_Datasheet_v1.0.pdf", "datasheet"),
+        res("XIAO nRF54L15 Schematic", "PDF", "https://files.seeedstudio.com/wiki/XIAO_nRF54L15/Getting_Start/nRF54L15_Sense_Schematic.pdf", "schematic"),
+        res("XIAO nRF54L15 KiCad Project", "ZIP", "https://files.seeedstudio.com/wiki/XIAO_nRF54L15/Getting_Start/nRF54L15_Sense_KICAD.zip", "kicad"),
+        res("XIAO nRF54L15 Flux.ai Project", "Link", "https://www.flux.ai/seeedstudio/seeed-studio-xiao-nrf54l15-sense", "link"),
+        res("XIAO nRF54L15 Pinout Sheet", "XLSX", "https://files.seeedstudio.com/wiki/XIAO_nRF54L15/Getting_Start/XIAO_nRF54L15datasheet.xlsx", "pinout"),
+      ],
+      mechanical: [
+        res("XIAO nRF54L15 Dimension", "ZIP", "https://files.seeedstudio.com/wiki/XIAO_nRF54L15/Getting_Start/nRF54L15(Sense)_DXF.zip", "dimension"),
+        res("XIAO nRF54L15 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-nrf54l15-1", "model3d", { preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/Seeed-Studio-XIAO-nRF54L15.step" }),
+      ],
     }),
   }),
   board({
@@ -460,12 +500,15 @@ export const RESOURCE_PRODUCTS = [
     chip: "nrf54x",
     name: "XIAO nRF54L15 Sense",
     pinoutId: "nrf54l15sense",
-    image: "/xiao-products/dev_boards/nRF54L15-Sense-1536x1256.jpg",
+    image: "/xiao-products/dev_boards/front/XIAO-nRF54L15-Sense-front.webp",
     shop: "https://www.seeedstudio.com/XIAO-nRF54L15-Sense-p-6494.html",
     wiki: "https://wiki.seeedstudio.com/xiao_nrf54l15_sense_getting_started/",
     intro: { en: "nRF54L15 with onboard IMU and microphone for sensing projects.", zh: "集成 IMU 与麦克风的 nRF54L15 感知开发板。" },
     badges: ["nRF54L15", "IMU", "Microphone", "Bluetooth LE 6.0"],
     groups: resourceGroups({
+      software: [
+        res("XIAO nRF54L15 Sense Getting Started", "Guide", "https://wiki.seeedstudio.com/xiao_nrf54l15_sense_getting_started/", "guide"),
+      ],
       hardware: [
         res("Nordic nRF54L15 Datasheet", "PDF", "https://files.seeedstudio.com/wiki/XIAO_nRF54L15/Getting_Start/Nordic_nRF54L15_Datasheet_v1.0.pdf", "datasheet"),
         res("XIAO nRF54L15 Sense Schematic", "PDF", "https://files.seeedstudio.com/wiki/XIAO_nRF54L15/Getting_Start/nRF54L15_Sense_Schematic.pdf", "schematic"),
@@ -475,7 +518,7 @@ export const RESOURCE_PRODUCTS = [
       ],
       mechanical: [
         res("XIAO nRF54L15 Sense Dimension", "ZIP", "https://files.seeedstudio.com/wiki/XIAO_nRF54L15/Getting_Start/nRF54L15(Sense)_DXF.zip", "dimension"),
-        res("XIAO nRF54L15 Sense 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-nrf54l15-sense-1", "model3d"),
+        res("XIAO nRF54L15 Sense 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-nrf54l15-sense-1", "model3d", { preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/Seeed-Studio-XIAO-nRF54L15-Sense.step" }),
       ],
     }),
   }),
@@ -484,7 +527,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "nrf54x",
     name: "XIAO nRF54LM20A",
     pinoutId: "nrf54lm20a",
-    image: "/xiao-products/dev_boards/nrf54-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-nRF54LM20A-front.webp",
     shop: "https://www.seeedstudio.com/Seeed-Studio-XIAO-nRF54LM20A-p-6841.html",
     wiki: "https://wiki.seeedstudio.com/xiao_nrf54lm20a_getting_started/",
     intro: { en: "A higher-memory Nordic nRF54 wireless board with power management.", zh: "具备更大内存与电源管理能力的 Nordic nRF54 无线开发板。" },
@@ -493,6 +536,12 @@ export const RESOURCE_PRODUCTS = [
       software: [
         res("XIAO nRF54LM20A Getting Started", "Guide", "https://wiki.seeedstudio.com/xiao_nrf54lm20a_getting_started/", "guide"),
       ],
+      hardware: [
+        res("Nordic nRF54LM20A Datasheet", "PDF", "https://files.seeedstudio.com/wiki/XIAO_nRF54LM20A/getting_start/RES/nRF54LM20A_nRF54LM20B_Datasheet_v1.0.pdf", "datasheet"),
+        res("XIAO nRF54LM20A Schematic", "PDF", "https://files.seeedstudio.com/wiki/XIAO_nRF54LM20A/getting_start/RES/XIAO_nRF54LM20A_Schematic.pdf", "schematic"),
+        res("XIAO nRF54LM20A KiCad Project", "ZIP", "https://files.seeedstudio.com/wiki/XIAO_nRF54LM20A/getting_start/RES/XIAO_nRF54LM20A_V1.0_SCH&PCB_260508.zip", "kicad"),
+        res("XIAO nRF54LM20A Pinout Sheet", "XLSX", "https://files.seeedstudio.com/wiki/XIAO_nRF54LM20A/getting_start/RES/XIAO_nRF54LM20A_Pin_definition.xlsx", "pinout"),
+      ],
     }),
   }),
   board({
@@ -500,12 +549,15 @@ export const RESOURCE_PRODUCTS = [
     chip: "nrf54x",
     name: "XIAO nRF54LM20A Sense",
     pinoutId: "nrf54lm20asense",
-    image: "/xiao-products/dev_boards/Group-48-1536x1256.jpg",
+    image: "/xiao-products/dev_boards/front/XIAO-nRF54LM20A-Sense-front.webp",
     shop: "https://www.seeedstudio.com/Seeed-Studio-XIAO-nRF54LM20A-Sense-p-6840.html",
     wiki: "https://wiki.seeedstudio.com/xiao_nrf54lm20a_getting_started/",
     intro: { en: "nRF54LM20A with an IMU and microphone for advanced edge sensing.", zh: "集成 IMU 与麦克风的 nRF54LM20A 边缘感知开发板。" },
     badges: ["nRF54LM20A", "IMU", "Microphone", "8 MB Flash"],
     groups: resourceGroups({
+      software: [
+        res("XIAO nRF54LM20A Sense Getting Started", "Guide", "https://wiki.seeedstudio.com/xiao_nrf54lm20a_getting_started/", "guide"),
+      ],
       hardware: [
         res("Nordic nRF54LM20A Datasheet", "PDF", "https://files.seeedstudio.com/wiki/XIAO_nRF54LM20A/getting_start/RES/nRF54LM20A_nRF54LM20B_Datasheet_v1.0.pdf", "datasheet"),
         res("XIAO nRF54LM20A Sense Schematic", "PDF", "https://files.seeedstudio.com/wiki/XIAO_nRF54LM20A/getting_start/RES/XIAO_nRF54LM20A_Schematic.pdf", "schematic"),
@@ -519,7 +571,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "rp2040",
     name: "XIAO RP2040",
     pinoutId: "rp2040",
-    image: "/xiao-products/dev_boards/rp2040-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-RP2040-front.webp",
     shop: "https://www.seeedstudio.com/XIAO-RP2040-v1-0-p-5026.html",
     wiki: "https://wiki.seeedstudio.com/XIAO-RP2040/",
     intro: { en: "Dual-core RP2040 board for compact embedded projects.", zh: "基于双核 RP2040 的紧凑型嵌入式开发板。" },
@@ -534,7 +586,10 @@ export const RESOURCE_PRODUCTS = [
       ],
       mechanical: [
         res("XIAO RP2040 Dimension", "ZIP", "https://files.seeedstudio.com/wiki/XIAO-RP2040/res/XIAO-RP2040-DXF.zip", "dimension"),
-        res("XIAO RP2040 3D Model", "ZIP", "https://files.seeedstudio.com/wiki/XIAO-RP2040/res/seeed-studio-xiao-rp2040-3d-model.zip", "model3d"),
+        res("XIAO RP2040 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-rp2040-1", "model3d", { preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/Seeed_Studio_XIAO_RP2040_v26.step" }),
+      ],
+      software: [
+        res("XIAO RP2040 Getting Started", "Guide", "https://wiki.seeedstudio.com/XIAO-RP2040/", "guide"),
       ],
     }),
   }),
@@ -543,7 +598,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "rp2040",
     name: "XIAO RP2040 Plus",
     pinoutId: "rp2040plus",
-    image: "/xiao-products/dev_boards/rp2040plus-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-RP2040-Plus-front.webp",
     shop: "https://www.seeedstudio.com/Seeed-Studio-XIAO-RP2040-Plus-p-6932.html",
     wiki: "https://wiki.seeedstudio.com/XIAO-RP2040/",
     intro: { en: "RP2040 Plus board with expanded capabilities.", zh: "具备扩展能力的 RP2040 Plus 开发板。" },
@@ -555,6 +610,9 @@ export const RESOURCE_PRODUCTS = [
         res("XIAO RP2040 Plus KiCad Project", "ZIP", "https://files.seeedstudio.com/wiki/XIAO-RP2040/res/XIAO_RP2040-Plus_V1.0_SCH&PCB.zip", "kicad"),
         res("XIAO RP2040 Plus Pinout Sheet", "XLSX", "https://files.seeedstudio.com/wiki/XIAO-RP2040/res/XIAO-RP2040-Plus-pinout.xlsx", "pinout"),
       ],
+      software: [
+        res("XIAO RP2040 Plus Getting Started", "Guide", "https://wiki.seeedstudio.com/XIAO-RP2040/", "guide"),
+      ],
     }),
   }),
   board({
@@ -562,9 +620,9 @@ export const RESOURCE_PRODUCTS = [
     chip: "rp2350",
     name: "XIAO RP2350",
     pinoutId: "rp2350",
-    image: "/xiao-products/dev_boards/rp2350-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-RP2350-front.webp",
     shop: "https://www.seeedstudio.com/Seeed-XIAO-RP2350-p-5944.html",
-    wiki: "https://wiki.seeedstudio.com/getting-started-xiao-rp2350/",
+    wiki: "https://wiki.seeedstudio.com/xiao_rp2350_arduino/",
     intro: { en: "RP2350 board for modern Raspberry Pi Pico-series projects.", zh: "面向新一代 Raspberry Pi Pico 系列项目的 RP2350 开发板。" },
     badges: ["RP2350", "Pico", "MicroPython"],
     groups: resourceGroups({
@@ -576,9 +634,10 @@ export const RESOURCE_PRODUCTS = [
       ],
       mechanical: [
         res("XIAO RP2350 Dimension", "DXF", "https://files.seeedstudio.com/wiki/XIAO-RP2350/res/XIAO-RP2350-dimension-v1.0.dxf", "dimension"),
-        res("XIAO RP2350 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-rp2350-2", "model3d"),
+        res("XIAO RP2350 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-rp2350-1", "model3d", { preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/XIAO_RP2350.step" }),
       ],
       software: [
+        res("XIAO RP2350 Getting Started", "Guide", "https://wiki.seeedstudio.com/xiao_rp2350_arduino/", "guide"),
         res("XIAO RP2350 Low Power Test Firmware", "UF2", "https://files.seeedstudio.com/wiki/XIAO-RP2350/res/powman_timer-56.uf2", "firmware"),
       ],
       others: [
@@ -595,7 +654,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "mg24",
     name: "XIAO MG24",
     pinoutId: "mg24",
-    image: "/xiao-products/dev_boards/mg24-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-MG24-front.webp",
     shop: "https://www.seeedstudio.com/Seeed-Studio-XIAO-MG24-p-6247.html",
     wiki: "https://wiki.seeedstudio.com/xiao_mg24_getting_started/",
     intro: { en: "Silicon Labs MG24 wireless board for low-power connected devices.", zh: "面向低功耗无线设备的 Silicon Labs MG24 开发板。" },
@@ -607,6 +666,12 @@ export const RESOURCE_PRODUCTS = [
         res("XIAO MG24 Schematic", "PDF", "https://files.seeedstudio.com/wiki/XIAO_MG24/Getting_Start/XIAO_MGM240S_KICAD_Prj.pdf", "schematic"),
         res("XIAO MG24 KiCad Project", "ZIP", "https://files.seeedstudio.com/wiki/XIAO_MG24/Getting_Start/XIAO_MG24_v1.0_KiCad_260114.zip", "kicad"),
       ],
+      mechanical: [
+        res("XIAO MG24 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-mg24-1", "model3d", { preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/Seeed-Studio-XIAO-MG24-v3.step" }),
+      ],
+      software: [
+        res("XIAO MG24 Getting Started", "Guide", "https://wiki.seeedstudio.com/xiao_mg24_getting_started/", "guide"),
+      ],
     }),
   }),
   board({
@@ -614,7 +679,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "mg24",
     name: "XIAO MG24 Sense",
     pinoutId: "mg24sense",
-    image: "/xiao-products/dev_boards/MG24-Sense-1536x1256.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-MG24-Sense-front.webp",
     shop: "https://www.seeedstudio.com/Seeed-Studio-XIAO-MG24-Sense-p-6248.html",
     wiki: "https://wiki.seeedstudio.com/xiao_mg24_getting_started/",
     intro: { en: "MG24 Sense board with expanded sensing capability.", zh: "具备扩展感知能力的 MG24 Sense 开发板。" },
@@ -626,6 +691,12 @@ export const RESOURCE_PRODUCTS = [
         res("XIAO MG24 Sense Schematic", "PDF", "https://files.seeedstudio.com/wiki/XIAO_MG24/Getting_Start/XIAO_MGM240S_KICAD_Prj.pdf", "schematic"),
         res("XIAO MG24 Sense KiCad Project", "ZIP", "https://files.seeedstudio.com/wiki/XIAO_MG24/Getting_Start/XIAO_MG24_v1.0_KiCad_260114.zip", "kicad"),
       ],
+      mechanical: [
+        res("XIAO MG24 Sense 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-mg24-sense-2", "model3d", { preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/Seeed-Studio-XIAO-MG24_Sense%20.step" }),
+      ],
+      software: [
+        res("XIAO MG24 Sense Getting Started", "Guide", "https://wiki.seeedstudio.com/xiao_mg24_getting_started/", "guide"),
+      ],
     }),
   }),
   board({
@@ -633,7 +704,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "samd21",
     name: "XIAO SAMD21",
     pinoutId: "samd21",
-    image: "/xiao-products/dev_boards/samd21-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-SAMD21-front.webp",
     shop: "https://www.seeedstudio.com/Seeeduino-XIAO-Arduino-Microcontroller-SAMD21-Cortex-M0+-p-4426.html",
     wiki: "https://wiki.seeedstudio.com/Seeeduino-XIAO/",
     intro: { en: "The original XIAO board, based on the SAMD21 microcontroller.", zh: "基于 SAMD21 微控制器的初代 XIAO 开发板。" },
@@ -648,9 +719,10 @@ export const RESOURCE_PRODUCTS = [
       ],
       mechanical: [
         SAMD_DIMENSION,
-        res("XIAO SAMD21 3D Model", "ZIP", "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/seeeduino-xiao-samd21-3d-model.zip", "model3d"),
+        res("XIAO SAMD21 3D Model", "Link", "https://grabcad.com/library/seeeduino-xiao-samd21-1", "model3d", { preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/Seeeduino-XIAO-SAMD21-v4.step" }),
       ],
       software: [
+        res("XIAO SAMD21 Getting Started", "Guide", "https://wiki.seeedstudio.com/Seeeduino-XIAO/", "guide"),
         res("XIAO SAMD21 Factory Firmware", "ZIP", "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/102010328_Seeeduino_XIAO_final_firmware.zip", "firmware"),
       ],
     }),
@@ -660,7 +732,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "samd21",
     name: "XIAO SAMD21 Plus",
     pinoutId: "samd21plus",
-    image: "/xiao-products/dev_boards/samd21plus-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-SAMD21-Plus-front.webp",
     shop: "https://www.seeedstudio.com/Seeed-Studio-XIAO-SAMD21-Plus-p-6933.html",
     wiki: "https://wiki.seeedstudio.com/Seeeduino-XIAO/",
     intro: { en: "SAMD21 Plus board with expanded design resources.", zh: "提供扩展设计资源的 SAMD21 Plus 开发板。" },
@@ -677,6 +749,9 @@ export const RESOURCE_PRODUCTS = [
         SAMD_DIMENSION,
         res("XIAO SAMD21 Plus 3D Model", "ZIP", "https://files.seeedstudio.com/wiki/Seeeduino-XIAO/res/seeeduino-xiao-samd21-3d-model.zip", "model3d"),
       ],
+      software: [
+        res("XIAO SAMD21 Plus Getting Started", "Guide", "https://wiki.seeedstudio.com/Seeeduino-XIAO/", "guide"),
+      ],
     }),
   }),
   board({
@@ -684,7 +759,7 @@ export const RESOURCE_PRODUCTS = [
     chip: "ra4m1",
     name: "XIAO RA4M1",
     pinoutId: "ra4",
-    image: "/xiao-products/dev_boards/ra4-front.webp",
+    image: "/xiao-products/dev_boards/front/XIAO-RA4M1-front.webp",
     shop: "https://www.seeedstudio.com/Seeed-XIAO-RA4M1-p-5943.html",
     wiki: "https://wiki.seeedstudio.com/getting_started_xiao_ra4m1/",
     intro: { en: "Renesas RA4M1 board with CAN, DAC and expanded I/O.", zh: "具备 CAN、DAC 与扩展 I/O 的 Renesas RA4M1 开发板。" },
@@ -694,6 +769,43 @@ export const RESOURCE_PRODUCTS = [
         res("Renesas RA4M1 Datasheet", "PDF", "https://www.renesas.com/us/en/document/dst/ra4m1-group-datasheet", "datasheet"),
         res("XIAO RA4M1 Schematic", "PDF", "https://files.seeedstudio.com/wiki/XIAO-R4AM1/res/XIAO%20RA4M1%20V1.01_SCH_PDF_260114%20.pdf.pdf", "schematic"),
         res("XIAO RA4M1 KiCad Project", "ZIP", "https://files.seeedstudio.com/wiki/XIAO-R4AM1/res/202003977_XIAO%20RA4M1%20v1.01_SCH&PCB_260114.zip", "kicad"),
+      ],
+      mechanical: [
+        res("XIAO RA4M1 3D Model", "Link", "https://grabcad.com/library/seeed-studio-xiao-ra4m1-2", "model3d", { preview: "step", previewUrl: "https://files.seeedstudio.com/wiki/XIAO_3d_step/Seeed-Studio-XIAO-RA4M1-v3.step" }),
+      ],
+      software: [
+        res("XIAO RA4M1 Getting Started", "Guide", "https://wiki.seeedstudio.com/getting_started_xiao_ra4m1/", "guide"),
+      ],
+    }),
+  }),
+  board({
+    id: "stm32c5",
+    chip: "stm32c5",
+    name: "XIAO STM32C5",
+    pinoutId: "stm32c5",
+    image: "/xiao-products/dev_boards/front/XIAO-STM32C5-front.webp",
+    shop: "https://www.seeedstudio.com/XIAO-STM32C5-p-7011.html",
+    wiki: "https://wiki.seeedstudio.com/xiao_stm32c5_getting_started/",
+    intro: { en: "STMicroelectronics STM32C5 board with CAN bus, onboard IMU and external flash.", zh: "带 CAN 总线、板载 IMU 与外置 Flash 的 STMicroelectronics STM32C5 开发板。" },
+    badges: ["STM32C5", "CAN", "IMU"],
+    groups: resourceGroups({
+      hardware: [
+        res("STMicroelectronics STM32C5A3CG Datasheet", "PDF", "https://www.st.com/resource/en/datasheet/stm32c5a3cg.pdf", "datasheet"),
+        res("IMU LSM6DS3TR-C Datasheet", "PDF", "https://www.st.com.cn/resource/en/datasheet/lsm6ds3tr-c.pdf", "datasheet"),
+        res("CAN Transceiver TCAN3403-Q1 Datasheet", "PDF", "https://files.seeedstudio.com/wiki/XIAO_STM32C5/res/tcan3403-q1.pdf", "datasheet"),
+        res("XIAO STM32C5 Schematic", "PDF", "https://files.seeedstudio.com/wiki/XIAO_STM32C5/res/Seeed-Studio-XIAO-STM32C5-v1.0.pdf", "schematic"),
+        res("XIAO STM32C5 KiCad Project", "ZIP", "https://files.seeedstudio.com/wiki/XIAO_STM32C5/res/XIAO_STM32C5_v1.0_SCH&PCB.zip", "kicad"),
+        res("XIAO STM32C5 Pinout Sheet", "XLSX", "https://files.seeedstudio.com/wiki/XIAO_STM32C5/res/XIAO-STM32C5-pinout_sheet.xlsx", "pinout"),
+      ],
+      mechanical: [
+        res("XIAO STM32C5 Board Photo", "Link", "https://www.seeedstudio.com/XIAO-STM32C5-p-7011.html", "model3d", {
+          thumb: "/xiao-products/dev_boards/front/XIAO-STM32C5-front.webp",
+          preview: "image",
+          previewUrl: "/xiao-products/dev_boards/front/XIAO-STM32C5-front.webp",
+        }),
+      ],
+      software: [
+        res("XIAO STM32C5 Getting Started", "Guide", "https://wiki.seeedstudio.com/xiao_stm32c5_getting_started/", "guide"),
       ],
     }),
   }),
@@ -925,7 +1037,7 @@ export function pickText(field, lang) {
 }
 
 export function shortBoardName(name) {
-  return name.replace(/^Seeeduino /, "").replace(/^XIAO /, "");
+  return name;
 }
 
 /**
