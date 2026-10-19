@@ -343,15 +343,17 @@ export function XiaoSelector() {
           </dl>
         </div>
         <div className={styles.cardFooter}>
-          {/* Compare toggle sits bottom-left so it reads as its own action,
-              with Buy / Wiki pushed to the right. 对比开关放左下角，购买与
-              Wiki 按钮靠右，让「加入对比」一眼可见。 */}
+          {/* Compare toggle sits bottom-left; Buy / Wiki form one right-aligned
+              group that wraps as a unit when the card is narrow. 对比开关放左下角，
+              购买与 Wiki 组成右对齐的一组，窄卡片时整组换行，避免按钮被挤成竖条。 */}
           <label className={`${styles.compareToggle} ${inCompare ? styles.compareToggleOn : ""}`}>
             <input type="checkbox" checked={inCompare} onChange={() => toggleCompare(board.id)} />
             <span>{inCompare ? `✓ ${t.inCompare}` : `＋ ${t.addCompare}`}</span>
           </label>
-          <a className={`${styles.primaryBtn} home-type-action home-filled-action home-primary-cta`} href={board.link} target="_blank" rel="noopener noreferrer">{t.buy}</a>
-          <a className={styles.ghostBtn} href={board.hardware.wiki} target="_blank" rel="noopener noreferrer">{t.wiki}</a>
+          <div className={styles.footerActions}>
+            <a className={`${styles.primaryBtn} home-type-action home-filled-action home-primary-cta`} href={board.link} target="_blank" rel="noopener noreferrer">{t.buy}</a>
+            <a className={styles.ghostBtn} href={board.hardware.wiki} target="_blank" rel="noopener noreferrer">{t.wiki}</a>
+          </div>
         </div>
       </article>
     );
