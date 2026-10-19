@@ -546,6 +546,15 @@ export function PinoutView() {
         pinTop,
         viewportHeight: window.innerHeight,
       });
+      // The clamped height keeps the card on screen, but it must never cut the
+      // card's own content mid-row: when the pin's rows are taller than the
+      // allowance, show the card in full and let the page scroll instead.
+      // 钳制高度让卡片留在屏内，但绝不能把卡片内容拦腰截断：行内容超过可用高度时
+      // 完整展示卡片，滚动页面即可看到全部文字。
+      const cardEl = cardRef.current;
+      if (cardEl && cardEl.scrollHeight > next.maxHeight) {
+        next.maxHeight = cardEl.scrollHeight;
+      }
       setCardPos((prev) => (
         prev.top === next.top
         && prev.left === next.left
