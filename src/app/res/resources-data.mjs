@@ -18,7 +18,7 @@ const RESOURCE_KINDS = [
   "other",
 ];
 
-const PREVIEW_MODES = ["pdf", "dxf", "dxf-zip", "kicad", "step", "xlsx"];
+const PREVIEW_MODES = ["pdf", "dxf", "dxf-zip", "kicad", "step", "xlsx", "image"];
 
 export { PREVIEW_MODES, RESOURCE_KINDS };
 
@@ -796,6 +796,13 @@ export const RESOURCE_PRODUCTS = [
         res("XIAO STM32C5 Schematic", "PDF", "https://files.seeedstudio.com/wiki/XIAO_STM32C5/res/Seeed-Studio-XIAO-STM32C5-v1.0.pdf", "schematic"),
         res("XIAO STM32C5 KiCad Project", "ZIP", "https://files.seeedstudio.com/wiki/XIAO_STM32C5/res/XIAO_STM32C5_v1.0_SCH&PCB.zip", "kicad"),
         res("XIAO STM32C5 Pinout Sheet", "XLSX", "https://files.seeedstudio.com/wiki/XIAO_STM32C5/res/XIAO-STM32C5-pinout_sheet.xlsx", "pinout"),
+      ],
+      mechanical: [
+        res("XIAO STM32C5 Board Photo", "Link", "https://www.seeedstudio.com/XIAO-STM32C5-p-7011.html", "model3d", {
+          thumb: "/xiao-products/dev_boards/front/XIAO-STM32C5-front.webp",
+          preview: "image",
+          previewUrl: "/xiao-products/dev_boards/front/XIAO-STM32C5-front.webp",
+        }),
       ],
       software: [
         res("XIAO STM32C5 Getting Started", "Guide", "https://wiki.seeedstudio.com/xiao_stm32c5_getting_started/", "guide"),
