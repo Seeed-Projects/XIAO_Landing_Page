@@ -129,7 +129,10 @@ const DIAGRAM_CROP_OVERRIDES = {
   // 这几块图在 1920 画布里整体偏一侧（一侧大片留白、备注贴右），板身看起来
   // 偏移；`center` 把水平裁剪收到标签行+板身，再放宽较窄的一侧让板子居中。
   rp2040plus: { front: { center: true }, back: { bottom: 850, center: true } },
-  stm32c5: { front: { center: true }, back: { center: true } },
+  // The CAN_L pad's second explanation line (y≈540-558) sits below the row
+  // bounds at 537; the baked-in legend only starts at 682.
+  // CAN_L 焊盘的第二行说明（y≈540-558）在行边界 537 之下；内置图例 682 才开始。
+  stm32c5: { front: { center: true }, back: { bottom: 580, center: true } },
 };
 
 function applyCropOverride(crop, size, override) {

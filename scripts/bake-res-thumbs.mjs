@@ -9,10 +9,13 @@
  * Run: npm run bake:res-thumbs
  * Optional: CHROME_PATH=/path/to/chrome to pick the browser used for PDF pages.
  * Optional: BAKE_ONLY=pdf or BAKE_ONLY=drawings to refresh one kind of thumbnail.
+ * Optional: BAKE_ONLY_BOARD=<boardId> to refresh one board's thumbnails only
+ * (the manifest still lists every thumb already on disk).
  */
 import { spawn } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import http from "node:http";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { strFromU8, unzipSync } from "fflate";
@@ -35,16 +38,29 @@ const chromeCandidates = [
 
 mkdirSync(thumbDir, { recursive: true });
 
+// st.com refuses every scripted download (HTTP 567) — curl, fetch and even a
+// real headless Chrome session all hit the wall. The Wayback Machine serves an
+// archived copy of the exact same URL, so these two PDFs are fetched from there.
+// st.com 拒绝一切脚本下载（HTTP 567）——curl、fetch、甚至真实 headless Chrome 都被拦。
+// Wayback Machine 存有同一地址的归档副本，这两份 PDF 改从那里下载。
+const URL_OVERRIDES = {
+  "https://www.st.com/resource/en/datasheet/stm32c5a3cg.pdf": "https://web.archive.org/web/2026id_/https://www.st.com/resource/en/datasheet/stm32c5a3cg.pdf",
+  "https://www.st.com.cn/resource/en/datasheet/lsm6ds3tr-c.pdf": "https://web.archive.org/web/2026id_/https://www.st.com/resource/en/datasheet/lsm6ds3tr-c.pdf",
+};
+const fetchUrl = (url) => URL_OVERRIDES[url] ?? url;
+
 const jobs = bakeJobs();
 const only = process.env.BAKE_ONLY;
-const drawingJobs = jobs.filter((job) => job.preview !== "pdf" && only !== "pdf");
-const pdfJobs = jobs.filter((job) => job.preview === "pdf" && only !== "drawings");
+const onlyBoard = process.env.BAKE_ONLY_BOARD;
+const picksBoard = (job) => !onlyBoard || job.boardId === onlyBoard;
+const drawingJobs = jobs.filter((job) => job.preview !== "pdf" && only !== "pdf" && picksBoard(job));
+const pdfJobs = jobs.filter((job) => job.preview === "pdf" && only !== "drawings" && picksBoard(job));
 const written = new Set();
 const failures = [];
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function download(url) {
-  const response = await fetch(url);
+  const response = await fetch(fetchUrl(url));
   if (!response.ok) throw new Error(`${response.status} ${url}`);
   return new Uint8Array(await response.arrayBuffer());
 }
@@ -122,6 +138,17 @@ window.renderReady = true;
 function startServer() {
   return new Promise((resolve) => {
     const server = http.createServer((request, response) => {
+      if (request.url.startsWith("/pdf-cache/")) {
+        const file = path.join(pdfCacheDir, path.basename(request.url));
+        if (existsSync(file)) {
+          response.writeHead(200, { "content-type": "application/pdf" });
+          response.end(readFileSync(file));
+        } else {
+          response.writeHead(404);
+          response.end();
+        }
+        return;
+      }
       const file = request.url === "/" ? null : path.join(pdfjsDir, path.basename(request.url));
       if (!file) {
         response.writeHead(200, { "content-type": "text/html" });
@@ -138,6 +165,19 @@ function startServer() {
     });
     server.listen(0, "127.0.0.1", () => resolve(server));
   });
+}
+
+// Overridden URLs cannot be fetched from inside Chrome (CORS / pdf.js errors),
+// so they are downloaded Node-side once and served from a local cache dir.
+// 覆盖地址在 Chrome 里取不到（CORS / pdf.js 报错），先在 Node 侧下载一次，
+// 再从本地缓存目录中转给渲染页。
+const pdfCacheDir = mkdtempSync(path.join(os.tmpdir(), "res-pdf-cache-"));
+async function chromeFetchUrl(job) {
+  if (!URL_OVERRIDES[job.url]) return fetchUrl(job.url);
+  const name = `${job.boardId}-${path.basename(job.url).replace(/[^a-z0-9.-]+/gi, "_")}`;
+  const file = path.join(pdfCacheDir, name);
+  if (!existsSync(file)) writeFileSync(file, await download(job.url));
+  return `pdf-cache/${name}`;
 }
 
 async function openChrome(pageUrl) {
@@ -206,7 +246,7 @@ async function runPdfs() {
   for (const job of pdfJobs) {
     try {
       const dataUrl = await Promise.race([
-        chrome.evaluate(`renderPdf(${JSON.stringify(job.url)})`),
+        chrome.evaluate(`renderPdf(${JSON.stringify(await chromeFetchUrl(job))})`),
         sleep(45000).then(() => { throw new Error("timeout"); }),
       ]);
       if (!dataUrl?.startsWith("data:image/webp")) throw new Error("no image");

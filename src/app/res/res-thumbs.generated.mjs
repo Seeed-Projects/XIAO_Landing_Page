@@ -19,8 +19,9 @@ export const BAKED_THUMBS = [
   "/res-thumb/esp32-s3-datasheet-0reydso.webp",
   "/res-thumb/flash-p25q16h-uxh-ir-datasheet-10va7ba.webp",
   "/res-thumb/low-power-consumption-15m17k0.webp",
+  "/res-thumb/lsm6ds3tr-c-0g3xgvg.webp",
   "/res-thumb/mg24-group-datasheet-10bhoff.webp",
-  "/res-thumb/mic-msm261d3526h1cpm-eng-0q7s7gs.webp",
+  "/res-thumb/mic-wmm7035dttj0-datasheet-pdf-1cggx6k.webp",
   "/res-thumb/nordic-nrf54l15-datasheet-v1-0-1q1nwx7.webp",
   "/res-thumb/nrf52840-ps-v1-5-1dcn3dk.webp",
   "/res-thumb/nrf54l15-sense-dxf-0e2ny2m.svg",
@@ -41,10 +42,13 @@ export const BAKED_THUMBS = [
   "/res-thumb/seeed-studio-xiao-nrf52840v1-1-kicad-project-260-1caezf2.svg",
   "/res-thumb/seeed-studio-xiao-rp2040-v1-3-0ai190f.webp",
   "/res-thumb/seeed-studio-xiao-rp2350-v1-0-1orh5ei.webp",
+  "/res-thumb/seeed-studio-xiao-stm32c5-v1-0-1qzkoyg.webp",
   "/res-thumb/seeed-xiao-ble-nrf52840-ble-communication-distan-05oyyg7.webp",
   "/res-thumb/seeeduino-xiao-in-action-minitype-wearable-proje-1ve07i7.webp",
   "/res-thumb/seeeduino-xiao-v1-0-sch-191112-1o4kzvb.webp",
   "/res-thumb/st-lsm6ds3tr-datasheet-0hqlusk.webp",
+  "/res-thumb/stm32c5a3cg-0t895fa.webp",
+  "/res-thumb/tcan3403-q1-06sn6a6.webp",
   "/res-thumb/top-11nec1p.svg",
   "/res-thumb/xiao-esp32-c6-v1-0-sch-260114-0fmhm9p.webp",
   "/res-thumb/xiao-esp32-c6-v1-0-sch-pcb-260114-1b0v7u1.svg",
@@ -86,5 +90,7 @@ export const BAKED_THUMBS = [
   "/res-thumb/xiao-rp2350-v1-0-sch-pcb-240626-1hg6cee.svg",
   "/res-thumb/xiao-samd21-pinout-sheet-1mf7xhs.svg",
   "/res-thumb/xiao-samd21-plus-pinout-sheet-08dfvmd.svg",
-  "/res-thumb/xiao-samd21-v2-1-sch-pcb-20260304-0g0ez9s.svg"
+  "/res-thumb/xiao-samd21-v2-1-sch-pcb-20260304-0g0ez9s.svg",
+  "/res-thumb/xiao-stm32c5-pinout-sheet-0770feb.svg",
+  "/res-thumb/xiao-stm32c5-v1-0-sch-pcb-1nvaq9b.svg"
 ];
