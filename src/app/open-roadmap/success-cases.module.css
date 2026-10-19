@@ -2,10 +2,11 @@
    Colours mirror the board stages so the section reads as Stage 04. */
 
 .section {
-  --c-wish: #8b5cf6;
-  --c-vote: #f0a202;
-  --c-dev: #3b82f6;
-  --c-done: #22c55e;
+  --c-wish: var(--theme-neutral);
+  --c-vote: var(--theme-blue);
+  --c-dev: var(--theme-teal);
+  --c-done: var(--theme-lime);
+  --c-done-ink: var(--theme-lime-ink);
   --lane-tint: color-mix(in srgb, var(--c-done) 8%, #fff);
   --lane-line: color-mix(in srgb, var(--c-done) 22%, #fff);
   width: 100%;
@@ -44,7 +45,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: var(--c-done);
+  color: var(--c-done-ink);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -89,7 +90,7 @@
   border: 1px solid var(--lane-line);
 }
 .stat dt {
-  color: var(--c-done);
+  color: var(--c-done-ink);
   font-family: var(--font-display), sans-serif;
   font-size: 26px;
   font-weight: 700;
@@ -306,7 +307,7 @@
   align-items: center;
   gap: 6px;
   margin-top: 2px;
-  color: color-mix(in srgb, var(--c-done) 70%, #0f172a);
+  color: var(--c-done-ink);
 }
 .productCta svg {
   transition: transform 200ms ease;
@@ -351,9 +352,9 @@
 .step_wish { --dot: var(--c-wish); }
 .step_vote { --dot: var(--c-vote); }
 .step_dev { --dot: var(--c-dev); }
-.step_done { --dot: var(--c-done); }
+.step_done { --dot: var(--c-done); --dot-ink: var(--c-done-ink); }
 .timelineLabel {
-  color: var(--dot);
+  color: var(--dot-ink, var(--dot));
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -373,7 +374,7 @@
   padding: 5px 10px;
   border-radius: 999px;
   background: color-mix(in srgb, var(--c-done) 12%, #fff);
-  color: color-mix(in srgb, var(--c-done) 70%, #0f172a);
+  color: var(--c-done-ink);
   font-size: 11px;
   font-weight: 700;
   white-space: nowrap;

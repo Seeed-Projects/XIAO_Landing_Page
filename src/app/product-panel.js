@@ -92,7 +92,7 @@ export function ProductPanel() {
               role="tab"
               aria-selected={active}
               className={`${styles.seriesCard} ${active ? styles.seriesCardActive : ""}`}
-              style={{ "--series-tone": meta?.tone || "#3976ff" }}
+              style={{ "--series-tone": meta?.tone || "var(--theme-blue)", "--series-ink": meta?.ink || "var(--theme-blue)" }}
               onClick={() => handleSeriesClick(i)}
             >
               <div className={styles.seriesCover}>
@@ -114,7 +114,7 @@ export function ProductPanel() {
       {/* Active series stage */}
       <div
         className={styles.stage}
-        style={{ "--series-tone": presentation.tone }}
+        style={{ "--series-tone": presentation.tone, "--series-ink": presentation.ink }}
         key={currentCategory.id}
       >
         <div className={styles.stageIntro}>

@@ -242,6 +242,28 @@ line height and tracking, with no clipped copy or horizontal overflow. Run
 `node --test src/app/home-typography.test.mjs src/app/newsletter-contrast.test.mjs`
 to verify the shared tokens, component coverage and Newsletter contrast.
 
+## Theme Colors
+
+Content pages share three theme colors defined in `src/app/globals.css`. Each
+color carries the same meaning on every page:
+
+| Token | Value | Meaning | Used by |
+| --- | --- | --- | --- |
+| `--theme-blue` | `#2f66e0` | Foundation / starting point | Dev Boards, Open for Vote |
+| `--theme-teal` | `#0f7c91` | Connection / in progress | Add-ons, In Development |
+| `--theme-lime` | `#8fc31f` | Ready / shipped | Gadgets, Accomplished, Success Stories |
+
+`--theme-lime` matches the brand button green and fills stripes, nodes, borders
+and filled chips; text on light surfaces uses `--theme-lime-ink` (`#4d7c0f`).
+Blue and teal serve both roles directly. The Open Roadmap Wish List column uses
+the neutral `--theme-neutral` (`#64748b`) as the stage before an idea enters the
+pipeline. All text colors reach at least 4.5:1 contrast on white.
+
+Home Glimpse cards and `SERIES_PRESENTATION` in `src/app/products/catalog.js`
+set `tone` for stripes and `ink` for text. The Open Roadmap board reads
+`--stage-accent` and `--stage-ink`, and Success Stories reads `--c-*` stage
+variables that point at the same tokens.
+
 ## Project Hub Typography
 
 Project Hub uses the same five Home type roles for hero title, section titles,

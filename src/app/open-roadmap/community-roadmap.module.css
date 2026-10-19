@@ -26,10 +26,12 @@
   overflow: visible;
 }
 
-/* Stage lanes: each column is a tinted bucket with its own accent colour */
+/* Stage lanes: each column is a tinted bucket with its own accent colour.
+   --stage-ink: text colour for the stage on light surfaces */
 .column {
-  --stage-accent: #8b5cf6;
-  --stage-soft: rgba(139, 92, 246, 0.16);
+  --stage-accent: var(--theme-neutral);
+  --stage-soft: color-mix(in srgb, var(--stage-accent) 16%, transparent);
+  --stage-ink: var(--stage-accent);
   --stage-tint: color-mix(in srgb, var(--stage-accent) 8%, #fff);
   --stage-line: color-mix(in srgb, var(--stage-accent) 22%, #fff);
   --lane-gap: 14px;
@@ -39,24 +41,21 @@
 }
 /* --stage-next: accent of the following stage, used by the connector */
 .tone_wish {
-  --stage-accent: #8b5cf6;
-  --stage-soft: rgba(139, 92, 246, 0.16);
-  --stage-next: #f0a202;
+  --stage-accent: var(--theme-neutral);
+  --stage-next: var(--theme-blue);
 }
 .tone_vote {
-  --stage-accent: #f0a202;
-  --stage-soft: rgba(240, 162, 2, 0.18);
-  --stage-next: #3b82f6;
+  --stage-accent: var(--theme-blue);
+  --stage-next: var(--theme-teal);
 }
 .tone_dev {
-  --stage-accent: #3b82f6;
-  --stage-soft: rgba(59, 130, 246, 0.16);
-  --stage-next: #22c55e;
+  --stage-accent: var(--theme-teal);
+  --stage-next: var(--theme-lime);
 }
 .tone_done {
-  --stage-accent: #22c55e;
-  --stage-soft: rgba(34, 197, 94, 0.16);
-  --stage-next: #22c55e;
+  --stage-accent: var(--theme-lime);
+  --stage-ink: var(--theme-lime-ink);
+  --stage-next: var(--theme-lime);
 }
 
 .column {
@@ -146,7 +145,7 @@
   min-width: 0;
 }
 .stageEyebrow {
-  color: var(--stage-accent);
+  color: var(--stage-ink);
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -175,7 +174,7 @@
   padding: 4px 9px;
   border-radius: 999px;
   background: #fff;
-  color: var(--stage-accent);
+  color: var(--stage-ink);
   border: 1px solid var(--stage-line);
   font-size: 12px;
   font-weight: 700;
@@ -194,7 +193,7 @@
 .clampToggle {
   align-self: center;
   margin-top: 6px;
-  color: var(--stage-accent);
+  color: var(--stage-ink);
 }
 .clampToggle:hover {
   opacity: 0.8;
@@ -260,7 +259,7 @@
 .ideaSlot:hover .ideaCard,
 .ideaSlot:focus-within .ideaCard {
   transform: rotate(-3.5deg) translateY(-4px) scale(1.015);
-  border-color: color-mix(in srgb, var(--stage-accent) 70%, #3b82f6);
+  border-color: color-mix(in srgb, var(--stage-accent) 70%, var(--theme-blue));
   box-shadow: 0 22px 40px rgba(15, 23, 42, 0.16);
   cursor: grabbing;
 }
@@ -409,7 +408,7 @@
   border-color: color-mix(in srgb, #8fc31f 55%, #d9f99d);
 }
 .badgeAnswered {
-  color: color-mix(in srgb, var(--stage-accent) 72%, #0f172a);
+  color: color-mix(in srgb, var(--stage-ink) 72%, #0f172a);
   background: var(--stage-tint);
   border-color: color-mix(in srgb, var(--stage-accent) 40%, #e2e8f0);
 }

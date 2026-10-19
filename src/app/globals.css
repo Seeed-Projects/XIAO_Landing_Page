@@ -16,6 +16,14 @@
   --button-text: #ffffff;
   --brand-blue: #004966;
   --brand-blue-soft: #1d6784;
+  /* 页面主题色：蓝 = 基础 / 起点，青 = 连接 / 进行中，绿 = 成品 / 完成；
+     Seeed 绿用于色块与线条，白底文字使用 --theme-lime-ink；
+     --theme-neutral 用于流程中尚未启动的阶段 */
+  --theme-blue: #2f66e0;
+  --theme-teal: #0f7c91;
+  --theme-lime: #8fc31f;
+  --theme-lime-ink: #4d7c0f;
+  --theme-neutral: #64748b;
   /* 文字色：navy 标题 + 低对比蓝灰正文（对齐 Seeed design system） */
   --ink-strong: #18224f;
   --ink-body: #526b91;
