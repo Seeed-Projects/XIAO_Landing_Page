@@ -101,7 +101,6 @@ a development board:
   result lists which single condition to remove to get boards back.
 - **Compare**: pick up to four boards, then open the compare panel with an
   "Only show differences" toggle.
-- **Help Me Choose**: placeholder entry for the guided wizard (coming soon).
 
 Files: `src/app/products/xiao-selector.js` (UI),
 `src/app/products/board-specs.mjs` (filter groups, spec matrix, hardware

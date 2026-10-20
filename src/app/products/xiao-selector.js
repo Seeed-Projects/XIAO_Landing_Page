@@ -43,11 +43,6 @@ const TEXT = {
   en: {
     title: "XIAO Selector",
     intro: "Narrow down XIAO boards by connectivity, platform, sensors, interfaces and purchase options.",
-    tabFilter: "Filter by Specs",
-    tabHelp: "Help Me Choose",
-    helpTitle: "Help Me Choose",
-    helpBody: "Guided selection by project needs is coming soon. Filter by Specs is available now.",
-    helpBack: "Back to Filter by Specs",
     filters: "Filters",
     searchPlaceholder: "Search board or MCU, e.g. nRF54, S3",
     reset: "Reset",
@@ -87,11 +82,6 @@ const TEXT = {
   zh: {
     title: "XIAO Selector",
     intro: "按无线能力、芯片平台、传感器、接口与采购形式快速缩小 XIAO 产品范围。",
-    tabFilter: "按规格筛选",
-    tabHelp: "帮我选型",
-    helpTitle: "帮我选型",
-    helpBody: "按项目需求一步步辅助选型即将上线，当前可直接使用「按规格筛选」。",
-    helpBack: "回到按规格筛选",
     filters: "筛选条件",
     searchPlaceholder: "搜索型号或主控，如 nRF54、S3",
     reset: "重置",
@@ -135,7 +125,6 @@ export function XiaoSelector() {
   const t = TEXT[lang] ?? TEXT.en;
   const L = (label) => (label && (label[lang] || label.en)) || "";
 
-  const [mode, setMode] = useState("filter");
   const [selection, setSelection] = useState(emptySelection);
   const [query, setQuery] = useState("");
   const [view, setView] = useState("cards");
@@ -448,98 +437,79 @@ export function XiaoSelector() {
         <p className="home-type-body">{t.intro}</p>
       </div>
 
-      <div className={styles.tabs} role="tablist">
-        <button type="button" role="tab" aria-selected={mode === "filter"} className={`${styles.tab} ${mode === "filter" ? styles.tabActive : ""}`} onClick={() => setMode("filter")}>
-          {t.tabFilter}
-        </button>
-        <button type="button" role="tab" aria-selected={mode === "help"} className={`${styles.tab} ${mode === "help" ? styles.tabActive : ""}`} onClick={() => setMode("help")}>
-          {t.tabHelp}
-        </button>
-      </div>
+      <section className={styles.workbench} id="selector-workspace">
+        {drawerOpen && <div className={styles.backdrop} onClick={() => setDrawerOpen(false)} />}
+        {sidebar}
 
-      {mode === "help" ? (
-        <section className={styles.placeholder}>
-          <h3 className="home-type-subtitle">{t.helpTitle}</h3>
-          <p className="home-type-body">{t.helpBody}</p>
-          <button type="button" className={`${styles.primaryBtn} home-type-action home-filled-action home-primary-cta`} onClick={() => setMode("filter")}>
-            {t.helpBack}
-          </button>
-        </section>
-      ) : (
-        <section className={styles.workbench} id="selector-workspace">
-          {drawerOpen && <div className={styles.backdrop} onClick={() => setDrawerOpen(false)} />}
-          {sidebar}
-
-          <div className={styles.results}>
-            <div className={styles.resultsHead}>
-              <div className={styles.resultsTitle}>{t.showing(results.length, searched.length)}</div>
-              <div className={styles.resultsTools}>
-                <button type="button" className={styles.filtersBtn} onClick={() => setDrawerOpen(true)}>
-                  {t.filters}{chips.length ? ` (${chips.length})` : ""}
+        <div className={styles.results}>
+          <div className={styles.resultsHead}>
+            <div className={styles.resultsTitle}>{t.showing(results.length, searched.length)}</div>
+            <div className={styles.resultsTools}>
+              <button type="button" className={styles.filtersBtn} onClick={() => setDrawerOpen(true)}>
+                {t.filters}{chips.length ? ` (${chips.length})` : ""}
+              </button>
+              <div className={styles.viewToggle} role="group">
+                <button type="button" className={`${styles.viewBtn} ${view === "cards" ? styles.viewBtnActive : ""}`} onClick={() => setView("cards")} aria-pressed={view === "cards"}>
+                  {t.cards}
                 </button>
-                <div className={styles.viewToggle} role="group">
-                  <button type="button" className={`${styles.viewBtn} ${view === "cards" ? styles.viewBtnActive : ""}`} onClick={() => setView("cards")} aria-pressed={view === "cards"}>
-                    {t.cards}
-                  </button>
-                  <button type="button" className={`${styles.viewBtn} ${view === "table" ? styles.viewBtnActive : ""}`} onClick={() => setView("table")} aria-pressed={view === "table"}>
-                    {t.table}
-                  </button>
-                </div>
-                <button type="button" className={`${styles.compareBtn} ${compare.length >= 2 ? styles.compareBtnReady : ""}`} onClick={openCompare}>
-                  {compare.length ? t.compareN(compare.length) : t.compare}
+                <button type="button" className={`${styles.viewBtn} ${view === "table" ? styles.viewBtnActive : ""}`} onClick={() => setView("table")} aria-pressed={view === "table"}>
+                  {t.table}
                 </button>
               </div>
+              <button type="button" className={`${styles.compareBtn} ${compare.length >= 2 ? styles.compareBtnReady : ""}`} onClick={openCompare}>
+                {compare.length ? t.compareN(compare.length) : t.compare}
+              </button>
             </div>
-
-            {(chips.length > 0 || query) && (
-              <div className={styles.chipBar}>
-                {query && (
-                  <button type="button" className={styles.chip} onClick={() => setQuery("")}>
-                    <span className={styles.chipGroup}>Search</span>
-                    <span>{query}</span>
-                    <span className={styles.chipX}>×</span>
-                  </button>
-                )}
-                {chips.map(({ group, option }) => (
-                  <button key={`${group.id}:${option.id}`} type="button" className={styles.chip} onClick={() => toggleOption(group, option.id)}>
-                    <span className={styles.chipGroup}>{L(group.label)}</span>
-                    <span>{L(option.label)}</span>
-                    <span className={styles.chipX}>×</span>
-                  </button>
-                ))}
-                <button type="button" className={styles.linkBtn} onClick={resetAll}>{t.clearAll}</button>
-              </div>
-            )}
-
-            {results.length === 0 ? (
-              <div className={styles.empty}>
-                <strong>{t.emptyTitle}</strong>
-                {suggestions.length > 0 && (
-                  <>
-                    <p>{t.emptyHint}</p>
-                    <div className={styles.suggestions}>
-                      {suggestions.slice(0, 4).map((s) => {
-                        const group = FILTER_GROUPS.find((g) => g.id === s.groupId);
-                        const label = L(OPTION_LABEL[`${s.groupId}:${s.optionId}`]);
-                        return (
-                          <button key={`${s.groupId}:${s.optionId}`} type="button" className={styles.suggestion} onClick={() => toggleOption(group, s.optionId)}>
-                            {t.removeFor(label, s.count)}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </>
-                )}
-                <button type="button" className={styles.ghostBtn} onClick={resetAll}>{t.reset}</button>
-              </div>
-            ) : view === "table" ? (
-              renderTable()
-            ) : (
-              <div className={styles.cardGrid}>{results.map(renderCard)}</div>
-            )}
           </div>
-        </section>
-      )}
+
+          {(chips.length > 0 || query) && (
+            <div className={styles.chipBar}>
+              {query && (
+                <button type="button" className={styles.chip} onClick={() => setQuery("")}>
+                  <span className={styles.chipGroup}>Search</span>
+                  <span>{query}</span>
+                  <span className={styles.chipX}>×</span>
+                </button>
+              )}
+              {chips.map(({ group, option }) => (
+                <button key={`${group.id}:${option.id}`} type="button" className={styles.chip} onClick={() => toggleOption(group, option.id)}>
+                  <span className={styles.chipGroup}>{L(group.label)}</span>
+                  <span>{L(option.label)}</span>
+                  <span className={styles.chipX}>×</span>
+                </button>
+              ))}
+              <button type="button" className={styles.linkBtn} onClick={resetAll}>{t.clearAll}</button>
+            </div>
+          )}
+
+          {results.length === 0 ? (
+            <div className={styles.empty}>
+              <strong>{t.emptyTitle}</strong>
+              {suggestions.length > 0 && (
+                <>
+                  <p>{t.emptyHint}</p>
+                  <div className={styles.suggestions}>
+                    {suggestions.slice(0, 4).map((s) => {
+                      const group = FILTER_GROUPS.find((g) => g.id === s.groupId);
+                      const label = L(OPTION_LABEL[`${s.groupId}:${s.optionId}`]);
+                      return (
+                        <button key={`${s.groupId}:${s.optionId}`} type="button" className={styles.suggestion} onClick={() => toggleOption(group, s.optionId)}>
+                          {t.removeFor(label, s.count)}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+              <button type="button" className={styles.ghostBtn} onClick={resetAll}>{t.reset}</button>
+            </div>
+          ) : view === "table" ? (
+            renderTable()
+          ) : (
+            <div className={styles.cardGrid}>{results.map(renderCard)}</div>
+          )}
+        </div>
+      </section>
 
       {compare.length > 0 && !compareOpen && (
         <div className={styles.compareBar}>

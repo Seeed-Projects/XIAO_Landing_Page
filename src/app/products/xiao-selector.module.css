@@ -9,16 +9,6 @@
 .intro h2 { margin: 0; font-size: var(--home-title-size); }
 .intro p { margin: 0; max-width: 62ch; font-size: var(--home-body-size); color: var(--ink-body); }
 
-/* Tabs */
-.tabs { display: inline-flex; gap: 4px; padding: 4px; border-radius: var(--r-pill); background: var(--surface-tint); border: 1px solid var(--line-soft); margin-bottom: 20px; }
-.tab { border: 0; background: transparent; color: var(--ink-muted); padding: 10px 18px; border-radius: var(--r-pill); font-size: 14px; font-weight: 700; transition: background-color 160ms ease, color 160ms ease; }
-.tab:hover { color: var(--ink-strong); }
-.tabActive, .tabActive:hover { background: var(--surface-strong); color: var(--brand-green-deep); box-shadow: 0 2px 8px rgba(0,73,102,0.08); }
-
-.placeholder { display: grid; gap: 14px; justify-items: start; padding: 32px 0 48px; }
-.placeholder h3, .placeholder p { margin: 0; }
-.placeholder p { max-width: 56ch; color: var(--ink-body); }
-
 /* Workbench layout */
 .workbench { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 24px; align-items: start; }
 
@@ -225,8 +215,6 @@
 
 @media (max-width: 640px) {
   .intro { text-align: left; justify-items: start; }
-  .tabs { width: 100%; }
-  .tab { flex: 1; text-align: center; padding: 10px 8px; }
   .resultsHead { align-items: flex-start; }
   .resultsTools { width: 100%; justify-content: space-between; }
   .cardGrid { grid-template-columns: 1fr; }
