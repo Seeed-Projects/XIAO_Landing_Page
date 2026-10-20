@@ -318,12 +318,18 @@ export function XiaoSelector() {
   const renderCard = (board) => {
     const inCompare = compare.includes(board.id);
     const isPlus = board.specs.packaging?.includes("plus");
+    const isSense = /\bSense\b/.test(board.name);
     return (
       <article key={board.id} className={`${styles.card} ${inCompare ? styles.cardSelected : ""}`}>
         <div className={styles.cardVisual}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={board.img} alt={board.name} loading="lazy" decoding="async" />
-          {isPlus && <span className={styles.plusBadge}>Plus</span>}
+          {(isSense || isPlus) && (
+            <div className={styles.cardBadges}>
+              {isSense && <span className={`${styles.plusBadge} ${styles.senseBadge}`}>Sense</span>}
+              {isPlus && <span className={styles.plusBadge}>Plus</span>}
+            </div>
+          )}
         </div>
         <div className={styles.cardBody}>
           <h3 className="home-type-subtitle">{board.name}</h3>

@@ -82,7 +82,9 @@
 .cardSelected { border-color: var(--brand-green); box-shadow: 0 0 0 2px rgba(22,182,106,0.18); }
 .cardVisual { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #fff; border-bottom: 1px solid var(--line-soft); }
 .cardVisual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; display: block; padding: 8px; }
-.plusBadge { position: absolute; top: 10px; right: 10px; padding: 3px 8px; border-radius: 999px; background: var(--ink-strong); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; }
+.cardBadges { position: absolute; top: 10px; right: 10px; display: flex; gap: 5px; }
+.plusBadge { display: inline-flex; align-items: center; justify-content: center; width: 58px; height: 24px; padding: 0 8px; border-radius: 999px; background: var(--ink-strong); color: #fff; font-size: 11px; font-weight: 700; line-height: 1; letter-spacing: 0.04em; }
+.senseBadge { background: var(--brand-blue); }
 .plusBadgeInline { margin-left: 6px; padding: 1px 6px; border-radius: 999px; background: var(--ink-strong); color: #fff; font-size: 10px; font-weight: 700; vertical-align: middle; }
 .cardBody { display: grid; gap: 8px; padding: 12px 14px 6px; }
 .cardBody h3 { margin: 0; font-size: var(--home-subtitle-size); line-height: var(--home-subtitle-leading); font-weight: var(--home-subtitle-weight); }
