@@ -6,6 +6,7 @@ import { Glow } from "../Glow";
 import { withBase } from "../../lib/basePath";
 import { PRODUCT_CATALOG, SELECTOR_IMAGES } from "./catalog";
 import { BOARD_HARDWARE, BOARD_SPECS, FILTER_GROUPS, HARDWARE_FIELDS, emptySelection } from "./board-specs.mjs";
+import { buildComparisonGroups } from "./board-comparison.mjs";
 import {
   activeFilters,
   facetCounts,
@@ -64,6 +65,11 @@ const TEXT = {
     inCompare: "Added",
     compareTitle: "Compare boards",
     diffOnly: "Only show differences",
+    compareReference: "Reference",
+    compareLegend: "Green highlights differences from the first board",
+    compareMissing: "— Not available / not listed",
+    specifications: "Specifications",
+    noDifferences: "These boards have the same listed specifications.",
     clear: "Clear",
     close: "Close",
     maxCompare: `Compare up to ${MAX_COMPARE} boards at once`,
@@ -103,6 +109,11 @@ const TEXT = {
     inCompare: "已加入",
     compareTitle: "产品对比",
     diffOnly: "只看差异",
+    compareReference: "对比基准",
+    compareLegend: "绿色标出与首款不同的配置",
+    compareMissing: "— 不具备此项或未列出",
+    specifications: "参数",
+    noDifferences: "这些型号已列出的参数相同。",
     clear: "清空",
     close: "关闭",
     maxCompare: `最多同时对比 ${MAX_COMPARE} 款`,
@@ -193,10 +204,6 @@ export function XiaoSelector() {
   };
 
   const compareBoards = compare.map((id) => BOARDS.find((b) => b.id === id)).filter(Boolean);
-
-  const labelsFor = (board, groupId) =>
-    (board.specs[groupId] ?? [])
-      .map((id) => L(OPTION_LABEL[`${groupId}:${id}`]) || id);
 
   const isHit = (groupId, optionId) => (selection[groupId] ?? []).includes(optionId);
 
@@ -409,23 +416,7 @@ export function XiaoSelector() {
     </div>
   );
 
-  const compareRows = useMemo(() => {
-    if (!compareBoards.length) return [];
-    const rows = [
-      ...HARDWARE_FIELDS.map((f) => ({
-        id: f.id,
-        label: L(f.label),
-        values: compareBoards.map((b) => String(b.hardware[f.id] ?? "")),
-      })),
-      ...FILTER_GROUPS.map((g) => ({
-        id: g.id,
-        label: L(g.label),
-        values: compareBoards.map((b) => labelsFor(b, g.id).join(", ") || t.none),
-      })),
-    ];
-    return rows.map((row) => ({ ...row, differs: new Set(row.values).size > 1 }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [compare, lang]);
+  const comparisonGroups = buildComparisonGroups(compareBoards, lang, diffOnly);
 
   return (
     <div className={styles.selector} id="smart-selector">
@@ -535,31 +526,50 @@ export function XiaoSelector() {
               </label>
               <button type="button" className={styles.closeBtn} onClick={() => setCompareOpen(false)} aria-label={t.close}>×</button>
             </div>
-            <div className={styles.compareScroll}>
-              <table className={styles.compareTable}>
+            <div className={styles.compareLegend}>
+              <span><i aria-hidden="true" />{t.compareLegend}</span>
+              <span>{t.compareMissing}</span>
+            </div>
+            <div className={styles.compareFrame}>
+              <div className={styles.compareScroll} tabIndex={0} role="region" aria-label={t.compareTitle}>
+              <table className={styles.compareTable} style={{ "--compare-columns": compareBoards.length }}>
+                <colgroup>
+                  <col className={styles.compareLabelCol} />
+                  {compareBoards.map((b) => <col key={b.id} />)}
+                </colgroup>
                 <thead>
                   <tr>
-                    <th />
-                    {compareBoards.map((b) => (
-                      <th key={b.id}>
+                    <th scope="col">{t.specifications}</th>
+                    {compareBoards.map((b, index) => (
+                      <th key={b.id} scope="col">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={b.img} alt="" />
                         <span>{b.name}</span>
+                        {index === 0 && <small className={styles.referenceLabel}>{t.compareReference}</small>}
                       </th>
                     ))}
                   </tr>
                 </thead>
-                <tbody>
-                  {compareRows
-                    .filter((row) => !diffOnly || row.differs)
-                    .map((row) => (
-                      <tr key={row.id} className={row.differs ? styles.rowDiff : ""}>
-                        <th>{row.label}</th>
-                        {row.values.map((v, i) => <td key={i}>{v}</td>)}
+                {comparisonGroups.map((group) => (
+                  <tbody key={group.id} className={styles.compareGroup}>
+                    {group.rows.map((row, rowIndex) => (
+                      <tr key={row.id}>
+                        {rowIndex === 0 && <th scope="rowgroup" rowSpan={group.rows.length}>{group.label}</th>}
+                        {row.cells.map((cell, index) => (
+                          <td key={compareBoards[index].id}>
+                            <span className={`${styles.compareValue} ${cell.changed ? styles.valueChanged : ""} ${cell.value == null ? styles.valueMissing : ""}`}
+                              aria-label={cell.value == null ? `${row.label}: ${t.compareMissing}` : undefined}>
+                              {cell.value ?? "—"}
+                            </span>
+                          </td>
+                        ))}
                       </tr>
                     ))}
-                </tbody>
+                  </tbody>
+                ))}
+                {!comparisonGroups.length && <tbody><tr><td colSpan={compareBoards.length + 1} className={styles.compareEmpty}>{t.noDifferences}</td></tr></tbody>}
               </table>
+              </div>
             </div>
           </div>
         </div>

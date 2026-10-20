@@ -100,17 +100,21 @@ a development board:
   GPIO and capability tags. Active filters appear as removable chips; an empty
   result lists which single condition to remove to get boards back.
 - **Compare**: pick up to four boards, then open the compare panel with an
-  "Only show differences" toggle.
+  "Only show differences" toggle. Capabilities occupy aligned individual rows.
+  The first selected board is the reference; green highlights mark values that
+  differ from it, and an em dash indicates an unavailable or unlisted item.
+  Column headers and parameter labels stay visible while scrolling the inset table.
 
 Files: `src/app/products/xiao-selector.js` (UI),
 `src/app/products/board-specs.mjs` (filter groups, spec matrix, hardware
 summary, Wiki links) and `src/app/products/spec-filter.mjs` (filtering, facet
-counts, search, suggestions).
+counts, search, suggestions). `src/app/products/board-comparison.mjs` prepares
+the aligned comparison rows and reference-based differences.
 
 Verification:
 
 ```bash
-node --test src/app/products/spec-filter.test.mjs src/app/products-typography.test.mjs
+node --test src/app/products/spec-filter.test.mjs src/app/products/board-comparison.test.mjs src/app/products-typography.test.mjs
 ```
 
 With `npm run dev` running, open

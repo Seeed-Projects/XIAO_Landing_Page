@@ -180,20 +180,36 @@
 
 /* Compare modal */
 .modalBackdrop { position: fixed; inset: 0; z-index: 50; background: rgba(13,34,48,0.52); display: grid; place-items: center; padding: 20px; }
-.modal { width: min(1080px, 100%); max-height: 86vh; display: flex; flex-direction: column; border-radius: 18px; background: var(--surface-strong); box-shadow: 0 30px 80px rgba(0,73,102,0.2); overflow: hidden; }
-.modalHead { display: flex; align-items: center; gap: 16px; padding: 18px 22px; border-bottom: 1px solid var(--line-soft); }
-.modalHead h3 { margin: 0; flex: 1; font-size: 18px; font-weight: 700; }
+.modal { width: min(1160px, 100%); max-height: 88dvh; display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,0.7); border-radius: 20px; background: var(--surface-strong); box-shadow: 0 30px 80px rgba(0,73,102,0.2); overflow: hidden; }
+.modalHead { display: flex; align-items: center; gap: 16px; padding: 24px 28px 12px; }
+.modalHead h3 { margin: 0; flex: 1; font-size: 20px; font-weight: 700; }
 .switch { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--ink-body); cursor: pointer; }
-.switch input { accent-color: var(--brand-green); width: 16px; height: 16px; }
+.switch input { accent-color: var(--theme-lime-ink); width: 16px; height: 16px; }
 .closeBtn { width: 36px; height: 36px; border: 1px solid var(--line-soft); background: var(--surface-strong); border-radius: 10px; font-size: 20px; color: var(--ink-strong); }
-.compareScroll { overflow: auto; }
-.compareTable { width: 100%; border-collapse: collapse; font-size: 13px; }
-.compareTable th, .compareTable td { padding: 12px 16px; border-bottom: 1px solid var(--line-soft); text-align: left; vertical-align: top; }
-.compareTable thead th { position: sticky; top: 0; z-index: 1; background: var(--surface-strong); }
-.compareTable thead th img { width: 96px; height: 72px; object-fit: contain; display: block; margin-bottom: 6px; border-radius: 8px; border: 1px solid var(--line-soft); background: #fff; }
-.compareTable thead th span { font-size: 14px; font-weight: 700; color: var(--ink-strong); }
-.compareTable tbody th { width: 170px; color: var(--ink-muted); font-weight: 700; background: var(--page-bg); }
-.rowDiff td { background: rgba(238,246,230,0.55); color: var(--ink-strong); font-weight: 600; }
+.closeBtn:hover { background: var(--page-bg); }
+.compareLegend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; padding: 0 28px 20px; font-size: 12px; line-height: 1.5; color: var(--ink-body); }
+.compareLegend span:first-child { display: inline-flex; align-items: center; gap: 7px; }
+.compareLegend i { width: 12px; height: 12px; border-radius: 3px; background: var(--surface-tint); border-left: 3px solid var(--button-bg); }
+.compareFrame { display: flex; flex-direction: column; min-height: 0; margin: 0 28px 28px; border: 1px solid var(--line-soft); border-radius: 12px; overflow: hidden; }
+.compareScroll { overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+.compareScroll:focus-visible { outline: 2px solid var(--button-bg); outline-offset: -3px; }
+.compareTable { width: 100%; min-width: calc(144px + var(--compare-columns) * 210px); table-layout: fixed; border-collapse: separate; border-spacing: 0; font-size: 14px; line-height: 1.5; }
+.compareLabelCol { width: 144px; }
+.compareTable th, .compareTable td { text-align: left; vertical-align: top; }
+.compareTable thead th { position: sticky; top: 0; z-index: 3; padding: 18px 22px; background: #fff; border-bottom: 1px solid var(--line-soft); box-shadow: 0 4px 10px rgba(0,73,102,0.025); }
+.compareTable thead th:first-child { left: 0; z-index: 4; vertical-align: bottom; color: var(--ink-muted); font-size: 12px; font-weight: 600; background: var(--page-bg); }
+.compareTable thead th img { width: 104px; height: 76px; object-fit: contain; display: block; margin-bottom: 12px; }
+.compareTable thead th span { display: block; font-size: 14px; font-weight: 700; color: var(--ink-strong); }
+.referenceLabel { display: inline-block; margin-top: 6px; color: var(--brand-blue); font-size: 11px; font-weight: 500; }
+.compareGroup th { position: sticky; left: 0; z-index: 2; padding: 19px 18px; color: var(--brand-blue); font-size: 13px; font-weight: 600; background: var(--page-bg); border-bottom: 1px solid var(--line-soft); }
+.compareGroup td { padding: 3px 12px; border-left: 1px solid var(--line-soft); color: var(--ink-body); }
+.compareGroup tr:first-child td { padding-top: 12px; }
+.compareGroup tr:last-child td { padding-bottom: 12px; border-bottom: 1px solid var(--line-soft); }
+.compareGroup:last-child th, .compareGroup:last-child tr:last-child td { border-bottom: 0; }
+.compareValue { display: block; min-height: 35px; padding: 7px 10px; border-left: 2px solid transparent; border-radius: 5px; overflow-wrap: anywhere; }
+.valueChanged { color: var(--brand-blue); background: color-mix(in srgb, var(--button-bg) 11%, #fff); border-left-color: var(--button-bg); font-weight: 700; }
+.valueMissing { color: var(--ink-muted); font-weight: 400; }
+.compareEmpty { padding: 36px 24px; text-align: center !important; color: var(--ink-body); }
 
 /* Toast */
 .toast { position: fixed; top: 88px; right: 22px; z-index: 60; background: linear-gradient(180deg, #0d2230 0%, #13324a 100%); color: #fff; padding: 12px 14px; border-radius: 12px; box-shadow: 0 18px 40px rgba(0,0,0,0.28); font-size: 13px; }
@@ -220,7 +236,18 @@
   .cardGrid { grid-template-columns: 1fr; }
   .compareBar { flex-direction: column; align-items: stretch; }
   .compareActions { justify-content: flex-end; padding-left: 0; border-left: 0; }
-  .modalHead { flex-wrap: wrap; }
+  .modalBackdrop { padding: 12px; }
+  .modal { max-height: 90dvh; border-radius: 16px; }
+  .modalHead { flex-wrap: wrap; gap: 12px; padding: 18px 16px 12px; }
+  .modalHead h3 { flex-basis: calc(100% - 48px); }
+  .modalHead .closeBtn { order: 1; }
+  .modalHead .switch { order: 2; flex-basis: 100%; }
+  .compareLegend { padding: 0 16px 14px; gap: 6px; }
+  .compareFrame { margin: 0 16px 16px; }
+  .compareLabelCol { width: 108px; }
+  .compareTable { min-width: calc(108px + var(--compare-columns) * 190px); }
+  .compareTable thead th { padding: 14px 16px; }
+  .compareGroup th { padding: 18px 12px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
