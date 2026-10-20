@@ -332,9 +332,6 @@ export function XiaoSelector() {
           </dl>
         </div>
         <div className={styles.cardFooter}>
-          {/* Compare toggle sits bottom-left; Buy / Wiki form one right-aligned
-              group that wraps as a unit when the card is narrow. 对比开关放左下角，
-              购买与 Wiki 组成右对齐的一组，窄卡片时整组换行，避免按钮被挤成竖条。 */}
           <label className={`${styles.compareToggle} ${inCompare ? styles.compareToggleOn : ""}`}>
             <input type="checkbox" checked={inCompare} onChange={() => toggleCompare(board.id)} />
             <span>{inCompare ? t.inCompare : `＋ ${t.addCompare}`}</span>
