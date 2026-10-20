@@ -12,6 +12,7 @@ import styles from "./project-hub.module.css";
 
 const HUB_EMBED = "/project-hub-embed.html";
 const CONTRIBUTE_LINK = "https://seeed-studio.github.io/OSHW-XIAO-Series/";
+const REPOSITORY_LINK = "https://github.com/Seeed-Studio/OSHW-XIAO-Series";
 const FEATURED_COUNT = 7;
 
 let featuredSnapshot = null;
@@ -36,6 +37,7 @@ const T = {
     collectionDek:
       "Continue into the complete hub to compare boards, categories, sources and publication dates.",
     contributeButton: "Contribute your project",
+    repositoryButton: "View on GitHub",
     loading: "Loading featured projects…",
   },
   zh: {
@@ -48,6 +50,7 @@ const T = {
     collectionDek:
       "进入完整项目中心，按开发板、应用类别、内容来源和发布日期继续探索。",
     contributeButton: "提交你的项目",
+    repositoryButton: "在 GitHub 查看",
     loading: "正在加载精选项目…",
   },
 };
@@ -203,19 +206,32 @@ export function ProjectHub() {
           title="XIAO Project Hub"
           description={t.introTagline}
           actions={
-            <a
-              href={CONTRIBUTE_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="home-type-action home-filled-action home-primary-cta"
-              style={{ color: "#fff" }}
-            >
-              {t.contributeButton}
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </a>
+            <>
+              <a
+                href={CONTRIBUTE_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="home-type-action home-filled-action home-primary-cta"
+                style={{ color: "#fff" }}
+              >
+                {t.contributeButton}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+              <a
+                href={REPOSITORY_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`home-type-action ${styles.repositoryAction}`}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.93 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.07 1 5.07 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                </svg>
+                {t.repositoryButton}
+              </a>
+            </>
           }
         />
       </Reveal>
