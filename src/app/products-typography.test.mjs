@@ -45,6 +45,29 @@ test("Product catalog presents three series as the primary stage", () => {
   assert.match(panel, /styles\.preview/);
 });
 
+test("Series link curves flow from the active card into both ends of the stage", () => {
+  const panelCss = read("./product-panel.module.css");
+  assert.match(panel, /id={`series-tab-\${category\.id}`}/);
+  assert.match(panel, /aria-controls="series-stage"/);
+  assert.match(panel, /role="tabpanel"[\s\S]*aria-labelledby={`series-tab-\${currentCategory\.id}`}/);
+  assert.doesNotMatch(panel, /styles\.stageTitle|styles\.stageEyebrow/);
+  assert.match(panel, /<h3 className={`home-type-subtitle \${styles\.productName}`}>/);
+  assert.match(panel, /const LINK_LINE = "M100 0 C100 62 50 100 0 100"/);
+  assert.match(panel, /className={styles\.seriesLink}[\s\S]*"--active-index": categories\.indexOf\(currentCategory\)[\s\S]*aria-hidden="true"/);
+  assert.match(panel, /<radialGradient id={`\${linkId}-fill`} cx="1" cy="0" r="1">/);
+  assert.match(panelCss, /\.seriesGrid\s*{[^}]*gap:\s*var\(--series-gap\)[^}]*margin-bottom:\s*0/s);
+  assert.match(panelCss, /\.seriesLink\s*{[^}]*--link-x:\s*calc\([\s\S]*?var\(--active-index\)[^}]*height:\s*var\(--link-height\)/s);
+  assert.match(panelCss, /\.seriesLinkLeft\s*{[^}]*left:\s*var\(--stage-radius\)[^}]*width:\s*calc\(var\(--link-x\) - var\(--stage-radius\)\)/s);
+  assert.match(panelCss, /\.seriesLinkRight\s*{[^}]*left:\s*var\(--link-x\)[^}]*transform:\s*scaleX\(-1\)/s);
+  assert.match(panelCss, /\.seriesLinkLine\s*{[^}]*vector-effect:\s*non-scaling-stroke/s);
+  assert.match(panelCss, /\.stage\s*{[^}]*border:\s*1px solid var\(--stage-line\)[^}]*border-top-width:\s*0[^}]*border-radius:\s*var\(--stage-radius\)/s);
+  assert.match(panelCss, /@media \(max-width: 1023px\)[\s\S]*?\.seriesCard\s*{\s*grid-template-columns:\s*minmax\(0, 1fr\)/);
+  assert.match(panelCss, /@media \(max-width: 640px\)\s*{\s*\.panel\s*{[^}]*--link-height:\s*28px/);
+  assert.match(panelCss, /@media \(max-width: 640px\)[\s\S]*?\.seriesEyebrow\s*{\s*display:\s*none/);
+  assert.match(panel, /seriesTitle\(category\)\.split\(" "\)[\s\S]*styles\.seriesWord/);
+  assert.match(panelCss, /\.seriesWord\s*{\s*white-space:\s*nowrap/);
+});
+
 test("Dev Boards use the supplied front-view assets and include STM32C5", () => {
   const catalog = read("./products/catalog.js");
   const boardSpecs = read("./products/board-specs.mjs");

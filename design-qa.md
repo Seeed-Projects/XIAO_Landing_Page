@@ -436,10 +436,20 @@ Flow: Home renders PlaygroundSection, which reads the language and renders Playg
 
 - Three series cards (Dev Boards / Add-ons / Gadgets) switch the stage; each
   uses its own tone color and cover image.
+- Two curves start at the active card's bottom centre and land on both ends
+  of the stage's top edge, where they join the stage's rounded corners and
+  side borders; the stage has no separate top border. The fill below the
+  curves is strongest at the focal point and blends into the stage tint with
+  no visible seam. Check all three series and the slide animation between
+  them; the link area is 48px tall on desktop, 36px on tablet and 28px at
+  640px and below.
 - Subcategory chips filter the compact product rows; All restores the full
   series list. Dev Boards show an Open XIAO Selector link.
 - Deep link `?cat=addons` selects Add-ons after hydration.
-- Mobile stacks the series cards and scrolls subcategory chips horizontally.
+- Below 1024px the three series tabs stay in one row with a cover strip on
+  top; at 640px and below the eyebrow is hidden and series names wrap only
+  between words (EN `XIAO / Add-ons`, ZH `XIAO / 扩展模块`). Subcategory
+  chips scroll horizontally.
 - Regression: `node --test src/app/products-typography.test.mjs`.
 
 ## Products Selector Verification

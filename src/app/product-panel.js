@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useEffect, useState } from "react";
+import { Fragment, startTransition, useEffect, useId, useState } from "react";
 import { useLang } from "./i18n";
 import { Glow } from "./Glow";
 import { PRODUCT_CATALOG, SERIES_PRESENTATION } from "./products/catalog";
@@ -10,6 +10,12 @@ import styles from "./product-panel.module.css";
 
 const countItems = (category) =>
   (category.subcategories ?? []).reduce((n, s) => n + (s.items?.length ?? 0), category.items?.length ?? 0);
+
+// Series link curve in a 100 x 100 box: from the focal point (100, 0) under the
+// active card to the stage's top edge (0, 100); the right side is mirrored.
+// 连接曲线：从当前卡片下方的焦点 (100, 0) 流向面板顶边端点 (0, 100)，右侧镜像使用。
+const LINK_LINE = "M100 0 C100 62 50 100 0 100";
+const LINK_FILL = `${LINK_LINE} L100 100 Z`;
 
 /**
  * ProductPanel — three-series product catalog stage.
@@ -22,6 +28,7 @@ export function ProductPanel() {
 
   const [activeCat, setActiveCat] = useState(0);
   const [activeSub, setActiveSub] = useState(null);
+  const linkId = `series-link${useId().replace(/[^\w-]/g, "")}`;
 
   // Deep-link ?cat=<id> from Glimpse cards; deferred to avoid SSR/CSR mismatch.
   // 深链预选系列：放在 effect + startTransition，避免服务端与客户端首屏不一致。
@@ -79,7 +86,7 @@ export function ProductPanel() {
         </p>
       </header>
 
-      {/* Series switcher — primary navigation for the three families */}
+      {/* Series switcher — three cards; the active one links to the stage below */}
       <div className={styles.seriesGrid} role="tablist" aria-label={isEn ? "Product series" : "产品系列"}>
         {categories.map((category, i) => {
           const meta = SERIES_PRESENTATION[category.id];
@@ -88,9 +95,11 @@ export function ProductPanel() {
           return (
             <button
               key={category.id}
+              id={`series-tab-${category.id}`}
               type="button"
               role="tab"
               aria-selected={active}
+              aria-controls="series-stage"
               className={`${styles.seriesCard} ${active ? styles.seriesCardActive : ""}`}
               style={{ "--series-tone": meta?.tone || "var(--theme-blue)", "--series-ink": meta?.ink || "var(--theme-blue)" }}
               onClick={() => handleSeriesClick(i)}
@@ -101,7 +110,14 @@ export function ProductPanel() {
               </div>
               <div className={styles.seriesCopy}>
                 <span className={styles.seriesEyebrow}>{L(meta.eyebrow)}</span>
-                <strong className={styles.seriesName}>{seriesTitle(category)}</strong>
+                <strong className={styles.seriesName}>
+                  {seriesTitle(category).split(" ").map((word, w) => (
+                    <Fragment key={word}>
+                      {w > 0 && " "}
+                      <span className={styles.seriesWord}>{word}</span>
+                    </Fragment>
+                  ))}
+                </strong>
                 <span className={styles.seriesCount}>
                   {isEn ? `${count} products` : `${count} 款产品`}
                 </span>
@@ -111,16 +127,47 @@ export function ProductPanel() {
         })}
       </div>
 
-      {/* Active series stage */}
+      {/* Series link: two gradient curves flow from the active card's bottom
+          centre to both ends of the stage and form its top edge; the fill below
+          glows at the focal point and fades into the stage tint.
+          连接线：两条渐变曲线从当前卡片底部中心流向面板两端，构成面板上边缘；
+          线下填色在焦点处最浓，向外渐变为面板底色。 */}
       <div
+        className={styles.seriesLink}
+        style={{ "--active-index": categories.indexOf(currentCategory), "--series-tone": presentation.tone }}
+        aria-hidden="true"
+      >
+        <svg className={styles.seriesLinkLeft} viewBox="0 0 100 100" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id={`${linkId}-line`} x1="1" y1="0" x2="0" y2="0">
+              <stop offset="0" />
+              <stop offset="1" stopOpacity="0.15" />
+            </linearGradient>
+            <radialGradient id={`${linkId}-fill`} cx="1" cy="0" r="1">
+              <stop offset="0" className={styles.seriesLinkGlow} />
+              <stop offset="1" className={styles.seriesLinkBase} />
+            </radialGradient>
+          </defs>
+          <path d={LINK_FILL} fill={`url(#${linkId}-fill)`} />
+          <path className={styles.seriesLinkLine} d={LINK_LINE} stroke={`url(#${linkId}-line)`} />
+        </svg>
+        <svg className={styles.seriesLinkRight} viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path d={LINK_FILL} fill={`url(#${linkId}-fill)`} />
+          <path className={styles.seriesLinkLine} d={LINK_LINE} stroke={`url(#${linkId}-line)`} />
+        </svg>
+      </div>
+
+      {/* Active series stage, labelled by the active series tab */}
+      <div
+        id="series-stage"
+        role="tabpanel"
+        aria-labelledby={`series-tab-${currentCategory.id}`}
         className={styles.stage}
         style={{ "--series-tone": presentation.tone, "--series-ink": presentation.ink }}
         key={currentCategory.id}
       >
         <div className={styles.stageIntro}>
           <div className={styles.stageText}>
-            <span className={styles.stageEyebrow}>{L(presentation.eyebrow)}</span>
-            <h3 className={`home-type-subtitle ${styles.stageTitle}`}>{L(presentation.title)}</h3>
             <p className={`home-type-body ${styles.stageDesc}`}>{L(presentation.description)}</p>
             <div className={styles.stageTags}>
               {(isEn ? presentation.tags.en : presentation.tags.zh).map((tag) => (
@@ -200,7 +247,7 @@ export function ProductPanel() {
                     ) : null}
                   </div>
                   <div className={styles.productBody}>
-                    <h4 className={`home-type-subtitle ${styles.productName}`}>{item.title}</h4>
+                    <h3 className={`home-type-subtitle ${styles.productName}`}>{item.title}</h3>
                     {desc ? <p className={`home-type-body ${styles.productDesc}`}>{desc}</p> : null}
                     <div className={styles.actions}>
                       {wiki ? (

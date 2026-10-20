@@ -1,6 +1,9 @@
 /* Product catalog — three-series stage with compact product rows */
 
 .panel {
+  --series-gap: 14px;
+  --stage-radius: 20px;
+  --link-height: 48px;
   width: 100%;
   color: var(--ink-strong);
 }
@@ -27,8 +30,8 @@
 .seriesGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin-bottom: 22px;
+  gap: var(--series-gap);
+  margin-bottom: 0;
 }
 
 .seriesCard {
@@ -54,9 +57,74 @@
   box-shadow: 0 12px 28px rgba(0, 73, 102, 0.08);
 }
 
-.seriesCardActive {
+.seriesCardActive,
+.seriesCardActive:hover {
   border-color: var(--series-tone);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--series-tone) 22%, transparent);
+  box-shadow: none;
+  transform: none;
+}
+
+/* Series link: two curves from the active card's bottom centre (--link-x,
+   derived from --active-index, the three columns and --series-gap) to the
+   ends of the stage's straight top edge. Each side is a stretched SVG; the
+   right one is the left one mirrored.
+   连接线：从当前卡片底部中心（--link-x）到面板顶边直线段两端的两条曲线；
+   每侧为一个拉伸的 SVG，右侧由左侧镜像得到。 */
+.seriesLink {
+  --link-x: calc(
+    (100% - 2 * var(--series-gap)) / 3 * (var(--active-index) + 0.5) +
+      var(--series-gap) * var(--active-index)
+  );
+  position: relative;
+  z-index: 2;
+  height: var(--link-height);
+  margin-bottom: -1px;
+}
+
+.seriesLinkLeft,
+.seriesLinkRight {
+  position: absolute;
+  top: 0;
+  display: block;
+  height: 100%;
+  overflow: visible;
+  transition: left 360ms ease, width 360ms ease;
+}
+
+.seriesLinkLeft {
+  left: var(--stage-radius);
+  width: calc(var(--link-x) - var(--stage-radius));
+}
+
+.seriesLinkRight {
+  left: var(--link-x);
+  width: calc(100% - var(--link-x) - var(--stage-radius));
+  transform: scaleX(-1);
+}
+
+.seriesLink stop {
+  stop-color: var(--series-tone);
+  transition: stop-color 280ms ease;
+}
+
+.seriesLink .seriesLinkGlow {
+  stop-color: color-mix(in srgb, var(--series-tone) 18%, #ffffff);
+}
+
+.seriesLink .seriesLinkBase {
+  stop-color: color-mix(in srgb, var(--series-tone) 8%, #ffffff);
+}
+
+.seriesLinkLine {
+  fill: none;
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.stage {
+  --stage-tint: color-mix(in srgb, var(--series-tone) 8%, #ffffff);
+  --stage-line: color-mix(in srgb, var(--series-tone) 45%, #ffffff);
 }
 
 .seriesCover {
@@ -81,6 +149,17 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
+  opacity: 0.92;
+  transition: filter 180ms ease, opacity 180ms ease;
+}
+
+.seriesCard:not(.seriesCardActive) .seriesCover img {
+  filter: grayscale(0.55);
+  opacity: 0.62;
+}
+
+.seriesCard:not(.seriesCardActive):hover .seriesCover img {
+  filter: none;
   opacity: 0.92;
 }
 
@@ -108,25 +187,36 @@
   line-height: 1.25;
 }
 
+.seriesWord {
+  white-space: nowrap;
+}
+
 .seriesCount {
   font-size: 12px;
   color: var(--ink-muted);
   font-variant-numeric: tabular-nums;
 }
 
-/* Active series stage */
+/* Active series stage: the series link curves form its top edge */
 .stage {
   --series-tone: var(--theme-blue);
   --series-ink: var(--theme-blue);
-  border: 1px solid var(--line-soft);
-  border-radius: 20px;
+  position: relative;
+  z-index: 1;
+  border: 1px solid var(--stage-line);
+  border-top-width: 0;
+  border-radius: var(--stage-radius);
   background:
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--series-tone) 8%, #ffffff) 0%,
+      var(--stage-tint) 0%,
       var(--surface-strong) 120px
     );
   padding: 22px 22px 18px;
+}
+
+.stageIntro,
+.chipRow {
   animation: stageIn 280ms ease;
 }
 
@@ -143,18 +233,6 @@
   display: grid;
   gap: 8px;
   max-width: 720px;
-}
-
-.stageEyebrow {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--series-ink);
-}
-
-.stageTitle {
-  margin: 0;
 }
 
 .stageDesc {
@@ -497,16 +575,25 @@
 }
 
 @media (max-width: 1023px) {
-  .seriesGrid {
-    grid-template-columns: 1fr;
+  .panel {
+    --series-gap: 8px;
+    --link-height: 36px;
   }
 
   .seriesCard {
-    grid-template-columns: 110px minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 64px auto;
+    gap: 0;
+    border-radius: 14px;
   }
 
   .seriesCover {
-    min-height: 88px;
+    min-height: 0;
+  }
+
+  .seriesCopy {
+    align-content: start;
+    padding: 10px 12px 12px;
   }
 
   .productListDense {
@@ -515,14 +602,41 @@
 }
 
 @media (max-width: 640px) {
+  .panel {
+    --series-gap: 6px;
+    --stage-radius: 16px;
+    --link-height: 28px;
+  }
+
   .header {
     justify-items: start;
     text-align: left;
   }
 
+  .seriesCard {
+    grid-template-rows: 48px auto;
+    border-radius: 12px;
+  }
+
+  .seriesCopy {
+    gap: 2px;
+    padding: 8px 10px 10px;
+  }
+
+  .seriesEyebrow {
+    display: none;
+  }
+
+  .seriesName {
+    font-size: 13px;
+  }
+
+  .seriesCount {
+    font-size: 11px;
+  }
+
   .stage {
     padding: 16px 14px 12px;
-    border-radius: 16px;
   }
 
   .stageActions {
@@ -554,9 +668,14 @@
 
 @media (prefers-reduced-motion: reduce) {
   .seriesCard,
+  .seriesCover img,
+  .seriesLinkLeft,
+  .seriesLinkRight,
+  .seriesLink stop,
   .productRow,
   .selectorLink,
-  .stage,
+  .stageIntro,
+  .chipRow,
   .productList,
   .preview {
     transition: none;
