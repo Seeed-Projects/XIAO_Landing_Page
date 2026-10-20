@@ -12,8 +12,8 @@ const countItems = (category) =>
   (category.subcategories ?? []).reduce((n, s) => n + (s.items?.length ?? 0), category.items?.length ?? 0);
 
 // Series link curve in a 100 x 100 box: from the focal point (100, 0) under the
-// active card to the stage's top edge (0, 100); the right side is mirrored.
-// 连接曲线：从当前卡片下方的焦点 (100, 0) 流向面板顶边端点 (0, 100)，右侧镜像使用。
+// active card to the stage's top edge (0, 100); both sides use equal widths.
+// 连接曲线：从当前卡片下方的焦点 (100, 0) 流向面板顶边 (0, 100)，左右等宽镜像。
 const LINK_LINE = "M100 0 C100 62 50 100 0 100";
 const LINK_FILL = `${LINK_LINE} L100 100 Z`;
 
@@ -127,11 +127,9 @@ export function ProductPanel() {
         })}
       </div>
 
-      {/* Series link: two gradient curves flow from the active card's bottom
-          centre to both ends of the stage and form its top edge; the fill below
-          glows at the focal point and fades into the stage tint.
-          连接线：两条渐变曲线从当前卡片底部中心流向面板两端，构成面板上边缘；
-          线下填色在焦点处最浓，向外渐变为面板底色。 */}
+      {/* Series link: equal-width gradient curves meet below the active card
+          and join the stage's horizontal top edge.
+          连接线：等宽渐变曲线在当前卡片下方汇合，衔接面板的水平上沿。 */}
       <div
         className={styles.seriesLink}
         style={{ "--active-index": categories.indexOf(currentCategory), "--series-tone": presentation.tone }}

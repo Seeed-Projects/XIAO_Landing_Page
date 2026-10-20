@@ -64,21 +64,41 @@
   transform: none;
 }
 
-/* Series link: two curves from the active card's bottom centre (--link-x,
-   derived from --active-index, the three columns and --series-gap) to the
-   ends of the stage's straight top edge. Each side is a stretched SVG; the
-   right one is the left one mirrored.
-   连接线：从当前卡片底部中心（--link-x）到面板顶边直线段两端的两条曲线；
-   每侧为一个拉伸的 SVG，右侧由左侧镜像得到。 */
+/* Equal-width curves mirror around the active card's centre. Horizontal
+   extensions complete the stage's top edge.
+   等宽曲线围绕当前卡片中心镜像排布，水平延伸段补齐面板上沿。 */
 .seriesLink {
   --link-x: calc(
     (100% - 2 * var(--series-gap)) / 3 * (var(--active-index) + 0.5) +
       var(--series-gap) * var(--active-index)
   );
+  --link-arc: calc((100% - 2 * var(--series-gap)) / 6 - var(--stage-radius));
   position: relative;
   z-index: 2;
   height: var(--link-height);
   margin-bottom: -1px;
+  pointer-events: none;
+}
+
+.seriesLink::before,
+.seriesLink::after {
+  content: "";
+  position: absolute;
+  bottom: -0.25px;
+  height: 1.5px;
+  background: var(--series-tone);
+  opacity: 0.15;
+  transition: left 360ms ease, width 360ms ease, background-color 280ms ease;
+}
+
+.seriesLink::before {
+  left: var(--stage-radius);
+  width: max(0px, calc(var(--link-x) - var(--link-arc) - var(--stage-radius)));
+}
+
+.seriesLink::after {
+  left: calc(var(--link-x) + var(--link-arc));
+  width: max(0px, calc(100% - var(--link-x) - var(--link-arc) - var(--stage-radius)));
 }
 
 .seriesLinkLeft,
@@ -92,13 +112,13 @@
 }
 
 .seriesLinkLeft {
-  left: var(--stage-radius);
-  width: calc(var(--link-x) - var(--stage-radius));
+  left: calc(var(--link-x) - var(--link-arc));
+  width: var(--link-arc);
 }
 
 .seriesLinkRight {
   left: var(--link-x);
-  width: calc(100% - var(--link-x) - var(--stage-radius));
+  width: var(--link-arc);
   transform: scaleX(-1);
 }
 
@@ -669,6 +689,8 @@
 @media (prefers-reduced-motion: reduce) {
   .seriesCard,
   .seriesCover img,
+  .seriesLink::before,
+  .seriesLink::after,
   .seriesLinkLeft,
   .seriesLinkRight,
   .seriesLink stop,

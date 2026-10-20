@@ -57,8 +57,9 @@ primary browsing stage:
 
 - **Series switcher**: Dev Boards, Add-ons, Gadgets — each with cover, eyebrow,
   title and product count. Two gradient curves flow from the active card's
-  bottom centre to both ends of the stage and form its top edge; the area
-  below them glows at the focal point and fades into the stage tint. The
+  bottom centre through equal-width mirrored arcs, with horizontal extensions
+  completing the stage's top edge. The area below the arcs glows at the focal
+  point and fades into the stage tint. The
   curves slide to the newly selected card when the series changes. Below
   1024px the three cards stay in one row with a cover strip on top; at 640px
   and below the eyebrow is hidden
