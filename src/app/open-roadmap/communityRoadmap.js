@@ -364,7 +364,7 @@ export function CommunityRoadmap() {
           actions={
             <>
               <a
-                className="home-type-action home-filled-action home-primary-cta"
+                className={`home-type-action home-filled-action home-primary-cta ${styles.heroAction}`}
                 href={GITHUB_DISCUSSIONS}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -377,12 +377,15 @@ export function CommunityRoadmap() {
                 </svg>
               </a>
               <a
-                className="home-type-action home-text-action"
+                className={`home-type-action ${styles.heroAction} ${styles.heroActionSecondary}`}
                 href={HOW_IT_WORKS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {T.howItWorks} ↗
+                {T.howItWorks}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M7 17 17 7M7 7h10v10" />
+                </svg>
               </a>
             </>
           }
