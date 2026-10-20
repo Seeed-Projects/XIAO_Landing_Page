@@ -612,6 +612,15 @@ canvas {
   outline-offset: 3px;
 }
 
+.home-primary-cta.products-action {
+  min-height: 44px;
+  padding: 8px 16px;
+}
+
+.products-hero-action {
+  width: 160px;
+}
+
 @media (min-width: 640px) {
   .home-primary-cta {
     font-size: 16px;

@@ -34,7 +34,6 @@ test("Product catalog presents three series as the primary stage", () => {
   assert.match(catalog, /"dev-boards"/);
   assert.match(catalog, /addons:/);
   assert.match(catalog, /gadgets:/);
-  assert.match(panel, /Open XIAO Selector/);
   assert.match(panelCss, /\.seriesGrid\s*{[^}]*grid-template-columns: repeat\(3/s);
   assert.match(panelCss, /\.productListDense\s*{[^}]*repeat\(6/s);
   assert.match(panelCss, /\.productRow\s*{[^}]*grid-template-columns:\s*64px/s);

@@ -66,7 +66,7 @@ primary browsing stage:
 - **Series stage**: intro copy, tags, subcategory chips, and a short product
   row (small thumbnail on the left, name, one-line blurb, Wiki and Buy).
   The active tab names the stage, so the stage opens directly with the intro.
-  Desktop shows 5–6 cards per row. Dev Boards also link to XIAO Selector
+  Desktop shows 5–6 cards per row.
 - Data lives in `src/app/products/catalog.js` (`PRODUCT_CATALOG`,
   `SERIES_PRESENTATION`); UI in `src/app/product-panel.js`
 

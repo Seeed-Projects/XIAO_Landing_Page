@@ -15,7 +15,7 @@ export function ProductsHero() {
         href="https://www.seeedstudio.com/xiao-selector"
         target="_blank"
         rel="noopener noreferrer"
-        className="home-type-action home-filled-action home-primary-cta"
+        className="home-type-action home-filled-action home-primary-cta products-action products-hero-action"
         style={{ color: "#fff" }}
       >
         {isEn ? "Shop Now" : "立即购买"}
@@ -28,7 +28,7 @@ export function ProductsHero() {
         href="https://wiki.seeedstudio.com/xiao_topic_page/"
         target="_blank"
         rel="noopener noreferrer"
-        className="home-type-action home-filled-action home-primary-cta"
+        className="home-type-action home-filled-action home-primary-cta products-action products-hero-action"
         style={{ color: "#fff" }}
       >
         {isEn ? "Get Started" : "快速开始"}

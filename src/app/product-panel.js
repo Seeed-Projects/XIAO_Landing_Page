@@ -182,14 +182,6 @@ export function ProductPanel() {
                 ? `Showing ${displayItems.length} of ${allItems.length}`
                 : `显示 ${displayItems.length} / ${allItems.length}`}
             </span>
-            {currentCategory.id === "dev-boards" ? (
-              <a
-                className={`${styles.selectorLink} home-type-action home-filled-action home-primary-cta`}
-                href={withBase("/products#smart-selector")}
-              >
-                {isEn ? "Open XIAO Selector" : "打开选型器"}
-              </a>
-            ) : null}
           </div>
         </div>
 

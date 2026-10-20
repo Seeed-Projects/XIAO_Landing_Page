@@ -292,31 +292,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-.selectorLink {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  min-height: 48px;
-  border: 0;
-  border-radius: 9999px;
-  background: var(--button-bg);
-  color: #fff;
-  padding: 0.75rem 1.5rem;
-  font-size: var(--home-body-size);
-  font-weight: var(--home-action-weight);
-  line-height: var(--home-body-leading);
-  text-decoration: none;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.selectorLink:hover {
-  background: var(--button-bg-hover);
-  transform: translateY(-2px);
-  color: #fff;
-}
-
 /* Subcategory chips */
 .chipRow {
   display: flex;
@@ -624,7 +599,6 @@
   .seriesLinkRight,
   .seriesLink stop,
   .productRow,
-  .selectorLink,
   .stageIntro,
   .chipRow,
   .productList {
@@ -632,8 +606,7 @@
     animation: none;
   }
 
-  .seriesCard:hover,
-  .selectorLink:hover {
+  .seriesCard:hover {
     transform: none;
   }
 }
