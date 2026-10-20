@@ -72,6 +72,19 @@ primary browsing stage:
 
 Deep link: `/products/?cat=addons#products-catalog` opens the Add-ons series.
 
+### Shared card previews
+
+Projects, News and the Products catalog use `CardPeek` with `CardPeekContent`
+from `src/app/card-peek.js`. The shared dark panel opens beside its source card,
+with a green source outline and a light spotlight over the surrounding cards.
+Projects and News show the full title and description. Product previews show
+only the optional `image` slot, displayed in full with its original transparency
+against the shared panel background. Panel styling lives in
+`src/app/globals.css`; new card previews extend this shared component.
+
+Mouse hover and keyboard focus open the panel. Scrolling keeps control of the
+page, hides the panel during movement and restores it after scrolling settles.
+
 ## XIAO Selector (Products)
 
 The Products page includes **XIAO Selector**, a faceted workbench for picking

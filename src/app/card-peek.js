@@ -19,20 +19,24 @@ function sourceHost(url) {
 }
 
 /**
- * Standard peek layout: label row, full title and description, optional badge and source host.
- * 标准详情布局：标签行、完整标题与描述，以及可选的徽标与来源域名。
+ * Standard peek layout: optional image, label row, full title and description, badge and source host.
+ * 标准详情布局：可选图片、标签行、完整标题与描述、徽标与来源域名。
  */
-export function CardPeekContent({ tag, meta, title, description, badge, url }) {
+export function CardPeekContent({ image, tag, meta, title, description, badge, url }) {
   const host = sourceHost(url);
   return (
     <>
+      {image && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img className="card-peek-image" src={image} alt="" decoding="async" />
+      )}
       {(tag || meta) && (
         <div className="mb-3 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
           {tag && <span className="card-peek-tag">{tag}</span>}
           {meta && <span className="card-peek-meta">{meta}</span>}
         </div>
       )}
-      <p className="home-type-subtitle card-peek-title">{title}</p>
+      {title && <p className="home-type-subtitle card-peek-title">{title}</p>}
       {description && <p className="home-type-body card-peek-body mt-2">{description}</p>}
       {(badge || host) && (
         <div className="card-peek-footer mt-4 flex items-center justify-between gap-3 pt-3">

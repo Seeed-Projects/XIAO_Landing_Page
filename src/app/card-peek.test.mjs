@@ -7,6 +7,7 @@ const read = (name) => readFileSync(new URL(name, import.meta.url), "utf8");
 const peek = read("./card-peek.js");
 const projects = read("./projects-carousel.js");
 const news = read("./news-carousel.js");
+const products = read("./product-panel.js");
 const band = read("./scroll-band.js");
 const card = read("./scroll-card.js");
 const css = read("./globals.css");
@@ -34,6 +35,14 @@ test("the shared peek layout uses the Home subtitle and body type roles", () => 
   assert.match(peek, /<p className="home-type-subtitle card-peek-title">\{title\}<\/p>/);
   assert.match(peek, /<p className="home-type-body card-peek-body mt-2">\{description\}<\/p>/);
   assert.match(peek, /createPortal\(/);
+});
+
+test("product previews use the shared panel with only the current product image", () => {
+  assert.match(products, /<CardPeek\s+key=\{`\$\{currentCategory\.id\}-\$\{activeSub\}`\}/);
+  assert.match(products, /const item = displayItems\[index\];/);
+  assert.match(products, /<CardPeekContent\s+image=\{item\.img \? withBase\(item\.img\) : undefined\}\s*\/>/);
+  assert.match(products, /data-card-index=\{index\}\s+tabIndex=\{0\}/);
+  assert.match(css, /\.card-peek-image \{[^}]*object-fit: contain;/);
 });
 
 test("the peek panel lets the wheel scroll the page and grows with its content", () => {

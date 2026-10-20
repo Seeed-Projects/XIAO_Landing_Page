@@ -3,6 +3,7 @@
 import { Fragment, startTransition, useEffect, useId, useState } from "react";
 import { useLang } from "./i18n";
 import { Glow } from "./Glow";
+import { CardPeek, CardPeekContent } from "./card-peek";
 import { PRODUCT_CATALOG, SERIES_PRESENTATION } from "./products/catalog";
 import { BOARD_HARDWARE } from "./products/board-specs.mjs";
 import { withBase } from "@/lib/basePath";
@@ -223,55 +224,63 @@ export function ProductPanel() {
             {isEn ? "No product currently listed in this category." : "该分类暂无在售产品，敬请期待。"}
           </div>
         ) : (
-          <div
-            className={`${styles.productList} ${styles.productListDense}`}
+          <CardPeek
             key={`${currentCategory.id}-${activeSub}`}
-          >
-            {displayItems.map((item, index) => {
-              const wiki = BOARD_HARDWARE[item.title]?.wiki;
-              const desc = itemDesc(item) || item.subLabel || "";
+            renderPeek={(index) => {
+              const item = displayItems[index];
               return (
-                <article key={`${currentCategory.id}-${item.title}-${index}`} className={styles.productRow}>
-                  <div className={styles.thumb}>
-                    {item.img ? (
-                      <>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                <CardPeekContent
+                  image={item.img ? withBase(item.img) : undefined}
+                />
+              );
+            }}
+          >
+            <div className={`${styles.productList} ${styles.productListDense}`}>
+              {displayItems.map((item, index) => {
+                const wiki = BOARD_HARDWARE[item.title]?.wiki;
+                const desc = itemDesc(item) || item.subLabel || "";
+                return (
+                  <article
+                    key={`${currentCategory.id}-${item.title}-${index}`}
+                    className={styles.productRow}
+                    data-card-index={index}
+                    tabIndex={0}
+                  >
+                    <div className={styles.thumb}>
+                      {item.img ? (
+                        // eslint-disable-next-line @next/next/no-img-element
                         <img src={withBase(item.img)} alt="" loading="lazy" decoding="async" />
-                        <div className={styles.preview} aria-hidden="true">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={withBase(item.img)} alt="" loading="lazy" decoding="async" />
-                        </div>
-                      </>
-                    ) : null}
-                  </div>
-                  <div className={styles.productBody}>
-                    <h3 className={`home-type-subtitle ${styles.productName}`}>{item.title}</h3>
-                    {desc ? <p className={`home-type-body ${styles.productDesc}`}>{desc}</p> : null}
-                    <div className={styles.actions}>
-                      {wiki ? (
+                      ) : null}
+                    </div>
+                    <div className={styles.productBody}>
+                      <h3 className={`home-type-subtitle ${styles.productName}`}>{item.title}</h3>
+                      {desc ? <p className={`home-type-body ${styles.productDesc}`}>{desc}</p> : null}
+                      <div className={styles.actions}>
+                        {wiki ? (
+                          <a
+                            className={`${styles.wiki} home-type-action`}
+                            href={wiki}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {isEn ? "Wiki" : "文档"}
+                          </a>
+                        ) : null}
                         <a
-                          className={`${styles.wiki} home-type-action`}
-                          href={wiki}
+                          className={`${styles.buy} home-type-action home-filled-action`}
+                          href={item.link}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          {isEn ? "Wiki" : "文档"}
+                          {isEn ? "Buy" : "购买"}
                         </a>
-                      ) : null}
-                      <a
-                        className={`${styles.buy} home-type-action home-filled-action`}
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {isEn ? "Buy" : "购买"}
-                      </a>
+                      </div>
                     </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
+                  </article>
+                );
+              })}
+            </div>
+          </CardPeek>
         )}
       </div>
     </section>

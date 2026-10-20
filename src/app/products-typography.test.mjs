@@ -40,9 +40,8 @@ test("Product catalog presents three series as the primary stage", () => {
   assert.match(panelCss, /\.productRow\s*{[^}]*grid-template-columns:\s*64px/s);
   assert.match(panelCss, /\.thumb\s*{[^}]*64px/s);
   assert.match(panelCss, /\.thumb > img\s*{[^}]*object-fit:\s*contain/s);
-  assert.match(panelCss, /\.preview\s*{[^}]*260px/s);
   assert.match(panel, /BOARD_HARDWARE/);
-  assert.match(panel, /styles\.preview/);
+  assert.match(panel, /<CardPeek/);
 });
 
 test("Series link curves mirror below the active card and join the stage edge", () => {

@@ -700,6 +700,19 @@ canvas {
   display: none;
 }
 
+.card-peek-image {
+  display: block;
+  width: 100%;
+  height: min(240px, 30vh);
+  border-radius: 12px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.card-peek-image:not(:last-child) {
+  margin-bottom: 16px;
+}
+
 .card-peek-title {
   color: #fff;
 }
