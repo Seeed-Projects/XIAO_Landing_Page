@@ -26,6 +26,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
    - 单元测试：`node --test src/app/*.test.mjs`；静态检查：`npx eslint <改动文件>`。
    - 生产构建：`npx next build`（`npm run build` 的 prebuild 会联网同步并改写生成文件）。
    - 本地开发地址带 basePath：`http://localhost:3000/XIAO_Landing_Page/`。
+   - 图片：新增或替换 `public/` 图片后运行 `npm run images:optimize`，随图片一起提交
+     `scripts/optimized-images.json`；每次 `npm run build` 也会先自动压缩。规则见 README「Image Optimization」。
 
 ## 卡片悬停详情
 

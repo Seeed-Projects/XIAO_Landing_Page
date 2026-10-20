@@ -159,6 +159,37 @@ OSHW repository uses `LANDING_PAGE_DISPATCH_TOKEN` for that cross-repository
 event. A fine-grained token needs access to this repository and permission to
 write repository dispatch events.
 
+## Image Optimization
+
+Images in `public/` stay within a size budget: raster files up to 300 KB and SVG
+files up to 400 KB. `scripts/optimize-images.mjs` shrinks larger files in place,
+keeping the same path and file name, so page code stays unchanged:
+
+- JPEG, PNG, WebP and GIF files are resized to their folder's longest-edge limit
+  (2560 px by default) and re-encoded in the same format. PNG files use a
+  colour palette when it stays visually identical, and lossless compression
+  otherwise.
+- SVG files exported with embedded photos keep their vector content; each photo
+  is resized to its display size and re-embedded as WebP.
+- Processed files are recorded by content hash in `scripts/optimized-images.json`
+  and are skipped until their content changes. Commit this file together with
+  the optimized images.
+
+Per-folder limits live in `scripts/image-budget.mjs`. Set a folder rule from the
+largest size the image is displayed at, doubled for high-density screens.
+
+Every `npm run build` runs the optimizer first, so the deployed site always
+receives optimized images. After adding or replacing images, run:
+
+```bash
+npm run images:optimize
+npm run images:check
+npm run test:images
+```
+
+`images:check` lists any image still over budget and exits with status 1 when
+one remains.
+
 ## Home Playground Verification
 
 The Home Playground section displays 22 original transparent XIAO board images,

@@ -10,7 +10,10 @@
     "test:flasher": "node --test src/lib/xiao-firmware.test.mjs src/app/tool-pages-typography.test.mjs",
     "bake:hub": "node scripts/bake-project-hub-embed.js",
     "bake:res-thumbs": "node scripts/bake-res-thumbs.mjs",
-    "prebuild": "npm run sync:home-content && node scripts/bake-project-hub-embed.js && node scripts/bake-discussions.js",
+    "images:optimize": "node scripts/optimize-images.mjs",
+    "images:check": "node scripts/optimize-images.mjs --check",
+    "test:images": "node --test scripts/optimize-images.test.mjs",
+    "prebuild": "npm run sync:home-content && node scripts/bake-project-hub-embed.js && node scripts/bake-discussions.js && npm run images:optimize",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -30,6 +33,7 @@
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "16.2.11",
+    "sharp": "0.34.5",
     "tailwindcss": "^4"
   }
 }
