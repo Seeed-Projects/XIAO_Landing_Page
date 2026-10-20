@@ -337,7 +337,7 @@ export function XiaoSelector() {
               购买与 Wiki 组成右对齐的一组，窄卡片时整组换行，避免按钮被挤成竖条。 */}
           <label className={`${styles.compareToggle} ${inCompare ? styles.compareToggleOn : ""}`}>
             <input type="checkbox" checked={inCompare} onChange={() => toggleCompare(board.id)} />
-            <span>{inCompare ? `✓ ${t.inCompare}` : `＋ ${t.addCompare}`}</span>
+            <span>{inCompare ? t.inCompare : `＋ ${t.addCompare}`}</span>
           </label>
           <div className={styles.footerActions}>
             <a className={`${styles.primaryBtn} home-type-action home-filled-action home-primary-cta`} href={board.link} target="_blank" rel="noopener noreferrer">{t.buy}</a>

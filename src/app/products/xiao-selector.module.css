@@ -168,14 +168,17 @@
 .suggestion:hover { background: var(--brand-green); color: #fff; }
 
 /* Compare bar */
-.compareBar { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 30; width: min(820px, calc(100vw - 32px)); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border-radius: 16px; background: linear-gradient(180deg, #0d2230 0%, #13324a 100%); border: 1px solid rgba(255,255,255,0.08); color: #fff; box-shadow: 0 18px 40px rgba(0,0,0,0.28); }
-.compareItems { display: flex; flex-wrap: wrap; gap: 6px; }
-.compareItem { border: 0; background: rgba(255,255,255,0.12); color: #fff; padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; }
-.compareItem:hover { background: rgba(255,255,255,0.22); }
-.compareActions { display: flex; gap: 8px; flex: 0 0 auto; }
-.barGhost { border: 1px solid rgba(255,255,255,0.25); background: transparent; color: #fff; padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: 700; }
-.barPrimary { border: 0; background: var(--brand-green); color: #fff; padding: 8px 14px; border-radius: 10px; font-size: 13px; font-weight: 700; }
-.barPrimary:hover { background: var(--brand-green-deep); }
+.compareBar { position: fixed; left: 50%; bottom: calc(18px + 1cm); transform: translateX(-50%); z-index: 30; width: max-content; max-width: min(960px, calc(100vw - 40px)); display: flex; align-items: center; gap: 16px; padding: 10px 14px; border-radius: 14px; background: color-mix(in srgb, var(--button-bg) 6%, rgba(255,255,255,0.62)); border: 1px solid rgba(0,73,102,0.18); color: var(--brand-blue); box-shadow: 0 12px 32px rgba(0,73,102,0.18), inset 0 1px 0 rgba(255,255,255,0.85); -webkit-backdrop-filter: blur(22px) saturate(1.1); backdrop-filter: blur(22px) saturate(1.1); }
+.compareItems { display: flex; flex: 1 1 auto; flex-wrap: wrap; gap: 8px; min-width: 0; }
+.compareItem { border: 0; background: transparent; color: var(--brand-blue); padding: 5px 8px; border-radius: 8px; font-size: 12px; }
+.compareBar .compareItem { font-weight: 700; }
+.compareItem:hover { background: rgba(255,255,255,0.7); }
+.compareItem span { margin-left: 4px; opacity: 0.65; }
+.compareActions { display: flex; align-items: center; gap: 4px; flex: 0 0 auto; padding-left: 10px; border-left: 1px solid color-mix(in srgb, var(--brand-blue) 18%, transparent); }
+.barGhost { border: 0; background: transparent; color: var(--brand-blue); padding: 6px 8px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+.barGhost:hover { background: rgba(255,255,255,0.7); }
+.barPrimary { border: 0; background: var(--theme-lime-ink); color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 700; }
+.barPrimary:hover { background: color-mix(in srgb, var(--theme-lime-ink) 85%, #000); }
 
 /* Compare modal */
 .modalBackdrop { position: fixed; inset: 0; z-index: 50; background: rgba(13,34,48,0.52); display: grid; place-items: center; padding: 20px; }
@@ -219,7 +222,7 @@
   .resultsTools { width: 100%; justify-content: space-between; }
   .cardGrid { grid-template-columns: 1fr; }
   .compareBar { flex-direction: column; align-items: stretch; }
-  .compareActions { justify-content: flex-end; }
+  .compareActions { justify-content: flex-end; padding-left: 0; border-left: 0; }
   .modalHead { flex-wrap: wrap; }
 }
 
