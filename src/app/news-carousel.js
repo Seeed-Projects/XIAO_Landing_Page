@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useLang } from "./i18n";
-import { HoverCardCopy } from "./scroll-card";
+import { CardPeek, CardPeekContent } from "./card-peek";
 import content from "./home-content.generated.json";
 import {
   centerNewsLoopIndex,
@@ -22,6 +22,22 @@ const SCROLL_SETTLE_MS = 180;
 
 function formatNewsDate(date) {
   return date?.replaceAll("-", ".") || "";
+}
+
+/**
+ * News peek: blog label, author and date, full title and excerpt, source.
+ * 新闻详情：博客标签、作者与日期、完整标题与摘要、来源。
+ */
+function NewsPeek({ item }) {
+  return (
+    <CardPeekContent
+      tag={item.tag}
+      meta={[item.source, formatNewsDate(item.date)].filter(Boolean).join(" · ")}
+      title={item.title}
+      description={item.excerpt}
+      url={item.url}
+    />
+  );
 }
 
 export function NewsCarousel() {
@@ -124,83 +140,85 @@ export function NewsCarousel() {
 
   return (
     <div>
-      <div
-        ref={viewportRef}
-        className="relative"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-        onFocusCapture={() => setPaused(true)}
-        onBlurCapture={(event) => {
-          if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false);
-        }}
-        onTouchStart={() => setPaused(true)}
-        onTouchEnd={() => setPaused(false)}
-      >
-        {/* 向左滑动 */}
-        <button
-          type="button"
-          aria-label={isEn ? "Previous" : "上一个"}
-          onClick={() => moveByCard(-1, true)}
-          className="absolute left-4 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-[var(--button-bg)] text-lg text-white shadow-[0_4px_14px_rgba(143,195,31,.32)] transition hover:bg-[var(--button-bg-hover)] sm:left-6 lg:left-8"
-        >
-          ‹
-        </button>
-        {/* 卡片轨道：三组相同内容支持无缝循环，同时保留触屏滑动。 */}
+      <CardPeek renderPeek={(index) => <NewsPeek item={items[index]} />}>
         <div
-          ref={trackRef}
-          onScroll={handleScroll}
-          className="flex w-full snap-x snap-mandatory scroll-px-14 flex-nowrap justify-start gap-4 overflow-x-auto px-14 sm:scroll-px-16 sm:px-16 [&::-webkit-scrollbar]:hidden"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          ref={viewportRef}
+          className="relative"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocusCapture={() => setPaused(true)}
+          onBlurCapture={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false);
+          }}
+          onTouchStart={() => setPaused(true)}
+          onTouchEnd={() => setPaused(false)}
         >
-          {loopItems.map(({ item, itemIndex, copyIndex }) => {
-            const accessible = copyIndex === 1;
-            return (
-              <a
-                key={`${copyIndex}-${item.url || itemIndex}`}
-                href={item.url || "#"}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-hidden={accessible ? undefined : true}
-                tabIndex={accessible ? undefined : -1}
-                className="hover-copy-card flex w-[280px] shrink-0 snap-start cursor-pointer flex-col rounded-2xl border border-[var(--line-soft)] bg-white/90 p-3 no-underline shadow-[0_8px_24px_rgba(0,73,102,0.06)] backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-[rgba(143,195,31,0.35)] hover:shadow-[0_14px_30px_rgba(0,73,102,0.11)] sm:w-[320px] lg:w-[340px]"
-              >
-                <div className="aspect-[1.55] w-full overflow-hidden rounded-lg bg-[#edf2eb]">
-                  {item.media_url && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={item.media_url}
-                      alt={item.title}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition duration-300 hover:scale-[1.025]"
-                      onError={(event) => { event.currentTarget.style.display = "none"; }}
-                    />
+          {/* 向左滑动 */}
+          <button
+            type="button"
+            aria-label={isEn ? "Previous" : "上一个"}
+            onClick={() => moveByCard(-1, true)}
+            className="absolute left-4 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-[var(--button-bg)] text-lg text-white shadow-[0_4px_14px_rgba(143,195,31,.32)] transition hover:bg-[var(--button-bg-hover)] sm:left-6 lg:left-8"
+          >
+            ‹
+          </button>
+          {/* 卡片轨道：三组相同内容支持无缝循环，同时保留触屏滑动。 */}
+          <div
+            ref={trackRef}
+            onScroll={handleScroll}
+            className="flex w-full snap-x snap-mandatory scroll-px-14 flex-nowrap justify-start gap-4 overflow-x-auto px-14 sm:scroll-px-16 sm:px-16 [&::-webkit-scrollbar]:hidden"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
+            {loopItems.map(({ item, itemIndex, copyIndex }) => {
+              const accessible = copyIndex === 1;
+              return (
+                <a
+                  key={`${copyIndex}-${item.url || itemIndex}`}
+                  href={item.url || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-hidden={accessible ? undefined : true}
+                  tabIndex={accessible ? undefined : -1}
+                  data-card-index={itemIndex}
+                  className="flex w-[280px] shrink-0 snap-start cursor-pointer flex-col rounded-2xl border border-[var(--line-soft)] bg-white/90 p-3 no-underline shadow-[0_8px_24px_rgba(0,73,102,0.06)] transition duration-300 hover:-translate-y-0.5 hover:border-[rgba(143,195,31,0.35)] hover:shadow-[0_14px_30px_rgba(0,73,102,0.11)] sm:w-[320px] lg:w-[340px]"
+                >
+                  <div className="aspect-[1.55] w-full overflow-hidden rounded-lg bg-[#edf2eb]">
+                    {item.media_url && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={item.media_url}
+                        alt={item.title}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition duration-300 hover:scale-[1.025]"
+                        onError={(event) => { event.currentTarget.style.display = "none"; }}
+                      />
+                    )}
+                  </div>
+                  <h3 className="home-type-subtitle mt-3 min-h-[3em] line-clamp-2 text-[#253946]">{item.title}</h3>
+                  {item.date && (
+                    <time className="news-card-date mt-2" dateTime={item.date}>
+                      {formatNewsDate(item.date)}
+                    </time>
                   )}
-                </div>
-                <h3 className="home-type-subtitle mt-3 min-h-[3em] line-clamp-2 text-[#253946]">{item.title}</h3>
-                {item.date && (
-                  <time className="news-card-date mt-2" dateTime={item.date}>
-                    {formatNewsDate(item.date)}
-                  </time>
-                )}
-                {item.excerpt && <span className="sr-only">{item.excerpt}</span>}
-                <span className="home-type-action home-text-action mt-auto pt-3 text-[#8fc93a]">
-                  {isEn ? "Read More »" : "阅读更多 »"}
-                </span>
-                <HoverCardCopy title={item.title} description={item.excerpt} />
-              </a>
-            );
-          })}
+                  {item.excerpt && <span className="sr-only">{item.excerpt}</span>}
+                  <span className="home-type-action home-text-action mt-auto pt-3 text-[#8fc93a]">
+                    {isEn ? "Read More »" : "阅读更多 »"}
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+          {/* 向右滑动 */}
+          <button
+            type="button"
+            aria-label={isEn ? "Next" : "下一个"}
+            onClick={() => moveByCard(1, true)}
+            className="absolute right-4 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-[var(--button-bg)] text-lg text-white shadow-[0_4px_14px_rgba(143,195,31,.32)] transition hover:bg-[var(--button-bg-hover)] sm:right-6 lg:right-16"
+          >
+            ›
+          </button>
         </div>
-        {/* 向右滑动 */}
-        <button
-          type="button"
-          aria-label={isEn ? "Next" : "下一个"}
-          onClick={() => moveByCard(1, true)}
-          className="absolute right-4 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-[var(--button-bg)] text-lg text-white shadow-[0_4px_14px_rgba(143,195,31,.32)] transition hover:bg-[var(--button-bg-hover)] sm:right-6 lg:right-16"
-        >
-          ›
-        </button>
-      </div>
+      </CardPeek>
       {/* Explore More —— 进入 Seeed Blog XIAO 标签页，看更多文章 */}
       <div className="mt-10 flex justify-center">
         <a

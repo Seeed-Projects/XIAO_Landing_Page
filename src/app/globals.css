@@ -618,12 +618,6 @@ canvas {
   }
 }
 
-.hover-copy-card {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-
 .news-card-date {
   color: #73828c;
   font-family: var(--font-montserrat), sans-serif;
@@ -633,67 +627,33 @@ canvas {
   letter-spacing: 0.02em;
 }
 
-.hover-card-copy {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  padding: 22px;
-  overflow-y: auto;
-  background: rgba(255, 255, 255, 0.97);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 180ms ease;
-}
-
-.hover-copy-card:focus-within .hover-card-copy {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .hover-copy-card:hover .hover-card-copy {
-    opacity: 1;
-    pointer-events: auto;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hover-card-copy {
-    transition: none;
-  }
-}
-
-/* 项目卡片悬停详情：深色浮层与白色卡片形成明确区分，尖角指向来源卡片；
-   打开时其余卡片蒙上浅色遮罩，来源卡片以品牌绿描边保持高亮。
-   面板高度随内容撑开，不设内部滚动，且不接收指针事件，滚轮始终直接滚动页面。 */
-.card-peek-area .marquee-track {
-  position: relative;
-}
-
-.card-peek-area .marquee-track::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: rgba(248, 251, 239, 0.66);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 200ms ease;
-}
-
+/* Card peek: a dark panel beside the hovered card, with a notch pointing at it.
+   The veil covers the card area and leaves a spotlight window around the source card,
+   which carries a brand-green ring. Panel height follows its content; the wheel scrolls the page.
+   卡片悬停详情：深色面板浮在卡片旁侧，尖角指向来源卡片。
+   遮罩覆盖卡片区域，并在来源卡片处留出聚光窗口，来源卡片带品牌绿描边。
+   面板高度随内容撑开，滚轮始终用于滚动页面。 */
 .card-peek-area[data-peek-open] .marquee-track {
   animation-play-state: paused;
 }
 
-.card-peek-area[data-peek-open] .marquee-track::after {
-  opacity: 1;
-}
-
 .card-peek-area [data-peek-active] {
-  position: relative;
-  z-index: 2;
   border-color: var(--button-bg);
   box-shadow: 0 0 0 2px rgba(143, 195, 31, 0.6), 0 18px 36px rgba(0, 73, 102, 0.16);
+}
+
+.card-peek-veil {
+  position: fixed;
+  z-index: 34;
+  overflow: hidden;
+  pointer-events: none;
+  animation: card-peek-fade 200ms ease-out both;
+}
+
+.card-peek-spot {
+  position: absolute;
+  border-radius: 20px;
+  box-shadow: 0 0 0 200vmax rgba(250, 252, 247, 0.68);
 }
 
 .card-peek-panel {
@@ -784,13 +744,16 @@ canvas {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .card-peek-panel {
-    animation: none;
+@keyframes card-peek-fade {
+  from {
+    opacity: 0;
   }
+}
 
-  .card-peek-area .marquee-track::after {
-    transition: none;
+@media (prefers-reduced-motion: reduce) {
+  .card-peek-panel,
+  .card-peek-veil {
+    animation: none;
   }
 }
 
