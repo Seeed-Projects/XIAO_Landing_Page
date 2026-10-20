@@ -10,6 +10,34 @@ const layout = {
     "w": 589,
     "h": 237.39999999999998
   },
+  // Hand-annotated baked-in colour key at the diagram foot (the ingest scan
+  // drops it, which would crop the published key away). Verified against the
+  // SVG source rects: x739/890.67/1042.33, y817, w135, h32.4.
+  // 底部内置图例为手工标注（扫描环节会丢掉该字段，导致裁剪时图例被裁走）。
+  // 坐标与 SVG 源 rect 实测一致：x739/890.67/1042.33，y817，w135，h32.4。
+  "legend": [
+    {
+      "x": 739,
+      "y": 817,
+      "w": 135,
+      "h": 32.4,
+      "cat": "power"
+    },
+    {
+      "x": 890.67,
+      "y": 817,
+      "w": 135,
+      "h": 32.4,
+      "cat": "gnd"
+    },
+    {
+      "x": 1042.33,
+      "y": 817,
+      "w": 135,
+      "h": 32.4,
+      "cat": "system"
+    }
+  ],
   "rows": {
     "left": [
       {

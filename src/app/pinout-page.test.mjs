@@ -137,13 +137,17 @@ test("diagram crop keeps the s3 back board body and lower colour key", () => {
       assert.ok(diagram.fitLegendRatio > 0, `${board.id} ${face} keeps its published sizing ratio`);
     }
   }
-  // s3 back publishes the board photo (y≈230-613) below its label rows; the
-  // crop keeps the full board body but ends before the baked-in colour key
-  // at y≈817, which the interactive legend above the diagram replaces.
+  // s3 back publishes the board photo (y≈230-613) below its label rows and
+  // the baked-in colour key at the foot (y817-849); the layout's hand-annotated
+  // legend boxes keep both inside the crop, and nothing exists below y849.
   const s3back = BOARDS.s3.diagram.back;
   assert.ok(s3back.crop.y <= 210, `s3 back crop keeps the board top (got top ${s3back.crop.y})`);
   assert.ok(s3back.crop.y + s3back.crop.h >= 610, `s3 back crop keeps the board bottom (got bottom ${s3back.crop.y + s3back.crop.h})`);
-  assert.ok(s3back.crop.y + s3back.crop.h < 800, `s3 back crop omits the lower colour key (got bottom ${s3back.crop.y + s3back.crop.h})`);
+  assert.ok(
+    s3back.crop.y + s3back.crop.h >= 849,
+    `s3 back crop keeps the lower colour key (got bottom ${s3back.crop.y + s3back.crop.h})`,
+  );
+  assert.ok(s3back.crop.y + s3back.crop.h <= 880, `s3 back crop ends below the colour key (got bottom ${s3back.crop.y + s3back.crop.h})`);
   // s3sense front reuses the s3 main-board diagram (the official s3sense
   // front is the expansion board), so its crop matches the s3 front crop.
   assert.equal(BOARDS.s3sense.diagram.front.crop.y, BOARDS.s3.diagram.front.crop.y, "S3 Sense front crop follows the s3 main board");
