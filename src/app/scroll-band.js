@@ -74,9 +74,10 @@ export function ScrollBand({ items, hrefFor, renderCard, speed = 0.45, delayStep
               href={hrefFor(sourceItem, sourceIdx)}
               target="_blank"
               rel="noopener noreferrer"
+              data-card-index={sourceIdx}
               className={
                 (rows === 2
-                  ? "flex w-[280px] min-w-0 cursor-pointer flex-col rounded-2xl border border-[var(--line-soft)] bg-white/90 p-3 no-underline shadow-[0_8px_24px_rgba(0,73,102,0.06)] backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-[rgba(143,195,31,0.35)] hover:shadow-[0_14px_30px_rgba(0,73,102,0.11)] sm:w-[320px] lg:w-[340px]"
+                  ? "flex w-[280px] min-w-0 cursor-pointer flex-col rounded-2xl border border-[var(--line-soft)] bg-white/90 p-3 no-underline shadow-[0_8px_24px_rgba(0,73,102,0.06)] transition duration-300 hover:-translate-y-0.5 hover:border-[rgba(143,195,31,0.35)] hover:shadow-[0_14px_30px_rgba(0,73,102,0.11)] sm:w-[320px] lg:w-[340px]"
                   : "flex w-[300px] shrink-0 cursor-pointer flex-col rounded-2xl border border-[var(--line-soft)] bg-white/90 p-5 no-underline backdrop-blur-sm transition-shadow duration-300 hover:shadow-md sm:w-[340px] sm:p-6 lg:w-[380px] xl:w-[400px]") + ` ${cardClassName}`
               }
             >

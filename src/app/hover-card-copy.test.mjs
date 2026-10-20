@@ -5,16 +5,13 @@ import { shouldReleaseHoverWheel } from "./hover-card-scroll.mjs";
 
 const read = (name) => readFileSync(new URL(name, import.meta.url), "utf8");
 const card = read("./scroll-card.js");
-const projects = read("./projects-carousel.js");
 const news = read("./news-carousel.js");
 const css = read("./globals.css");
 
-test("project and news cards reveal only their complete title and description", () => {
+test("news cards reveal only their complete title and description", () => {
   assert.match(card, /export function HoverCardCopy\(\{ title, description \}\)/);
   assert.match(card, /<h3[^>]*>\{title\}<\/h3>/);
   assert.match(card, /<p[^>]*>\{description\}<\/p>/);
-  assert.match(projects, /cardClassName="hover-copy-card"/);
-  assert.match(projects, /showHoverCopy/);
   assert.match(news, /<HoverCardCopy title=\{item\.title\} description=\{item\.excerpt\} \/>/);
 });
 

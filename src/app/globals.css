@@ -663,6 +663,137 @@ canvas {
   }
 }
 
+/* 项目卡片悬停详情：深色浮层与白色卡片形成明确区分，尖角指向来源卡片；
+   打开时其余卡片蒙上浅色遮罩，来源卡片以品牌绿描边保持高亮。
+   面板高度随内容撑开，不设内部滚动，且不接收指针事件，滚轮始终直接滚动页面。 */
+.card-peek-area .marquee-track {
+  position: relative;
+}
+
+.card-peek-area .marquee-track::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(248, 251, 239, 0.66);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+.card-peek-area[data-peek-open] .marquee-track {
+  animation-play-state: paused;
+}
+
+.card-peek-area[data-peek-open] .marquee-track::after {
+  opacity: 1;
+}
+
+.card-peek-area [data-peek-active] {
+  position: relative;
+  z-index: 2;
+  border-color: var(--button-bg);
+  box-shadow: 0 0 0 2px rgba(143, 195, 31, 0.6), 0 18px 36px rgba(0, 73, 102, 0.16);
+}
+
+.card-peek-panel {
+  --peek-surface: #0f2739;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 35;
+  width: min(440px, calc(100vw - 32px));
+  padding: 22px 24px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(143, 195, 31, 0.2), transparent 46%),
+    var(--peek-surface);
+  box-shadow: 0 28px 64px rgba(13, 34, 48, 0.36), 0 6px 18px rgba(13, 34, 48, 0.18);
+  pointer-events: none;
+  animation: card-peek-in 160ms ease-out both;
+}
+
+.card-peek-panel::before {
+  content: "";
+  position: absolute;
+  top: var(--peek-notch, 32px);
+  width: 14px;
+  height: 14px;
+  border: 0 solid rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  background: var(--peek-surface);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.card-peek-panel[data-side="right"]::before {
+  left: -8px;
+  border-width: 0 0 1px 1px;
+}
+
+.card-peek-panel[data-side="left"]::before {
+  right: -8px;
+  border-width: 1px 1px 0 0;
+}
+
+.card-peek-panel[data-side="over"]::before {
+  display: none;
+}
+
+.card-peek-title {
+  color: #fff;
+}
+
+.card-peek-body {
+  color: rgba(226, 236, 242, 0.84);
+}
+
+.card-peek-tag,
+.card-peek-board {
+  border-radius: 9999px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.card-peek-tag {
+  background: rgba(125, 211, 252, 0.14);
+  color: #a9def4;
+}
+
+.card-peek-board {
+  background: rgba(143, 195, 31, 0.2);
+  color: #c6ea7c;
+}
+
+.card-peek-meta {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.card-peek-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes card-peek-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-peek-panel {
+    animation: none;
+  }
+
+  .card-peek-area .marquee-track::after {
+    transition: none;
+  }
+}
+
 @media (min-width: 640px) {
   :root { --home-body-size: 16px; }
 }

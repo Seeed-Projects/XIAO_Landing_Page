@@ -33,7 +33,7 @@ export function HoverCardCopy({ title, description }) {
   );
 }
 
-export function ScrollCard({ image, tag, meta, title, excerpt, alt = "", variant = "compact", showHoverCopy = false }) {
+export function ScrollCard({ image, tag, meta, title, excerpt, alt = "", variant = "compact" }) {
   const comfy = variant === "comfortable";
   const imgGap = comfy ? "mt-6" : "mt-3";
   const titleGap = comfy ? "mt-4" : "mt-2";
@@ -84,7 +84,6 @@ export function ScrollCard({ image, tag, meta, title, excerpt, alt = "", variant
           </p>
         )}
       </div>
-      {showHoverCopy && <HoverCardCopy title={title} description={excerpt} />}
     </>
   );
 }
