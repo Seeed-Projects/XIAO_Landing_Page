@@ -57,14 +57,14 @@ const TOOLS = [
     image: "/res-thumb/s3-3d.png",
     en: {
       title: "XIAO Hardware Resources",
-      description: "Filter by XIAO model to find the hardware files needed for PCB, enclosure and product design.",
-      details: ["Datasheets", "Schematics & footprints", "Dimensions & 3D models"],
+      description: "Pick a XIAO to get schematics, KiCad files, dimensions, 3D models and firmware, plus the series-wide KiCad design kit.",
+      details: ["Design files", "3D & dimensions", "KiCad design kit"],
       action: "Browse resources",
     },
     zh: {
       title: "XIAO 硬件资料",
-      description: "按 XIAO 型号筛选，集中找到 PCB、外壳和产品设计所需的硬件文件。",
-      details: ["数据手册", "原理图与封装", "尺寸图与 3D 模型"],
+      description: "选择开发板，获取设计文件、尺寸图、3D 模型、固件及全系列 KiCad 套件。",
+      details: ["设计文件", "3D 与尺寸图", "KiCad 设计套件"],
       action: "浏览硬件资料",
     },
   },
@@ -74,18 +74,85 @@ const TOOLS = [
     icon: "code",
     en: {
       title: "XIAO Software Ecosystem",
-      description: "Find the development environment, framework and integration that fits your XIAO project.",
-      details: ["Arduino & PlatformIO", "MicroPython & Zephyr", "Board support guides"],
+      description: "Explore official XIAO software for smart homes, cross-chip development, displays and AI, alongside community tools.",
+      details: ["Official software stories", "Smart home & AI", "Community tools"],
       action: "Explore software",
     },
     zh: {
       title: "XIAO 软件生态",
-      description: "为 XIAO 项目找到合适的开发环境、软件框架和集成方案。",
-      details: ["Arduino 与 PlatformIO", "MicroPython 与 Zephyr", "开发板支持指南"],
+      description: "探索 XIAO 官方软件，了解智能家居、跨芯片开发、屏幕与 AI 应用，并发现社区工具。",
+      details: ["官方软件", "智能家居与 AI", "社区工具"],
       action: "探索软件",
     },
   },
 ];
+
+const RESOURCE_FILES = [
+  { name: "Datasheet", format: "PDF", image: "/res-thumb/esp32-s3-datasheet-0reydso.webp" },
+  { name: "Schematic", format: "PDF", image: "/res-thumb/202003751-xiao-esp32s3-v1-4-sch-260226-pdf-0tetozv.webp" },
+  { name: "KiCad", format: "ZIP", image: "/res-thumb/202003751-xiao-esp32s3-v1-4-sch-pcb-260226-1xql2ir.svg" },
+  { name: "Dimensions", format: "DXF", image: "/res-thumb/xiao-esp32s3-v1-1-dimensioning-0dv82fr.svg" },
+  { name: "3D model", format: "STEP", image: "/res-thumb/s3-3d.png" },
+];
+
+const SOFTWARE_STORIES = [
+  { name: "Zephyr RTOS", image: "/software-animations/zephyr.webp" },
+  { name: "Home Assistant", image: "/software-animations/ha.webp" },
+];
+
+function PreviewImage({ image, width, height }) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={withBase(image)} alt="" width={width} height={height} loading="lazy" />
+  );
+}
+
+function ResourcePreview() {
+  return (
+    <div className={styles.resourceLibrary}>
+      <span className={styles.resourceBoard}>
+        <PreviewImage image="/home/playground-boards/esp32-s3.webp" />
+        XIAO ESP32-S3
+      </span>
+      <div className={styles.resourceFiles}>
+        {RESOURCE_FILES.map((file) => (
+          <div key={file.name} className={styles.resourceFile}>
+            <div className={styles.resourceThumb}>
+              <PreviewImage image={file.image} />
+            </div>
+            <div className={styles.resourceCaption}>
+              <span className={styles.resourceName}>{file.name}</span>
+              <span className={styles.resourceFormat}>{file.format}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SoftwarePreview() {
+  return (
+    <div className={styles.softwareEcosystem}>
+      <div className={styles.storyDeck}>
+        {SOFTWARE_STORIES.map((story) => (
+          <div key={story.name} className={styles.storyScreen}>
+            <PreviewImage image={story.image} width="1200" height="720" />
+            <div className={styles.storyCaption}>
+              <span className={styles.storyBadge}>{story.name}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className={styles.communityStrip}>
+        <span className={styles.communityLabel}>Community ecosystem</span>
+        <div className={styles.communityNames}>
+          <span>PlatformIO</span><span>CircuitPython</span><span>Matter</span><span>Edge Impulse</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function PlaygroundPage() {
   const { lang } = useLang();
@@ -120,13 +187,13 @@ export default function PlaygroundPage() {
                           <img key={image} src={withBase(image)} alt="" loading="lazy" style={{ "--board-index": imageIndex }} />
                         ))}
                       </div>
+                    ) : tool.key === "resources" ? (
+                      <ResourcePreview />
                     ) : tool.image ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={withBase(tool.image)} alt="" loading="lazy" />
                     ) : (
-                      <span className={styles.softwareStack}>
-                        <span>Arduino IDE</span><span>PlatformIO</span><span>MicroPython</span><span>Zephyr</span>
-                      </span>
+                      <SoftwarePreview />
                     )}
                   </div>
                   <div className={styles.toolContent}>
