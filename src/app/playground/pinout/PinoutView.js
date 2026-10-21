@@ -162,12 +162,62 @@ function sampleCode(pin, primer, framework) {
   return primer?.code?.[framework] || primer?.code?.arduino || "";
 }
 
+/** Fit the full printed label inside its artwork box at the current font metrics.
+ * 按当前字体尺寸将完整印刷标签缩放到原图框内。 */
+function DiagramLabel({ box, visible, color }) {
+  const textRef = useRef(null);
+  const fontSize = box.h * 0.58;
+  useLayoutEffect(() => {
+    const label = textRef.current;
+    if (!label) return;
+    let cancelled = false;
+    const fit = () => {
+      if (cancelled) return;
+      label.setAttribute("font-size", fontSize);
+      const width = label.getComputedTextLength();
+      const available = Math.max(1, box.w - 12);
+      if (width > available) label.setAttribute("font-size", fontSize * available / width);
+    };
+    fit();
+    document.fonts.ready.then(fit);
+    return () => { cancelled = true; };
+  }, [box.text, box.w, fontSize]);
+  return (
+    <text
+      ref={textRef}
+      className={styles.diagramLabel}
+      x={box.x + box.w / 2}
+      y={box.y + box.h / 2}
+      fontSize={fontSize}
+      style={{ fill: color, opacity: visible ? 1 : 0 }}
+      textAnchor="middle"
+      dominantBaseline="central"
+      aria-hidden="true"
+    >
+      {box.text}
+    </text>
+  );
+}
+
+/** Pick the higher-contrast label ink for the shared legend background.
+ * 为共享图例底色选择对比度更高的标签文字颜色。 */
+function diagramLabelColor(color) {
+  const channels = color.slice(1).match(/.{2}/g).map((hex) => {
+    const channel = parseInt(hex, 16) / 255;
+    return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+  });
+  const luminance = channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+  return luminance > 0.179 ? "#18222f" : "#fff";
+}
+
 /**
  * Official diagram with a click / highlight layer over its label rows.
  * 官方引脚图，叠加一层可点击、可高亮的标签行。
  */
 function DiagramStage({ diagram, board, selection, filter, query, lang, face, onSelect }) {
   const { crop, width, height, src, rows } = diagram;
+  const filterColor = FN_COLOR[filter] || "#fff";
+  const labelColor = diagramLabelColor(filterColor);
   const pinOf = (id) => board.pins.find((pin) => pin.id === id) || null;
   const rowLabel = (pin, id) => (pin ? cardTitle(pin, board.id) : id);
   return (
@@ -185,6 +235,8 @@ function DiagramStage({ diagram, board, selection, filter, query, lang, face, on
         const pin = pinOf(row.id);
         const active = selection?.face === face && selection?.index === index && selection?.id === row.id;
         const queryDim = Boolean(query && (!pin || !pinMatchesQuery(pin, query)));
+        const filterMatch = row.boxes.some((box) => diagramBoxMatchesFilter(box.cat, filter));
+        const dim = queryDim || !filterMatch;
         const left = Math.min(...row.boxes.map((box) => box.x));
         const right = Math.max(...row.boxes.map((box) => box.x + box.w));
         const top = Math.min(...row.boxes.map((box) => box.y));
@@ -198,7 +250,7 @@ function DiagramStage({ diagram, board, selection, filter, query, lang, face, on
           <g
             key={`${row.side}-${index}-${row.id}`}
             data-pin-row="1"
-            className={`${styles.diagramRow} ${active ? styles.diagramRowActive : ""}`}
+            className={`${styles.diagramRow} ${active ? styles.diagramRowActive : ""} ${filter && !dim ? styles.diagramRowFiltered : ""}`}
             style={{ "--pin-color": FN_COLOR[pin?.fn] || "#0f172a" }}
             role="button"
             tabIndex={0}
@@ -214,18 +266,34 @@ function DiagramStage({ diagram, board, selection, filter, query, lang, face, on
                 : `M ${left - 8} ${top - 3} H ${right + 4} V ${bottom + 3} H ${left - 8} L ${left - 14} ${(top + bottom) / 2} Z`}
             />
             <polygon
-              className={styles.diagramMark}
+              className={`${styles.diagramMark} ${dim ? styles.diagramMarkDim : ""}`}
               points={row.side === "left"
                 ? `${right + 6},${top - 1} ${right + 14},${(top + bottom) / 2} ${right + 6},${bottom + 1}`
                 : `${left - 6},${top - 1} ${left - 14},${(top + bottom) / 2} ${left - 6},${bottom + 1}`}
             />
-            {row.boxes.map((box, boxIndex) => (
-              <polygon
-                key={boxIndex}
-                className={`${styles.diagramBox} ${queryDim || !diagramBoxMatchesFilter(box.cat, filter) ? styles.diagramBoxDim : ""}`}
-                points={`${box.x + 5},${box.y} ${box.x + box.w},${box.y} ${box.x + box.w},${box.y + box.h} ${box.x},${box.y + box.h} ${box.x},${box.y + 5}`}
-              />
-            ))}
+            {row.boxes.map((box, boxIndex) => {
+              const repaint = Boolean(filter && !dim && diagramBoxMatchesFilter(box.cat, filter));
+              return (
+                <g key={boxIndex}>
+                  <polygon
+                    className={`${styles.diagramBox} ${dim ? styles.diagramBoxDim : ""}`}
+                    points={`${box.x + 5},${box.y} ${box.x + box.w},${box.y} ${box.x + box.w},${box.y + box.h} ${box.x},${box.y + box.h} ${box.x},${box.y + 5}`}
+                  />
+                  <rect
+                    className={styles.diagramBox}
+                    x={box.x}
+                    y={box.y}
+                    width={box.w}
+                    height={box.h}
+                    rx={box.rx}
+                    ry={box.ry}
+                    style={{ fill: filterColor, opacity: repaint ? 1 : 0 }}
+                    aria-hidden="true"
+                  />
+                  <DiagramLabel box={box} visible={repaint} color={labelColor} />
+                </g>
+              );
+            })}
           </g>
         );
       })}

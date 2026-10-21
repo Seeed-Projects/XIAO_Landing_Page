@@ -385,10 +385,49 @@ languages to match the printed artwork. Every chip carries the same width, sized
 to the longest label, and the row stays left aligned and wraps on narrow
 viewports.
 
+Selecting a colour key keeps every label in each matching pin row fully coloured
+and adds a subtle row highlight. Labels matching the selected function use the
+key's colour, with centred, contrast-aware printed text fitted to the original
+box. Other labels in that row retain their artwork colours. Clearing the filter
+restores the original artwork. Other rows fade, including their selection
+marks. Pin search combines with the colour key, so a row stays bright when it
+matches both. Selecting the active key again clears the colour filter.
+
 Official artwork lives in `public/xiao-products/pinout/<boardId>-<face>.svg`
-(46 faces). Label boxes are scanned from SVG rects; row ids are mapped in
-`scripts/pinout-generate-rows.mjs` (`MANUAL` plus inference). After a mapping
-change, regenerate rows and proof sheets:
+(47 faces, including the S3 Sense expansion module). Label boxes are scanned
+from SVG rects. Categories come from their printed text: combined labels retain
+every named function in a `cat` array, while single-category labels keep a string.
+The raster scanner uses colour as a fallback. Outlined
+SVG lettering is transcribed by box coordinates in `scripts/pinout-label-text.json`;
+each face's SHA-256 binds the transcription to its reviewed artwork. For updated
+artwork, review its label text and coordinates and refresh the hash in that index.
+`scripts/pinout-label-categories.mjs` distinguishes buses, pin names, power rails,
+system controls and peripherals, including CAN/PTC and I2S/indicator labels.
+Row ids are mapped in `scripts/pinout-generate-rows.mjs` (`MANUAL` plus inference).
+Artwork column boundaries are stored as height-indexed `columnSplits`: the S3
+Sense module uses separate banner and B2B connector centres, and RA4's back uses
+the board centre. Scanning collapses coincident SVG rectangles to one physical
+label. Each connector column has its own rows, including power, ground and NC.
+Refresh categories in the calibrated layouts, then regenerate rows and audit:
+
+```
+node scripts/pinout-ingest.mjs --categories-only
+node scripts/pinout-generate-rows.mjs
+node scripts/pinout-filter-audit.mjs
+```
+
+The audit lists highlighted rows and every box's printed text/category for each
+board, face and visible legend filter. Each generated box carries its printed
+`text` and original corner radii for the client overlay. The audit checks complete,
+accurate box text, box categories, combined labels,
+row matches and complete face coverage. Structural checks cover multiple GPIO
+or D-number boxes, cross-column or split label bands, vertical alignment, duplicate
+ownership and unassigned printed labels. Empty artwork cells remain part of the
+same horizontal band. Per-face counts identify structural issues. The 15 exact
+SVG overprints on SAMD21 Plus back have a coordinate-specific artwork exception
+and render once. Mismatches produce a nonzero exit status.
+Use `--summary` for counts or `--json` for the full machine-readable report.
+After a row mapping change, regenerate rows and proof sheets:
 
 ```
 node scripts/pinout-generate-rows.mjs

@@ -40,7 +40,7 @@ const MANUAL = {
   c3: {
     front: {
       left: ["D0", "D1", "D2", "D3", "D4", "D5", "D6", "Boot", "UFL_ANT"],
-      right: ["CHARGE_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7"],
+      right: ["CHARGE_LED", "5V", "GND", "3V3", "D10", "D9", "D8", "D7", "RST"],
     },
     back: {
       left: ["MTDO", "GND", "MTCK"],
@@ -115,8 +115,8 @@ const MANUAL = {
     // 点击的图上文字一致。顶部横幅两行是主板 JTAG 引脚 MTMS/MTDI；连接器两端
     // 的 VIN 行对应 VIN 引脚；PDM_CLK / PDM_DATA / SHIELD 重复出现。
     module: {
-      left: ["MTMS", "SHIELD", "USER_LED", "DVP_Y9", "DVP_HREF", "DVP_VSYNC", "CAM_SCL", "CAM_SDA", "PDM_DATA", "PDM_CLK", "SHIELD"],
-      right: ["MTDI", "SHIELD", "VIN", "DVP_Y4", "DVP_Y3", "DVP_Y5", "DVP_Y2", "DVP_Y6", "DVP_PCLK", "DVP_Y7", "DVP_Y8", "XMCLK", "SD_MOSI", "SD_MISO", "SD_SCK", "SD_CS", "VIN", "SHIELD"],
+      left: ["MTMS", "SHIELD", "USER_LED", "GND", "3V3", "3V3", "NC", "DVP_Y9", "DVP_HREF", "DVP_VSYNC", "CAM_SCL", "CAM_SDA", "PDM_DATA", "PDM_CLK", "GND", "GND", "VIN", "SHIELD"],
+      right: ["MTDI", "SHIELD", "VIN", "DVP_Y4", "DVP_Y3", "DVP_Y5", "DVP_Y2", "DVP_Y6", "DVP_PCLK", "DVP_Y7", "DVP_Y8", "XMCLK", "SD_MOSI", "SD_MISO", "SD_SCK", "SD_CS", "NC", "SHIELD"],
     },
   },
   nrf52: {
@@ -256,7 +256,7 @@ const MANUAL = {
     },
     back: {
       left: ["SWCLK", "GND", "3V3", "D11", "D12", "D13", "D14", "BAT-"],
-      right: ["SWDIO", "RST", "Boot", "D18", "D17", "D16", "D15"],
+      right: ["SWDIO", "RST", "Boot", "D18", "D17", "D16", "D15", "BAT+"],
     },
   },
   stm32c5: {

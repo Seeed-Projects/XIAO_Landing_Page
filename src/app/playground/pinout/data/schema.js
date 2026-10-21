@@ -128,14 +128,12 @@ export function pinHasFilter(pin, filter) {
   return false;
 }
 
-/** Match an official diagram label colour to the interactive legend filter. */
+/** Match every function category printed in an official diagram label.
+ * 匹配官方引脚图标签中印出的每个功能类别。 */
 export function diagramBoxMatchesFilter(category, filter) {
   if (!filter) return true;
-  if (category === "system") return filter === "rst";
-  // The scanner names the #5c6bc0 colour "ptc" after the SAMD21 touch channels;
-  // on stm32c5 the same colour marks the CAN bus pins, so the CAN key matches it.
-  if (filter === "can") return category === "ptc";
-  return category === filter;
+  const categories = Array.isArray(category) ? category : [category];
+  return categories.some((item) => (item === "system" ? "rst" : item) === filter);
 }
 
 export function visibleOnSide(pin, side) {

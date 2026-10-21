@@ -10,11 +10,6 @@ const layout = {
     "w": 589,
     "h": 237.39999999999998
   },
-  // Hand-annotated baked-in colour key at the diagram foot (the ingest scan
-  // drops it, which would crop the published key away). Verified against the
-  // SVG source rects: x739/890.67/1042.33, y817, w135, h32.4.
-  // 底部内置图例为手工标注（扫描环节会丢掉该字段，导致裁剪时图例被裁走）。
-  // 坐标与 SVG 源 rect 实测一致：x739/890.67/1042.33，y817，w135，h32.4。
   "legend": [
     {
       "x": 739,
@@ -48,7 +43,10 @@ const layout = {
             "y": 286,
             "w": 135,
             "h": 32.4,
-            "cat": "system"
+            "cat": "system",
+            "text": "MTDO",
+            "rx": 5.399999618530273,
+            "ry": 5.399999618530273
           }
         ]
       },
@@ -60,7 +58,10 @@ const layout = {
             "y": 325,
             "w": 135,
             "h": 32.4,
-            "cat": "gnd"
+            "cat": "gnd",
+            "text": "GND",
+            "rx": 5.399999618530273,
+            "ry": 5.399999618530273
           }
         ]
       },
@@ -72,7 +73,10 @@ const layout = {
             "y": 363,
             "w": 135,
             "h": 32.4,
-            "cat": "system"
+            "cat": "system",
+            "text": "MTCK",
+            "rx": 5.399999618530273,
+            "ry": 5.399999618530273
           }
         ]
       },
@@ -84,7 +88,10 @@ const layout = {
             "y": 401,
             "w": 135,
             "h": 32.4,
-            "cat": "system"
+            "cat": "peripheral",
+            "text": "USB_D+",
+            "rx": 5.399999618530273,
+            "ry": 5.399999618530273
           }
         ]
       }
@@ -98,7 +105,10 @@ const layout = {
             "y": 286,
             "w": 135,
             "h": 32.4,
-            "cat": "system"
+            "cat": "system",
+            "text": "MTDI",
+            "rx": 5.399999618530273,
+            "ry": 5.399999618530273
           }
         ]
       },
@@ -110,7 +120,10 @@ const layout = {
             "y": 324,
             "w": 135,
             "h": 32.4,
-            "cat": "system"
+            "cat": "system",
+            "text": "EN",
+            "rx": 5.399999618530273,
+            "ry": 5.399999618530273
           }
         ]
       },
@@ -122,7 +135,10 @@ const layout = {
             "y": 363,
             "w": 135,
             "h": 32.4,
-            "cat": "system"
+            "cat": "system",
+            "text": "MTMS",
+            "rx": 5.399999618530273,
+            "ry": 5.399999618530273
           }
         ]
       },
@@ -134,7 +150,10 @@ const layout = {
             "y": 401,
             "w": 135,
             "h": 32.4,
-            "cat": "system"
+            "cat": "peripheral",
+            "text": "USB_D-",
+            "rx": 5.399999618530273,
+            "ry": 5.399999618530273
           }
         ]
       },
@@ -146,7 +165,10 @@ const layout = {
             "y": 456,
             "w": 135,
             "h": 32.4,
-            "cat": "gnd"
+            "cat": "gnd",
+            "text": "BAT-",
+            "rx": 5.399999618530273,
+            "ry": 5.399999618530273
           }
         ]
       },
@@ -158,7 +180,10 @@ const layout = {
             "y": 491,
             "w": 135,
             "h": 32.4,
-            "cat": "power"
+            "cat": "power",
+            "text": "BAT+",
+            "rx": 5.399999618530273,
+            "ry": 5.399999618530273
           }
         ]
       }

@@ -288,12 +288,14 @@
 .diagramRow { cursor: pointer; outline: none; }
 .diagramBand,
 .diagramBox,
+.diagramLabel,
 .diagramMark {
   fill: transparent;
   stroke: transparent;
   transition: fill 0.16s ease, stroke 0.16s ease, opacity 0.16s ease;
 }
 .diagramBand { pointer-events: all; }
+.diagramRowFiltered .diagramBand,
 .diagramRow:hover .diagramBand,
 .diagramRow:focus-visible .diagramBand { fill: rgba(24, 34, 79, 0.05); }
 .diagramRowActive .diagramBand,
@@ -303,7 +305,13 @@
   stroke-width: 1.75;
 }
 .diagramRowActive .diagramMark { fill: var(--pin-color); }
+.diagramMarkDim { opacity: 0.28; }
 .diagramBoxDim { fill: rgba(255, 255, 255, 0.72); }
+.diagramLabel {
+  font-family: var(--font-body);
+  font-weight: 700;
+  pointer-events: none;
+}
 
 .card {
   border: 1px solid var(--line-soft);
@@ -549,6 +557,7 @@
 @media (prefers-reduced-motion: reduce) {
   .diagramBand,
   .diagramBox,
+  .diagramLabel,
   .diagramMark,
   .legendBtn { transition: none; }
   .legendBtn:hover { transform: none; }

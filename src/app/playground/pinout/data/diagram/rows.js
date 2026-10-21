@@ -141,6 +141,10 @@ export const DIAGRAM_ROWS = {
         "MTMS",
         "SHIELD",
         "USER_LED",
+        "GND",
+        "3V3",
+        "3V3",
+        "NC",
         "DVP_Y9",
         "DVP_HREF",
         "DVP_VSYNC",
@@ -148,6 +152,9 @@ export const DIAGRAM_ROWS = {
         "CAM_SDA",
         "PDM_DATA",
         "PDM_CLK",
+        "GND",
+        "GND",
+        "VIN",
         "SHIELD"
       ],
       "right": [
@@ -167,7 +174,7 @@ export const DIAGRAM_ROWS = {
         "SD_MISO",
         "SD_SCK",
         "SD_CS",
-        "VIN",
+        "NC",
         "SHIELD"
       ]
     }
@@ -375,7 +382,8 @@ export const DIAGRAM_ROWS = {
         "D10",
         "D9",
         "D8",
-        "D7"
+        "D7",
+        "RST"
       ]
     },
     "back": {
@@ -1130,7 +1138,8 @@ export const DIAGRAM_ROWS = {
         "D18",
         "D17",
         "D16",
-        "D15"
+        "D15",
+        "BAT+"
       ]
     }
   },

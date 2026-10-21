@@ -18,10 +18,10 @@
  *   legend          bottom legend swatches with their colours
  *   rows.left/right label rows on each side of the board, top to bottom;
  *                   each row lists its boxes from the board outward with a
- *                   colour category guessed from the legend palette
- * 读取 `public/xiao-products/pinout/<id>-<face>.png`，输出（单位均为图片像素）：
+ *                   function category read from its printed label text
+ * 输出包含图片尺寸、裁切范围、图例和按文字分类的左右标签行：
  * size 图片尺寸；content 引脚色块与底部图例外接矩形，用于裁切；legend 底部图例色块；
- * rows.left/right 板子两侧的标签行（自上而下），每行从靠板一侧向外列出框及其颜色分类。
+ * rows.left/right 板子两侧的标签行（自上而下），每行从靠板一侧向外列出框及其功能类别。
  */
 
 import { execFileSync } from "node:child_process";
@@ -31,9 +31,18 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
+import { labelBoxKey, svgLabelReader } from "./pinout-label-text.mjs";
+import { labelCategories, categoryValue } from "./pinout-label-categories.mjs";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const IMAGE_DIR = path.join(ROOT, "public/xiao-products/pinout");
+
+// Column boundaries in artwork coordinates, starting at each band's top edge.
+// 图稿坐标中的列分界，每段从指定的顶部高度开始。
+const COLUMN_SPLITS = {
+  "s3sense-module": [{ y: 0, x: 898.6 }, { y: 300, x: 1215.4 }],
+  "ra4-back": [{ y: 0, x: 851.35 }],
+};
 const CHROME_CANDIDATES = [
   process.env.CHROME_BIN,
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
@@ -113,7 +122,8 @@ img.src = src;
  * 顺序遍历标签，跟踪外层 `<g>` 的 `matrix()` 变换（仅处理无旋转的情况），
  * 保留形状像标签的实心 `<rect>`；返回与位图扫描相同结构的 { W, H, blobs }。
  */
-export function scanSvg(source) {
+export function scanSvg(source, sourceId) {
+  const readLabel = sourceId ? svgLabelReader(source, sourceId) : null;
   const viewBox = source.match(/viewBox="([^"]+)"/)?.[1].trim().split(/[\s,]+/).map(Number);
   if (!viewBox || viewBox.length !== 4) throw new Error("SVG has no viewBox");
   const [, , W, H] = viewBox;
@@ -152,10 +162,27 @@ export function scanSvg(source) {
     if (!fill || !fill.startsWith("#")) continue;
     const box = apply(Number(attr(tag, "x") || 0), Number(attr(tag, "y") || 0), Number(attr(tag, "width")), Number(attr(tag, "height")));
     if (box.w >= 30 * scale && box.w <= 240 * scale && box.h >= 10 * scale && box.h <= 34 * scale && box.w / box.h > 1.6) {
-      blobs.push({ x: +box.x.toFixed(2), y: +box.y.toFixed(2), w: +box.w.toFixed(2), h: +box.h.toFixed(2), color: hexToRgb(fill) });
+      const rounded = apply(0, 0, Number(attr(tag, "rx") || 0), Number(attr(tag, "ry") || attr(tag, "rx") || 0));
+      blobs.push({ x: +box.x.toFixed(2), y: +box.y.toFixed(2), w: +box.w.toFixed(2), h: +box.h.toFixed(2), rx: rounded.w, ry: rounded.h, color: hexToRgb(fill) });
     }
   }
-  return { W, H, blobs };
+  const unique = new Map(), overprints = [];
+  for (const box of blobs) {
+    const key = labelBoxKey(box);
+    if (unique.has(key)) overprints.push(box);
+    else unique.set(key, box);
+  }
+  return {
+    W, H,
+    ...(COLUMN_SPLITS[sourceId] ? { columnSplits: COLUMN_SPLITS[sourceId] } : {}),
+    overprints,
+    blobs: [...unique.values()].map((box) => {
+      if (!readLabel) return box;
+      const text = readLabel(box);
+      const categories = labelCategories(text);
+      return { ...box, text, cat: categories.length ? categoryValue(categories) : category(box.color) };
+    }),
+  };
 }
 
 function chromeBinary() {
@@ -178,8 +205,8 @@ function category(color) {
  * Group boxes into legend / left rows / right rows.
  * 把框分成图例、左侧行、右侧行。
  */
-export function groupBoxes({ W, H, blobs }) {
-  const boxes = blobs.map((blob) => ({ ...blob, cx: blob.x + blob.w / 2, cy: blob.y + blob.h / 2, cat: category(blob.color) }));
+export function groupBoxes({ W, H, blobs, columnSplits }) {
+  const boxes = blobs.map((blob) => ({ ...blob, cx: blob.x + blob.w / 2, cy: blob.y + blob.h / 2, cat: blob.cat ?? category(blob.color) }));
   // Legend: the lowest band of boxes, separated from the body by a clear gap.
   // 图例：最下方的一条框，与主体之间有明显空隙。
   const sortedY = [...boxes].sort((a, b) => b.cy - a.cy);
@@ -193,6 +220,7 @@ export function groupBoxes({ W, H, blobs }) {
   for (let i = 1; i < xs.length; i++) {
     if (xs[i] - xs[i - 1] > widest) { widest = xs[i] - xs[i - 1]; split = (xs[i] + xs[i - 1]) / 2; }
   }
+  const splitAt = (box) => columnSplits?.findLast((band) => box.cy >= band.y)?.x ?? split;
   const rowsOf = (list, outward) => {
     const rows = [];
     for (const box of [...list].sort((a, b) => a.cy - b.cy)) {
@@ -204,7 +232,7 @@ export function groupBoxes({ W, H, blobs }) {
       y: Math.round(row.cy),
       boxes: row.boxes
         .sort((a, b) => (outward === "left" ? b.cx - a.cx : a.cx - b.cx))
-        .map(({ x, y, w, h, cat }) => ({ x, y, w, h, cat })),
+        .map(({ x, y, w, h, rx, ry, cat, text }) => ({ x, y, w, h, rx, ry, cat, text })),
     }));
   };
   const all = body.length || legend.length ? [...body, ...legend] : boxes;
@@ -216,12 +244,13 @@ export function groupBoxes({ W, H, blobs }) {
   };
   return {
     size: { width: W, height: H },
+    ...(columnSplits ? { columnSplits } : {}),
     content: { x: content.x, y: content.y, w: content.right - content.x, h: content.bottom - content.y },
     split: Math.round(split),
     legend: legend.sort((a, b) => a.cx - b.cx).map(({ x, y, w, h, color, cat }) => ({ x, y, w, h, color, cat })),
     rows: {
-      left: rowsOf(body.filter((box) => box.cx < split), "left"),
-      right: rowsOf(body.filter((box) => box.cx >= split), "right"),
+      left: rowsOf(body.filter((box) => box.cx < splitAt(box)), "left"),
+      right: rowsOf(body.filter((box) => box.cx >= splitAt(box)), "right"),
     },
   };
 }
@@ -232,6 +261,7 @@ const LAYOUT_DIR = path.join(ROOT, "src/app/playground/pinout/data/diagrams");
 function layoutModule(boardId, face, layout) {
   const compact = {
     size: layout.size,
+    ...(layout.columnSplits ? { columnSplits: layout.columnSplits } : {}),
     content: layout.content,
     rows: {
       left: layout.rows.left.map((row) => ({ y: row.y, boxes: row.boxes })),
@@ -261,7 +291,7 @@ async function main() {
   const pngFile = path.join(IMAGE_DIR, `${boardId}-${face}.png`);
   let raw;
   if (existsSync(svgFile)) {
-    raw = scanSvg(await readFile(svgFile, "utf8"));
+    raw = scanSvg(await readFile(svgFile, "utf8"), `${boardId}-${face}`);
   } else if (existsSync(pngFile)) {
     const chrome = chromeBinary();
     const dir = await mkdtemp(path.join(tmpdir(), "pinout-diagram-"));

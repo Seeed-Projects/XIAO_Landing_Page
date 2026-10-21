@@ -81,6 +81,7 @@ export function buildVariantBoards(baseBoards) {
     // left column) are the expansion board's 5V feed from the main board.
     // 连接器两端的 VIN 行是扩展板从主板取电的 5V 电源。
     onboard("VIN", "VBUS", "power", "Expansion-board 5V power input — wired to the main board 5V (VBUS) pin.", "扩展板 5V 电源输入，接主板 5V（VBUS）引脚。", "esp32", { occupiedBy: "Sense expansion board" }),
+    onboard("NC", "NC", "peripheral", "Unconnected expansion-board connector pin.", "", "esp32", { silk: "NC", status: "free", occupiedBy: "Sense expansion board" }),
   ];
   // assembleBoard normally does this: header pins without a measured pad are
   // reclassified as onboard entries. The clone path skips it, so run it here.

@@ -245,16 +245,16 @@ test("colour key follows the official palette and chip wording", () => {
   assert.deepEqual(LEGEND_ORDER.map((fn) => FN_LABEL[fn]), [
     "POWER", "GND", "DIGITAL GPIO", "ADC INPUT", "I2C", "SPI", "UART", "SYSTEM", "PERIPHERAL",
   ]);
-  // The #5c6bc0 chip colour is board-specific: PTC touch channels on the
-  // samd21 series, CAN FD bus pins on stm32c5; other boards carry no such
-  // chips and their legend stops at the shared keys.
+  // Board-specific keys describe PTC touch channels and CAN bus functions.
+  // 板级图例分别表示 PTC 触摸通道和 CAN 总线功能。
   assert.deepEqual(PTC_LEGEND_BOARDS, ["samd21", "samd21plus"]);
   assert.deepEqual(CAN_LEGEND_BOARDS, ["stm32c5"]);
   assert.equal(FN_LABEL.ptc, "PTC");
   assert.equal(FN_LABEL.can, "CAN");
   assert.equal(BOARDS.samd21plus.pins.find((pin) => pin.fn === "can"), undefined);
   assert.equal(BOARDS.stm32c5.pins.find((pin) => pin.id === "CAN_H")?.fn, "can");
-  assert.equal(diagramBoxMatchesFilter("ptc", "can"), true, "the CAN key highlights the same-colour chips");
+  assert.equal(diagramBoxMatchesFilter("can", "can"), true, "the CAN key highlights CAN labels");
+  assert.equal(diagramBoxMatchesFilter("ptc", "can"), false);
   assert.equal(diagramBoxMatchesFilter("digital", "can"), false);
   assert.deepEqual(NEW_LEGEND_BOARDS, []);
   assert.deepEqual(NEW_LEGEND_ORDER.map((fn) => FN_LABEL[fn]), [
@@ -299,26 +299,29 @@ test("s3sense stacks the Sense expansion board as a third interactive module fac
   // connector table labels, and each row opens a pin card.
   // 扩展板（摄像头/麦克风/SD）以第三个“module”面叠在正面/背面之下：行按连接器表
   // 标注的 Sense 信号命名，点行可打开引脚卡。
-  const module = BOARDS.s3sense.diagram.module;
-  assert.ok(module, "s3sense module diagram exists");
-  assert.ok(module.src.endsWith("s3sense-module.svg"));
-  // regroup splits each connector band into left / right rows: 11 + 18.
-  assert.equal(module.rows.filter((row) => row.side === "left").length, 11);
-  assert.equal(module.rows.filter((row) => row.side === "right").length, 18);
+  const moduleDiagram = BOARDS.s3sense.diagram.module;
+  assert.ok(moduleDiagram, "s3sense module diagram exists");
+  assert.ok(moduleDiagram.src.endsWith("s3sense-module.svg"));
+  // Each connector column and its banner form 18 independent rows.
+  // 每列连接器标签及其横幅各组成 18 个独立行。
+  assert.equal(moduleDiagram.rows.filter((row) => row.side === "left").length, 18);
+  assert.equal(moduleDiagram.rows.filter((row) => row.side === "right").length, 18);
   const pinIds = new Set(BOARDS.s3sense.pins.map((pin) => pin.id));
-  for (const row of module.rows) {
+  for (const row of moduleDiagram.rows) {
     assert.ok(pinIds.has(row.id), `s3sense module row ${row.id} maps to a pin card`);
   }
   // Card titles must match the label the user clicks: the top banner bands
   // read JTAG_MTMS/GPIO42/D11 and D12/GPIO41/JTAG_MTDI, so they map to the
   // JTAG pins, and the connector's VIN rows map to the VIN pin.
   // 卡片标题必须与点击的图上文字一致：顶部横幅是 JTAG 引脚，VIN 行对应 VIN。
-  const left = module.rows.filter((row) => row.side === "left").map((row) => row.id);
-  const right = module.rows.filter((row) => row.side === "right").map((row) => row.id);
+  const left = moduleDiagram.rows.filter((row) => row.side === "left").map((row) => row.id);
+  const right = moduleDiagram.rows.filter((row) => row.side === "right").map((row) => row.id);
   assert.equal(left[0], "MTMS");
   assert.equal(right[0], "MTDI");
   assert.equal(right[2], "VIN");
-  assert.equal(right[16], "VIN");
+  assert.equal(left[16], "VIN");
+  assert.equal(left[6], "NC");
+  assert.equal(right[16], "NC");
   assert.equal(BOARDS.s3sense.pins.find((pin) => pin.id === "MTMS").names.chip, "GPIO42");
   assert.equal(BOARDS.s3sense.pins.find((pin) => pin.id === "MTDI").names.chip, "GPIO41");
   assert.equal(BOARDS.s3sense.pins.find((pin) => pin.id === "VIN").names.chip, "VBUS");
@@ -333,16 +336,26 @@ test("s3sense stacks the Sense expansion board as a third interactive module fac
   assert.equal(BOARDS.s3sense.pins.find((pin) => pin.id === "SD_MOSI").names.chip, "GPIO9");
   // Both expansion-board photos stay whole (union y 17-833.6) and the crop
   // stops above the baked-in legend strip (y 1016).
-  assert.deepEqual(module.figure, { x: 207, y: 17, w: 816.4, h: 816.6, fw: 225.6 });
-  assert.ok(module.crop.y <= 17 && module.crop.y + module.crop.h >= 833.6, "module crop keeps both board photos whole");
-  assert.ok(module.crop.y + module.crop.h < 1016, "module crop omits the baked-in legend");
-  assert.ok(module.fitLegendRatio > 0, "module face keeps its published sizing ratio");
+  assert.deepEqual(moduleDiagram.figure, { x: 207, y: 17, w: 816.4, h: 816.6, fw: 225.6 });
+  assert.ok(moduleDiagram.crop.y <= 17 && moduleDiagram.crop.y + moduleDiagram.crop.h >= 833.6, "module crop keeps both board photos whole");
+  assert.ok(moduleDiagram.crop.y + moduleDiagram.crop.h < 1016, "module crop omits the baked-in legend");
+  assert.ok(moduleDiagram.fitLegendRatio > 0, "module face keeps its published sizing ratio");
   // The narrower camera-board photo renders inside the shared size window
   // (boardFrameWidth returns full width: the target would exceed the stage).
   assert.equal(boardFrameWidth({ workWidth: 1200, figureWidth: 225.6 }), null);
 });
 
-test("diagram filters highlight label colours instead of whole pin rows", () => {
+test("diagram filters highlight whole matching rows and combine with pin search", () => {
+  const view = read("./playground/pinout/PinoutView.js");
+  const css = read("./playground/pinout/pinout.module.css");
+  assert.match(view, /const filterMatch = row\.boxes\.some\(\(box\) => diagramBoxMatchesFilter\(box\.cat, filter\)\)/);
+  assert.match(view, /const dim = queryDim \|\| !filterMatch/);
+  assert.match(view, /filter && !dim \? styles\.diagramRowFiltered : ""/);
+  assert.match(view, /styles\.diagramBox\} \$\{dim \? styles\.diagramBoxDim : ""\}/);
+  assert.match(view, /styles\.diagramMark\} \$\{dim \? styles\.diagramMarkDim : ""\}/);
+  assert.match(css, /\.diagramRowFiltered \.diagramBand,[\s\S]*?fill: rgba\(24, 34, 79, 0\.05\)/);
+  assert.match(css, /\.diagramMarkDim \{ opacity: 0\.28; \}/);
+  assert.equal(diagramBoxMatchesFilter("digital", ""), true);
   assert.equal(diagramBoxMatchesFilter("digital", "digital"), true);
   assert.equal(diagramBoxMatchesFilter("system", "digital"), false);
   assert.equal(diagramBoxMatchesFilter("system", "rst"), true);

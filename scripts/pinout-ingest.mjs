@@ -5,6 +5,7 @@
  * Usage / 用法:
  *   node scripts/pinout-ingest.mjs
  *   node scripts/pinout-ingest.mjs --skip-optimize
+ *   node scripts/pinout-ingest.mjs --categories-only
  */
 
 import { execFileSync } from "node:child_process";
@@ -12,7 +13,9 @@ import { existsSync, readdirSync, readFileSync, renameSync, statSync, unlinkSync
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { DIAGRAM_LEGENDS } from "../src/app/playground/pinout/data/diagram/legends.js";
+import { labelBoxKey } from "./pinout-label-text.mjs";
 import { groupBoxes, scanSvg } from "./pinout-diagram-scan.mjs";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
@@ -78,10 +81,11 @@ const SOURCE_MAP = [
 const BOARD_IDS = [...new Set(SOURCE_MAP.map(([, id]) => id).filter((id) => id !== "skip"))];
 
 function matchSource(name) {
-  if (name === "samd21-front.svg") return ["samd21", "front"];
+  const normalized = name.match(/^([a-z0-9]+)-(front|back|module)\.svg$/);
+  if (normalized && BOARD_IDS.includes(normalized[1])) return normalized.slice(1);
   if (name.includes(" (1)")) return null;
   const hit = SOURCE_MAP.find(([prefix]) => name.startsWith(prefix));
-  return hit ? [hit[1], hit[2]] : null;
+  return hit && hit[1] !== "skip" ? [hit[1], hit[2]] : null;
 }
 
 function pngToWebpDataUri(pngPath) {
@@ -121,6 +125,7 @@ function optimizeSvg(source) {
 function layoutModule(boardId, face, layout) {
   const compact = {
     size: layout.size,
+    ...(layout.columnSplits ? { columnSplits: layout.columnSplits } : {}),
     content: layout.content,
     rows: {
       left: layout.rows.left.map((row) => ({ y: row.y, boxes: row.boxes })),
@@ -133,7 +138,64 @@ export default layout;
 `;
 }
 
+/** Refresh categories in the curated layouts, preserving their geometry and metadata.
+ * 更新已校准布局的标签类别，保留坐标和布局元数据。 */
+async function refreshCategories() {
+  const manifest = JSON.parse(readFileSync(path.join(LAYOUT_DIR, "manifest.json"), "utf8"));
+  let faces = 0, boxes = 0;
+  for (const key of Object.keys(manifest.assets)) {
+    const source = readFileSync(path.join(PINOUT_DIR, `${key}.svg`), "utf8");
+    const scanned = scanSvg(source, key);
+    const labels = new Map(scanned.blobs.map((box) => [labelBoxKey(box), box]));
+    const target = path.join(LAYOUT_DIR, `${key}.js`);
+    const { default: layout } = await import(pathToFileURL(target).href);
+    if (scanned.columnSplits) layout.columnSplits = scanned.columnSplits;
+    const seen = new Set();
+    for (const side of ["left", "right"]) {
+      for (const row of layout.rows[side]) {
+        row.boxes = row.boxes.filter((box) => {
+          const key = labelBoxKey(box);
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+      }
+      layout.rows[side] = layout.rows[side].filter((row) => row.boxes.length);
+    }
+    const [boardId, face] = key.split("-");
+    const displayed = new Set([...layout.rows.left, ...layout.rows.right].flatMap((row) => row.boxes.map(labelBoxKey)));
+    const grouped = groupBoxes(scanned);
+    for (const side of ["left", "right"]) {
+      for (const row of grouped.rows[side]) {
+        const missing = row.boxes.filter((box) => box.y < DIAGRAM_LEGENDS[boardId][face].y - 0.5 && !displayed.has(labelBoxKey(box)));
+        if (!missing.length) continue;
+        const existing = [...layout.rows.left, ...layout.rows.right].find((item) => item.boxes.some((box) => row.boxes.some((candidate) => labelBoxKey(candidate) === labelBoxKey(box))));
+        if (existing) existing.boxes.push(...missing);
+        else layout.rows[side].push({ y: row.y, boxes: missing });
+        missing.forEach((box) => displayed.add(labelBoxKey(box)));
+      }
+      layout.rows[side].sort((a, b) => a.y - b.y);
+    }
+    for (const row of [...layout.rows.left, ...layout.rows.right]) {
+      for (const box of row.boxes) {
+        const label = labels.get(labelBoxKey(box));
+        if (!label) throw new Error(`Missing SVG box: ${key} at ${labelBoxKey(box)}`);
+        box.cat = label.cat;
+        box.text = label.text;
+        box.rx = label.rx;
+        box.ry = label.ry;
+        boxes++;
+      }
+    }
+    const moduleSource = readFileSync(target, "utf8").replace(/const layout = [\s\S]*?;(?=\s*export default layout)/, `const layout = ${JSON.stringify(layout, null, 2)};`);
+    writeFileSync(target, moduleSource);
+    faces++;
+  }
+  console.log(`Refreshed categories: ${faces} faces, ${boxes} boxes`);
+}
+
 async function main() {
+  if (process.argv.includes("--categories-only")) return refreshCategories();
   const skipOptimize = process.argv.includes("--skip-optimize");
   await mkdir(TRASH_DIR, { recursive: true });
   await mkdir(LAYOUT_DIR, { recursive: true });
@@ -169,7 +231,7 @@ async function main() {
       writeFileSync(destPath, svg);
     }
 
-    const raw = scanSvg(svg);
+    const raw = scanSvg(svg, `${boardId}-${face}`);
     const layout = groupBoxes(raw);
     const layoutPath = path.join(LAYOUT_DIR, `${boardId}-${face}.js`);
     await writeFile(layoutPath, layoutModule(boardId, face, layout));

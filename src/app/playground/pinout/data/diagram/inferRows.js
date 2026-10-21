@@ -2,8 +2,8 @@ import { laneOnSide, padOnSide } from "../schema.js";
 
 /**
  * Re-group scanned boxes by height, then split into left / right columns
- * with 2-means on box centres so paired pads at the same Y become two rows.
- * 按高度重新分组，再用框中心的 2 均值切开左右列，让同一高度的左右焊盘各成一行。
+ * at artwork column boundaries, falling back to 2-means on box centres.
+ * 按高度重新分组，使用图稿列分界或框中心的 2 均值拆分左右列。
  */
 export function regroupDiagramLayout(layout) {
   const all = [...layout.rows.left, ...layout.rows.right].flatMap((row) => row.boxes.map((box) => ({
@@ -43,13 +43,14 @@ export function regroupDiagramLayout(layout) {
   }
   const toRow = (boxes) => ({
     y: Math.round(boxes.reduce((sum, box) => sum + box.cy, 0) / boxes.length),
-    boxes: boxes.map(({ x, y, w, h, cat }) => ({ x, y, w, h, cat })),
+    boxes: boxes.map(({ x, y, w, h, rx, ry, cat, text }) => ({ x, y, w, h, rx, ry, cat, text })),
   });
   const left = [];
   const right = [];
   for (const band of bands) {
-    const leftBoxes = band.boxes.filter((box) => box.cx < center);
-    const rightBoxes = band.boxes.filter((box) => box.cx >= center);
+    const split = layout.columnSplits?.findLast((item) => band.cy >= item.y)?.x ?? center;
+    const leftBoxes = band.boxes.filter((box) => box.cx < split);
+    const rightBoxes = band.boxes.filter((box) => box.cx >= split);
     if (leftBoxes.length) left.push(toRow(leftBoxes));
     if (rightBoxes.length) right.push(toRow(rightBoxes));
   }
@@ -70,7 +71,7 @@ export function regroupDiagramLayout(layout) {
 
 /** A diagram row that maps to a castellated / power header pin. 对应排针或电源行的标签行。 */
 export function isHeaderDiagramRow(row) {
-  const cats = new Set(row.boxes.map((box) => box.cat));
+  const cats = new Set(row.boxes.flatMap((box) => box.cat));
   if (cats.has("pinname") && (cats.has("system") || cats.has("peripheral")) && !cats.has("digital") && !cats.has("power") && !cats.has("gnd")) {
     return false;
   }
