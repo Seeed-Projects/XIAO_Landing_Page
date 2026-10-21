@@ -390,8 +390,8 @@
   height: 56px;
   flex: 0 0 auto;
   border-radius: 8px;
-  background: #fff;
-  border: 1px solid var(--line-soft);
+  background: transparent;
+  border: 1px solid transparent;
   overflow: visible;
 }
 
@@ -431,7 +431,8 @@
 }
 
 .actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: 45px 39px;
   align-items: center;
   gap: 6px;
   margin-top: 2px;
@@ -452,6 +453,7 @@
 }
 
 .wiki {
+  grid-column: 1;
   border: 1px solid var(--line-soft);
   background: var(--surface-strong);
   color: var(--ink-strong);
@@ -463,6 +465,7 @@
 }
 
 .buy {
+  grid-column: 2;
   border: 0;
   background: var(--button-bg);
   color: #fff !important;

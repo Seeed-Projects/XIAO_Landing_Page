@@ -180,21 +180,21 @@ export const PRODUCT_CATALOG = [
       product(
         "Seeed Studio XIAO 24Ghz mmwave Human Static Presence Module",
         "https://www.seeedstudio.com/Seeed-Studio-XIAO-24Ghz-mmwave-Human-Static-Presence-Module-p-6266.html",
-        "addons/101010001.jpg",
+        "addons/101010001.png",
         "24GHz mmWave module that senses static human presence",
         "https://wiki.seeedstudio.com/mmwave_radar_Intro/",
       ),
       product(
         "Expansion Base for XIAO",
         "https://www.seeedstudio.com/Seeeduino-XIAO-Expansion-board-p-4746.html",
-        "addons/103030356.jpg",
+        "addons/103030356.png",
         "Full-featured expansion base with RTC, OLED, SD card and buzzer",
         "https://wiki.seeedstudio.com/Seeeduino-XIAO-Expansion-Board/",
       ),
       product(
         "CAN Bus Breakout Board for XIAO",
         "https://www.seeedstudio.com/Seeed-Studio-XIAO-CAN-Bus-Expansion-Board-p-5702.html",
-        "addons/105100001.jpg",
+        "addons/105100001.png",
         "CAN bus breakout that turns XIAO into an industrial node",
         "https://wiki.seeedstudio.com/xiao-can-bus-expansion/",
       ),
@@ -215,14 +215,14 @@ export const PRODUCT_CATALOG = [
       product(
         "OV5640 Camera for XIAO ESP32S3 Sense",
         "https://www.seeedstudio.com/OV5640-Camera-for-XIAO-ESP32S3-Sense-With-Heat-Sink-p-5739.html",
-        "addons/114993115.jpg",
+        "addons/114993115.png",
         "5MP camera module with aluminum heat sink for vision projects",
         "https://wiki.seeedstudio.com/xiao_esp32s3_camera_usage/",
       ),
       product(
         "2.4GHz Rod Antenna for XIAO",
         "https://www.seeedstudio.com/2-4GHz-2-81dBi-Antenna-for-XIAO-ESP32C3-p-5475.html",
-        "addons/103990623.jpg",
+        "addons/103990623.png",
         "2.81dBi rod antenna boosting 2.4GHz wireless range",
       ),
       product(
@@ -235,14 +235,14 @@ export const PRODUCT_CATALOG = [
       product(
         "6x10 RGB WS2812 Matrix for XIAO",
         "https://www.seeedstudio.com/6x10-RGB-MATRIX-for-XIAO-p-5771.html",
-        "addons/104030107.jpg",
+        "addons/104030107.png",
         "60-pixel addressable RGB matrix for scrolling text and art",
         "https://wiki.seeedstudio.com/rgb_matrix_for_xiao/",
       ),
       product(
         "XIAO Starter Kit",
         "https://www.seeedstudio.com/Seeed-XIAO-Starter-Kit-p-5378.html",
-        "addons/110010044.jpg",
+        "addons/110010044.png",
         "Grove starter kit bundled with XIAO quick-start courses",
         "https://wiki.seeedstudio.com/XIAO-Kit-Courses/",
       ),
@@ -256,7 +256,7 @@ export const PRODUCT_CATALOG = [
       product(
         "1-Channel Relay for XIAO",
         "https://www.seeedstudio.com/Relay-add-on-module-for-XIAO-p-6310.html",
-        "addons/114993555.jpg",
+        "addons/114993555.png",
         "Single-channel relay module for switching external loads",
         "https://wiki.seeedstudio.com/relay_add_on_module_for_xiao/",
       ),
@@ -277,13 +277,13 @@ export const PRODUCT_CATALOG = [
       product(
         "7-Pin Male Header for XIAO (5 pcs)",
         "https://www.seeedstudio.com/XIAO-Series-7-Pin-Male-Header-5-pcs-p-5460.html",
-        "addons/102010490.jpg",
+        "addons/102010490.png",
         "Solder-friendly 7-pin male headers for all XIAO boards",
       ),
       product(
         "2.4GHz FPC Antenna(1.86dBi) for XIAO nRF54L15",
         "https://www.seeedstudio.com/2-4GHz-FPC-Antenna-1-16dBi-for-XIAO-ESP32S3-p-6440.html",
-        "addons/100039813.jpg",
+        "addons/100039813.png",
         "Flexible IPEX antenna for compact 2.4GHz designs",
       ),
       product(
@@ -300,16 +300,9 @@ export const PRODUCT_CATALOG = [
         "Transparent acrylic enclosure for the XIAO expansion base",
       ),
       product(
-        "ePaper Breakout Board for XIAO",
-        "https://www.seeedstudio.com/ePaper-Breakout-Board-p-5804.html",
-        "addons/105990172.jpg",
-        "Universal e-paper breakout board for XIAO hosts",
-        "https://wiki.seeedstudio.com/seeed_epaper_displays/",
-      ),
-      product(
         "XIAO Machine Learning Practical Class Kit",
         "https://www.seeedstudio.com/Machine-Learning-Practical-Class-Kit-p-5951.html",
-        "addons/110992064.jpg",
+        "addons/110992064.png",
         "Classroom kit with lessons for hands-on machine learning",
       ),
       product(
@@ -435,13 +428,6 @@ export const PRODUCT_CATALOG = [
         "https://wiki.seeedstudio.com/2_channel_wifi_ac_relay/",
       ),
       product(
-        "XIAO mmWave Human Detection Sensor Kit",
-        "https://www.seeedstudio.com/mmWave-Human-Detection-Sensor-Kit-p-5773.html",
-        "gadgets/110061541.jpg",
-        "mmWave presence detection kit with XIAO ESP32-C6 and MR24",
-        "https://wiki.seeedstudio.com/mmwave_human_detection_kit/",
-      ),
-      product(
         "XIAO 0.96'' IPS Display(nRF52840)",
         "https://www.seeedstudio.com/0-96-Inch-Display-Powered-by-XIAO-nRF52840-Plus-p-6992.html",
         "gadgets/100063377.jpg",
@@ -461,13 +447,6 @@ export const PRODUCT_CATALOG = [
         "gadgets/114993611.jpg",
         "Two-channel AC energy meter with clamp-on CT sensors",
         "https://wiki.seeedstudio.com/2_channel_wifi_ac_energy_meter/",
-      ),
-      product(
-        "XIAO W5500 Ethernet Adapter-AETHERFIELD",
-        "https://www.seeedstudio.com/XIAO-W5500-Ethernet-Adapter-p-6472.html",
-        "gadgets/100028691.jpg",
-        "W5500 Ethernet adapter bundle from the AETHERFIELD project",
-        "https://wiki.seeedstudio.com/esphome_xiao_w5500_ethernet_adapter/",
       ),
     ],
   },
