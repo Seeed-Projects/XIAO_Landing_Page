@@ -219,6 +219,41 @@ npm run test:images
 `images:check` lists any image still over budget and exits with status 1 when
 one remains.
 
+Public asset filenames use ASCII kebab-case so React's image preload `Link`
+response headers can be serialized consistently. Update page references and any
+matching optimization-cache entries together when renaming an asset.
+
+## Home Introduction Video
+
+`src/app/video-intro-section.js` shows the video's first sharp frame (0.5 s) from
+`public/home/xiao-intro-video-poster.webp` (1920 × 1080) with a local channel
+avatar, `public/home/seeed-studio-youtube-avatar.jpg` (96 × 96). The cover displays
+the video title, channel links, copy-link feedback and a YouTube watch link in
+English or Chinese. The overlay uses Roboto or YouTube Sans when installed,
+with system sans-serif fallbacks. Its styling is in
+`src/app/video-intro-section.module.css`.
+
+Clicking the poster or activating its play button loads the YouTube privacy
+embed for `A_XUi8tlKWk` and autoplays from 5 seconds in the same 16:9 area.
+Channel and title links open separate tabs; copying shares
+`https://youtu.be/A_XUi8tlKWk`, and the watch link opens the video at 5 seconds.
+Each control has a separate keyboard target and a visible focus ring. The
+overlay uses static styling that also respects reduced-motion preferences.
+
+The introduction's four feature illustrations are
+`public/home/xiao-feature-popular-socs.webp`,
+`public/home/xiao-feature-thumb-size.webp`,
+`public/home/xiao-feature-tinyml.webp` and
+`public/home/xiao-feature-developer-friendly.webp`.
+
+To replace the cover, convert the supplied zero-second PNG to WebP with the
+existing `sharp` dependency at quality 82, move the source PNG into `.trash/`,
+then run `npm run images:optimize`. The WebP is the deployed cover asset.
+
+Check the unplayed cover at 1440px and 390px in both languages. Copy a link,
+open a channel/title/watch link, and activate playback using Enter or Space.
+The cover and iframe should keep the same dimensions throughout.
+
 ## Home Playground Verification
 
 The Home Playground section displays 22 original transparent XIAO board images,
