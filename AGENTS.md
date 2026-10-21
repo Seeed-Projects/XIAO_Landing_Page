@@ -67,7 +67,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## 内容页正文起点
 
 - Home 以外的内容页统一使用 `--page-intro-height` 预留标题区，正文紧随标题区开始。
-  桌面端标题区为 416px，平板为 440px，手机为 544px，374px 及以下为 608px；固定导航预留 64px。
+  桌面端标题区为 296px，平板为 320px，手机为 400px，374px 及以下为 464px；固定导航预留 64px。
+  标题、说明和按钮采用紧凑间距，桌面端标题区底部内边距为 16px，首个内容块直接承接标题区。
 - 正文宽度使用 `--page-content-width`，左右留白使用 `--page-content-gutter`，正文开头统一左对齐。
   `ToolPageIntro` 承载标题、说明与首屏操作，软件详情模板使用同一高度变量。
 - Products 正文从系列说明开始，产品目录的屏幕阅读器标题保留导航语义；Project Hub 保留

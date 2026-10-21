@@ -6,12 +6,13 @@ const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
 
 test("page introductions and detail introductions share one responsive height", () => {
   const globals = read("./globals.css");
-  assert.match(globals, /--page-intro-height:\s*416px/);
-  assert.match(globals, /@media \(min-width: 641px\) and \(max-width: 1023px\)\s*{\s*:root\s*{\s*--page-intro-height:\s*440px/);
-  assert.match(globals, /@media \(max-width: 640px\)\s*{\s*:root\s*{\s*--page-intro-height:\s*544px/);
-  assert.match(globals, /@media \(max-width: 374px\)\s*{\s*:root\s*{\s*--page-intro-height:\s*608px/);
+  assert.match(globals, /--page-intro-height:\s*296px/);
+  assert.match(globals, /@media \(min-width: 641px\) and \(max-width: 1023px\)\s*{\s*:root\s*{\s*--page-intro-height:\s*320px/);
+  assert.match(globals, /@media \(max-width: 640px\)\s*{\s*:root\s*{\s*--page-intro-height:\s*400px/);
+  assert.match(globals, /@media \(max-width: 374px\)\s*{\s*:root\s*{\s*--page-intro-height:\s*464px/);
   assert.match(globals, /--page-content-width:\s*min\(calc\(100% - 2 \* var\(--page-content-gutter\)\), 1695px\)/);
   assert.match(read("./tool-page-intro.module.css"), /min-height:\s*var\(--page-intro-height\)/);
+  assert.match(read("./tool-page-intro.module.css"), /padding:\s*clamp\(48px, 5vw, 64px\) 0 16px/);
   assert.match(globals, /\.page-detail-intro\s*{[^}]*min-height:\s*var\(--page-intro-height\)/s);
   assert.match(read("./software-center/[slug]/SoftwareDetailClient.js"), /className="page-detail-intro w-full"/);
 });
