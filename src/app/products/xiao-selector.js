@@ -7,6 +7,7 @@ import { withBase } from "../../lib/basePath";
 import { PRODUCT_CATALOG, SELECTOR_IMAGES } from "./catalog";
 import { BOARD_HARDWARE, BOARD_SPECS, FILTER_GROUPS, HARDWARE_FIELDS, emptySelection } from "./board-specs.mjs";
 import { buildComparisonGroups } from "./board-comparison.mjs";
+import { getWirelessProtocols } from "./wireless-protocols.mjs";
 import {
   activeFilters,
   facetCounts,
@@ -76,6 +77,7 @@ const TEXT = {
     minCompare: "Pick at least 2 boards to compare",
     board: "Board",
     wireless: "Wireless",
+    wirelessBadges: (labels) => `Wireless: ${labels.join(", ")}`,
     sensors: "Sensors",
     power: "Power Supply",
     io: "Highlighted IOs",
@@ -120,6 +122,7 @@ const TEXT = {
     minCompare: "至少选择 2 款才能对比",
     board: "板子",
     wireless: "无线",
+    wirelessBadges: (labels) => `\u65e0\u7ebf\uff1a${labels.join("\u3001")}`,
     sensors: "传感器",
     power: "供电方式",
     io: "重点接口",
@@ -319,17 +322,37 @@ export function XiaoSelector() {
     const inCompare = compare.includes(board.id);
     const isPlus = board.specs.packaging?.includes("plus");
     const isSense = /\bSense\b/.test(board.name);
+    const protocols = getWirelessProtocols(board.specs.connectivity);
     return (
       <article key={board.id} className={`${styles.card} ${inCompare ? styles.cardSelected : ""}`}>
         <div className={styles.cardVisual}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={board.img} alt={board.name} loading="lazy" decoding="async" />
-          {(isSense || isPlus) && (
-            <div className={styles.cardBadges}>
-              {isSense && <span className={`${styles.plusBadge} ${styles.senseBadge}`}>Sense</span>}
-              {isPlus && <span className={styles.plusBadge}>Plus</span>}
-            </div>
-          )}
+          <div className={styles.cardBadgeBand}>
+            {protocols.length > 0 && (
+              <div
+                className={styles.protocolBadges}
+                role="group"
+                aria-label={t.wirelessBadges(protocols.map(({ id }) => L(OPTION_LABEL[`connectivity:${id}`])))}
+              >
+                {protocols.map(({ id, label, color, viewBox, path, fillRule }) => (
+                  <span key={id} className={styles.protocolBadge} role="img" title={label} aria-label={label} style={{ backgroundColor: color }}>
+                    <svg width={id === "wifi" ? "23" : "16"} height="16" viewBox={viewBox} fill="currentColor" aria-hidden="true" focusable="false">
+                      <path d={path} fillRule={fillRule} />
+                    </svg>
+                  </span>
+                ))}
+              </div>
+            )}
+            {(isSense || isPlus) && (
+              <div className={styles.cardBadges}>
+                {isSense && <span className={`${styles.plusBadge} ${styles.senseBadge}`}>Sense</span>}
+                {isPlus && <span className={styles.plusBadge}>Plus</span>}
+              </div>
+            )}
+          </div>
+          <div className={styles.cardImage}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={board.img} alt={board.name} loading="lazy" decoding="async" />
+          </div>
         </div>
         <div className={styles.cardBody}>
           <h3 className="home-type-subtitle">{board.name}</h3>

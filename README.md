@@ -136,6 +136,19 @@ Cards and Table, add boards to compare and open the panel, and create an empty
 result to see removal suggestions. On a phone-width viewport the sidebar opens
 from the **Filters** button.
 
+### Wireless badges
+
+Selector cards reserve a row-aligned band above the board photo. Wireless
+protocols use icon-only badges at every width and language, ordered Wi-Fi,
+Bluetooth LE, Thread, Zigbee, Matter, NFC on the left; Sense / Plus appear on
+the right. Each 30 × 24px badge has a centred white official logo, an accessible
+protocol name and a native tooltip. Up to five badges fit on one line beside
+Sense / Plus at desktop and phone widths. Official logo geometry is
+inlined by `src/app/products/wireless-protocols.mjs`; originals and attribution
+are in [design/wireless-logos/SOURCES.md](design/wireless-logos/SOURCES.md).
+Fills are Wi-Fi `#146B58`, Bluetooth `#0082FC`, Thread `#865022`, Zigbee
+`#EB0443`, Matter `#7151A8`, NFC `#002E5F`.
+
 ## Scroll Band Verification
 
 The project carousel displays two rows and repeats its existing content to cover

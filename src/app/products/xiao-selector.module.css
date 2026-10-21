@@ -77,13 +77,22 @@
 
 /* Cards */
 .cardGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); gap: 14px; }
-.card { display: flex; flex-direction: column; border: 1px solid var(--line-soft); border-radius: 14px; background: var(--surface-strong); overflow: hidden; transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease; }
+.card { display: grid; grid-template-rows: subgrid; grid-row: span 4; gap: 0; min-width: 0; border: 1px solid var(--line-soft); border-radius: 14px; background: var(--surface-strong); overflow: hidden; transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease; }
 .card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,73,102,0.08); border-color: rgba(22,182,106,0.4); }
 .cardSelected { border-color: var(--brand-green); box-shadow: 0 0 0 2px rgba(22,182,106,0.18); }
-.cardVisual { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #fff; border-bottom: 1px solid var(--line-soft); }
-.cardVisual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; display: block; padding: 8px; }
-.cardBadges { position: absolute; top: 10px; right: 10px; display: flex; gap: 5px; }
-.plusBadge { display: inline-flex; align-items: center; justify-content: center; width: 58px; height: 24px; padding: 0 8px; border-radius: 999px; background: var(--ink-strong); color: #fff; font-size: 11px; font-weight: 700; line-height: 1; letter-spacing: 0.04em; }
+/* Shared row tracks align the badge band, photo, body and footer across cards.
+   共享行轨道让同排卡片的徽章栏、照片、正文和底部保持对齐。 */
+.cardVisual { display: grid; grid-template-rows: subgrid; grid-row: span 2; gap: 0; min-width: 0; background: #fff; border-bottom: 1px solid var(--line-soft); }
+.cardBadgeBand { display: flex; align-items: flex-start; gap: 8px; min-width: 0; min-height: 44px; padding: 10px; }
+.cardImage { position: relative; aspect-ratio: 4 / 3; min-width: 0; }
+.cardImage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; display: block; padding: 8px; }
+.cardBadges, .protocolBadges { display: flex; gap: 5px; }
+.cardBadges { flex: none; margin-left: auto; }
+.protocolBadges { flex: 1; min-width: 0; }
+.plusBadge, .protocolBadge { display: inline-flex; align-items: center; justify-content: center; flex: none; height: 24px; padding: 0 8px; border: 1px solid transparent; border-radius: 999px; box-shadow: 0 2px 6px rgba(24,34,79,0.08); font-size: 11px; font-weight: 700; line-height: 1; letter-spacing: 0.04em; white-space: nowrap; }
+.plusBadge { width: 58px; background: var(--ink-strong); color: #fff; }
+.protocolBadge { width: 30px; padding: 0; border-radius: 8px; color: #fff; }
+.protocolBadge svg { flex: none; }
 .senseBadge { background: var(--brand-blue); }
 .plusBadgeInline { margin-left: 6px; padding: 1px 6px; border-radius: 999px; background: var(--ink-strong); color: #fff; font-size: 10px; font-weight: 700; vertical-align: middle; }
 .cardBody { display: grid; gap: 8px; padding: 12px 14px 6px; }
