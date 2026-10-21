@@ -47,13 +47,19 @@ export function ProductPanel({ showTitle = true } = {}) {
   const currentCategory = categories[activeCat] ?? categories[0];
   const presentation = SERIES_PRESENTATION[currentCategory.id] ?? SERIES_PRESENTATION["dev-boards"];
   const subs = currentCategory.subcategories ?? [];
-  const allItems = subs.flatMap((s) =>
-    (s.items ?? []).map((item) => ({
-      ...item,
-      subId: s.id,
-      subLabel: isEn ? s.labelEn : s.labelZh || s.labelEn,
-    }))
-  );
+  // Add-ons / Gadgets are flat lists (no second-level grouping);
+  // Dev Boards keep their chip subcategories.
+  // Add-ons / Gadgets 为平铺清单（无二级分类），Dev Boards 保留子分类。
+  const flatItems = currentCategory.items ?? [];
+  const allItems = subs.length
+    ? subs.flatMap((s) =>
+        (s.items ?? []).map((item) => ({
+          ...item,
+          subId: s.id,
+          subLabel: isEn ? s.labelEn : s.labelZh || s.labelEn,
+        }))
+      )
+    : flatItems;
   const currentSub = activeSub != null ? subs[activeSub] ?? null : null;
   const displayItems = currentSub
     ? (currentSub.items ?? []).map((item) => ({
@@ -187,31 +193,33 @@ export function ProductPanel({ showTitle = true } = {}) {
           </div>
         </div>
 
-        <div className={styles.chipRow} role="tablist" aria-label={isEn ? "Subcategories" : "子分类"}>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeSub == null}
-            className={`${styles.chip} ${activeSub == null ? styles.chipActive : ""}`}
-            onClick={() => setActiveSub(null)}
-          >
-            {isEn ? "All" : "全部"}
-            <span className={styles.chipCount}>{allItems.length}</span>
-          </button>
-          {subs.map((sub, j) => (
+        {subs.length > 0 && (
+          <div className={styles.chipRow} role="tablist" aria-label={isEn ? "Subcategories" : "子分类"}>
             <button
-              key={sub.id}
               type="button"
               role="tab"
-              aria-selected={activeSub === j}
-              className={`${styles.chip} ${activeSub === j ? styles.chipActive : ""}`}
-              onClick={() => setActiveSub(j)}
+              aria-selected={activeSub == null}
+              className={`${styles.chip} ${activeSub == null ? styles.chipActive : ""}`}
+              onClick={() => setActiveSub(null)}
             >
-              {isEn ? sub.labelEn : sub.labelZh || sub.labelEn}
-              <span className={styles.chipCount}>{sub.items?.length ?? 0}</span>
+              {isEn ? "All" : "全部"}
+              <span className={styles.chipCount}>{allItems.length}</span>
             </button>
-          ))}
-        </div>
+            {subs.map((sub, j) => (
+              <button
+                key={sub.id}
+                type="button"
+                role="tab"
+                aria-selected={activeSub === j}
+                className={`${styles.chip} ${activeSub === j ? styles.chipActive : ""}`}
+                onClick={() => setActiveSub(j)}
+              >
+                {isEn ? sub.labelEn : sub.labelZh || sub.labelEn}
+                <span className={styles.chipCount}>{sub.items?.length ?? 0}</span>
+              </button>
+            ))}
+          </div>
+        )}
 
         {displayItems.length === 0 ? (
           <div className={styles.empty}>
@@ -231,7 +239,9 @@ export function ProductPanel({ showTitle = true } = {}) {
           >
             <div className={`${styles.productList} ${styles.productListDense}`}>
               {displayItems.map((item, index) => {
-                const wiki = BOARD_HARDWARE[item.title]?.wiki;
+                // Add-ons / Gadgets carry their own wiki link; boards fall back to BOARD_HARDWARE.
+                // Add-ons / Gadgets 自带 wiki 链接，开发板回退到 BOARD_HARDWARE。
+                const wiki = item.wiki ?? BOARD_HARDWARE[item.title]?.wiki;
                 const desc = itemDesc(item) || item.subLabel || "";
                 return (
                   <article
@@ -260,14 +270,16 @@ export function ProductPanel({ showTitle = true } = {}) {
                             {isEn ? "Wiki" : "文档"}
                           </a>
                         ) : null}
-                        <a
-                          className={`${styles.buy} home-type-action home-filled-action`}
-                          href={item.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {isEn ? "Buy" : "购买"}
-                        </a>
+                        {item.link ? (
+                          <a
+                            className={`${styles.buy} home-type-action home-filled-action`}
+                            href={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {isEn ? "Buy" : "购买"}
+                          </a>
+                        ) : null}
                       </div>
                     </div>
                   </article>
