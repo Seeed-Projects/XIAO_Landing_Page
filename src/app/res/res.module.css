@@ -12,7 +12,7 @@
 .page :global(#learn) { scroll-margin-top: 88px; }
 
 .wrap {
-  width: min(100% - clamp(32px, 6vw, 112px), 1800px);
+  width: var(--page-content-width);
   margin: 0 auto;
   padding-bottom: 96px;
 }
@@ -363,21 +363,13 @@
   z-index: 1;
   padding: 0 0 clamp(56px, 6vw, 88px);
 }
-.kit::before {
-  content: "";
-  display: block;
-  width: min(100% - clamp(32px, 6vw, 112px), 1800px);
-  height: 1px;
-  margin: 0 auto clamp(40px, 4.5vw, 64px);
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22) 20%, rgba(255, 255, 255, 0.22) 80%, transparent);
-}
 .kitInner {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
   gap: 28px;
-  width: min(100% - clamp(32px, 6vw, 112px), 1800px);
+  width: var(--page-content-width);
   margin: 0 auto;
   padding: clamp(28px, 3.2vw, 44px) clamp(24px, 3.2vw, 48px);
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -849,7 +841,6 @@
 }
 
 @media (max-width: 700px) {
-  .wrap { width: min(100% - 24px, 1800px); }
   .profile { grid-template-columns: 1fr; padding: 18px; text-align: left; }
   .profilePhoto { width: 96px; }
   .cardGrid { grid-template-columns: 1fr; gap: 10px; }
@@ -862,8 +853,7 @@
   .learnBand { margin-top: 56px; padding: 48px 0 64px; }
   .hero { margin-bottom: 32px; border-radius: 0 0 28px 28px; }
   .kit { padding: 0 0 44px; }
-  .kit::before { width: min(100% - 24px, 1800px); margin-bottom: 28px; }
-  .kitInner { width: min(100% - 24px, 1800px); padding: 22px 18px; border-radius: 22px; gap: 20px; }
+  .kitInner { padding: 22px 18px; border-radius: 22px; gap: 20px; }
   .kitFile { grid-template-columns: 48px minmax(0, 1fr) 36px; padding: 14px; }
   .kitFileArt { width: 48px; height: 48px; }
   .learnGrid {

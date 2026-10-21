@@ -9,10 +9,10 @@
 .roadmap * { box-sizing: border-box; }
 
 .wrap {
-  width: 100%;
+  width: var(--page-content-width);
   max-width: none;
-  margin: 0;
-  padding: 28px clamp(12px, 7cm, 20vw) 88px;
+  margin: 0 auto;
+  padding: 0 0 88px;
 }
 
 /* Hero now uses the shared ToolPageIntro (centered, ink-strong, no background image) */
@@ -552,7 +552,7 @@
 }
 
 @media (max-width: 760px) {
-  .wrap { padding: 22px 16px 72px; }
+  .wrap { padding: 0 0 72px; }
   .board {
     grid-template-columns: 1fr;
   }

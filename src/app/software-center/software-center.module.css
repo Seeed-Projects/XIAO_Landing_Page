@@ -1,7 +1,7 @@
 .page { background: var(--page-bg); }
 
 .wrap {
-  width: min(100% - clamp(32px, 6vw, 112px), 1800px);
+  width: var(--page-content-width);
   margin-inline: auto;
 }
 
@@ -24,10 +24,10 @@
   padding-top: clamp(56px, 7vw, 96px);
 }
 
-.official .sectionHead { padding-top: clamp(8px, 1vw, 16px); }
+.official .sectionHead { padding-top: 0; }
 
 .act {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 10px;
   margin: 0 0 14px;

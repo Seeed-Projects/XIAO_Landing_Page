@@ -85,6 +85,18 @@ against the shared panel background. Panel styling lives in
 Mouse hover and keyboard focus open the panel. Scrolling keeps control of the
 page, hides the panel during movement and restores it after scrolling settles.
 
+## Content Page Layout
+
+Content pages share the `--page-intro-height`, `--page-content-width` and
+`--page-content-gutter` tokens. `ToolPageIntro` reserves the introduction area;
+software detail pages use the same height through `page-detail-intro`.
+The first content block starts directly after this area and aligns to the shared
+left edge. The Home layout keeps its existing structure.
+
+The Products catalog opens with its series description, Project Hub with
+Featured Projects, Open Roadmap with the stage cards, and Playground with the
+tool cards. Products retains a screen-reader heading for its section navigation.
+
 ## XIAO Selector (Products)
 
 The Products page includes **XIAO Selector**, a faceted workbench for picking

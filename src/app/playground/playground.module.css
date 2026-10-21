@@ -11,18 +11,11 @@
 /* Hero now uses the shared ToolPageIntro (centered, ink-strong, no background image) */
 
 .toolSection {
-  padding: 76px max(4vw, calc((100vw - 1600px) / 2)) 110px;
+  width: var(--page-content-width);
+  margin-inline: auto;
+  padding: 0 0 110px;
+  text-align: left;
   background: linear-gradient(180deg, #f7faf8, #fff);
-}
-
-.sectionHead {
-  margin-bottom: 30px;
-}
-
-.sectionHead :global(.home-type-title) {
-  max-width: 800px;
-  margin: 0;
-  color: #0b3548;
 }
 
 .toolGrid {
@@ -246,13 +239,8 @@
 }
 
 @media (max-width: 620px) {
-  .sectionHead {
-    display: block;
-    margin-bottom: 20px;
-  }
-
   .toolSection {
-    padding: 50px 18px 70px;
+    padding: 0 0 70px;
   }
 
   .toolGrid {

@@ -22,7 +22,7 @@ const LINK_FILL = `${LINK_LINE} L100 100 Z`;
  * ProductPanel — three-series product catalog stage.
  * 产品目录：以 Dev Boards / Add-ons / Gadgets 三大系列为主舞台。
  */
-export function ProductPanel() {
+export function ProductPanel({ showTitle = true } = {}) {
   const { lang, t } = useLang();
   const isEn = lang === "en";
   const categories = PRODUCT_CATALOG;
@@ -76,10 +76,12 @@ export function ProductPanel() {
 
   return (
     <section className={styles.panel} aria-labelledby="product-catalog-title">
-      <header className={styles.header}>
-        <Glow as="h2" id="product-catalog-title" className={`home-type-title ${styles.title}`}>
-          {t.products.title}
-        </Glow>
+      <header className={`${styles.header} ${showTitle ? "" : styles.headerCompact}`}>
+        {showTitle ? (
+          <Glow as="h2" id="product-catalog-title" className={`home-type-title ${styles.title}`}>
+            {t.products.title}
+          </Glow>
+        ) : <h2 id="product-catalog-title" className="sr-only">{t.products.title}</h2>}
         <p className={`home-type-body ${styles.lead}`}>
           {isEn
             ? "Three product families — core boards, expansion add-ons, and ready-to-use gadgets — one XIAO ecosystem."

@@ -64,6 +64,33 @@
   --home-body-weight: 400;
   --home-action-weight: 700;
   --home-body-leading: 1.65;
+  --page-intro-height: 416px;
+  --page-content-gutter: clamp(16px, 3vw, 48px);
+  --page-content-width: min(calc(100% - 2 * var(--page-content-gutter)), 1695px);
+}
+
+.page-content-shell {
+  width: var(--page-content-width);
+  margin-inline: auto;
+  text-align: left;
+}
+
+.page-detail-intro {
+  min-height: var(--page-intro-height);
+  box-sizing: border-box;
+  padding-block: 32px;
+}
+
+@media (min-width: 641px) and (max-width: 1023px) {
+  :root { --page-intro-height: 440px; }
+}
+
+@media (max-width: 640px) {
+  :root { --page-intro-height: 544px; }
+}
+
+@media (max-width: 374px) {
+  :root { --page-intro-height: 608px; }
 }
 
 @keyframes marquee {

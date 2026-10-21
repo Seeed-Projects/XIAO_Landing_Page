@@ -2,10 +2,10 @@
 .shell {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 0;
   height: calc(100dvh - 64px);
   min-height: 960px;
-  padding: 0 clamp(16px, 3vw, 40px) clamp(20px, 2.4vw, 32px);
+  padding: 0 0 clamp(20px, 2.4vw, 32px);
   color: var(--ink-strong);
   font-family: var(--font-body), sans-serif;
   background:
@@ -19,6 +19,7 @@
 
 /* 顶部：标题 + 环境状态 + 外部烧录入口 */
 .topbar { flex: none; text-align: center; }
+.haBanner, .workbench { width: var(--page-content-width); margin-inline: auto; }
 .envBadge {
   display: inline-flex;
   align-items: center;
@@ -35,6 +36,7 @@
 .envWarn::before { background: #d4544a; }
 
 .haBanner {
+  margin-bottom: 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -487,7 +489,7 @@
 
 /* 矮屏（笔记本 720p 等）收起说明文字，把高度让给步骤 */
 @media (min-width: 1081px) and (max-height: 820px) {
-  .shell { gap: 12px; padding-bottom: 14px; }
+  .shell { padding-bottom: 14px; }
   .consoleLead { display: none; }
   .haBanner { padding: 8px 14px; }
 }
@@ -503,7 +505,7 @@
   .step:not(:last-child)::after { left: 17px; }
 }
 @media (max-width: 640px) {
-  .shell { gap: 14px; padding: 0 14px 24px; }
+  .shell { padding: 0 0 24px; }
   .haBanner { flex-direction: column; align-items: stretch; }
   .haLink { text-align: center; }
   .steps { padding: 4px 16px 0; }

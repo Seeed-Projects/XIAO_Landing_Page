@@ -44,10 +44,10 @@ export default function SoftwareDetailClient() {
   return (
     <>
       <SiteHeader />
-      <main className="flex w-full flex-1 flex-col pt-24 lg:pt-28">
+      <main className="flex w-full flex-1 flex-col pt-16">
         {/* 面包屑 + 标题 */}
-        <section className="w-full px-6 py-8 sm:px-10 lg:px-16">
-          <div className="mx-auto w-full max-w-[1100px]">
+        <section className="page-detail-intro w-full">
+          <div className="page-content-shell">
             <nav className="flex flex-wrap items-center gap-2 text-xs font-medium text-[var(--ink-muted)]">
               <Link href="/software-center" className="hover:text-[var(--brand-blue)]">
                 {lang === "zh" ? "软件中心" : "Software Center"}
@@ -121,8 +121,8 @@ export default function SoftwareDetailClient() {
 
         {/* 支持板卡列表 */}
         {item.boards?.length > 0 && (
-          <section className="w-full px-6 pb-24 sm:px-10 lg:px-16">
-            <div className="mx-auto w-full max-w-[1100px]">
+          <section className="page-content-shell pb-24">
+            <div className="w-full">
               <h2 className="font-display text-xl font-semibold tracking-tight text-[var(--ink-strong)]">
                 {lang === "zh" ? "支持的 XIAO 板卡" : "Supported XIAO Boards"}
               </h2>
@@ -176,8 +176,8 @@ export default function SoftwareDetailClient() {
         )}
 
         {/* 同分类其它软件 */}
-        <section className="w-full px-6 pb-24 sm:px-10 lg:px-16">
-          <div className="mx-auto w-full max-w-[1100px]">
+        <section className="page-content-shell pb-24">
+          <div className="w-full">
             <h2 className="font-display text-xl font-semibold tracking-tight text-[var(--ink-strong)]">
               {lang === "zh" ? `${pick(cat.title, lang)} 中的其它软件` : `More in ${pick(cat.title, lang)}`}
             </h2>

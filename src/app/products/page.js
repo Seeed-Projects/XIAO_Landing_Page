@@ -62,9 +62,8 @@ export default function ProductsPage() {
           <ProductsHero />
         </div>
 
-        {/* 产品目录：与首图拉开间距，避免标题贴在大图下沿 */}
-        <div id="products-catalog" className="w-full scroll-mt-24 px-4 pb-24 pt-20 sm:px-6 sm:pb-28 sm:pt-24 lg:px-8 lg:pb-32 lg:pt-28">
-          <ProductPanel />
+        <div id="products-catalog" className="page-content-shell scroll-mt-24 pb-24 sm:pb-28 lg:pb-32">
+          <ProductPanel showTitle={false} />
         </div>
 
         {/* 选型器 */}

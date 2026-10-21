@@ -876,10 +876,9 @@ export function ESPFlasher() {
   return (
     <div className={styles.shell} id="esp-flasher">
       <div className={styles.topbar}>
-        <ToolPageIntro title={T.title} description={T.lead} />
-        {!supported && (
-          <span className={`${styles.envBadge} ${styles.envWarn}`}>{T.envWarn}</span>
-        )}
+        <ToolPageIntro title={T.title} description={T.lead}
+          actions={!supported && <span className={`${styles.envBadge} ${styles.envWarn}`}>{T.envWarn}</span>}
+        />
       </div>
 
       <aside className={styles.haBanner} aria-label={T.haAction}>

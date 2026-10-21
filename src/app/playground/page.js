@@ -107,9 +107,6 @@ export default function PlaygroundPage() {
         </section>
 
         <section className={styles.toolSection}>
-          <div className={styles.sectionHead}>
-            <h2 className="home-type-title">{zh ? "XIAO 开发工具" : "XIAO Development Tools"}</h2>
-          </div>
           <div className={styles.toolGrid}>
             {TOOLS.map((tool, index) => {
               const content = zh ? tool.zh : tool.en;
@@ -134,7 +131,7 @@ export default function PlaygroundPage() {
                   </div>
                   <div className={styles.toolContent}>
                     <span className={styles.toolIcon}><ToolIcon type={tool.icon} /></span>
-                    <h3 className="home-type-subtitle">{content.title}</h3>
+                    <h2 className="home-type-subtitle">{content.title}</h2>
                     <p className="home-type-body">{content.description}</p>
                     <ul className={styles.toolDetails}>
                       {content.details.map((detail) => <li key={detail}>{detail}</li>)}

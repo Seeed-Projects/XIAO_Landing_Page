@@ -26,6 +26,9 @@
   color: var(--ink-body);
 }
 
+.headerCompact { justify-items: start; text-align: left; }
+.headerCompact .lead { max-width: none; }
+
 /* Series switcher */
 .seriesGrid {
   display: grid;

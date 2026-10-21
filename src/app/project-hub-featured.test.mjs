@@ -55,6 +55,6 @@ test("Featured Projects spread fills the width with three areas and whole images
   assert.match(hubCss, /\.stageImage\s*{[^}]*object-fit:\s*contain/s);
   assert.match(hubCss, /\.stageBackdrop\s*{[^}]*filter:\s*blur/s);
   assert.match(hubCss, /\.indexRowActive::before\s*{[^}]*transform:\s*scaleY\(1\)/s);
-  assert.match(hubCss, /\.featuredSection\s*{[^}]*width:\s*min\(100% - 48px, 1695px\)/s);
+  assert.match(hubCss, /\.featuredSection\s*{[^}]*width:\s*var\(--page-content-width\)/s);
   assert.match(hubCss, /@media \(max-width: 760px\)[^@]*"media"\s*"copy"\s*"index"/s);
 });

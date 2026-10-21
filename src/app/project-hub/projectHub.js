@@ -32,7 +32,7 @@ const T = {
     viewProject: "View project",
     featuredTitle: "Featured Projects",
     featuredDek:
-      "Seven community builds drawn from the Home project collection. Refresh the page to see another selection.",
+      "Seven community projects from Home. Refresh to discover another selection.",
     collectionTitle: "Explore every project",
     collectionDek:
       "Continue into the complete hub to compare boards, categories, sources and publication dates.",
