@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLang } from "../i18n";
 import { Reveal } from "../reveal";
 import { ToolPageIntro } from "../tool-page-intro";
@@ -100,90 +100,197 @@ function ThreadReactions({ reactions, lang }) {
   ));
 }
 
+/** Render the announcement's Markdown heading, paragraphs, list, and links.
+ * 渲染公告的 Markdown 标题、段落、列表与链接。 */
+function AnnouncementBody({ body }) {
+  const lines = body.split(/\r?\n/);
+  const bullets = lines.filter((line) => /^\s*\* /.test(line));
+
+  return (
+    <>
+      <h3 className={`${styles.threadAnnouncementWelcome} home-type-subtitle`}>{lines[0].replace(/^## /, "")}</h3>
+      <p className="home-type-body">{lines[1]}</p>
+      <ul className="home-type-body">
+        {bullets.map((line) => (
+          <li key={line}>
+            {line.replace(/^\s*\* /, "").split(/(\[[^\]]+\]\(https:\/\/[^)]+\))/g).map((part, index) => {
+              const link = part.match(/^\[([^\]]+)\]\((https:\/\/[^)]+)\)$/);
+              return link ? <a key={index} href={link[2]} target="_blank" rel="noopener noreferrer">{link[1]}</a> : part;
+            })}
+          </li>
+        ))}
+      </ul>
+      <p className="home-type-body">{lines[lines.length - 1]}</p>
+    </>
+  );
+}
+
+const CHAT_INTERVAL_MS = 4200;
+const CHAT_VISIBLE = 5;
+
+/** Render one chat message: sender line, one bubble per line, optional reactions.
+ * 渲染单条聊天消息：发送者信息、每行一个气泡、可选的表情反应。 */
+function ChatMessage({ reply, lang, labels }) {
+  return (
+    <div className={`${styles.threadMessage} ${reply.team ? styles.threadTeam : styles.threadCommunity}`} data-author={reply.login}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        className={styles.threadAvatar}
+        src={reply.avatar}
+        alt={reply.name || reply.login}
+        width={reply.team ? 36 : 28}
+        height={reply.team ? 36 : 28}
+        referrerPolicy="no-referrer"
+      />
+      <div className={styles.threadMessageContent}>
+        <div className={styles.threadSenderLine}>
+          <h3 className={`${styles.threadName} home-type-subtitle`}>{reply.name || reply.login}</h3>
+          {reply.team ? (
+            <>
+              <span className={`${styles.badge} ${styles.badgeSeeed}`}>{labels.team[lang]}</span>
+              <span>{reply.role[lang]}</span>
+            </>
+          ) : (
+            <span className={`${styles.badge} ${styles.threadContributor}`}>{labels.contributor[lang]}</span>
+          )}
+        </div>
+        {reply.text[lang].map((line, lineIndex, lines) => (
+          <div key={line} className={`${styles.threadBubble} ${lineIndex === lines.length - 1 ? styles.threadBubbleTail : ""}`}>
+            <p className={`${styles.threadMessageText} home-type-body`}>{line}</p>
+            {lineIndex === lines.length - 1 ? (
+              <a
+                className={styles.threadReplyLink}
+                href={reply.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${labels.reply[lang]} · ${reply.name || reply.login}`}
+                title={labels.reply[lang]}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="m9 7-5 5 5 5M4 12h10a6 6 0 0 1 6 6" />
+                </svg>
+              </a>
+            ) : null}
+          </div>
+        ))}
+        {!reply.team && Object.values(reply.reactions).some((count) => count > 0) ? (
+          <div className={styles.threadMessageReactions}>
+            <ThreadReactions reactions={reply.reactions} lang={lang} />
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Loop the replies like a live chat: a new message enters at the bottom every few seconds
+ * while older ones fade out at the top. Pauses off-screen, on hover and on focus.
+ * 像实时聊天一样循环播放回复：每隔几秒在底部出现一条新消息，上方旧消息逐渐淡出；
+ * 离开视口、鼠标悬停或键盘聚焦时暂停。
+ */
+function ChatStream({ replies, lang, labels }) {
+  const streamRef = useRef(null);
+  const [count, setCount] = useState(4);
+  const [visible, setVisible] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReducedMotion(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    const node = streamRef.current;
+    if (!node) return undefined;
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting));
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!visible || paused || reducedMotion) return undefined;
+    const timer = window.setInterval(() => setCount((value) => value + 1), CHAT_INTERVAL_MS);
+    return () => window.clearInterval(timer);
+  }, [visible, paused, reducedMotion]);
+
+  const items = reducedMotion
+    ? replies.map((reply, index) => ({ reply, key: index }))
+    : Array.from({ length: Math.min(count, CHAT_VISIBLE) }, (_, offset) => {
+        const index = count - Math.min(count, CHAT_VISIBLE) + offset;
+        return { reply: replies[index % replies.length], key: index };
+      });
+
+  return (
+    <div
+      ref={streamRef}
+      className={`${styles.threadStream} ${reducedMotion ? styles.threadStreamStatic : ""}`}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
+    >
+      <ol className={styles.threadMessages} aria-label={labels.communityReplies[lang]} role="list">
+        {items.map(({ reply, key }) => (
+          <li key={key} className={styles.threadStreamItem}>
+            <div className={styles.threadStreamInner}>
+              <ChatMessage reply={reply} lang={lang} labels={labels} />
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
 function AnnouncementThread({ lang }) {
   const { post, replies, labels } = announcementThread;
+  const body = post.body[lang];
 
   return (
     <section className={styles.announcementThread} aria-labelledby="roadmap-announcement">
-      <Reveal as="article" className={styles.threadPost}>
-        <div className={styles.threadOpeningAvatar}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            className={styles.threadAvatar}
-            src={withBase(post.avatar)}
-            alt={post.name}
-            width={56}
-            height={56}
-            loading="lazy"
-            referrerPolicy="no-referrer"
-          />
-          <div className={styles.threadCelebration} aria-hidden="true">
-            <span>💡</span><span>🚀</span><span>💚</span><span>🎉</span>
-          </div>
-        </div>
-        <header className={styles.threadPostHead}>
-          <h2 id="roadmap-announcement" className={`${styles.threadTitle} home-type-title`}>
+      <div className={styles.threadAnnouncement}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          className={styles.threadGroupAvatar}
+          src={withBase(post.avatar)}
+          alt={post.name}
+          width={48}
+          height={48}
+          referrerPolicy="no-referrer"
+        />
+        <div className={styles.threadAnnouncementCopy}>
+          <span className={styles.threadAnnouncementLabel}>
+            <span aria-hidden="true">📢 </span>
+            {labels.announcement[lang]} · {post.name} · {post.date[lang]}
+          </span>
+          <h2 id="roadmap-announcement" className={`${styles.threadAnnouncementTitle} home-type-subtitle`}>
             <a href={post.url} target="_blank" rel="noopener noreferrer">{post.title[lang]}</a>
           </h2>
-          <p className={styles.threadMeta}>
-            <span>{labels.startedBy[lang]} <strong>{post.name}</strong></span>
-            <span aria-hidden="true">·</span>
-            <time dateTime={post.createdAt}>{post.date[lang]}</time>
-            <span aria-hidden="true">·</span>
-            <span>{post.tags}</span>
-          </p>
-        </header>
-        <div className={styles.threadPostBody}>
-          <p className="home-type-body">{post.body[lang]}</p>
-          <ul className={styles.threadActions} role="list">
-            {post.actions.map((action) => <li key={action.en} className="home-type-body">{action[lang]}</li>)}
-          </ul>
-          <div className={styles.threadSignals}>
+          <div className={styles.threadAnnouncementBody}>
+            <AnnouncementBody body={body} />
+          </div>
+          <div className={styles.threadAnnouncementReactions}>
             <ThreadReactions reactions={post.reactions} lang={lang} />
-            <span className={styles.threadCommentCount}>{post.commentCount} {labels.comments[lang]}</span>
+            <span className={styles.threadGroupMeta}>{post.commentCount} {labels.comments[lang]}</span>
           </div>
         </div>
-      </Reveal>
-      <ol className={styles.threadReplies} aria-label={labels.communityReplies[lang]} role="list">
-        {replies.map((reply, index) => (
-          <Reveal as="li" key={reply.login} delay={index * 80} className={styles.threadReply}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className={styles.threadAvatar}
-              src={reply.avatar}
-              alt={reply.name || reply.login}
-              width={36}
-              height={36}
-              loading="lazy"
-              referrerPolicy="no-referrer"
-            />
-            <div className={styles.threadReplyBody}>
-              <div className={styles.threadNameRow}>
-                <h3 className={`${styles.threadName} home-type-subtitle`}>{reply.name || reply.login}</h3>
-                {reply.team ? (
-                  <>
-                    <span className={`${styles.badge} ${styles.badgeSeeed}`}>{labels.team[lang]}</span>
-                    <span>{reply.role[lang]}</span>
-                    <span>{labels.welcomeNote[lang]}</span>
-                  </>
-                ) : (
-                  <time dateTime={reply.createdAt}>{relativeDate(reply.createdAt, lang)}</time>
-                )}
-                <a className={styles.threadReplyLink} href={reply.url} target="_blank" rel="noopener noreferrer">
-                  {labels.reply[lang]}
-                </a>
-                {!reply.team ? (
-                  <>
-                    <span>{reply.replyCount} {labels.replies[lang]}</span>
-                    <ThreadReactions reactions={reply.reactions} lang={lang} />
-                  </>
-                ) : null}
-              </div>
-              <p className={`${styles.threadReplyText} home-type-body`}>{reply.text[lang]}</p>
-            </div>
-          </Reveal>
-        ))}
-      </ol>
+      </div>
+      <div className={styles.threadChat}>
+        <div className={styles.threadChatInner}>
+          <ChatStream replies={replies} lang={lang} labels={labels} />
+          <a className={styles.threadComposer} href={post.url} target="_blank" rel="noopener noreferrer" aria-label={labels.join[lang]}>
+            <span>{labels.composer[lang]}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="m21 3-7 18-4-7-7-4 18-7ZM10 14 21 3" />
+            </svg>
+          </a>
+        </div>
+      </div>
     </section>
   );
 }

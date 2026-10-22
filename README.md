@@ -823,14 +823,18 @@ Category → column and topic-label mappings live in the bake script. Unknown
 categories or labels are reported in the build log so new GitHub taxonomy can
 be wired without hunting through the board.
 Above the board, an announcement thread presents
-[Discussion #1](https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/1)
-with Seeed Studio's opening post, four team welcome notes written for the page,
-and three curated community replies. Bilingual copy and source metadata live in
-`src/app/open-roadmap/announcement-thread.mjs`. Team notes display a badge and
-role, and their **Reply** links open the discussion. Community replies retain
-their original comment links, dates, and counts. Replies use a compact two-column
-grid on wide screens and a single column on mobile. The board starts with the
-remaining discussions.
+[Discussion #1](https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/1).
+Bilingual copy lives in `src/app/open-roadmap/announcement-thread.mjs`.
+On desktop the thread has two columns: the left column shows Seeed Studio's
+original post in full as a group announcement (with a complete Chinese
+translation), and the right column plays a looping chat stream at the same
+height. Every few seconds a new message enters at the bottom while older ones
+fade out at the top; playback pauses off-screen, on hover and on focus, and
+reduced-motion mode shows all messages statically. Seeed team notes (written
+for the page) sit on the left with a team badge and role and link to the
+discussion; three community replies sit on the right in blue bubbles with a
+community contributor badge, verbatim sentences, original comment links and
+positive reactions. Below 1024px the announcement and the chat stack vertically.
 
 Below the board, **Success Stories** (`src/app/open-roadmap/successCases.js`)
 closes the loop as "Stage 04 · Shipped": each story card pairs the original

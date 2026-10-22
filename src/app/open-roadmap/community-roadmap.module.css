@@ -33,209 +33,298 @@
 .heroAction svg { flex-shrink: 0; }
 
 .announcementThread {
-  --thread-avatar-size: 56px;
-  --thread-gap: 16px;
-  --thread-indent: calc(var(--thread-avatar-size) + var(--thread-gap));
+  display: flex;
+  flex-direction: column;
   width: var(--page-content-width);
-  margin: 0 auto 24px;
-  padding: clamp(18px, 2vw, 28px);
+  max-width: 1440px;
+  margin: 0 auto 28px;
+  overflow: hidden;
   border: 1px solid var(--line-soft);
-  border-radius: var(--r-card);
-  background: var(--surface-strong);
+  border-radius: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22300%22%20height%3D%22180%22%20viewBox%3D%220%200%20300%20180%22%20fill%3D%22none%22%20stroke%3D%22%232d7180%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20opacity%3D%220.09%22%3E%3Cg%20transform%3D%22translate%2830%2025%29%20rotate%28-12%29%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%2218%22%20height%3D%2218%22%20rx%3D%223%22%2F%3E%3Cpath%20d%3D%22M5%205h8v8H5zM4-4v4m5-4v4m5-4v4M4%2018v4m5-4v4m5-4v4M-4%204h4m-4%205h4m-4%205h4m18-10h4m-4%205h4m-4%205h4%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28134%2022%29%20rotate%2810%29%22%3E%3Cpath%20d%3D%22M5%2017v-4C-3%207%201-2%208-2s11%209%203%2015v4zM5%2020h6M8%202v5M5%206l3%203%203-3%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28238%2026%29%20rotate%2818%29%22%3E%3Cpath%20d%3D%22M3%2017C2%207%209%200%2019-1c1%2010-6%2017-16%2018zM5%2016l-4%204m1-10-5%201v7l5-1m7%200-1%205h-7l1-5%22%2F%3E%3Ccircle%20cx%3D%2213%22%20cy%3D%225%22%20r%3D%222.5%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2865%20118%29%20rotate%28-8%29%22%3E%3Cpath%20d%3D%22M10%2019%201%2010C-7%200%207-5%2010%203c3-8%2017-3%209%207z%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28171%20128%29%22%3E%3Cpath%20d%3D%22m-2-11%204%200%201%204%203%202%204-1%202%204-3%203v3l3%203-2%204-4-1-3%202-1%204h-4l-1-4-3-2-4%201-2-4%203-3v-3l-3-3%202-4%204%201%203-2z%22%2F%3E%3Ccircle%20r%3D%224%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28264%20116%29%20rotate%2812%29%22%3E%3Cpath%20d%3D%22M0%2018%206%203l6%2015M3%2012h6M6%203v-6M1-4a7%207%200%200%200%200%2010m10-10a7%207%200%200%201%200%2010M-3-7a12%2012%200%200%200%200%2016m18-16a12%2012%200%200%201%200%2016%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"), linear-gradient(135deg, color-mix(in srgb, var(--theme-blue) 6%, var(--page-bg)), color-mix(in srgb, var(--theme-lime) 7%, var(--page-bg)));
+  background-size: 300px 180px, 100% 100%;
+  box-shadow: var(--shadow-card);
   overflow-wrap: anywhere;
 }
-.threadPost {
+.threadGroupAvatar {
+  display: block;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--surface-tint);
+}
+.threadGroupMeta {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.threadAnnouncement {
   display: grid;
-  grid-template-columns: var(--thread-avatar-size) minmax(0, 1fr);
-  gap: 10px var(--thread-gap);
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: start;
+  gap: 14px;
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--line-soft);
+  background: color-mix(in srgb, var(--surface-strong) 72%, transparent);
+  backdrop-filter: blur(12px);
+}
+.threadAnnouncementCopy { min-width: 0; }
+.threadAnnouncementLabel {
+  display: block;
+  color: var(--theme-lime-ink);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 2px;
+}
+.threadAnnouncementTitle:global(.home-type-subtitle) {
+  margin: 0;
+  color: var(--ink-strong);
+  font-size: 16px;
+}
+.threadAnnouncementTitle a { color: inherit; text-decoration: none; }
+.threadAnnouncementTitle a:hover { text-decoration: underline; }
+.threadAnnouncementBody { color: var(--ink-body); }
+.threadAnnouncementWelcome:global(.home-type-subtitle) {
+  margin: 8px 0;
+  font-size: 16px;
+  color: var(--ink-strong);
+}
+.threadAnnouncementBody p { margin: 8px 0; }
+.threadAnnouncementBody ul { margin: 8px 0; padding-left: 1.3em; list-style: disc; }
+.threadAnnouncementBody li + li { margin-top: 8px; }
+.threadAnnouncementBody a { color: var(--theme-lime-ink); text-decoration: underline; text-underline-offset: 2px; }
+.threadAnnouncementReactions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  margin-top: 10px;
+}
+.threadAnnouncementReactions .threadGroupMeta { margin-left: 4px; }
+.threadChatInner {
+  display: flex;
+  flex-direction: column;
+}
+.threadChatInner .threadStream { flex: 1 1 auto; }
+@media (min-width: 1024px) {
+  .announcementThread {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+  .threadAnnouncement {
+    border-bottom: 0;
+    border-right: 1px solid var(--line-soft);
+  }
+  /* The chat column takes the announcement's height. 聊天栏高度与公告栏一致。 */
+  .threadChat { position: relative; }
+  .threadChatInner { position: absolute; inset: 0; }
+  .threadChatInner .threadStream { height: auto; min-height: 0; }
+}
+/* Auto-playing chat stream: fixed window, newest at the bottom, oldest fading out at the top.
+   自动播放的聊天流：固定窗口，最新消息在底部，最旧消息在顶部淡出。 */
+.threadStream {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 340px;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, transparent 0, #000 72px, #000 100%);
+}
+.threadStreamStatic {
+  height: auto;
+  mask-image: none;
+}
+.threadStreamItem {
+  display: grid;
+  grid-template-rows: 1fr;
+  animation: threadStreamIn 800ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.threadStreamInner {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+.threadStreamItem .threadMessage {
+  animation: threadBubbleIn 800ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.threadStreamItem:has(.threadTeam) .threadStreamInner { align-items: flex-start; }
+.threadStreamItem:has(.threadCommunity) .threadStreamInner { align-items: flex-end; }
+@keyframes threadStreamIn {
+  from { grid-template-rows: 0fr; }
+  to { grid-template-rows: 1fr; }
+}
+@keyframes threadBubbleIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+.threadStreamStatic .threadStreamItem,
+.threadStreamStatic .threadMessage { animation: none; }
+.threadReaction {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 6px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--surface-strong) 88%, transparent);
+  color: var(--ink-body);
+  font-size: 11px;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+.threadMessages {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 12px 22px 16px;
+  list-style: none;
+}
+.threadMessage {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  width: fit-content;
+  max-width: min(100%, calc(62% + var(--thread-avatar-width) + 8px));
+  min-width: 0;
   transition-property: opacity, transform;
 }
-.threadOpeningAvatar {
-  position: relative;
-  align-self: start;
-  margin-top: 4px;
+.threadTeam {
+  --thread-avatar-width: 36px;
+  --thread-bubble: color-mix(in srgb, var(--surface-tint) 86%, var(--surface-strong));
+  --thread-bubble-ink: var(--ink-strong);
+  align-self: flex-start;
+}
+.threadCommunity {
+  --thread-avatar-width: 28px;
+  --thread-bubble: var(--theme-blue);
+  --thread-bubble-ink: var(--surface-strong);
+  align-self: flex-end;
+  flex-direction: row-reverse;
 }
 .threadAvatar {
   display: block;
-  width: 36px;
-  height: 36px;
+  flex: none;
+  width: var(--thread-avatar-width);
+  height: var(--thread-avatar-width);
   object-fit: cover;
   border: 1px solid var(--line-soft);
   border-radius: 50%;
   background: color-mix(in srgb, var(--theme-neutral) 12%, var(--surface-strong));
   color: var(--ink-body);
+  font-size: 9px;
+}
+.threadMessageContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.threadSenderLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 5px;
+  margin: 0 4px 2px;
+  color: var(--ink-muted);
   font-size: 10px;
-}
-.threadOpeningAvatar .threadAvatar {
-  width: var(--thread-avatar-size);
-  height: var(--thread-avatar-size);
-}
-.threadCelebration {
-  position: absolute;
-  inset: -8px;
-  pointer-events: none;
-}
-.threadCelebration span {
-  position: absolute;
-  font-size: 12px;
-  animation: threadDrift 6s ease-in-out infinite alternate;
-}
-.threadCelebration span:nth-child(1) { top: -2px; right: 0; }
-.threadCelebration span:nth-child(2) { top: 44px; left: 0; animation-delay: -2s; }
-.threadCelebration span:nth-child(3) { top: 62px; right: 4px; font-size: 10px; animation-delay: -4s; }
-.threadCelebration span:nth-child(4) { top: 3px; left: 0; font-size: 10px; animation-delay: -1s; }
-@keyframes threadDrift {
-  from { transform: translateY(0) rotate(-6deg); }
-  to { transform: translateY(-5px) rotate(6deg); }
-}
-.threadPostHead,
-.threadReplyBody {
-  min-width: 0;
-}
-.threadTitle:global(.home-type-title) {
-  font-size: clamp(24px, 2.3vw, 32px);
-  margin: 0;
-  color: var(--ink-strong);
-  text-wrap: balance;
-}
-.threadTitle a {
-  color: inherit;
-  text-decoration: none;
-}
-.threadTitle a:hover {
-  color: var(--theme-lime-ink);
-}
-.threadTitle a:focus-visible,
-.threadReplyLink:focus-visible {
-  outline: 2px solid var(--theme-lime-ink);
-  outline-offset: 5px;
-  border-radius: 3px;
-}
-.threadMeta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 2px 8px;
-  margin: 6px 0 0;
-  color: var(--ink-muted);
-  font-size: 12px;
-  line-height: 1.5;
-}
-.threadMeta strong {
-  font-weight: 600;
-}
-.threadPostBody {
-  grid-column: 2;
-  color: var(--ink-body);
-}
-.threadPostBody p,
-.threadReplyBody p {
-  margin: 0;
-}
-.threadActions {
-  display: grid;
-  gap: 2px;
-  margin: 6px 0 0;
-  padding: 0;
-  list-style: none;
-}
-.threadSignals {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  margin-top: 10px;
-}
-.threadReaction {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 2px 8px;
-  border: 1px solid var(--line-soft);
-  border-radius: var(--r-pill);
-  background: color-mix(in srgb, var(--theme-neutral) 4%, var(--surface-strong));
-  color: var(--ink-body);
-  font-size: 12px;
-  line-height: 1.5;
-  font-variant-numeric: tabular-nums;
-}
-.threadCommentCount {
-  margin-left: 8px;
-  color: var(--ink-muted);
-  font-size: 12px;
-  line-height: 1.5;
-}
-.threadReplies {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  column-gap: 28px;
-  margin: 16px 0 0;
-  padding: 0 0 0 var(--thread-indent);
-  border-top: 1px solid var(--line-soft);
-  list-style: none;
-}
-.threadReply {
-  display: grid;
-  grid-template-columns: 36px minmax(0, 1fr);
-  align-items: start;
-  gap: 12px;
-  min-width: 0;
-  padding: 12px 0;
-  border-top: 1px solid var(--line-soft);
-  transition-property: opacity, transform;
-}
-.threadReply:first-child {
-  border-top: 0;
-}
-.threadReply:last-child {
-  padding-bottom: 0;
-}
-.threadNameRow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 8px;
-  margin-bottom: 4px;
-  color: var(--ink-muted);
-  font-size: 12px;
   line-height: 1.5;
 }
 .threadName:global(.home-type-subtitle) {
   margin: 0;
-  font-size: 14px;
-  color: var(--ink-strong);
+  color: var(--thread-sender, var(--theme-teal));
+  font-size: 12px;
 }
-.threadReplyBody p {
-  color: var(--ink-body);
+.threadSenderLine .badge {
+  padding: 1px 5px;
+  font-size: 10px;
 }
-.threadNameRow .threadReaction {
-  padding: 1px 6px;
-  font-size: 11px;
+.threadContributor {
+  color: var(--theme-teal);
+  background: color-mix(in srgb, var(--theme-teal) 8%, var(--surface-strong));
+  border-color: color-mix(in srgb, var(--theme-teal) 22%, var(--surface-strong));
 }
-.threadReplyLink {
-  color: var(--theme-lime-ink);
-  font-weight: 700;
-  text-decoration: none;
-  text-underline-offset: 3px;
+.threadBubble {
+  position: relative;
+  align-self: flex-start;
+  width: fit-content;
+  max-width: 100%;
+  padding: 9px 34px 9px 14px;
+  border: 1px solid var(--line-soft);
+  border-radius: 18px;
+  background: var(--thread-bubble);
+  color: var(--thread-bubble-ink);
+  box-shadow: 0 2px 5px color-mix(in srgb, var(--brand-blue) 4%, transparent);
 }
-.threadReplyLink:hover {
-  text-decoration: underline;
+.threadBubbleTail::before {
+  content: "";
+  position: absolute;
+  bottom: 9px;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  border-bottom: 1px solid var(--line-soft);
+  border-left: 1px solid var(--line-soft);
+  background: var(--thread-bubble);
+  transform: rotate(45deg);
 }
-@media (min-width: 1100px) {
-  .threadReplies {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .threadReply:nth-child(2) { border-top: 0; }
+.threadCommunity .threadSenderLine { justify-content: flex-end; }
+.threadCommunity .threadBubble { align-self: flex-end; }
+.threadCommunity .threadBubbleTail::before {
+  right: -4px;
+  left: auto;
+  border-left: 0;
+  border-right: 1px solid var(--line-soft);
+}
+.threadMessageText {
+  margin: 0;
 }
 
-@media (min-width: 641px) {
-  .threadReplyText {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-  }
+.threadReplyLink {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  color: inherit;
+  opacity: 0.8;
 }
+.threadReplyLink:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
+.threadReplyLink:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.threadMessageReactions {
+  position: relative;
+  align-self: flex-end;
+  display: flex;
+  gap: 4px;
+  margin: -2px 12px 0 0;
+}
+.threadComposer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 18px;
+  border-top: 1px solid var(--line-soft);
+  background: color-mix(in srgb, var(--surface-strong) 65%, transparent);
+  backdrop-filter: blur(12px);
+  color: var(--ink-muted);
+  font-size: 12px;
+  line-height: 1.5;
+  text-decoration: none;
+}
+.threadComposer svg { flex: none; color: var(--theme-lime-ink); }
+.threadAnnouncement:hover,
+.threadComposer:hover { background-color: color-mix(in srgb, var(--surface-strong) 25%, transparent); }
+.threadAnnouncementTitle a:focus-visible,
+.threadComposer:focus-visible { outline: 2px solid var(--theme-lime-ink); outline-offset: -3px; }
 
 /* Board */
 .board {
@@ -761,34 +850,23 @@
   }
 }
 
-@media (max-width: 640px) {
-  .announcementThread {
-    --thread-avatar-size: 48px;
-    --thread-gap: 12px;
-    --thread-indent: 0px;
-    margin-bottom: 20px;
-    padding: 18px 14px;
+@media (max-width: 699px) {
+  .announcementThread { height: auto; margin-bottom: 20px; }
+  .threadGroupAvatar { width: 36px; height: 36px; }
+  .threadGroupMeta { font-size: 10px; }
+  .threadAnnouncement {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 10px;
+    padding: 14px 12px;
   }
-  .threadPostBody {
-    grid-column: 1 / -1;
-  }
-  .threadMeta {
-    gap: 2px 6px;
-    margin-top: 6px;
-    font-size: 12px;
-  }
-  .threadCelebration { inset: -8px; }
-  .threadCelebration span { font-size: 12px; }
-  .threadCelebration span:nth-child(2) { top: 48px; left: 0; }
-  .threadCelebration span:nth-child(3),
-  .threadCelebration span:nth-child(4) { display: none; }
-  .threadCommentCount { margin-left: 0; }
-  .threadReplies { margin-top: 16px; }
+  .threadStream { height: 360px; }
+  .threadMessages { padding: 10px 10px 12px; }
+  .threadMessage { max-width: min(100%, calc(82% + var(--thread-avatar-width) + 8px)); }
+  .threadComposer { padding: 12px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .roadmap * { transition: none !important; }
-  .threadCelebration span { animation: none; }
   .ideaSlot:hover .ideaCard,
   .ideaSlot:focus-within .ideaCard {
     transform: none;
