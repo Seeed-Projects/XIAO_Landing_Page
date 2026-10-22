@@ -319,6 +319,8 @@ export function ProductPanel({ showTitle = true } = {}) {
               return (
                 <CardPeekContent
                   image={item.img ? withBase(item.img) : undefined}
+                  title={item.title}
+                  description={itemDesc(item) || item.subLabel || undefined}
                 />
               );
             }}

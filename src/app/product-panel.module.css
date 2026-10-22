@@ -343,27 +343,27 @@
 /* Short product cards: small photo on the left, name / blurb / Wiki+Buy on the right */
 .productList {
   display: grid;
-  gap: 8px;
+  gap: 12px;
   animation: stageIn 200ms ease;
   overflow: visible;
 }
 
 .productListDense {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 .productRow {
   position: relative;
   display: grid;
-  grid-template-columns: 64px minmax(0, 1fr);
+  grid-template-columns: 96px minmax(0, 1fr);
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   min-width: 0;
-  min-height: 72px;
+  min-height: 112px;
   border: 1px solid var(--line-soft);
-  border-radius: 12px;
+  border-radius: 14px;
   background: var(--surface-strong);
-  padding: 8px;
+  padding: 10px 12px 10px 10px;
   color: inherit;
   overflow: visible;
   z-index: 0;
@@ -381,8 +381,8 @@
 
 .thumb {
   position: relative;
-  width: 64px;
-  height: 56px;
+  width: 96px;
+  height: 88px;
   flex: 0 0 auto;
   border-radius: 8px;
   background: transparent;
@@ -402,24 +402,27 @@
 
 .productBody {
   display: grid;
-  gap: 2px;
+  gap: 4px;
   min-width: 0;
 }
 
 .productName {
+  display: -webkit-box;
   margin: 0;
-  font-size: 12px;
-  line-height: 1.25;
-  white-space: nowrap;
+  font-size: 14px;
+  line-height: 1.3;
+  min-height: 2.6em;
   overflow: hidden;
-  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
 }
 
 .productDesc {
   margin: 0;
   color: var(--ink-body);
-  font-size: 11px;
-  line-height: 1.3;
+  font-size: 12px;
+  line-height: 1.4;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -427,10 +430,10 @@
 
 .actions {
   display: grid;
-  grid-template-columns: 45px 39px;
+  grid-template-columns: 52px 46px;
   align-items: center;
-  gap: 6px;
-  margin-top: 2px;
+  gap: 8px;
+  margin-top: 4px;
 }
 
 .wiki,
@@ -439,8 +442,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  padding: 3px 8px;
-  font-size: 11px;
+  padding: 4px 10px;
+  font-size: 12px;
   font-weight: var(--home-action-weight);
   line-height: 1.35;
   white-space: nowrap;
@@ -490,9 +493,15 @@
   }
 }
 
-@media (max-width: 1439px) {
+@media (max-width: 1799px) {
   .productListDense {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1279px) {
+  .productListDense {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
 }
@@ -514,7 +523,7 @@
   }
 
   .productListDense {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

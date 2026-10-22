@@ -40,7 +40,7 @@ test("module primary buttons reuse the shared CTA metrics", () => {
 });
 
 test("catalog row buy stays compact while using brand fill", () => {
-  assert.match(panelCss, /\.buy\s*{[^}]*padding:\s*3px 8px/s);
+  assert.match(panelCss, /\.buy\s*{[^}]*padding:\s*4px 10px/s);
   assert.match(panelCss, /\.buy\s*{[^}]*background:\s*var\(--button-bg\)/s);
   assert.match(panelCss, /\.wiki,\s*\.buy\s*{[^}]*border-radius:\s*9999px/s);
   assert.match(panel, /styles\.buy\} home-type-action home-filled-action/);

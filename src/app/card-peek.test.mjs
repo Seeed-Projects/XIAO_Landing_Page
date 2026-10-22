@@ -37,10 +37,10 @@ test("the shared peek layout uses the Home subtitle and body type roles", () => 
   assert.match(peek, /createPortal\(/);
 });
 
-test("product previews use the shared panel with only the current product image", () => {
+test("product previews use the shared panel with the product image, full name and description", () => {
   assert.match(products, /<CardPeek\s+key=\{`\$\{currentCategory\.id\}-\$\{activeSub\}`\}/);
   assert.match(products, /const item = displayItems\[index\];/);
-  assert.match(products, /<CardPeekContent\s+image=\{item\.img \? withBase\(item\.img\) : undefined\}\s*\/>/);
+  assert.match(products, /<CardPeekContent\s+image=\{item\.img \? withBase\(item\.img\) : undefined\}\s+title=\{item\.title\}\s+description=\{itemDesc\(item\) \|\| item\.subLabel \|\| undefined\}\s*\/>/);
   assert.match(products, /data-card-index=\{index\}\s+tabIndex=\{0\}/);
   assert.match(css, /\.card-peek-image \{[^}]*object-fit: contain;/);
 });

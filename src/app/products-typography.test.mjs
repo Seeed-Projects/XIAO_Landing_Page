@@ -35,9 +35,9 @@ test("Product catalog presents three series as the primary stage", () => {
   assert.match(catalog, /addons:/);
   assert.match(catalog, /gadgets:/);
   assert.match(panelCss, /\.seriesGrid\s*{[^}]*grid-template-columns: repeat\(3/s);
-  assert.match(panelCss, /\.productListDense\s*{[^}]*repeat\(6/s);
-  assert.match(panelCss, /\.productRow\s*{[^}]*grid-template-columns:\s*64px/s);
-  assert.match(panelCss, /\.thumb\s*{[^}]*64px/s);
+  assert.match(panelCss, /\.productListDense\s*{[^}]*repeat\(5/s);
+  assert.match(panelCss, /\.productRow\s*{[^}]*grid-template-columns:\s*96px/s);
+  assert.match(panelCss, /\.thumb\s*{[^}]*96px/s);
   assert.match(panelCss, /\.thumb > img\s*{[^}]*object-fit:\s*contain/s);
   assert.match(panel, /BOARD_HARDWARE/);
   assert.match(panel, /<CardPeek/);
