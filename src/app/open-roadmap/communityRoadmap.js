@@ -319,30 +319,34 @@ export function CommunityRoadmap() {
         : "You decide what we build next",
     btnSubmit: lang === "zh" ? "在 GitHub 提交想法" : "Submit an idea on GitHub",
     empty: lang === "zh" ? "这一阶段暂无条目。" : "No ideas in this stage yet.",
+    howEyebrow: lang === "zh" ? "玩法说明" : "How it works",
     howTitle:
       lang === "zh"
-        ? "XIAO 路线图：下一步做什么，由你决定"
-        : "Roadmap of Seeed XIAO: You Decide What We Build Next!",
+        ? "一起共创 XIAO 的未来"
+        : "Build XIAO's future together",
     howDesc:
       lang === "zh"
-        ? "这里是 XIAO 开放路线图的社区共创入口。我们会在这里分享 XIAO 开发板与配件的新功能、新玩法与新产品提案，并邀请你一起决定它们的未来。"
-        : "This is the community co-creation space behind the XIAO open roadmap. We share proposals for new features, functions, and products for XIAO boards and accessories — and you help decide what ships.",
-    howVoteLabel: lang === "zh" ? "投票支持" : "Vote",
-    howVote:
-      lang === "zh"
-        ? "为你喜欢的路线图条目点击上箭头 ⬆️，或直接加入讨论。"
-        : "Upvote ⬆️ the roadmap entries you love, or jump into the discussion.",
+        ? "从社区的真实需求出发，一起决定 XIAO 开发板与配件的新功能和新产品，让好想法走向落地。"
+        : "Start with real community needs. Help shape new features and products for XIAO boards and accessories, and turn good ideas into things that ship.",
     howProposeLabel: lang === "zh" ? "提交提案" : "Propose",
     howPropose:
       lang === "zh"
-        ? "任何人都可以在 GitHub 发起新讨论，提出功能或产品想法；合适的提案会被打上 “Open for Vote” 标签开放投票，票数够高，我们就会把它做出来。"
-        : "Anyone can open a New Discussion to suggest features or products. Good fits get the “Open for Vote” label, and the most-upvoted ideas get built.",
-    howEngageLabel: lang === "zh" ? "参与交流" : "Engage",
+        ? "任何人都可以发起 GitHub Discussion，分享 XIAO 功能或产品想法，加入愿望清单。"
+        : "Anyone can open a GitHub Discussion to share a XIAO feature or product idea for the Wish List.",
+    howVoteLabel: lang === "zh" ? "投票支持" : "Vote",
+    howVote:
+      lang === "zh"
+        ? "合适的提案会获得“Open for Vote”标签，开放投票。点击上箭头 ⬆️，支持你喜欢的想法。"
+        : "Good fits get the “Open for Vote” label. Upvote ⬆️ the ideas you love to help the community set priorities.",
+    howBuildLabel: lang === "zh" ? "开发与交付" : "Build & ship",
+    howBuild:
+      lang === "zh"
+        ? "Seeed 将高票想法推进到“开发中”，交付后标记为“已完成”。"
+        : "Seeed moves the most-upvoted ideas into In Development, then marks them Accomplished when they ship.",
     howEngage:
       lang === "zh"
         ? "与其他社区成员互动。请保持开放心态——这个社区由大家一起建设 💪"
         : "Connect with other community members. Stay open-minded — this community is built together 💪",
-    howLink: lang === "zh" ? "在 GitHub 加入讨论" : "Join the discussion on GitHub",
     seeed: lang === "zh" ? "Seeed 已回复" : "Seeed replied",
     answered: lang === "zh" ? "已解答" : "Answered",
     closed: lang === "zh" ? "已关闭" : "Closed",
@@ -401,47 +405,74 @@ export function CommunityRoadmap() {
         />
       </Reveal>
 
-      {/* How the roadmap works — community co-creation intro card.
-         玩法介绍：浅色卡片与看板同语言，编号节点呼应阶段列头。 */}
       <Reveal as="section" className={styles.howItWorksWrap} aria-labelledby="how-it-works">
         <div className={styles.howItWorks}>
-          <div className={styles.howItWorksHead}>
-            <div className={styles.howItWorksCopy}>
-              <h2 id="how-it-works" className={styles.howItWorksTitle}>{T.howTitle}</h2>
-              <p className={styles.howItWorksDesc}>{T.howDesc}</p>
-            </div>
-            <a
-              className={styles.howItWorksLink}
-              href={GITHUB_DISCUSSIONS}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.17c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.34.96.1-.75.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
-              </svg>
-              {T.howLink}
-            </a>
-          </div>
-          <ul className={styles.howItWorksPoints}>
-            <Reveal as="li" delay={120} className={styles.howPointReveal}>
+          <header className={styles.howItWorksHead}>
+            <p className={styles.howItWorksEyebrow}>{T.howEyebrow}</p>
+            <h2 id="how-it-works" className={`${styles.howItWorksTitle} home-type-title`}>{T.howTitle}</h2>
+            <p className={`${styles.howItWorksDesc} home-type-body`}>{T.howDesc}</p>
+          </header>
+          <ol className={styles.howItWorksPoints} role="list">
+            <Reveal as="li" delay={100} className={`${styles.howPointReveal} ${styles.tone_wish}`}>
+              <div className={styles.howItWorksRail} aria-hidden="true">
+                <span className={styles.howItWorksNode}>01</span>
+              </div>
               <div className={styles.howItWorksPoint}>
-                <strong>{T.howVoteLabel}</strong>
-                <span>{T.howVote}</span>
+                <h3 className={`${styles.howItWorksStepTitle} home-type-subtitle`}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M12 4H6a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h2l4 3v-3h6a3 3 0 0 0 3-3v-3M18 2v6M15 5h6M7 9h4M7 13h8" />
+                  </svg>
+                  {T.howProposeLabel}
+                </h3>
+                <p className="home-type-body">{T.howPropose}</p>
+                <div className={styles.howItWorksStages}>
+                  <span className={styles.howItWorksStage}>{STAGES[0].label[lang]}</span>
+                </div>
               </div>
             </Reveal>
-            <Reveal as="li" delay={240} className={styles.howPointReveal}>
+            <Reveal as="li" delay={200} className={`${styles.howPointReveal} ${styles.tone_vote}`}>
+              <div className={styles.howItWorksRail} aria-hidden="true">
+                <span className={styles.howItWorksNode}>02</span>
+              </div>
               <div className={styles.howItWorksPoint}>
-                <strong>{T.howProposeLabel}</strong>
-                <span>{T.howPropose}</span>
+                <h3 className={`${styles.howItWorksStepTitle} home-type-subtitle`}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="m7 10 5-5 5 5M12 5v11M5 16v4h14v-4" />
+                  </svg>
+                  {T.howVoteLabel}
+                </h3>
+                <p className="home-type-body">{T.howVote}</p>
+                <div className={styles.howItWorksStages}>
+                  <span className={styles.howItWorksStage}>{STAGES[1].label[lang]}</span>
+                </div>
               </div>
             </Reveal>
-            <Reveal as="li" delay={360} className={styles.howPointReveal}>
+            <Reveal as="li" delay={300} className={`${styles.howPointReveal} ${styles.tone_dev}`}>
+              <div className={styles.howItWorksRail} aria-hidden="true">
+                <span className={styles.howItWorksNode}>03</span>
+                <span className={styles.howItWorksFinish}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m6 12 4 4 8-8" />
+                  </svg>
+                </span>
+              </div>
               <div className={styles.howItWorksPoint}>
-                <strong>{T.howEngageLabel}</strong>
-                <span>{T.howEngage}</span>
+                <h3 className={`${styles.howItWorksStepTitle} home-type-subtitle`}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3ZM4 7.5l8 4.5 8-4.5M12 12v9M8 5.25l8 4.5" />
+                  </svg>
+                  {T.howBuildLabel}
+                </h3>
+                <p className="home-type-body">{T.howBuild}</p>
+                <div className={styles.howItWorksStages}>
+                  <span className={styles.howItWorksStage}>{STAGES[2].label[lang]}</span>
+                  <span className={styles.howItWorksStageArrow} aria-hidden="true">→</span>
+                  <span className={`${styles.howItWorksStage} ${styles.tone_done}`}>{STAGES[3].label[lang]}</span>
+                </div>
               </div>
             </Reveal>
-          </ul>
+          </ol>
+          <p className={`${styles.howItWorksNote} home-type-body`}>{T.howEngage}</p>
         </div>
       </Reveal>
 
