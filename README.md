@@ -822,8 +822,15 @@ GH_TOKEN=<pat> node scripts/bake-discussions.js
 Category → column and topic-label mappings live in the bake script. Unknown
 categories or labels are reported in the build log so new GitHub taxonomy can
 be wired without hunting through the board.
-Discussion #1 (welcome / how-it-works) is skipped in the board and linked from
-the hero as **How the roadmap works**.
+Above the board, an announcement thread presents
+[Discussion #1](https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/1)
+with Seeed Studio's opening post, four team welcome notes written for the page,
+and three curated community replies. Bilingual copy and source metadata live in
+`src/app/open-roadmap/announcement-thread.mjs`. Team notes display a badge and
+role, and their **Reply** links open the discussion. Community replies retain
+their original comment links, dates, and counts. Replies use a compact two-column
+grid on wide screens and a single column on mobile. The board starts with the
+remaining discussions.
 
 Below the board, **Success Stories** (`src/app/open-roadmap/successCases.js`)
 closes the loop as "Stage 04 · Shipped": each story card pairs the original

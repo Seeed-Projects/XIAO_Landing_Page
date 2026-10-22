@@ -4,7 +4,9 @@ import { useMemo, useState } from "react";
 import { useLang } from "../i18n";
 import { Reveal } from "../reveal";
 import { ToolPageIntro } from "../tool-page-intro";
+import { withBase } from "../../lib/basePath";
 import discussionData from "../../../public/open-roadmap/discussions.json";
+import { announcementThread } from "./announcement-thread.mjs";
 import styles from "./community-roadmap.module.css";
 
 const GITHUB_DISCUSSIONS = "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions";
@@ -87,6 +89,103 @@ function pickReactions(reactions) {
     return [{ key: "thumbsUp", emoji: "👍", count: 0 }];
   }
   return list.slice(0, 3);
+}
+
+function ThreadReactions({ reactions, lang }) {
+  return REACTION_META.filter(({ key }) => reactions[key] > 0).map(({ key, emoji }) => (
+    <span key={key} className={styles.threadReaction}>
+      <span role="img" aria-label={announcementThread.labels.reactions[key][lang]}>{emoji}</span>
+      {reactions[key]}
+    </span>
+  ));
+}
+
+function AnnouncementThread({ lang }) {
+  const { post, replies, labels } = announcementThread;
+
+  return (
+    <section className={styles.announcementThread} aria-labelledby="roadmap-announcement">
+      <Reveal as="article" className={styles.threadPost}>
+        <div className={styles.threadOpeningAvatar}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            className={styles.threadAvatar}
+            src={withBase(post.avatar)}
+            alt={post.name}
+            width={56}
+            height={56}
+            loading="lazy"
+            referrerPolicy="no-referrer"
+          />
+          <div className={styles.threadCelebration} aria-hidden="true">
+            <span>💡</span><span>🚀</span><span>💚</span><span>🎉</span>
+          </div>
+        </div>
+        <header className={styles.threadPostHead}>
+          <h2 id="roadmap-announcement" className={`${styles.threadTitle} home-type-title`}>
+            <a href={post.url} target="_blank" rel="noopener noreferrer">{post.title[lang]}</a>
+          </h2>
+          <p className={styles.threadMeta}>
+            <span>{labels.startedBy[lang]} <strong>{post.name}</strong></span>
+            <span aria-hidden="true">·</span>
+            <time dateTime={post.createdAt}>{post.date[lang]}</time>
+            <span aria-hidden="true">·</span>
+            <span>{post.tags}</span>
+          </p>
+        </header>
+        <div className={styles.threadPostBody}>
+          <p className="home-type-body">{post.body[lang]}</p>
+          <ul className={styles.threadActions} role="list">
+            {post.actions.map((action) => <li key={action.en} className="home-type-body">{action[lang]}</li>)}
+          </ul>
+          <div className={styles.threadSignals}>
+            <ThreadReactions reactions={post.reactions} lang={lang} />
+            <span className={styles.threadCommentCount}>{post.commentCount} {labels.comments[lang]}</span>
+          </div>
+        </div>
+      </Reveal>
+      <ol className={styles.threadReplies} aria-label={labels.communityReplies[lang]} role="list">
+        {replies.map((reply, index) => (
+          <Reveal as="li" key={reply.login} delay={index * 80} className={styles.threadReply}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className={styles.threadAvatar}
+              src={reply.avatar}
+              alt={reply.name || reply.login}
+              width={36}
+              height={36}
+              loading="lazy"
+              referrerPolicy="no-referrer"
+            />
+            <div className={styles.threadReplyBody}>
+              <div className={styles.threadNameRow}>
+                <h3 className={`${styles.threadName} home-type-subtitle`}>{reply.name || reply.login}</h3>
+                {reply.team ? (
+                  <>
+                    <span className={`${styles.badge} ${styles.badgeSeeed}`}>{labels.team[lang]}</span>
+                    <span>{reply.role[lang]}</span>
+                    <span>{labels.welcomeNote[lang]}</span>
+                  </>
+                ) : (
+                  <time dateTime={reply.createdAt}>{relativeDate(reply.createdAt, lang)}</time>
+                )}
+                <a className={styles.threadReplyLink} href={reply.url} target="_blank" rel="noopener noreferrer">
+                  {labels.reply[lang]}
+                </a>
+                {!reply.team ? (
+                  <>
+                    <span>{reply.replyCount} {labels.replies[lang]}</span>
+                    <ThreadReactions reactions={reply.reactions} lang={lang} />
+                  </>
+                ) : null}
+              </div>
+              <p className={`${styles.threadReplyText} home-type-body`}>{reply.text[lang]}</p>
+            </div>
+          </Reveal>
+        ))}
+      </ol>
+    </section>
+  );
 }
 
 function IdeaCard({ item, lang, labels }) {
@@ -319,34 +418,6 @@ export function CommunityRoadmap() {
         : "You decide what we build next",
     btnSubmit: lang === "zh" ? "在 GitHub 提交想法" : "Submit an idea on GitHub",
     empty: lang === "zh" ? "这一阶段暂无条目。" : "No ideas in this stage yet.",
-    howEyebrow: lang === "zh" ? "玩法说明" : "How it works",
-    howTitle:
-      lang === "zh"
-        ? "一起共创 XIAO 的未来"
-        : "Build XIAO's future together",
-    howDesc:
-      lang === "zh"
-        ? "从社区的真实需求出发，一起决定 XIAO 开发板与配件的新功能和新产品，让好想法走向落地。"
-        : "Start with real community needs. Help shape new features and products for XIAO boards and accessories, and turn good ideas into things that ship.",
-    howProposeLabel: lang === "zh" ? "提交提案" : "Propose",
-    howPropose:
-      lang === "zh"
-        ? "任何人都可以发起 GitHub Discussion，分享 XIAO 功能或产品想法，加入愿望清单。"
-        : "Anyone can open a GitHub Discussion to share a XIAO feature or product idea for the Wish List.",
-    howVoteLabel: lang === "zh" ? "投票支持" : "Vote",
-    howVote:
-      lang === "zh"
-        ? "合适的提案会获得“Open for Vote”标签，开放投票。点击上箭头 ⬆️，支持你喜欢的想法。"
-        : "Good fits get the “Open for Vote” label. Upvote ⬆️ the ideas you love to help the community set priorities.",
-    howBuildLabel: lang === "zh" ? "开发与交付" : "Build & ship",
-    howBuild:
-      lang === "zh"
-        ? "Seeed 将高票想法推进到“开发中”，交付后标记为“已完成”。"
-        : "Seeed moves the most-upvoted ideas into In Development, then marks them Accomplished when they ship.",
-    howEngage:
-      lang === "zh"
-        ? "与其他社区成员互动。请保持开放心态——这个社区由大家一起建设 💪"
-        : "Connect with other community members. Stay open-minded — this community is built together 💪",
     seeed: lang === "zh" ? "Seeed 已回复" : "Seeed replied",
     answered: lang === "zh" ? "已解答" : "Answered",
     closed: lang === "zh" ? "已关闭" : "Closed",
@@ -405,76 +476,7 @@ export function CommunityRoadmap() {
         />
       </Reveal>
 
-      <Reveal as="section" className={styles.howItWorksWrap} aria-labelledby="how-it-works">
-        <div className={styles.howItWorks}>
-          <header className={styles.howItWorksHead}>
-            <p className={styles.howItWorksEyebrow}>{T.howEyebrow}</p>
-            <h2 id="how-it-works" className={`${styles.howItWorksTitle} home-type-title`}>{T.howTitle}</h2>
-            <p className={`${styles.howItWorksDesc} home-type-body`}>{T.howDesc}</p>
-          </header>
-          <ol className={styles.howItWorksPoints} role="list">
-            <Reveal as="li" delay={100} className={`${styles.howPointReveal} ${styles.tone_wish}`}>
-              <div className={styles.howItWorksRail} aria-hidden="true">
-                <span className={styles.howItWorksNode}>01</span>
-              </div>
-              <div className={styles.howItWorksPoint}>
-                <h3 className={`${styles.howItWorksStepTitle} home-type-subtitle`}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M12 4H6a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h2l4 3v-3h6a3 3 0 0 0 3-3v-3M18 2v6M15 5h6M7 9h4M7 13h8" />
-                  </svg>
-                  {T.howProposeLabel}
-                </h3>
-                <p className="home-type-body">{T.howPropose}</p>
-                <div className={styles.howItWorksStages}>
-                  <span className={styles.howItWorksStage}>{STAGES[0].label[lang]}</span>
-                </div>
-              </div>
-            </Reveal>
-            <Reveal as="li" delay={200} className={`${styles.howPointReveal} ${styles.tone_vote}`}>
-              <div className={styles.howItWorksRail} aria-hidden="true">
-                <span className={styles.howItWorksNode}>02</span>
-              </div>
-              <div className={styles.howItWorksPoint}>
-                <h3 className={`${styles.howItWorksStepTitle} home-type-subtitle`}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="m7 10 5-5 5 5M12 5v11M5 16v4h14v-4" />
-                  </svg>
-                  {T.howVoteLabel}
-                </h3>
-                <p className="home-type-body">{T.howVote}</p>
-                <div className={styles.howItWorksStages}>
-                  <span className={styles.howItWorksStage}>{STAGES[1].label[lang]}</span>
-                </div>
-              </div>
-            </Reveal>
-            <Reveal as="li" delay={300} className={`${styles.howPointReveal} ${styles.tone_dev}`}>
-              <div className={styles.howItWorksRail} aria-hidden="true">
-                <span className={styles.howItWorksNode}>03</span>
-                <span className={styles.howItWorksFinish}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="m6 12 4 4 8-8" />
-                  </svg>
-                </span>
-              </div>
-              <div className={styles.howItWorksPoint}>
-                <h3 className={`${styles.howItWorksStepTitle} home-type-subtitle`}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3ZM4 7.5l8 4.5 8-4.5M12 12v9M8 5.25l8 4.5" />
-                  </svg>
-                  {T.howBuildLabel}
-                </h3>
-                <p className="home-type-body">{T.howBuild}</p>
-                <div className={styles.howItWorksStages}>
-                  <span className={styles.howItWorksStage}>{STAGES[2].label[lang]}</span>
-                  <span className={styles.howItWorksStageArrow} aria-hidden="true">→</span>
-                  <span className={`${styles.howItWorksStage} ${styles.tone_done}`}>{STAGES[3].label[lang]}</span>
-                </div>
-              </div>
-            </Reveal>
-          </ol>
-          <p className={`${styles.howItWorksNote} home-type-body`}>{T.howEngage}</p>
-        </div>
-      </Reveal>
+      <AnnouncementThread lang={lang} />
 
       <div className={styles.wrap}>
         <div className={styles.board}>

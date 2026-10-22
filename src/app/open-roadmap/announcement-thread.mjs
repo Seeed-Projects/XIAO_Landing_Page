@@ -1,0 +1,135 @@
+export const announcementThread = {
+  post: {
+    name: "Seeed Studio",
+    avatar: "/home/seeed-studio-youtube-avatar.jpg",
+    url: "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/1",
+    createdAt: "2024-05-24T06:51:32Z",
+    date: { en: "May 24, 2024", zh: "2024 年 5 月 24 日" },
+    tags: "#OpenRoadmap #XIAO",
+    title: {
+      en: "Roadmap of Seeed XIAO: You Decide What We Build Next!",
+      zh: "XIAO 路线图：下一步做什么，由你决定！",
+    },
+    body: {
+      en: "👋 Welcome! Here we share roadmap proposals for XIAO boards and accessories — and invite you to co-create:",
+      zh: "👋 欢迎！这里分享 XIAO 开发板与配件的路线图提案，也邀请你一起共创：",
+    },
+    actions: [
+      {
+        en: "💚 Vote: upvote ⬆️ the roadmap entries you love",
+        zh: "💚 投票：点击上箭头 ⬆️，支持你喜欢的路线图提案",
+      },
+      {
+        en: "💡 Propose: open a New Discussion; good fits get the “Open for Vote” label, and the most-voted ideas get built",
+        zh: "💡 提案：发起新讨论；合适的想法会获得“Open for Vote”（公开投票）标签，高票想法将落地开发",
+      },
+      {
+        en: "🤝 Engage: talk with other members — this is a community we build together 💪",
+        zh: "🤝 交流：与其他成员聊聊——这个社区由大家一起建设 💪",
+      },
+    ],
+    reactions: { thumbsUp: 12, hooray: 6, heart: 3, rocket: 5 },
+    commentCount: 59,
+  },
+  replies: [
+    {
+      login: "kevin-seeed",
+      name: "Kevin",
+      team: true,
+      role: { en: "Product Manager", zh: "产品经理" },
+      avatar: "https://avatars.githubusercontent.com/u/170942971?v=4",
+      url: "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/1",
+      text: {
+        en: "I read every Wish List idea—share the problem behind the specs, and upvote what matters to help ideas reach development. 💚",
+        zh: "愿望清单里的每个想法我都会看；请说说参数背后要解决的问题，也为你在意的提案投票，帮助好想法进入开发。💚",
+      },
+    },
+    {
+      login: "rei-vilo",
+      avatar: "https://avatars.githubusercontent.com/u/951776?u=7c7db704570e25592a5828313872ea9ceda1a0f2&v=4",
+      createdAt: "2024-07-19T12:29:37Z",
+      url: "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/1#discussioncomment-10095392",
+      text: {
+        en: "What I like most of the Xiao family of boards are: the compact form-factor, the castellated pins that make them easy to integrate into a final design, and the great value . …",
+        zh: "我最喜欢 Xiao 系列开发板的几点是：小巧的外形、方便集成到最终产品中的半孔引脚，以及出色的性价比。…",
+      },
+      reactions: {},
+      replyCount: 20,
+    },
+    {
+      login: "nickeyjoy",
+      name: "Nickey",
+      team: true,
+      role: { en: "Product Manager", zh: "产品经理" },
+      avatar: "https://avatars.githubusercontent.com/u/41183632?v=4",
+      url: "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/1",
+      text: {
+        en: "This year, I'm focused on turning top-voted ideas into real XIAO boards and add-ons, with progress shared openly here. 🚀",
+        zh: "今年，我会重点推动高票想法变成真正的 XIAO 开发板和配件，也会在这个看板上公开分享进展。🚀",
+      },
+    },
+    {
+      login: "botamochi6277",
+      avatar: "https://avatars.githubusercontent.com/u/14128408?u=0b6a702e0f5421a7789dae470947e1e2ad1cbbd0&v=4",
+      createdAt: "2024-07-23T11:59:40Z",
+      url: "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/1#discussioncomment-10125744",
+      text: {
+        en: "Hello, I develop luminous katana using XIAO nRF52840 Sense. The XIAO in the katana controls full color LEDs according to motions measured by the embed IMU. …",
+        zh: "大家好，我用 XIAO nRF52840 Sense 制作了发光武士刀。刀中的 XIAO 根据板载惯性传感器测到的动作，控制全彩 LED。…",
+      },
+      reactions: {},
+      replyCount: 2,
+    },
+    {
+      login: "limengdu",
+      name: "Citric Li",
+      team: true,
+      role: { en: "Application Engineer", zh: "应用工程师" },
+      avatar: "https://avatars.githubusercontent.com/u/37475446?v=4",
+      url: "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/1",
+      text: {
+        en: "Stuck on a pin, library, or wiki step? Share your project with me to help improve our docs, examples, and software support. 💡",
+        zh: "被某个引脚、软件库或 Wiki 步骤卡住了？把你的项目和问题发给我，真实项目能帮助我完善文档、示例和软件支持。💡",
+      },
+    },
+    {
+      login: "malachib",
+      avatar: "https://avatars.githubusercontent.com/u/1586399?u=8096a095a2a5110a9f55350b9efb39ed7ea4202c&v=4",
+      createdAt: "2026-04-20T02:16:11Z",
+      url: "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/1#discussioncomment-16629921",
+      text: {
+        en: "I would vote for ESP32S31. … The promise of an MMU and PPA-style things makes ESP32S31 a game changer.",
+        zh: "我会投票支持 ESP32S31。……MMU 和 PPA 这类能力的加入，让 ESP32S31 有望成为改变游戏规则的芯片。",
+      },
+      reactions: { thumbsUp: 8 },
+      replyCount: 4,
+    },
+    {
+      login: "meilily",
+      name: "Meilily",
+      team: true,
+      role: { en: "Marketing Manager", zh: "市场经理" },
+      avatar: "https://avatars.githubusercontent.com/u/111474938?v=4",
+      url: "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/1",
+      text: {
+        en: "I'd love to see your XIAO builds. Share them with us—I'd love to feature community projects and the people behind them. ✨",
+        zh: "我很想看看你的 XIAO 作品。欢迎与我们分享，我也希望让更多人认识社区项目和背后的创作者。✨",
+      },
+    },
+  ],
+  labels: {
+    startedBy: { en: "Started by", zh: "发起人：" },
+    comments: { en: "comments", zh: "条评论" },
+    reply: { en: "Reply", zh: "回复" },
+    replies: { en: "replies", zh: "条回复" },
+    communityReplies: { en: "Team and community", zh: "团队与社区交流" },
+    team: { en: "Seeed team", zh: "Seeed 团队" },
+    welcomeNote: { en: "Welcome note", zh: "欢迎留言" },
+    reactions: {
+      thumbsUp: { en: "Thumbs up", zh: "赞" },
+      hooray: { en: "Celebrate", zh: "庆祝" },
+      heart: { en: "Heart", zh: "喜爱" },
+      rocket: { en: "Rocket", zh: "火箭" },
+    },
+  },
+};
