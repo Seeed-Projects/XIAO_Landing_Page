@@ -15,6 +15,8 @@ import {
   NEW_LEGEND_ORDER,
   PTC_LEGEND_BOARDS,
   CAN_LEGEND_BOARDS,
+  NC_LEGEND_BOARDS,
+  GNDNA_LEGEND_BOARDS,
   diagramBoxMatchesFilter,
   laneOnSide,
   padOnSide,
@@ -257,6 +259,31 @@ test("colour key follows the official palette and chip wording", () => {
   assert.equal(diagramBoxMatchesFilter("ptc", "can"), false);
   assert.equal(diagramBoxMatchesFilter("digital", "can"), false);
   assert.deepEqual(NEW_LEGEND_BOARDS, []);
+  assert.equal(FN_LABEL.pinname, undefined, "the PIN NAME legend key is gone");
+  assert.equal(FN_LABEL.nc, "NC / SHIELD");
+  assert.deepEqual(NC_LEGEND_BOARDS, ["s3sense"]);
+  // The nRF54L15 artwork prints the dark key entry as "GND / N/A": the same
+  // colour covers real GND pills and the unbonded N/A pads, so those boards
+  // relabel their GND legend chip and bind the N/A rows to an N/A pin.
+  // nRF54L15 原图色标深色项印作 "GND / N/A"：同一颜色同时覆盖 GND 胶囊与
+  // 未键合 N/A 焊盘，这些板的 GND 图例按钮随之改写，N/A 行绑定 N/A 引脚。
+  assert.deepEqual(GNDNA_LEGEND_BOARDS, ["nrf54l15", "nrf54l15sense"]);
+  for (const id of ["nrf54l15", "nrf54l15sense"]) {
+    const board = BOARDS[id];
+    const naPin = board.pins.find((pin) => pin.id === "N/A");
+    assert.ok(naPin, `${id} defines an N/A pin`);
+    assert.equal(naPin.fn, "gnd", "the N/A pin joins the dark GND / N/A key");
+    assert.equal(naPin.names.silk, "N/A");
+    assert.equal(naPin.status, "free", "the unbonded N/A pin stays off the marker bubbles");
+    const naRows = board.diagram.back.rows.filter((row) => row.id === "N/A");
+    assert.equal(naRows.length, 3, `${id} back binds its three N/A rows to the N/A pin`);
+    for (const row of naRows) {
+      assert.ok(row.boxes.every((box) => box.cat === "gnd" && box.text === "N/A"),
+        "N/A rows carry gnd-category N/A pills");
+    }
+    assert.equal(board.diagram.back.rows.filter((row) => row.id === "GND").length, 1,
+      "the genuine GND row is untouched");
+  }
   assert.deepEqual(NEW_LEGEND_ORDER.map((fn) => FN_LABEL[fn]), [
     "POWER", "GND", "SEEED USAGE", "SIGNAL PIN", "PERIPHERAL", "SYSTEM", "NC / SHIELD",
   ]);
@@ -345,6 +372,53 @@ test("s3sense stacks the Sense expansion board as a third interactive module fac
   assert.equal(boardFrameWidth({ workWidth: 1200, figureWidth: 225.6 }), null);
 });
 
+test("the legend follows the scrolled face and each face keeps its own filters", () => {
+  // The module artwork prints its own 7-entry key, so its boxes are refiled
+  // under that key: GPIO pad names go to SIGNAL PIN, camera/SD/PDM pills to
+  // SEEED USAGE, and only the USER LED keeps PERIPHERAL; no box carries a
+  // combined front-face category any more.
+  // 模块图自印 7 项色键，胶囊随之归类：GPIO 焊盘名归 SIGNAL PIN，摄像头/SD/PDM
+  // 胶囊归 SEEED USAGE，仅 USER LED 保留 PERIPHERAL；不再有正面式的组合 cat。
+  const rows = BOARDS.s3sense.diagram.module.rows;
+  const counts = {};
+  for (const row of rows) {
+    for (const box of row.boxes) {
+      assert.equal(Array.isArray(box.cat), false, `${row.id}/${box.text} is refiled under a single module key entry`);
+      counts[box.cat] = (counts[box.cat] || 0) + 1;
+    }
+  }
+  assert.deepEqual(counts, { seeed: 22, signal: 23, system: 6, nc: 6, peripheral: 1, gnd: 3, power: 4 });
+  // The chip row uses "rst" for the SYSTEM grey-blue, the data cats use "system".
+  // 图例键以 "rst" 表示 SYSTEM 灰蓝，数据 cat 用 "system"。
+  const legendCats = NEW_LEGEND_ORDER.map((fn) => (fn === "rst" ? "system" : fn));
+  assert.deepEqual(
+    legendCats.filter((cat) => counts[cat] > 0).sort(),
+    Object.keys(counts).sort(),
+    "every module key entry has pills and no other category appears",
+  );;
+  for (const filter of ["spi", "i2c", "digital", "analog"]) {
+    assert.equal(rows.some((row) => row.boxes.some((box) => diagramBoxMatchesFilter(box.cat, filter))), false,
+      `the front-face ${filter} key lights nothing on the module face`);
+  }
+  assert.deepEqual(NEW_LEGEND_ORDER.map((fn) => FN_LABEL[fn]), [
+    "POWER", "GND", "SEEED USAGE", "SIGNAL PIN", "PERIPHERAL", "SYSTEM", "NC / SHIELD",
+  ]);
+  // The chip row swaps to the module key while the module block scrolls into
+  // view, a filter picked on one face clears when the legend changes, and each
+  // DiagramStage only reacts to chips from its own face's key.
+  // 图例胶囊随滚动到模块区切换为模块色键：换面时清掉不存在的筛选，各图面只响应
+  // 自己色键里的筛选项。
+  const view = read("./playground/pinout/PinoutView.js");
+  assert.match(view, /if \(face === "module"\) return NEW_LEGEND_ORDER;/);
+  assert.match(view, /const \[faceInView, setFaceInView\] = useState\("front"\)/);
+  assert.match(view, /window\.innerHeight \/ 3/);
+  assert.match(view, /legendOrderFor\(board, activeFace\)\.map/);
+  assert.match(view, /const faceFilter = filter && legendOrderFor\(board, face\)\.includes\(filter\) \? filter : "";/);
+  assert.match(view, /filter=\{faceFilter\}/);
+  assert.match(view, /setFilter\(\(cur\) => \(cur && !legendOrderFor\(board, activeFace\)\.includes\(cur\) \? "" : cur\)\)/);
+  assert.match(view, /NC_LEGEND_BOARDS\.includes\(board\.id\) && !board\.diagram\?\.module/);
+});
+
 test("diagram filters highlight whole matching rows and combine with pin search", () => {
   const view = read("./playground/pinout/PinoutView.js");
   const css = read("./playground/pinout/pinout.module.css");
@@ -387,6 +461,42 @@ test("diagram filters highlight whole matching rows and combine with pin search"
         }
       }
     }
+  }
+
+  // The Sense variants print the 6-DoF IMU on I2C1 (D13/D14): besides the
+  // "6-DoF IMU" peripheral pill on the D14 row, the D13 row's I2C1_SCL chip
+  // and the IMU row's "I2C Addr. 0x6A" chip also light under PERIPHERAL.
+  // Sense 变体把 6-DoF IMU 挂在 I2C1（D13/D14）上：除 D14 行的 "6-DoF IMU"
+  // 外设胶囊外，D13 行的 I2C1_SCL 胶囊与 IMU 行的 "I2C Addr. 0x6A" 胶囊
+  // 在 PERIPHERAL 筛选下同样点亮。
+  const mg24Front = BOARDS.mg24sense.diagram.front.rows;
+  const imuCats = (rowId, text) => mg24Front.find((row) => row.id === rowId)
+    ?.boxes.find((box) => box.text === text)?.cat;
+  assert.deepEqual(imuCats("D13", "I2C1_SCL"), ["i2c", "peripheral"],
+    "the D13 row's I2C1_SCL chip joins the I2C and PERIPHERAL keys");
+  assert.deepEqual(imuCats("IMU", "I2C Addr. 0x6A"), ["i2c", "peripheral"],
+    "the IMU address row joins the I2C and PERIPHERAL keys");
+  assert.equal(diagramBoxMatchesFilter(["i2c", "peripheral"], "i2c"), true);
+  assert.equal(diagramBoxMatchesFilter(["i2c", "peripheral"], "peripheral"), true);
+  assert.equal(diagramBoxMatchesFilter(["i2c", "peripheral"], "digital"), false);
+  const plainMg24 = BOARDS.mg24.diagram.front.rows.flatMap((row) => row.boxes)
+    .filter((box) => Array.isArray(box.cat) && box.cat.includes("peripheral"));
+  assert.equal(plainMg24.length, 0,
+    "the non-Sense MG24 has no IMU, so its front keeps single-category chips");
+
+  // The SAMD21 artwork prints the D0 DAC pill in the SYSTEM grey-blue, so the
+  // D0 row lights under SYSTEM (rst) instead of PERIPHERAL, and the pill
+  // repaints in its own grey rather than the PERIPHERAL blue.
+  // SAMD21 原图把 D0 的 DAC 胶囊印成 SYSTEM 灰蓝：D0 行应随 SYSTEM（rst）
+  // 点亮而非 PERIPHERAL，胶囊重绘时保持自身灰色。
+  for (const boardId of ["samd21", "samd21plus"]) {
+    const d0 = BOARDS[boardId].diagram.front.rows.find((row) => row.id === "D0");
+    assert.equal(d0?.boxes.find((box) => box.text === "DAC")?.cat, "system",
+      `${boardId} D0 DAC chip follows the SYSTEM colour key`);
+    assert.equal(d0.boxes.some((box) => diagramBoxMatchesFilter(box.cat, "peripheral")), false,
+      `${boardId} D0 row stays off under PERIPHERAL`);
+    assert.equal(d0.boxes.some((box) => diagramBoxMatchesFilter(box.cat, "rst")), true,
+      `${boardId} D0 row lights under SYSTEM`);
   }
 });
 

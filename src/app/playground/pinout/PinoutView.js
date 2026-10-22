@@ -17,6 +17,8 @@ import {
   NEW_LEGEND_ORDER,
   PTC_LEGEND_BOARDS,
   CAN_LEGEND_BOARDS,
+  NC_LEGEND_BOARDS,
+  GNDNA_LEGEND_BOARDS,
   codeName,
   functionKeysForPin,
   getBoard,
@@ -30,12 +32,25 @@ import { boardFrameWidth } from "./diagramScale.js";
 
 // Every board shows the shared keys; the #5c6bc0 chip colour is board-specific
 // (PTC touch channels on samd21 series, CAN bus pins on stm32c5) and only the
-// boards that carry those chips get the extra key.
-const legendOrderFor = (boardId) => [
-  ...(NEW_LEGEND_BOARDS.includes(boardId) ? NEW_LEGEND_ORDER : LEGEND_ORDER),
-  ...(PTC_LEGEND_BOARDS.includes(boardId) ? ["ptc"] : []),
-  ...(CAN_LEGEND_BOARDS.includes(boardId) ? ["can"] : []),
-];
+// boards that carry those chips get the extra key. The grey NC / SHIELD chip
+// likewise appears only on boards whose artwork prints those pills, and the
+// nRF54L15 boards print their dark key entry as "GND / N/A".
+// The s3sense module face prints its own 7-entry key instead of the classic
+// set, so the chips follow the face in view: front/back keep the classic keys
+// (NC moves to the module face where those pills live), and the module swaps
+// to POWER / GND / SEEED USAGE / SIGNAL PIN / PERIPHERAL / SYSTEM / NC-SHIELD.
+// s3sense 模块图自印 7 项色键而非经典分类，图例随当前浏览面切换：
+// 正/背面沿用经典色键（NC 移到模块面），模块面切换为 POWER / GND /
+// SEEED USAGE / SIGNAL PIN / PERIPHERAL / SYSTEM / NC-SHIELD。
+const legendOrderFor = (board, face = "front") => {
+  if (face === "module") return NEW_LEGEND_ORDER;
+  return [
+    ...(NEW_LEGEND_BOARDS.includes(board.id) ? NEW_LEGEND_ORDER : LEGEND_ORDER),
+    ...(PTC_LEGEND_BOARDS.includes(board.id) ? ["ptc"] : []),
+    ...(CAN_LEGEND_BOARDS.includes(board.id) ? ["can"] : []),
+    ...(NC_LEGEND_BOARDS.includes(board.id) && !board.diagram?.module ? ["nc"] : []),
+  ];
+};
 
 const STATUS_LABEL = {
   free: { en: "Free to use", zh: "空闲，可随意使用" },
@@ -162,9 +177,14 @@ function sampleCode(pin, primer, framework) {
   return primer?.code?.[framework] || primer?.code?.arduino || "";
 }
 
-/** Fit the full printed label inside its artwork box at the current font metrics.
- * 按当前字体尺寸将完整印刷标签缩放到原图框内。 */
-function DiagramLabel({ box, visible, color }) {
+/**
+ * Filter highlight reprints the matched pill's text in one uniform ink, the
+ * same white the artwork itself prints on every pill.
+ * 筛选高亮以统一墨色重印匹配胶囊的文字：与原图一致的白色，所有胶囊行为统一。
+ */
+const DIAGRAM_INK = "#ffffff";
+
+function DiagramLabel({ box, visible }) {
   const textRef = useRef(null);
   const fontSize = box.h * 0.58;
   useLayoutEffect(() => {
@@ -183,31 +203,13 @@ function DiagramLabel({ box, visible, color }) {
     return () => { cancelled = true; };
   }, [box.text, box.w, fontSize]);
   return (
-    <text
-      ref={textRef}
-      className={styles.diagramLabel}
-      x={box.x + box.w / 2}
-      y={box.y + box.h / 2}
-      fontSize={fontSize}
-      style={{ fill: color, opacity: visible ? 1 : 0 }}
-      textAnchor="middle"
-      dominantBaseline="central"
-      aria-hidden="true"
-    >
+    <text ref={textRef} className={styles.diagramLabel}
+      x={box.x + box.w / 2} y={box.y + box.h / 2} fontSize={fontSize}
+      style={{ fill: DIAGRAM_INK, opacity: visible ? 1 : 0 }}
+      textAnchor="middle" dominantBaseline="central" aria-hidden="true">
       {box.text}
     </text>
   );
-}
-
-/** Pick the higher-contrast label ink for the shared legend background.
- * 为共享图例底色选择对比度更高的标签文字颜色。 */
-function diagramLabelColor(color) {
-  const channels = color.slice(1).match(/.{2}/g).map((hex) => {
-    const channel = parseInt(hex, 16) / 255;
-    return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
-  });
-  const luminance = channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
-  return luminance > 0.179 ? "#18222f" : "#fff";
 }
 
 /**
@@ -216,8 +218,6 @@ function diagramLabelColor(color) {
  */
 function DiagramStage({ diagram, board, selection, filter, query, lang, face, onSelect }) {
   const { crop, width, height, src, rows } = diagram;
-  const filterColor = FN_COLOR[filter] || "#fff";
-  const labelColor = diagramLabelColor(filterColor);
   const pinOf = (id) => board.pins.find((pin) => pin.id === id) || null;
   const rowLabel = (pin, id) => (pin ? cardTitle(pin, board.id) : id);
   return (
@@ -272,7 +272,11 @@ function DiagramStage({ diagram, board, selection, filter, query, lang, face, on
                 : `${left - 6},${top - 1} ${left - 14},${(top + bottom) / 2} ${left - 6},${bottom + 1}`}
             />
             {row.boxes.map((box, boxIndex) => {
-              const repaint = Boolean(filter && !dim && diagramBoxMatchesFilter(box.cat, filter));
+              // Repaint a matched pill in its own artwork colour (fill) and
+              // reprint the text in the uniform white ink the artwork uses,
+              // so the highlighted labels read exactly like the original.
+              // 匹配的胶囊用原图颜色（fill）重绘、文字用原图一致的白色：图面观感不变。
+              const repaint = Boolean(filter && !dim && box.fill && diagramBoxMatchesFilter(box.cat, filter));
               return (
                 <g key={boxIndex}>
                   <polygon
@@ -281,16 +285,12 @@ function DiagramStage({ diagram, board, selection, filter, query, lang, face, on
                   />
                   <rect
                     className={styles.diagramBox}
-                    x={box.x}
-                    y={box.y}
-                    width={box.w}
-                    height={box.h}
-                    rx={box.rx}
-                    ry={box.ry}
-                    style={{ fill: filterColor, opacity: repaint ? 1 : 0 }}
+                    x={box.x} y={box.y} width={box.w} height={box.h}
+                    rx={box.rx} ry={box.ry}
+                    style={{ fill: box.fill, opacity: repaint ? 1 : 0 }}
                     aria-hidden="true"
                   />
-                  <DiagramLabel box={box} visible={repaint} color={labelColor} />
+                  <DiagramLabel box={box} visible={repaint} />
                 </g>
               );
             })}
@@ -441,6 +441,11 @@ export function PinoutView() {
   const [selection, setSelection] = useState(null);
   const [categoryChoice, setCategoryId] = useState(null);
   const [filter, setFilter] = useState("");
+  // The face whose block the reader has scrolled to; the legend chips and the
+  // active filter follow it, so the module's own key never mixes with the
+  // front-face set.
+  // 当前滚动到的面：图例与筛选跟随该面，模块图自带的分类不与正面混用。
+  const [faceInView, setFaceInView] = useState("front");
   const [query, setQuery] = useState("");
   const [frameworkChoice, setFramework] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -512,6 +517,46 @@ export function PinoutView() {
       return findRow(urlParams.pin) || current;
     });
   }, [hydrated, boardId, findRow, urlParams.pin]);
+
+  const activeFace = board.diagram?.[faceInView] ? faceInView : "front";
+
+  // Track which face block the reader has scrolled to: the legend swaps to
+  // that face's own colour key, so the module's chips never mix with the
+  // front-face set. The sticky controls bar sits at the top, so a face counts
+  // as in view once its block crosses the upper third of the viewport.
+  // 跟踪读者滚动到的面：图例切换为该面自身的色键，模块图的分类不与正面
+  // 混用。吸附控制条位于顶部，块体越过视口上三分之一线即视为当前面。
+  useEffect(() => {
+    const blocks = Object.entries(faceRefs).filter(([, ref]) => ref.current);
+    if (blocks.length < 2) return undefined;
+    const track = () => {
+      const line = window.innerHeight / 3;
+      let current = blocks[0][0];
+      for (const [face, ref] of blocks) {
+        if (ref.current.getBoundingClientRect().top <= line) current = face;
+      }
+      setFaceInView((cur) => (cur === current ? cur : current));
+    };
+    track();
+    window.addEventListener("scroll", track, { passive: true });
+    window.addEventListener("resize", track);
+    return () => {
+      window.removeEventListener("scroll", track);
+      window.removeEventListener("resize", track);
+    };
+    // The three refs are stable; re-running on board switch re-detects the
+    // face under the line for the new face set.
+    // 三个 ref 恒定；切换板型时重跑一次，按新面集重新判定当前面。
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [boardId]);
+
+  // A filter picked on another face's legend may not exist on the face now in
+  // view (ADC INPUT has no module chip), so it clears instead of half-lighting.
+  // 在别的面选的筛选项可能在当前面不存在（ADC INPUT 无模块胶囊），直接清空。
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- clears a stale cross-face chip, same as the board-switch reset
+    setFilter((cur) => (cur && !legendOrderFor(board, activeFace).includes(cur) ? "" : cur));
+  }, [board, activeFace]);
 
   useEffect(() => {
     if (!menuOpen) return undefined;
@@ -750,7 +795,7 @@ export function PinoutView() {
     setCategoryId(BOARD_CATEGORIES.find((item) => item.boardIds.includes(id))?.id || categoryId);
     // A filter from the previous board's legend may not exist on the next one.
     // 上一块板的筛选项在下一块板上可能不存在。
-    setFilter((cur) => (cur && !legendOrderFor(id).includes(cur) ? "" : cur));
+    setFilter((cur) => (cur && !legendOrderFor(BOARDS[id], "front").includes(cur) ? "" : cur));
     setAnnounce(BOARDS[id].name);
   };
 
@@ -837,7 +882,7 @@ export function PinoutView() {
           </div>
 
           <div className={styles.legend} data-filtered={filter ? "1" : "0"}>
-            {legendOrderFor(boardId).map((fn) => (
+            {legendOrderFor(board, activeFace).map((fn) => (
               <button
                 key={fn}
                 type="button"
@@ -846,7 +891,7 @@ export function PinoutView() {
                 aria-pressed={filter === fn}
                 onClick={() => setFilter((cur) => (cur === fn ? "" : fn))}
               >
-                {FN_LABEL[fn]}
+                {fn === "gnd" && GNDNA_LEGEND_BOARDS.includes(boardId) ? "GND / N/A" : FN_LABEL[fn]}
               </button>
             ))}
           </div>
@@ -864,6 +909,10 @@ export function PinoutView() {
               : face === "back"
                 ? (zh ? "背面" : "Back")
                 : (zh ? "扩展板" : "Sense Module");
+            // Each face only reacts to filters from its own legend set, so a
+            // front-face chip never dims the module and vice versa.
+            // 每个面只响应自己图例集里的筛选项，正面筛选不波及模块图，反之亦然。
+            const faceFilter = filter && legendOrderFor(board, face).includes(filter) ? filter : "";
             return (
               <div key={face} className={styles.faceBlock} ref={faceRefs[face]} style={faceMaxW(face)}>
                 <div className={styles.stageHead} aria-hidden="true">
@@ -875,7 +924,7 @@ export function PinoutView() {
                   diagram={diagram}
                   board={board}
                   selection={selection}
-                  filter={filter}
+                  filter={faceFilter}
                   query={query}
                   lang={lang}
                   face={face}

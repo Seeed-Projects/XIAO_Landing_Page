@@ -99,11 +99,11 @@ export const BOARD_DIAGRAMS = {
   },
   "nrf54l15sense": {
     front: { src: "/xiao-products/pinout/nrf54l15sense-front.svg", layout: nrf54l15sense_front, rows: {"left":["CHARGE_LED","D0","D1","D2","D3","D4","D5","D6","RST","RF_SW_PORT","D12","D11","IMU_INT1","IMU"],"right":["USER_LED","5V","GND","3V3","D10","D9","D8","D7","USER_KEY","RF_SW_PWR","MIC_CLK","MIC_DAT"]} },
-    back: { src: "/xiao-products/pinout/nrf54l15sense-back.svg", layout: nrf54l15sense_back, rows: {"left":["SWCLK","GND","3V3","SAMD11_SWCLK","GND","GND","D11","D12","BAT-"],"right":["SWDIO","nRST","SAMD11_RST","SAMD11_SWDIO","GND","D15","D14","D13","NFC2","NFC1","BAT+"]} },
+    back: { src: "/xiao-products/pinout/nrf54l15sense-back.svg", layout: nrf54l15sense_back, rows: {"left":["SWCLK","GND","3V3","SAMD11_SWCLK","N/A","N/A","D11","D12","BAT-"],"right":["SWDIO","nRST","SAMD11_RST","SAMD11_SWDIO","N/A","D15","D14","D13","NFC2","NFC1","BAT+"]} },
   },
   "nrf54l15": {
     front: { src: "/xiao-products/pinout/nrf54l15-front.svg", layout: nrf54l15_front, rows: {"left":["CHARGE_LED","D0","D1","D2","D3","D4","D5","D6","RST","RF_SW_PORT"],"right":["USER_LED","5V","GND","3V3","D10","D9","D8","D7","USER_KEY","RF_SW_PWR"]} },
-    back: { src: "/xiao-products/pinout/nrf54l15-back.svg", layout: nrf54l15_back, rows: {"left":["SWCLK","GND","3V3","SAMD11_SWCLK","GND","GND","D11","D12","BAT-"],"right":["SWDIO","nRST","SAMD11_RST","SAMD11_SWDIO","GND","D15","D14","D13","NFC2","NFC1","BAT+"]} },
+    back: { src: "/xiao-products/pinout/nrf54l15-back.svg", layout: nrf54l15_back, rows: {"left":["SWCLK","GND","3V3","SAMD11_SWCLK","N/A","N/A","D11","D12","BAT-"],"right":["SWDIO","nRST","SAMD11_RST","SAMD11_SWDIO","N/A","D15","D14","D13","NFC2","NFC1","BAT+"]} },
   },
   "nrf54lm20asense": {
     front: { src: "/xiao-products/pinout/nrf54lm20asense-front.svg", layout: nrf54lm20asense_front, rows: {"left":["RESET","A0","A1","A2","A3","SDA","SCL","TX","MIC_DAT","MIC_CLK"],"right":["USER_BUTTON","RGB_B","RGB_G","RGB_R","VBUS","GND","3V3","MOSI","MISO","SCK","RX","IMU_SDA","IMU_SCL","IMU_CS","IMU_INT1"]} },

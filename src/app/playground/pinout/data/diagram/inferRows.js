@@ -43,7 +43,7 @@ export function regroupDiagramLayout(layout) {
   }
   const toRow = (boxes) => ({
     y: Math.round(boxes.reduce((sum, box) => sum + box.cy, 0) / boxes.length),
-    boxes: boxes.map(({ x, y, w, h, rx, ry, cat, text }) => ({ x, y, w, h, rx, ry, cat, text })),
+    boxes: boxes.map(({ x, y, w, h, rx, ry, cat, text, fill }) => ({ x, y, w, h, rx, ry, cat, text, fill })),
   });
   const left = [];
   const right = [];
