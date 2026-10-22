@@ -9,9 +9,9 @@ const side = read("./side-directory.js");
 const directory = read("./section-directory.mjs");
 const bake = readFileSync(new URL("../../scripts/bake-project-hub-embed.js", import.meta.url), "utf8");
 
-test("Project Hub top anchor sits on the hero, not a page-wide wrapper", () => {
+test("Project Hub top anchor wraps the shared intro", () => {
   assert.doesNotMatch(page, /id="top"/);
-  assert.match(hub, /className=\{`\$\{styles\.projectIntro\} scroll-mt-24`\} id="top"/);
+  assert.match(hub, /<Reveal as="section" className="scroll-mt-24" id="top">\s*<ToolPageIntro\b/);
   assert.match(hub, /id="featured-projects"/);
   assert.match(hub, /id="collection"/);
 });

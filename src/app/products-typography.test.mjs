@@ -10,9 +10,13 @@ const selector = read("./products/xiao-selector.js");
 const selectorCss = read("./products/xiao-selector.module.css");
 const globals = read("./globals.css");
 const agents = read("../../AGENTS.md");
+const intro = read("./tool-page-intro.js");
+const introCss = read("./tool-page-intro.module.css");
 
 test("Products reuses the shared typography roles", () => {
-  assert.match(page, /titleClassName="[^"]*home-type-hero-title/);
+  assert.match(page, /<ToolPageIntro\s+title=/);
+  assert.match(intro, /<Glow as="h1" className="home-type-hero-title">\{title\}<\/Glow>/);
+  assert.match(intro, /<p className="home-type-body">\{description\}<\/p>/);
   assert.match(hero, /home-type-body[^\n]*text-white/);
   assert.match(hero, /home-type-action home-filled-action/g);
   assert.match(panel, /home-type-title/);
@@ -102,8 +106,9 @@ test("Products component CSS points to the shared typography tokens", () => {
 
 test("XIAO Selector exposes the faceted workbench structure", () => {
   assert.match(page, /<XiaoSelector \/>/);
-  assert.match(selector, /tabFilter: "Filter by Specs"/);
-  assert.match(selector, /tabHelp: "Help Me Choose"/);
+  assert.match(selector, /filters: "Filters"/);
+  assert.match(selector, /<section className=\{styles\.workbench\} id="selector-workspace">[\s\S]*?\{sidebar\}/);
+  assert.match(selector, /<aside className=\{`\$\{styles\.sidebar\}[^`]*`\} aria-label=\{t\.filters\}/);
   assert.match(selector, /moreFilters: "More Filters"/);
   assert.match(selector, /purchase: "Purchase Options"/);
   assert.match(selector, /facetCounts\(/);
@@ -125,18 +130,22 @@ test("Products hero copy starts at the Home hero copy edge", () => {
   assert.match(globals, /@media \(max-width: 700px\)[\s\S]*?\.page-hero-copy\s*{[^}]*padding-left:\s*calc\(8\.85vw \+ 19\.75px\)/);
 });
 
-test("Products page spaces the catalog below the hero and keeps a matching side rail", () => {
+test("Products catalog follows the shared intro and keeps a matching side rail", () => {
   const directory = read("./side-directory.js");
-  const i18n = read("./i18n.js");
+  const sectionDirectory = read("./section-directory.mjs");
   assert.match(page, /id="top"/);
-  assert.match(page, /id="products-catalog"[^>]*pt-20/);
-  assert.match(directory, /pathname\.replace\(\/\\\/\+\$\/, ""\)/);
-  assert.match(i18n, /products: \[[^\]]*id: "smart-selector"/s);
+  assert.match(page, /<ProductsHero \/>\s*<\/div>\s*<div id="products-catalog" className="page-content-shell scroll-mt-24/);
+  assert.match(page, /<ProductPanel showTitle=\{false\} \/>/);
+  assert.match(panel, /<h2 id="product-catalog-title" className="sr-only">/);
+  assert.match(directory, /readSectionDirectory\(pathname, document\)/);
+  assert.match(sectionDirectory, /\(pathname \?\? ""\)\.replace\(\/\\\/\+\$\/, ""\)/);
+  assert.match(sectionDirectory, /"\/products": \["top", "products-catalog", "smart-selector"\]/);
 });
 
-test("Products hero keeps the title on one line and the description within two lines", () => {
-  assert.match(page, /titleClassName="products-hero-title home-type-hero-title/);
-  assert.match(hero, /className="page-hero-description home-type-body/);
-  assert.match(globals, /\.products-hero-title\s*{[^}]*white-space:\s*nowrap/s);
-  assert.match(globals, /\.page-hero-description\s*{[^}]*max-width:\s*920px[^}]*-webkit-line-clamp:\s*2/s);
+test("Products intro uses the shared title and a readable centered description", () => {
+  assert.match(page, /<ToolPageIntro\s+title=[\s\S]*?description=/);
+  assert.match(intro, /<Glow as="h1" className="home-type-hero-title">\{title\}<\/Glow>/);
+  assert.match(intro, /<p className="home-type-body">\{description\}<\/p>/);
+  assert.match(introCss, /\.intro\s*{[^}]*text-align:\s*center/s);
+  assert.match(introCss, /\.intro p\s*{[^}]*max-width:\s*820px[^}]*margin:\s*16px auto 0/s);
 });

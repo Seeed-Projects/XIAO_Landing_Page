@@ -7,17 +7,17 @@ const hub = read("./project-hub/projectHub.js");
 const hubCss = read("./project-hub/project-hub.module.css");
 const globals = read("./globals.css");
 const hero = read("./hero-section.js");
+const intro = read("./tool-page-intro.js");
 
 test("Project Hub reuses the shared typography roles", () => {
-  assert.match(hub, /home-type-hero-title/);
+  assert.match(hub, /<ToolPageIntro\s+title="XIAO Project Hub"\s+description=\{t\.introTagline\}/);
+  assert.match(intro, /<Glow as="h1" className="home-type-hero-title">\{title\}<\/Glow>/);
   assert.match(hub, /home-type-title/);
   assert.match(hub, /home-type-subtitle/);
   assert.match(hub, /home-type-body/);
   assert.match(hub, /home-type-action home-filled-action/);
-  assert.match(hub, /page-hero-copy/);
-  assert.match(hub, /page-hero-description/);
+  assert.match(intro, /<p className="home-type-body">\{description\}<\/p>/);
   assert.doesNotMatch(hub, /introMetrics/);
-  assert.doesNotMatch(hub, /community projects/);
 });
 
 test("Project Hub hero copy starts at the Home hero copy edge", () => {

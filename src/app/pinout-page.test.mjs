@@ -560,7 +560,10 @@ test("Pinout view stacks both faces, floats a pin card and drops the flip/side U
   assert.match(view, /placePinCard/);
   assert.match(view, /data-board-trigger/);
   assert.doesNotMatch(view, /workBox\.height - 240/);
-  assert.match(css, /5cm/);
+  assert.match(view, /boardFrameWidth\(\{ workWidth: workW, figureWidth: faceDiagram\?\.figure\?\.fw, imageWidth: faceDiagram\?\.crop\?\.w \}\)/);
+  assert.match(view, /new ResizeObserver\(fit\)/);
+  assert.match(view, /style=\{faceMaxW\(face\)\}/);
+  assert.match(css, /\.diagramStack\s*{[^}]*width:\s*min\(100%, var\(--diagram-max-w, 100%\)\)/s);
   assert.doesNotMatch(css, /legendStrip/);
   assert.doesNotMatch(view, /legendStrip/);
   assert.match(css, /diagram-max-w/);
