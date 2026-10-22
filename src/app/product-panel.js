@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, startTransition, useEffect, useId, useState } from "react";
+import { Fragment, startTransition, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useLang } from "./i18n";
 import { Glow } from "./Glow";
 import { CardPeek, CardPeekContent } from "./card-peek";
@@ -12,11 +12,103 @@ import styles from "./product-panel.module.css";
 const countItems = (category) =>
   (category.subcategories ?? []).reduce((n, s) => n + (s.items?.length ?? 0), category.items?.length ?? 0);
 
-// Series link curve in a 100 x 100 box: from the focal point (100, 0) under the
-// active card to the stage's top edge (0, 100); both sides use equal widths.
-// 连接曲线：从当前卡片下方的焦点 (100, 0) 流向面板顶边 (0, 100)，左右等宽镜像。
-const LINK_LINE = "M100 0 C100 62 50 100 0 100";
-const LINK_FILL = `${LINK_LINE} L100 100 Z`;
+// One outline follows the tab and catalog perimeter in CSS pixels.
+// 单条轮廓以 CSS 像素沿标签和目录面板的外沿绘制。
+function SeriesTabOutline({ first, last, lang }) {
+  const svgRef = useRef(null);
+  const fillRef = useRef(null);
+  const strokeRef = useRef(null);
+  const highlightRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const svg = svgRef.current;
+    const tab = svg?.parentElement;
+    const stage = tab?.parentElement.nextElementSibling;
+    if (!tab || !stage) return;
+
+    const draw = () => {
+      const box = tab.getBoundingClientRect();
+      const panel = stage.getBoundingClientRect();
+      const style = getComputedStyle(tab);
+      const panelStyle = getComputedStyle(stage);
+      const border = parseFloat(panelStyle.borderTopWidth);
+      const half = border / 2;
+      const curve = parseFloat(style.getPropertyValue("--tab-curve"));
+      const radius = Math.min(parseFloat(style.getPropertyValue("--tab-radius")) - half, (box.width - border) / 2);
+      const left = half;
+      const right = box.width - half;
+      const top = half;
+      const seam = panel.top - box.top + half;
+      const start = first ? left : left - curve;
+      const end = last ? right : right + curve;
+      const outline = [
+        `M ${start} ${seam}`,
+        first ? "" : `A ${curve} ${curve} 0 0 0 ${left} ${seam - curve}`,
+        `L ${left} ${top + radius}`,
+        `A ${radius} ${radius} 0 0 1 ${left + radius} ${top}`,
+        `L ${right - radius} ${top}`,
+        `A ${radius} ${radius} 0 0 1 ${right} ${top + radius}`,
+        `L ${right} ${last ? seam : seam - curve}`,
+        last ? "" : `A ${curve} ${curve} 0 0 0 ${end} ${seam}`,
+      ].join(" ");
+      const panelLeft = panel.left - box.left + half;
+      const panelRight = panel.right - box.left - half;
+      const panelBottom = panel.bottom - box.top - half;
+      const panelRadius = parseFloat(panelStyle.getPropertyValue("--stage-radius")) - half;
+      const perimeter = [
+        outline,
+        last ? "" : `L ${panelRight - panelRadius} ${seam} A ${panelRadius} ${panelRadius} 0 0 1 ${panelRight} ${seam + panelRadius}`,
+        `L ${panelRight} ${panelBottom - panelRadius}`,
+        `A ${panelRadius} ${panelRadius} 0 0 1 ${panelRight - panelRadius} ${panelBottom}`,
+        `L ${panelLeft + panelRadius} ${panelBottom}`,
+        `A ${panelRadius} ${panelRadius} 0 0 1 ${panelLeft} ${panelBottom - panelRadius}`,
+        `L ${panelLeft} ${first ? seam : seam + panelRadius}`,
+        first ? "" : `A ${panelRadius} ${panelRadius} 0 0 1 ${panelLeft + panelRadius} ${seam}`,
+        "Z",
+      ].join(" ");
+      const offset = panel.left - box.left;
+      const width = panel.width;
+      const height = panel.bottom - box.top;
+
+      svg.setAttribute("viewBox", `${offset} 0 ${width} ${height}`);
+      svg.setAttribute("width", width);
+      svg.setAttribute("height", height);
+      svg.style.left = `${offset - parseFloat(style.borderLeftWidth)}px`;
+      svg.style.top = `${-parseFloat(style.borderTopWidth)}px`;
+      // The tab fill closes below the seam; the stroke encloses the catalog.
+      // 标签填色在接缝下方闭合，描边环绕完整目录。
+      fillRef.current.setAttribute("d", `${outline} L ${end} ${seam + half} L ${start} ${seam + half} Z`);
+      strokeRef.current.setAttribute("d", perimeter);
+      strokeRef.current.setAttribute("stroke-width", border);
+      const inset = half + 1;
+      const innerRadius = Math.max(0, radius - inset);
+      highlightRef.current.setAttribute("d", [
+        `M ${left + inset} ${top + radius}`,
+        `A ${innerRadius} ${innerRadius} 0 0 1 ${left + radius} ${top + inset}`,
+        `L ${right - radius} ${top + inset}`,
+        `A ${innerRadius} ${innerRadius} 0 0 1 ${right - inset} ${top + radius}`,
+      ].join(" "));
+    };
+
+    draw();
+    const observer = new ResizeObserver(draw);
+    observer.observe(tab);
+    observer.observe(stage);
+    window.addEventListener("resize", draw);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", draw);
+    };
+  }, [first, last, lang]);
+
+  return (
+    <svg ref={svgRef} className={styles.seriesOutline} aria-hidden="true" focusable="false">
+      <path ref={fillRef} className={styles.seriesOutlineFill} />
+      <path ref={strokeRef} className={styles.seriesOutlineStroke} vectorEffect="non-scaling-stroke" />
+      <path ref={highlightRef} className={styles.seriesOutlineHighlight} vectorEffect="non-scaling-stroke" />
+    </svg>
+  );
+}
 
 /**
  * ProductPanel — three-series product catalog stage.
@@ -29,7 +121,6 @@ export function ProductPanel({ showTitle = true } = {}) {
 
   const [activeCat, setActiveCat] = useState(0);
   const [activeSub, setActiveSub] = useState(null);
-  const linkId = `series-link${useId().replace(/[^\w-]/g, "")}`;
 
   // Deep-link ?cat=<id> from Glimpse cards; deferred to avoid SSR/CSR mismatch.
   // 深链预选系列：放在 effect + startTransition，避免服务端与客户端首屏不一致。
@@ -77,11 +168,30 @@ export function ProductPanel({ showTitle = true } = {}) {
     setActiveCat(i);
     setActiveSub(null);
   };
+  // Move focus and selection together within the series tablist.
+  // 在系列标签组内同步移动焦点与选中项。
+  const handleSeriesKeyDown = (event, i) => {
+    let next;
+    switch (event.key) {
+      case "ArrowLeft": next = (i - 1 + categories.length) % categories.length; break;
+      case "ArrowRight": next = (i + 1) % categories.length; break;
+      case "Home": next = 0; break;
+      case "End": next = categories.length - 1; break;
+      default: return;
+    }
+    event.preventDefault();
+    handleSeriesClick(next);
+    event.currentTarget.parentElement.children[next].focus({ preventScroll: true });
+  };
 
   const itemDesc = (it) => (isEn ? it.descEn : it.desc) ?? it.descEn ?? it.desc ?? "";
 
   return (
-    <section className={styles.panel} aria-labelledby="product-catalog-title">
+    <section
+      className={styles.panel}
+      aria-labelledby="product-catalog-title"
+      style={{ "--series-tone": presentation.tone, "--series-ink": presentation.ink }}
+    >
       <header className={`${styles.header} ${showTitle ? "" : styles.headerCompact}`}>
         {showTitle ? (
           <Glow as="h2" id="product-catalog-title" className={`home-type-title ${styles.title}`}>
@@ -95,7 +205,7 @@ export function ProductPanel({ showTitle = true } = {}) {
         </p>
       </header>
 
-      {/* Series switcher — three cards; the active one links to the stage below */}
+      {/* Series tabs share the catalog surface. / 系列标签与目录共用表面。 */}
       <div className={styles.seriesGrid} role="tablist" aria-label={isEn ? "Product series" : "产品系列"}>
         {categories.map((category, i) => {
           const meta = SERIES_PRESENTATION[category.id];
@@ -109,17 +219,20 @@ export function ProductPanel({ showTitle = true } = {}) {
               role="tab"
               aria-selected={active}
               aria-controls="series-stage"
+              tabIndex={active ? 0 : -1}
               className={`${styles.seriesCard} ${active ? styles.seriesCardActive : ""}`}
               style={{ "--series-tone": meta?.tone || "var(--theme-blue)", "--series-ink": meta?.ink || "var(--theme-blue)" }}
               onClick={() => handleSeriesClick(i)}
+              onKeyDown={(event) => handleSeriesKeyDown(event, i)}
             >
+              {active && <SeriesTabOutline first={i === 0} last={i === categories.length - 1} lang={lang} />}
               <div className={styles.seriesCover}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={withBase(meta.cover)} alt="" loading="lazy" decoding="async" />
               </div>
               <div className={styles.seriesCopy}>
                 <span className={styles.seriesEyebrow}>{L(meta.eyebrow)}</span>
-                <strong className={styles.seriesName}>
+                <strong className={`home-type-subtitle ${styles.seriesName}`}>
                   {seriesTitle(category).split(" ").map((word, w) => (
                     <Fragment key={word}>
                       {w > 0 && " "}
@@ -136,90 +249,63 @@ export function ProductPanel({ showTitle = true } = {}) {
         })}
       </div>
 
-      {/* Series link: equal-width gradient curves meet below the active card
-          and join the stage's horizontal top edge.
-          连接线：等宽渐变曲线在当前卡片下方汇合，衔接面板的水平上沿。 */}
-      <div
-        className={styles.seriesLink}
-        style={{ "--active-index": categories.indexOf(currentCategory), "--series-tone": presentation.tone }}
-        aria-hidden="true"
-      >
-        <svg className={styles.seriesLinkLeft} viewBox="0 0 100 100" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id={`${linkId}-line`} x1="1" y1="0" x2="0" y2="0">
-              <stop offset="0" />
-              <stop offset="1" stopOpacity="0.15" />
-            </linearGradient>
-            <radialGradient id={`${linkId}-fill`} cx="1" cy="0" r="1">
-              <stop offset="0" className={styles.seriesLinkGlow} />
-              <stop offset="1" className={styles.seriesLinkBase} />
-            </radialGradient>
-          </defs>
-          <path d={LINK_FILL} fill={`url(#${linkId}-fill)`} />
-          <path className={styles.seriesLinkLine} d={LINK_LINE} stroke={`url(#${linkId}-line)`} />
-        </svg>
-        <svg className={styles.seriesLinkRight} viewBox="0 0 100 100" preserveAspectRatio="none">
-          <path d={LINK_FILL} fill={`url(#${linkId}-fill)`} />
-          <path className={styles.seriesLinkLine} d={LINK_LINE} stroke={`url(#${linkId}-line)`} />
-        </svg>
-      </div>
-
       {/* Active series stage, labelled by the active series tab */}
       <div
         id="series-stage"
         role="tabpanel"
         aria-labelledby={`series-tab-${currentCategory.id}`}
+        tabIndex={0}
         className={styles.stage}
-        style={{ "--series-tone": presentation.tone, "--series-ink": presentation.ink }}
-        key={currentCategory.id}
       >
-        <div className={styles.stageIntro}>
-          <div className={styles.stageText}>
-            <p className={`home-type-body ${styles.stageDesc}`}>{L(presentation.description)}</p>
-            <div className={styles.stageTags}>
-              {(isEn ? presentation.tags.en : presentation.tags.zh).map((tag) => (
-                <span key={tag} className={styles.stageTag}>
-                  {tag}
-                </span>
-              ))}
+        <div className={styles.stageHeader}>
+          <div className={styles.stageIntro} key={currentCategory.id}>
+            <div className={styles.stageText}>
+              <p className={`home-type-body ${styles.stageDesc}`}>{L(presentation.description)}</p>
+              <div className={styles.stageTags}>
+                {(isEn ? presentation.tags.en : presentation.tags.zh).map((tag) => (
+                  <span key={tag} className={styles.stageTag}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className={styles.stageActions}>
+              <span className={styles.stageMeta}>
+                {isEn
+                  ? `Showing ${displayItems.length} of ${allItems.length}`
+                  : `显示 ${displayItems.length} / ${allItems.length}`}
+              </span>
             </div>
           </div>
-          <div className={styles.stageActions}>
-            <span className={styles.stageMeta}>
-              {isEn
-                ? `Showing ${displayItems.length} of ${allItems.length}`
-                : `显示 ${displayItems.length} / ${allItems.length}`}
-            </span>
-          </div>
-        </div>
 
-        {subs.length > 0 && (
-          <div className={styles.chipRow} role="tablist" aria-label={isEn ? "Subcategories" : "子分类"}>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeSub == null}
-              className={`${styles.chip} ${activeSub == null ? styles.chipActive : ""}`}
-              onClick={() => setActiveSub(null)}
-            >
-              {isEn ? "All" : "全部"}
-              <span className={styles.chipCount}>{allItems.length}</span>
-            </button>
-            {subs.map((sub, j) => (
+          {subs.length > 0 && (
+            <div className={styles.chipRow} role="tablist" aria-label={isEn ? "Subcategories" : "子分类"}>
               <button
-                key={sub.id}
                 type="button"
                 role="tab"
-                aria-selected={activeSub === j}
-                className={`${styles.chip} ${activeSub === j ? styles.chipActive : ""}`}
-                onClick={() => setActiveSub(j)}
+                aria-selected={activeSub == null}
+                className={`${styles.chip} ${activeSub == null ? styles.chipActive : ""}`}
+                onClick={() => setActiveSub(null)}
               >
-                {isEn ? sub.labelEn : sub.labelZh || sub.labelEn}
-                <span className={styles.chipCount}>{sub.items?.length ?? 0}</span>
+                {isEn ? "All" : "全部"}
+                <span className={styles.chipCount}>{allItems.length}</span>
               </button>
-            ))}
-          </div>
-        )}
+              {subs.map((sub, j) => (
+                <button
+                  key={sub.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeSub === j}
+                  className={`${styles.chip} ${activeSub === j ? styles.chipActive : ""}`}
+                  onClick={() => setActiveSub(j)}
+                >
+                  {isEn ? sub.labelEn : sub.labelZh || sub.labelEn}
+                  <span className={styles.chipCount}>{sub.items?.length ?? 0}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
         {displayItems.length === 0 ? (
           <div className={styles.empty}>

@@ -1,9 +1,11 @@
 /* Product catalog — three-series stage with compact product rows */
 
 .panel {
-  --series-gap: 14px;
+  --tab-curve: 14px;
+  --tab-radius: 18px;
+  --stage-tint: color-mix(in srgb, var(--series-tone) 8%, #ffffff);
+  --stage-line: color-mix(in srgb, var(--series-tone) 45%, #ffffff);
   --stage-radius: 20px;
-  --link-height: 48px;
   width: 100%;
   color: var(--ink-strong);
 }
@@ -29,130 +31,117 @@
 .headerCompact { justify-items: start; text-align: left; }
 .headerCompact .lead { max-width: none; }
 
-/* Series switcher */
+/* Series tabs / 系列标签 */
 .seriesGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--series-gap);
-  margin-bottom: 0;
+  gap: 0;
+  margin-bottom: -1px;
 }
 
 .seriesCard {
   --series-tone: var(--theme-blue);
   --series-ink: var(--theme-blue);
+  position: relative;
+  z-index: 0;
   display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
-  gap: 14px;
-  align-items: stretch;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+  min-height: 104px;
   text-align: left;
-  border: 1px solid var(--line-soft);
-  border-radius: 16px;
-  background: var(--surface-strong);
-  padding: 0;
-  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: var(--tab-radius) var(--tab-radius) 0 0;
+  background: transparent;
+  padding: 12px 20px;
   cursor: pointer;
-  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
 
-.seriesCard:hover {
-  transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--series-tone) 45%, var(--line-soft));
-  box-shadow: 0 12px 28px rgba(0, 73, 102, 0.08);
+.seriesCard::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 6px -1px -1px;
+  border-radius: var(--tab-radius) var(--tab-radius) 0 0;
+  background: color-mix(in srgb, var(--line-soft) 45%, var(--surface-strong));
+  pointer-events: none;
+  transition: top 200ms ease, background-color 200ms ease;
+}
+
+.seriesCard:not(.seriesCardActive):hover::before {
+  top: 3px;
+  background-color: var(--surface-strong);
+}
+
+.seriesCard::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 28%;
+  width: 1px;
+  height: 44%;
+  background: var(--line-soft);
+  pointer-events: none;
+}
+
+.seriesCard:last-child::after,
+.seriesCard:has(+ .seriesCardActive)::after {
+  content: none;
 }
 
 .seriesCardActive,
 .seriesCardActive:hover {
-  border-color: var(--series-tone);
-  box-shadow: none;
-  transform: none;
+  z-index: 2;
 }
 
-/* Equal-width curves mirror around the active card's centre. Horizontal
-   extensions complete the stage's top edge.
-   等宽曲线围绕当前卡片中心镜像排布，水平延伸段补齐面板上沿。 */
-.seriesLink {
-  --link-x: calc(
-    (100% - 2 * var(--series-gap)) / 3 * (var(--active-index) + 0.5) +
-      var(--series-gap) * var(--active-index)
-  );
-  --link-arc: calc((100% - 2 * var(--series-gap)) / 6 - var(--stage-radius));
-  position: relative;
-  z-index: 2;
-  height: var(--link-height);
-  margin-bottom: -1px;
+.seriesCardActive::before,
+.seriesCardActive::after {
+  content: none;
+}
+
+.seriesOutline {
+  position: absolute;
+  z-index: -1;
+  display: block;
+  max-width: none;
+  overflow: visible;
   pointer-events: none;
 }
 
-.seriesLink::before,
-.seriesLink::after {
-  content: "";
-  position: absolute;
-  bottom: -0.25px;
-  height: 1.5px;
-  background: var(--series-tone);
-  opacity: 0.15;
-  transition: left 360ms ease, width 360ms ease, background-color 280ms ease;
+.seriesOutlineFill {
+  fill: var(--stage-tint);
 }
 
-.seriesLink::before {
-  left: var(--stage-radius);
-  width: max(0px, calc(var(--link-x) - var(--link-arc) - var(--stage-radius)));
-}
-
-.seriesLink::after {
-  left: calc(var(--link-x) + var(--link-arc));
-  width: max(0px, calc(100% - var(--link-x) - var(--link-arc) - var(--stage-radius)));
-}
-
-.seriesLinkLeft,
-.seriesLinkRight {
-  position: absolute;
-  top: 0;
-  display: block;
-  height: 100%;
-  overflow: visible;
-  transition: left 360ms ease, width 360ms ease;
-}
-
-.seriesLinkLeft {
-  left: calc(var(--link-x) - var(--link-arc));
-  width: var(--link-arc);
-}
-
-.seriesLinkRight {
-  left: var(--link-x);
-  width: var(--link-arc);
-  transform: scaleX(-1);
-}
-
-.seriesLink stop {
-  stop-color: var(--series-tone);
-  transition: stop-color 280ms ease;
-}
-
-.seriesLink .seriesLinkGlow {
-  stop-color: color-mix(in srgb, var(--series-tone) 18%, #ffffff);
-}
-
-.seriesLink .seriesLinkBase {
-  stop-color: color-mix(in srgb, var(--series-tone) 8%, #ffffff);
-}
-
-.seriesLinkLine {
+.seriesOutlineStroke {
   fill: none;
-  stroke-width: 1.5px;
-  stroke-linecap: round;
-  vector-effect: non-scaling-stroke;
+  stroke: var(--stage-line);
 }
 
-.stage {
-  --stage-tint: color-mix(in srgb, var(--series-tone) 8%, #ffffff);
-  --stage-line: color-mix(in srgb, var(--series-tone) 45%, #ffffff);
+.seriesOutlineHighlight {
+  fill: none;
+  stroke: color-mix(in srgb, var(--series-tone) 45%, transparent);
+  stroke-width: 2px;
+}
+
+.seriesCard:focus-visible {
+  outline: 2px solid var(--series-ink);
+  outline-offset: -5px;
+}
+
+.seriesGrid:has(> .seriesCardActive:first-child) + .stage {
+  border-top-left-radius: 0;
+}
+
+.seriesGrid:has(> .seriesCardActive:last-child) + .stage {
+  border-top-right-radius: 0;
 }
 
 .seriesCover {
   position: relative;
-  min-height: 92px;
+  height: 64px;
+  min-width: 0;
+  border-radius: 10px;
   background: #0f1c28;
   overflow: hidden;
 }
@@ -190,7 +179,7 @@
   display: grid;
   align-content: center;
   gap: 4px;
-  padding: 14px 16px 14px 0;
+  padding: 0;
   min-width: 0;
 }
 
@@ -220,14 +209,11 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Active series stage: the series link curves form its top edge */
+/* Catalog surface / 目录表面 */
 .stage {
-  --series-tone: var(--theme-blue);
-  --series-ink: var(--theme-blue);
   position: relative;
   z-index: 1;
-  border: 1px solid var(--stage-line);
-  border-top-width: 0;
+  border: 1px solid transparent;
   border-radius: var(--stage-radius);
   background:
     linear-gradient(
@@ -238,9 +224,18 @@
   padding: 22px 22px 18px;
 }
 
+.stageHeader {
+  display: flow-root;
+  margin-bottom: 16px;
+}
+
+.stageHeader > :last-child {
+  margin-bottom: 0;
+}
+
 .stageIntro,
 .chipRow {
-  animation: stageIn 280ms ease;
+  animation: stageIn 200ms ease;
 }
 
 .stageIntro {
@@ -349,7 +344,7 @@
 .productList {
   display: grid;
   gap: 8px;
-  animation: stageIn 280ms ease;
+  animation: stageIn 200ms ease;
   overflow: visible;
 }
 
@@ -489,11 +484,9 @@
 @keyframes stageIn {
   from {
     opacity: 0;
-    transform: translateY(8px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -505,25 +498,19 @@
 }
 
 @media (max-width: 1023px) {
-  .panel {
-    --series-gap: 8px;
-    --link-height: 36px;
-  }
-
   .seriesCard {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: 64px auto;
-    gap: 0;
-    border-radius: 14px;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 10px;
+    padding-inline: 14px;
   }
 
   .seriesCover {
-    min-height: 0;
+    height: 44px;
   }
 
-  .seriesCopy {
-    align-content: start;
-    padding: 10px 12px 12px;
+  .seriesEyebrow {
+    font-size: 9px;
+    letter-spacing: 0.04em;
   }
 
   .productListDense {
@@ -533,9 +520,9 @@
 
 @media (max-width: 640px) {
   .panel {
-    --series-gap: 6px;
+    --tab-curve: 9px;
+    --tab-radius: 12px;
     --stage-radius: 16px;
-    --link-height: 28px;
   }
 
   .header {
@@ -544,13 +531,19 @@
   }
 
   .seriesCard {
-    grid-template-rows: 48px auto;
-    border-radius: 12px;
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 92px;
+    padding: 12px 9px;
+  }
+
+  .seriesCover {
+    display: none;
   }
 
   .seriesCopy {
-    gap: 2px;
-    padding: 8px 10px 10px;
+    gap: 4px;
+    align-self: stretch;
+    grid-template-rows: 1fr auto;
   }
 
   .seriesEyebrow {
@@ -559,6 +552,8 @@
 
   .seriesName {
     font-size: 13px;
+    line-height: 1.3;
+    min-height: 2.6em;
   }
 
   .seriesCount {
@@ -598,12 +593,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .seriesCard,
+  .seriesCard::before,
+  .seriesCardActive,
+  .seriesCardActive:hover,
   .seriesCover img,
-  .seriesLink::before,
-  .seriesLink::after,
-  .seriesLinkLeft,
-  .seriesLinkRight,
-  .seriesLink stop,
   .productRow,
   .stageIntro,
   .chipRow,
@@ -612,7 +605,7 @@
     animation: none;
   }
 
-  .seriesCard:hover {
-    transform: none;
+  .seriesCard:not(.seriesCardActive):hover::before {
+    top: 6px;
   }
 }

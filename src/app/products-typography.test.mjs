@@ -43,27 +43,33 @@ test("Product catalog presents three series as the primary stage", () => {
   assert.match(panel, /<CardPeek/);
 });
 
-test("Series link curves mirror below the active card and join the stage edge", () => {
+test("Series tabs merge with the catalog and expose keyboard navigation", () => {
   const panelCss = read("./product-panel.module.css");
   assert.match(panel, /id={`series-tab-\${category\.id}`}/);
   assert.match(panel, /aria-controls="series-stage"/);
   assert.match(panel, /role="tabpanel"[\s\S]*aria-labelledby={`series-tab-\${currentCategory\.id}`}/);
-  assert.doesNotMatch(panel, /styles\.stageTitle|styles\.stageEyebrow/);
-  assert.match(panel, /<h3 className={`home-type-subtitle \${styles\.productName}`}>/);
-  assert.match(panel, /const LINK_LINE = "M100 0 C100 62 50 100 0 100"/);
-  assert.match(panel, /className={styles\.seriesLink}[\s\S]*"--active-index": categories\.indexOf\(currentCategory\)[\s\S]*aria-hidden="true"/);
-  assert.match(panel, /<radialGradient id={`\${linkId}-fill`} cx="1" cy="0" r="1">/);
-  assert.match(panelCss, /\.seriesGrid\s*{[^}]*gap:\s*var\(--series-gap\)[^}]*margin-bottom:\s*0/s);
-  assert.match(panelCss, /\.seriesLink\s*{[^}]*--link-x:\s*calc\([\s\S]*?var\(--active-index\)[^}]*height:\s*var\(--link-height\)/s);
-  assert.match(panelCss, /\.seriesLinkLeft\s*{[^}]*left:\s*calc\(var\(--link-x\) - var\(--link-arc\)\)[^}]*width:\s*var\(--link-arc\)/s);
-  assert.match(panelCss, /\.seriesLinkRight\s*{[^}]*left:\s*var\(--link-x\)[^}]*width:\s*var\(--link-arc\)[^}]*transform:\s*scaleX\(-1\)/s);
-  assert.match(panelCss, /\.seriesLinkLine\s*{[^}]*vector-effect:\s*non-scaling-stroke/s);
-  assert.match(panelCss, /\.stage\s*{[^}]*border:\s*1px solid var\(--stage-line\)[^}]*border-top-width:\s*0[^}]*border-radius:\s*var\(--stage-radius\)/s);
-  assert.match(panelCss, /@media \(max-width: 1023px\)[\s\S]*?\.seriesCard\s*{\s*grid-template-columns:\s*minmax\(0, 1fr\)/);
-  assert.match(panelCss, /@media \(max-width: 640px\)\s*{\s*\.panel\s*{[^}]*--link-height:\s*28px/);
-  assert.match(panelCss, /@media \(max-width: 640px\)[\s\S]*?\.seriesEyebrow\s*{\s*display:\s*none/);
-  assert.match(panel, /seriesTitle\(category\)\.split\(" "\)[\s\S]*styles\.seriesWord/);
-  assert.match(panelCss, /\.seriesWord\s*{\s*white-space:\s*nowrap/);
+  assert.match(panel, /tabIndex={active \? 0 : -1}/);
+  for (const key of ["ArrowLeft", "ArrowRight", "Home", "End"]) {
+    assert.ok(panel.includes(`case "${key}"`));
+  }
+  assert.match(panel, /children\[next\]\.focus\({ preventScroll: true }\)/);
+  assert.doesNotMatch(panel, /LINK_LINE|styles\.seriesLink/);
+  assert.match(panelCss, /\.seriesGrid\s*{[^}]*repeat\(3[^}]*margin-bottom:\s*-1px/s);
+  assert.match(panel, /new ResizeObserver\(draw\)/);
+  assert.match(panel, /observer\.observe\(tab\)/);
+  assert.match(panel, /observer\.disconnect\(\)/);
+  assert.match(panel, /vectorEffect="non-scaling-stroke"/);
+  assert.match(panel, /panel\.top - box\.top \+ half/);
+  assert.doesNotMatch(panel, /preserveAspectRatio="none"/);
+  assert.match(panelCss, /\.seriesOutlineFill\s*{[^}]*fill:\s*var\(--stage-tint\)/s);
+  assert.match(panelCss, /\.seriesOutlineStroke\s*{[^}]*stroke:\s*var\(--stage-line\)/s);
+  assert.doesNotMatch(panelCss, /radial-gradient/);
+  assert.match(panelCss, /\.seriesCard:has\(\+ \.seriesCardActive\)::after\s*{\s*content:\s*none/);
+  assert.match(panelCss, /\.seriesGrid:has\(> \.seriesCardActive:first-child\) \+ \.stage\s*{\s*border-top-left-radius:\s*0/);
+  assert.match(panelCss, /\.seriesGrid:has\(> \.seriesCardActive:last-child\) \+ \.stage\s*{\s*border-top-right-radius:\s*0/);
+  assert.match(panelCss, /\.seriesCard:focus-visible\s*{[^}]*outline:\s*2px/s);
+  assert.match(panelCss, /@media \(max-width: 640px\)[\s\S]*?\.seriesCover\s*{\s*display:\s*none/);
+  assert.match(panelCss, /@media \(prefers-reduced-motion: reduce\)[\s\S]*transition:\s*none/);
 });
 
 test("Dev Boards use the supplied front-view assets and include STM32C5", () => {
