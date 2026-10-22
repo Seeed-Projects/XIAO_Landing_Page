@@ -105,7 +105,7 @@ function YouTubeCover({ isEn, onPlay }) {
 }
 
 const FEATURES = [
-  { image: "/home/xiao-feature-popular-socs.webp", en: ["Popular SoCs Integrated", "RA4M1, RP2350, ESP32, RP2040, nRF52840, SAMD21, and more for embedded machine learning on MCUs."], zh: ["集成主流 SoC", "覆盖 RA4M1、RP2350、ESP32、RP2040、nRF52840、SAMD21 等平台，轻松构建 MCU 端嵌入式机器学习应用。"] },
+  { image: "/home/xiao-feature-popular-socs.webp", en: ["Popular SoCs Integrated", "ESP32, RP2040/2350, nRF52/54, SAMD21, MG24, RA4M1, STM32 and more for embedded machine learning on MCUs."], zh: ["集成主流 SoC", "覆盖 ESP32、RP2040/2350、nRF52/54、SAMD21、MG24、RA4M1、STM32 等平台，轻松构建 MCU 端嵌入式机器学习应用。"] },
   { image: "/home/xiao-feature-thumb-size.webp", en: ["Thumb Size With SMD", "Sized at 21×17.8 mm with a single-sided surface-mount design, ready for space-constrained and tap-on designs."], zh: ["拇指大小，支持 SMD", "21×17.8 mm 单面贴装设计，适合空间受限及直接贴装式产品。"] },
   { image: "/home/xiao-feature-tinyml.webp", en: ["TinyML Native", "Compatible with Seeed’s no-code model training and deployment platform SenseCraft AI, making TinyML scalable."], zh: ["原生支持 TinyML", "兼容 Seeed 无代码模型训练与部署平台 SenseCraft AI，让 TinyML 更易规模化。"] },
   { image: "/home/xiao-feature-developer-friendly.webp", en: ["Developer-Friendly", "Natively compatible with Arduino, supporting PlatformIO, MicroPython, and CircuitPython."], zh: ["开发者友好", "原生兼容 Arduino，并支持 PlatformIO、MicroPython 与 CircuitPython。"] },

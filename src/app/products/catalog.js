@@ -141,7 +141,7 @@ export const PRODUCT_CATALOG = [
       ]),
       group("mg", "Silicon Labs MG Series", "Silicon Labs MG 系列", [
         product("XIAO MG24", "https://www.seeedstudio.com/Seeed-Studio-XIAO-MG24-p-6247.html", "dev_boards/front/XIAO-MG24-front.webp", "Super-low power for battery-powered Matter projects"),
-        product("XIAO MG24 Sense", "https://www.seeedstudio.com/Seeed-Studio-XIAO-MG24-Sense-p-6248.html", "dev_boards/front/XIAO-MG24-Sense-front.webp", "Super-low power board with microphone & 6-axis IMU"),
+        product("XIAO MG24 Sense", "https://www.seeedstudio.com/Seeed-XIAO-MG24-Sense-p-6248.html", "dev_boards/front/XIAO-MG24-Sense-front.webp", "Super-low power board with microphone & 6-axis IMU"),
       ]),
       group("samd", "Microchip SAMD Series", "Microchip SAMD 系列", [
         product("XIAO SAMD21", "https://www.seeedstudio.com/Seeeduino-XIAO-Arduino-Microcontroller-SAMD21-Cortex-M0+-p-4426.html", "dev_boards/front/XIAO-SAMD21-front.webp", "Classic for Arduino beginners, with courses"),
@@ -182,7 +182,7 @@ export const PRODUCT_CATALOG = [
         "https://www.seeedstudio.com/Seeed-Studio-XIAO-24Ghz-mmwave-Human-Static-Presence-Module-p-6266.html",
         "addons/101010001.png",
         "24GHz mmWave module that senses static human presence",
-        "https://wiki.seeedstudio.com/mmwave_radar_Intro/",
+        "https://wiki.seeedstudio.com/mmwave_for_xiao/",
       ),
       product(
         "Expansion Base for XIAO",
@@ -193,7 +193,7 @@ export const PRODUCT_CATALOG = [
       ),
       product(
         "CAN Bus Breakout Board for XIAO",
-        "https://www.seeedstudio.com/Seeed-Studio-XIAO-CAN-Bus-Expansion-Board-p-5702.html",
+        "https://www.seeedstudio.com/Seeed-Studio-CAN-Bus-Breakout-Board-for-XIAO-and-QT-Py-p-5702.html",
         "addons/105100001.png",
         "CAN bus breakout that turns XIAO into an industrial node",
         "https://wiki.seeedstudio.com/xiao-can-bus-expansion/",
@@ -251,7 +251,7 @@ export const PRODUCT_CATALOG = [
         "https://www.seeedstudio.com/ePaper-breakout-Board-for-XIAO-V2-p-6374.html",
         "addons/114993558.jpg",
         "E-paper driver board for XIAO-powered low-power displays",
-        "https://wiki.seeedstudio.com/seeed_epaper_displays/",
+        "https://wiki.seeedstudio.com/xiao_eink_expansion_board_v2/",
       ),
       product(
         "1-Channel Relay for XIAO",
@@ -310,7 +310,7 @@ export const PRODUCT_CATALOG = [
         "https://www.seeedstudio.com/The-XIAOML-Kit.html",
         "addons/102991955.jpg",
         "The XIAOML Kit: XIAO ESP32S3 Sense with 6-axis IMU and OLED",
-        "https://wiki.seeedstudio.com/XIAO-Kit-Courses/",
+        "https://mlsysbook.ai/kits/contents/seeed/xiao_esp32s3/xiao_esp32s3.html",
       ),
     ],
   },
@@ -362,7 +362,7 @@ export const PRODUCT_CATALOG = [
         "https://www.seeedstudio.com/XIAO-Vision-AI-Camera-p-6450.html",
         "gadgets/104990982.jpg",
         "Ready-to-use vision AI camera with RS485 chaining support",
-        "https://wiki.seeedstudio.com/getting_started_with_rs485_vision_ai_cam/",
+        "https://wiki.seeedstudio.com/grove_vision_ai_v2/",
       ),
       product(
         "XIAO 6-Channel Wi-Fi 5V DC Relay",

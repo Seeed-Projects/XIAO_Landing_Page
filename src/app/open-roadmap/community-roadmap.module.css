@@ -31,19 +31,143 @@
   white-space: nowrap;
 }
 .heroAction svg { flex-shrink: 0; }
-.heroActionSecondary {
+
+/* How-it-works card — light surface in the board's card language.
+   玩法介绍卡片：白底软卡片与看板同语言，编号节点呼应阶段列头，错峰入场。 */
+.howItWorksWrap {
+  width: var(--page-content-width);
+  margin: 0 auto 36px;
+}
+.howItWorks {
+  padding: clamp(26px, 3.5vw, 40px) clamp(22px, 3.5vw, 40px);
+  border-radius: 22px;
+  background: #fff;
+  border: 1px solid #e4e9ee;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+  color: #111827;
+}
+.howItWorksHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 32px;
+  flex-wrap: wrap;
+}
+.howItWorksCopy {
+  flex: 1 1 380px;
+  min-width: 0;
+}
+.howItWorksTitle {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(21px, 2.6vw, 28px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: #111827;
+}
+.howItWorksDesc {
+  margin: 12px 0 0;
+  max-width: 640px;
+  color: #6b7785;
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.howItWorksLink {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border-radius: 9999px;
   color: var(--brand-blue);
   background: var(--surface-strong);
   box-shadow: inset 0 0 0 1px rgba(0, 73, 102, 0.2);
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
-.heroActionSecondary:hover {
+.howItWorksLink:hover {
   background: var(--surface-tint);
   box-shadow: inset 0 0 0 1px var(--button-bg);
 }
-.heroActionSecondary:focus-visible {
+.howItWorksLink:focus-visible {
   outline: 3px solid rgba(0, 73, 102, 0.3);
   outline-offset: 3px;
+}
+.howItWorksLink svg { flex-shrink: 0; }
+.howItWorksPoints {
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 22px;
+  counter-reset: howstep;
+}
+.howPointReveal {
+  display: block;
+  min-width: 0;
+}
+.howItWorksPoint {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  padding: 16px;
+  border-radius: 16px;
+  background: #f8fafc;
+  border: 1px solid #e8edf2;
+  counter-increment: howstep;
+  transition:
+    transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+.howItWorksPoint:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 26px rgba(15, 23, 42, 0.1);
+  border-color: color-mix(in srgb, var(--theme-blue) 40%, #e8edf2);
+}
+/* numbered nodes echo the stage rail's accent progression */
+.howItWorksPoint::before {
+  content: counter(howstep);
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: #fff;
+  font-family: var(--font-display), sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+.howPointReveal:nth-child(1) .howItWorksPoint::before {
+  background: var(--theme-blue);
+}
+.howPointReveal:nth-child(2) .howItWorksPoint::before {
+  background: var(--theme-teal);
+}
+.howPointReveal:nth-child(3) .howItWorksPoint::before {
+  background: var(--theme-lime);
+}
+.howItWorksPoint strong {
+  color: #111827;
+  font-family: var(--font-display), sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.howItWorksPoint span {
+  color: #6b7785;
+  font-family: var(--font-body), sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 /* Board */
@@ -551,8 +675,19 @@
   }
 }
 
+@media (max-width: 900px) {
+  .howItWorksPoints {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 760px) {
   .wrap { padding: 0 0 72px; }
+  .howItWorksWrap { margin-bottom: 28px; }
+  .howItWorksLink {
+    width: 100%;
+    justify-content: center;
+  }
   .board {
     grid-template-columns: 1fr;
   }

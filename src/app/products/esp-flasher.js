@@ -133,8 +133,8 @@ export function ESPFlasher() {
     eyebrow: zh ? "XIAO PLAYGROUND · ESP32 网页烧录" : "XIAO PLAYGROUND · ESP32 WEB FLASHER",
     title: zh ? "XIAO ESP32 系列网页烧录器" : "XIAO ESP32 Series Web Flasher",
     lead: zh
-      ? "面向 XIAO ESP32 系列：连接开发板、选择固件并写入，串口监视器全程记录过程与设备输出。"
-      : "For the XIAO ESP32 series: connect a board, choose firmware and write it, with a serial monitor recording the flash and everything the board prints.",
+      ? "选择你的 XIAO ESP32 开发板和固件，在浏览器中通过 USB 直接烧录，并用串口监视器验证运行状态。"
+      : "Select your XIAO ESP32 board and firmware, flash it directly via USB in your browser, and monitor serial output to verify its behavior.",
     envWarn: zh ? "当前浏览器不支持 Web Serial" : "Web Serial unavailable",
     envHint: zh
       ? "请使用桌面版 Chrome 或 Edge，并通过 HTTPS 或 localhost 打开本页。"
