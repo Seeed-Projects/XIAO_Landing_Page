@@ -49,6 +49,20 @@ export const LEGEND_ORDER = ["power", "gnd", "digital", "analog", "i2c", "spi", 
 export const PTC_LEGEND_BOARDS = ["samd21", "samd21plus"];
 export const CAN_LEGEND_BOARDS = ["stm32c5"];
 
+/** Boards whose artwork prints grey NC / SHIELD pills (Sense expansion-board
+ *  connector): those pills stay unhighlightable unless the key offers the
+ *  matching chip, so only these boards show it.
+ *  图上印有灰色 NC / SHIELD 胶囊的板（Sense 扩展板连接器）：
+ *  只有图例给出对应按钮，这些胶囊才能参与高亮选择，故仅这些板显示。 */
+export const NC_LEGEND_BOARDS = ["s3sense"];
+
+/** nRF54L15 artwork prints the dark key entry as "GND / N/A": the same colour
+ *  covers real GND pills and the unbonded N/A pads, so these boards label
+ *  their GND legend chip accordingly. nRF54L15 原图色标把深色项印作
+ *  "GND / N/A"：同一颜色同时覆盖 GND 胶囊与未键合 N/A 焊盘，
+ *  这些板的 GND 图例按钮文字随之改写。 */
+export const GNDNA_LEGEND_BOARDS = ["nrf54l15", "nrf54l15sense"];
+
 /**
  * Boards whose official diagram uses the 2025 colour key: seven pills
  * (POWER / GND / SEEED USAGE / SIGNAL PIN / PERIPHERAL / SYSTEM / NC-SHIELD).

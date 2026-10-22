@@ -310,6 +310,7 @@ const nrf54l15 = stdBoard({
   pad("SAMD11_SWCLK", "SWCLK2", "digital", "PA30", "SAMD11 SWD Clock", "SAMD11 SWD 时钟", "nrf54"),
   pad("SAMD11_SWDIO", "SWDIO2", "digital", "PA31", "SAMD11 SWD Data", "SAMD11 SWD 数据", "nrf54"),
   pad("SAMD11_RST", "RST2", "rst", "RST2", "SAMD11 Reset (debug)", "SAMD11 复位（调试）", "nrf54", { status: "conditional" }),
+  pad("N/A", "N/A", "gnd", "N/A", "Unbonded pad — printed N/A on the artwork, no chip bond", "未键合焊盘——图上印 N/A，无芯片键合", "nrf54"),
   ...batPair("nrf54"),
 ]);
 
