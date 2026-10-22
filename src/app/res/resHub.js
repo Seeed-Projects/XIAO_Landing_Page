@@ -98,8 +98,8 @@ export function ResHub() {
   const copy = {
     title: zh ? "硬件资源" : "Hardware Resources",
     description: zh
-      ? "全系列通用的 KiCad 设计套件在最上面；往下选一块开发板，就能找到它的原理图、KiCad 工程、尺寸图、3D 模型和固件，图纸点开即可预览。"
-      : "The series-wide KiCad design kit comes first. Below it, pick a board to find its schematics, KiCad project, dimensions, 3D models and firmware, with drawings that preview on click.",
+      ? "查找 XIAO 硬件设计文件与文档，为 PCB 设计、外壳开发和产品定制集成提供支持。"
+      : "Find XIAO hardware design files and documentation to support PCB design, enclosure development, and custom product integration.",
     search: zh ? "搜索全部开发板的资源" : "Search every board's files",
     clear: zh ? "清除" : "Clear",
     files: (count) => (zh ? `${count} 个文件` : `${count} files`),

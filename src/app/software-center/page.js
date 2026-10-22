@@ -8,8 +8,8 @@ import { CommunitySection } from "./CommunitySection";
 import styles from "./software-center.module.css";
 
 const INTRO = {
-  en: "Build with XIAO: connect a smart home, develop across chips, create a display or run AI — with official software and community tools.",
-  zh: "从智能家居、跨芯片开发到屏幕界面与边缘 AI，借助官方软件和社区工具，把 XIAO 变成真正可用的产品。",
+  en: "Discover compatible development environments, frameworks, libraries, and integrations to get started with development and bring your XIAO projects to life.",
+  zh: "发现兼容的开发环境、框架、库与集成方案，快速上手开发，让你的 XIAO 项目真正落地。",
 };
 
 /**

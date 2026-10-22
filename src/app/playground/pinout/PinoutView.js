@@ -776,13 +776,9 @@ export function PinoutView() {
       <ToolPageIntro
         id="pinout"
         title={zh ? "XIAO 引脚对照" : "XIAO Pinout"}
-        description={board.diagram?.module
-          ? (zh
-            ? "正面、背面与 Sense 扩展板同一页。点一行看注意事项、备用功能和接线说明。"
-            : "Front, back and the Sense module on one page. Click a row for notes, alt functions and wiring.")
-          : (zh
-            ? "正面、背面同一页。点一行看注意事项、备用功能和接线说明。"
-            : "Front and back on one page. Click a row for notes, alt functions and wiring.")}
+        description={zh
+          ? "用交互式引脚图探索 XIAO 开发板的正反两面。搜索引脚、查看功能，并找到接线说明与复用功能。"
+          : "Explore both sides of your XIAO board with an interactive pinout viewer. Search for pins, check their functions, and find wiring notes and alternate functions."}
       />
       <div className={`${styles.wrap} ${sheetMode && selection ? styles.wrapSheet : ""}`}>
         <div className={styles.controls}>

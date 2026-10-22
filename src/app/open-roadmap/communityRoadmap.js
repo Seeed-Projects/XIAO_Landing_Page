@@ -8,7 +8,6 @@ import discussionData from "../../../public/open-roadmap/discussions.json";
 import styles from "./community-roadmap.module.css";
 
 const GITHUB_DISCUSSIONS = "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions";
-const HOW_IT_WORKS_URL = "https://github.com/Seeed-Studio/OSHW-XIAO-Series/discussions/1";
 
 /** Board columns in lifecycle order (Help Needed is a separate rail). */
 const STAGES = [
@@ -319,8 +318,31 @@ export function CommunityRoadmap() {
         ? "下一步做什么，由你决定"
         : "You decide what we build next",
     btnSubmit: lang === "zh" ? "在 GitHub 提交想法" : "Submit an idea on GitHub",
-    howItWorks: lang === "zh" ? "路线图如何运作" : "How the roadmap works",
     empty: lang === "zh" ? "这一阶段暂无条目。" : "No ideas in this stage yet.",
+    howTitle:
+      lang === "zh"
+        ? "XIAO 路线图：下一步做什么，由你决定"
+        : "Roadmap of Seeed XIAO: You Decide What We Build Next!",
+    howDesc:
+      lang === "zh"
+        ? "这里是 XIAO 开放路线图的社区共创入口。我们会在这里分享 XIAO 开发板与配件的新功能、新玩法与新产品提案，并邀请你一起决定它们的未来。"
+        : "This is the community co-creation space behind the XIAO open roadmap. We share proposals for new features, functions, and products for XIAO boards and accessories — and you help decide what ships.",
+    howVoteLabel: lang === "zh" ? "投票支持" : "Vote",
+    howVote:
+      lang === "zh"
+        ? "为你喜欢的路线图条目点击上箭头 ⬆️，或直接加入讨论。"
+        : "Upvote ⬆️ the roadmap entries you love, or jump into the discussion.",
+    howProposeLabel: lang === "zh" ? "提交提案" : "Propose",
+    howPropose:
+      lang === "zh"
+        ? "任何人都可以在 GitHub 发起新讨论，提出功能或产品想法；合适的提案会被打上 “Open for Vote” 标签开放投票，票数够高，我们就会把它做出来。"
+        : "Anyone can open a New Discussion to suggest features or products. Good fits get the “Open for Vote” label, and the most-upvoted ideas get built.",
+    howEngageLabel: lang === "zh" ? "参与交流" : "Engage",
+    howEngage:
+      lang === "zh"
+        ? "与其他社区成员互动。请保持开放心态——这个社区由大家一起建设 💪"
+        : "Connect with other community members. Stay open-minded — this community is built together 💪",
+    howLink: lang === "zh" ? "在 GitHub 加入讨论" : "Join the discussion on GitHub",
     seeed: lang === "zh" ? "Seeed 已回复" : "Seeed replied",
     answered: lang === "zh" ? "已解答" : "Answered",
     closed: lang === "zh" ? "已关闭" : "Closed",
@@ -362,34 +384,65 @@ export function CommunityRoadmap() {
           title={T.h1}
           description={T.sub}
           actions={
-            <>
-              <a
-                className={`home-type-action home-filled-action home-primary-cta ${styles.heroAction}`}
-                href={GITHUB_DISCUSSIONS}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: "#fff" }}
-              >
-                {T.btnSubmit}
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
-              </a>
-              <a
-                className={`home-type-action ${styles.heroAction} ${styles.heroActionSecondary}`}
-                href={HOW_IT_WORKS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {T.howItWorks}
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M7 17 17 7M7 7h10v10" />
-                </svg>
-              </a>
-            </>
+            <a
+              className={`home-type-action home-filled-action home-primary-cta ${styles.heroAction}`}
+              href={GITHUB_DISCUSSIONS}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "#fff" }}
+            >
+              {T.btnSubmit}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </a>
           }
         />
+      </Reveal>
+
+      {/* How the roadmap works — community co-creation intro card.
+         玩法介绍：浅色卡片与看板同语言，编号节点呼应阶段列头。 */}
+      <Reveal as="section" className={styles.howItWorksWrap} aria-labelledby="how-it-works">
+        <div className={styles.howItWorks}>
+          <div className={styles.howItWorksHead}>
+            <div className={styles.howItWorksCopy}>
+              <h2 id="how-it-works" className={styles.howItWorksTitle}>{T.howTitle}</h2>
+              <p className={styles.howItWorksDesc}>{T.howDesc}</p>
+            </div>
+            <a
+              className={styles.howItWorksLink}
+              href={GITHUB_DISCUSSIONS}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.17c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.34.96.1-.75.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
+              </svg>
+              {T.howLink}
+            </a>
+          </div>
+          <ul className={styles.howItWorksPoints}>
+            <Reveal as="li" delay={120} className={styles.howPointReveal}>
+              <div className={styles.howItWorksPoint}>
+                <strong>{T.howVoteLabel}</strong>
+                <span>{T.howVote}</span>
+              </div>
+            </Reveal>
+            <Reveal as="li" delay={240} className={styles.howPointReveal}>
+              <div className={styles.howItWorksPoint}>
+                <strong>{T.howProposeLabel}</strong>
+                <span>{T.howPropose}</span>
+              </div>
+            </Reveal>
+            <Reveal as="li" delay={360} className={styles.howPointReveal}>
+              <div className={styles.howItWorksPoint}>
+                <strong>{T.howEngageLabel}</strong>
+                <span>{T.howEngage}</span>
+              </div>
+            </Reveal>
+          </ul>
+        </div>
       </Reveal>
 
       <div className={styles.wrap}>

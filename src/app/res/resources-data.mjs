@@ -680,7 +680,7 @@ export const RESOURCE_PRODUCTS = [
     name: "XIAO MG24 Sense",
     pinoutId: "mg24sense",
     image: "/xiao-products/dev_boards/front/XIAO-MG24-Sense-front.webp",
-    shop: "https://www.seeedstudio.com/Seeed-Studio-XIAO-MG24-Sense-p-6248.html",
+    shop: "https://www.seeedstudio.com/Seeed-XIAO-MG24-Sense-p-6248.html",
     wiki: "https://wiki.seeedstudio.com/xiao_mg24_getting_started/",
     intro: { en: "MG24 Sense board with expanded sensing capability.", zh: "具备扩展感知能力的 MG24 Sense 开发板。" },
     badges: ["MG24", "Sense", "Matter"],
