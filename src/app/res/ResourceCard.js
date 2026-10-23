@@ -38,12 +38,10 @@ export function ResourceCard({ item, onPreview }) {
       {primary === "preview" ? (
         <button type="button" className={styles.thumb} onClick={() => onPreview(item)} aria-label={`${labels.preview}: ${item.name}`}>
           {visual}
-          <span className={styles.thumbHint}><Icon name="preview" />{labels.preview}</span>
         </button>
       ) : (
         <a className={styles.thumb} href={item.url} target="_blank" rel="noopener noreferrer" aria-label={`${labels[primary]}: ${item.name}`}>
           {visual}
-          <span className={styles.thumbHint}><Icon name={primary} />{labels[primary]}</span>
         </a>
       )}
       <div className={styles.cardBody}>

@@ -253,25 +253,6 @@
   transition: transform 360ms var(--res-ease);
 }
 .card:hover .thumb img { transform: scale(1.03); }
-.thumbHint {
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  border-radius: var(--r-pill);
-  background: rgba(24, 34, 79, 0.86);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 200ms var(--res-ease), transform 200ms var(--res-ease);
-}
-.card:hover .thumbHint,
-.thumb:focus-visible .thumbHint { opacity: 1; transform: translateY(0); }
 .art {
   position: absolute;
   inset: 11% 0;
@@ -782,7 +763,6 @@
   .card,
   .courseCard,
   .thumb img,
-  .thumbHint,
   .iconBtn,
   .navItem { transition: none; }
 }
@@ -811,7 +791,6 @@
   .card:hover { transform: none; }
   .thumb { aspect-ratio: auto; height: 100%; min-height: 112px; border-bottom: 0; border-right: 1px solid var(--res-line); }
   .art { inset: 0; height: 88px; margin-block: auto; }
-  .thumbHint { display: none; }
   .cardBody { padding: 12px 12px 12px 14px; gap: 8px; }
   .learnBand { margin-top: 56px; padding: 48px 0 64px; }
   .hero { margin-bottom: 32px; border-radius: 0 0 28px 28px; }

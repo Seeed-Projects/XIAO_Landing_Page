@@ -106,6 +106,13 @@ test("file cards render type icons independently of baked thumbnails", () => {
   assert.match(source, /<KindArt\s+item=\{item\}/);
 });
 
+test("file card visuals keep primary actions without hint chips", () => {
+  for (const file of ["ResourceCard.js", "res.module.css"]) {
+    const source = readFileSync(new URL(`./${file}`, import.meta.url), "utf8");
+    assert.doesNotMatch(source, /thumbHint/, file);
+  }
+});
+
 test("bake jobs cover drawings and PDFs once per URL with unique file names", () => {
   const jobs = bakeJobs();
   assert.ok(jobs.length > 20);
