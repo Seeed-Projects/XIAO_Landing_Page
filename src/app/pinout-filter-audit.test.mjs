@@ -81,8 +81,9 @@ test("printed label rules distinguish buses, indicators, pin names and combined 
 test("SVG scans use the position-indexed text and detect changed artwork", () => {
   const source = readFileSync(new URL("../../public/xiao-products/pinout/s3sense-module.svg", import.meta.url), "utf8");
   const boxes = scanSvg(source, "s3sense-module").blobs;
-  assert.deepEqual(boxes.find((box) => box.text === "DVP_PCLK/SPI1_SCK").cat, ["peripheral", "spi"]);
-  assert.equal(boxes.find((box) => box.text === "DVP_Y2").cat, "peripheral");
+  assert.equal(boxes.find((box) => box.text === "DVP_PCLK/SPI1_SCK").cat, "seeed");
+  assert.equal(boxes.find((box) => box.text === "DVP_Y2").cat, "seeed");
+  assert.equal(boxes.find((box) => box.text === "GPIO42").cat, "signal");
   assert.throws(() => svgLabelReader(`${source}\n`, "s3sense-module"), /artwork changed/);
   assert.throws(() => svgLabelReader(source, "s3sense-module")({ x: 0, y: 0, w: 10, h: 10 }), /Missing SVG label text/);
 });

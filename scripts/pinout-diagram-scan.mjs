@@ -40,8 +40,19 @@ const IMAGE_DIR = path.join(ROOT, "public/xiao-products/pinout");
 // Column boundaries in artwork coordinates, starting at each band's top edge.
 // 图稿坐标中的列分界，每段从指定的顶部高度开始。
 const COLUMN_SPLITS = {
-  "s3sense-module": [{ y: 0, x: 898.6 }, { y: 300, x: 1215.4 }],
+  "s3sense-module": [{ y: 0, x: 977.5 }, { y: 300, x: 1215.4 }],
   "ra4-back": [{ y: 0, x: 851.35 }],
+};
+// Categories printed in the Sense module's seven-colour artwork key.
+// Sense 扩展板图稿七色色键对应的类别。
+const MODULE_COLOR_CATEGORIES = {
+  "#8FC31F": "seeed",
+  "#0091EA": "signal",
+  "#004966": "peripheral",
+  "#78909C": "system",
+  "#2D2D2D": "gnd",
+  "#BDBDBD": "nc",
+  "#D32F2F": "power",
 };
 const CHROME_CANDIDATES = [
   process.env.CHROME_BIN,
@@ -180,7 +191,9 @@ export function scanSvg(source, sourceId) {
       if (!readLabel) return box;
       const text = readLabel(box);
       const categories = labelCategories(text);
-      return { ...box, text, cat: categories.length ? categoryValue(categories) : category(box.color) };
+      const fill = `#${box.color.map((channel) => channel.toString(16).padStart(2, "0")).join("").toUpperCase()}`;
+      const moduleCategory = sourceId === "s3sense-module" ? MODULE_COLOR_CATEGORIES[fill] : null;
+      return { ...box, text, cat: moduleCategory ?? (categories.length ? categoryValue(categories) : category(box.color)), fill };
     }),
   };
 }
@@ -232,7 +245,7 @@ export function groupBoxes({ W, H, blobs, columnSplits }) {
       y: Math.round(row.cy),
       boxes: row.boxes
         .sort((a, b) => (outward === "left" ? b.cx - a.cx : a.cx - b.cx))
-        .map(({ x, y, w, h, rx, ry, cat, text }) => ({ x, y, w, h, rx, ry, cat, text })),
+        .map(({ x, y, w, h, cat, text, rx, ry, fill }) => ({ x, y, w, h, cat, text, rx, ry, fill })),
     }));
   };
   const all = body.length || legend.length ? [...body, ...legend] : boxes;
@@ -274,7 +287,6 @@ function layoutModule(boardId, face, layout) {
  * ${boardId} ${face} 引脚图上的标签框（图片像素），由上述命令生成。
  */
 const layout = ${JSON.stringify(compact, null, 2)};
-
 export default layout;
 `;
 }
@@ -311,7 +323,9 @@ async function main() {
   if (write) {
     await mkdir(LAYOUT_DIR, { recursive: true });
     const target = path.join(LAYOUT_DIR, `${boardId}-${face}.js`);
-    await writeFile(target, layoutModule(boardId, face, layout));
+    const header = existsSync(target) ? (await readFile(target, "utf8")).match(/^\/\*\*[\s\S]*?\*\//)?.[0] : null;
+    const source = layoutModule(boardId, face, layout);
+    await writeFile(target, header ? source.replace(/^\/\*\*[\s\S]*?\*\//, header) : source);
     console.log(`Wrote ${path.relative(ROOT, target)}: left ${layout.rows.left.length} rows, right ${layout.rows.right.length} rows`);
     return;
   }

@@ -78,6 +78,10 @@ function padIndexFor(diagram, pin) {
 function decoratePins(board, diagram) {
   return board.pins.map((pin) => ({
     ...pin,
+    // Printed module labels are searchable aliases of their mapped pin.
+    // 扩展板印制标签作为其对应引脚的可搜索别名。
+    aliases: (diagram?.module?.rows || []).filter((row) => row.id === pin.id)
+      .flatMap((row) => row.boxes.map((box) => box.text)),
     notes: notesFor(board, pin),
     alt: altFor(board, pin),
     padIndex: padIndexFor(diagram, pin),

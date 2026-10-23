@@ -472,6 +472,7 @@ export function PinoutView() {
   const frontRef = useRef(null);
   const backRef = useRef(null);
   const moduleRef = useRef(null);
+  const controlsRef = useRef(null);
   const cardRef = useRef(null);
   const faceRefs = { front: frontRef, back: backRef, module: moduleRef };
   const menuRef = useRef(null);
@@ -523,15 +524,15 @@ export function PinoutView() {
 
   // Track which face block the reader has scrolled to: the legend swaps to
   // that face's own colour key, so the module's chips never mix with the
-  // front-face set. The sticky controls bar sits at the top, so a face counts
-  // as in view once its block crosses the upper third of the viewport.
+  // front-face set. A face becomes current at the upper third of the viewport
+  // or the reading edge below the sticky controls and its section heading.
   // 跟踪读者滚动到的面：图例切换为该面自身的色键，模块图的分类不与正面
-  // 混用。吸附控制条位于顶部，块体越过视口上三分之一线即视为当前面。
+  // 混用。当前面按视口上三分之一线，或吸附工具栏及章节标题下方的阅读边界确定。
   useEffect(() => {
     const blocks = Object.entries(faceRefs).filter(([, ref]) => ref.current);
     if (blocks.length < 2) return undefined;
     const track = () => {
-      const line = window.innerHeight / 3;
+      const line = Math.max(window.innerHeight / 3, (controlsRef.current?.getBoundingClientRect().bottom || 0) + 48);
       let current = blocks[0][0];
       for (const [face, ref] of blocks) {
         if (ref.current.getBoundingClientRect().top <= line) current = face;
@@ -829,7 +830,7 @@ export function PinoutView() {
       />
       <div className={`${styles.wrap} ${sheetMode && selection ? styles.wrapSheet : ""}`}>
         <div className={styles.stage}>
-          <div className={styles.controls}>
+          <div className={styles.controls} ref={controlsRef}>
             <div className={styles.toolbar}>
               <div className={styles.boardSelect} ref={menuRef}>
                 <button

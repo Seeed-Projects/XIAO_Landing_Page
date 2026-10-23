@@ -20,11 +20,13 @@ import {
   diagramBoxMatchesFilter,
   laneOnSide,
   padOnSide,
+  pinMatchesQuery,
   stripCells,
   validateAllBoards,
 } from "./playground/pinout/data/index.js";
 import { placePinCard, PIN_CLEARANCE } from "./playground/pinout/placePinCard.js";
 import { BOARD_FRACTION, boardFrameWidth } from "./playground/pinout/diagramScale.js";
+import s3senseModuleLayout from "./playground/pinout/data/diagrams/s3sense-module.js";
 
 const read = (name) => readFileSync(new URL(name, import.meta.url), "utf8");
 const uniqueBoards = BOARD_CATEGORIES.flatMap((item) => item.boardIds).map((id) => BOARDS[id]);
@@ -361,15 +363,38 @@ test("s3sense stacks the Sense expansion board as a third interactive module fac
   }
   assert.equal(BOARDS.s3sense.pins.find((pin) => pin.id === "DVP_Y4").names.chip, "GPIO18");
   assert.equal(BOARDS.s3sense.pins.find((pin) => pin.id === "SD_MOSI").names.chip, "GPIO9");
-  // Both expansion-board photos stay whole (union y 17-833.6) and the crop
+  // Both expansion-board photos stay whole (union y 9-833.6) and the crop
   // stops above the baked-in legend strip (y 1016).
-  assert.deepEqual(moduleDiagram.figure, { x: 207, y: 17, w: 816.4, h: 816.6, fw: 225.6 });
-  assert.ok(moduleDiagram.crop.y <= 17 && moduleDiagram.crop.y + moduleDiagram.crop.h >= 833.6, "module crop keeps both board photos whole");
+  // 裁剪范围包含两张完整的扩展板照片，并截止于底部内嵌图例上方。
+  assert.deepEqual(moduleDiagram.figure, { x: 207, y: 9, w: 919, h: 824.6, fw: 225.6 });
+  assert.ok(moduleDiagram.crop.y <= 9 && moduleDiagram.crop.y + moduleDiagram.crop.h >= 833.6, "module crop keeps both board photos whole");
   assert.ok(moduleDiagram.crop.y + moduleDiagram.crop.h < 1016, "module crop omits the baked-in legend");
   assert.ok(moduleDiagram.fitLegendRatio > 0, "module face keeps its published sizing ratio");
   // The narrower camera-board photo renders inside the shared size window
   // (boardFrameWidth returns full width: the target would exceed the stage).
   assert.equal(boardFrameWidth({ workWidth: 1200, figureWidth: 225.6 }), null);
+});
+
+test("s3sense module banner labels follow the updated camera-board artwork", () => {
+  assert.deepEqual(s3senseModuleLayout.columnSplits, [{ y: 0, x: 977.5 }, { y: 300, x: 1215.4 }]);
+  const positions = {
+    left: [["D11", 727], ["GPIO42", 607], ["JTAG_MTMS", 487]],
+    right: [["D12", 1112.2], ["GPIO41", 1232.2], ["JTAG_MTDI", 1352.2]],
+  };
+  for (const [side, labels] of Object.entries(positions)) {
+    const boxes = s3senseModuleLayout.rows[side][0].boxes;
+    assert.equal(boxes.length, 3);
+    for (const [text, x] of labels) {
+      const box = boxes.find((item) => item.text === text);
+      assert.ok(box, `${side} banner contains ${text}`);
+      assert.ok(Math.abs(box.x - x) < 0.1, `${text} follows its printed x coordinate`);
+      assert.ok(Math.abs(box.y - 155.4) < 0.1, `${text} stays in the banner row`);
+    }
+  }
+  for (const [query, id] of [["D11", "MTMS"], ["D12", "MTDI"]]) {
+    const matches = new Set(BOARDS.s3sense.pins.filter((pin) => pinMatchesQuery(pin, query)).map((pin) => pin.id));
+    assert.deepEqual(BOARDS.s3sense.diagram.module.rows.filter((row) => matches.has(row.id)).map((row) => row.id), [id]);
+  }
 });
 
 test("the legend follows the scrolled face and each face keeps its own filters", () => {

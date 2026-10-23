@@ -15,6 +15,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import sharp from "sharp";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const OUT_DIR = process.env.PINOUT_PROOF_DIR || path.join(ROOT, ".trash/pinout-proof");
@@ -67,7 +68,9 @@ function proofHtml(boardId, face, layout, mapping, board) {
       });
     });
   }
-  const crop = layout.content;
+  const crop = face === "module"
+    ? { x: 0, y: 0, w: layout.size.width, h: layout.size.height }
+    : layout.content;
   const pad = 80;
   const viewX = Math.max(0, crop.x - pad);
   const viewY = Math.max(0, crop.y - pad);
@@ -101,18 +104,35 @@ function proofHtml(boardId, face, layout, mapping, board) {
 </body></html>`;
 }
 
-function screenshot(chrome, htmlFile, pngFile) {
-  execFileSync(chrome, [
-    "--headless=new",
-    "--disable-gpu",
-    "--allow-file-access-from-files",
-    "--hide-scrollbars",
-    "--force-device-scale-factor=1",
-    "--window-size=1600,1100",
-    `--screenshot=${pngFile}`,
-    `file://${htmlFile}`,
-  ], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
-  if (!existsSync(pngFile)) throw new Error(`Chrome did not write ${pngFile}`);
+async function screenshot(chrome, htmlFile, pngFile) {
+  try {
+    execFileSync(chrome, [
+      "--headless=new",
+      "--disable-gpu",
+      "--allow-file-access-from-files",
+      "--hide-scrollbars",
+      "--force-device-scale-factor=1",
+      "--window-size=1600,1100",
+      `--screenshot=${pngFile}`,
+      `file://${htmlFile}`,
+    ], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+  } catch {
+    // Rasterize the annotated SVG with its inline artwork as a full-size proof.
+    // 将内嵌图稿的标注 SVG 渲染为完整尺寸的校对图。
+    const html = readFileSync(htmlFile, "utf8");
+    let svg = html.match(/<svg\b[\s\S]*?<\/svg>/)[0];
+    for (const [href, url] of svg.matchAll(/href="(file:[^"]+)"/g)) {
+      let artwork = readFileSync(fileURLToPath(url), "utf8");
+      for (const [uri, base64] of artwork.matchAll(/data:image\/webp;base64,([^"]+)/g)) {
+        const png = await sharp(Buffer.from(base64, "base64")).png().toBuffer();
+        artwork = artwork.replace(uri, `data:image/png;base64,${png.toString("base64")}`);
+      }
+      svg = svg.replace(href, `href="data:image/svg+xml;base64,${Buffer.from(artwork).toString("base64")}"`);
+    }
+    await sharp(Buffer.from(svg)).resize({ width: 1600 }).flatten({ background: "#fff" }).png().toFile(pngFile);
+    console.warn(`Rendered SVG proof: ${path.basename(pngFile)}`);
+  }
+  if (!existsSync(pngFile)) throw new Error(`Proof image missing: ${pngFile}`);
 }
 
 const args = process.argv.slice(2).filter((arg) => !arg.startsWith("--"));
@@ -127,7 +147,7 @@ const summary = [];
 for (const boardId of manifest.boards) {
   if (onlyBoard && boardId !== onlyBoard) continue;
   const board = BOARDS[boardId];
-  for (const face of ["front", "back"]) {
+  for (const face of ["front", "back", "module"]) {
     if (onlyFace && face !== onlyFace) continue;
     const key = `${boardId}-${face}`;
     if (!manifest.assets[key]) continue;
@@ -137,7 +157,7 @@ for (const boardId of manifest.boards) {
     const htmlFile = path.join(work, `${key}.html`);
     const pngFile = path.join(OUT_DIR, `${key}.png`);
     writeFileSync(htmlFile, html);
-    screenshot(chrome, htmlFile, pngFile);
+    await screenshot(chrome, htmlFile, pngFile);
     const missing = mapping
       ? [...mapping.left, ...mapping.right].filter((id) => !pinOf(board, id)).length
       : layout.rows.left.length + layout.rows.right.length;

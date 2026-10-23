@@ -105,6 +105,7 @@ export function pinMatchesQuery(pin, query) {
     pin.names.chip,
     pin.names.micropython,
     pin.names.zephyr,
+    ...(pin.aliases || []),
     pin.caps.adc,
     pin.caps.i2c,
     pin.caps.spi,
