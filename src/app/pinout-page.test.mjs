@@ -734,7 +734,7 @@ test("sticky controls share the diagram stage while board reference follows outs
   assert.ok(view.indexOf("<div className={styles.reference}>") > end);
 });
 
-test("board table freezes its opaque header inside a viewport-limited scroll box", () => {
+test("narrow board tables freeze their opaque header inside a viewport-limited scroll box", () => {
   const css = read("./playground/pinout/pinout.module.css");
   const scroll = css.match(/\.tableScroll\s*\{([^}]+)\}/)?.[1];
   const header = css.match(/\.summary th\s*\{([^}]+)\}/)?.[1];
@@ -743,9 +743,30 @@ test("board table freezes its opaque header inside a viewport-limited scroll box
   assert.match(scroll, /max-height:\s*calc\(100dvh - 64px - 16px\)/);
   assert.match(scroll, /overflow:\s*auto/);
   assert.match(scroll, /scroll-padding-top:\s*40px/);
+  assert.match(css, /\.summary td \{[^}]*white-space:\s*nowrap;[^}]*overflow:\s*hidden;[^}]*text-overflow:\s*ellipsis/);
   assert.match(header, /position:\s*sticky/);
   assert.match(header, /top:\s*0\s*;/);
   assert.match(header, /z-index:\s*1/);
   assert.match(header, /background:\s*linear-gradient\(var\(--surface-tint\), var\(--surface-tint\)\), var\(--surface-strong\)/);
   assert.match(header, /box-shadow:\s*inset 0 -1px 0 var\(--line-soft\)/);
+});
+
+test("desktop board tables wrap complete cells and freeze their header below the site header", () => {
+  const css = read("./playground/pinout/pinout.module.css");
+  const desktop = css.match(/@media \(min-width: 900px\) \{([\s\S]*?)\n\}/)?.[1];
+  assert.ok(desktop);
+  assert.match(desktop, /\.reference \{ overflow:\s*clip; \}/);
+  assert.match(desktop, /\.tableScroll \{ max-height:\s*none; overflow:\s*visible; \}/);
+  assert.match(desktop, /\.summary \{ min-width:\s*0; table-layout:\s*auto; \}/);
+  const cells = desktop.match(/\.summary td\s*\{([^}]+)\}/)?.[1];
+  assert.ok(cells);
+  assert.match(cells, /white-space:\s*normal/);
+  assert.match(cells, /max-width:\s*none/);
+  assert.match(cells, /overflow:\s*visible/);
+  assert.match(cells, /text-overflow:\s*clip/);
+  assert.match(cells, /overflow-wrap:\s*break-word/);
+  assert.match(desktop, /\.summary th \{ top:\s*64px; white-space:\s*nowrap; \}/);
+  assert.match(desktop, /\.summary td:nth-child\(-n\+4\) \{ white-space:\s*nowrap; \}/);
+  assert.doesNotMatch(desktop, /\.summary td:nth-child\(9\)/);
+  assert.match(desktop, /\.summary tbody tr \{ scroll-margin-top:\s*104px; \}/);
 });

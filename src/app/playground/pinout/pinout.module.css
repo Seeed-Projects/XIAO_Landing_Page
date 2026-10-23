@@ -519,8 +519,8 @@
   font-weight: 700;
 }
 .tableToggle span { color: var(--brand-green-deep); font-size: 16px; }
-/* Fit the scroll box below the fixed site header, with room above scrolled rows for the frozen table header.
-   将滚动框限制在固定导航下方的可视区域内，并为滚动定位的行预留冻结表头空间。 */
+/* Narrow screens scroll the table inside the space below the fixed site header.
+   窄屏表格在固定导航下方的可视区域内独立滚动。 */
 .tableScroll {
   max-height: calc(100dvh - 64px - 16px);
   overflow: auto;
@@ -529,8 +529,8 @@
 .summary { width: 100%; min-width: 920px; border-collapse: collapse; font-size: 12px; }
 .summary th,
 .summary td { padding: 9px 12px; border-top: 1px solid var(--line-soft); text-align: left; white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
-/* Freeze opaque header cells at the scroll box top and carry their separator with them.
-   将不透明表头固定在滚动框顶部，分隔线随表头保持可见。 */
+/* Freeze opaque header cells at the narrow scroll box top, carrying their separator with them.
+   将不透明表头固定在窄屏滚动框顶部，分隔线随表头保持可见。 */
 .summary th {
   position: sticky;
   top: 0;
@@ -549,6 +549,29 @@
 .summaryActive { background: color-mix(in srgb, var(--brand-green) 12%, #fff); }
 
 .live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* Desktop tables fill the page width, wrap at word boundaries and freeze their header below the site header.
+   桌面表格铺满正文宽度、按单词边界换行，表头固定于网站导航下方。 */
+@media (min-width: 900px) {
+  .reference { overflow: clip; }
+  .tableScroll { max-height: none; overflow: visible; }
+  .summary { min-width: 0; table-layout: auto; }
+  .summary th,
+  .summary td {
+    padding: 9px 8px;
+    max-width: none;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: break-word;
+    vertical-align: top;
+  }
+  .summary th { top: 64px; white-space: nowrap; }
+  .summary td:nth-child(-n+4) { white-space: nowrap; }
+  .summary th:last-child,
+  .summary td:last-child { width: 28%; }
+  .summary tbody tr { scroll-margin-top: 104px; }
+}
 
 @media (max-width: 899px) {
   .cardFloat { display: none; }
