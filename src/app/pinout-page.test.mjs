@@ -713,14 +713,34 @@ test("board table rows only read out, long notes carry a hover tooltip", () => {
   assert.doesNotMatch(css, /\.summary tbody tr \{ cursor: pointer/);
 });
 
-test("board table freezes its opaque header inside a viewport-limited scroll box", () => {
+test("sticky controls share the diagram stage while board reference follows outside", () => {
   const view = read("./playground/pinout/PinoutView.js");
+  const start = view.indexOf("<div className={styles.stage}>");
+  assert.ok(start >= 0);
+  let depth = 0;
+  let end = -1;
+  for (const tag of view.slice(start).matchAll(/<\/?div\b/g)) {
+    depth += tag[0] === "<div" ? 1 : -1;
+    if (depth === 0) {
+      end = start + tag.index;
+      break;
+    }
+  }
+  assert.ok(end > start);
+  const stage = view.slice(start, end);
+  assert.match(stage, /className=\{styles\.controls\}/);
+  assert.match(stage, /className=\{styles\.workspace\}\s+ref=\{workspaceRef\}/);
+  assert.doesNotMatch(stage, /className=\{styles\.reference\}/);
+  assert.ok(view.indexOf("<div className={styles.reference}>") > end);
+});
+
+test("board table freezes its opaque header inside a viewport-limited scroll box", () => {
   const css = read("./playground/pinout/pinout.module.css");
   const scroll = css.match(/\.tableScroll\s*\{([^}]+)\}/)?.[1];
   const header = css.match(/\.summary th\s*\{([^}]+)\}/)?.[1];
   assert.ok(scroll);
   assert.ok(header);
-  assert.match(scroll, /max-height:\s*calc\(100dvh - 64px - var\(--pinout-controls-height, 140px\) - 16px\)/);
+  assert.match(scroll, /max-height:\s*calc\(100dvh - 64px - 16px\)/);
   assert.match(scroll, /overflow:\s*auto/);
   assert.match(scroll, /scroll-padding-top:\s*40px/);
   assert.match(header, /position:\s*sticky/);
@@ -728,7 +748,4 @@ test("board table freezes its opaque header inside a viewport-limited scroll box
   assert.match(header, /z-index:\s*1/);
   assert.match(header, /background:\s*linear-gradient\(var\(--surface-tint\), var\(--surface-tint\)\), var\(--surface-strong\)/);
   assert.match(header, /box-shadow:\s*inset 0 -1px 0 var\(--line-soft\)/);
-  assert.match(view, /className=\{styles\.controls\} ref=\{controlsRef\}/);
-  assert.match(view, /style\.setProperty\("--pinout-controls-height", `\$\{controls\.getBoundingClientRect\(\)\.height\}px`\)/);
-  assert.match(view, /observer\.observe\(controls\)/);
 });

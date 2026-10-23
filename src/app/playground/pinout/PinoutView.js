@@ -468,7 +468,6 @@ export function PinoutView() {
   const categoryId = categoryChoice ?? categoryOf(boardId);
   const framework = frameworkChoice && board.frameworks.includes(frameworkChoice) ? frameworkChoice : board.frameworks[0];
   const activePin = board.pins.find((pin) => pin.id === activeId) || null;
-  const controlsRef = useRef(null);
   const workspaceRef = useRef(null);
   const frontRef = useRef(null);
   const backRef = useRef(null);
@@ -476,20 +475,6 @@ export function PinoutView() {
   const cardRef = useRef(null);
   const faceRefs = { front: frontRef, back: backRef, module: moduleRef };
   const menuRef = useRef(null);
-
-  // Expose the wrapped controls height to the table's viewport limit.
-  // 将控制栏换行后的高度传给表格的可视高度上限。
-  useLayoutEffect(() => {
-    const controls = controlsRef.current;
-    if (!controls) return undefined;
-    const measure = () => {
-      controls.parentElement.style.setProperty("--pinout-controls-height", `${controls.getBoundingClientRect().height}px`);
-    };
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(controls);
-    return () => observer.disconnect();
-  }, []);
 
   const matches = query ? board.pins.filter((pin) => pinMatchesQuery(pin, query)) : [];
 
@@ -843,134 +828,136 @@ export function PinoutView() {
           : "Explore both sides of your XIAO board with an interactive pinout viewer. Search for pins, check their functions, and find wiring notes and alternate functions."}
       />
       <div className={`${styles.wrap} ${sheetMode && selection ? styles.wrapSheet : ""}`}>
-        <div className={styles.controls} ref={controlsRef}>
-          <div className={styles.toolbar}>
-            <div className={styles.boardSelect} ref={menuRef}>
-              <button
-                type="button"
-                data-board-trigger="1"
-                className={`${styles.boardTrigger} ${menuOpen ? styles.boardTriggerOpen : ""}`}
-                onClick={() => setMenuOpen((open) => !open)}
-                aria-expanded={menuOpen}
-              >
-                {board.name}
-                <span aria-hidden="true">
-                  <svg viewBox="0 0 12 12" width="12" height="12">
-                    <path d="M2 4.5 6 8.5 10 4.5" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              </button>
-              {menuOpen && (
-                <div className={styles.boardMenu}>
-                  <div className={styles.boardCats}>
-                    {BOARD_CATEGORIES.map((item) => (
-                      <button key={item.id} type="button" className={categoryId === item.id ? styles.active : ""} onClick={() => setCategoryId(item.id)}>
-                        {item.label}
-                      </button>
-                    ))}
+        <div className={styles.stage}>
+          <div className={styles.controls}>
+            <div className={styles.toolbar}>
+              <div className={styles.boardSelect} ref={menuRef}>
+                <button
+                  type="button"
+                  data-board-trigger="1"
+                  className={`${styles.boardTrigger} ${menuOpen ? styles.boardTriggerOpen : ""}`}
+                  onClick={() => setMenuOpen((open) => !open)}
+                  aria-expanded={menuOpen}
+                >
+                  {board.name}
+                  <span aria-hidden="true">
+                    <svg viewBox="0 0 12 12" width="12" height="12">
+                      <path d="M2 4.5 6 8.5 10 4.5" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </button>
+                {menuOpen && (
+                  <div className={styles.boardMenu}>
+                    <div className={styles.boardCats}>
+                      {BOARD_CATEGORIES.map((item) => (
+                        <button key={item.id} type="button" className={categoryId === item.id ? styles.active : ""} onClick={() => setCategoryId(item.id)}>
+                          {item.label}
+                        </button>
+                      ))}
+                    </div>
+                    <div className={styles.boardModels}>
+                      {category.boardIds.map((id) => (
+                        <button key={id} type="button" className={boardId === id ? styles.active : ""} onClick={() => pickBoard(id)}>
+                          {BOARDS[id].name}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                  <div className={styles.boardModels}>
-                    {category.boardIds.map((id) => (
-                      <button key={id} type="button" className={boardId === id ? styles.active : ""} onClick={() => pickBoard(id)}>
-                        {BOARDS[id].name}
-                      </button>
-                    ))}
-                  </div>
+                )}
+              </div>
+              {board.frameworks.length > 1 && (
+                <div className={styles.fwSwitch}>
+                  {board.frameworks.map((item) => (
+                    <button key={item} type="button" className={framework === item ? styles.active : ""} onClick={() => setFramework(item)}>
+                      {FRAMEWORK_LABEL[item] || item}
+                    </button>
+                  ))}
                 </div>
               )}
+              <input
+                className={styles.search}
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                onKeyDown={onSearchKey}
+                placeholder={zh ? "搜索 SDA、PA08、A0…" : "Search SDA, PA08, A0…"}
+                aria-label={zh ? "搜索引脚" : "Search pins"}
+              />
             </div>
-            {board.frameworks.length > 1 && (
-              <div className={styles.fwSwitch}>
-                {board.frameworks.map((item) => (
-                  <button key={item} type="button" className={framework === item ? styles.active : ""} onClick={() => setFramework(item)}>
-                    {FRAMEWORK_LABEL[item] || item}
-                  </button>
-                ))}
-              </div>
-            )}
-            <input
-              className={styles.search}
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              onKeyDown={onSearchKey}
-              placeholder={zh ? "搜索 SDA、PA08、A0…" : "Search SDA, PA08, A0…"}
-              aria-label={zh ? "搜索引脚" : "Search pins"}
-            />
+
+            <div className={styles.legend} data-filtered={filter ? "1" : "0"}>
+              {legendOrderFor(board, activeFace).map((fn) => (
+                <button
+                  key={fn}
+                  type="button"
+                  className={`${styles.legendBtn} ${filter === fn ? styles.on : ""}`}
+                  style={{ "--fn-color": FN_COLOR[fn] }}
+                  aria-pressed={filter === fn}
+                  onClick={() => setFilter((cur) => (cur === fn ? "" : fn))}
+                >
+                  {fn === "gnd" && GNDNA_LEGEND_BOARDS.includes(boardId) ? "GND / N/A" : FN_LABEL[fn]}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className={styles.legend} data-filtered={filter ? "1" : "0"}>
-            {legendOrderFor(board, activeFace).map((fn) => (
-              <button
-                key={fn}
-                type="button"
-                className={`${styles.legendBtn} ${filter === fn ? styles.on : ""}`}
-                style={{ "--fn-color": FN_COLOR[fn] }}
-                aria-pressed={filter === fn}
-                onClick={() => setFilter((cur) => (cur === fn ? "" : fn))}
-              >
-                {fn === "gnd" && GNDNA_LEGEND_BOARDS.includes(boardId) ? "GND / N/A" : FN_LABEL[fn]}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div
-          className={styles.workspace}
-          ref={workspaceRef}
-        >
-          {["front", "back", "module"].map((face) => {
-            const diagram = board.diagram?.[face];
-            if (!diagram) return null;
-            const faceLabel = face === "front"
-              ? (zh ? "正面" : "Front")
-              : face === "back"
-                ? (zh ? "背面" : "Back")
-                : (zh ? "扩展板" : "Sense Module");
-            // Each face only reacts to filters from its own legend set, so a
-            // front-face chip never dims the module and vice versa.
-            // 每个面只响应自己图例集里的筛选项，正面筛选不波及模块图，反之亦然。
-            const faceFilter = filter && legendOrderFor(board, face).includes(filter) ? filter : "";
-            return (
-              <div key={face} className={styles.faceBlock} ref={faceRefs[face]} style={faceMaxW(face)}>
-                <div className={styles.stageHead} aria-hidden="true">
-                  <span className={styles.stageRule} />
-                  <span className={styles.stageFace}>{faceLabel}</span>
-                  <span className={styles.stageRule} />
+          <div
+            className={styles.workspace}
+            ref={workspaceRef}
+          >
+            {["front", "back", "module"].map((face) => {
+              const diagram = board.diagram?.[face];
+              if (!diagram) return null;
+              const faceLabel = face === "front"
+                ? (zh ? "正面" : "Front")
+                : face === "back"
+                  ? (zh ? "背面" : "Back")
+                  : (zh ? "扩展板" : "Sense Module");
+              // Each face only reacts to filters from its own legend set, so a
+              // front-face chip never dims the module and vice versa.
+              // 每个面只响应自己图例集里的筛选项，正面筛选不波及模块图，反之亦然。
+              const faceFilter = filter && legendOrderFor(board, face).includes(filter) ? filter : "";
+              return (
+                <div key={face} className={styles.faceBlock} ref={faceRefs[face]} style={faceMaxW(face)}>
+                  <div className={styles.stageHead} aria-hidden="true">
+                    <span className={styles.stageRule} />
+                    <span className={styles.stageFace}>{faceLabel}</span>
+                    <span className={styles.stageRule} />
+                  </div>
+                  <DiagramStage
+                    diagram={diagram}
+                    board={board}
+                    selection={selection}
+                    filter={faceFilter}
+                    query={query}
+                    lang={lang}
+                    face={face}
+                    onSelect={selectPin}
+                  />
                 </div>
-                <DiagramStage
-                  diagram={diagram}
-                  board={board}
-                  selection={selection}
-                  filter={faceFilter}
-                  query={query}
-                  lang={lang}
-                  face={face}
-                  onSelect={selectPin}
-                />
-              </div>
-            );
-          })}
-          {activePin && selection && !sheetMode && (
-            <PinCard
-              key={activePin.id}
-              pin={activePin}
-              board={board}
-              framework={framework}
-              lang={lang}
-              zh={zh}
-              placement="float"
-              style={{ top: cardPos.top, left: cardPos.left, width: cardPos.width, maxHeight: cardPos.maxHeight }}
-              cardRef={cardRef}
-              onCardDragStart={startCardDrag}
-              onCardDragMove={moveCardDrag}
-              onCardDragEnd={endCardDrag}
-              pinned={cardFixed}
-              onClose={() => { setSelection(null); setActiveId(""); }}
-              onJump={jumpTo}
-              copied={copied}
-              onCopy={copyCode}
-            />
-          )}
+              );
+            })}
+            {activePin && selection && !sheetMode && (
+              <PinCard
+                key={activePin.id}
+                pin={activePin}
+                board={board}
+                framework={framework}
+                lang={lang}
+                zh={zh}
+                placement="float"
+                style={{ top: cardPos.top, left: cardPos.left, width: cardPos.width, maxHeight: cardPos.maxHeight }}
+                cardRef={cardRef}
+                onCardDragStart={startCardDrag}
+                onCardDragMove={moveCardDrag}
+                onCardDragEnd={endCardDrag}
+                pinned={cardFixed}
+                onClose={() => { setSelection(null); setActiveId(""); }}
+                onJump={jumpTo}
+                copied={copied}
+                onCopy={copyCode}
+              />
+            )}
+          </div>
         </div>
 
         <div className={styles.reference}>

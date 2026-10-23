@@ -16,11 +16,10 @@
   padding: 0 0 40px;
 }
 
-/* One rounded control bar: board picker, framework, search, colour key.
-   Sticks below the fixed site header (h-16 = 64px) so it stays in view
-   while scrolling the front/back diagrams.
-   一个圆角控制条，集中放板型选择、框架切换、搜索与颜色图例。
-   悬浮吸附在固定导航（64px）下方，浏览正反面引脚图时始终可见。 */
+.stage { overflow: visible; }
+
+/* The board picker, framework, search and colour key stick below the fixed site header (64px) only within the diagram area.
+   板型选择、框架切换、搜索与颜色图例仅在引脚图区域内吸附于固定导航（64px）下方。 */
 .controls {
   position: sticky;
   top: 64px;
@@ -520,10 +519,10 @@
   font-weight: 700;
 }
 .tableToggle span { color: var(--brand-green-deep); font-size: 16px; }
-/* Keep the scroll box within the viewport below the sticky controls, with room above scrolled rows.
-   将滚动框限制在吸顶控制栏下方的可视区域内，并为滚动定位的行预留表头空间。 */
+/* Fit the scroll box below the fixed site header, with room above scrolled rows for the frozen table header.
+   将滚动框限制在固定导航下方的可视区域内，并为滚动定位的行预留冻结表头空间。 */
 .tableScroll {
-  max-height: calc(100dvh - 64px - var(--pinout-controls-height, 140px) - 16px);
+  max-height: calc(100dvh - 64px - 16px);
   overflow: auto;
   scroll-padding-top: 40px;
 }
