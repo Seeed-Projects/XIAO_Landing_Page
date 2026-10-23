@@ -24,7 +24,7 @@ import styles from "./xiao-selector.module.css";
 const MAX_COMPARE = 4;
 const TABLE_FALLBACK_ROWS = 7;
 const CARD_VISIBLE_ROWS = 1.5;
-const RESULTS_EXTRA_HEIGHT = 113; // 3 cm in CSS pixels. 3 厘米对应的 CSS 像素。
+const RESULTS_EXTRA_HEIGHT = 151; // 4 cm in CSS pixels. 4 厘米对应的 CSS 像素。
 const DESKTOP_QUERY = "(min-width: 1024px)";
 
 const DEFAULT_OPEN_GROUPS = ["platform", "connectivity", "sensors", "antenna", "packaging"];
@@ -488,8 +488,8 @@ export function XiaoSelector() {
     </div>
   );
 
-  // Size the results panel to one and a half card rows plus 3 cm on desktop; the table reuses that height.
-  // 桌面端将结果区高度设为一行半卡片加 3 厘米，表格沿用同一高度。
+  // Size the results panel to one and a half card rows plus 4 cm on desktop; the table reuses that height.
+  // 桌面端将结果区高度设为一行半卡片加 4 厘米，表格沿用同一高度。
   useEffect(() => {
     const body = resultsBodyRef.current;
     if (!body) return undefined;
