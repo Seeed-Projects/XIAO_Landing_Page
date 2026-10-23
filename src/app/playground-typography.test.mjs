@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
 
 const read = (name) => readFileSync(new URL(name, import.meta.url), "utf8");
@@ -8,6 +8,24 @@ const css = read("./playground/playground.module.css");
 const globals = read("./globals.css");
 const intro = read("./tool-page-intro.js");
 const introCss = read("./tool-page-intro.module.css");
+
+test("Playground resource preview uses the five available file-type icons", () => {
+  const files = page.match(/const RESOURCE_FILES = \[([\s\S]*?)\n\];/)?.[1];
+  assert.ok(files, "RESOURCE_FILES is defined");
+  const images = [...files.matchAll(/image:\s*"([^"]+)"/g)].map((match) => match[1]);
+  assert.deepEqual(images, [
+    "/res-generic/datasheet.webp",
+    "/res-generic/schematic.webp",
+    "/res-generic/pcb-source.webp",
+    "/res-generic/dxf.webp",
+    "/res-generic/3d-model.webp",
+  ]);
+  for (const image of images) {
+    assert.match(image, /^\/res-generic\//);
+    assert.ok(existsSync(new URL(`../../public${image}`, import.meta.url)), `Missing icon: ${image}`);
+  }
+  assert.doesNotMatch(page, /\/res-thumb\//);
+});
 
 test("Playground reuses the shared typography roles", () => {
   assert.match(page, /<ToolPageIntro\s+title="XIAO Playground"\s+description=/);

@@ -101,6 +101,7 @@
 }
 
 .resources .toolPreview {
+  padding-block: 16px;
   background: #e7f0ec;
 }
 
@@ -155,7 +156,8 @@
 .resourceFile:nth-child(5) { grid-column: 4 / span 2; transform: translateY(3px) rotate(3deg); }
 
 .resourceThumb {
-  height: 68px;
+  height: 100px;
+  padding: 4px 0;
   overflow: hidden;
   border-radius: 7px;
   background: #f4f6f1;
@@ -167,6 +169,7 @@
   max-width: none;
   max-height: none;
   object-fit: contain;
+  object-position: center;
 }
 
 .resourceCaption {
@@ -427,6 +430,10 @@
     padding: 26px 22px 28px;
   }
 
+  .resources .toolPreview {
+    padding-block: 12px;
+  }
+
   .resourceBoard {
     margin-bottom: 6px;
     padding: 4px 10px 4px 5px;
@@ -449,7 +456,8 @@
   }
 
   .resourceThumb {
-    height: 42px;
+    height: 64px;
+    padding-block: 2px;
     border-radius: 5px;
   }
 

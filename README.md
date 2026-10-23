@@ -567,7 +567,7 @@ and shown as a table with a sticky header and first column, one tab per sheet.
 STEP enclosures ask before loading the 3D viewer (about 8 MB). Nothing heavy
 loads until a preview is opened.
 
-Thumbnails for the Learn & Build covers and the Playground page are generated
+Thumbnails for the Learn & Build covers are generated
 ahead of time into `public/res-thumb/` and listed in
 `src/app/res/res-thumbs.generated.mjs`. Refresh them after resource URLs change:
 

@@ -54,7 +54,6 @@ const TOOLS = [
     key: "resources",
     href: "/res",
     icon: "files",
-    image: "/res-thumb/s3-3d.png",
     en: {
       title: "XIAO Hardware Resources",
       description: "Pick a XIAO to get schematics, KiCad files, dimensions, 3D models and firmware, plus the series-wide KiCad design kit.",
@@ -88,11 +87,11 @@ const TOOLS = [
 ];
 
 const RESOURCE_FILES = [
-  { name: "Datasheet", format: "PDF", image: "/res-thumb/esp32-s3-datasheet-0reydso.webp" },
-  { name: "Schematic", format: "PDF", image: "/res-thumb/202003751-xiao-esp32s3-v1-4-sch-260226-pdf-0tetozv.webp" },
-  { name: "KiCad", format: "ZIP", image: "/res-thumb/202003751-xiao-esp32s3-v1-4-sch-pcb-260226-1xql2ir.svg" },
-  { name: "Dimensions", format: "DXF", image: "/res-thumb/xiao-esp32s3-v1-1-dimensioning-0dv82fr.svg" },
-  { name: "3D model", format: "STEP", image: "/res-thumb/s3-3d.png" },
+  { name: "Datasheet", format: "PDF", image: "/res-generic/datasheet.webp" },
+  { name: "Schematic", format: "PDF", image: "/res-generic/schematic.webp" },
+  { name: "KiCad", format: "ZIP", image: "/res-generic/pcb-source.webp" },
+  { name: "Dimensions", format: "DXF", image: "/res-generic/dxf.webp" },
+  { name: "3D model", format: "STEP", image: "/res-generic/3d-model.webp" },
 ];
 
 const SOFTWARE_STORIES = [
