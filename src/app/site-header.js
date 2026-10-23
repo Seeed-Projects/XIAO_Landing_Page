@@ -73,7 +73,9 @@ const Chevron = ({ open }) => (
 const DESKTOP_NAV_ITEM_CLASS =
   "relative flex h-10 shrink-0 items-center justify-center whitespace-nowrap text-xs font-medium text-[var(--ink-strong)] transition-colors duration-200 hover:text-[var(--brand-blue)] lg:text-[13px] xl:text-sm";
 const DESKTOP_NAV_ACTIVE_CLASS =
-  "text-[var(--brand-blue)] after:absolute after:bottom-0.5 after:left-1/2 after:h-0.5 after:w-7 after:-translate-x-1/2 after:rounded-full after:bg-[var(--button-bg)] after:content-['']";
+  "text-[var(--brand-blue)]";
+const DESKTOP_NAV_UNDERLINE_CLASS =
+  "after:absolute after:bottom-0.5 after:left-1/2 after:h-0.5 after:w-7 after:-translate-x-1/2 after:rounded-full after:bg-[var(--button-bg)] after:content-['']";
 
 export function SiteHeader() {
   const { t, lang } = useLang();
@@ -173,10 +175,10 @@ export function SiteHeader() {
                 onMouseLeave={scheduleClose}
               >
                 <div className={`${DESKTOP_NAV_ITEM_CLASS} gap-0 p-0 ${isActive(item.href) ? DESKTOP_NAV_ACTIVE_CLASS : ""}`}>
-                  <Link href={item.href} onClick={() => setPgOpen(false)} className="flex h-full min-w-0 flex-1 items-center justify-center pr-1" aria-current={isActive(item.href) ? "page" : undefined}>
+                  <Link href={item.href} onClick={() => setPgOpen(false)} className={`relative flex h-full min-w-0 flex-1 items-center justify-center ${isActive(item.href) ? DESKTOP_NAV_UNDERLINE_CLASS : ""}`} aria-current={isActive(item.href) ? "page" : undefined}>
                     {item.label}
                   </Link>
-                  <button type="button" aria-label="Open Playground menu" aria-expanded={pgOpen} onClick={() => setPgOpen((o) => !o)} className="flex h-full w-8 shrink-0 items-center justify-center rounded-full">
+                  <button type="button" aria-label="Open Playground menu" aria-expanded={pgOpen} onClick={() => setPgOpen((o) => !o)} className="ml-1 flex h-full w-8 shrink-0 items-center justify-center rounded-full">
                     <Chevron open={pgOpen} />
                   </button>
                 </div>
@@ -223,7 +225,7 @@ export function SiteHeader() {
                 key={item.key}
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
-                className={`${DESKTOP_NAV_ITEM_CLASS} ${isActive(item.href) ? DESKTOP_NAV_ACTIVE_CLASS : ""}`}
+                className={`${DESKTOP_NAV_ITEM_CLASS} ${isActive(item.href) ? `${DESKTOP_NAV_ACTIVE_CLASS} ${DESKTOP_NAV_UNDERLINE_CLASS}` : ""}`}
               >
                 <span>{item.label}</span>
               </Link>

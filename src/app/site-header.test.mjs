@@ -24,14 +24,30 @@ test("desktop page navigation keeps equal visual gaps and stable item geometry",
 });
 
 test("desktop active navigation uses a lightweight underline without a pill", () => {
-  const activeClass = source.match(/DESKTOP_NAV_ACTIVE_CLASS\s*=\s*\n?\s*"([^"]+)"/)?.[1] || "";
-  assert.match(activeClass, /after:w-7/);
-  assert.match(activeClass, /after:bg-\[var\(--button-bg\)\]/);
-  assert.doesNotMatch(activeClass, /bg-white|shadow/);
+  const underlineClass = source.match(/DESKTOP_NAV_UNDERLINE_CLASS\s*=\s*\n?\s*"([^"]+)"/)?.[1] || "";
+  for (const token of ["after:absolute", "after:bottom-0.5", "after:left-1/2", "after:h-0.5", "after:w-7", "after:-translate-x-1/2", "after:rounded-full", "after:bg-[var(--button-bg)]", "after:content-['']"]) {
+    assert.ok(underlineClass.split(" ").includes(token), `Missing underline style: ${token}`);
+  }
+  assert.doesNotMatch(underlineClass, /bg-white|shadow/);
 });
 
 test("Playground label does not add extra leading space before its dropdown arrow", () => {
-  const playgroundLink = source.match(/<Link href=\{item\.href\}[\s\S]*?className="([^"]+)" aria-current=\{isActive\(item\.href\)/)?.[1] || "";
-  assert.doesNotMatch(playgroundLink, /\bpl-/);
-  assert.match(playgroundLink, /\bpr-1\b/);
+  const playgroundLink = source.match(/<Link href=\{item\.href\}[^\n]*className=\{`([^`]+)`\} aria-current=\{isActive\(item\.href\)/)?.[1] || "";
+  const playgroundButton = source.match(/<button[^\n]*aria-label="Open Playground menu"[^\n]*className="([^"]+)"/)?.[1] || "";
+  assert.match(playgroundLink, /\brelative\b/);
+  assert.doesNotMatch(playgroundLink, /\bp[lr]-/);
+  assert.match(playgroundButton, /\bml-1\b/);
+  assert.match(playgroundButton, /\bw-8\b/);
+});
+
+test("Playground underlines its label while the wrapper colors both label and arrow", () => {
+  const playground = source.slice(source.indexOf('item.key === "playground"'), source.indexOf("{pgOpen &&"));
+  const wrapperClass = playground.match(/<div className=\{`([^`]+)`\}/)?.[1] || "";
+  const linkClass = playground.match(/<Link[^\n]*className=\{`([^`]+)`\}/)?.[1] || "";
+  const activeClass = source.match(/DESKTOP_NAV_ACTIVE_CLASS\s*=\s*\n?\s*"([^"]+)"/)?.[1] || "";
+  assert.equal(activeClass, "text-[var(--brand-blue)]");
+  assert.match(wrapperClass, /DESKTOP_NAV_ACTIVE_CLASS/);
+  assert.doesNotMatch(wrapperClass, /DESKTOP_NAV_UNDERLINE_CLASS|after:/);
+  assert.match(linkClass, /isActive\(item\.href\) \? DESKTOP_NAV_UNDERLINE_CLASS : ""/);
+  assert.match(source, /\$\{DESKTOP_NAV_ACTIVE_CLASS\} \$\{DESKTOP_NAV_UNDERLINE_CLASS\}/);
 });
