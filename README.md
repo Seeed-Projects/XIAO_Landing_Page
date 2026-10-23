@@ -195,6 +195,15 @@ Run the feed normalization, ordering, limit, and fallback checks with:
 npm run test:home-content
 ```
 
+The same `prebuild` sequence syncs XIAO Selector board prices from the Seeed
+store links in `PRODUCT_CATALOG` after the Home content sync. Prices and
+currencies are saved in `src/app/products/board-prices.json` and appear before
+Actions in the Table view. Each board keeps its last synced price when its store
+page is temporarily unavailable; boards awaiting their first price display an
+em dash. The snapshot records the latest successful sync time in `syncedAt`.
+Run `npm run sync:board-prices` for a manual refresh and
+`npm run test:board-prices` for the parser and saved-price fallback checks.
+
 GitHub Pages refreshes every six hours, on manual dispatch, on pushes to `main`,
 and when the OSHW repository sends the `projects-updated` repository event. The
 OSHW repository uses `LANDING_PAGE_DISPATCH_TOKEN` for that cross-repository

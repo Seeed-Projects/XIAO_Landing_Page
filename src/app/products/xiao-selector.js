@@ -5,6 +5,7 @@ import { useLang } from "../i18n";
 import { Glow } from "../Glow";
 import { withBase } from "../../lib/basePath";
 import { PRODUCT_CATALOG, SELECTOR_IMAGES } from "./catalog";
+import boardPrices from "./board-prices.json";
 import { BOARD_HARDWARE, BOARD_SPECS, FILTER_GROUPS, HARDWARE_FIELDS, emptySelection } from "./board-specs.mjs";
 import { buildComparisonGroups } from "./board-comparison.mjs";
 import { getWirelessProtocols } from "./wireless-protocols.mjs";
@@ -36,6 +37,7 @@ const BOARDS = PRODUCT_CATALOG.find((c) => c.id === "dev-boards").subcategories.
     name: item.title,
     img: withBase(SELECTOR_IMAGES[item.title] ?? item.img),
     link: item.link,
+    price: boardPrices.boards[item.title] ?? null,
     desc: item.descEn || item.desc || "",
     specs: BOARD_SPECS[item.title] ?? {},
     hardware: BOARD_HARDWARE[item.title] ?? {},
@@ -87,6 +89,7 @@ const TEXT = {
     sensors: "Sensors",
     io: "Highlighted IOs",
     dev: "Dev Platform",
+    price: "Price",
     actions: "Actions",
     none: "None",
     applyFilters: (n) => (n ? `Show ${n} boards` : "No matches"),
@@ -131,6 +134,7 @@ const TEXT = {
     sensors: "传感器",
     io: "重点接口",
     dev: "开发平台",
+    price: "价格",
     actions: "操作",
     none: "无",
     applyFilters: (n) => (n ? `查看 ${n} 款` : "无匹配"),
@@ -430,6 +434,7 @@ export function XiaoSelector() {
             <th>{t.io}</th>
             <th>{t.dev}</th>
             <th>{L(packagingGroup.label)}</th>
+            <th>{t.price}</th>
             <th>{t.actions}</th>
           </tr>
         </thead>
@@ -460,6 +465,12 @@ export function XiaoSelector() {
                 <td>{renderTags(board, "dev")}</td>
                 <td>
                   {renderTags(board, "packaging")}
+                </td>
+                <td className={styles.nowrap}>
+                  {board.price ? new Intl.NumberFormat(lang === "zh" ? "zh-CN" : "en-US", {
+                    style: "currency",
+                    currency: board.price.currency,
+                  }).format(board.price.price) : <span className={styles.muted}>{"\u2014"}</span>}
                 </td>
                 <td>
                   <span className={styles.tableActions}>

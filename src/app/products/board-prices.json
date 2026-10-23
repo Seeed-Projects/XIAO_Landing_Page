@@ -1,0 +1,97 @@
+{
+  "syncedAt": "2026-10-23T02:40:58.210Z",
+  "boards": {
+    "XIAO ESP32-C3": {
+      "price": 4.99,
+      "currency": "USD"
+    },
+    "XIAO ESP32-S3": {
+      "price": 7.49,
+      "currency": "USD"
+    },
+    "XIAO ESP32-S3 Plus": {
+      "price": 7.99,
+      "currency": "USD"
+    },
+    "XIAO ESP32-S3 Sense": {
+      "price": 13.99,
+      "currency": "USD"
+    },
+    "XIAO ESP32-C6": {
+      "price": 5.2,
+      "currency": "USD"
+    },
+    "XIAO ESP32-C5": {
+      "price": 6.99,
+      "currency": "USD"
+    },
+    "XIAO nRF52840": {
+      "price": 9.99,
+      "currency": "USD"
+    },
+    "XIAO nRF52840 Plus": {
+      "price": 10.4,
+      "currency": "USD"
+    },
+    "XIAO nRF52840 Sense": {
+      "price": 15.9,
+      "currency": "USD"
+    },
+    "XIAO nRF52840 Sense Plus": {
+      "price": 16.99,
+      "currency": "USD"
+    },
+    "XIAO nRF54L15": {
+      "price": 9.99,
+      "currency": "USD"
+    },
+    "XIAO nRF54L15 Sense": {
+      "price": 15.99,
+      "currency": "USD"
+    },
+    "XIAO nRF54LM20A": {
+      "price": 9.9,
+      "currency": "USD"
+    },
+    "XIAO nRF54LM20A Sense": {
+      "price": 15.9,
+      "currency": "USD"
+    },
+    "XIAO RP2040": {
+      "price": 3.99,
+      "currency": "USD"
+    },
+    "XIAO RP2040 Plus": {
+      "price": 4.9,
+      "currency": "USD"
+    },
+    "XIAO RP2350": {
+      "price": 4.9,
+      "currency": "USD"
+    },
+    "XIAO MG24": {
+      "price": 7.99,
+      "currency": "USD"
+    },
+    "XIAO MG24 Sense": {
+      "price": 10.99,
+      "currency": "USD"
+    },
+    "XIAO SAMD21": {
+      "price": 5.4,
+      "currency": "USD"
+    },
+    "XIAO SAMD21 Plus": {
+      "price": 5.9,
+      "currency": "USD"
+    },
+    "XIAO RA4M1": {
+      "price": 4.79,
+      "currency": "USD"
+    },
+    "XIAO STM32C5": {
+      "price": 9.9,
+      "currency": "USD"
+    }
+  }
+}

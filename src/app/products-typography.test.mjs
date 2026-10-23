@@ -113,6 +113,7 @@ test("XIAO Selector exposes the faceted workbench structure", () => {
   assert.match(selector, /\{purchaseGroups\.map\(renderGroup\)\}/);
   assert.match(selector, /const packagingGroup = FILTER_GROUPS\.find\(\(g\) => g\.id === "packaging"\);/);
   assert.match(selector, /<th>\{L\(packagingGroup\.label\)\}<\/th>/);
+  assert.match(selector, /<th>\{t\.price\}<\/th>\s*<th>\{t\.actions\}<\/th>/);
   assert.doesNotMatch(selector, /purchaseCol/);
   assert.doesNotMatch(selector, /sectionDivider/);
   assert.match(selector, /facetCounts\(/);
