@@ -1,19 +1,22 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { SiteHeader } from "../components";
 import { ToolPageIntro } from "../tool-page-intro";
 import { useLang } from "../i18n";
 import { withBase } from "../../lib/basePath";
 import styles from "./playground.module.css";
 import { PlaygroundToolIcon as ToolIcon } from "../playground-tool-icon";
+import { createStoryPlayback } from "../software-center/story-playback.mjs";
 
 const TOOLS = [
   {
     key: "pinout",
     href: "/playground/pinout",
     icon: "pin",
-    image: "/xiao-products/pinout/s3-front.svg",
+    video: "/playground/pinout-preview.mp4",
+    poster: "/playground/pinout-preview.webp",
     en: {
       title: "XIAO Pinout",
       description: "Choose a XIAO, inspect both sides of the board, search pins and open a pin for wiring notes and alternate functions.",
@@ -106,6 +109,52 @@ function PreviewImage({ image, width, height }) {
   );
 }
 
+/**
+ * Plays a viewport-aware loop with a static poster for motion preferences and media errors.
+ * 按视口可见性播放循环动画，并在动态偏好或媒体错误时显示静态封面。
+ */
+function LoopPreview({ video, poster }) {
+  const ref = useRef(null);
+  const videoRef = useRef(null);
+  const controller = useRef(null);
+  const [state, setState] = useState({ playing: false, still: false });
+  const source = withBase(video);
+
+  useEffect(() => {
+    const playback = createStoryPlayback(videoRef.current, source, setState);
+    controller.current = playback;
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncPreference = () => playback.setReducedMotion(preference.matches);
+    const syncVisibility = () => playback.setPageVisible(!document.hidden);
+    syncPreference();
+    syncVisibility();
+    preference.addEventListener("change", syncPreference);
+    document.addEventListener("visibilitychange", syncVisibility);
+    const observer = typeof IntersectionObserver === "undefined" ? null : new IntersectionObserver(
+      (entries) => entries.forEach((entry) => playback.setVisible(entry.isIntersecting)),
+      { threshold: 0 }
+    );
+    if (observer) observer.observe(ref.current);
+    else playback.setVisible(true);
+    return () => {
+      observer?.disconnect();
+      preference.removeEventListener("change", syncPreference);
+      document.removeEventListener("visibilitychange", syncVisibility);
+      playback.destroy();
+      controller.current = null;
+    };
+  }, [source]);
+
+  return (
+    <div ref={ref} className={styles.loopScreen} data-still={state.still ? "1" : "0"}
+      style={{ backgroundImage: `url("${withBase(poster)}")` }}>
+      <video ref={videoRef} className={styles.loopVideo} muted loop playsInline preload="none"
+        poster={withBase(poster)} width="1024" height="640" aria-hidden="true"
+        onError={() => controller.current?.fail()} />
+    </div>
+  );
+}
+
 function ResourcePreview() {
   return (
     <div className={styles.resourceLibrary}>
@@ -179,7 +228,9 @@ export default function PlaygroundPage() {
               return (
                 <article key={tool.key} id={`tool-${tool.key}`} className={`${styles.toolCard} ${styles[tool.key]} ${index % 2 ? styles.toolReverse : ""}`}>
                   <div className={styles.toolPreview} aria-hidden="true">
-                    {tool.images ? (
+                    {tool.video ? (
+                      <LoopPreview video={tool.video} poster={tool.poster} />
+                    ) : tool.images ? (
                       <div className={styles.boardFamily}>
                         {tool.images.map((image, imageIndex) => (
                           // eslint-disable-next-line @next/next/no-img-element

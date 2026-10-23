@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import test from "node:test";
 
 const read = (name) => readFileSync(new URL(name, import.meta.url), "utf8");
@@ -8,6 +8,36 @@ const css = read("./playground/playground.module.css");
 const globals = read("./globals.css");
 const intro = read("./tool-page-intro.js");
 const introCss = read("./tool-page-intro.module.css");
+
+test("Playground pinout preview ships a lightweight loop and matching poster", () => {
+  const pinout = page.match(/key: "pinout",([\s\S]*?)key: "flash",/)?.[1];
+  assert.ok(pinout, "Pinout tool is defined");
+  const video = "/playground/pinout-preview.mp4";
+  const poster = "/playground/pinout-preview.webp";
+  assert.ok(pinout.includes(`video: "${video}"`));
+  assert.ok(pinout.includes(`poster: "${poster}"`));
+  for (const asset of [video, poster]) {
+    assert.ok(existsSync(new URL(`../../public${asset}`, import.meta.url)), `Missing asset: ${asset}`);
+  }
+  const size = statSync(new URL(`../../public${video}`, import.meta.url)).size;
+  assert.ok(size > 0 && size < 300_000, "Pinout loop fits the 300 KB budget");
+});
+
+test("Playground loop uses the shared playback controller and decorative video markup", () => {
+  assert.match(page, /import \{ createStoryPlayback \} from "\.\.\/software-center\/story-playback\.mjs"/);
+  const video = page.match(/<video\b[\s\S]*?\/>/)?.[0];
+  assert.ok(video, "Loop video is rendered");
+  for (const attribute of [/\bmuted\b/, /\bloop\b/, /\bplaysInline\b/, /preload="none"/, /aria-hidden="true"/]) {
+    assert.match(video, attribute);
+  }
+  assert.doesNotMatch(video, /\bsrc=/);
+  assert.match(page, /tool\.video \? \(\s*<LoopPreview video=\{tool\.video\} poster=\{tool\.poster\}/);
+});
+
+test("Playground pinout preview uses its loop instead of the tool diagram", () => {
+  assert.doesNotMatch(page, /s3-front\.svg/);
+  assert.ok(existsSync(new URL("../../public/xiao-products/pinout/s3-front.svg", import.meta.url)));
+});
 
 test("Playground resource preview uses the five available file-type icons", () => {
   const files = page.match(/const RESOURCE_FILES = \[([\s\S]*?)\n\];/)?.[1];
