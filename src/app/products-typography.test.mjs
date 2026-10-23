@@ -111,6 +111,9 @@ test("XIAO Selector exposes the faceted workbench structure", () => {
   assert.match(selector, /<aside className=\{`\$\{styles\.sidebar\}[^`]*`\} aria-label=\{t\.filters\}/);
   assert.match(selector, /moreFilters: "More Filters"/);
   assert.match(selector, /\{purchaseGroups\.map\(renderGroup\)\}/);
+  assert.match(selector, /const packagingGroup = FILTER_GROUPS\.find\(\(g\) => g\.id === "packaging"\);/);
+  assert.match(selector, /<th>\{L\(packagingGroup\.label\)\}<\/th>/);
+  assert.doesNotMatch(selector, /purchaseCol/);
   assert.doesNotMatch(selector, /sectionDivider/);
   assert.match(selector, /facetCounts\(/);
   assert.match(selector, /removalSuggestions\(/);

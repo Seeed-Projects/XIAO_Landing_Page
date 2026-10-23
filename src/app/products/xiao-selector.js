@@ -87,7 +87,6 @@ const TEXT = {
     sensors: "Sensors",
     io: "Highlighted IOs",
     dev: "Dev Platform",
-    purchaseCol: "Purchase",
     actions: "Actions",
     none: "None",
     applyFilters: (n) => (n ? `Show ${n} boards` : "No matches"),
@@ -132,7 +131,6 @@ const TEXT = {
     sensors: "传感器",
     io: "重点接口",
     dev: "开发平台",
-    purchaseCol: "采购",
     actions: "操作",
     none: "无",
     applyFilters: (n) => (n ? `查看 ${n} 款` : "无匹配"),
@@ -177,6 +175,7 @@ export function XiaoSelector() {
   const defaultGroups = FILTER_GROUPS.filter((g) => g.section === "default");
   const moreGroups = FILTER_GROUPS.filter((g) => g.section === "more");
   const purchaseGroups = FILTER_GROUPS.filter((g) => g.section === "purchase");
+  const packagingGroup = FILTER_GROUPS.find((g) => g.id === "packaging");
   const moreSelected = moreGroups.reduce((n, g) => n + (selection[g.id]?.length ?? 0), 0);
 
   const toggleGroupOpen = (id) =>
@@ -430,7 +429,7 @@ export function XiaoSelector() {
             <th>{t.sensors}</th>
             <th>{t.io}</th>
             <th>{t.dev}</th>
-            <th>{t.purchaseCol}</th>
+            <th>{L(packagingGroup.label)}</th>
             <th>{t.actions}</th>
           </tr>
         </thead>
