@@ -55,7 +55,6 @@ const TEXT = {
     reset: "Reset",
     moreFilters: "More Filters",
     lessFilters: "Fewer Filters",
-    purchase: "Purchase Options",
     showing: (n, total) => `Showing ${n} of ${total} boards`,
     clearAll: "Clear all",
     cards: "Cards",
@@ -101,7 +100,6 @@ const TEXT = {
     reset: "重置",
     moreFilters: "更多筛选",
     lessFilters: "收起筛选",
-    purchase: "采购选项",
     showing: (n, total) => `显示 ${n} / ${total} 款`,
     clearAll: "清空全部",
     cards: "卡片",
@@ -314,9 +312,6 @@ export function XiaoSelector() {
           {!moreOpen && moreSelected > 0 && <span className={styles.groupBadge}>{moreSelected}</span>}
         </button>
         {moreOpen && moreGroups.map(renderGroup)}
-        <div className={styles.sectionDivider}>
-          <span>{t.purchase}</span>
-        </div>
         {purchaseGroups.map(renderGroup)}
       </div>
       <div className={styles.drawerFooter}>

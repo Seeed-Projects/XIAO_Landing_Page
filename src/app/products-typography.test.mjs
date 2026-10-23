@@ -110,7 +110,8 @@ test("XIAO Selector exposes the faceted workbench structure", () => {
   assert.match(selector, /<section className=\{styles\.workbench\} id="selector-workspace">[\s\S]*?\{sidebar\}/);
   assert.match(selector, /<aside className=\{`\$\{styles\.sidebar\}[^`]*`\} aria-label=\{t\.filters\}/);
   assert.match(selector, /moreFilters: "More Filters"/);
-  assert.match(selector, /purchase: "Purchase Options"/);
+  assert.match(selector, /\{purchaseGroups\.map\(renderGroup\)\}/);
+  assert.doesNotMatch(selector, /sectionDivider/);
   assert.match(selector, /facetCounts\(/);
   assert.match(selector, /removalSuggestions\(/);
   assert.match(selector, /diffOnly/);
