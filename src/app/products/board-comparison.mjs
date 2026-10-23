@@ -1,4 +1,5 @@
 import { FILTER_GROUPS, HARDWARE_FIELDS } from "./board-specs.mjs";
+import { formatBoardPrice } from "./board-price-format.mjs";
 
 function compareValues(id, label, values, capability = false) {
   return {
@@ -19,7 +20,13 @@ function compareValues(id, label, values, capability = false) {
 export function buildComparisonGroups(boards, lang = "en", differencesOnly = false) {
   if (!boards.length) return [];
   const localize = (label) => label[lang] || label.en;
+  const priceLabel = localize({ en: "Price", zh: "价格" });
   const groups = [
+    {
+      id: "price",
+      label: priceLabel,
+      rows: [compareValues("price", priceLabel, boards.map((board) => formatBoardPrice(board.price, lang)))],
+    },
     ...HARDWARE_FIELDS.map((field) => ({
       id: field.id,
       label: localize(field.label),

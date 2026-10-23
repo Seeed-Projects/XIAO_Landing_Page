@@ -8,6 +8,7 @@ import { PRODUCT_CATALOG, SELECTOR_IMAGES } from "./catalog";
 import boardPrices from "./board-prices.json";
 import { BOARD_HARDWARE, BOARD_SPECS, FILTER_GROUPS, HARDWARE_FIELDS, emptySelection } from "./board-specs.mjs";
 import { buildComparisonGroups } from "./board-comparison.mjs";
+import { formatBoardPrice } from "./board-price-format.mjs";
 import { getWirelessProtocols } from "./wireless-protocols.mjs";
 import { getSensorIcons } from "./sensor-icons.mjs";
 import {
@@ -333,16 +334,19 @@ export function XiaoSelector() {
     return (
       <article key={board.id} className={`${styles.card} ${inCompare ? styles.cardSelected : ""}`}>
         <div className={styles.cardVisual}>
-          <div className={styles.cardBadgeBand}>
+          <div className={styles.cardImage}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={board.img} alt={board.name} loading="lazy" decoding="async" />
+          </div>
+          <div className={styles.cardPriceRow}>
+            <span className={styles.cardPrice}>
+              {formatBoardPrice(board.price, lang) ?? <span className={styles.muted}>{"\u2014"}</span>}
+            </span>
             {isPlus && (
               <div className={styles.cardBadges}>
                 <span className={styles.plusBadge}>Plus</span>
               </div>
             )}
-          </div>
-          <div className={styles.cardImage}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={board.img} alt={board.name} loading="lazy" decoding="async" />
           </div>
         </div>
         <div className={styles.cardBody}>
@@ -467,10 +471,7 @@ export function XiaoSelector() {
                   {renderTags(board, "packaging")}
                 </td>
                 <td className={styles.nowrap}>
-                  {board.price ? new Intl.NumberFormat(lang === "zh" ? "zh-CN" : "en-US", {
-                    style: "currency",
-                    currency: board.price.currency,
-                  }).format(board.price.price) : <span className={styles.muted}>{"\u2014"}</span>}
+                  {formatBoardPrice(board.price, lang) ?? <span className={styles.muted}>{"\u2014"}</span>}
                 </td>
                 <td>
                   <span className={styles.tableActions}>

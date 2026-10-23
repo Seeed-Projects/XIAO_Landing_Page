@@ -104,6 +104,15 @@ test("Products component CSS points to the shared typography tokens", () => {
   assert.match(selectorCss, /\.resultsTitle[^}]*font-size: var\(--home-body-size\)/s);
 });
 
+test("selector cards place prices and Plus badges below the widescreen artwork", () => {
+  assert.match(selector, /<div className=\{styles\.cardVisual\}>\s*<div className=\{styles\.cardImage\}>[\s\S]*?<img[^>]*\/>\s*<\/div>\s*<div className=\{styles\.cardPriceRow\}>[\s\S]*?formatBoardPrice\(board\.price, lang\)[\s\S]*?styles\.muted[\s\S]*?styles\.plusBadge/);
+  assert.match(selectorCss, /\.card\s*{[^}]*grid-template-rows:\s*subgrid;[^}]*grid-row:\s*span 4/s);
+  assert.match(selectorCss, /\.cardVisual\s*{[^}]*grid-template-rows:\s*subgrid;[^}]*grid-row:\s*span 2;[^}]*background:\s*#fff;[^}]*border-bottom:/s);
+  assert.match(selectorCss, /\.cardImage\s*{[^}]*aspect-ratio:\s*16 \/ 9/s);
+  assert.match(selectorCss, /\.cardImage img\s*{[^}]*object-fit:\s*contain;[^}]*object-position:\s*center;[^}]*padding:\s*8px/s);
+  assert.match(selectorCss, /\.cardPrice\s*{[^}]*font-size:\s*12px;[^}]*font-weight:\s*700;[^}]*color:\s*var\(--ink-strong\);[^}]*font-variant-numeric:\s*tabular-nums/s);
+});
+
 test("XIAO Selector exposes the faceted workbench structure", () => {
   assert.match(page, /<XiaoSelector \/>/);
   assert.match(selector, /filters: "Filters"/);

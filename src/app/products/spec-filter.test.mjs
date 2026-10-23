@@ -64,7 +64,7 @@ test("No Onboard Sensor matches boards without sensors", () => {
 test("Plus + Microphone + IMU returns nRF52840 Sense Plus", () => {
   const result = filterBoards(boards, {
     ...emptySelection(),
-    variant: ["plus"],
+    packaging: ["plus"],
     sensors: ["microphone", "imu"],
   });
   assert.deepEqual(names(result), ["XIAO nRF52840 Sense Plus"]);
@@ -108,9 +108,9 @@ test("removalSuggestions explains how to recover from an empty result", () => {
 });
 
 test("activeFilters flattens the selection in group order", () => {
-  const selection = { ...emptySelection(), variant: ["plus"], connectivity: ["ble"] };
+  const selection = { ...emptySelection(), packaging: ["plus"], connectivity: ["ble"] };
   const chips = activeFilters(selection);
-  assert.deepEqual(chips.map((c) => `${c.group.id}:${c.option.id}`), ["connectivity:ble", "variant:plus"]);
+  assert.deepEqual(chips.map((c) => `${c.group.id}:${c.option.id}`), ["connectivity:ble", "packaging:plus"]);
 });
 
 test("every board has hardware summary fields and a Wiki link", () => {

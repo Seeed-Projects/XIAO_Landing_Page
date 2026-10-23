@@ -6,6 +6,58 @@ import { buildComparisonGroups } from "./board-comparison.mjs";
 const board = (name) => ({ hardware: BOARD_HARDWARE[name], specs: BOARD_SPECS[name] });
 const group = (groups, id) => groups.find((entry) => entry.id === id);
 
+test("price is the first comparison group and follows the selected language", () => {
+  const boards = [
+    { price: { price: 4.99, currency: "USD" } },
+    { price: { price: 5.2, currency: "USD" } },
+  ];
+  for (const [lang, label, values] of [
+    ["en", "Price", ["$4.99", "$5.20"]],
+    ["zh", "\u4ef7\u683c", ["US$4.99", "US$5.20"]],
+  ]) {
+    const [price] = buildComparisonGroups(boards, lang);
+    assert.equal(price.id, "price");
+    assert.equal(price.label, label);
+    assert.equal(price.rows.length, 1);
+    assert.equal(price.rows[0].label, label);
+    assert.equal(price.rows[0].differs, true);
+    assert.deepEqual(price.rows[0].cells, [
+      { value: values[0], changed: false },
+      { value: values[1], changed: true },
+    ]);
+  }
+});
+
+test("differences-only hides equal prices and retains prices that differ from the reference", () => {
+  const a = { price: { price: 4.99, currency: "USD" } };
+  const b = { price: { price: 7.99, currency: "USD" } };
+  for (const lang of ["en", "zh"]) {
+    assert.equal(group(buildComparisonGroups([a, a], lang, true), "price"), undefined);
+    assert.equal(group(buildComparisonGroups([a, a], lang), "price").rows[0].differs, false);
+    const [price] = buildComparisonGroups([a, b, a], lang, true);
+    assert.equal(price.id, "price");
+    assert.equal(price.rows[0].differs, true);
+    assert.deepEqual(price.rows[0].cells.map((cell) => cell.changed), [false, true, false]);
+  }
+});
+
+test("missing prices produce null cells and participate in reference differences", () => {
+  const priced = { price: { price: 4.99, currency: "USD" } };
+  const missing = { price: null };
+  const [price] = buildComparisonGroups([priced, missing, {}], "en", true);
+  assert.deepEqual(price.rows[0].cells, [
+    { value: "$4.99", changed: false },
+    { value: null, changed: true },
+    { value: null, changed: true },
+  ]);
+  const [missingReference] = buildComparisonGroups([missing, priced], "en", true);
+  assert.deepEqual(missingReference.rows[0].cells, [
+    { value: null, changed: false },
+    { value: "$4.99", changed: true },
+  ]);
+  assert.equal(group(buildComparisonGroups([missing, {}], "en", true), "price"), undefined);
+});
+
 test("hardware differences use the first selected board as the reference", () => {
   const groups = buildComparisonGroups([
     board("XIAO ESP32-C3"), board("XIAO ESP32-S3 Sense"), board("XIAO ESP32-C6"),

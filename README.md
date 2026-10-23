@@ -138,12 +138,12 @@ from the **Filters** button.
 
 ### Wireless badges
 
-Selector cards reserve a row-aligned band above the board photo. Wireless
-protocols use icon-only badges at every width and language, ordered Wi-Fi,
-Bluetooth LE, Thread, Zigbee, Matter, NFC on the left; Sense / Plus appear on
-the right. Each 30 × 24px badge has a centred white official logo, an accessible
-protocol name and a native tooltip. Up to five badges fit on one line beside
-Sense / Plus at desktop and phone widths. Official logo geometry is
+Selector cards display 16:9 board artwork followed by an aligned price row,
+with the price on the left and the Plus badge on the right. Wireless protocols
+use icon-only badges in the card body at every width and language, ordered
+Wi-Fi, Bluetooth LE, Thread, Zigbee, Matter, NFC, followed by onboard sensor
+icons. Each 30 × 24px protocol badge has a centred white official logo, an
+accessible protocol name and a hover label. Official logo geometry is
 inlined by `src/app/products/wireless-protocols.mjs`; originals and attribution
 are in [design/wireless-logos/SOURCES.md](design/wireless-logos/SOURCES.md).
 Fills are Wi-Fi `#146B58`, Bluetooth `#0082FC`, Thread `#865022`, Zigbee
@@ -197,10 +197,13 @@ npm run test:home-content
 
 The same `prebuild` sequence syncs XIAO Selector board prices from the Seeed
 store links in `PRODUCT_CATALOG` after the Home content sync. Prices and
-currencies are saved in `src/app/products/board-prices.json` and appear before
-Actions in the Table view. Each board keeps its last synced price when its store
-page is temporarily unavailable; boards awaiting their first price display an
-em dash. The snapshot records the latest successful sync time in `syncedAt`.
+currencies are saved in `src/app/products/board-prices.json` and appear below
+the artwork in Cards, before Actions in Table, and in the first comparison row.
+All three views share localized currency formatting through
+`src/app/products/board-price-format.mjs`. Each board keeps its last synced
+price when its store page is temporarily unavailable; boards awaiting their
+first price display an em dash. The snapshot records the latest successful
+sync time in `syncedAt`.
 Run `npm run sync:board-prices` for a manual refresh and
 `npm run test:board-prices` for the parser and saved-price fallback checks.
 
