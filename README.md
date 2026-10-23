@@ -410,13 +410,14 @@ tokens and hero frame.
 
 The Pinout card plays `public/playground/pinout-preview.mp4`, with a WebP poster
 beside it, using the same viewport, tab visibility and reduced-motion playback as
-the Software Center animations.
+the Software Center animations; the loop fills its preview panel with a cover crop
+on desktop and the full frame on tablet and phone.
 
-Regenerate the loop from a GIF with:
+Regenerate the 1280x800 loop from a native-resolution GIF with:
 
 ```bash
 ffmpeg -y -i path/to/pinout-loop.gif \
-  -vf "fps=20,scale=1024:-2:flags=lanczos,format=yuv420p" \
+  -vf "fps=20,format=yuv420p" \
   -c:v libx264 -crf 26 -preset slow -movflags +faststart -an public/playground/pinout-preview.mp4
 ```
 

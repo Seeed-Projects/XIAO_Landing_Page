@@ -149,7 +149,7 @@ function LoopPreview({ video, poster }) {
     <div ref={ref} className={styles.loopScreen} data-still={state.still ? "1" : "0"}
       style={{ backgroundImage: `url("${withBase(poster)}")` }}>
       <video ref={videoRef} className={styles.loopVideo} muted loop playsInline preload="none"
-        poster={withBase(poster)} width="1024" height="640" aria-hidden="true"
+        poster={withBase(poster)} width="1280" height="800" aria-hidden="true"
         onError={() => controller.current?.fail()} />
     </div>
   );

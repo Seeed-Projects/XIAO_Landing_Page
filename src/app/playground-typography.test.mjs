@@ -31,7 +31,15 @@ test("Playground loop uses the shared playback controller and decorative video m
     assert.match(video, attribute);
   }
   assert.doesNotMatch(video, /\bsrc=/);
+  assert.match(video, /width="1280" height="800"/);
   assert.match(page, /tool\.video \? \(\s*<LoopPreview video=\{tool\.video\} poster=\{tool\.poster\}/);
+});
+
+test("Playground pinout loop fills its panel and keeps the full frame in stacked cards", () => {
+  assert.match(css, /\.loopScreen\s*{[^}]*position:\s*absolute[^}]*inset:\s*0[^}]*width:\s*100%[^}]*height:\s*100%/s);
+  assert.match(css, /\.loopVideo\s*{[^}]*object-fit:\s*cover[^}]*object-position:\s*center 45%/s);
+  assert.doesNotMatch(css, /min\(100%, 544px\)/);
+  assert.match(css, /\.pinout \.toolPreview\s*{[^}]*min-height:\s*0[^}]*aspect-ratio:\s*1280 \/ 800/s);
 });
 
 test("Playground pinout preview uses its loop instead of the tool diagram", () => {
