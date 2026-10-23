@@ -468,6 +468,7 @@ export function PinoutView() {
   const categoryId = categoryChoice ?? categoryOf(boardId);
   const framework = frameworkChoice && board.frameworks.includes(frameworkChoice) ? frameworkChoice : board.frameworks[0];
   const activePin = board.pins.find((pin) => pin.id === activeId) || null;
+  const controlsRef = useRef(null);
   const workspaceRef = useRef(null);
   const frontRef = useRef(null);
   const backRef = useRef(null);
@@ -475,6 +476,20 @@ export function PinoutView() {
   const cardRef = useRef(null);
   const faceRefs = { front: frontRef, back: backRef, module: moduleRef };
   const menuRef = useRef(null);
+
+  // Expose the wrapped controls height to the table's viewport limit.
+  // 将控制栏换行后的高度传给表格的可视高度上限。
+  useLayoutEffect(() => {
+    const controls = controlsRef.current;
+    if (!controls) return undefined;
+    const measure = () => {
+      controls.parentElement.style.setProperty("--pinout-controls-height", `${controls.getBoundingClientRect().height}px`);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(controls);
+    return () => observer.disconnect();
+  }, []);
 
   const matches = query ? board.pins.filter((pin) => pinMatchesQuery(pin, query)) : [];
 
@@ -512,6 +527,7 @@ export function PinoutView() {
 
   useEffect(() => {
     if (!hydrated || !urlParams.pin) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- synchronizes the URL pin with its diagram selection
     setSelection((current) => {
       if (current?.id === urlParams.pin) return current;
       return findRow(urlParams.pin) || current;
@@ -733,6 +749,7 @@ export function PinoutView() {
   // Closing the card (or anything that clears the selection) unpins it, so
   // the next card opens beside its row again.
   // 关闭卡片（或任何清空选中的操作）后取消停靠，下一张卡重新就近弹出。
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- resets the parked card when its selection closes
   useEffect(() => { if (!selection) setCardFixed(false); }, [selection]);
 
   useLayoutEffect(() => {
@@ -826,7 +843,7 @@ export function PinoutView() {
           : "Explore both sides of your XIAO board with an interactive pinout viewer. Search for pins, check their functions, and find wiring notes and alternate functions."}
       />
       <div className={`${styles.wrap} ${sheetMode && selection ? styles.wrapSheet : ""}`}>
-        <div className={styles.controls}>
+        <div className={styles.controls} ref={controlsRef}>
           <div className={styles.toolbar}>
             <div className={styles.boardSelect} ref={menuRef}>
               <button
