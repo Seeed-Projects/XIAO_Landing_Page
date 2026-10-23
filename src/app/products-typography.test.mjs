@@ -128,6 +128,8 @@ test("XIAO Selector exposes the faceted workbench structure", () => {
   assert.match(selector, /facetCounts\(/);
   assert.match(selector, /removalSuggestions\(/);
   assert.match(selector, /diffOnly/);
+  assert.match(selector, /const RESULTS_EXTRA_HEIGHT = 113;/);
+  assert.match(selector, /body\.style\.height = `\$\{Math\.round\(height \+ RESULTS_EXTRA_HEIGHT\)\}px`/);
   assert.match(selectorCss, /\.sidebar\s*{[^}]*position: sticky/s);
   assert.match(selectorCss, /@media \(max-width: 1023px\)[\s\S]*\.sidebar\s*{[^}]*position: fixed/);
 });
