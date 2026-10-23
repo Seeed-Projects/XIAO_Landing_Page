@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { useLang } from "../i18n";
-import { withBase } from "../../lib/basePath";
 import { KindArt } from "./KindArt";
-import { bakedThumb, isExternalOpen } from "./resources-data.mjs";
+import { isExternalOpen } from "./resources-data.mjs";
 import styles from "./res.module.css";
 
 const ICONS = {
@@ -18,14 +16,11 @@ function Icon({ name }) {
 }
 
 /**
- * One file card: thumbnail or illustration, name, format, preview and download.
- * 一张资源卡：缩略图或插画、名称、格式，以及预览和下载。
+ * One file card: type icon, name, format, preview and download.
+ * 一张资源卡：类型图标、名称、格式，以及预览和下载。
  */
 export function ResourceCard({ item, onPreview }) {
   const { lang } = useLang();
-  const [broken, setBroken] = useState(false);
-  const thumb = bakedThumb(item);
-  const showThumb = Boolean(thumb) && !broken;
   const external = isExternalOpen(item);
   const zh = lang === "zh";
   const labels = {
@@ -36,9 +31,7 @@ export function ResourceCard({ item, onPreview }) {
   const secondary = external ? "open" : "download";
   const primary = item.preview ? "preview" : secondary;
 
-  const visual = showThumb
-    ? <img src={withBase(thumb)} alt="" loading="lazy" onError={() => setBroken(true)} data-fit={item.preview === "pdf" ? "cover" : "contain"} />
-    : <KindArt kind={item.kind} format={item.format} />;
+  const visual = <KindArt item={item} />;
 
   return (
     <article className={styles.card}>

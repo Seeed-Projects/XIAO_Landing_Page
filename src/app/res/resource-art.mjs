@@ -1,30 +1,36 @@
-const ART_BY_GROUP = {
-  design: "/res-generic/design-files.jpg",
-  mechanical: "/res-generic/mechanical-files.jpg",
-  firmware: "/res-generic/firmware-files.jpg",
-  guide: "/res-generic/developer-guides.jpg",
+const LABEL_BY_ICON = {
+  datasheet: "Datasheet",
+  schematic: "Schematic",
+  "pcb-source": "PCB source",
+  pinout: "Pinout",
+  dxf: "DXF",
+  "3d-model": "3D model",
+  firmware: "Firmware",
+  "user-guide": "User guide",
 };
 
-const GROUP_BY_KIND = {
-  datasheet: "design",
-  schematic: "design",
-  kicad: "design",
-  pinout: "design",
-  other: "design",
-  dimension: "mechanical",
-  model3d: "mechanical",
-  step: "mechanical",
+const ICON_BY_KIND = {
+  datasheet: "datasheet",
+  schematic: "schematic",
+  kicad: "pcb-source",
+  pinout: "pinout",
+  other: "datasheet",
+  dimension: "dxf",
+  model3d: "3d-model",
+  step: "3d-model",
   firmware: "firmware",
-  guide: "guide",
-  link: "guide",
+  guide: "user-guide",
+  link: "user-guide",
 };
 
 /**
- * Return the shared visual and motion group for a resource kind.
- * 根据资源类型返回共用示意图及其动画分组。
+ * Return the file-type icon and label for a resource's kind and format.
+ * 根据资源类型与文件格式返回文件类型图标及名称。
  */
-export function resourceArtFor(kind) {
-  const group = GROUP_BY_KIND[kind] || "design";
-  return { group, src: ART_BY_GROUP[group] };
+export function resourceArtFor(item) {
+  const icon = item.kind === "other" && item.format === "ZIP"
+    ? "pcb-source"
+    : ICON_BY_KIND[item.kind] || "datasheet";
+  return { src: `/res-generic/${icon}.webp`, label: LABEL_BY_ICON[icon] };
 }
 

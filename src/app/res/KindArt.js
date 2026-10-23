@@ -6,16 +6,15 @@ import { resourceArtFor } from "./resource-art.mjs";
 import styles from "./res.module.css";
 
 /**
- * Shared animated visual used when a resource has no rendered thumbnail.
- * 资源没有可渲染缩略图时，显示共用的轻动画示意图。
+ * File-type icon shared by resource cards.
+ * 资源卡片共用的文件类型图标。
  */
-export function KindArt({ kind, format }) {
-  const art = resourceArtFor(kind);
+export function KindArt({ item }) {
+  const art = resourceArtFor(item);
 
   return (
-    <span className={styles.art} data-art-kind={art.group}>
-      <Image className={styles.artImage} src={withBase(art.src)} alt="" width={724} height={543} sizes="(max-width: 700px) 112px, 320px" />
-      <span className={styles.artFormat}>{format}</span>
+    <span className={styles.art}>
+      <Image className={styles.artImage} src={withBase(art.src)} alt="" width={323} height={480} sizes="(max-width: 700px) 112px, 320px" />
     </span>
   );
 }

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
@@ -72,15 +72,38 @@ test("resource rows are complete, unique per board, and previewable only in know
   }
 });
 
-test("every resource kind has a reusable fallback visual", () => {
+test("every resource kind uses its file-type icon", () => {
+  const icons = {
+    datasheet: "datasheet",
+    schematic: "schematic",
+    kicad: "pcb-source",
+    pinout: "pinout",
+    dimension: "dxf",
+    model3d: "3d-model",
+    step: "3d-model",
+    firmware: "firmware",
+    guide: "user-guide",
+    link: "user-guide",
+    other: "datasheet",
+  };
   const sources = new Set();
   for (const kind of RESOURCE_KINDS) {
-    const art = resourceArtFor(kind);
-    assert.ok(art.group && art.src, kind);
+    const art = resourceArtFor({ kind, format: "PDF" });
+    assert.equal(art.src, `/res-generic/${icons[kind]}.webp`, kind);
+    assert.ok(art.label, kind);
     assert.ok(existsSync(path.join(root, "public", art.src.replace(/^\//, ""))), `${kind} missing ${art.src}`);
     sources.add(art.src);
   }
-  assert.equal(sources.size, 4);
+  assert.equal(sources.size, 8);
+  assert.equal(resourceArtFor({ kind: "other", format: "ZIP" }).src, "/res-generic/pcb-source.webp");
+  assert.equal(resourceArtFor({ kind: "other", format: "TXT" }).src, "/res-generic/datasheet.webp");
+  assert.equal(resourceArtFor({ kind: "unknown", format: "ZIP" }).src, "/res-generic/datasheet.webp");
+});
+
+test("file cards render type icons independently of baked thumbnails", () => {
+  const source = readFileSync(new URL("./ResourceCard.js", import.meta.url), "utf8");
+  assert.doesNotMatch(source, /import\s+[\s\S]*?\bbakedThumb\b[\s\S]*?from/);
+  assert.match(source, /<KindArt\s+item=\{item\}/);
 });
 
 test("bake jobs cover drawings and PDFs once per URL with unique file names", () => {

@@ -551,12 +551,10 @@ Below 1100px the board list becomes family tabs plus a row of board chips; on
 phones each file card turns into a compact row and the learn cards scroll
 sideways.
 
-Every card carries a real thumbnail when one can be produced: PDF first pages
-(WebP), DXF and KiCad drawings (SVG), the first rows of a pinout spreadsheet
-(SVG), or the 3D render images. Files that have no visual use one of four
-shared category covers for design files, mechanical files, firmware and
-developer guides. Each cover uses a subtle looped motion and becomes static
-when the system requests reduced motion. Clicking the thumbnail runs the card's primary
+Every file card shows a file-type icon from `public/res-generic/`: datasheet,
+schematic, PCB source, pinout, DXF, 3D model, firmware or user guide. The icons
+share a consistent scale and stay centered with room above and below. The real
+file appears in the Preview dialog. Clicking the icon runs the card's primary
 action; the two small round buttons at the bottom are preview (eye) and
 download, or open for external links. The interactive pinout is reached from
 the board profile.
@@ -569,9 +567,9 @@ and shown as a table with a sticky header and first column, one tab per sheet.
 STEP enclosures ask before loading the 3D viewer (about 8 MB). Nothing heavy
 loads until a preview is opened.
 
-Thumbnails are generated ahead of time into `public/res-thumb/` and listed in
-`src/app/res/res-thumbs.generated.mjs`, so the page never requests a missing
-image. Refresh them after resource URLs change:
+Thumbnails for the Learn & Build covers and the Playground page are generated
+ahead of time into `public/res-thumb/` and listed in
+`src/app/res/res-thumbs.generated.mjs`. Refresh them after resource URLs change:
 
 ```bash
 npm run bake:res-thumbs
