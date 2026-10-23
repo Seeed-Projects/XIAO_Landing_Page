@@ -37,7 +37,7 @@ function LangToggle() {
 }
 
 /* Playground 二级下拉：4 个开发工具入口，各自跳到不同页面。
-   Pin Out → /playground/pinout；Flash → /playground/esp-flasher；
+   Pin Out → /playground/pinout；XIAO ESP Flasher → /playground/esp-flasher；
    Hardware Resources → /res；Software Ecosystem → /software-center。
    ⚠️ 样式待用户提供，此处先用与站点一致的默认卡片样式。 */
 const PLAYGROUND_ITEMS = {
@@ -49,7 +49,7 @@ const PLAYGROUND_ITEMS = {
   ],
   en: [
     { label: "Pin Out", hint: "Pinouts & specs", href: "/playground/pinout", id: "top" },
-    { label: "ESP Flash", hint: "One-click ESP firmware flasher", href: "/playground/esp-flasher", id: "top" },
+    { label: "XIAO ESP Flasher", hint: "One-click ESP firmware flasher", href: "/playground/esp-flasher", id: "top" },
     { label: "Hardware Resources", hint: "Datasheets · schematics · CAD", href: "/res", id: "top" },
     { label: "Software Ecosystem", hint: "Official & community software", href: "/software-center", id: "top" },
   ],
