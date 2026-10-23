@@ -8,6 +8,7 @@ import { PRODUCT_CATALOG, SELECTOR_IMAGES } from "./catalog";
 import { BOARD_HARDWARE, BOARD_SPECS, FILTER_GROUPS, HARDWARE_FIELDS, emptySelection } from "./board-specs.mjs";
 import { buildComparisonGroups } from "./board-comparison.mjs";
 import { getWirelessProtocols } from "./wireless-protocols.mjs";
+import { getSensorIcons } from "./sensor-icons.mjs";
 import {
   activeFilters,
   facetCounts,
@@ -19,7 +20,11 @@ import {
 import styles from "./xiao-selector.module.css";
 
 const MAX_COMPARE = 4;
-const DEFAULT_OPEN_GROUPS = ["platform", "connectivity", "sensors", "antenna", "power", "packaging"];
+const TABLE_FALLBACK_ROWS = 7;
+const CARD_VISIBLE_ROWS = 1.5;
+const DESKTOP_QUERY = "(min-width: 1024px)";
+
+const DEFAULT_OPEN_GROUPS = ["platform", "connectivity", "sensors", "antenna", "packaging"];
 
 /**
  * Board list built from the shared catalog plus the spec / hardware matrices.
@@ -55,6 +60,7 @@ const TEXT = {
     clearAll: "Clear all",
     cards: "Cards",
     table: "Table",
+    scrollHint: "Scroll sideways for more specs →",
     compare: "Compare",
     compareN: (n) => `Compare (${n})`,
     emptyTitle: "No boards match these filters",
@@ -78,8 +84,8 @@ const TEXT = {
     board: "Board",
     wireless: "Wireless",
     wirelessBadges: (labels) => `Wireless: ${labels.join(", ")}`,
+    sensorBadges: (labels) => `Onboard sensors: ${labels.join(", ")}`,
     sensors: "Sensors",
-    power: "Power Supply",
     io: "Highlighted IOs",
     dev: "Dev Platform",
     purchaseCol: "Purchase",
@@ -100,6 +106,7 @@ const TEXT = {
     clearAll: "清空全部",
     cards: "卡片",
     table: "表格",
+    scrollHint: "左右滑动查看更多参数 →",
     compare: "对比",
     compareN: (n) => `对比 (${n})`,
     emptyTitle: "没有符合条件的板子",
@@ -123,8 +130,8 @@ const TEXT = {
     board: "板子",
     wireless: "无线",
     wirelessBadges: (labels) => `\u65e0\u7ebf\uff1a${labels.join("\u3001")}`,
+    sensorBadges: (labels) => `\u677f\u8f7d\u4f20\u611f\u5668\uff1a${labels.join("\u3001")}`,
     sensors: "传感器",
-    power: "供电方式",
     io: "重点接口",
     dev: "开发平台",
     purchaseCol: "采购",
@@ -149,6 +156,8 @@ export function XiaoSelector() {
   const [compareOpen, setCompareOpen] = useState(false);
   const [diffOnly, setDiffOnly] = useState(true);
   const [toast, setToast] = useState(null);
+  const resultsBodyRef = useRef(null);
+  const cardsHeightRef = useRef(0);
   const toastTimer = useRef(null);
 
   const showToast = (text) => {
@@ -321,31 +330,15 @@ export function XiaoSelector() {
   const renderCard = (board) => {
     const inCompare = compare.includes(board.id);
     const isPlus = board.specs.packaging?.includes("plus");
-    const isSense = /\bSense\b/.test(board.name);
     const protocols = getWirelessProtocols(board.specs.connectivity);
+    const sensorIcons = getSensorIcons(board.specs.sensors);
     return (
       <article key={board.id} className={`${styles.card} ${inCompare ? styles.cardSelected : ""}`}>
         <div className={styles.cardVisual}>
           <div className={styles.cardBadgeBand}>
-            {protocols.length > 0 && (
-              <div
-                className={styles.protocolBadges}
-                role="group"
-                aria-label={t.wirelessBadges(protocols.map(({ id }) => L(OPTION_LABEL[`connectivity:${id}`])))}
-              >
-                {protocols.map(({ id, label, color, viewBox, path, fillRule }) => (
-                  <span key={id} className={styles.protocolBadge} role="img" title={label} aria-label={label} style={{ backgroundColor: color }}>
-                    <svg width={id === "wifi" ? "23" : "16"} height="16" viewBox={viewBox} fill="currentColor" aria-hidden="true" focusable="false">
-                      <path d={path} fillRule={fillRule} />
-                    </svg>
-                  </span>
-                ))}
-              </div>
-            )}
-            {(isSense || isPlus) && (
+            {isPlus && (
               <div className={styles.cardBadges}>
-                {isSense && <span className={`${styles.plusBadge} ${styles.senseBadge}`}>Sense</span>}
-                {isPlus && <span className={styles.plusBadge}>Plus</span>}
+                <span className={styles.plusBadge}>Plus</span>
               </div>
             )}
           </div>
@@ -357,10 +350,56 @@ export function XiaoSelector() {
         <div className={styles.cardBody}>
           <h3 className="home-type-subtitle">{board.name}</h3>
           <p className={styles.cardMcu}>{board.hardware.mcu} · {board.hardware.core}</p>
-          <div className={styles.cardTags}>
-            {renderTags(board, "connectivity", t.none)}
-            {board.specs.sensors?.length ? renderTags(board, "sensors") : null}
-          </div>
+          {protocols.length > 0 || sensorIcons.length > 0 ? (
+            <div className={styles.protocolBadges}>
+              {protocols.length > 0 && (
+                <span
+                  className={styles.badgeGroup}
+                  role="group"
+                  aria-label={t.wirelessBadges(protocols.map(({ id }) => L(OPTION_LABEL[`connectivity:${id}`])))}
+                >
+                  {protocols.map(({ id, label, color, viewBox, path, fillRule }) => (
+                    <span
+                      key={id}
+                      className={`${styles.protocolBadge} ${isHit("connectivity", id) ? styles.protocolBadgeHit : ""}`}
+                      role="img"
+                      aria-label={label}
+                      data-tip={label}
+                      style={{ backgroundColor: color }}
+                    >
+                      <svg width={id === "wifi" ? "23" : "16"} height="16" viewBox={viewBox} fill="currentColor" aria-hidden="true" focusable="false">
+                        <path d={path} fillRule={fillRule} />
+                      </svg>
+                    </span>
+                  ))}
+                </span>
+              )}
+              {sensorIcons.length > 0 && (
+                <span
+                  className={styles.badgeGroup}
+                  role="group"
+                  aria-label={t.sensorBadges(sensorIcons.map(({ id }) => L(OPTION_LABEL[`sensors:${id}`])))}
+                >
+                  {sensorIcons.map(({ id, path }) => {
+                    const label = L(OPTION_LABEL[`sensors:${id}`]) || id;
+                    return (
+                      <span
+                        key={id}
+                        className={`${styles.sensorBadge} ${isHit("sensors", id) ? styles.protocolBadgeHit : ""}`}
+                        role="img"
+                        aria-label={label}
+                        data-tip={label}
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+                          <path d={path} />
+                        </svg>
+                      </span>
+                    );
+                  })}
+                </span>
+              )}
+            </div>
+          ) : null}
           <dl className={styles.specRow}>
             <div><dt>Flash</dt><dd>{board.hardware.flash}</dd></div>
             <div><dt>RAM</dt><dd>{board.hardware.ram}</dd></div>
@@ -386,15 +425,14 @@ export function XiaoSelector() {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th className={styles.thCompare} aria-label={t.compare} />
-            <th>{t.board}</th>
+            <th className={`${styles.thCompare} ${styles.stickyCol}`} aria-label={t.compare} />
+            <th className={`${styles.stickyCol} ${styles.stickyBoard}`}>{t.board}</th>
             <th>{L(HARDWARE_FIELDS[0].label)}</th>
             <th>{L(HARDWARE_FIELDS[1].label)}</th>
             <th>{L(HARDWARE_FIELDS[2].label)} / {L(HARDWARE_FIELDS[3].label)}</th>
             <th>GPIO</th>
             <th>{t.wireless}</th>
             <th>{t.sensors}</th>
-            <th>{t.power}</th>
             <th>{t.io}</th>
             <th>{t.dev}</th>
             <th>{t.purchaseCol}</th>
@@ -406,16 +444,15 @@ export function XiaoSelector() {
             const inCompare = compare.includes(board.id);
             return (
               <tr key={board.id} className={inCompare ? styles.rowSelected : ""}>
-                <td className={styles.thCompare}>
+                <td className={`${styles.thCompare} ${styles.stickyCol}`}>
                   <input type="checkbox" checked={inCompare} onChange={() => toggleCompare(board.id)} aria-label={`${t.compare} ${board.name}`} />
                 </td>
-                <td>
+                <td className={`${styles.stickyCol} ${styles.stickyBoard}`}>
                   <div className={styles.tableBoard}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={board.img} alt="" loading="lazy" decoding="async" />
                     <div>
                       <strong>{board.name}</strong>
-                      {board.specs.packaging?.includes("plus") && <span className={styles.plusBadgeInline}>Plus</span>}
                     </div>
                   </div>
                 </td>
@@ -425,7 +462,6 @@ export function XiaoSelector() {
                 <td>{board.hardware.gpio}</td>
                 <td>{renderTags(board, "connectivity")}</td>
                 <td>{renderTags(board, "sensors")}</td>
-                <td>{renderTags(board, "power")}</td>
                 <td>{renderTags(board, "io")}</td>
                 <td>{renderTags(board, "dev")}</td>
                 <td>
@@ -445,6 +481,52 @@ export function XiaoSelector() {
     </div>
   );
 
+  // Size the results panel to one and a half card rows on desktop; the table reuses that height.
+  // 桌面端将结果区高度设为一行半卡片，表格沿用同一高度。
+  useEffect(() => {
+    const body = resultsBodyRef.current;
+    if (!body) return undefined;
+    const desktop = window.matchMedia(DESKTOP_QUERY);
+    const measure = () => {
+      if (!desktop.matches) {
+        body.style.removeProperty("height");
+        return;
+      }
+      let height = 0;
+      if (view === "table" && cardsHeightRef.current) {
+        height = cardsHeightRef.current;
+      } else if (view === "table") {
+        const wrap = body.querySelector("table")?.parentElement;
+        const rows = body.querySelectorAll("tbody tr");
+        const last = rows[Math.min(TABLE_FALLBACK_ROWS, rows.length) - 1];
+        if (wrap && last) {
+          const wrapTop = wrap.getBoundingClientRect().top - wrap.scrollTop;
+          height = last.getBoundingClientRect().bottom - wrapTop + wrap.clientTop * 2;
+        }
+      } else {
+        const card = body.querySelector("article");
+        if (card) {
+          const gap = parseFloat(getComputedStyle(card.parentElement).rowGap) || 0;
+          const style = getComputedStyle(body);
+          height = card.offsetHeight * CARD_VISIBLE_ROWS + gap + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+          cardsHeightRef.current = height;
+        }
+      }
+      if (height > 0) body.style.height = `${Math.round(height)}px`;
+      else body.style.removeProperty("height");
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(body.firstElementChild ?? body);
+    desktop.addEventListener("change", measure);
+    window.addEventListener("resize", measure);
+    return () => {
+      observer.disconnect();
+      desktop.removeEventListener("change", measure);
+      window.removeEventListener("resize", measure);
+    };
+  }, [view, results, lang]);
+
   const comparisonGroups = buildComparisonGroups(compareBoards, lang, diffOnly);
 
   return (
@@ -460,7 +542,10 @@ export function XiaoSelector() {
 
         <div className={styles.results}>
           <div className={styles.resultsHead}>
-            <div className={styles.resultsTitle}>{t.showing(results.length, searched.length)}</div>
+            <div className={styles.resultsTitle}>
+              {t.showing(results.length, searched.length)}
+              {view === "table" && results.length > 0 ? <span className={styles.scrollHint}>{t.scrollHint}</span> : null}
+            </div>
             <div className={styles.resultsTools}>
               <button type="button" className={styles.filtersBtn} onClick={() => setDrawerOpen(true)}>
                 {t.filters}{chips.length ? ` (${chips.length})` : ""}
@@ -499,32 +584,34 @@ export function XiaoSelector() {
             </div>
           )}
 
-          {results.length === 0 ? (
-            <div className={styles.empty}>
-              <strong>{t.emptyTitle}</strong>
-              {suggestions.length > 0 && (
-                <>
-                  <p>{t.emptyHint}</p>
-                  <div className={styles.suggestions}>
-                    {suggestions.slice(0, 4).map((s) => {
-                      const group = FILTER_GROUPS.find((g) => g.id === s.groupId);
-                      const label = L(OPTION_LABEL[`${s.groupId}:${s.optionId}`]);
-                      return (
-                        <button key={`${s.groupId}:${s.optionId}`} type="button" className={styles.suggestion} onClick={() => toggleOption(group, s.optionId)}>
-                          {t.removeFor(label, s.count)}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </>
-              )}
-              <button type="button" className={styles.ghostBtn} onClick={resetAll}>{t.reset}</button>
-            </div>
-          ) : view === "table" ? (
-            renderTable()
-          ) : (
-            <div className={styles.cardGrid}>{results.map(renderCard)}</div>
-          )}
+          <div ref={resultsBodyRef} className={`${styles.resultsBody} ${view === "table" && results.length > 0 ? styles.resultsBodyTable : ""}`}>
+            {results.length === 0 ? (
+              <div className={styles.empty}>
+                <strong>{t.emptyTitle}</strong>
+                {suggestions.length > 0 && (
+                  <>
+                    <p>{t.emptyHint}</p>
+                    <div className={styles.suggestions}>
+                      {suggestions.slice(0, 4).map((s) => {
+                        const group = FILTER_GROUPS.find((g) => g.id === s.groupId);
+                        const label = L(OPTION_LABEL[`${s.groupId}:${s.optionId}`]);
+                        return (
+                          <button key={`${s.groupId}:${s.optionId}`} type="button" className={styles.suggestion} onClick={() => toggleOption(group, s.optionId)}>
+                            {t.removeFor(label, s.count)}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </>
+                )}
+                <button type="button" className={styles.ghostBtn} onClick={resetAll}>{t.reset}</button>
+              </div>
+            ) : view === "table" ? (
+              renderTable()
+            ) : (
+              <div className={styles.cardGrid}>{results.map(renderCard)}</div>
+            )}
+          </div>
         </div>
       </section>
 

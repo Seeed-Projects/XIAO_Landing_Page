@@ -19,11 +19,6 @@ export function boardHasOption(specs, groupId, optionId) {
     return values.length === 0;
   }
 
-  // Ultra-low-power boards also satisfy the broader Low Power filter.
-  if (groupId === "power" && optionId === "low-power") {
-    return values.includes("low-power") || values.includes("ultra-low-power");
-  }
-
   return values.includes(optionId);
 }
 

@@ -70,15 +70,6 @@ test("Plus + Microphone + IMU returns nRF52840 Sense Plus", () => {
   assert.deepEqual(names(result), ["XIAO nRF52840 Sense Plus"]);
 });
 
-test("Low Power includes Ultra-Low Power boards", () => {
-  const result = filterBoards(boards, {
-    ...emptySelection(),
-    power: ["low-power"],
-  });
-  assert.ok(result.some((b) => b.specs.power.includes("ultra-low-power")));
-  assert.ok(result.some((b) => b.name.includes("nRF54L15")));
-});
-
 test("facet counts report how many boards remain after adding each option", () => {
   const selection = { ...emptySelection(), platform: ["nordic"] };
   const counts = facetCounts(boards, selection);
